@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin id="com.dassault_systemes.uibuilder" name="Web Application Builder Plugin" version="1.0.0" provider-name="Dassault Systemes" class="com.dassault_systemes.CATBLUI.CATBLUIPlugin">
+
+	<runtime>
+		<library name="CATVBTWebAppBuilder.jar" />
+		<library name="CATJWSInfra.jar">
+			<export name="*" />
+		</library>
+		<library name="CATJWSInfraImpl.jar">
+			<export name="*" />
+		</library>
+		<library name="CATJWSUddiItf.jar">
+			<export name="*" />
+		</library>
+		<library name="CATJWSUddiIbmImpl.jar">
+			<export name="*" />
+		</library>
+		<library name="CATJWSISoap.jar">
+			<export name="*" />
+		</library>
+		<library name="CATJWSModel.jar">
+			<export name="*" />
+		</library>
+		<library name="CATJWSDLIbmImpl.jar">
+			<export name="*" />
+		</library>
+		<library name="qname.jar">
+		</library>
+	</runtime>
+
+	<requires>
+		<import plugin="org.eclipse.ui.ide"/>
+		<import plugin="org.eclipse.ui.views"/>
+		<import plugin="org.eclipse.jface.text"/>
+		<import plugin="org.eclipse.ui.workbench.texteditor"/>
+		<import plugin="org.eclipse.ui.editors"/>
+		<import plugin="com.dassault_systemes.InfraTools" />
+		<import plugin="com.dassault_systemes.jdialogbuilder" />
+		<import plugin="com.dassault_systemes.XMLMap" />
+		<import plugin="org.eclipse.core.runtime" />
+		<import plugin="org.eclipse.core.resources" />
+		<import plugin="org.eclipse.ui" />
+		<import plugin="org.eclipse.swt" />
+		<import plugin="org.eclipse.jdt.core" />
+		<import plugin="org.eclipse.jdt.ui" />
+		<import plugin="org.eclipse.jdt.launching" />
+		<import plugin="org.eclipse.gef"/>
+		<import plugin="org.eclipse.draw2d"/>
+		<import plugin="org.apache.axis"/>
+		<import plugin="org.eclipse.osgi"/>
+	</requires>
+
+	<extension point="org.eclipse.ui.editors">
+		<editor name="Web Application Builder Editor" default="true" icon="resources/graphic/icons/XMLCtrl.gif" extensions="XMLCtrl" contributorClass="com.dassault_systemes.CATBLUI.ui.CATBLUIWACEditorContributor" class="com.dassault_systemes.CATBLUI.ui.CATBLUIWACEditor" id="com.dassault_systemes.CATBLUI.ui.wacEditor"></editor>
+	</extension>
+
+	<extension point="org.eclipse.ui.newWizards">
+		<wizard name="Web Application Builder File" icon="resources/graphic/icons/XMLCtrl.gif" category="com.dassault_systemes.InfraTools.CAAeApplication.new" class="com.dassault_systemes.CATBLUI.ui.wizards.CATBLUIXMLCtrlCreationWizard" id="com.dassault_systemes.CATBLUI.new.wizard">
+			<description>Creates an e-wizard Controller to build a CATJDialog web application</description>
+			<selection class="org.eclipse.core.resources.IResource"></selection>
+		</wizard>
+	</extension>
+
+	<extension point="org.eclipse.ui.propertyPages">
+		<page objectClass="com.dassault_systemes.CATBLUI.model.CATBLUIObject" name="General properties" class="com.dassault_systemes.CATBLUI.ui.properties.CATBLUIPropertyPage" id="com.dassault_systemes.CATBLUI.CATBLUIPropertyPage"></page>
+		<page objectClass="com.dassault_systemes.CATBLUI.model.CATBLUIObject" name="Object contents" class="com.dassault_systemes.CATBLUI.ui.properties.CATBLUIPropertyPageContents" id="com.dassault_systemes.CATBLUI.CATBLUIPropertyPageContents"></page>
+	</extension>
+	
+</plugin>

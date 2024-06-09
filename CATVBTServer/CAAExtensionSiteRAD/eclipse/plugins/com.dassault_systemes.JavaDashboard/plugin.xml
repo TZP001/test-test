@@ -1,0 +1,592 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin
+   id="com.dassault_systemes.JavaDashboard"
+   name="JavaDashboard Plugin"
+   version="1.0.0"
+   provider-name="Dassault Systemes"
+   class="com.dassault_systemes.EclipsePlugin.EclipsePluginPlugin">
+
+   <runtime>
+      <library name="CATVBTToolsPlugin.jar"/>
+   </runtime>
+   <requires>
+       <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.ui.views"/>
+      <import plugin="org.eclipse.jface.text"/>
+      <import plugin="org.eclipse.ui.workbench.texteditor"/>
+      <import plugin="org.eclipse.ui.editors"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.jdt.core"/>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="com.dassault_systemes.InfraTools"/>
+   </requires>
+
+
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="com.dassault_systemes.catvbteclipse.CATVBTPerspective">
+         <actionSet
+               id="com.dassault_systemes.jid.CAAActionsSets">
+         </actionSet>
+      </perspectiveExtension>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            name="CAA Elements"
+            id="com.dassault_systemes.EclipsePlugin.new">
+      </category>
+      <wizard
+            name="CAAV5 Framework"
+            icon="resources/graphic/icons/CAAIcon.gif"
+            category="com.dassault_systemes.EclipsePlugin.new"
+            class="com.dassault_systemes.CATVBTCodeGeneratorPlugin.CAANewCNextFramework"
+            id="com.dassault_systemes.EclipsePlugin.wizards.new.caav5framework">
+         <description>
+            A wizard that creates a new CAAV5 framework
+         </description>
+      </wizard>
+      <wizard
+            name="CAAV5 Module"
+            icon="resources/graphic/icons/CAAIcon.gif"
+            category="com.dassault_systemes.EclipsePlugin.new"
+            class="com.dassault_systemes.CATVBTCodeGeneratorPlugin.CAANewCNextModule"
+            id="com.dassault_systemes.EclipsePlugin.wizards.new.caav5module">
+         <description>
+            A wizard that creates a new CAAV5 module
+         </description>
+      </wizard>
+      <wizard
+            name="CAAV5 TestCase"
+            icon="resources/graphic/icons/CAAIcon.gif"
+            category="com.dassault_systemes.EclipsePlugin.new"
+            class="com.dassault_systemes.CATVBTCodeGeneratorPlugin.CAANewCNextTestCase"
+            id="com.dassault_systemes.EclipsePlugin.wizards.new.caav5testcase">
+         <description>
+            A wizard that creates a new CAAV5 testcase
+         </description>
+      </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.ide.projectNatureImages">
+      <image
+            icon="resources/graphic/icons/CAAV5ProjectNature.gif"
+            natureId="com.dassault_systemes.EclipsePlugin.CAAV5ProjectNature"
+            id="com.dassault_systemes.EclipsePlugin.CAAV5ProjectNatureImage">
+      </image>
+   </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            objectClass="org.eclipse.core.resources.IProject"
+            id="CAAV5Tool">
+         <action
+               label="New CAAV5-SCM Workspace"
+               helpContextId="org.eclipse.ui.examples.readmetool.open_browser_action_context"
+               class="com.dassault_systemes.CATVBTMkmkPlugin.NewCAAV5SCMWorkspaceDelegate"
+               menubarPath="additions"
+               enablesFor="1"
+               id="NewWs">
+         </action>
+         <action
+               label="Open CAAV5 Workspace"
+               helpContextId="org.eclipse.ui.examples.readmetool.open_browser_action_context"
+               class="com.dassault_systemes.CATVBTMkmkPlugin.OpenCAAV5WorkspaceDelegate"
+               menubarPath="additions"
+               enablesFor="1"
+               id="OpenWs">
+         </action>
+         <action
+               label="Set Current CAAV5 Workspace"
+               helpContextId="org.eclipse.ui.examples.readmetool.open_browser_action_context"
+               class="com.dassault_systemes.CATVBTMkmkPlugin.CurrentCAAV5WorkspaceDelegate"
+               menubarPath="additions"
+               enablesFor="1"
+               id="CurrentWs">
+         </action>
+      </objectContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            label="CAAActionsSets"
+            visible="true"
+            id="com.dassault_systemes.jid.CAAActionsSets">
+         <menu
+               label="Source Code Management"
+               id="CAAMenuAdele">
+            <separator
+                  name="CAA1">
+            </separator>
+         </menu>
+         <menu
+               label="Private Files"
+               path="CAAMenuAdele/CAA1"
+               id="CAAMenuPrivate">
+            <separator
+                  name="Private">
+            </separator>
+         </menu>
+         <menu
+               label="Move/Rename/Remove"
+               path="CAAMenuAdele/CAA1"
+               enablesFor="1"
+               id="CAAMenuMove">
+            <separator
+                  name="Move">
+            </separator>
+         </menu>
+         <menu
+               label="Information"
+               path="CAAMenuAdele/CAA1"
+               id="CAAMenuInformation">
+            <separator
+                  name="Information">
+            </separator>
+         </menu>
+         <menu
+               label="UNIX--NT"
+               path="CAAMenuAdele/CAA1"
+               id="CAAMenuUNIXNT">
+            <separator
+                  name="UNIX">
+            </separator>
+         </menu>
+         <menu
+               label="Team Workspace"
+               path="CAAMenuAdele/CAA1"
+               id="CAAMenuTeam">
+            <separator
+                  name="Team">
+            </separator>
+         </menu>
+         <menu
+               label="CAA Project"
+               path="build.ext"
+               id="com.dassault_systemes.EclipsePlugin.CAAMenu2">
+            <separator
+                  name="CAA1">
+            </separator>
+         </menu>
+         <action
+               label="Publish..."
+               icon="resources/graphic/icons/CAAIcon.gif"
+               class="com.dassault_systemes.CATVBTAdelePlugin.CATVBTAdlPublishAction"
+               menubarPath="CAAMenuAdele/CAAMenuTeam/Team"
+               enablesFor="*"
+               id="adl_publish">
+         </action>
+         <action
+               label="Collect..."
+               icon="resources/graphic/icons/CAAIcon.gif"
+               class="com.dassault_systemes.CATVBTAdelePlugin.CATVBTAdlCollectAction"
+               menubarPath="CAAMenuAdele/CAAMenuTeam/Team"
+               enablesFor="*"
+               id="adl_collect">
+         </action>
+         <action
+               label="Refresh..."
+               icon="resources/graphic/icons/CAAIcon.gif"
+               class="com.dassault_systemes.CATVBTAdelePlugin.CATVBTAdlRefreshAction"
+               menubarPath="CAAMenuAdele/CAAMenuUNIXNT/UNIX"
+               enablesFor="*"
+               id="adl_refresh">
+         </action>
+         <action
+               label="Photo..."
+               icon="resources/graphic/icons/CAAIcon.gif"
+               class="com.dassault_systemes.CATVBTAdelePlugin.CATVBTAdlPhotoAction"
+               menubarPath="CAAMenuAdele/CAAMenuUNIXNT/UNIX"
+               enablesFor="*"
+               id="adl_photo">
+         </action>
+         <action
+               label="Compare Current SCM versions of active file"
+               icon="resources/graphic/icons/CAAIcon.gif"
+               class="com.dassault_systemes.CATVBTAdelePlugin.CATVBTAdlRbSimulAction"
+               menubarPath="CAAMenuAdele/CAAMenuInformation/Information"
+               enablesFor="*"
+               id="adl_rb_simul">
+         </action>
+         <action
+               label="Check Workspace..."
+               icon="resources/graphic/icons/CAAIcon.gif"
+               class="com.dassault_systemes.CATVBTAdelePlugin.CATVBTAdlChkAction"
+               menubarPath="CAAMenuAdele/CAAMenuInformation/Information"
+               enablesFor="*"
+               id="adl_chk">
+         </action>
+         <action
+               label="List Private Files"
+               icon="resources/graphic/icons/CAAIcon.gif"
+               class="com.dassault_systemes.CATVBTAdelePlugin.CATVBTAdlLsPrivAction"
+               menubarPath="CAAMenuAdele/CAAMenuInformation/Information"
+               enablesFor="*"
+               id="adl_ls_priv">
+         </action>
+         <action
+               label="List Modules..."
+               icon="resources/graphic/icons/CAAIcon.gif"
+               class="com.dassault_systemes.CATVBTAdelePlugin.CATVBTAdlLsModAction"
+               menubarPath="CAAMenuAdele/CAAMenuInformation/Information"
+               enablesFor="*"
+               id="adl_ls_mod">
+         </action>
+         <action
+               label="List Frameworks..."
+               icon="resources/graphic/icons/CAAIcon.gif"
+               class="com.dassault_systemes.CATVBTAdelePlugin.CATVBTAdlLsFwAction"
+               menubarPath="CAAMenuAdele/CAAMenuInformation/Information"
+               enablesFor="*"
+               id="adl_ls_fw">
+         </action>
+         <action
+               label="List Workspaces..."
+               icon="resources/graphic/icons/CAAIcon.gif"
+               class="com.dassault_systemes.CATVBTAdelePlugin.CATVBTAdlLsWsAction"
+               menubarPath="CAAMenuAdele/CAAMenuInformation/Information"
+               enablesFor="*"
+               id="adl_ls_ws">
+         </action>
+         <action
+               label="List Checked-Out Files..."
+               icon="resources/graphic/icons/CAAIcon.gif"
+               class="com.dassault_systemes.CATVBTAdelePlugin.CATVBTAdlLsCoAction"
+               menubarPath="CAAMenuAdele/CAAMenuInformation/Information"
+               enablesFor="*"
+               id="adl_ls_co">
+         </action>
+         <action
+               label="Display Workspace Status..."
+               icon="resources/graphic/icons/CAAIcon.gif"
+               class="com.dassault_systemes.CATVBTAdelePlugin.CATVBTAdlDsWsAction"
+               menubarPath="CAAMenuAdele/CAAMenuInformation/Information"
+               enablesFor="*"
+               id="adl_ds_ws">
+         </action>
+         <action
+               label="Remove a Data Module..."
+               icon="resources/graphic/icons/CAAIcon.gif"
+               class="com.dassault_systemes.CATVBTAdelePlugin.CATVBTAdlRmModAction"
+               menubarPath="CAAMenuAdele/CAAMenuMove/Move"
+               enablesFor="*"
+               id="adl_rm_mod">
+         </action>
+         <action
+               label="Remove a File..."
+               icon="resources/graphic/icons/CAAIcon.gif"
+               class="com.dassault_systemes.CATVBTAdelePlugin.CATVBTAdlRmElemAction"
+               menubarPath="CAAMenuAdele/CAAMenuMove/Move"
+               enablesFor="*"
+               id="adl_rm_elem">
+         </action>
+         <action
+               label="Move/Rename a File..."
+               icon="resources/graphic/icons/CAAIcon.gif"
+               class="com.dassault_systemes.CATVBTAdelePlugin.CATVBTAdlMvElemAction"
+               menubarPath="CAAMenuAdele/CAAMenuMove/Move"
+               enablesFor="*"
+               id="adl_mv_elem">
+         </action>
+         <action
+               label="List Private Files"
+               icon="resources/graphic/icons/CAAIcon.gif"
+               class="com.dassault_systemes.CATVBTAdelePlugin.CATVBTAdlLsPrivAction"
+               menubarPath="CAAMenuAdele/CAAMenuPrivate/Private"
+               enablesFor="*"
+               id="adl_ls_priv">
+         </action>
+         <action
+               label="Supress Private File(s)..."
+               icon="resources/graphic/icons/CAAIcon.gif"
+               class="com.dassault_systemes.CATVBTAdelePlugin.CATVBTAdlRmPrivAction"
+               menubarPath="CAAMenuAdele/CAAMenuPrivate/Private"
+               enablesFor="*"
+               id="adl_rm_priv">
+         </action>
+         <action
+               label="Check_Out Private File"
+               icon="resources/graphic/icons/CAAIcon.gif"
+               class="com.dassault_systemes.CATVBTAdelePlugin.CATVBTAdlMkPrivAction"
+               menubarPath="CAAMenuAdele/CAAMenuPrivate/Private"
+               enablesFor="*"
+               id="adl_mk_priv">
+         </action>
+         <action
+               label="Import Changes from Another Workspace"
+               icon="resources/graphic/icons/CAAIcon.gif"
+               class="com.dassault_systemes.CATVBTAdelePlugin.CATVBTAdlImportAction"
+               menubarPath="CAAMenuAdele/CAA1"
+               enablesFor="*"
+               id="adl_import">
+         </action>
+         <action
+               label="Restore Image from Database"
+               icon="resources/graphic/icons/CAAIcon.gif"
+               class="com.dassault_systemes.CATVBTAdelePlugin.CATVBTAdlRestoreAction"
+               menubarPath="CAAMenuAdele/CAA1"
+               enablesFor="*"
+               id="adl_restore_img">
+         </action>         
+         <action
+               label="Rollback Files from Database version..."
+               icon="resources/graphic/icons/CAAIcon.gif"
+               class="com.dassault_systemes.CATVBTAdelePlugin.CATVBTAdlRollbackAction"
+               menubarPath="CAAMenuAdele/CAA1"
+               enablesFor="*"
+               id="adl_rollback_elem">
+         </action>
+         <action
+               label="Declare Directory in Database..."
+               icon="resources/graphic/icons/CAAIcon.gif"
+               class="com.dassault_systemes.CATVBTAdelePlugin.CATVBTAdlMkDirAction"
+               menubarPath="CAAMenuAdele/CAA1"
+               enablesFor="*"
+               id="adl_mk_dir">
+         </action>
+         <action
+               label="Declare File in Database..."
+               icon="resources/graphic/icons/CAAIcon.gif"
+               class="com.dassault_systemes.CATVBTAdelePlugin.CATVBTAdlMkElemAction"
+               menubarPath="CAAMenuAdele/CAA1"
+               enablesFor="*"
+               id="adl_mk_elem">
+         </action>
+         <action
+               label="Detach Frameworks\Modules..."
+               icon="resources/graphic/icons/CAAIcon.gif"
+               class="com.dassault_systemes.CATVBTAdelePlugin.CATVBTAdlDetachAction"
+               menubarPath="CAAMenuAdele/CAA1"
+               enablesFor="*"
+               id="adl_detach">
+         </action>
+         <action
+               label="Attach Frameworks\Modules..."
+               icon="resources/graphic/icons/CAAIcon.gif"
+               class="com.dassault_systemes.CATVBTAdelePlugin.CATVBTAdlAttachAction"
+               menubarPath="CAAMenuAdele/CAA1"
+               enablesFor="*"
+               id="adl_attach">
+         </action>
+         <action
+               label="Check-in Files in DataBase"
+               icon="resources/graphic/icons/CAAIcon.gif"
+               class="com.dassault_systemes.CATVBTAdelePlugin.CATVBTAdlCiAction"
+               menubarPath="CAAMenuAdele/CAA1"
+               enablesFor="*"
+               id="adl_ci">
+         </action>
+         <action
+               label="Undo Last Check-out..."
+               icon="resources/graphic/icons/CAAIcon.gif"
+               class="com.dassault_systemes.CATVBTAdelePlugin.CATVBTAdlUncoAction"
+               menubarPath="CAAMenuAdele/CAA1"
+               enablesFor="*"
+               id="adl_unco">
+         </action>
+         <action
+               label="Simulate the promotion"
+               icon="resources/graphic/icons/CAAIcon.gif"
+               class="com.dassault_systemes.CATVBTAdelePlugin.CATVBTAdlSimulPromoteAction"
+               menubarPath="CAAMenuAdele/CAA1"
+               enablesFor="*"
+               id="adl_promote_simul">
+         </action>
+         <action
+               label="Promote..."
+               icon="resources/graphic/icons/CAAIcon.gif"
+               class="com.dassault_systemes.CATVBTAdelePlugin.CATVBTAdlPromoteAction"
+               menubarPath="CAAMenuAdele/CAA1"
+               enablesFor="*"
+               id="adl_promote">
+         </action>
+         <action
+               label="Check-In..."
+               icon="resources/graphic/icons/CAAIcon.gif"
+               class="com.dassault_systemes.CATVBTAdelePlugin.CATVBTAdlCiSelected"
+               menubarPath="CAAMenuAdele/CAA1"
+               enablesFor="*"
+               id="adl_ci_selected">
+         </action>
+         <action
+               label="Check-Out..."
+               icon="resources/graphic/icons/CAAIcon.gif"
+               class="com.dassault_systemes.CATVBTAdelePlugin.CATVBTAdlCoAction"
+               menubarPath="CAAMenuAdele/CAA1"
+               enablesFor="*"
+               id="adl_co">
+         </action>         
+         <action
+               label="Check-Out Active File@F8"
+               icon="resources/graphic/icons/CAAIcon.gif"
+               class="com.dassault_systemes.CATVBTAdelePlugin.CATVBTAdlCoSingleAction"
+               menubarPath="CAAMenuAdele/CAA1"
+               enablesFor="*"
+               id="adl_co_single">
+         </action>
+         <action
+               label="Synchronize..."
+               icon="resources/graphic/icons/CAAIcon.gif"
+               class="com.dassault_systemes.CATVBTAdelePlugin.CATVBTAdlSyncAction"
+               menubarPath="CAAMenuAdele/CAA1"
+               enablesFor="*"
+               id="adl_sync">
+         </action>
+         <action
+               label="Command assignment for LCA type..."
+               icon="resources/graphic/icons/CAAIcon.gif"
+               helpContextId="run_action_context"
+               tooltip="Commands assignment to LCA Type"
+               class="com.dassault_systemes.CATVBTMkmkPlugin.CATVBTLCAAssignmentEditor"
+               menubarPath="com.dassault_systemes.EclipsePlugin.CAAMenu2/CAA1"
+               enablesFor="*"
+               id="LCACommandAssignment">
+         </action>         
+         <action
+               label="Generate javadoc..."
+               icon="resources/graphic/icons/CAAIcon.gif"
+               helpContextId="run_action_context"
+               tooltip="generate javadoc"
+               class="com.dassault_systemes.CATVBTMkmkPlugin.CATVBTJavaDocAction"
+               menubarPath="com.dassault_systemes.EclipsePlugin.CAAMenu2/CAA1"
+               enablesFor="*"
+               id="javadoc">
+         </action>
+         <action
+               label="Replay Test-Cases ..."
+               icon="resources/graphic/icons/CAAIcon.gif"
+               helpContextId="run_action_context"
+               tooltip="replay test case"
+               class="com.dassault_systemes.CATVBTMkmkPlugin.CATVBTMkodtAction"
+               menubarPath="com.dassault_systemes.EclipsePlugin.CAAMenu2/CAA1"
+               enablesFor="*"
+               id="mkodt">
+         </action>
+         <action
+               label="Update/Generate Source Folders..."
+               icon="resources/graphic/icons/CAAIcon.gif"
+               helpContextId="run_action_context"
+               tooltip="VCGen"
+               class="com.dassault_systemes.CATVBTMkmkPlugin.CATVBTVcgenAction"
+               menubarPath="com.dassault_systemes.EclipsePlugin.CAAMenu2/CAA1"
+               enablesFor="*"
+               id="vcgen">
+         </action>
+         <action
+               label="Get Prerequisites..."
+               icon="resources/graphic/icons/CAAIcon.gif"
+               helpContextId="run_action_context"
+               tooltip="mkGetPreq"
+               class="com.dassault_systemes.CATVBTMkmkPlugin.CATVBTMkGetPreqAction"
+               menubarPath="com.dassault_systemes.EclipsePlugin.CAAMenu2/CAA1"
+               enablesFor="*"
+               id="mkGetPreq">
+         </action>
+         <action
+               label="Copy Framework ..."
+               icon="resources/graphic/icons/CAAIcon.gif"
+               helpContextId="run_action_context"
+               tooltip="mkCopyFw"
+               class="com.dassault_systemes.CATVBTMkmkPlugin.CATVBTMkCopyFw"
+               menubarPath="com.dassault_systemes.EclipsePlugin.CAAMenu2/CAA1"
+               enablesFor="*"
+               id="mkCopyFw">
+         </action>
+         <action
+               label="Create/Update Runtime View..."
+               icon="resources/graphic/icons/CAAIcon.gif"
+               helpContextId="run_action_context"
+               tooltip="mkrtv"
+               class="com.dassault_systemes.CATVBTMkmkPlugin.CATVBTMkrtvAction"
+               menubarPath="com.dassault_systemes.EclipsePlugin.CAAMenu2/CAA1"
+               enablesFor="*"
+               id="mkCreateRuntimeView">
+         </action>
+         <action
+               label="Compil With mkmk@F7"
+               icon="resources/graphic/icons/CAAIcon.gif"
+               helpContextId="run_action_context"
+               tooltip="mkmk"
+               class="com.dassault_systemes.CATVBTMkmkPlugin.CATVBTMkmkCompilAction"
+               menubarPath="com.dassault_systemes.EclipsePlugin.CAAMenu2/CAA1"
+               enablesFor="*"
+               id="mkmk_compil">
+         </action>
+         <action
+               label="Mkmk..."
+               icon="resources/graphic/icons/CAAIcon.gif"
+               helpContextId="run_action_context"
+               tooltip="mkmk"
+               class="com.dassault_systemes.CATVBTMkmkPlugin.CATVBTMkmkAction"
+               menubarPath="com.dassault_systemes.EclipsePlugin.CAAMenu2/CAA1"
+               enablesFor="*"
+               id="mkmk">
+         </action>
+         <action
+               label="Update libpath based on makefile..."
+               icon="resources/graphic/icons/CAAIcon.gif"
+               helpContextId="run_action_context"
+               tooltip="Update Libpath"
+               class="com.dassault_systemes.CATVBTMkmkPlugin.CATVBTMkUpdLibpathAction"
+               menubarPath="com.dassault_systemes.EclipsePlugin.CAAMenu2/CAA1"
+               enablesFor="*"
+               id="mkUpdateLibpath">
+         </action>
+         <action
+               label="Open Command Window"
+               icon="resources/graphic/icons/CAAIcon.gif"
+               helpContextId="run_action_context"
+               tooltip="Open Command Window"
+               class="com.dassault_systemes.CATVBTMkmkPlugin.CATVBTOpenCommandWindow"
+               menubarPath="window/additions"
+               enablesFor="*"
+               id="OpenCommandWindow">
+         </action>
+         <action
+               label="Open Runtime Window"
+               icon="resources/graphic/icons/CAAIcon.gif"
+               helpContextId="run_action_context"
+               tooltip="Open Runtime Window"
+               class="com.dassault_systemes.CATVBTMkmkPlugin.CATVBTOpenRuntimeWindow"
+               menubarPath="window/additions"
+               enablesFor="*"
+               id="OpenRuntimeWindow">
+         </action>
+      </actionSet>
+   </extension>
+   <extension
+         id="com.dassault_systemes.EclipsePlugin.CAAMarker"
+         name="CAAMarker"
+         point="org.eclipse.core.resources.markers">
+      <transient
+            value="false">
+      </transient>
+      <super
+            type="org.eclipse.core.resources.textmarker ">
+      </super>
+      <super
+            type="org.eclipse.core.resources.taskmarker">
+      </super>
+      <attribute
+            name="Info">
+      </attribute>
+      <persistent
+            value="false">
+      </persistent>
+   </extension>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            name="%Editors.DefaultTextEditor"
+            icon="icons/basic/obj16/file_obj.gif"
+            extensions="mk,dic,dico,txt"
+            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
+            class="org.eclipse.ui.editors.text.TextEditor"
+            id="org.eclipse.ui.DefaultTextEditor">
+      </editor>
+   </extension>
+
+</plugin>

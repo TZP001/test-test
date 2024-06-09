@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin
+   id="com.dassault_systemes.InfraTools"
+   name="InfraTools Plugin"
+   version="1.0.0"
+   provider-name="Dassault Systemes"
+   class="com.dassault_systemes.catvbteclipse.CAAProjectsPlugin">
+<requires>
+    <import plugin="org.eclipse.ui.ide"/>
+   <import plugin="org.eclipse.ui.views"/>
+   <import plugin="org.eclipse.jface.text"/>
+   <import plugin="org.eclipse.ui.workbench.texteditor"/>
+   <import plugin="org.eclipse.ui.editors"/>
+   <import plugin="org.eclipse.core.runtime"/>
+   <import plugin="org.eclipse.core.resources"/>
+   <import plugin="org.eclipse.ui"/>
+   <import plugin="org.eclipse.jdt.core"/>
+   <import plugin="org.eclipse.jdt.ui"/>
+</requires>
+
+<runtime>
+   <library name="CATVBTEclipsePluginBase.jar">
+      <export name="*"/>
+   </library>
+   <library name="xmlutil.jar">
+      <export name="*"/>
+   </library>
+   <library name="xmlapi.jar">
+      <export name="*"/>
+   </library>
+   <library name="CATVBTRPCJ.jar">
+      <export name="*"/>
+   </library>
+   <library name="CATJSystem.jar">
+      <export name="*"/>
+   </library>
+   <library name="V5JsyLoader.jar">
+      <export name="*"/>
+   </library>
+</runtime>
+
+
+<extension
+      id="CAAV5ProjectNature"
+      name="CAAV5 Nature"
+      point="org.eclipse.core.resources.natures">
+   <runtime>
+      <run
+            class="com.dassault_systemes.catvbteclipse.CAAV5Project">
+      </run>
+   </runtime>
+</extension>
+<extension
+      point="org.eclipse.ui.newWizards">
+   <category
+         name="CAA e-application"
+         id="com.dassault_systemes.InfraTools.CAAeApplication.new">
+   </category>
+</extension>
+
+<extension
+      id="CAAWACProjectNature"
+      name="CAAV5 WAC Nature"
+      point="org.eclipse.core.resources.natures">
+	<runtime>
+      	<run
+           	 class="com.dassault_systemes.catvbteclipse.CAAWACProject">
+      	</run>
+   	</runtime>
+</extension>
+<extension point="org.eclipse.ui.ide.projectNatureImages"> 
+	<image icon="resources/graphic/icons/CAAV5ProjectNature.gif" 
+		 natureId="com.dassault_systemes.InfraTools.CAAWACProjectNature"
+		 id="com.dassault_systemes.InfraTools.CAAWACProjectNatureImage" /> 
+</extension>
+<extension point="org.eclipse.ui.views">
+   <category id="com.dassault_systemes.catvbteclipse" name="CAA" /> 
+   <view
+         name="CAA View"
+         icon="resources/graphic/icons/CAAIcon.gif"
+         class="com.dassault_systemes.catvbteclipse.CAAView"
+         id="com.dassault_systemes.catvbteclipse.CAAView">
+   </view>
+</extension>
+<extension
+      point="org.eclipse.ui.viewActions">
+   <viewContribution
+         targetID="com.dassault_systemes.catvbteclipse.CAAView"
+         id="ClearCAA">
+      <action
+            label="Clear CAA"
+            icon="resources/graphic/icons/clear_co.gif"
+            class="com.dassault_systemes.catvbteclipse.CAAClearActionDelegate"
+            menubarPath="addition"
+            toolbarPath="Normal"
+            tooltip="Clear CAA View" 
+            enablesFor="*"
+            id="Clear">
+      </action>
+   </viewContribution>
+</extension>
+</plugin>
+
