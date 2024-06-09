@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<!-- File written by PDE 1.0 -->
+<plugin
+   id="com.dassault_systemes.jdialogbuilder"
+   name="JDIALOGBUILDER Plugin"
+   version="1.0.0"
+   provider-name="Dassault Systemes"
+   class="com.dassault_systemes.catjdialog.catjdgbuilder.XMLDlgPlugin">
+<requires>
+   <import plugin="org.eclipse.ui.ide"/>
+   <import plugin="org.eclipse.ui.views"/>
+   <import plugin="org.eclipse.jface.text"/>
+   <import plugin="org.eclipse.ui.workbench.texteditor"/>
+   <import plugin="org.eclipse.ui.editors"/>
+   <import plugin="org.eclipse.core.runtime"/>
+   <import plugin="org.eclipse.core.resources"/>
+   <import plugin="org.eclipse.ui"/>
+   <import plugin="org.eclipse.jdt.core"/>
+   <import plugin="org.eclipse.jdt.ui"/>
+   <import plugin="org.eclipse.jdt.launching"/>
+   <import plugin="com.dassault_systemes.InfraTools"/>
+</requires>
+
+<runtime>
+   <library name="CATJDialog.jar">
+      <export name="*"/>
+   </library>
+   <library name="CATJdgTheme.jar">
+      <export name="*"/>
+   </library>
+   <library name="CATJdgBuilder.jar">
+      <export name="*"/>
+   </library>
+   <library name="CATJSyODT.jar">
+      <export name="*"/>
+   </library>
+</runtime>
+
+<extension
+      point="org.eclipse.ui.editors">
+   <editor
+         name="XMLDlg Editor"
+         icon="resources/graphic/icons/XMLDlg.gif"
+         extensions="XMLDlg"
+         contributorClass="com.dassault_systemes.catjdialog.catjdgbuilder.XMLDlgEditorContributor"
+         class="com.dassault_systemes.catjdialog.catjdgbuilder.XMLDlgEditor"
+         id="com.dassault_systemes.jdialogbuilder.XMLDlgEditor"
+         default="false"> 
+   </editor>
+   <editor 
+   	name="XML Editor"
+   	id="com.ibm.sed.editor.StructuredTextMultiPageEditorPart"
+   	com.ibm.sed.editor.defaultFirstPage="0"
+   	class="com.ibm.sed.editor.StructuredTextMultiPageEditorPart"
+   	com.ibm.sed.editor.useDesignPage="true"
+   	extensions="XMLDlg,XMLCtrl,XMLCmdIndex"
+   	icon="resources/graphic/icons/xmldoc.gif"
+   	contributorClass="com.ibm.sed.edit.ui.XMLMultiPageEditorActionBarContributor"
+   	default="false"> 
+   </editor>
+   
+</extension>
+<extension
+      point="org.eclipse.ui.newWizards">
+   <wizard
+         name="JDialog File"
+         icon="resources/graphic/icons/newxmldlg_wiz.gif"
+         category="com.dassault_systemes.InfraTools.CAAeApplication.new"
+         class="com.dassault_systemes.catjdialog.catjdgbuilder.XMLDlgCreationWizard"
+         id="com.dassault_systemes.jdialogbuilder.XMLDlgEditor.wizards.new.file">
+      <description>
+         wizard that creates JDialog file
+      </description>
+      <selection
+            class="org.eclipse.core.resources.IResource">
+      </selection>
+   </wizard>
+</extension>
+<extension
+      point="org.eclipse.ui.propertyPages">
+   <page
+         objectClass="com.dassault_systemes.catjdialog.catjdgbuilder.XMLDlgControl"
+         name="General properties"
+         class="com.dassault_systemes.catjdialog.catjdgbuilder.XMLDlgPropertyPage"
+         id="com.dassault_systemes.jdialogbuilder.XMLDlgPropertyPage">
+   </page>
+   <page
+         objectClass="com.dassault_systemes.catjdialog.catjdgbuilder.XMLDlgControl"
+         name="Object contents"
+         class="com.dassault_systemes.catjdialog.catjdgbuilder.XMLDlgPropertyPageContents"
+         id="com.dassault_systemes.jdialogbuilder.XMLDlgPropertyPageContents">
+   </page>
+</extension>
+<extension
+      point="org.eclipse.ui.popupMenus">
+      <objectContribution
+         objectClass="org.eclipse.core.resources.IProject"
+         id="CAAV5Tool">
+        <action
+            label="Convert to WAC project"
+            helpContextId="org.eclipse.ui.examples.readmetool.open_browser_action_context"
+            class="com.dassault_systemes.catjwacintegration.ConvertWorkspaceToWACDelegate"
+            menubarPath="additions"
+            enablesFor="1"
+            id="OpenWs">
+        </action>
+      </objectContribution>
+</extension>
+<extension point="org.eclipse.ui.popupMenus">
+	<objectContribution objectClass="org.eclipse.core.resources.IFile" nameFilter="*.XMLDlg" id="CAAV5Tool">
+		<action label="Export as portlet" helpContextId="org.eclipse.ui.examples.readmetool.open_browser_action_context" class="com.dassault_systemes.catjwacintegration.DeployAsPortletDelegate" menubarPath="additions" enablesFor="1" id="ExportAsPortlet"></action>
+	</objectContribution>
+</extension>
+</plugin>

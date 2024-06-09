@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin
+   id="com.dassault_systemes.ENOVIADmcPlugIn"
+   name="ENOVIADmcPlugIn Plug-in"
+   version="1.0.0"
+   provider-name="Dassault Systemes"
+   class="com.dassault_systemes.ENOVIADmcPlugIn.ENOVIADmcPlugInPlugin">
+
+   <runtime>
+      <library name="ENOVIADmcPlugIn.jar">
+         <export name="*"/>
+      </library>
+      <library name="CATJSystem.jar">
+         <export name="*"/>
+      </library>
+      <library name="CATVBTRPCJ.jar">
+         <export name="*"/>
+      </library>
+   </runtime>
+ 
+   <requires>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.jdt.core"/>
+       <import plugin="com.ibm.xtools.modeler"/>
+      <import plugin="com.ibm.xtools.transform.core"/>
+      <import plugin="com.ibm.xtools.transform.uml2"/>
+      <import plugin="com.dassault_systemes.InfraTools"/>
+   </requires>
+   
+  
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            name="DMC Elements"
+            id="com.dassault_systemes.ENOVIADmcPlugIn.new">
+      </category>
+      <wizard
+            name="New LCA Customization"
+            icon="resources/graphic/icons/CAAIcon.gif"
+            category="com.dassault_systemes.ENOVIADmcPlugIn.new"
+            class="com.dassault_systemes.ENOVIADmcPlugIn.ENOVIADmcNewCustomization"
+            id="com.dassault_systemes.ENOVIADmcPlugIn.createENOVIAApplication">
+         <description>
+            A wizard that creates a new ENOVIA Customization
+         </description>
+      </wizard>
+            <wizard
+            name="New Modeler Object"
+            icon="resources/graphic/icons/CAAIcon.gif"
+            category="com.dassault_systemes.ENOVIADmcPlugIn.new"
+            class="com.dassault_systemes.ENOVIADmcPlugIn.ENOVIADmcNewModelerObject"
+            id="com.dassault_systemes.ENOVIADmcPlugIn.ENOVIADmcNewModelerObject">
+         <description>
+            A wizard that creates a new Modeler Object 
+         </description>
+      </wizard>
+         </extension>
+      <extension
+      point="org.eclipse.ui.popupMenus">
+      <objectContribution
+         objectClass="org.eclipse.core.resources.IProject"
+         id="CAAV5Tool">
+        <action
+            label="Open as a DMC project ..."
+            helpContextId="org.eclipse.ui.examples.readmetool.open_browser_action_context"
+            class="com.dassault_systemes.ENOVIADmcPlugIn.ConvertWorkspaceToDmcDelegate"
+            menubarPath="additions"
+            enablesFor="1"
+            id="OpenWs">
+        </action>
+      </objectContribution>
+</extension>
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            label="CAADMCActionsSets"
+            visible="true"
+            id="com.dassault_systemes.ENOVIADmcPlugIn.CAADMCActionsSets">
+ 			<menu
+               label="DMC Project"
+               path="build.ext"
+               id="CAAMenuDMC">
+            <separator
+                  name="CAA1">
+            </separator>
+			</menu>
+      <action
+           label="Migrate the current workspace... "
+           icon="resources/graphic/icons/CAAIcon.gif"
+           class="com.dassault_systemes.ENOVIADmcPlugIn.ENOVIADmcMigrateWorkspace"
+           menubarPath="CAAMenuDMC/CAA1"
+           enablesFor="*"
+           id="MigrateWorkspace">
+      </action>
+      <action
+         label="Define prerequisites for DMC... "
+         icon="resources/graphic/icons/CAAIcon.gif"
+         class="com.dassault_systemes.ENOVIADmcPlugIn.ENOVIADmcGetPrerequisites"
+         menubarPath="CAAMenuDMC/CAA1"
+         enablesFor="*"
+         id="InstallDMCPrereq">
+      </action>
+     	<action
+           label="Publish VPM Dictionary file in DataBase... "
+           icon="resources/graphic/icons/CAAIcon.gif"
+           class="com.dassault_systemes.ENOVIADmcPlugIn.ENOVIADmcPublishMetadata"
+           menubarPath="CAAMenuDMC/CAA1"
+           enablesFor="*"
+           id="PublishMetadata">
+     	</action>
+			<action
+               label="Import VPM Dictionary file ... "
+               icon="resources/graphic/icons/CAAIcon.gif"
+               class="com.dassault_systemes.ENOVIADmcPlugIn.ENOVIADmcImportMetadata"
+               menubarPath="CAAMenuDMC/CAA1"
+               enablesFor="*"
+               id="ImportMetadata">
+         	</action>
+         	<action
+               label="Generate VPM Dictionary file ... "
+               icon="resources/graphic/icons/CAAIcon.gif"
+               class="com.dassault_systemes.ENOVIADmcPlugIn.ENOVIADmcGenerateMetadata"
+               menubarPath="CAAMenuDMC/CAA1"
+               enablesFor="*"
+               id="GenerateMetadata">
+         </action>
+      </actionSet>
+   </extension>
+
+</plugin>

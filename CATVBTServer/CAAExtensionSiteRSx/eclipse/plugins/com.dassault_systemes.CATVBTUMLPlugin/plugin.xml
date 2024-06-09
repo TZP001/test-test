@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<plugin
+   id="com.dassault_systemes.CATVBTUMLPlugin"
+   name="CATVBTUMLPlugin Plug-in"
+   version="1.0.0"
+   provider-name="Dassault Systemes"
+   class="com.dassault_systemes.CATVBTUMLPlugin.CATVBTUMLPluginPlugin">
+
+   <runtime>
+      <library name="CATVBTUMLPlugin.jar">
+         <export name="*"/>
+      </library>
+        <library name="CATJSystem.jar">
+         <export name="*"/>
+      </library>
+   </runtime>
+
+   <requires>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="com.ibm.xtools.modeler"/>
+      <import plugin="com.ibm.xtools.transform.core"/>
+      <import plugin="com.ibm.xtools.transform.uml2"/>
+      <import plugin="org.eclipse.uml2"/>
+      <import plugin="com.ibm.xtools.presentation"/>
+      <import plugin="com.ibm.xtools.uml.ocl"/>
+   </requires>
+
+   <extension
+         point="com.ibm.xtools.transform.core.transformationProviders">
+      <TransformationProvider
+            class="com.dassault_systemes.CATVBTUMLPlugin.transformationProvider.TransformationProvider1">
+         <Priority
+               name="Highest">
+         </Priority>
+         <Transformation
+               version="1.0.0"
+               name="Transformation"
+               groupPath="CATVBTUMLPlugin"
+               sourceModelType="UML2"
+               targetModelType="Resource"
+               id="CATVBTUMLPlugin.transformation">
+            <Property
+                  readonly="true"
+                  name="system.transformation.property"
+                  value="ClassName=com.dassault_systemes.CATVBTUMLPlugin.transformationProvider.Transformation;IsUMLKind=true;"
+                  id="system.transformation.property">
+            </Property>
+         </Transformation>
+      </TransformationProvider>
+   </extension>
+   <extension
+         point="com.ibm.xtools.uml.msl.UMLProfiles">
+         <UMLProfile
+               name="RADE_Enovia"
+               path="pathmap://DMC_PROFILES/RADE_Enovia.epx"/>
+   </extension>
+   <extension
+         id="DMCPathMap"
+         name="DMCPathMap"
+         point="org.eclipse.gmf.runtime.emf.core.Pathmaps">
+         <pathmap
+               name="DMC_PROFILES"
+               path="Profiles"
+               plugin="com.dassault_systemes.CATVBTUMLPlugin"/>
+   </extension>
+</plugin>

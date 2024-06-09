@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<!-- File written by PDE 1.0 -->
+<plugin
+   id="com.dassault_systemes.XMLMap"
+   name="XMLMap Plugin"
+   version="1.0.0"
+   provider-name="Dassault Systemes"
+   class="com.dassault_systemes.xmlmap.ui.XMLMapPlugin">
+<requires>
+   <import plugin="org.eclipse.ui.ide"/>
+   <import plugin="org.eclipse.ui.views"/>
+   <import plugin="org.eclipse.jface.text"/>
+   <import plugin="org.eclipse.ui.workbench.texteditor"/>
+   <import plugin="org.eclipse.ui.editors"/>
+   <import plugin="com.dassault_systemes.InfraTools"/>
+   <import plugin="org.eclipse.core.runtime"/>
+   <import plugin="org.eclipse.core.resources"/>
+   <import plugin="org.eclipse.ui"/>
+   <import plugin="org.eclipse.swt"/>
+   <import plugin="org.eclipse.pde.runtime"/>
+</requires>
+
+<runtime>
+   <library name="CATXMLMapper.jar">
+   	<export name="*"/>
+   </library>
+</runtime>
+
+<extension
+      point="org.eclipse.ui.editors">
+   <editor
+         name="XMLMap Editor"
+         icon="resources/graphic/icons/XMLMapEditor.gif"
+         extensions="XMLMap"
+         contributorClass="com.dassault_systemes.xmlmap.ui.XMLMapEditorActionBarContributor"
+         class="com.dassault_systemes.xmlmap.ui.XMLMapMultiPageEditor"
+         id="com.dassault_systemes.xmlmap.ui.XMLMapMultiPageEditor">
+   </editor>
+</extension>
+<extension
+    point="org.eclipse.ui.views">
+    <category 
+        id="com.dassault_systemes.XMLMap.XMLMap_Views"
+        name="&amp;XMLMap">
+    </category>
+    <view
+        id="XMLMap.XMLMapDetailView"
+        name="XMLMap Detail View"
+        icon="icons/element.gif"
+        category="com.dassault_systemes.XMLMap.XMLMap_Views"
+        class="com.dassault_systemes.xmlmap.ui.XMLMapDetailView">
+    </view>
+</extension>
+
+</plugin>
