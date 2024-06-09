@@ -1,0 +1,615 @@
+############################################################
+RTIMPPATH = $(RTV_CODEBIN)		# Runtime path
+BTIMPPATH = $(RTV_CODELIB)		# Buildtime path
+RTPATH = $(WSPATH)\$(RTIMPPATH)	# Runtime full pathname
+BTPATH = $(WSPATH)\$(BTIMPPATH)	# Buildtime full pathname
+#-----------------------------------------------------------
+RT_ROOT_PATHNAME = $(RTPATH)$(PROGSUBDIR)\$(PROGNAME)
+#BT_ROOT_PATHNAME = $(BTPATH)$(PROGSUBDIR)\$(PROGNAME)
+BT_ROOT_PATHNAME = $(BTPATH)\$(PROGNAME)
+#
+############################################################
+FW_ROOT_CODEIC = $(WSPATH)\$(RTV_CODEIC)\$(SHORTNAME)IC
+FWSTD_BTPATHNAME = $(FW_ROOT_CODEIC).script
+FWSTD_BTPATHNAMEXML = $(FW_ROOT_CODEIC).xml
+FWSTD_RTPATHNAMEPREQ = $(FW_ROOT_CODEIC).required
+FWPKG_RTPATHNAME = $(FWSTD_BTPATHNAME)
+FWPKG_BTPATHNAMEXML = $(FWSTD_BTPATHNAMEXML)
+#
+############################################################
+# C++ Executables
+LM_STRIP = YES
+LM_VERSIONINFO = YES
+LM_XMLVERSIONINFO = YES
+LM_GLOBALRESOURCE = mkGlobalResource
+# Only external (ie: CAA) load modules are licensed
+LM_CAAV5LICENSING = $(MkmkExternalDS:+"mkCAAV5Licensing.cpp.CPP")
+#-----------------------------------------------------------
+LM_RTPATH = $(WSPATH)\$(PROGRAM_PATH:-RTIMPPATH)	# Runtime full pathname
+LM_ROOT_PATH = $(LM_RTPATH)$(PROGSUBDIR)\$(PROGNAME)
+LM_RTNAME = $(PROGNAME).$(PROGSUFFIX:-"exe")		# Runtime executable name
+LM_RTPATHNAME = $(LM_ROOT_PATH).$(PROGSUFFIX:-"exe")# Runtime executable full pathname
+LM_PDBPATHNAME = $(LM_ROOT_PATH).pdb
+LM_MAPPATHNAME = $(LM_ROOT_PATH).map
+LM_ILKPATHNAME = $(LM_ROOT_PATH).ilk
+LM_RMSPREPROD_PATHNAME = $(LM_ROOT_PATH).rmsmanifest.preproduction.xml
+LM_RMSPROD_PATHNAME = $(LM_ROOT_PATH).rmsmanifest.production.xml
+LM_RTIMPPATH = $(BTIMPPATH) $(RTIMPPATH)
+LM_TLBIMPPATH = $(RTIMPPATH) $(CLR_RTIMPPATH)
+#-----------------------------------------------------------
+# C++ Executables mext
+LMEXT_RTNAME = $(LM_RTNAME)
+LMEXT_RTPATHNAME = $(LM_RTPATHNAME)
+LMEXT_BTNAME = $(SHL_BTNAME)
+LMEXT_BTPATHNAME = $(SHL_BTPATHNAME)
+#
+############################################################
+# C++ Shared libraries
+SHL_STRIP = YES
+SHL_VERSIONINFO = YES
+SHL_XMLVERSIONINFO = YES
+SHL_GLOBALRESOURCE = mkGlobalResource
+SHL_CAAV5LICENSING = mkCAAV5Licensing.cpp.CPP
+#-----------------------------------------------------------
+# Runtime C++ shared libraries
+SHL_RTNAME = $(PROGNAME).$(PROGSUFFIX:-"dll")				# Runtime library name
+SHL_RTPATHNAME = $(RT_ROOT_PATHNAME).$(PROGSUFFIX:-"dll")	# Runtime library full pathname
+SHL_PDBPATHNAME = $(RT_ROOT_PATHNAME).pdb
+SHL_ILKPATHNAME = $(RT_ROOT_PATHNAME).ilk
+SHL_MAPPATHNAME = $(RT_ROOT_PATHNAME).map
+SHL_RTIMPPATH = $(LM_RTIMPPATH)
+SHL_TLBIMPPATH = $(LM_TLBIMPPATH)
+#-----------------------------------------------------------
+# Buildtime C++ shared libraries
+SHL_BTNAME = $(PROGNAME).lib				# Buildtime library name
+SHL_BTPATHNAME = $(BT_ROOT_PATHNAME).lib	# Buildtime library full pathname
+SHL_EXPPATHNAME = $(BT_ROOT_PATHNAME).exp
+SHL_SYLPATHNAME = $(BT_ROOT_PATHNAME).syl
+SHL_BTIMPRT = $(SHL_BTNAME)					# To link with while 2nd pass
+SHL_BTIMPMAIN = $(SHL_BTIMPRT)				# To link with while main
+SHL_BTIMPPATH = $(BTIMPPATH)
+#-----------------------------------------------------------
+# Runtime C++ shared libraries mext
+SHLEXT_RTNAME = $(SHL_RTNAME)
+SHLEXT_RTPATHNAME = $(SHL_RTPATHNAME)
+#-----------------------------------------------------------
+# Buildtime C++ shared libraries mext
+SHLEXT_BTNAME = $(SHL_BTNAME)
+SHLEXT_BTPATHNAME = $(SHL_BTPATHNAME)
+SHLEXT_BTIMPRT = $(SHL_BTIMPRT)
+SHLEXT_BTIMPMAIN = $(SHL_BTIMPMAIN)
+#
+############################################################
+# Archives
+AR_BTNAME = $(PROGNAME).lib
+AR_BTPATHNAME = $(BTPATH)\$(AR_BTNAME)
+AR_RTPATHNAME = $(AR_BTPATHNAME)
+AR_BTIMPBT = $(AR_BTNAME)		# To link with while 1st pass
+AR_BTIMPRT = $(AR_BTIMPBT)		# To link with while 2nd pass
+AR_BTIMPMAIN = $(AR_BTIMPBT)	# To link with while main
+AR_TLBIMPPATH = $(LM_TLBIMPPATH)
+#-----------------------------------------------------------
+# Archives .mext
+AREXT_BTNAME = $(PROGNAME).$(PROGSUFFIX:-"lib")
+AREXT_BTPATHNAME = $(BTPATH)\$(AREXT_BTNAME)
+AREXT_RTPATHNAME = $(AREXT_BTPATHNAME)
+AREXT_BTIMPBT = $(AR_BTIMPBT)
+AREXT_BTIMPRT = $(AR_BTIMPRT)
+AREXT_BTIMPMAIN = $(AR_BTIMPMAIN)
+#
+############################################################
+# Common libraries
+CODYN_CAAV5LICENSING = mkCAAV5Licensing.cpp.CPP
+#-----------------------------------------------------------
+# Runtime Common libraries
+CODYN_RTNAME = $(CODYN_BTNAME)
+CODYN_RTPATHNAME = $(CODYN_BTPATHNAME)
+#-----------------------------------------------------------
+# Buildtime Common libraries
+CODYN_BTNAME = $(AR_BTNAME)
+CODYN_BTPATHNAME = $(AR_BTPATHNAME)
+CODYN_BTIMPBT = $(CODYN_BTPATHNAME)
+CODYN_BTIMPRT = $(CODYN_BTIMPBT)
+CODYN_BTIMPMAIN = $(CODYN_BTIMPBT)
+#
+############################################################
+# EL (Explicitly Loaded) libraries
+EL_VERSIONINFO = YES
+EL_XMLVERSIONINFO = YES
+EL_STRIP = YES
+EL_GLOBALRESOURCE = mkGlobalResource
+EL_CAAV5LICENSING = mkCAAV5Licensing.cpp.CPP
+#-----------------------------------------------------------
+# Runtime EL (Explicitly Loaded) libraries
+EL_RTNAME = $(SHL_RTNAME)
+EL_RTPATHNAME = $(SHL_RTPATHNAME)
+EL_PDBPATHNAME = $(SHL_PDBPATHNAME)
+EL_ILKPATHNAME = $(SHL_ILKPATHNAME)
+EL_MAPPATHNAME = $(SHL_MAPPATHNAME)
+EL_RTIMPPATH = $(SHL_RTIMPPATH)
+EL_TLBIMPPATH = $(SHL_TLBIMPPATH)
+#-----------------------------------------------------------
+# Buildtime EL (Explicitly Loaded) libraries
+EL_BTNAME = $(SHL_BTNAME)
+EL_BTPATHNAME = $(SHL_BTPATHNAME)
+EL_EXPPATHNAME = $(SHL_EXPPATHNAME)
+EL_SYLPATHNAME = $(SHL_SYLPATHNAME)
+EL_BTIMPPATH = $(SHL_BTIMPPATH)
+#
+############################################################
+# Typelib
+TPLIB_RTNAME = $(PROGNAME).tlb
+TPLIB_RTPATHNAME = $(RTPATH)\$(TPLIB_RTNAME)
+TPLIB_RTIMPPATH = $(RTIMPPATH) $(CLR_RTIMPPATH)	# List to add into MIDL_LIBPATH
+#-----------------------------------------------------------
+# Typelib mext
+TPLIBEXT_RTNAME = $(TPLIB_RTNAME)
+TPLIBEXT_RTPATHNAME = $(TPLIB_RTPATHNAME)
+#
+############################################################
+# Java modules
+JAVA_SRCNAME = $(PROGNAME).zip
+JAVA_RTNAME = $(PROGNAME).$(PROGSUFFIX:-"jar")	# Runtime jar name
+############################################################
+# CLIENT in RTV_JAVACLIENT
+JAVACLIENT_XMLMANIFEST = YES
+JAVACLIENT_TMPPATH = tmp
+#-----------------------------------------------------------
+JAVACLIENT_RTNAME = $(JAVA_RTNAME)		# JAR name
+JAVACLIENT_RTPATH = $(WSPATH)\$(RTV_JAVACLIENT)
+JAVACLIENT_RTPATHNAME = $(JAVACLIENT_RTPATH)$(PROGSUBDIR)\$(JAVACLIENT_RTNAME)
+JAVACLIENT_RTIMPPATH = $(RTIMPPATH)
+JAVACLIENT_SRCNAME = $(JAVA_SRCNAME)	# ZIP name
+JAVACLIENT_TMPSRCPATH = tmpsrc
+#-----------------------------------------------------------
+# CLIENT external in RTV_JAVACLIENT
+JAVACLIENTEXT_RTNAME = $(JAVACLIENT_RTNAME)
+JAVACLIENTEXT_RTPATH = $(JAVACLIENT_RTPATH)
+JAVACLIENTEXT_RTPATHNAME = $(JAVACLIENT_RTPATHNAME)
+############################################################
+# SERVER in RTV_JAVASERVER
+JAVASERVER_XMLMANIFEST = YES
+JAVASERVER_TMPPATH = tmp
+#-----------------------------------------------------------
+JAVASERVER_RTNAME = $(JAVA_RTNAME)		# JAR name
+JAVASERVER_RTPATH = $(WSPATH)\$(RTV_JAVASERVER)
+JAVASERVER_RTPATHNAME = $(JAVASERVER_RTPATH)$(PROGSUBDIR)\$(JAVASERVER_RTNAME)
+JAVASERVER_RTIMPPATH = $(RTIMPPATH)
+JAVASERVER_SRCNAME = $(JAVA_SRCNAME)	# ZIP name
+JAVASERVER_TMPSRCPATH = tmpsrc
+#-----------------------------------------------------------
+# SERVER external in RTV_JAVASERVER
+JAVASERVEREXT_RTNAME = $(JAVASERVER_RTNAME)
+JAVASERVEREXT_RTPATH = $(JAVASERVER_RTPATH)
+JAVASERVEREXT_RTPATHNAME = $(JAVASERVER_RTPATHNAME)
+############################################################
+# JPO in RTV_JAVAJPO
+JAVAJPO_XMLMANIFEST = YES
+JAVAJPO_TMPPATH = tmp
+#-----------------------------------------------------------
+JAVAJPO_RTNAME = $(JAVA_RTNAME)			# JAR name
+JAVAJPO_RTPATH = $(WSPATH)\$(RTV_JAVAJPO)
+JAVAJPO_RTPATHNAME = $(JAVAJPO_RTPATH)$(PROGSUBDIR)\$(JAVAJPO_RTNAME)
+JAVAJPO_RTIMPPATH = $(RTIMPPATH)
+JAVAJPO_SRCNAME = $(JAVA_SRCNAME)		# ZIP name
+JAVAJPO_TMPSRCPATH = tmpsrc
+############################################################
+# COMMON in RTV_JAVACOMMON
+JAVACOMMON_XMLMANIFEST = YES
+JAVACOMMON_TMPPATH = tmp
+#-----------------------------------------------------------
+JAVACOMMON_RTNAME = $(JAVA_RTNAME)		# JAR name
+JAVACOMMON_RTPATH = $(WSPATH)\$(RTV_JAVASERVER)		# SHE: to generate common into server
+JAVACOMMON_RTPATHNAME = $(JAVACOMMON_RTPATH)$(PROGSUBDIR)\$(JAVACOMMON_RTNAME)
+JAVACOMMON_CPPATHNAME = $(JAVACLIENT_RTPATHNAME)	# SHE: to copy common into client
+JAVACOMMON_RTIMPPATH = $(RTIMPPATH)
+JAVACOMMON_SRCNAME = $(JAVA_SRCNAME)	# ZIP name
+JAVACOMMON_TMPSRCPATH = tmpsrc
+#-----------------------------------------------------------
+# COMMON external in RTV_JAVACOMMON
+JAVACOMMONEXT_RTNAME = $(JAVACOMMON_RTNAME)			# Common runtime jar basename
+JAVACOMMONEXT_RTPATH = $(WSPATH)\$(RTV_JAVACOMMON)	# Common runtime path
+JAVACOMMONEXT_RTPATHNAME = $(JAVACOMMONEXT_RTPATH)$(PROGSUBDIR)\$(JAVACOMMONEXT_RTNAME)
+#
+############################################################
+PACK_RTPATH = $(JAVACLIENT_RTPATH)
+DSAR_RTNAME = $(PROGNAME).dsar       # Runtime dsar name
+BIGJAR_RTNAME = $(PROGNAME).jar      # Runtime bigjar name
+PACK_DSAR_RTPATHNAME = $(PACK_RTPATH)$(PROGSUBDIR)\$(DSAR_RTNAME)      # Runtime lib. name
+PACK_BIGJAR_RTPATHNAME = $(PACK_RTPATH)$(PROGSUBDIR)\$(BIGJAR_RTNAME)  # Runtime bigjar name
+#
+############################################################
+# CORBA modules
+CORBA_SHL_C_STRIP = YES
+CORBA_SHL_C_VERSIONINFO = YES
+CORBA_SHL_C_GLOBALRESOURCE = mkGlobalResource_C
+CORBA_SHL_S_STRIP = YES
+CORBA_SHL_S_VERSIONINFO = YES
+CORBA_SHL_S_GLOBALRESOURCE = mkGlobalResource_S
+#-----------------------------------------------------------
+CORBA_EXTEND = CORBA_JAVA_C_ CORBA_JAVA_S_ CORBA_SHL_C_ CORBA_SHL_S_ CORBA_AR_C_ CORBA_AR_S_
+#-----------------------------------------------------------
+CORBA_JAVA_C_RTNAME = $(SHORTNAME)_C.jar
+CORBA_JAVA_S_RTNAME = $(SHORTNAME)_S.jar
+CORBA_JAVA_C_RTPATH = $(WSPATH)\$(RTV_JAVACORBA)
+CORBA_JAVA_S_RTPATH	= $(WSPATH)\$(RTV_JAVACORBA)
+CORBA_JAVA_C_RTPATHNAME = $(CORBA_JAVA_C_RTPATH)\$(CORBA_JAVA_C_RTNAME)
+CORBA_JAVA_S_RTPATHNAME = $(CORBA_JAVA_S_RTPATH)\$(CORBA_JAVA_S_RTNAME)
+CORBA_JAVA_C_BTPATHNAME = $(CORBA_JAVA_C_RTPATHNAME)
+CORBA_JAVA_S_BTPATHNAME = $(CORBA_JAVA_S_RTPATHNAME)
+#-----------------------------------------------------------
+CORBA_SHL_C_RTNAME = $(SHORTNAME)_C.dll
+CORBA_SHL_S_RTNAME = $(SHORTNAME)_S.dll
+CORBA_SHL_C_BTNAME = $(SHORTNAME)_C.lib
+CORBA_SHL_S_BTNAME = $(SHORTNAME)_S.lib
+CORBA_SHL_C_RTPATHNAME = $(RTPATH)\$(CORBA_SHL_C_RTNAME)
+CORBA_SHL_S_RTPATHNAME = $(RTPATH)\$(CORBA_SHL_S_RTNAME)
+CORBA_SHL_C_BTPATHNAME = $(BTPATH)\$(CORBA_SHL_C_BTNAME)
+CORBA_SHL_S_BTPATHNAME = $(BTPATH)\$(CORBA_SHL_S_BTNAME)
+CORBA_SHL_C_SYLPATHNAME = $(BTPATH)\$(SHORTNAME)_C.syl
+CORBA_SHL_S_SYLPATHNAME = $(BTPATH)\$(SHORTNAME)_S.syl
+CORBA_SHL_C_BTIMPRT = $(CORBA_SHL_C_BTNAME)
+CORBA_SHL_S_BTIMPRT = $(CORBA_SHL_S_BTNAME)
+CORBA_SHL_C_BTIMPMAIN = $(CORBA_SHL_C_BTIMPRT)
+CORBA_SHL_S_BTIMPMAIN = $(CORBA_SHL_S_BTIMPRT)
+CORBA_SHL_C_BTIMPPATH = $(BTIMPPATH)
+CORBA_SHL_S_BTIMPPATH = $(BTIMPPATH)
+CORBA_SHL_C_RTIMPPATH = $(BTIMPPATH) $(RTIMPPATH)
+CORBA_SHL_S_RTIMPPATH = $(BTIMPPATH) $(RTIMPPATH)
+#-----------------------------------------------------------
+CORBA_SHL_C_EXPPATHNAME = $(BTPATH)\$(SHORTNAME)_C.exp
+CORBA_SHL_S_EXPPATHNAME = $(BTPATH)\$(SHORTNAME)_S.exp
+CORBA_SHL_C_PDBPATHNAME = $(RTPATH)\$(SHORTNAME)_C.pdb
+CORBA_SHL_S_PDBPATHNAME = $(RTPATH)\$(SHORTNAME)_S.pdb
+CORBA_SHL_C_ILKPATHNAME = $(RTPATH)\$(SHORTNAME)_C.ilk
+CORBA_SHL_C_MAPPATHNAME = $(RTPATH)\$(PROGNAME).map
+CORBA_SHL_S_ILKPATHNAME = $(RTPATH)\$(SHORTNAME)_S.ilk
+#-----------------------------------------------------------
+#CORBA_AR_C_RTNAME = $(CORBA_AR_C_BTNAME)
+#CORBA_AR_C_RTPATHNAME = $(CORBA_AR_C_BTPATHNAME)
+CORBA_AR_C_BTNAME = $(SHORTNAME)_C_a.lib
+CORBA_AR_C_BTPATHNAME = $(BTPATH)\$(CORBA_AR_C_BTNAME)
+CORBA_AR_C_BTIMPBT = $(CORBA_AR_C_BTNAME)
+CORBA_AR_C_BTIMPRT = $(CORBA_AR_C_BTIMPBT)
+CORBA_AR_C_BTIMPMAIN= $(CORBA_AR_C_BTIMPBT)
+#-----------------------------------------------------------
+#CORBA_AR_S_RTNAME = $(CORBA_AR_S_BTNAME)
+#CORBA_AR_S_RTPATHNAME = $(CORBA_AR_S_BTPATHNAME)
+CORBA_AR_S_BTNAME = $(SHORTNAME)_S_a.lib
+CORBA_AR_S_BTPATHNAME = $(BTPATH)\$(CORBA_AR_S_BTNAME)
+CORBA_AR_S_BTIMPBT = $(CORBA_AR_S_BTNAME)
+CORBA_AR_S_BTIMPRT = $(CORBA_AR_S_BTIMPBT)
+CORBA_AR_S_BTIMPMAIN= $(CORBA_AR_S_BTIMPBT)
+#
+############################################################
+# ActiveX Control
+ACTIVEX_STRIP = YES
+ACTIVEX_VERSIONINFO = YES
+ACTIVEX_XMLVERSIONINFO = YES
+ACTIVEX_GLOBALRESOURCE = mkGlobalResource
+#ACTIVEX_CAAV5LICENSING = mkCAAV5Licensing.cpp.CPP
+#-----------------------------------------------------------
+# Runtime ActiveX Control
+ACTIVEX_RTNAME = $(PROGNAME).$(PROGSUFFIX:-"ocx")
+ACTIVEX_RTPATHNAME = $(RT_ROOT_PATHNAME).$(PROGSUFFIX:-"ocx")
+ACTIVEX_PDBPATHNAME = $(SHL_PDBPATHNAME)
+ACTIVEX_ILKPATHNAME = $(SHL_ILKPATHNAME)
+ACTIVEX_MAPPATHNAME = $(SHL_MAPPATHNAME)
+ACTIVEX_RTIMPPATH = $(LM_RTIMPPATH)
+ACTIVEX_TLBIMPPATH = $(LM_TLBIMPPATH)
+#-----------------------------------------------------------
+# Buildtime ActiveX Control
+ACTIVEX_BTNAME = $(SHL_BTNAME)
+ACTIVEX_BTPATHNAME = $(SHL_BTPATHNAME)
+ACTIVEX_EXPPATHNAME = $(SHL_EXPPATHNAME)
+ACTIVEX_SYLPATHNAME = $(SHL_SYLPATHNAME)
+ACTIVEX_BTIMPPATH = $(SHL_BTIMPPATH)
+#
+############################################################
+# CLR modules
+CLR_RTIMPPATH = $(RTV_SHARP)							# Runtime Sharp 
+CLR_RTPATHNAME = $(WSPATH)\$(RTV_SHARP)$(PROGSUBDIR)   	# Runtime Sharp directory name
+CLR_EXE_RTNAME = $(PROGNAME).$(PROGSUFFIX:-"exe")   	# Runtime Sharp Executable basename
+CLR_DLL_RTNAME = $(PROGNAME).$(PROGSUFFIX:-"dll")   	# Runtime Sharp Librairies basename
+CLR_TLB_RTNAME = $(PROGNAME).tlb     	# Runtime Sharp basename
+CLR_PDB_RTNAME = $(PROGNAME).pdb     	# Runtime Sharp basename
+CLR_LIB_BTNAME = $(PROGNAME).lib     	# Buildtime Sharp basename
+JAVA_EXE_RTNAME = $(PROGNAME).$(PROGSUFFIX:-"exe")   # Runtime basename
+JAVA_DLL_RTNAME = $(PROGNAME).$(PROGSUFFIX:-"dll")   # Runtime basename
+JAVA_TLB_RTNAME = $(PROGNAME).tlb   # Runtime basename
+JAVA_PDB_RTNAME = $(PROGNAME).pdb   # Runtime basename
+#-----------------------------------------------------------
+CLR_CSPROJNAME = $(PROGNAME).csproj  	# Project basename
+CLR_VCPROJNAME = $(PROGNAME).vcproj  	# Project basename
+CLR_VJSPROJNAME = $(PROGNAME).vjsproj	# Project basename
+CLR_VBPROJNAME = $(PROGNAME).vbproj  	# Project basename
+JAVA_VJSPROJNAME = $(PROGNAME).vjsproj # Project basename
+#-----------------------------------------------------------
+CLR_POLICY_RTNAME = policy.$(MAJORVERSION).$(MINORVERSION).$(PROGNAME).dll # Runtime Sharp basename
+CLR_CONFIG_RTNAME = $(CLR_POLICY_RTNAME).config # Runtime Sharp basename
+#-----------------------------------------------------------
+# C SHARP DLL
+CSHARP_DLL_CSPROJNAME = $(CLR_CSPROJNAME) 
+CSHARP_DLL_VCPROJNAME = $(CLR_VCPROJNAME)
+CSHARP_DLL_VJSPROJNAME = $(CLR_VJSPROJNAME)
+CSHARP_DLL_VBPROJNAME = $(CLR_VBPROJNAME)
+CSHARP_DLL_RTNAME = $(CLR_DLL_RTNAME)           # Runtime library name
+CSHARP_DLL_RTPATH = $(CLR_RTPATHNAME)           # Runtime path name
+CSHARP_DLL_RTPATHNAME = $(CLR_RTPATHNAME)\$(CLR_DLL_RTNAME) # Runtime library full pathname
+CSHARP_DLL_LIBPATHNAME = $(CLR_RTPATHNAME)\$(CLR_LIB_BTNAME) # Buildtime library full pathname
+CSHARP_DLL_PDBPATHNAME = $(CLR_RTPATHNAME)\$(CLR_PDB_RTNAME) # PDB full pathname
+CSHARP_DLL_RTIMPPATH = $(CLR_RTIMPPATH)
+CSHARP_DLL_TLBPATHNAME = $(CLR_RTPATHNAME)\$(CLR_TLB_RTNAME)
+CSHARP_DLL_POLICYPATHNAME = $(CLR_RTPATHNAME)\$(CLR_POLICY_RTNAME)
+CSHARP_DLL_CONFIGPATHNAME = $(CLR_RTPATHNAME)\$(CLR_CONFIG_RTNAME)
+CSHARP_DLL_GLOBALRESOURCE = mkGlobalResource
+CSHARP_DLL_XMLASSEMBLYANDVERSIONINFOANDPOLICY = YES
+CSHARP_DLL_XMLPOLICY = YES
+CSHARP_DLL_TLBIMPPATH = $(RTIMPPATH) # List to add to WS_Concat
+#-----------------------------------------------------------
+# C SHARP EXE
+CSHARP_EXE_CSPROJNAME = $(CLR_CSPROJNAME)  
+CSHARP_EXE_VCPROJNAME = $(CLR_VCPROJNAME)
+CSHARP_EXE_VJSPROJNAME = $(CLR_VJSPROJNAME) 
+CSHARP_EXE_VBPROJNAME = $(CLR_VBPROJNAME)
+CSHARP_EXE_RTNAME = $(CLR_EXE_RTNAME)           # Runtime library name
+CSHARP_EXE_RTPATH = $(CLR_RTPATHNAME)           # Runtime path name
+CSHARP_EXE_RTPATHNAME = $(CLR_RTPATHNAME)\$(CLR_EXE_RTNAME) # Runtime library full pathname
+CSHARP_EXE_PDBPATHNAME = $(CLR_RTPATHNAME)\$(CLR_PDB_RTNAME) # PDB full pathname
+CSHARP_EXE_RTIMPPATH = $(CLR_RTIMPPATH)
+CSHARP_EXE_TLBPATHNAME = $(CLR_RTPATHNAME)\$(CLR_TLB_RTNAME)
+CSHARP_EXE_GLOBALRESOURCE = mkGlobalResource
+CSHARP_EXE_XMLASSEMBLYANDVERSIONINFOANDPOLICY = YES
+CSHARP_EXE_TLBIMPPATH = $(RTIMPPATH) # List to add to WS_Concat
+#-----------------------------------------------------------
+# J SHARP DLL
+JSHARP_DLL_CSPROJNAME = $(CLR_CSPROJNAME)  
+JSHARP_DLL_VCPROJNAME = $(CLR_VCPROJNAME)
+JSHARP_DLL_VJSPROJNAME = $(CLR_VJSPROJNAME) 
+JSHARP_DLL_VBPROJNAME = $(CLR_VBPROJNAME)
+JSHARP_DLL_RTNAME = $(CLR_DLL_RTNAME)           # Runtime library name
+JSHARP_DLL_RTPATH = $(CLR_RTPATHNAME)           # Runtime path name
+JSHARP_DLL_RTPATHNAME = $(CLR_RTPATHNAME)\$(CLR_DLL_RTNAME) # Runtime library full pathname
+JSHARP_DLL_PDBPATHNAME = $(CLR_RTPATHNAME)\$(CLR_PDB_RTNAME) # PDB full pathname
+JSHARP_DLL_RTIMPPATH = $(CLR_RTIMPPATH)
+JSHARP_DLL_TLBPATHNAME = $(CLR_RTPATHNAME)\$(CLR_TLB_RTNAME)
+JSHARP_DLL_POLICYPATHNAME = $(CLR_RTPATHNAME)\$(CLR_POLICY_RTNAME)
+JSHARP_DLL_CONFIGPATHNAME = $(CLR_RTPATHNAME)\$(CLR_CONFIG_RTNAME)
+JSHARP_DLL_XMLASSEMBLYANDVERSIONINFOANDPOLICY = YES
+JSHARP_DLL_XMLPOLICY = YES
+#-----------------------------------------------------------
+# J SHARP EXE
+JSHARP_EXE_CSPROJNAME = $(CLR_CSPROJNAME)  
+JSHARP_EXE_VCPROJNAME = $(CLR_VCPROJNAME)
+JSHARP_EXE_VJSPROJNAME = $(CLR_VJSPROJNAME) 
+JSHARP_EXE_VBPROJNAME = $(CLR_VBPROJNAME)
+JSHARP_EXE_VJSPROJNAME = $(PROGNAME).vjsproj
+JSHARP_EXE_RTNAME = $(CLR_EXE_RTNAME)           # Runtime library name
+JSHARP_EXE_RTPATH = $(CLR_RTPATHNAME)           # Runtime path name
+JSHARP_EXE_RTPATHNAME = $(CLR_RTPATHNAME)\$(CLR_EXE_RTNAME) # Runtime library full pathname
+JSHARP_EXE_PDBPATHNAME = $(CLR_RTPATHNAME)\$(CLR_PDB_RTNAME) # PDB full pathname
+JSHARP_EXE_RTIMPPATH = $(CLR_RTIMPPATH)
+JSHARP_EXE_TLBPATHNAME = $(CLR_RTPATHNAME)\$(CLR_TLB_RTNAME)
+JSHARP_EXE_XMLASSEMBLYANDVERSIONINFOANDPOLICY = YES
+#-----------------------------------------------------------
+# VB DLL
+VB_DLL_CSPROJNAME = $(CLR_CSPROJNAME)  
+VB_DLL_VCPROJNAME = $(CLR_VCPROJNAME)
+VB_DLL_VJSPROJNAME = $(CLR_VJSPROJNAME) 
+VB_DLL_VBPROJNAME = $(CLR_VBPROJNAME)
+VB_DLL_RTNAME = $(CLR_DLL_RTNAME)           # Runtime library name
+VB_DLL_RTPATH = $(CLR_RTPATHNAME)           # Runtime path name
+VB_DLL_RTPATHNAME = $(CLR_RTPATHNAME)\$(CLR_DLL_RTNAME) # Runtime library full pathname
+VB_DLL_PDBPATHNAME = $(CLR_RTPATHNAME)\$(CLR_PDB_RTNAME) # PDB full pathname
+VB_DLL_RTIMPPATH = $(CLR_RTIMPPATH)
+VB_DLL_TLBPATHNAME = $(CLR_RTPATHNAME)\$(CLR_TLB_RTNAME)
+VB_DLL_POLICYPATHNAME = $(CLR_RTPATHNAME)\$(CLR_POLICY_RTNAME)
+VB_DLL_CONFIGPATHNAME = $(CLR_RTPATHNAME)\$(CLR_CONFIG_RTNAME)
+VB_DLL_XMLASSEMBLYANDVERSIONINFOANDPOLICY = YES
+VB_DLL_XMLPOLICY = YES
+#-----------------------------------------------------------
+# VB EXE
+VB_EXE_CSPROJNAME = $(CLR_CSPROJNAME)  
+VB_EXE_VCPROJNAME = $(CLR_VCPROJNAME)
+VB_EXE_VJSPROJNAME = $(CLR_VJSPROJNAME) 
+VB_EXE_VBPROJNAME = $(CLR_VBPROJNAME)
+VB_EXE_RTNAME = $(CLR_EXE_RTNAME)           # Runtime library name
+VB_EXE_RTPATH = $(CLR_RTPATHNAME)           # Runtime path name
+VB_EXE_RTPATHNAME = $(CLR_RTPATHNAME)\$(CLR_EXE_RTNAME) # Runtime library full pathname
+VB_EXE_PDBPATHNAME = $(CLR_RTPATHNAME)\$(CLR_PDB_RTNAME) # PDB full pathname
+VB_EXE_RTIMPPATH = $(CLR_RTIMPPATH)
+VB_EXE_TLBPATHNAME = $(CLR_RTPATHNAME)\$(CLR_TLB_RTNAME)
+VB_EXE_XMLASSEMBLYANDVERSIONINFOANDPOLICY = YES
+#-----------------------------------------------------------
+# EXTERNAL SHARP DLL
+SHARPEXT_DLL_RTNAME = $(CLR_DLL_RTNAME)         # Runtime library name
+SHARPEXT_DLL_RTPATH = $(CLR_RTPATHNAME)            # Runtime path name
+SHARPEXT_DLL_RTPATHNAME = $(CLR_RTPATHNAME)\$(CLR_DLL_RTNAME) # Runtime library full pathname
+SHARPEXT_DLL_PDBPATHNAME = $(CLR_RTPATHNAME)\$(CLR_PDB_RTNAME) # PDB full pathname
+SHARPEXT_DLL_RTIMPPATH = $(CLR_RTIMPPATH)
+#-----------------------------------------------------------
+# EXTERNAL SHARP EXE
+SHARPEXT_EXE_RTNAME = $(CLR_EXE_RTNAME)         # Runtime library name
+SHARPEXT_EXE_RTPATH = $(CLR_RTPATHNAME)            # Runtime path name
+SHARPEXT_EXE_RTPATHNAME = $(CLR_RTPATHNAME)\$(CLR_EXE_RTNAME) # Runtime library full pathname
+SHARPEXT_EXE_PDBPATHNAME = $(CLR_RTPATHNAME)\$(CLR_PDB_RTNAME) # PDB full pathname
+SHARPEXT_EXE_RTIMPPATH = $(CLR_RTIMPPATH)
+#
+############################################################
+# CLIENT With compiler JSHARP in RTV_JAVACLIENT
+JAVACLIENTEXT_DLL_RTNAME = $(JAVA_DLL_RTNAME)         # Runtime library name
+JAVACLIENTEXT_DLL_RTPATH = $(CLR_RTPATHNAME)            # Runtime path name
+JAVACLIENTEXT_DLL_RTPATHNAME = $(CLR_RTPATHNAME)\$(JAVA_DLL_RTNAME) # Runtime library full pathname
+JAVACLIENTEXT_DLL_PDBPATHNAME = $(CLR_RTPATHNAME)\$(JAVA_PDB_RTNAME) # PDB full pathname
+JAVACLIENTEXT_DLL_RTIMPPATH = $(CLR_RTIMPPATH)
+#-----------------------------------------------------------
+JAVACLIENTEXT_EXE_RTNAME = $(JAVA_EXE_RTNAME)         # Runtime library name
+JAVACLIENTEXT_EXE_RTPATH = $(CLR_RTPATHNAME)            # Runtime path name
+JAVACLIENTEXT_EXE_RTPATHNAME = $(CLR_RTPATHNAME)\$(JAVA_EXE_RTNAME) # Runtime library full pathname
+JAVACLIENTEXT_EXE_PDBPATHNAME = $(CLR_RTPATHNAME)\$(JAVA_PDB_RTNAME) # PDB full pathname
+JAVACLIENTEXT_EXE_RTIMPPATH = $(CLR_RTIMPPATH)
+#-----------------------------------------------------------
+# SERVER With compiler JSHARP in RTV_JAVASERVER
+JAVASERVER_DLL_VJSPROJNAME = $(JAVA_VJSPROJNAME)
+JAVASERVER_EXE_VJSPROJNAME = $(JAVA_VJSPROJNAME)
+#-----------------------------------------------------------
+JAVASERVER_DLL_RTNAME = $(JAVA_DLL_RTNAME)	# Server Runtime basename
+JAVASERVER_DLL_RTPATH = $(CLR_RTPATHNAME)   # Server Runtime path
+JAVASERVER_DLL_RTPATHNAME = $(CLR_RTPATHNAME)\$(JAVA_DLL_RTNAME)	# Server full Runtime path name
+JAVASERVER_DLL_PDBPATHNAME = $(CLR_RTPATHNAME)\$(JAVA_PDB_RTNAME)	# PDB full pathname
+JAVASERVER_DLL_TLBPATHNAME = $(CLR_RTPATHNAME)\$(JAVA_TLB_RTNAME)
+JAVASERVER_DLL_RTIMPPATH = $(CLR_RTIMPPATH)
+#-----------------------------------------------------------
+JAVASERVEREXT_DLL_RTNAME = $(JAVA_DLL_RTNAME)	# Runtime library name
+JAVASERVEREXT_DLL_RTPATH = $(CLR_RTPATHNAME)	# Runtime path name
+JAVASERVEREXT_DLL_RTPATHNAME = $(CLR_RTPATHNAME)\$(JAVA_DLL_RTNAME)	# Runtime library full pathname
+JAVASERVEREXT_DLL_PDBPATHNAME = $(CLR_RTPATHNAME)\$(JAVA_PDB_RTNAME)# PDB full pathname
+JAVASERVEREXT_DLL_RTIMPPATH = $(CLR_RTIMPPATH)
+#-----------------------------------------------------------
+JAVASERVER_EXE_RTNAME = $(JAVA_EXE_RTNAME)	# Server Runtime basename
+JAVASERVER_EXE_RTPATH = $(CLR_RTPATHNAME)	# Server Runtime path
+JAVASERVER_EXE_RTPATHNAME = $(CLR_RTPATHNAME)\$(JAVA_EXE_RTNAME) # Server full Runtime path name
+JAVASERVER_EXE_PDBPATHNAME = $(CLR_RTPATHNAME)\$(JAVA_PDB_RTNAME) # PDB full pathname
+JAVASERVER_EXE_TLBPATHNAME = $(CLR_RTPATHNAME)\$(JAVA_TLB_RTNAME)
+JAVASERVER_EXE_RTIMPPATH = $(CLR_RTIMPPATH)
+#-----------------------------------------------------------
+JAVASERVEREXT_EXE_RTNAME = $(JAVA_EXE_RTNAME)	# Runtime library name
+JAVASERVEREXT_EXE_RTPATH = $(CLR_RTPATHNAME)	# Runtime path name
+JAVASERVEREXT_EXE_RTPATHNAME = $(CLR_RTPATHNAME)\$(JAVA_EXE_RTNAME) # Runtime library full pathname
+JAVASERVEREXT_EXE_PDBPATHNAME = $(CLR_RTPATHNAME)\$(JAVA_PDB_RTNAME) # PDB full pathname
+JAVASERVEREXT_EXE_RTIMPPATH = $(CLR_RTIMPPATH)
+#-----------------------------------------------------------
+# JPO With compiler JSHARP in RTV_JAVAJPO
+JAVAJPO_DLL_VJSPROJNAME = $(JAVA_VJSPROJNAME)
+JAVAJPO_EXE_VJSPROJNAME = $(JAVA_VJSPROJNAME)
+#-----------------------------------------------------------
+JAVAJPO_DLL_RTNAME = $(JAVA_DLL_RTNAME)	# JPO Runtime basename
+JAVAJPO_DLL_RTPATH = $(CLR_RTPATHNAME)	# JPO Runtime path
+JAVAJPO_DLL_RTPATHNAME = $(CLR_RTPATHNAME)\$(JAVA_DLL_RTNAME)	# JPO full Runtime path name
+JAVAJPO_DLL_PDBPATHNAME = $(CLR_RTPATHNAME)\$(JAVA_PDB_RTNAME)	# PDB full pathname
+JAVAJPO_DLL_TLBPATHNAME = $(CLR_RTPATHNAME)\$(JAVA_TLB_RTNAME)
+JAVAJPO_DLL_RTIMPPATH = $(CLR_RTIMPPATH)
+#-----------------------------------------------------------
+JAVAJPO_EXE_RTNAME = $(JAVA_EXE_RTNAME)	# Server Runtime basename
+JAVAJPO_EXE_RTPATH = $(CLR_RTPATHNAME)	# Server Runtime path
+JAVAJPO_EXE_RTPATHNAME = $(CLR_RTPATHNAME)\$(JAVA_EXE_RTNAME)	# Server full Runtime path name
+JAVAJPO_EXE_PDBPATHNAME = $(CLR_RTPATHNAME)\$(JAVA_PDB_RTNAME)	# PDB full pathname
+JAVAJPO_EXE_TLBPATHNAME = $(CLR_RTPATHNAME)\$(JAVA_TLB_RTNAME)
+JAVAJPO_EXE_RTIMPPATH = $(CLR_RTIMPPATH)
+#-----------------------------------------------------------
+# COMMON With compiler JSHARP in RTV_JAVACOMMON
+JAVACOMMON_DLL_VJSPROJNAME = $(JAVA_VJSPROJNAME)
+JAVACOMMON_EXE_VJSPROJNAME = $(JAVA_VJSPROJNAME)
+#-----------------------------------------------------------
+JAVACOMMON_DLL_RTNAME = $(JAVA_DLL_RTNAME)              # COMMON Runtime basename
+JAVACOMMON_DLL_RTPATH = $(CLR_RTPATHNAME)   # COMMON Runtime path
+JAVACOMMON_DLL_RTPATHNAME = $(CLR_RTPATHNAME)\$(JAVA_DLL_RTNAME) # Server full Runtime path name
+JAVACOMMON_DLL_PDBPATHNAME = $(CLR_RTPATHNAME)\$(JAVA_PDB_RTNAME) # PDB full pathname
+JAVACOMMON_DLL_TLBPATHNAME = $(CLR_RTPATHNAME)\$(JAVA_TLB_RTNAME)
+JAVACOMMON_DLL_RTIMPPATH = $(CLR_RTIMPPATH)
+#-----------------------------------------------------------
+JAVACOMMONEXT_DLL_RTNAME = $(JAVA_DLL_RTNAME)         # Runtime library name
+JAVACOMMONEXT_DLL_RTPATH = $(CLR_RTPATHNAME)            # Runtime path name
+JAVACOMMONEXT_DLL_RTPATHNAME = $(CLR_RTPATHNAME)\$(JAVA_DLL_RTNAME) # Runtime library full pathname
+JAVACOMMONEXT_DLL_PDBPATHNAME = $(CLR_RTPATHNAME)\$(JAVA_PDB_RTNAME) # PDB full pathname
+JAVACOMMONEXT_DLL_RTIMPPATH = $(CLR_RTIMPPATH)
+#-----------------------------------------------------------
+JAVACOMMON_EXE_RTNAME = $(JAVA_EXE_RTNAME)              # COMMON Runtime basename
+JAVACOMMON_EXE_RTPATH = $(CLR_RTPATHNAME)   # COMMON Runtime path
+JAVACOMMON_EXE_RTPATHNAME = $(CLR_RTPATHNAME)\$(JAVA_EXE_RTNAME) # Server full Runtime path name
+JAVACOMMON_EXE_PDBPATHNAME = $(CLR_RTPATHNAME)\$(JAVA_PDB_RTNAME) # PDB full pathname
+JAVACOMMON_EXE_TLBPATHNAME = $(CLR_RTPATHNAME)\$(JAVA_TLB_RTNAME)
+JAVACOMMON_EXE_RTIMPPATH = $(CLR_RTIMPPATH)
+#-----------------------------------------------------------
+JAVACOMMONEXT_EXE_RTNAME = $(JAVA_EXE_RTNAME)         # Runtime library name
+JAVACOMMONEXT_EXE_RTPATH = $(CLR_RTPATHNAME)            # Runtime path name
+JAVACOMMONEXT_EXE_RTPATHNAME = $(CLR_RTPATHNAME)\$(JAVA_EXE_RTNAME) # Runtime library full pathname
+JAVACOMMONEXT_EXE_PDBPATHNAME = $(CLR_RTPATHNAME)\$(JAVA_PDB_RTNAME) # PDB full pathname
+JAVACOMMONEXT_EXE_RTIMPPATH = $(CLR_RTIMPPATH)
+#
+############################################################
+# DOC modules
+DOC_RELOC_DOC = ../$(SHORTNAME)@BRAND@
+DOCBASE_RELOC_DOC = ../..@BACKLANG@
+DOCMAIN_RELOC_DOC = ..
+DOC_RELOCXM_DOC = ../$(SHORTNAME)
+DOCBASE_RELOCXM_DOC = ../..
+DOCMAIN_RELOCXM_DOC = ..
+#-----------------------------------------------------------
+# DOC BASE modules
+DOC_RELOC_DOC_BASE = online@LANG@/$(SHORTNAME)@BRAND@
+DOCBASE_RELOC_DOC_BASE =
+DOCMAIN_RELOC_DOC_BASE = online@LANG@
+DOC_RELOCXM_DOC_BASE = @LANG@/$(SHORTNAME)
+DOCBASE_RELOCXM_DOC_BASE =
+DOCMAIN_RELOCXM_DOC_BASE = @LANG@
+#-----------------------------------------------------------
+# DOC MAIN modules
+DOC_RELOC_DOC_MAIN = $(SHORTNAME)@BRAND@
+DOCBASE_RELOC_DOC_MAIN = ..@BACKLANG@
+DOCMAIN_RELOC_DOC_MAIN =
+DOC_RELOCXM_DOC_MAIN = $(SHORTNAME)
+DOCBASE_RELOCXM_DOC_MAIN = ..
+DOCMAIN_RELOCXM_DOC_MAIN =
+#-----------------------------------------------------------
+# DOC MAP modules
+DOC_RELOC_DOC_MAP = ../$(SHORTNAME)@BRAND@
+DOCMAP_RELOC_DOC_MAP = ../$(SHORTNAME)@BRAND@
+DOCMAIN_RELOC_DOC_MAP = ..
+#-----------------------------------------------------------
+# Gestion RTV pour WS dans concatenation
+DOC_RELOC_EXT = Doc/online@LANG@/$(SHORTNAME)@BRAND@
+DOCMAIN_RELOC_EXT = Doc/online@LANG@
+DOCBASE_RELOC_EXT = Doc
+#-----------------------------------------------------------
+DOCMAP_INTER_DOC_PATH = $(WSPATH)\$(RTV_DOC_PATH)\intermediate_@LANG@\$(SHORTNAME)@BRAND@
+DOCMAP_TEMPO_DOC_PATH = $(WSPATH)\$(RTV_DOC_PATH)\intermediate_@LANG@\$(SHORTNAME)@BRAND@\@FOLDER@
+DOCMAP_DOCXMTEMP_DOC_PATH = $(WSPATH)\DocXMTemp\@LANG@\$(SHORTNAME)\@FOLDER@
+DOCMAP_RTV_DOC_PATH = $(WSPATH)\$(RTV_DOC_PATH)\@LANG@\$(SHORTNAME)@BRAND@
+#
+DOC_RTV_DOCXM_PATH = $(WSPATH)\$(RTV_DOC_PATH)\@LANG@\$(SHORTNAME)
+DOCMAIN_RTV_DOCXM_PATH = $(WSPATH)\$(RTV_DOC_PATH)\@LANG@
+DOCBASE_RTV_DOCXM_PATH = $(WSPATH)\$(RTV_DOC_PATH)
+#
+DOC_RTV_DOC_PATH = $(WSPATH)\$(RTV_DOC_PATH)\online@LANG@\$(SHORTNAME)@BRAND@
+DOCMAIN_RTV_DOC_PATH = $(WSPATH)\$(RTV_DOC_PATH)\online@LANG@
+DOCBASE_RTV_DOC_PATH = $(WSPATH)\$(RTV_DOC_PATH)
+#-----------------------------------------------------------
+# Gestion PATH pour traitement Id2url 
+DOC_PATH_FOR_ID2URL = Doc/online@LANG@/
+DOCMAIN_PATH_FOR_ID2URL = no 
+DOCBASE_PATH_FOR_ID2URL = no
+#
+#####################################################
+# Code Source Checker Databases
+# Interfaces
+CSC_INTF_DBNAME = $(SHORTNAME).cscdb
+CSC_INTF_DBPATHNAME = $(FWPATH)\$(FWCSC_DBPATH)\$(CSC_INTF_DBNAME)  # CSC Cpp Interfaces Database
+#-----------------------------------------------------------
+FWSTD_CSC_DBPATHNAME = $(CSC_INTF_DBPATHNAME)
+#-----------------------------------------------------------
+# Implementation
+CSC_IMPL_DBNAME = $(SHORTNAME).cscdb
+CSC_IMPL_DBPATHNAME = $(MODPATH)\$(MODCSC_DBPATH)\$(CSC_INTF_DBNAME)  # CSC Cpp Interfaces Database
+#-----------------------------------------------------------
+CORBA_SHL_C_CSC_DBPATHNAME = $(CSC_IMPL_DBPATHNAME)
+CORBA_SHL_S_CSC_DBPATHNAME = $(CSC_IMPL_DBPATHNAME)
+NONE_CSC_DBPATHNAME = $(CSC_IMPL_DBPATHNAME)
+AR_CSC_DBPATHNAME = $(CSC_IMPL_DBPATHNAME)
+SHL_CSC_DBPATHNAME = $(CSC_IMPL_DBPATHNAME)
+EL_CSC_DBPATHNAME = $(CSC_IMPL_DBPATHNAME)
+ACTIVEX_C_CSC_DBPATHNAME = $(CSC_IMPL_DBPATHNAME)
+CODYN_C_CSC_DBPATHNAME = $(CSC_IMPL_DBPATHNAME)
+LM_CSC_DBPATHNAME = $(CSC_IMPL_DBPATHNAME)
+#-----------------------------------------------------------
+JAVACLIENT_CSC_DBPATHNAME = $(CSC_IMPL_DBPATHNAME)
+JAVASERVER_CSC_DBPATHNAME = $(CSC_IMPL_DBPATHNAME)
+JAVAJPO_CSC_DBPATHNAME = $(CSC_IMPL_DBPATHNAME)
+JAVACOMMON_CSC_DBPATHNAME = $(CSC_IMPL_DBPATHNAME)
+#
+#####################################################
+# TCLKIT
+TCLKIT_OUTPUT_PATH = $(WSPATH)\$(RTV_PATH)\code\tclkit
+TCLKIT_STARKIT_PATH = $(TCLKIT_OUTPUT_PATH)\$(PROGNAME).kit
+TCLKIT_STARPACK_PATH = $(TCLKIT_OUTPUT_PATH)\$(PROGNAME).exe
+#

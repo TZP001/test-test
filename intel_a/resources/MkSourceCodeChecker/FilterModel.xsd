@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+
+<!-- ============== XSD Schema =========================== -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.3ds.mkcs"
+           xmlns:mkcs="http://www.3ds.mkcs"
+           elementFormDefault="qualified">
+
+  <!-- Description -->
+  <xs:complexType name="MkcsDescription">
+    <xs:attribute name ="Infos" type="xs:string" use="required"/>
+  </xs:complexType>
+  <!-- End of Description -->
+
+  <!-- Location -->
+  <xs:complexType name="MkcsLocation">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element name ="Description" type="mkcs:MkcsDescription"/>
+    </xs:choice>
+    <xs:attribute name ="Maingroup" type="xs:string" use="optional"/>
+    <xs:attribute name ="Subgroup" type="xs:string" use="optional"/>
+    <xs:attribute name ="File" type="xs:string" use="optional"/>
+  </xs:complexType>
+  <!-- End of Location -->
+  
+  <!-- Filter -->
+  <xs:complexType name="MkcsFilter">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element name ="Location" type="mkcs:MkcsLocation"/>
+    </xs:choice>
+    <xs:attribute name ="Label" type="xs:string" use="required"/>
+  </xs:complexType>
+  <!-- End of Filter -->
+
+  <!-- FilteringSet -->
+  <xs:complexType name="MkcsFilteringSet">
+    <xs:choice minOccurs="1" maxOccurs="unbounded">
+      <xs:element name ="Filter" type="mkcs:MkcsFilter"/>
+    </xs:choice>
+  </xs:complexType>
+  <!-- End of FilteringSet -->
+  
+  <!-- ============== Root =========================== -->
+  <xs:element name="FilteringSet" type="mkcs:MkcsFilteringSet"/>
+  <!-- ============== End of Root =========================== -->
+  
+</xs:schema>
+<!-- ============== End of XSD Schema =========================== -->

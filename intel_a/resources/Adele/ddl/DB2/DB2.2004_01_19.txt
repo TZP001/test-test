@@ -1,0 +1,58 @@
+------------------------------- Add new columns in workspace table -----------------------------------
+
+[Departmental Step 1]
+RENAME transfer TO transfer1;
+
+[Departmental Step 2]
+CREATE TABLE adl.transfer
+(
+	id                 VARCHAR(20) NOT NULL,
+	case_name          VARCHAR(32) NOT NULL,
+	lower_name         VARCHAR(32) NOT NULL,
+	multi_tree_ws      VARCHAR(20) NOT NULL,
+	image              VARCHAR(20)         ,
+	case_store_path    VARCHAR(512)        ,
+	lower_store_path   VARCHAR(512)        ,
+	local_path_host    VARCHAR(255)        ,
+	is_server          VARCHAR(512)        ,
+	is_server_host     VARCHAR(255)        ,
+	is_server_port     INTEGER             ,
+	site2              VARCHAR(20)         ,
+	is_with_mirror_ws  VARCHAR(1)  NOT NULL,
+	creation_hist_evt  VARCHAR(20) NOT NULL
+)
+--TABLESPACE tablespace_name
+;
+
+[Departmental Step 3]
+INSERT INTO adl.transfer 
+(
+ id, case_name, lower_name, multi_tree_ws, is_with_mirror_ws, image,
+ case_store_path, lower_store_path, local_path_host, is_server, is_server_host, is_server_port,
+ site2, creation_hist_evt
+)
+SELECT
+ t1.id, t1.case_name, t1.lower_name, t1.multi_tree_ws, 'Y', t1.image,  
+ t1.case_store_path, t1.lower_store_path, t1.local_path_host, t1.is_server, t1.is_server_host, t1.is_server_port,
+ t1.site2, t1.creation_hist_evt
+FROM adl.transfer1 t1;
+
+COMMIT;
+
+[Departmental Step 4]
+DROP TABLE adl.transfer1;
+
+[Departmental Step 5]
+-- * Recherche sur identifiant
+CREATE UNIQUE INDEX adl.i_transfer_1 ON adl.transfer (id);
+
+[Departmental Step 6]
+-- * Recherche sur espace de travail multi-arborescence et nom
+CREATE        INDEX adl.i_transfer_2 ON adl.transfer (multi_tree_ws, lower_name);
+
+
+------------------------------- New index in so_resp_in_wstree table ----------------------------------
+
+[Departmental Step 7]
+-- *Recherche du responsable de tous les objets dans une arborescence
+CREATE INDEX        adl.i_so_resp_wstree_3 ON adl.so_resp_in_wstree (workspace_tree, responsible);

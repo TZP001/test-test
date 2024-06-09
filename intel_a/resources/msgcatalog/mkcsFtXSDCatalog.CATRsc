@@ -1,0 +1,18 @@
+//*********************************************************************************************************************
+// XSD CONTENT
+//***************
+mkcsFilter.XSD.sortedKeys		= "mkcsFilter.XSD.fileBegin|mkcsFilter.XSD.schema|mkcsFilter.XSD.descriptionNode|mkcsFilter.XSD.locationNode|mkcsFilter.XSD.filterNode|mkcsFilter.XSD.filteringSetNode|mkcsFilter.XSD.rootNode|mkcsFilter.XSD.fileEnd";
+mkcsFilter.XSD.fileBegin		= "<?xml version='1.0' encoding='UTF-8' ?>";
+mkcsFilter.XSD.schema			= "<xs:schema xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" targetNamespace=\"http://www.3ds.mkcs\" xmlns:mkcs=\"http://www.3ds.mkcs\" elementFormDefault=\"qualified\">";
+mkcsFilter.XSD.descriptionNode	= "<xs:complexType name=\"MkcsDescription\"><xs:attribute name =\"Infos\" type=\"xs:string\" use=\"required\"/></xs:complexType>";
+mkcsFilter.XSD.locationNode		= "<xs:complexType name=\"MkcsLocation\"><xs:choice minOccurs=\"0\" maxOccurs=\"unbounded\"><xs:element name =\"Description\" type=\"mkcs:MkcsDescription\"/></xs:choice><xs:attribute name =\"Maingroup\" type=\"xs:string\" use=\"optional\"/><xs:attribute name =\"Subgroup\" type=\"xs:string\" use=\"optional\"/><xs:attribute name =\"File\" type=\"xs:string\" use=\"optional\"/></xs:complexType>";
+mkcsFilter.XSD.filterNode		= "<xs:complexType name=\"MkcsFilter\"><xs:choice minOccurs=\"0\" maxOccurs=\"unbounded\"><xs:element name =\"Location\" type=\"mkcs:MkcsLocation\"/></xs:choice><xs:attribute name =\"Label\" type=\"xs:string\" use=\"required\"/></xs:complexType>";
+mkcsFilter.XSD.filteringSetNode	= "<xs:complexType name=\"MkcsFilteringSet\"><xs:choice minOccurs=\"1\" maxOccurs=\"unbounded\"><xs:element name =\"Filter\" type=\"mkcs:MkcsFilter\"/></xs:choice></xs:complexType>";
+mkcsFilter.XSD.rootNode			= "<xs:element name=\"FilteringSet\" type=\"mkcs:MkcsFilteringSet\"/>";
+mkcsFilter.XSD.fileEnd			= "</xs:schema>";
+
+
+
+
+
+

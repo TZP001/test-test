@@ -1,0 +1,459 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<DSxDevCodeGen><Content ModuleName = "DI0PANV2"><ExportData Name = "CATDlgFrame" Version = "1.0" Inheritable = "true" LightSimulationOnly = "false">
+      <Behavior Model = "Frame"/>
+      <Toolbox Category = "DS Dialog Container" IconName = "IDDTbxFrame" DisplayName = "CATDlgFrame">
+        <Description><![CDATA[
+Class to gather controls having something in common.
+Role: Gathers controls having something in common. The frame is designed to group several Dialog framework objects, like controls and labels, having something in common from the user or from the application point of view. The frame is the basic container to gather controls, and possibly other containers. These objects should be related to each other. A frame can be visible or invisible. A visible frame is displayed as a rectangular box, and can have a title.
+]]></Description>
+      </Toolbox>
+      <MetaModel>
+        <Properties>
+          <HideTitle Type = "bool" Default = "false" Category = "Style" Mergeable = "true" Description = "Sets whether the title is visible or not."/>
+          <HideFrame Type = "bool" Default = "false" Category = "Style" Mergeable = "true" Description = "Sets whether the border frame is visible or not."/>
+          <LayoutType Type = "DLGLayoutType" Default = "Grid" Category = "Layout" Mergeable = "false" Description = "Sets the layout manager for the container"/>
+          <Enabled Type = "bool" Default = "true" Category = "General" Mergeable = "true" Description = "Sets whether the widget is enabled."/>
+          <Visible Type = "bool" Default = "true" Category = "General" Mergeable = "true" Description = "Sets whether the widget is visible."/>
+          <Title Type = "string" Default = "" Category = "Text Resources" Mergeable = "true" Description = "Title or text content of the widget."/>
+          <Accelerator Type = "string" Default = "" Category = "Text Resources" Mergeable = "true" Description = "The accelerator of the dialog object as a CATUnicodeString instance."/>
+          <Help Type = "string" Default = "" Category = "Text Resources" Mergeable = "true" Description = "The help message displayed in the message area of the status bar."/>
+          <ShortHelp Type = "string" Default = "" Category = "Text Resources" Mergeable = "true" Description = "The short help message (or tooltip) of the dialog object."/>
+          <LongHelp Type = "string" Default = "" Category = "Text Resources" Mergeable = "true" Description = "The message is displayed in a box when the What's This command is used."/>
+          <IconNormal Type = "DLGIcon" Default = "" Category = "Icons" Mergeable = "true" Description = "The name of the icon in its default state"/>
+          <IconSelected Type = "DLGIcon" Default = "" Category = "Icons" Mergeable = "true" Description = "The name of the icon when the dialog object is selected"/>
+          <IconFocussed Type = "DLGIcon" Default = "" Category = "Icons" Mergeable = "true" Description = "The name of the icon when the dialog object is on focus"/>
+        </Properties>
+        <Callbacks>
+          <DragCancel Type = "CATCommandMethod" Category = "Common" Mergeable = "true" Description = "Sent whenever a mouse drag mechanism stops."/>
+          <DragButton Type = "CATCommandMethod" Category = "Common" Mergeable = "true" Description = "Sent whenever a mouse drag mechanism starts on a button."/>
+          <DragEnter Type = "CATCommandMethod" Category = "Common" Mergeable = "true" Description = "Sent whenever a mouse drag enters the window."/>
+          <DragLeave Type = "CATCommandMethod" Category = "Common" Mergeable = "true" Description = "Sent whenever a mouse drag leaves the window."/>
+          <DragOver Type = "CATCommandMethod" Category = "Common" Mergeable = "true" Description = "Sent whenever a mouse drag rolls over the window."/>
+          <DragDrop Type = "CATCommandMethod" Category = "Common" Mergeable = "true" Description = "Sent whenever a mouse drop happens. This notification is sent by the target of the drag&amp;drop operation."/>
+          <DragDropEnd Type = "CATCommandMethod" Category = "Common" Mergeable = "true" Description = "Sent whenever a mouse drop happens.This notification is sent by the source of the drag&amp;drop operation."/>
+          <HelpRequested Type = "CATCommandMethod" Category = "Common" Mergeable = "true" Description = "Sent whenever the object is selected using the What's This command."/>
+          <Resized Type = "CATCommandMethod" Category = "Common" Mergeable = "true" Description = "Sent whenever the object is resized."/>
+          <DragStart Type = "CATCommandMethod" Category = "Common" Mergeable = "true" Description = "Sent whenever a mouse drag mechanism begins."/>
+          <VisibilityChanged Type = "CATCommandMethod" Category = "Common" Mergeable = "true" Description = "Sent whenever the object visibility is modified."/>
+        </Callbacks>
+      </MetaModel>
+      <Production>
+        <Instantiation>
+          <Code><![CDATA[
+
+<@
+int flags;
+if $HideTitle=="true" {
+flags|='CATDlgFraNoTitle';
+}
+if $HideFrame=="true" {
+flags|='CATDlgFraNoFrame';
+}
+flags|= ${final:LayoutType};@>
+$InstanceName=new CATDlgFrame($ParentName,(const char*)${final:Name},<@flags@>);
+
+]]></Code>
+        </Instantiation>
+        <Build>
+          <Code><![CDATA[
+<@configuration Generation {
+if $DragCancel!="" {@>
+AddAnalyseNotificationCB($InstanceName, $InstanceName->GetCancelDragNotification(),(CATCommandMethod)&$ClassName::$DragCancel,NULL);
+<@}
+if $DragButton!="" {@>
+AddAnalyseNotificationCB($InstanceName, $InstanceName->GetDragButtonNotification(),(CATCommandMethod)&$ClassName::$DragButton,NULL);
+<@}
+if $DragEnter!="" {@>
+AddAnalyseNotificationCB($InstanceName, $InstanceName->GetDragEnterNotification(),(CATCommandMethod)&$ClassName::$DragEnter,NULL);
+<@}
+if $DragLeave!="" {@>
+AddAnalyseNotificationCB($InstanceName, $InstanceName->GetDragLeaveNotification(),(CATCommandMethod)&$ClassName::$DragLeave,NULL);
+<@}
+if $DragOver!="" {@>
+AddAnalyseNotificationCB($InstanceName, $InstanceName->GetDragOverNotification(),(CATCommandMethod)&$ClassName::$DragOver,NULL);
+<@}
+if $DragDrop!="" {@>
+AddAnalyseNotificationCB($InstanceName, $InstanceName->GetDropNotification(),(CATCommandMethod)&$ClassName::$DragDrop,NULL);
+<@}
+if $DragDropEnd!="" {@>
+AddAnalyseNotificationCB($InstanceName, $InstanceName->GetEndDropNotification(),(CATCommandMethod)&$ClassName::$DragDropEnd,NULL);
+<@}
+if $HelpRequested!="" {@>
+AddAnalyseNotificationCB($InstanceName, $InstanceName->GetHelpNotification(),(CATCommandMethod)&$ClassName::$HelpRequested,NULL);
+<@}
+if $Resized!="" {@>
+AddAnalyseNotificationCB($InstanceName, $InstanceName->GetResizeNotification(),(CATCommandMethod)&$ClassName::$Resized,NULL);
+<@}
+if $DragStart!="" {@>
+AddAnalyseNotificationCB($InstanceName, $InstanceName->GetStartDragNotification(),(CATCommandMethod)&$ClassName::$DragStart,NULL);
+<@}
+if $VisibilityChanged!="" {@>
+AddAnalyseNotificationCB($InstanceName, $InstanceName->GetVisibilityNotification(),(CATCommandMethod)&$ClassName::$VisibilityChanged,NULL);
+<@}
+}
+configuration XAML {@>
+if(cmd!=NULL && m_DragCancel!="") {
+cmd->AddCBAnalyse($InstanceName, $InstanceName->GetCancelDragNotification(),m_DragCancel);
+}
+if(cmd!=NULL && m_DragButton!="") {
+cmd->AddCBAnalyse($InstanceName, $InstanceName->GetDragButtonNotification(),m_DragButton);
+}
+if(cmd!=NULL && m_DragEnter!="") {
+cmd->AddCBAnalyse($InstanceName, $InstanceName->GetDragEnterNotification(),m_DragEnter);
+}
+if(cmd!=NULL && m_DragLeave!="") {
+cmd->AddCBAnalyse($InstanceName, $InstanceName->GetDragLeaveNotification(),m_DragLeave);
+}
+if(cmd!=NULL && m_DragOver!="") {
+cmd->AddCBAnalyse($InstanceName, $InstanceName->GetDragOverNotification(),m_DragOver);
+}
+if(cmd!=NULL && m_DragDrop!="") {
+cmd->AddCBAnalyse($InstanceName, $InstanceName->GetDropNotification(),m_DragDrop);
+}
+if(cmd!=NULL && m_DragDropEnd!="") {
+cmd->AddCBAnalyse($InstanceName, $InstanceName->GetEndDropNotification(),m_DragDropEnd);
+}
+if(cmd!=NULL && m_HelpRequested!="") {
+cmd->AddCBAnalyse($InstanceName, $InstanceName->GetHelpNotification(),m_HelpRequested);
+}
+if(cmd!=NULL && m_Resized!="") {
+cmd->AddCBAnalyse($InstanceName, $InstanceName->GetResizeNotification(),m_Resized);
+}
+if(cmd!=NULL && m_DragStart!="") {
+cmd->AddCBAnalyse($InstanceName, $InstanceName->GetStartDragNotification(),m_DragStart);
+}
+if(cmd!=NULL && m_VisibilityChanged!="") {
+cmd->AddCBAnalyse($InstanceName, $InstanceName->GetVisibilityNotification(),m_VisibilityChanged);
+}
+<@}
+
+if ${/HandleResources}!="true" {
+if (${Title/IsDefault}=="false"){@>
+$InstanceName->SetTitle(${final:Title});
+<@}
+if (${Help/IsDefault}=="false"){@>
+$InstanceName->SetHelp(${final:Help});
+<@}
+if (${ShortHelp/IsDefault}=="false"){@>
+$InstanceName->SetShortHelp(${final:ShortHelp});
+<@}
+if (${LongHelp/IsDefault}=="false"){@>
+$InstanceName->SetLongHelp(${final:LongHelp});
+<@}
+if (${Accelerator/IsDefault}=="false"){@>
+$InstanceName->SetAcceleratorString(${final:Accelerator});
+<@}
+if (${IconNormal/IsDefault}=="false") || (${IconSelected/IsDefault}=="false") || (${IconFocussed/IsDefault}=="false") { @>
+$InstanceName->SetIconName((const char*)${string:IconNormal},(const char*)${string:IconSelected},(const char*)${string:IconFocussed});
+<@}
+}
+if ${/HandleResources}=="true" {
+configuration Simulation {@>
+CATUnicodeString catalog = $MsgCatalog;
+CATUnicodeString path=$WidgetPath;
+CATUnicodeString key=path;
+key.Append("Title");
+
+$InstanceName->SetTitle(CATMsgCatalog::BuildMessage((const char*)catalog, (const char*)key));
+
+key=path;
+key.Append("Help");
+$InstanceName->SetHelp(CATMsgCatalog::BuildMessage((const char*)catalog, (const char*)key));
+key=path;
+key.Append("ShortHelp");
+$InstanceName->SetShortHelp(CATMsgCatalog::BuildMessage((const char*)catalog, (const char*)key));
+key=path;
+key.Append("LongHelp");
+$InstanceName->SetLongHelp(CATMsgCatalog::BuildMessage((const char*)catalog, (const char*)key));
+key=path;
+key.Append("Accelerator");
+$InstanceName->SetAcceleratorString(CATMsgCatalog::BuildMessage((const char*)catalog, (const char*)key));
+CATUnicodeString iconKey=path;
+iconKey.Append("Icon");
+CATUnicodeString iconSelKey=path;
+iconSelKey.Append("IconSel");
+CATUnicodeString iconFocusKey=path;
+iconFocusKey.Append("IconFocus");
+
+CATString iconName,iconSelName,iconFocusName;
+CATRscCatalog::BuildResource((const char*)catalog, (const char*)iconKey, iconName);
+CATRscCatalog::BuildResource((const char*)catalog, (const char*)iconSelKey, iconSelName);
+CATRscCatalog::BuildResource((const char*)catalog, (const char*)iconFocusKey, iconFocusName);
+$InstanceName->SetIconName(iconName, iconSelName, iconFocusName);
+<@
+}
+}
+
+if (${Enabled/IsDefault}=="false"){@>
+$InstanceName->SetSensitivity(${DLGEnabled:Enabled});
+<@}
+if (${Visible/IsDefault}=="false"){@>
+$InstanceName->SetVisibility(${DLGVisible:Visible});
+<@}
+
+if $GridLayoutConstraint!="" {
+int gridAnchor;
+if ${GridLayoutConstraint/Anchor/AttachedToLeft}=="true" {
+gridAnchor|='CATGRID_LEFT';
+}
+if ${GridLayoutConstraint/Anchor/AttachedToRight}=="true" {
+gridAnchor|='CATGRID_RIGHT';
+}
+if ${GridLayoutConstraint/Anchor/AttachedToTop}=="true" {
+gridAnchor|='CATGRID_TOP';
+}
+if ${GridLayoutConstraint/Anchor/AttachedToBottom}=="true" {
+gridAnchor|='CATGRID_BOTTOM';
+}
+if ${GridLayoutConstraint/Anchor/ConstantWidth}=="true" {
+gridAnchor|='CATGRID_CST_WIDTH';
+}
+if ${GridLayoutConstraint/Anchor/ConstantHeight}=="true" {
+gridAnchor|='CATGRID_CST_HEIGHT';
+}@>
+$InstanceName->SetGridConstraints(${int:GridLayoutConstraint/Row},${int:GridLayoutConstraint/Col},${int:GridLayoutConstraint/Width},${int:GridLayoutConstraint/Height},<@gridAnchor@>);
+<@}@>
+
+
+
+<@if $GridResizableData!="" {
+foreach ${GridResizableData/ResizableRows} {@>
+${/InstanceName}->SetGridRowResizable(${int:this},1);
+<@}
+foreach ${GridResizableData/ResizableColumns} {@>
+${/InstanceName}->SetGridColumnResizable(${int:this},1);
+<@}
+}
+
+configuration Generation {
+if $TabulationLayoutData!="" { 
+foreach ${TabulationLayoutData/HorizontalLines} {
+if $Attachment != "Undefined" {@>
+${/InstanceName}->SetHorizontalAttachment($Num,(CATDlgAttachment)${DLGTabAttachmentType:Attachment},
+<@foreach $AttachedWidgets {@>_$this,<@}@>NULL);
+<@}
+}
+foreach ${TabulationLayoutData/VerticalLines} {
+if $Attachment != "Undefined" {@>
+${/InstanceName}->SetVerticalAttachment($Num,(CATDlgAttachment)${DLGTabAttachmentType:Attachment},
+<@foreach $AttachedWidgets {@>_$this,<@}@>NULL);
+<@}
+}
+}
+}@>
+
+
+
+]]></Code>
+        </Build>
+        <Declarations>
+          <Code><![CDATA[
+class CATDlgFrame;
+
+]]></Code>
+        </Declarations>
+        <Includes>
+          <Code><![CDATA[
+#include "CATDlgFrame.h"
+<@configuration Simulation {@>#include "CATDlgGridConstraints.h"
+#include "CATMsgCatalog.h"
+#include "CATRscCatalog.h"
+<@}@>
+]]></Code>
+        </Includes>
+        <HeaderCode>
+          <Code><![CDATA[
+<@ function DeclareWidgets {@>
+$Variables<@foreach ${Children} {
+call DeclareWidgets;
+}
+}@>
+
+<@ function DeclareClasses {@>
+$Declarations<@foreach ${Children} {
+call DeclareClasses;
+}
+}@>
+
+<@! Begin of class declaration !@>
+
+// BEGIN OF HEADER CODE
+// ----------------------------------------
+    <@! Includes of the header file, based on the widget used in the dialog !@>
+#ifndef ${/ClassName}_h
+#define ${/ClassName}_h
+
+#include "CATDlgFrame.h"
+<@unique 2 {@>
+<@foreach ${/DesignModel/RootWidget/Children} {
+call DeclareClasses;
+}
+}@>
+
+<@ usercode ${/CodeModel/UserCodes/ClassIncludes}; @>
+
+<@! Class declaration !@>
+
+<@if ${/Exported}=="true" {@>
+#ifdef  _WINDOWS_SOURCE
+#ifdef  __${/ModuleName}
+#define ${/ExportVariable}  __declspec(dllexport)
+#else
+#define ${/ExportVariable}     __declspec(dllimport)
+#endif
+#else
+#define ${/ExportVariable}
+#endif
+
+<@}@>
+class<@specialtext SPC; @>${/ExportVariable}<@specialtext SPC; @>${/ClassName} : public CATDlgFrame {
+<@if ${/HandleResources}=="true" {@>DeclareResource(${/ClassName}, CATDlgFrame)
+<@}@>
+public:
+	${/ClassName}(CATDialog * iParent, const CATString& iDialogName);
+	virtual ~${/ClassName}();
+	void Build();
+
+	// Copy ctor and assignment operators are declared but not defined by infra
+	${/ClassName}(const $ClassName&);
+	${/ClassName}& operator= (const $ClassName&);
+
+private:
+<@! List of widgets !@>
+<@foreach ${/DesignModel/RootWidget/Children} {@><@call DeclareWidgets;@><@}@>
+<@! End of List of widgets !@>
+
+<@! List of callbacks !@>
+
+<@foreach ${/CodeModel/Callbacks} {@>${ReturnType}<@specialtext SPC; @>$Name(${Arguments});
+<@}@>
+<@! End of callbacks !@>
+
+<@usercode ${/CodeModel/UserCodes/ClassMembers};@>
+};
+
+#endif
+
+]]></Code>
+        </HeaderCode>
+        <ImplementCode>
+          <Code><![CDATA[
+<@ function DeclareHeaders {@>
+$Includes<@foreach ${Children} {
+call DeclareHeaders;
+}
+}@>
+
+<@function ConstructWidgets {@>
+$Construction<@foreach ${Children} {
+call ConstructWidgets;
+}
+}@>
+
+<@function DestructWidgets {@>
+$Destruction<@foreach ${Children} {
+call DestructWidgets;
+}
+}@>
+
+<@! Begin of Class Implementation !@>
+
+// ----------------------------------------
+// BEGIN OF IMPLEMENTATION CODE
+// ----------------------------------------
+#include "$ClassName.h"
+#include "CATDlgGridConstraints.h"
+<@unique 2 {@>
+<@foreach ${/DesignModel/RootWidget/Children} {
+call DeclareHeaders;
+}
+}@>
+
+<@usercode ${/CodeModel/UserCodes/ImplementIncludes}; @>
+<@specialtext NL; @>
+${/ClassName}::${/ClassName}(CATDialog* iParent, const CATString& iName)
+    :CATDlgFrame(iParent,iName,0
+<@if ${/DesignModel/RootWidget/HideTitle}=="true" { @>|CATDlgFraNoTitle
+<@}@>
+<@if ${/DesignModel/RootWidget/HideFrame}=="true" { @>|CATDlgFraNoFrame
+<@}@>| ${final:/DesignModel/RootWidget/LayoutType}
+)
+{
+
+
+<@foreach ${/DesignModel/RootWidget/Children} {
+call ConstructWidgets;
+}@>
+<@usercode ${/CodeModel/UserCodes/DialogConstructor};@>
+}
+
+${/ClassName}::~${/ClassName}()
+{
+<@usercode ${/CodeModel/UserCodes/DialogDestructor};@>
+<@foreach ${/DesignModel/RootWidget/Children} {
+call DestructWidgets;
+}@>
+}
+
+<@ function GetPreBuildCode { @>
+$PreBuild<@foreach ${Children} {
+call GetPreBuildCode;
+}
+}@>
+
+<@ function InstantiateWidgets { @>
+$Instantiation<@foreach ${Children} {
+call InstantiateWidgets;
+}
+}@>
+
+<@ function BuildWidgets { @>
+$Build<@foreach ${Children} {
+call BuildWidgets;
+}
+}@>
+
+void $ClassName::Build() 
+{
+int style=0;
+${/DesignModel/RootWidget/PreBuild}
+<@foreach ${/DesignModel/RootWidget/Children} {
+call GetPreBuildCode;
+}@>
+<@usercode ${/CodeModel/UserCodes/PreBuildCode};@>
+
+<@foreach ${/DesignModel/RootWidget/Children} {
+call InstantiateWidgets;
+}@>
+
+${/DesignModel/RootWidget/Build}
+<@foreach ${/DesignModel/RootWidget/Children} {
+call BuildWidgets;
+}@>
+
+<@! Generated build code to put here!@>
+<@usercode ${/CodeModel/UserCodes/BuildAdditionalCode};@>
+}
+
+<@! Begin of Callbacks Implementation !@>
+<@foreach ${/CodeModel/Callbacks} {@>
+${ReturnType}<@specialtext SPC; @>${/ClassName}::$Name(${Arguments})
+{
+<@usercode $UserCode; @>
+}
+<@}@>
+<@! End of Callbacks Implementation !@>
+
+<@! Begin of User Implement code !@>
+// You can put here the implementation of class methods
+<@usercode ${/CodeModel/UserCodes/UserImplementCode};@>
+
+// End of implementation of class methods
+<@! End of User Implement code !@>
+
+<@! End of Class Implementation !@>
+
+]]></Code>
+        </ImplementCode>
+      </Production>
+    </ExportData></Content></DSxDevCodeGen>

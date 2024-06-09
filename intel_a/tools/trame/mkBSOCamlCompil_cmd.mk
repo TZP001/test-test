@@ -1,0 +1,27 @@
+#
+# Specifications for Build step mkBSOCamlCompil
+#
+OCAML_LIBS=$(OCAMLROOT_PATH)/lib/ocaml
+OCAML_BIN=$(OCAMLROOT_PATH)/bin
+#---------------------
+OCAMLDEP_PGM = $(OCAML_BIN)/ocamldep
+#
+OCAML_BUILDORDER = .buildorder.ocamldep
+OCAMLDEP_OUT = ocamldep.out
+OCAMLDEP_ERR = ocamldep.error
+OCAMLDEP_CMD = $(OCAMLDEP_PGM) -I . $(OCAML_INCLUDE) -native %SOURCES~n%
+#
+#---------------------
+OCAMLC_COMPILER = $(OCAML_BIN)/ocamlc
+OCAMLC_OPTS = $(LOCAL_OCAMLCFLAGS) $(LOCAL_POST_OCAMLCFLAGS)
+OCAMLC_CMD = $(OCAMLC_COMPILER) $(OCAMLC_OPTS) -I . $(OCAML_INCLUDE) -I $(OCAML_LIBS) -c
+#
+#---------------------
+OCAMLOPT_COMPILER = $(OCAML_BIN)/ocamlopt
+OCAMLOPT_OPTS = $(LOCAL_OCAMLOPTFLAGS) $(LOCAL_POST_OCAMLOPTFLAGS)
+OCAMLOPT_CMD = $(OCAMLOPT_COMPILER) $(OCAMLOPT_OPTS) -I . $(OCAML_INCLUDE) -I $(OCAML_LIBS) -c
+#
+#
+DGM_VERSION = 1.0
+#
+

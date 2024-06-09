@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<Wizard name="Wizard">
+<!-- layout Part -->
+<Sheet name="SearchSheet" layout="e:\DialogSample.XMLDlg" />
+<Sheet name="ResultSheet" layout="e:\DialogSample.XMLDlg" />
+<!-- Session Data Part -->
+<SessionData name="EnvironnementUserChoice" type="String" />
+<SessionData name="Result" type="String" />
+<!-- Behavior Part -->
+<Behavior name="Behavior1" trigger="Wizard.SearchSheet.OnNextEvent" >
+<!-- Container Part -->
+<Container name="WidgetInputContainer" xPos="648" yPos="193" >
+<Widget name="Wizard.SearchSheet._Label1" />
+<Widget name="Wizard.SearchSheet._EnvName1" />
+<Widget name="Wizard.SearchSheet._list" />
+</Container>
+<Container name="WidgetOutputContainer" xPos="15" yPos="123" >
+<Widget name="Wizard.SearchSheet._Label1" />
+<Widget name="Wizard.SearchSheet._EnvName1" />
+<Widget name="Wizard.SearchSheet._list" />
+</Container>
+<Container name="SessionDataContainer" xPos="638" yPos="83" >
+</Container>
+<!-- Ordonnanced actions -->
+<Action name="getQuote" errorMessage="An error has occured !" xPos="332" yPos="313"/>
+<!-- Link Sub Parts -->
+<Link name="Link" in="Wizard.Behavior1.getQuote.result" out="Wizard.Result" />
+<Link name="Link" in="Wizard.SearchSheet._Label1.Title" out="Wizard.Behavior1.getQuote.symbol" />
+<Link name="Link" in="Wizard.Behavior1.getQuote.result" out="Wizard.SearchSheet._Label1.Title" />
+</Behavior>
+<Behavior name="behavior2" trigger="Wizard.ResultSheet._Label1.OnFocus" >
+<!-- Container Part -->
+<Container name="WidgetInputContainer" xPos="638" yPos="158" >
+<Widget name="Wizard.ResultSheet._tree" />
+<Widget name="Wizard.ResultSheet._Label1" />
+</Container>
+<Container name="WidgetOutputContainer" xPos="19" yPos="138" >
+<Widget name="Wizard.ResultSheet._tree" />
+<Widget name="Wizard.ResultSheet._Label1" />
+</Container>
+<Container name="SessionDataContainer" xPos="616" yPos="54" >
+</Container>
+<!-- Ordonnanced actions -->
+<Action name="getQuote" errorMessage="An error has occured !" xPos="349" yPos="316"/>
+<!-- Link Sub Parts -->
+<Link name="Link" in="Wizard.behavior2.getQuote.result" out="Wizard.Result" />
+<Link name="Link" in="Wizard.ResultSheet._Label1.Title" out="Wizard.behavior2.getQuote.symbol" />
+</Behavior>
+</Wizard>

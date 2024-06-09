@@ -1,0 +1,15 @@
+#
+# Specifications for Build step mkBSCompil
+#
+METACLASS_NAME = Compilation
+METACLASS_SOURCE = Grammar
+#
+DGM_GRAPH_PATH = FWDGM_GRAPHPATH
+#
+#SYSTEM_HEADERS = System/ProtectedInterfaces
+COPYRIGHTROOT_PATH = $(CopyrightROOT_PATH)
+TABLECOPYRIGHT = TableCopyright.mk
+COPYRIGHTMK = Copyright.mk
+#
+DGM_DEPEND = CPP_OPTS COPYRIGHT COPYRIGHTROOT_PATH
+#

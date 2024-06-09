@@ -1,0 +1,55 @@
+if "%MKMK_PROGNAME%" == "" set MKMK_PROGNAME="CNEXT.exe"
+
+set CATMsgCatalogPath=
+set CATDictionaryPath=
+set CATICPath=
+set PWD=
+set %PATH_NAME%=%PATH_setcatenv%
+set OSDS=%MkmkOS_Buildtime%
+
+set CATDefaultEnvironment=%DEFDefaultEnvironment%
+if not "%NEWDefaultEnvironment%" == ""  set CATDefaultEnvironment=%NEWDefaultEnvironment%
+if "%NEWDefaultEnvironment%" == "" call setcatenv.exe -p "%MKMK_LST_RTV%" -e %CATDefaultEnvironment%
+
+if not exist  c:\temp mkdir c:\temp
+
+set TNS_ADMIN=
+set ORA_NLS33=
+set ORACLE_HOME=
+
+if not exist  c:\temp\CATSettings mkdir c:\temp\CATSettings
+
+set CATUserSettingPath=%ITtoolsUserSettingPath%
+
+CATDBENB VPMADMIN %ORACLE_SID% ORACLE Server tacr ovbupc
+CATDBENB VPMPEOPLE %ORACLE_SID%  ORACLE Server tacr ovbupc
+CATDBENB VPMPUBSUB %ORACLE_SID%  ORACLE Server tacr ovbupc
+CATDBENB ENOCOMMON %ORACLE_SID%  ORACLE Server tacr ovbupc
+
+PR0ADSRB VPMADMIN VPMADMIN TACR
+PR0ADSRB VPMPEOPLE VPMPEOPLE TACR
+PR0ADSRB VPMPUBSUB VPMPUBSUB TACR
+PR0ADSRB ENOCOMMON ENOCOMMON TACR
+
+cp %ITtoolsVPMAdminPath% %CATUserSettingPath%
+
+attrib -R  %CATUserSettingPath%\VPMAdmin.CATSettings
+
+VPMSettings -a -n VPM_ADMINISTRATOR -v TACR
+VPMSettings -a -n VPM_DATA_ADM -v TACR
+
+SDMRepoManager -add -type CDMStep -name ENOCOMMON
+SDMRepoManager -add -type CDMStep -name VPMPUBSUB
+SDMRepoManager -add -type CDMStep -name VPMPEOPLE
+SDMRepoManager -add -type CDMStep -name VPMADMIN
+
+chcatenv.exe -e %CATDefaultEnvironment% -a user -var "CATUserSettingPath=c:\temp\CATSettings"
+chcatenv.exe -e %CATDefaultEnvironment% -a user -var "CATReferenceSettingPath=c:\temp\CATSettings"
+
+rem catstart -run "ImmLogonSetting.exe -Host %IT_ENOV_HOSTNAME%:%IT_ENOV_ORBIX_PORT% -WICH"
+
+rem cp c:\temp\CATSettings\ImmersiveLogon.CATSettings %ITtoolsUserSettingPath%
+
+set %PATH_NAME%=%PATH_setcatenv%
+if "%NEWDefaultEnvironment%" == "" call delcatenv.exe -e %CATDefaultEnvironment%
+

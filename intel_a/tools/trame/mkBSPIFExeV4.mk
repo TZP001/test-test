@@ -1,0 +1,8 @@
+#
+# Specifications for Build step mkBSPIFExeV4
+#
+METACLASS_NAME = PIFExe
+METACLASS_SOURCE = PIFPro
+#
+DGM_GRAPH_PATH = MODDGM_GRAPHPATH
+#

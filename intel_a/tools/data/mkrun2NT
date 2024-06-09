@@ -1,0 +1,41 @@
+if "%MKMK_PROGNAME%" == "" set MKMK_PROGNAME="CNEXT.exe"
+
+set CATMsgCatalogPath=
+set CATDictionaryPath=
+set CATICPath=
+set PWD=
+
+set %PATH_NAME%=%PATH_setcatenv%
+set OSDS=%MkmkOS_Buildtime%
+
+if not "%OPTION_FOR_SETCATENV%" == "" 	echo # mkmk-INFO: Variable OPTION_FOR_SETCATENV is set. An option is added to setcatenv...
+
+set CATDefaultEnvironment=%DEFDefaultEnvironment%
+
+if not "%NEWDefaultEnvironment%" == ""  set CATDefaultEnvironment=%NEWDefaultEnvironment%
+
+if "%NEWDefaultEnvironment%" == "" call setcatenv.exe -p "%MKMK_LST_RTV%" -e %CATDefaultEnvironment% %OPTION_CF_FOR_SETCATENV% %OPTION_FOR_SETCATENV%
+
+set CATCatchSignals=TRUE
+set CATLogSessionEnd=TRUE
+set CATErrorLog=Error.log
+
+set CATTraDecDir=%mkrun_CATTraDecDir%
+
+set TNS_ADMIN=%IT_TNS_ADMIN%
+set ORA_NLS33=%IT_ORA_NLS33%
+set ORACLE_HOME=%IT_ORACLE_HOME%
+
+if "%JAVA_HOME%" == "" call chcatenv.exe -e %CATDefaultEnvironment% -a user -var "JAVA_HOME=%JavaROOT_PATH%"
+if not "%JAVA_HOME%" == "" call chcatenv.exe -e %CATDefaultEnvironment% -a user -var "JAVA_HOME=%JAVA_HOME%"
+
+set %PATH_NAME%=%PATH1%
+call CATSTART.exe -run "%MKMK_PROGNAME%"
+
+set %PATH_NAME%=%PATH_setcatenv%
+
+if not "%OPTION_FOR_DELCATENV%" == "" echo # mkmk-INFO: Variable OPTION_FOR_DELCATENV is set. An option is added to delcatenv...
+
+if "%NEWDefaultEnvironment%" == "" call delcatenv.exe -e %CATDefaultEnvironment%  %OPTION_FOR_DELCATENV%
+
+

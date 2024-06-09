@@ -1,0 +1,133 @@
+//*********************************************************************************************************************
+// HELP MESSAGES
+//***************
+
+mkcsCreateView.HelpBegin = "\n",
+	"-- mkcsCreateView --\n",
+	"***********************************************************\n",
+	"synopsis : Create View\n",
+	"	[-help|-h]\n",
+	"	-datalist textFilePath |\n",
+	"	errDataFilePath1 errDataFilePath2...\n",
+	"	-out outputErrDataFilePath\n",
+	"***********************************************************\n";
+
+mkcsCreateView.HelpEnd = " \n",
+		"Create View Options:\n",
+		"---------------\n",
+		"  -h                           : Displays command help (synopsis)\n",
+		"  -help                        : Displays command help (detailled)\n",
+		"  -datalist textFilePath       : \"textFilePath\" is a text file containing\n",
+		"                                 a list of error data file paths to merge\n",
+		"                                 into a global error data file.\n",
+		"                                 CAUTION: Each line of this text file must\n",
+		"                                 have only one file path.\n",
+		"  errDataFilePath1 ...         : Error data file paths to merge\n",
+		"  -out outputErrDataFilePath   : Global errors data file path\n",
+		"                                 CAUTION: If a global errors data file doesn't\n",
+		"                                 exist, it is created. If it already exists,\n",
+		"                                 it is overwritten with the new one.\n",
+		"                                 If needed, make a copy of the existing global\n",
+		"                                 errors data file before creating a new.\n";
+
+mkcsCreateView.Processing = "\n ***** Generating global errors data file...\n";
+
+mkcsccv.HelpBegin = "\n",
+	"-- mkcsCreateView --\n",
+	"***********************************************************\n",
+	"synopsis : Create View\n",
+	"	[-help|-h]\n",
+	"	-W workspacePath\n",
+	"	-out outputErrDataFilePath\n",
+	"***********************************************************\n";
+
+mkcsccv.HelpEnd = " \n",
+		"Create View Options:\n",
+		"---------------\n",
+		"  -h                           : Displays command help (synopsis)\n",
+		"  -help                        : Displays command help (detailled)\n",
+		"  -W workspacePath             : \"workspacePath\" is a path to a\n",
+		"                                 full workspace: Framework(s),Module(s),\n",
+		"                                 Interface(s),Source(s)...\n",
+		"  -out outputErrDataFilePath   : Global errors data file path\n",
+		"                                 CAUTION: If a global errors data file doesn't\n",
+		"                                 exist, it is created. If it already exists,\n",
+		"                                 it is overwritten with the new one.\n",
+		"                                 If needed, make a copy of the existing global\n",
+		"                                 errors data file before creating a new.\n";	
+
+//*********************************************************************************************************************
+// SIMPLE SWITCH  MESSAGES
+//************************
+mkcsCreateView.Option.version	= " -version : Displays version number\n";
+mkcsCreateView.Option.h		= " -h : Displays command help (synopsis)\n";
+mkcsCreateView.Option.help	= " -help : Displays command help (detailled)\n";
+
+//*********************************************************************************************************************
+// VALUE SWITCH  MESSAGES
+//************************
+mkcsCreateView.Option.datalist	= " -datalist textFilePath : \"textFilePath\" is a text file containing\n",
+				  	  	  "                          a list of error data file paths to merge\n",
+				  	  	  "                          into a global error data file.\n",
+				  	  	  "                          CAUTION: Each line of this text file must\n",
+				  	  	  "                          have only one file path.\n";
+
+mkcsCreateView.Option.out		= " -out outputDirPath : Global errors data file path\n",
+					  	  "                      CAUTION: If a global errors data file doesn't\n",
+					  	  "                      exist, it is created. If it already exists,\n",
+					  	  "                      it is overwritten with the new one.\n",
+					  	  "                      If needed, make a copy of the existing global\n",
+					  	  "                      errors data file before creating a new.\n";
+
+mkcsccv.Option.W		        = " -W workspacePath : \"workspacePath\" is a path to a\n",
+						  "                      full workspace: Framework(s),Module(s),\n",
+						  "                      Interface(s),Source(s)...\n";
+
+//*********************************************************************************************************************
+// ERROR MESSAGES
+//***************
+
+// General errors
+mkcsCreateView.Error.1		= "--> MKCV-ERROR: Undefined error occured!";
+mkcsCreateView.Error.101	= "--> MKCV-ERROR: Invalid or missing options or parameters on command line!";
+
+// Errors data manager errors
+mkcsCreateView.Error.10	= "--> MKCV-ERROR: An error occured while creating errors data manager!";
+mkcsCreateView.Error.11	= "--> MKCV-ERROR: An error occured while global opening errors data file!";
+mkcsCreateView.Error.12	= "--> MKCV-ERROR: An error occured while global closing errors data file!";
+
+// Command line analysis error
+mkcsCreateView.Error.100	= "--> MKCV-ERROR: An error occured while getting errors data files paths!";
+mkcsCreateView.Error.102	= "--> MKCV-ERROR: [-out] An error occured while reading output file path!";
+
+// Output file path
+mkcsCreateView.Error.103	= "--> MKCV-ERROR: An error occured while creating output file path!";
+mkcsCreateView.Error.104	= "--> MKCV-ERROR: An error occured while inserting data into global output file!";
+
+// Command line analysis error [mkcscCreateView]
+mkcsCreateView.Error.105			= "--> MKCV-ERROR: [-W] An error occured while reading current workspace path!";
+
+// CSC errors data file gathering [mkcscCreateView]
+mkcsCreateView.Error.106	= "--> MKCV-ERROR: No frameworks in current workspace!";
+mkcsCreateView.Error.107	= "--> MKCV-ERROR: No [framework.data] or [module.data] in current workspace!";
+mkcsCreateView.Error.108	= "--> MKCV-ERROR: No [*.cscdb] in current workspace!";
+
+mkcsCreateView.Error.CmdLine	= "\n***********************************************************\n",
+					  "MKCV-ERROR: Refer to command line synopsis or help.\n";
+
+//*********************************************************************************************************************
+// WARNING MESSAGES
+//***************
+mkcsCreateView.Warning.CreateView	= "--> MKCV-INFO: CREATE VIEW processing...\n",
+					  	  "-----------------------------------------------------------";
+
+mkcsCreateView.Warning.endProcess	= "--> MKCV-INFO: Process successfully completed.\n";
+mkcsCreateView.Error.endProcess		= "--> MKCV-INFO: Process failed.\n";
+mkcsCreateView.Separate				= "-----------------------------------------------------------";
+
+mkcsCreateView.Warning.expected		= "--> MKCV-INFO: Expected data files number: ";
+mkcsCreateView.Warning.merged		= "--> MKCV-INFO: Merged   data files number: ";
+mkcsCreateView.Warning.notMerged	= "--> MKCV-INFO: Data File Merge Error: ";
+mkcsCreateView.Warning.notFound		= "--> MKCV-INFO: Data File Not Found: ";
+
+

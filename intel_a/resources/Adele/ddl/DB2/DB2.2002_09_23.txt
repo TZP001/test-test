@@ -1,0 +1,139 @@
+------------------------------- Change the host_name column size in contents_server table -----------------------------------
+
+[Central + Departmental Step 1]
+RENAME contents_server TO contents_server1;
+
+[Central + Departmental Step 2]
+CREATE TABLE adl.contents_server
+(
+	id                 VARCHAR(20)  NOT NULL,
+	host_name          VARCHAR(255) NOT NULL,
+	port_number        INTEGER      NOT NULL,
+	description        VARCHAR(250)         ,
+	creation_hist_evt  VARCHAR(20)  NOT NULL
+)
+--TABLESPACE tablespace_name
+;
+
+[Central + Departmental Step 3]
+INSERT INTO adl.contents_server 
+(
+ id, host_name, port_number, description, creation_hist_evt
+)
+SELECT
+ cs1.id, cs1.host_name, cs1.port_number, cs1.description, cs1.creation_hist_evt
+FROM adl.contents_server1 cs1;
+
+COMMIT;
+
+[Central + Departmental Step 4]
+DROP TABLE adl.contents_server1;
+
+[Central + Departmental Step 5]
+-- * Recherche sur identifiant
+CREATE UNIQUE INDEX adl.i_contents_serv_1 ON adl.contents_server (id);
+
+
+------------------------------- Change the local_path_host column size in image table -----------------------------------
+
+[Departmental Step 6]
+RENAME image TO image1;
+
+[Departmental Step 7]
+CREATE TABLE adl.image
+(
+	id                 VARCHAR(20)  NOT NULL,
+	type               VARCHAR(10)  NOT NULL,
+	multi_tree_ws      VARCHAR(20)  NOT NULL,
+	case_name          VARCHAR(32)  NOT NULL,
+	lower_name         VARCHAR(32)  NOT NULL,
+	case_proj_path     VARCHAR(512) NOT NULL,
+	lower_proj_path    VARCHAR(254) NOT NULL,
+	local_path_host    VARCHAR(255)         ,
+	is_deleted         VARCHAR(1)   NOT NULL,
+	case_tck           VARCHAR(32)          ,
+	lower_tck          VARCHAR(32)          ,
+	creation_hist_evt  VARCHAR(20)  NOT NULL
+)
+--TABLESPACE tablespace_name
+;
+
+[Departmental Step 8]
+INSERT INTO adl.image 
+(
+ id, type, multi_tree_ws, case_name, lower_name, case_proj_path, lower_proj_path, 
+ local_path_host, is_deleted, case_tck, lower_tck, creation_hist_evt
+)
+SELECT
+ img1.id, img1.type, img1.multi_tree_ws, img1.case_name, img1.lower_name, img1.case_proj_path, img1.lower_proj_path,
+ img1.local_path_host, img1.is_deleted, img1.case_tck, img1.lower_tck, img1.creation_hist_evt
+FROM adl.image1 img1;
+
+COMMIT;
+
+[Departmental Step 9]
+DROP TABLE adl.image1;
+
+[Departmental Step 10]
+-- * Recherche sur identifiant
+CREATE UNIQUE INDEX adl.i_image_1 ON adl.image (id);
+
+[Departmental Step 11]
+-- * Recherche l'image non supprimée avec le nom en minuscule et l'espace de travail multi-arborescence
+CREATE INDEX        adl.i_image_2 ON adl.image (multi_tree_ws, is_deleted, lower_name);
+
+[Departmental Step 12]
+-- * Recherche l'image non supprimée avec le chemin en minuscules
+CREATE INDEX        adl.i_image_3 ON adl.image (lower_proj_path, is_deleted);
+
+
+------------------------------- Change the local_path_host, is_server_host columns size in image table -----------------------------------
+
+[Departmental Step 13]
+RENAME transfer TO transfer1;
+
+[Departmental Step 14]
+CREATE TABLE adl.transfer
+(
+	id                 VARCHAR(20) NOT NULL,
+	case_name          VARCHAR(32) NOT NULL,
+	lower_name         VARCHAR(32) NOT NULL,
+	multi_tree_ws      VARCHAR(20) NOT NULL,
+	image              VARCHAR(20)         ,
+	case_store_path    VARCHAR(512)        ,
+	lower_store_path   VARCHAR(512)        ,
+	local_path_host    VARCHAR(255)        ,
+	is_server          VARCHAR(512)        ,
+	is_server_host     VARCHAR(255)        ,
+	is_server_port     INTEGER             ,
+	site2              VARCHAR(20)         ,
+	creation_hist_evt  VARCHAR(20) NOT NULL
+)
+--TABLESPACE tablespace_name
+;
+
+[Departmental Step 15]
+INSERT INTO adl.transfer 
+(
+ id, case_name, lower_name, multi_tree_ws, image,
+ case_store_path, lower_store_path, local_path_host,
+ is_server, is_server_host, is_server_port, site2, creation_hist_evt
+)
+SELECT
+ trf1.id, trf1.case_name, trf1.lower_name, trf1.multi_tree_ws, trf1.image,
+ trf1.case_store_path, trf1.lower_store_path, trf1.local_path_host,
+ trf1.is_server, trf1.is_server_host, trf1.is_server_port, trf1.site2, trf1.creation_hist_evt
+FROM adl.transfer1 trf1;
+
+COMMIT;
+
+[Departmental Step 16]
+DROP TABLE adl.transfer1;
+
+[Departmental Step 17]
+-- * Recherche sur identifiant
+CREATE UNIQUE INDEX adl.i_transfer_1 ON adl.transfer (id);
+
+[Departmental Step 18]
+-- * Recherche sur espace de travail multi-arborescence et nom
+CREATE        INDEX adl.i_transfer_2 ON adl.transfer (multi_tree_ws, lower_name);

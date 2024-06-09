@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.3ds.CodeGenSimulia_mk.xsd"
+           xmlns:scgmk="http://www.3ds.CodeGenSimulia_mk.xsd"
+           elementFormDefault="qualified"
+>
+  <xs:import schemaLocation="CodeGenSimulia.xsd" namespace="http://www.3ds.CodeGenSimulia.xsd"/>
+  <!-- entry point -->
+  <xs:element name="CodeGen" type="scgmk:MkmkComputedPartType"/>
+
+  <!-- MkmkComputedPartType types ********************************************************** -->
+  <xs:complexType name="MkmkComputedPartType"> <!-- This Contains mkmk computed data -->
+        <xs:sequence minOccurs="1" maxOccurs="1">
+          <xs:element name="MkmkData" type="scgmk:MkmkDataType"/>
+        </xs:sequence>
+  </xs:complexType>
+
+
+  <xs:complexType name="MkmkDataType">
+    <xs:sequence minOccurs="1" maxOccurs="1">
+      <!-- list of workspace paths -->
+      <xs:element name="WSPaths" type="scgmk:pathListType"  minOccurs="1" maxOccurs="1"/>
+      <!-- the framework name -->
+      <xs:element name="FwName" type="xs:string" />
+      <!-- the module name, only if we are in a module -->
+      <xs:element name="ModName" type="xs:string" minOccurs="0" maxOccurs="1"/>
+      <!-- is mkmk in debug mode default is optimized -->
+      <xs:element name="Debug" type="xs:boolean" minOccurs="1" maxOccurs="1" default="false"/>
+      <!-- list of source out of date -->
+      <xs:element name="Sources" type="scgmk:pathListType"  minOccurs="1" maxOccurs="1"/>
+      <!-- list path were to fetch used (dependencies) -->
+      <xs:element name="IncludePaths" type="scgmk:pathListType"  minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="pathListType">
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="path" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  
+</xs:schema>

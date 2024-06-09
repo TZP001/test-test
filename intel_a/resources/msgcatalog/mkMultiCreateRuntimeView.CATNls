@@ -1,0 +1,189 @@
+mkMultiCreateRuntimeView.Version.BuildLevel = "/P1 (Build /P2)";
+
+mkMultiCreateRuntimeView.HelpBeginWindows = "\n",
+"Multi workspace runtime view creation.\n",
+"\n",
+"Usage: mkMultiCreateRuntimeView  -t DestinationPath [-external] [-p WSPath1[;WSPath2]]\n",
+"                                [Fw1 [Fw2] | -lFW FWListPath] [-k Type [-k Type]] [-c | -f] [-d] [-x]\n",
+"                                [-v, -debug] [-h, -?]\n";
+
+mkMultiCreateRuntimeView.HelpBeginUnix = "\n",
+"Multi workspace runtime view creation.\n", 
+"\n", 
+"Usage: mkMultiCreateRuntimeView  -t DestinationPath [-s] [-external] [-p WSPath1[:WSPath2]]\n",
+"                                [Fw1 [Fw2] | -lFW FWListPath] [-k Type [-k Type]] [-c | -f | -l] [-d] [-x]\n",
+"                                [-v, -debug] [-h, -?]\n";
+
+
+mkMultiCreateRuntimeView.HelpEnd = "   Fw1 ... Fwn             : list of framework to take into account.\n";
+
+mkMultiCreateRuntimeView.OptionWindows.p = "   -/P1 WSPath1;...;WSPathn  : list of reference workspace path name.";
+
+mkMultiCreateRuntimeView.OptionUnix.p = "   -/P1 WSPath1:...:WSPathn  : list of reference workspace path name.";
+
+
+mkMultiCreateRuntimeView.Option.lFW = "   -/P1 FWListPath         : path of the list of framework to take into account.";
+
+mkMultiCreateRuntimeView.Option.lsout = "   -/P1 LsoutPath        : relative lsout file for reference workspace to take into account.";
+
+mkMultiCreateRuntimeView.Option.wdata = "   -/P1 DataPath         : relative workspace data file to take into account.";
+
+mkMultiCreateRuntimeView.Option.filter = "   -/P1 FilePath        : path of the filter file to take into account, exclude matched files.";
+
+mkMultiCreateRuntimeView.Option.only = "   -/P1 FilePath          : path of the filter file to take into account, only matched files.";
+
+mkMultiCreateRuntimeView.Option.k = "   -/P1 Type1                : type of framework to copy. Possible values are code, tst, edu (default is all).";
+
+mkMultiCreateRuntimeView.Option.t = "   -/P1 DestinationPath      : destination directory (mandatory).";
+
+mkMultiCreateRuntimeView.OptionUnix.l = "   -/P1                      : do symbolic link (default).";
+
+mkMultiCreateRuntimeView.OptionUnix.f = "   -/P1                      : copy file.";
+
+mkMultiCreateRuntimeView.OptionUnix.c = "   -/P1                      : copy file if last modification time and size are different (only modification time with -s).";
+
+mkMultiCreateRuntimeView.OptionUnix.s = "   -/P1                      : strip executable if copy is request.";
+
+mkMultiCreateRuntimeView.OptionWindows.f = "   -/P1                      : copy file (default).";
+
+mkMultiCreateRuntimeView.OptionWindows.c = "   -/P1                      : copy file if last modification time and size are different.";
+
+mkMultiCreateRuntimeView.OptionWindows.l = "   -/P1                      : for compatibility, not used.";
+
+mkMultiCreateRuntimeView.OptionWindows.s = "   -/P1                      : for compatibility, not used.";
+
+mkMultiCreateRuntimeView.Option.d = "   -/P1                      : clean destination when processing.";
+
+mkMultiCreateRuntimeView.Option.keep = "   -/P1                   : keep old file when processing.";
+
+mkMultiCreateRuntimeView.Option.x = "   -/P1                      : append to destination.";
+
+mkMultiCreateRuntimeView.Option.external = "   -/P1               : without not deliverable and internal data.";
+
+mkMultiCreateRuntimeView.Option.ctrl = "   -/P1                   : for compatibility, not used.";
+
+mkMultiCreateRuntimeView.OptionWindows.pdb = "   -/P1                    : copy *.pdb internal data.";
+
+mkMultiCreateRuntimeView.Option.retry = "   -/P1 Nb               : number of retries when expanding.";
+
+mkMultiCreateRuntimeView.Option.time = "   -/P1 Time              : wait time between retries in sec when expanding.";
+
+mkMultiCreateRuntimeView.Option.copyretry = "   -/P1 Nb           : number of retries when copying.";
+
+mkMultiCreateRuntimeView.Option.copytime = "   -/P1 Time          : wait time between retries in sec when copying.";
+
+mkMultiCreateRuntimeView.Option.h = "   -/P1                      : help message.";
+
+mkMultiCreateRuntimeView.Option.h.other = "   -/P1                      : same as -h.";
+
+mkMultiCreateRuntimeView.Option.v = "   -/P1                      : verbose mode.";
+
+mkMultiCreateRuntimeView.Option.debug = "   -/P1                  : debug mode.";
+
+mkMultiCreateRuntimeView.RemoveDirectoryInfo = "# mkmk-INFO: Directory [/P1] is empty,\n",
+"# mkmk-INFO: Removing directory [/P1].";
+
+mkMultiCreateRuntimeView.RemoveLinkInfo = "# mkmk-INFO: Removing link [/P1].";
+
+mkMultiCreateRuntimeView.RemoveFileInfo = "# mkmk-INFO: Removing file [/P1].";
+
+mkMultiCreateRuntimeView.StripInfo = "# mkmk-INFO: Stripping file [/P1].";
+
+mkMultiCreateRuntimeView.SetRightsErr = "# mkmk-ERROR: Unable to set rights: /P1";
+
+mkMultiCreateRuntimeView.StripErr = "# mkmk-ERROR: Strip of file [/P1] failed.";
+
+mkMultiCreateRuntimeView.WriteTimeStampsErr = "# mkmk-ERROR: Unable to write time stamps: /P1";
+
+mkMultiCreateRuntimeView.RestoreRightsErr = "# mkmk-ERROR: Unable to restore rights: /P1";
+
+mkMultiCreateRuntimeView.BadOptErr = "# mkmk-ERROR: Command line -> Syntax error.";
+
+mkMultiCreateRuntimeView.Init = "/P1: Starting mkMultiCreateRuntimeView";
+
+mkMultiCreateRuntimeView.OptIgnInfo = "# mkmk-INFO: Option -/P1 ignored.";
+
+mkMultiCreateRuntimeView.OptIgnConcat = "Option -/P1 ignored.";
+
+mkMultiCreateRuntimeView.CannotLoadErr = "# mkmk-ERROR: Failed to load file [/P1].";
+
+mkMultiCreateRuntimeView.NotADirErr = "# mkmk-ERROR: [/P1] -> This directory does not exist.";
+
+mkMultiCreateRuntimeView.OptLinkStripCompIgnInfo = "# mkmk-INFO: Link is not compatible with strip. Option -s ignored.";
+
+mkMultiCreateRuntimeView.FwIgnoredInfo = "# mkmk-INFO: Framework [/P1] in workspace [/P2] ignored when merging, previously found in [/P3].";
+
+mkMultiCreateRuntimeView.WsInfo = "# mkmk-INFO: Reference workspace is [/P1].";
+
+mkMultiCreateRuntimeView.FwNotFoundInWsWarn = "# mkmk-WARNING: Specified framework [/P1] not found in reference workspace(s).";
+
+mkMultiCreateRuntimeView.FwUsedInfo = "# mkmk-INFO: Framework [/P1] in workspace [/P2] used.";
+
+mkMultiCreateRuntimeView.TargetWarn = "# mkmk-WARNING: Target directory is specified in reference workspace(s), aborting.";
+
+mkMultiCreateRuntimeView.TargetInfo = "# mkmk-INFO: Target directory is [/P1].";
+
+mkMultiCreateRuntimeView.ExpandFailedErr = "# mkmk-ERROR: Failed to expand [/P1]: /P2";
+
+mkMultiCreateRuntimeView.FwBadTypeInfo = "# mkmk-INFO: In workspace [/P1] framework [/P1] has a bad type.";
+
+mkMultiCreateRuntimeView.FwGoodTypeInfo = "# mkmk-INFO: In workspace [/P1] framework [/P2] has a good type.";
+
+mkMultiCreateRuntimeView.NoFwFoundInWsInfo = "# mkmk-INFO: No framework have been found in specified reference workspace(s), aborting.";
+
+mkMultiCreateRuntimeView.FwFoundInfo = "# mkmk-INFO: Found framework [/P1] in workspace [/P2].";
+
+mkMultiCreateRuntimeView.FwAccessScriptErr = "# mkmk-ERROR: Unable to access script of framework [/P1].";
+
+mkMultiCreateRuntimeView.FwNotTreatedErr = "# mkmk-ERROR: Framework [/P1] is not treated.";
+
+mkMultiCreateRuntimeView.LoadFwModDataErr = "# mkmk-ERROR: Unable to load framework.data or one or more module.data for framework [/P1].";
+
+mkMultiCreateRuntimeView.LoadModDataErr = "# mkmk-ERROR: Unable to load one or more module.data for framework [/P1].";
+
+mkMultiCreateRuntimeView.FormatErr = "# mkmk-ERROR: [/P1] has a bad format.";
+
+mkMultiCreateRuntimeView.SameTimeInfo = "# mkmk-INFO: Files [/P1] and [/P2] have the same modification time";
+
+mkMultiCreateRuntimeView.SameTimeSizeInfo = "# mkmk-INFO: Files [/P1] and [/P2] have the same modification time and size.";
+
+mkMultiCreateRuntimeView.ControlFileInfo = "# mkmk-INFO: Add in control file of framework [/P1]: [/P2]";
+
+mkMultiCreateRuntimeView.ControlFileErr = "# mkmk-ERROR: Unable to create control file [/P1]: /P2";
+
+mkMultiCreateRuntimeView.CtrlFileErr = "# mkmk-ERROR: Unable to create .ctrl file [/P1]: /P2";
+
+mkMultiCreateRuntimeView.LinkErr3 = "# mkmk-ERROR: Unable to link file [/P1]: /P2";
+
+mkMultiCreateRuntimeView.LinkInfo = "# mkmk-INFO: Linking file [/P1] with [/P2].";
+
+mkMultiCreateRuntimeView.LinkErr2 = "# mkmk-ERROR: Unable to link file [/P1] with [/P2].";
+
+mkMultiCreateRuntimeView.LinkErr1 = "# mkmk-ERROR: Unable to link file [/P1] with [/P2]: /P3";
+
+mkMultiCreateRuntimeView.RemoveErr = "# mkmk-ERROR: Unable to remove [/P1]: /P2";
+
+mkMultiCreateRuntimeView.GoodLinkInfo = "# mkmk-INFO: Link is good [/P1] with [/P2].";
+
+mkMultiCreateRuntimeView.CopyErr = "# mkmk-ERROR: Unable to copy file [/P1]: /P2";
+
+mkMultiCreateRuntimeView.CopyInfo = "# mkmk-INFO: Copying file [/P1] to [/P2].";
+
+mkMultiCreateRuntimeView.CaseErr = "# mkmk-ERROR: File [/P1] has a bad case, must be [/P2].";
+
+mkMultiCreateRuntimeView.ChangeCaseInfo = "# mkmk-INFO: Change case of [/P1] with [/P2].";
+
+mkMultiCreateRuntimeView.LoadOrReadWarn = "# mkmk-WARNING: Unable to load or read file [/P1]: /P2";
+
+mkMultiCreateRuntimeView.FilterInfo = "# mkmk-INFO: Filter [/P1] used (exclude).";
+
+mkMultiCreateRuntimeView.OnlyInfo = "# mkmk-INFO: Filter [/P1] used (only).";
+
+mkMultiCreateRuntimeView.FilteredFileInfo = "# mkmk-INFO: File [/P1] filtered by [/P2].";
+
+mkMultiCreateRuntimeView.CopyRetryWarn = "# mkmk-WARNING: Retrying copy of file [/P1] ";
+
+mkMultiCreateRuntimeView.CheckRetryWarn = "# mkmk-WARNING: Retrying retreive information about [/P1] ";
+
+mkMultiCreateRuntimeView.RetryWarn = "# mkmk-WARNING: Retrying expansion of [/P1] ";
+

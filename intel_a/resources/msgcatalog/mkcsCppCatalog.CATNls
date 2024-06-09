@@ -1,0 +1,176 @@
+//*********************************************************************************************************************
+// HELP MESSAGES
+//***************
+
+MkSourceCodeChecker.HelpBegin = "\n",
+	"-- MkSourceCodeChecker --\n",
+	"***********************************************************\n",
+	"synopsis : Check Mode\n",
+	"	[-help|-h][-version] \n",
+	"	[-I dirPath][-Ilist textFilePath][-slist textFilePath]\n",
+	"	[-mgroup MainGroupName] [-sgroup SubGroupName]\n",
+	"	-settings settingsFilePath -out outputFilePath\n",
+	"	src1 src2 ...\n",
+	"***********************************************************\n",
+	"synopsis : Clean Mode\n",
+	"	[-help|-h][-version] \n",
+	"	-salist textFilePath -out outputFilePath\n",
+	"***********************************************************\n";
+
+MkSourceCodeChecker.HelpEnd = " \n",
+		"Check Mode Options:\n",
+		"------------------\n",
+		"  -version                     : Displays version number\n",
+		"  -h                           : Displays command help (synopsis)\n",
+		"  -help                        : Displays command help (detailled)\n",
+		"  -I dirPath                   : Directory where included headers\n",
+		"                                 can be found\n",
+		"  -Ilist textFilePath          : \"textFilePath\" is a text file containing\n",
+		"                                 a list of directories where included\n",
+		"                                 headers can be found.\n",
+		"                                 CAUTION: Each line of this text file must\n",
+		"                                 have only one directory path.\n",
+		"  -slist textFilePath          : \"textFilePath\" is a text file containing\n",
+		"                                 a list of source files to analyse.\n",
+		"                                 CAUTION: Each line of this text file must\n",
+		"                                 have only one source path.\n",
+		"  -mgroup MainGroupName        : Main group name of checked sources\n",
+		"                                 (\"MainGroupName\" is the parent of\n", 
+		"                                 \"SubGroupName\")\n", 
+		"  -sgroup SubGroupName         : Sub group name of checked sources\n",
+		"                                 (\"SubGroupName\" is a child of\n",
+		"                                 \"MainGroupName\")\n",
+		"                                 CAUTION: When updating output errors data\n",
+		"                                 file, if main group and\/or sub group names\n",
+		"                                 are different from names already recorded\n",
+		"                                 into errors data file, they are overwritten.\n",
+		"  src1 src2...                 : Source files to analyse\n",
+		"  -settings settingsFilePath   : XML file containing settings to use\n",
+		"  -out outputFilePath          : Output errors data file path\n",
+		"                                 CAUTION: If errors data file doesn't exist,\n",
+		"                                  it is created. If errors data file already\n",
+		"                                  exists, it is updated.\n",
+		"\nClean Mode Options:\n",
+		"------------------\n",
+		"  -salist textFilePath         : \"textFilePath\" is a text file containing\n",
+		"                                 a list of files that should not be\n",
+		"                                 removed from errors data file\n",
+		"                                 by clean.\n",
+		"                                 CAUTION: Each line of this text file must\n",
+		"                                 have only one file name.\n",
+		"  -out outputFilePath          : Output errors data file path to clean\n",
+		"                                 CAUTION: Only source files from -salist are not\n",
+		"                                 removed from errors data file. Errors data file\n",
+		"                                 is not deleted, even if clean mode deletes\n",
+		"                                 all contents.\n";
+
+//*********************************************************************************************************************
+// SIMPLE SWITCH  MESSAGES
+//************************
+MkSourceCodeChecker.Option.version	= " -version : Displays version number\n";
+MkSourceCodeChecker.Option.h		= " -h : Displays command help (synopsis)\n";
+MkSourceCodeChecker.Option.help	= " -help : Displays command help (detailled)\n";
+
+//*********************************************************************************************************************
+// VALUE SWITCH  MESSAGES
+//************************
+MkSourceCodeChecker.Option.I	= " -I dirPath : Directory where included headers can be found\n";
+
+MkSourceCodeChecker.Option.Ilist	= " -Ilist textFilePath : \"textFilePath\" is a text file containing\n",
+						  "                       a list of directories where included\n",
+						  "                       headers can be found.\n",
+						  "                       CAUTION: Each line of this text file must have\n",
+						  "                       only one directory path.\n";
+
+MkSourceCodeChecker.Option.slist	= " -slist textFilePath : \"textFilePath\" is a text file containing\n",
+						  "                       a list of source files to analyse.\n",
+						  "                       CAUTION: Each line of this text file must have\n",
+						  "                       only one source path.\n";
+
+MkSourceCodeChecker.Option.mgroup	= " -mgroup : Main group name of checked sources\n",
+						  "           (\"MainGroupName\" is the parent of \"SubGroupName\")\n",
+						  "           CAUTION: When updating output errors data file, if\n",
+						  "           main group and\or sub group names are different from\n",
+						  "           names already recorded into errors data file, they are\n",
+						  "           overwritten.\n";
+
+MkSourceCodeChecker.Option.sgroup	= " -sgroup : Sub group name of checked sources\n",
+						  "           (\"SubGroupName\" is a child of \"MainGroupName\")\n",
+						  "           (\"MainGroupName\" is the parent of \"SubGroupName\")\n",
+						  "           CAUTION: When updating output errors data file, if\n",
+						  "           main group and\or sub group names are different from\n",
+						  "           names already recorded into errors data file, they are\n",
+						  "           overwritten.\n";
+
+MkSourceCodeChecker.Option.settings	= " -settings filename : Indicates an XML file containing the user's defined\n",
+						  "                      settings for the source analysis.\n";
+
+MkSourceCodeChecker.Option.out	= " -out : CHECK Mode:\n",
+						  "        Output errors data file path\n",
+						  "        CAUTION: If errors data file doesn't exist, it is created.\n",
+						  "        If errors data file already exists, it is updated.\n\n",
+						  "        CLEAN Mode:\n",
+						  "        Output errors data file path to clean\n",
+						  "        CAUTION: Choosen contents of errors data file is deleted.\n",
+						  "        Errors data file is not deleted, even if clean mode\n",
+						  "        deletes all contents.\n";
+
+//*********************************************************************************************************************
+// ERROR MESSAGES
+//***************
+
+// General errors
+MkSourceCodeChecker.Error.1					= "--> MKCS-ERROR: Undefined error occured!";
+MkSourceCodeChecker.Error.108				= "--> MKCS-ERROR: Invalid or missing options or parameters on command line!";
+
+// Errors data manager errors
+MkSourceCodeChecker.Error.10				= "--> MKCS-ERROR: An error occured while creating errors data manager!";
+MkSourceCodeChecker.Error.11				= "--> MKCS-ERROR: An error occured while opening errors data file!";
+MkSourceCodeChecker.Error.12				= "--> MKCS-ERROR: An error occured while closing errors data file!";
+MkSourceCodeChecker.Error.13				= "--> MKCS-ERROR: An error occured while setting errors data file!";
+MkSourceCodeChecker.Error.14				= "--> MKCS-ERROR: An error occured while cleaning errors data file!";
+MkSourceCodeChecker.Error.15				= "--> MKCS-ERROR: An error occured while updating errors data file!";
+MkSourceCodeChecker.Error.16				= "--> MKCS-ERROR: An error occured while droping errors data from file!";
+MkSourceCodeChecker.Warning.errDataClose	= "    MKCS-WARNING: ---> Error data not closed: ";
+MkSourceCodeChecker.Warning.errDataUpdate	= "    MKCS-WARNING: ---> Error data not updated: ";
+
+// Checkers errors & warning
+MkSourceCodeChecker.Error.50				= "--> MKCS-ERROR: An error occured while processing source files!";
+MkSourceCodeChecker.Error.51				= "--> MKCS-ERROR: An error occured while accessing source files!";
+MkSourceCodeChecker.Warning.srcNotFound		= "    MKCS-WARNING: ---> File not found: ";
+MkSourceCodeChecker.Warning.srcNotProcess	= "    MKCS-WARNING: ---> File not processed: ";
+
+// Command line analysis error
+MkSourceCodeChecker.Error.101				= "--> MKCS-ERROR: [-slist] An error occured while reading list of sources!";
+MkSourceCodeChecker.Error.102				= "--> MKCS-ERROR: [-Ilist] An error occured while reading list of headers directories!";
+MkSourceCodeChecker.Error.103				= "--> MKCS-ERROR: An error occured while reading source path!";
+MkSourceCodeChecker.Error.104				= "--> MKCS-ERROR: [-out] An error occured while reading output path!";
+MkSourceCodeChecker.Error.105				= "--> MKCS-ERROR: [-settings] An error occured while loading settings file!\n",
+											  "                   File path might be wrong or file might be corrupted.\n";
+
+MkSourceCodeChecker.Error.CmdLine		= "\n***********************************************************\n",
+										  "MKCS-ERROR: Refer to command line synopsis or help.";
+
+//*********************************************************************************************************************
+// WARNING MESSAGES
+//***************
+MkSourceCodeChecker.Info.headers			= "    MKCS-INFO: No headers directory paths given.\n";
+MkSourceCodeChecker.Info.allClean			= "    MKCS-INFO: Delete All Data (no src): ";
+MkSourceCodeChecker.Info.srcCheckNbr		= "    MKCS-INFO: ---> Nbr Files to process : ";
+
+MkSourceCodeChecker.Info.Clean				= "    MKCS-INFO: CLEAN MODE...\n",
+											  "-----------------------------------------------------------";
+
+MkSourceCodeChecker.Info.Check				= "    MKCS-INFO: CHECK MODE...\n",
+											  "-----------------------------------------------------------";
+
+MkSourceCodeChecker.Info.endProcess			= "    MKCS-INFO: Process successfully completed.\n";
+MkSourceCodeChecker.Separate				= "-----------------------------------------------------------";
+
+
+
+
+
+
+
+

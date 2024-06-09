@@ -1,0 +1,70 @@
+mkRemoveDo.Version.BuildLevel = "/P1 (Build /P2)";
+
+mkRemoveDo.HelpBegin = "\n",
+"Delete framework(s) derived objects in a user environment directory.\n",
+"\n",
+"Usage: mkRemoveDo [-W Workspace] [FW1 FW2 ... | -lFW PATH1 | -a ] [-preq | -nopreq] [-fw | -nofw] [-o OS1... -o OSn]\n",
+"                  [-simul] [-jobs N] [-h, -?] [-v, -debug]\n";
+
+mkRemoveDo.Option.W = "   -/P1 Workspace       : workspace path name. If not specified, use the current one.";
+
+mkRemoveDo.Option.a = "   -/P1                 : delete all frameworks' derived objects.";
+
+mkRemoveDo.HelpEnd = "   FW1 FW2 ...        : delete FW1, FW2 ... framework's derived objects.\n";
+
+mkRemoveDo.Option.lFW = "   -/P1 PATH1         : path of the list of framework to take into account.";
+
+mkRemoveDo.Option.preq = "   -/P1              : only delete derived objects of frameworks installed with mkCopyPreq command.";
+
+mkRemoveDo.Option.nopreq = "   -/P1            : do not delete derived objects of frameworks installed with mkCopyPreq command.";
+
+mkRemoveDo.Option.fw = "   -/P1                : only delete derived objects of frameworks installed with mkCopyFw command.";
+
+mkRemoveDo.Option.nofw = "   -/P1              : do not delete derived objects of frameworks installed with mkCopyFw command.";
+
+mkRemoveDo.Option.nofut = "   -/P1             : do not check FunctionTests directories";
+
+mkRemoveDo.Option.o = "   -/P1 OS1 -/P1 OS2      : do the job for os OS1 and OS2 only (default is all OS).";
+
+mkRemoveDo.Option.simul = "   -/P1             : simulate framework delete, and give a report.";
+
+mkRemoveDo.Option.simu = "   -/P1              : same as -simul.";
+
+mkRemoveDo.Option.jobs = "   -/P1 N            : max number of parallel copy processes (default is 5).";
+
+mkRemoveDo.Option.h = "   -/P1                 : produces help message.";
+
+mkRemoveDo.Option.h.other = "   -/P1                 : same as -h.";
+
+mkRemoveDo.Option.v = "   -/P1                 : verbose mode.";
+
+mkRemoveDo.Option.debug = "   -/P1             : debug mode.";
+
+mkRemoveDo.BadOptErr = "# mkmk-ERROR: Command line -> Syntax error.";
+
+mkRemoveDo.NotADirErr = "# mkmk-ERROR: /P1 -> This directory does not exist.";
+
+mkRemoveDo.CannotLoadErr = "# mkmk-ERROR: /P1 -> Failed to load file.";
+
+mkRemoveDo.Init = "/P1 : Starting mkRemoveDo";
+
+mkRemoveDo.INFWSP = "# mkmk-INFO: /P1 -> Workspace directory.";
+
+mkRemoveDo.INFSIM = "# mkmk-INFO: Command -> -simul option specified, no delete will be launched.";
+
+mkRemoveDo.MESFWPR = "# mkmk-ERROR: Command -> Cannot specify both '/P1' and '/P2' options.";
+
+mkRemoveDo.MESLPR = "# mkmk-ERROR: Command -> Cannot specify both '/P1' option and a list of frameworks.";
+
+mkRemoveDo.INFALL = "# mkmk-INFO: Command -> All frameworks of the workspace will be treated.";
+
+mkRemoveDo.ExecFailedErr = "# mkmk-ERROR: /P1 -> Failed to execute [/P2].";
+
+mkRemoveDo.WRNNOT = "# mkmk-WARNING: /P1 -> No framework to treat in this path.";
+
+mkRemoveDo.INFSTS = "# mkmk-INFO: Start of the cleaning procedure simulation.";
+
+mkRemoveDo.INFSTN = "# mkmk-INFO: Start of the cleaning procedure.";
+
+mkRemoveDo.Command = " Command : /P1";
+

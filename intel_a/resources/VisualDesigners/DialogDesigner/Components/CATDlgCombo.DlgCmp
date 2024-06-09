@@ -1,0 +1,307 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<DSxDevCodeGen><Content ModuleName = "DI0PANV2"><ExportData Name = "CATDlgCombo" Version = "1.0" Inheritable = "false" LightSimulationOnly = "false">
+      <Behavior Model = "Combo"/>
+      <Toolbox Category = "DS Dialog Component" IconName = "IDDTbxCombo" DisplayName = "CATDlgCombo">
+        <Description><![CDATA[
+Base class for combo boxes.
+Role: The combo allows the end user to choose a value or an option by selecting a character string from a predefined list, or through a keyboard entry. 
+Use a combo whenever you propose to the end user to select an alphanumerical value from a discrete list, or enter an alphanumerical value to update a discrete list.
+]]></Description>
+      </Toolbox>
+      <MetaModel>
+        <Properties>
+          <ComboType Type = "DLGComboType" Default = "DropDown" Category = "Style" Mergeable = "true" Description = "The appearence of the combo."/>
+          <AllowKeyboardEntry Type = "bool" Default = "false" Category = "Style" Mergeable = "true" Description = "To allow keyboard text entry in addition to text selection for drop down and standard combos."/>
+          <UseDouble Type = "bool" Default = "false" Category = "Style" Mergeable = "true" Description = "Whether the entered number must be a double precision floating number."/>
+          <UseColorPalette Type = "bool" Default = "false" Category = "Style" Mergeable = "true" Description = "Set to true to show a color palette."/>
+          <UseLineTypePalette Type = "bool" Default = "false" Category = "Style" Mergeable = "true" Description = "Set to true to show a linetype palette."/>
+          <UseBitmapPalette Type = "bool" Default = "false" Category = "Style" Mergeable = "true" Description = "Set to true to show a bitmap palette."/>
+          <DropDownTextWidth Type = "int" Default = "-1" Category = "General" Mergeable = "true" Description = "The number of columns in dropdown window."/>
+          <VisibleTextWidth Type = "int" Default = "10" Category = "General" Mergeable = "true" Description = "The number of visible characters in the entry zone."/>
+          <VisibleTextHeight Type = "int" Default = "-1" Category = "General" Mergeable = "true" Description = "The number of visible lines of the combo box."/>
+          <Magnitude Type = "CATDlgMagnitude" Default = "None" Category = "General" Mergeable = "true" Description = "Sets the magnitude to be used for the value displayed"/>
+          <Precision Type = "int" Default = "-1" Category = "General" Mergeable = "true" Description = "Sets the precision to be used for the value displayed"/>
+          <UseDecimalPrecision Type = "bool" Default = "false" Category = "General" Mergeable = "true" Description = "TRUE if the precision gives the number of digits to appear after the decimal point character, FALSE if the precision gives the number of significative digits"/>
+          <Unit Type = "CATDlgUnit" Default = "None" Category = "General" Mergeable = "true" Description = "Sets the unit to be used for the value displayed"/>
+          <Enabled Type = "bool" Default = "true" Category = "General" Mergeable = "true" Description = "Sets whether the widget is enabled."/>
+          <Visible Type = "bool" Default = "true" Category = "General" Mergeable = "true" Description = "Sets whether the widget is visible."/>
+          <Title Type = "string" Default = "" Category = "Text Resources" Mergeable = "true" Description = "Title or text content of the widget."/>
+          <Accelerator Type = "string" Default = "" Category = "Text Resources" Mergeable = "true" Description = "The accelerator of the dialog object as a CATUnicodeString instance."/>
+          <Help Type = "string" Default = "" Category = "Text Resources" Mergeable = "true" Description = "The help message displayed in the message area of the status bar."/>
+          <ShortHelp Type = "string" Default = "" Category = "Text Resources" Mergeable = "true" Description = "The short help message (or tooltip) of the dialog object."/>
+          <LongHelp Type = "string" Default = "" Category = "Text Resources" Mergeable = "true" Description = "The message is displayed in a box when the What's This command is used."/>
+          <IconNormal Type = "DLGIcon" Default = "" Category = "Icons" Mergeable = "true" Description = "The name of the icon in its default state"/>
+          <IconSelected Type = "DLGIcon" Default = "" Category = "Icons" Mergeable = "true" Description = "The name of the icon when the dialog object is selected"/>
+          <IconFocussed Type = "DLGIcon" Default = "" Category = "Icons" Mergeable = "true" Description = "The name of the icon when the dialog object is on focus"/>
+        </Properties>
+        <Callbacks>
+          <ComboDrop Type = "CATCommandMethod" Category = "Callbacks" Mergeable = "true" Description = "Event notification sent whenever the list of values is displayed."/>
+          <Modify Type = "CATCommandMethod" Category = "Callbacks" Mergeable = "true" Description = "Event notification sent whenever the keyboard entry is modified by selection."/>
+          <SelectionChanged Type = "CATCommandMethod" Category = "Callbacks" Mergeable = "true" Description = "Event notification sent whenever a value is selected in the list."/>
+          <EditModify Type = "CATCommandMethod" Category = "Callbacks" Mergeable = "true" Description = "Event notification sent whenever the keyboard entry is modified by editing."/>
+          <DragCancel Type = "CATCommandMethod" Category = "Common" Mergeable = "true" Description = "Sent whenever a mouse drag mechanism stops."/>
+          <DragButton Type = "CATCommandMethod" Category = "Common" Mergeable = "true" Description = "Sent whenever a mouse drag mechanism starts on a button."/>
+          <DragEnter Type = "CATCommandMethod" Category = "Common" Mergeable = "true" Description = "Sent whenever a mouse drag enters the window."/>
+          <DragLeave Type = "CATCommandMethod" Category = "Common" Mergeable = "true" Description = "Sent whenever a mouse drag leaves the window."/>
+          <DragOver Type = "CATCommandMethod" Category = "Common" Mergeable = "true" Description = "Sent whenever a mouse drag rolls over the window."/>
+          <DragDrop Type = "CATCommandMethod" Category = "Common" Mergeable = "true" Description = "Sent whenever a mouse drop happens. This notification is sent by the target of the drag&amp;drop operation."/>
+          <DragDropEnd Type = "CATCommandMethod" Category = "Common" Mergeable = "true" Description = "Sent whenever a mouse drop happens.This notification is sent by the source of the drag&amp;drop operation."/>
+          <HelpRequested Type = "CATCommandMethod" Category = "Common" Mergeable = "true" Description = "Sent whenever the object is selected using the What's This command."/>
+          <Resized Type = "CATCommandMethod" Category = "Common" Mergeable = "true" Description = "Sent whenever the object is resized."/>
+          <DragStart Type = "CATCommandMethod" Category = "Common" Mergeable = "true" Description = "Sent whenever a mouse drag mechanism begins."/>
+          <VisibilityChanged Type = "CATCommandMethod" Category = "Common" Mergeable = "true" Description = "Sent whenever the object visibility is modified."/>
+        </Callbacks>
+      </MetaModel>
+      <Production>
+        <Instantiation>
+          <Code><![CDATA[
+<@int flags;
+flags|=${final:ComboType};
+if $AllowKeyboardEntry=="true" {
+flags|='CATDlgCmbEntry';
+}
+if $UseDouble=="true" {
+flags|='CATDlgCmbDouble';
+}
+if $UseColorPalette=="true" {
+flags|='CATDlgCmbColor';
+}
+if $UseLineTypePalette=="true" {
+flags|='CATDlgCmbLineType';
+}
+if $UseBitmapPalette=="true" {
+flags|='CATDlgCmbBitmap';
+}@>
+$InstanceName=new CATDlgCombo($ParentName,(const char*)${final:Name},<@flags@>);
+
+]]></Code>
+        </Instantiation>
+        <Build>
+          <Code><![CDATA[
+<@configuration Generation {
+if $DragCancel!="" {@>
+AddAnalyseNotificationCB($InstanceName, $InstanceName->GetCancelDragNotification(),(CATCommandMethod)&$ClassName::$DragCancel,NULL);
+<@}
+if $DragButton!="" {@>
+AddAnalyseNotificationCB($InstanceName, $InstanceName->GetDragButtonNotification(),(CATCommandMethod)&$ClassName::$DragButton,NULL);
+<@}
+if $DragEnter!="" {@>
+AddAnalyseNotificationCB($InstanceName, $InstanceName->GetDragEnterNotification(),(CATCommandMethod)&$ClassName::$DragEnter,NULL);
+<@}
+if $DragLeave!="" {@>
+AddAnalyseNotificationCB($InstanceName, $InstanceName->GetDragLeaveNotification(),(CATCommandMethod)&$ClassName::$DragLeave,NULL);
+<@}
+if $DragOver!="" {@>
+AddAnalyseNotificationCB($InstanceName, $InstanceName->GetDragOverNotification(),(CATCommandMethod)&$ClassName::$DragOver,NULL);
+<@}
+if $DragDrop!="" {@>
+AddAnalyseNotificationCB($InstanceName, $InstanceName->GetDropNotification(),(CATCommandMethod)&$ClassName::$DragDrop,NULL);
+<@}
+if $DragDropEnd!="" {@>
+AddAnalyseNotificationCB($InstanceName, $InstanceName->GetEndDropNotification(),(CATCommandMethod)&$ClassName::$DragDropEnd,NULL);
+<@}
+if $HelpRequested!="" {@>
+AddAnalyseNotificationCB($InstanceName, $InstanceName->GetHelpNotification(),(CATCommandMethod)&$ClassName::$HelpRequested,NULL);
+<@}
+if $Resized!="" {@>
+AddAnalyseNotificationCB($InstanceName, $InstanceName->GetResizeNotification(),(CATCommandMethod)&$ClassName::$Resized,NULL);
+<@}
+if $DragStart!="" {@>
+AddAnalyseNotificationCB($InstanceName, $InstanceName->GetStartDragNotification(),(CATCommandMethod)&$ClassName::$DragStart,NULL);
+<@}
+if $VisibilityChanged!="" {@>
+AddAnalyseNotificationCB($InstanceName, $InstanceName->GetVisibilityNotification(),(CATCommandMethod)&$ClassName::$VisibilityChanged,NULL);
+<@}
+}
+configuration XAML {@>
+if(cmd!=NULL && m_DragCancel!="") {
+cmd->AddCBAnalyse($InstanceName, $InstanceName->GetCancelDragNotification(),m_DragCancel);
+}
+if(cmd!=NULL && m_DragButton!="") {
+cmd->AddCBAnalyse($InstanceName, $InstanceName->GetDragButtonNotification(),m_DragButton);
+}
+if(cmd!=NULL && m_DragEnter!="") {
+cmd->AddCBAnalyse($InstanceName, $InstanceName->GetDragEnterNotification(),m_DragEnter);
+}
+if(cmd!=NULL && m_DragLeave!="") {
+cmd->AddCBAnalyse($InstanceName, $InstanceName->GetDragLeaveNotification(),m_DragLeave);
+}
+if(cmd!=NULL && m_DragOver!="") {
+cmd->AddCBAnalyse($InstanceName, $InstanceName->GetDragOverNotification(),m_DragOver);
+}
+if(cmd!=NULL && m_DragDrop!="") {
+cmd->AddCBAnalyse($InstanceName, $InstanceName->GetDropNotification(),m_DragDrop);
+}
+if(cmd!=NULL && m_DragDropEnd!="") {
+cmd->AddCBAnalyse($InstanceName, $InstanceName->GetEndDropNotification(),m_DragDropEnd);
+}
+if(cmd!=NULL && m_HelpRequested!="") {
+cmd->AddCBAnalyse($InstanceName, $InstanceName->GetHelpNotification(),m_HelpRequested);
+}
+if(cmd!=NULL && m_Resized!="") {
+cmd->AddCBAnalyse($InstanceName, $InstanceName->GetResizeNotification(),m_Resized);
+}
+if(cmd!=NULL && m_DragStart!="") {
+cmd->AddCBAnalyse($InstanceName, $InstanceName->GetStartDragNotification(),m_DragStart);
+}
+if(cmd!=NULL && m_VisibilityChanged!="") {
+cmd->AddCBAnalyse($InstanceName, $InstanceName->GetVisibilityNotification(),m_VisibilityChanged);
+}
+<@}
+
+if ${/HandleResources}!="true" {
+if (${Title/IsDefault}=="false"){@>
+$InstanceName->SetTitle(${final:Title});
+<@}
+if (${Help/IsDefault}=="false"){@>
+$InstanceName->SetHelp(${final:Help});
+<@}
+if (${ShortHelp/IsDefault}=="false"){@>
+$InstanceName->SetShortHelp(${final:ShortHelp});
+<@}
+if (${LongHelp/IsDefault}=="false"){@>
+$InstanceName->SetLongHelp(${final:LongHelp});
+<@}
+if (${Accelerator/IsDefault}=="false"){@>
+$InstanceName->SetAcceleratorString(${final:Accelerator});
+<@}
+if (${IconNormal/IsDefault}=="false") || (${IconSelected/IsDefault}=="false") || (${IconFocussed/IsDefault}=="false") { @>
+$InstanceName->SetIconName((const char*)${string:IconNormal},(const char*)${string:IconSelected},(const char*)${string:IconFocussed});
+<@}
+}
+if ${/HandleResources}=="true" {
+configuration Simulation {@>
+CATUnicodeString catalog = $MsgCatalog;
+CATUnicodeString path=$WidgetPath;
+CATUnicodeString key=path;
+key.Append("Title");
+
+$InstanceName->SetTitle(CATMsgCatalog::BuildMessage((const char*)catalog, (const char*)key));
+
+key=path;
+key.Append("Help");
+$InstanceName->SetHelp(CATMsgCatalog::BuildMessage((const char*)catalog, (const char*)key));
+key=path;
+key.Append("ShortHelp");
+$InstanceName->SetShortHelp(CATMsgCatalog::BuildMessage((const char*)catalog, (const char*)key));
+key=path;
+key.Append("LongHelp");
+$InstanceName->SetLongHelp(CATMsgCatalog::BuildMessage((const char*)catalog, (const char*)key));
+key=path;
+key.Append("Accelerator");
+$InstanceName->SetAcceleratorString(CATMsgCatalog::BuildMessage((const char*)catalog, (const char*)key));
+CATUnicodeString iconKey=path;
+iconKey.Append("Icon");
+CATUnicodeString iconSelKey=path;
+iconSelKey.Append("IconSel");
+CATUnicodeString iconFocusKey=path;
+iconFocusKey.Append("IconFocus");
+
+CATString iconName,iconSelName,iconFocusName;
+CATRscCatalog::BuildResource((const char*)catalog, (const char*)iconKey, iconName);
+CATRscCatalog::BuildResource((const char*)catalog, (const char*)iconSelKey, iconSelName);
+CATRscCatalog::BuildResource((const char*)catalog, (const char*)iconFocusKey, iconFocusName);
+$InstanceName->SetIconName(iconName, iconSelName, iconFocusName);
+<@
+}
+}
+
+if (${Enabled/IsDefault}=="false"){@>
+$InstanceName->SetSensitivity(${DLGEnabled:Enabled});
+<@}
+if (${Visible/IsDefault}=="false"){@>
+$InstanceName->SetVisibility(${DLGVisible:Visible});
+<@}
+
+if $GridLayoutConstraint!="" {
+int gridAnchor;
+if ${GridLayoutConstraint/Anchor/AttachedToLeft}=="true" {
+gridAnchor|='CATGRID_LEFT';
+}
+if ${GridLayoutConstraint/Anchor/AttachedToRight}=="true" {
+gridAnchor|='CATGRID_RIGHT';
+}
+if ${GridLayoutConstraint/Anchor/AttachedToTop}=="true" {
+gridAnchor|='CATGRID_TOP';
+}
+if ${GridLayoutConstraint/Anchor/AttachedToBottom}=="true" {
+gridAnchor|='CATGRID_BOTTOM';
+}
+if ${GridLayoutConstraint/Anchor/ConstantWidth}=="true" {
+gridAnchor|='CATGRID_CST_WIDTH';
+}
+if ${GridLayoutConstraint/Anchor/ConstantHeight}=="true" {
+gridAnchor|='CATGRID_CST_HEIGHT';
+}@>
+$InstanceName->SetGridConstraints(${int:GridLayoutConstraint/Row},${int:GridLayoutConstraint/Col},${int:GridLayoutConstraint/Width},${int:GridLayoutConstraint/Height},<@gridAnchor@>);
+<@}@>
+
+
+<@if ${Magnitude/IsDefault}=="false" { @>
+$InstanceName->SetMagnitude((CATDlgControl::CATDlgMagnitude)${final:Magnitude});
+<@}
+if (${Precision/IsDefault}=="false") || (${UseDecimalPrecision/IsDefault}=="false") { @>
+$InstanceName->SetPrecision(${final:Precision},${final:UseDecimalPrecision});
+<@}
+if ${Unit/IsDefault}=="false" { @>
+$InstanceName->SetUnit((CATDlgControl::CATDlgUnit)${final:Unit});
+<@}@>
+
+<@configuration Generation {
+if $ComboDrop!="" {@>
+AddAnalyseNotificationCB($InstanceName, $InstanceName->GetComboDropNotification(),(CATCommandMethod)&$ClassName::$ComboDrop,NULL);
+<@}
+if $Modify!="" {@>
+AddAnalyseNotificationCB($InstanceName, $InstanceName->GetComboModifyNotification(),(CATCommandMethod)&$ClassName::$Modify,NULL);
+<@}
+if $SelectionChanged!="" {@>
+AddAnalyseNotificationCB($InstanceName, $InstanceName->GetComboSelectNotification(),(CATCommandMethod)&$ClassName::$SelectionChanged,NULL);
+<@}
+if $EditModify!="" {@>
+AddAnalyseNotificationCB($InstanceName, $InstanceName->GetEditModifyNotification(),(CATCommandMethod)&$ClassName::$EditModify,NULL);
+<@}
+}
+configuration XAML {@>
+if(cmd!=NULL && m_ComboDrop!="") {
+cmd->AddCBAnalyse($InstanceName, $InstanceName->GetComboDropNotification(),m_ComboDrop);
+}
+if(cmd!=NULL && m_Modify!="") {
+cmd->AddCBAnalyse($InstanceName, $InstanceName->GetComboModifyNotification(),m_Modify);
+}
+if(cmd!=NULL && m_SelectionChanged!="") {
+cmd->AddCBAnalyse($InstanceName, $InstanceName->GetComboSelectNotification(),m_SelectionChanged);
+}
+if(cmd!=NULL && m_EditModify!="") {
+cmd->AddCBAnalyse($InstanceName, $InstanceName->GetEditModifyNotification(),m_EditModify);
+}
+<@}
+if (${DropDownTextWidth/IsDefault}=="false"){@>
+$InstanceName->SetDropDownTextWidth(${final:DropDownTextWidth});
+<@}
+if (${VisibleTextWidth/IsDefault}=="false"){@>
+$InstanceName->SetVisibleTextWidth(${final:VisibleTextWidth});
+<@}
+if (${VisibleTextHeight/IsDefault}=="false"){@>
+$InstanceName->SetVisibleTextHeight(${final:VisibleTextHeight});
+<@}@>
+
+
+]]></Code>
+        </Build>
+        <Declarations>
+          <Code><![CDATA[
+class CATDlgCombo;
+
+]]></Code>
+        </Declarations>
+        <Includes>
+          <Code><![CDATA[
+#include "CATDlgCombo.h"
+<@configuration Simulation {@>#include "CATDlgGridConstraints.h"
+#include "CATMsgCatalog.h"
+#include "CATRscCatalog.h"
+<@}@>
+]]></Code>
+        </Includes>
+      </Production>
+    </ExportData></Content></DSxDevCodeGen>

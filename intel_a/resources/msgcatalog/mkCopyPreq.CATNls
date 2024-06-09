@@ -1,0 +1,85 @@
+mkCopyPreq.Version.BuildLevel = "/P1 (Build /P2)";
+
+mkCopyPreq.HelpBegin = "\n",
+    "Usage: mkCopyPreq [-W WorkspacePath] -p Path1;Path2;... [-t TargetPath] [-o OS1 -o OS2 ...] [-h, -?] [-v, -debug]\n",
+    "                  [-update | -remove] [-copysrc | copyall] [-simul] [-sniff] [-d] [-f] [-jobs N]\n";
+
+mkCopyPreq.Option.W = "   -/P1 Workspace    : Workspace directory path name. If not specified,\n",
+                      "                     mkCopyPreq uses current directory path name.";
+mkCopyPreq.Option.p = "   -/P1 Path1...     : Workspace paths concatenation where prerequisites are searched for.";
+mkCopyPreq.Option.t = "   -/P1 TargetPath   : Target directory for copied prerequisites (default is -W value)";
+mkCopyPreq.Option.copysrc = "   -/P1        : Copy source files directories.";
+mkCopyPreq.Option.copyall = "   -/P1        : Copy all preceding directories.";
+mkCopyPreq.Option.remove = "   -/P1         : -- Useless, for compatibility --.";
+mkCopyPreq.Option.a = "   -/P1              : -- Useless, for compatibility --.";
+mkCopyPreq.Option.lFW = "   -/P1            : -- Useless, for compatibility --.";
+mkCopyPreq.Option.update = "   -/P1         : Refresh prerequisites installation (the default).";
+mkCopyPreq.Option.o = "   -/P1 OS1...       : Add OS to consider.";
+mkCopyPreq.Option.f = "   -/P1              : Copy FunctionTests directories.";
+mkCopyPreq.Option.d = "   -/P1              : Copy Data directories.";
+mkCopyPreq.Option.sniff = "   -/P1          : Copy sniff directories.";
+mkCopyPreq.Option.nopdb = "   -/P1          : Do not copy \".pdb\" files and remove existing \".pdb\" for prerequisite frameworks in target directory.";
+mkCopyPreq.Option.nort = "   -/P1           : Do not copy runtime prerequisites.";
+mkCopyPreq.Option.retry = "   -/P1 Nb       : number of retries when expanding.";
+mkCopyPreq.Option.time = "   -/P1 Time      : wait time between retries in sec when expanding.";
+mkCopyPreq.Option.copyretry = "   -/P1 Nb   : number of retries when copying.";
+mkCopyPreq.Option.copytime = "   -/P1 Time  : wait time between retries in sec when copying.";
+mkCopyPreq.Option.simul = "   -/P1          : Simulation mode (get list of framework to copy & delete).";
+mkCopyPreq.Option.simu = "   -/P1           : The same as -simul.";
+mkCopyPreq.Option.merge = "   -/P1          : Don't remove obsolete copied prerequisites (only with -t).";
+mkCopyPreq.Option.BSDef = "   -/P1          : File for step definition (default is StepsDefinition.mk).";
+mkCopyPreq.Option.j = "   -/P1 N            : The same as -jobs.";
+mkCopyPreq.Option.jobs = "   -/P1 N         : Set number of parallelized job for copy (default = 5).";
+mkCopyPreq.Option.h = "   -/P1              : Produces help message.";
+mkCopyPreq.Option.h.other = "   -/P1              : The same as -h.";
+mkCopyPreq.Option.v =  "   -/P1              : Verbose mode.";
+mkCopyPreq.Option.debug = "   -/P1          : Debug mode.";
+
+mkCopyPreq.HelpEnd = "";
+
+mkCopyPreq.BadOptErr = "# mkmk-ERROR: Command line -> Syntax error.";
+mkCopyPreq.NotExistErr = "# mkmk-ERROR: /P1 -> This element does not exist.";
+mkCopyPreq.MESRER = "# mkmk-ERROR: /P1 -> Failed to read.";
+mkCopyPreq.MESEWS = "# mkmk-ERROR: /P1 -> This local workspace directory is empty.";
+mkCopyPreq.MESSPL = "# mkmk-ERROR: Command -> Specify search path list with -p option.";
+mkCopyPreq.MESERP = "# mkmk-ERROR: /P1 -> This element is not accessible, it will not be used has search path.";
+mkCopyPreq.MESNMP = "# mkmk-ERROR: Command -> No valid search path specified with -p option.";
+mkCopyPreq.NotExistErr = "# mkmk-ERROR: /P1 -> This element does not exist.";
+mkCopyPreq.NOFWONCMD = "# mkmk-ERROR: Command -> Cannot specify a list of Frameworks on command line.";
+mkCopyPreq.MESFWPR = "# mkmk-ERROR: Command -> Cannot specify both '/P1' and '/P2' options.";
+mkCopyPreq.MESNMFErr = "# mkmk-ERROR: No more valid framework to copy.";
+mkCopyPreq.MESNFD = "# mkmk-ERROR: /P1 -> Cannot locate this framework in any search path.";
+
+mkCopyPreq.NoRemove = "# mkmk-WARNING: Don't remove of --> /P1 due to option -merge";
+mkCopyPreq.CheckRetryWarn = "# mkmk-WARNING: Retrying retreive information about /P1 ";
+mkCopyPreq.INFOPTSPEC = "# mkmk-WARNING: /P1 -> This option is specified.";
+mkCopyPreq.MergeWarn = "# mkmk-WARNING: Use of option -merge may cause unpredictable results.";
+mkCopyPreq.NoMergeWarn = "# mkmk-WARNING: Option -merge not used."; 
+
+mkCopyPreq.INFREP = "# mkmk-INFO: Command -> -update option has been specified!!";
+mkCopyPreq.INFWSP = "# mkmk-INFO: /P1 -> Workspace directory.";
+mkCopyPreq.INFSTDCUR = "# mkmk-INFO: Start of prerequisite frameworks deletion in current workspace directory.";
+mkCopyPreq.MESNMFInfo = "# mkmk-INFO: No more valid framework to copy.";
+mkCopyPreq.INFSCI = "# mkmk-INFO: Start of all workspaces identity cards build.";
+mkCopyPreq.INFNOPREQ = "# mkmk-INFO: Nothing to do, the prerequisite list is empty!";
+mkCopyPreq.INFFAW = "# mkmk-INFO: /P1 -> This framework already exist in the workspace.";
+mkCopyPreq.INFSTD = "# mkmk-INFO: Start of prerequisite frameworks deletion in target directory.";
+mkCopyPreq.INFPREQUPADTE = "# mkmk-INFO: Start of prerequisite frameworks update in target directory.";
+
+mkCopyPreq.FInfo = "   Standard framework: /P1\n",
+		        "   Localization of framework: /P2";
+
+mkCopyPreq.Init = "# Start of mkCopyPreq :";
+mkCopyPreq.LocalFInit = "-- List of local frameworks:";
+mkCopyPreq.InfoTarget = "-- target path will be: /P1";
+mkCopyPreq.PreqInstInfo = "   CopyPreq installation: /P1";
+mkCopyPreq.CheckTargetInit = "   Checking target directory:";
+mkCopyPreq.CheckCurrentInit = "   Checking current directory:";
+mkCopyPreq.MoveICS = "   Move the copy of the script: /P1";
+mkCopyPreq.MoveICD = "   And the IdentityCard directory: /P1";
+mkCopyPreq.RestoreICS = "   Restore the copy of the script: /P1";
+mkCopyPreq.RestoreICD = "   And the IdentityCard directory: /P1";
+mkCopyPreq.SearchPreq = "-- Searching prerequisites for: /P1";
+mkCopyPreq.LaunchCom = "#  Launched command : /P1";
+mkCopyPreq.LaunchUpd = "#  Launch update of --> /P1 with /P2";
+mkCopyPreq.LaunchRem = "#  Launch remove of --> /P1";

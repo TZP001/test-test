@@ -1,0 +1,138 @@
+if "%MKMK_PROGNAME%" == "" set MKMK_PROGNAME="CNEXT.exe"
+
+set CATMsgCatalogPath=
+set CATDictionaryPath=
+set CATICPath=
+set PWD=
+set %PATH_NAME%=%PATH_setcatenv%
+set OSDS=%MkmkOS_Buildtime%
+set ORBIX_ItDaemonPort=1570
+if not "%OPTION_FOR_SETCATENV%" == ""         echo # mkmk-INFO: Variable OPTION_FOR_SETCATENV is set. An option is added to setcatenv...
+
+set CATDefaultEnvironment=%DEFDefaultEnvironment%
+
+if not "%NEWDefaultEnvironment%" == ""  set CATDefaultEnvironment=%NEWDefaultEnvironment%
+
+if "%NEWDefaultEnvironment%" == "" call setcatenv.exe -p "%MKMK_LST_RTV%" -e %CATDefaultEnvironment% %OPTION_FOR_SETCATENV%
+
+set CLASSPATH=%CLASSPATH%;%JavaROOT_PATH%\lib\classes.zip
+
+if not "%IT_ORCALE_HOME_V10%" == "" set IT_ORCALE_HOME=%IT_ORCALE_HOME_V10%
+if not "%IT_ORA_NLS33_V10%" == "" set IT_ORA_NLS33=%IT_ORA_NLS33_V10%
+if not "%IT_TNS_ADMIN_V10%" == "" set IT_TNS_ADMIN=%IT_TNS_ADMIN_V10%
+
+
+set CATCatchSignals=TRUE
+set CATLogSessionEnd=TRUE
+set CATErrorLog=Error.log
+
+for /F "delims=*" %%i in ( 'readcatenv -e %CATDefaultEnvironment% -a user -var CATInstallPath' ) do set %%i
+set CLASS_NAME=com.dassault_systemes.itjavacatalogue.GetEnvNameFromHost
+
+for /F "delims=*" %%i in ( 'StdE4ALLJavaCommand -hostname %IT_ENOV_HOSTNAME% -port %IT_ENOV_ORBIX_PORT%' ) do set ENV_NAME=%%i
+
+if "%ENV_NAME%" == ""  set ENV_NAME=NotSpecified
+
+set CLASS_NAME=com.dassault_systemes.itjavacatalogue.GetEnoviaEnvValue
+
+set OLD_VaultClient_PropertiesFileName=%VaultClient_PropertiesFilePath%
+
+for /F "delims=*" %%i in ( 'StdE4ALLJavaCommand -conf %ENV_NAME% -i WINDOWS_VaultClient_PropertiesFilePath' ) do set VaultClient_PropertiesFilePath=%%i
+for /F "delims=*" %%i in ( 'StdE4ALLJavaCommand -conf %ENV_NAME% -i ENO_PROTOCOL' ) do set ENO_PROTOCOL=%%i
+
+if "%VaultClient_PropertiesFilePath%" == "null" set  VaultClient_PropertiesFilePath=%OLD_VaultClient_PropertiesFileName%
+
+if "%VaultClient_PropertiesFilePath%" == "" set VaultClient_PropertiesFilePath=%IT_DATA%\ToolsData\ITEnovia\%OSDS%
+if "%VaultClient_PropertiesFileName%" == "" set VaultClient_PropertiesFileName=VaultClient.properties
+
+rem if not "%ITtoolsUserSettingPath%" == "" call chcatenv.exe -e %CATDefaultEnvironment% -a user -var "CATUserSettingPath=%ITtoolsUserSettingPath%;%APPDATA%\DassaultSystemes\CATSettings"
+
+for /F "delims=*" %%i in ( 'readcatenv -e %CATDefaultEnvironment% -a user -var CATUserSettingPath' ) do set %%i
+
+for /F %%i in ( 'readcatenv -e %CATDefaultEnvironment% -a user -var CATInstallPath' ) do set %%i
+
+rem if not "%ITtoolsUserSettingPath%" == "" call chcatenv.exe -e %CATDefaultEnvironment% -a user -var "CATUserSettingPath=%ITtoolsUserSettingPath%;%APPDATA%\DassaultSystemes\CATSettings"
+
+for /F "delims=*" %%i in ( 'readcatenv -e %CATDefaultEnvironment% -a user -var CATUserSettingPath' ) do set %%i
+
+if not exist  "%CATUserSettingPath%" mkdir "%CATUserSettingPath%"
+
+if not "%ITtoolsUserSettingPath%" == ""  cp  "%ITtoolsUserSettingPath%\CATDbServers.CATSettings" "%CATUserSettingPath%"
+if not "%ITtoolsUserSettingPath%" == ""  cp  "%ITtoolsUserSettingPath%\VPMAdmin.CATSettings" "%CATUserSettingPath%"
+if not "%ITtoolsUserSettingPath%" == ""  cp  "%ITtoolsUserSettingPath%\CATRdbServers.CATSettings" "%CATUserSettingPath%"
+
+
+
+if "%JAVA_HOME%" == "" call chcatenv.exe -e %CATDefaultEnvironment% -a user -var "JAVA_HOME=%JavaROOT_Path%"
+if not "%JAVA_HOME%" == "" call chcatenv.exe -e %CATDefaultEnvironment% -a user -var "JAVA_HOME=%JAVA_HOME%"
+
+if not exist  c:\temp mkdir c:\temp
+
+set TNS_ADMIN=%IT_TNS_ADMIN%
+set ORA_NLS33=%IT_ORA_NLS33%
+set ORACLE_HOME=%IT_ORACLE_HOME%
+set CATTraceSDir=c:\temp\
+set CATSharedWorkbookPath=c:\temp\
+touch c:\temp\ServerManager.web
+
+
+set MkrunTMP_PATH=c:\temp\Fake_FileTree
+
+chcatenv.exe -e %CATDefaultEnvironment% -a user -new -var "TNS_ADMIN=%IT_TNS_ADMIN%"
+chcatenv.exe -e %CATDefaultEnvironment% -a user -new -var "ORA_NLS33=%IT_ORA_NLS33%"
+chcatenv.exe -e %CATDefaultEnvironment% -a user -new -var "ORACLE_HOME=%IT_ORACLE_HOME%"
+chcatenv.exe -e %CATDefaultEnvironment% -a user -new -var "DB2INSTANCE=%DB2INSTANCE%"
+for /F "delims=*" %%i in ( 'readcatenv -e %CATDefaultEnvironment% -a user -var PATH' ) do set %%i
+chcatenv.exe -e %CATDefaultEnvironment% -a user -var "PATH=%IT_ORACLE_HOME%\bin;%PATH%"
+
+set CATTraceSDir=c:\temp\
+set CATSharedWorkbookPath=c:\temp\
+touch c:\temp\ServerManager.web
+
+rem ### A virer et demander un mode silent ...
+
+mkdir intel_a\control
+touch intel_a\control\CORBARuntime
+
+
+
+set IT_DAEMON_PORT=%SETUP_ORBIX_DAEMON_PORT%
+set ORBIX_ItDaemonPort=%SETUP_ORBIX_DAEMON_PORT%
+set ENVNAME=%CATDefaultEnvironment%
+set DS_ENVDIR=%PWD%\CATEnv
+
+if not "%ENO_PROTOCOL%" == "HTTP" call CORBARuntime_post
+if not "%ENO_PROTOCOL%" == "HTTP" call CORBAServerInfra_post
+
+if "%SETUP_SDAM_PORT%" == "" set SETUP_SDAM_PORT=5570
+
+echo ## Local SDAM port is : %SETUP_SDAM_PORT%
+
+if "%SDAM_INTERNAL_PORT%" == "" set SDAM_INTERNAL_PORT=6666
+
+echo ## SDAM internal port for fork is : %SDAM_INTERNAL_PORT%
+
+for /F "delims=*" %%i in ( 'readcatenv -e %CATDefaultEnvironment% -a user -var PATH' ) do set %%i
+
+if "%ENO_PROTOCOL%" == "HTTP" set SDAM_START=YES
+if "%ENO_PROTOCOL%" == "HTTP" set SDAM_PORT=%SETUP_SDAM_PORT%
+if "%ENO_PROTOCOL%" == "HTTP" "PortalSDAMInfra_post"
+
+catstart -run "ImmLogonSetting.exe -Host localhost:%SETUP_SDAM_PORT% -WICH -protocol %ENO_PROTOCOL%"
+
+
+set CATInstallPath=%CATInstallPath_old%
+
+set %PATH_NAME%=%PATH1%
+
+call CATSTART.exe -run "%MKMK_PROGNAME%"
+
+
+set %PATH_NAME%=%PATH_setcatenv%
+
+if not "%OPTION_FOR_DELCATENV%" == "" echo # mkmk-INFO: Variable OPTION_FOR_DELCATENV is set. An option is added to delcatenv...
+
+call catstart -run KillV5Process
+
+if "%NEWDefaultEnvironment%" == "" call delcatenv.exe -e %CATDefaultEnvironment%  %OPTION_FOR_DELCATENV%
+

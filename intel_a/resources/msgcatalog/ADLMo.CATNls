@@ -1,0 +1,250 @@
+// ===============================================
+//    Messages for the Monitor
+// ===============================================
+
+0010 = "Usage: /p1 {/p5 database_id|/p6} [/p3 port_number] [/p4 on|off] [/p7 monitor_id] [/p8 verbose_level] [/p2]";
+0011 = "This command start a monitor on the local machine.";
+0012 = "   /p1 port_number: port number which will be used to listen client requests";
+0013 = "   /p1 on|off  : if 'on' is engaged, monitor process an integrity auto checking after each user request ('on' is the default).";
+0014 = "   /p1 database_id : Identifier of the monitor database.";
+0015 = "   /p1: CAUTION - This option should be used only for test purpose, never in another case.";
+0018 = "   /p1 monitor_id: CAUTION - This option is mandatory when a same database is shared by several monitor.";
+0019 = "   /p1 verbose_level: To start monitor traces
+\t0:          No trace
+\t1:          All client request traces
+\t2: 1+       Some debug informations
+\t3: 1+2+     All error messages sent to the client
+\t4: 1+2+3+   Dump of monitor tables after each client request
+\t5: 1+2+3+4+ Dump of database caches before each database access.";
+0020 = "   /p1 : Display for program.";
+
+0050 = "The port number \"/p1\" is invalid. Restart the monitor with a valid port number";
+0051 = "The autocheck argument \"/p1\" is invalid. Restart the monitor with 'on' or 'off' parameter";
+0055 = "Verifying the database options:";
+
+0080 = "The server is ready to receive commands.
+
+Starting parameters are:
+	Monitor identifier  = \"/p1\"
+	Hostname            = /p2
+	Port number         = /p3
+	Database identifier = /p4
+	Autocheck           = /p5
+	Pid                 = /p6";
+
+0081 = "The server will be stopped after the completion of the currently processing commands";
+0082 = "The server is going to shutdown";
+
+0084 = "Connection established.";
+
+0089 = "Cannot initialize the monitor with the database command: /p1 which has not a ended status.
+	To force the start of the monitor, use the \"force\" option.";
+0090 = "Cannot initialize network access layer";
+0091 = "Cannot initialize connection with monitor on host: /p1 and port number: /p2";
+0092 = "Cannot initialize the monitor. The port is already in use";
+0093 = "Cannot open a new client connection. The monitor is too busy. Contact your administrator";
+
+0099 = "The monitor is aborting";
+0100 = "Monitor will stop at the end of the currently processed commands";
+0101 = "Monitor suspends its activity until a resume command";
+0102 = "Monitor restarts its activity";
+0103 = "The monitor is currently aborting. Your cannot submit a request";
+0104 = "The monitor stop is in progress. You cannot submit a new request";
+0105 = "The monitor is not suspended, you cannot resume it.";
+0106 = "The command is not running. You cannot terminate it.";
+0107 = "The command \"/p1\" does not exist in the list of commands currently processed by the monitor.";
+0108 = "The client version (\"/p1\") and the monitor version (\"/p2\") are incompatible.";
+0109 = "Failed to receive first message from server on host \"/p1\" using port /p2.";
+
+0110 = "Cannot identify the client process to the monitor during connection phase. Retry later or contact your local support.";
+0111 = "Cannot insert locks into the monitor. Connection may be broken. Retry later or contact your local support.";
+0112 = "Cannot create the command into the monitor. Connection may be broken. Retry later or contact your local support.";
+0113 = "Cannot terminate the command into the monitor. Connection may be broken. Retry later or contact your local support.";
+0114 = "Cannot remove locks from the monitor. Connection may be broken. Retry later or contact your local support.";
+0115 = "Cannot terminate a command until some resources have been locked by this command. Connection has been broken. Contact your local support.";
+0116 = "Cannot abort the command into the monitor. Connection may be broken. Retry later or contact your local support.";
+0117 = "Cannot create the command CM Context into the monitor. Connection may be broken. Retry later or contact your local support.";
+0118 = "Cannot update the command with the CM Context.";
+0119 = "Cannot abort commands from the monitor. Connection may be broken. Retry later or contact your local support.";
+
+0120 = "The connection with monitor on host: /p1 and port number: /p2 has been successfully tested.";
+0121 = "Internal monitor error. An unknown session has been detected. Contact your local support";
+0122 = "Internal monitor error. A lock cannot be created. Contact your local support";
+0123 = "Wait a moment. Conflict access between:
+Your command:  /p1@/p2(/p3):/p4 /p5 (lock id: /p6)
+and the other: /p7@/p8(/p9):/p10 /p11 (lock id: /p12)
+";
+0124 = "Retry your command later. Conflict access has been detected between:
+Your command:  /p1@/p2(/p3):/p4 /p5 (lock id: /p6)
+and the other: /p7@/p8(/p9):/p10 /p11 (lock id: /p12)
+";
+0125 = "A recovery on /p1 object is currently processing";
+0126 = "A recovery on /p1 object should be executed before using it";
+0127 = "Internal monitor error. A command cannot be created. Contact your local support";
+0128 = "The command (identified \"/p1\") does not found in the monitor side";
+0129 = "The command (identified \"/p1\") does not run anymore. Its status is \"/p2\"";
+0130 = "The lock (identified \"/p1\") already exists. You cannot create it twice";
+0131 = "Cannot execute a recovery of the recoverable object identified by \"/p1\"";
+0132 = "Cannot create a lock referencing a recoverable object and which is not persistent.";
+0133 = "Cannot create a lock with a recoverable object referenced by another command (identified by \"/p1\")";
+0134 = "Cannot find the command (identified by \"/p1\") associated with the recoverable object (identified by \"/p2\")";
+0135 = "Cannot remove all locks after recovery";
+0136 = "A lock typed \"/p1\" must be persistent.";
+0137 = "Cannot remove the following locks from the monitor:/p1.";
+0138 = "Lock \"/p1\" has been successfully removed from the monitor.";
+0139 = "Command \"/p1\" has been successfully aborted from the monitor.";
+
+0140 = "Recovery successful
+";
+0141 = "Cannot abort the following commands from the monitor:/p1.";
+0142 = "The Monitor has changed its verbose level with the value: \"/p1\".";
+0143 = "Network error: /p1.";
+
+0150 = "The monitor activity is suspended. Wait a moment, your command will run after it will be resumed.";
+0151 = "The monitor activity has just been resumed. Your command restart.";
+
+0201 = "Cannot send a message to the monitor. Connection may be broken";
+0202 = "Cannot receive a message from the monitor. Connection may be broken";
+
+0301 = "Cannot display commands from the monitor. Connection may be broken. Retry later or contact your local support.";
+0302 = "Cannot get the following command identifiers from the monitor:/p1.";
+
+0321 = "Cannot display locks from the monitor. Connection may be broken. Retry later or contact your local support.";
+0322 = "Cannot get the following locks identifiers from the monitor:/p1.";
+
+0331 = "Cannot display recoverable objects from the monitor. Connection may be broken. Retry later or contact your local support.";
+0332 = "Cannot get the following recoverable objects identifiers from the monitor:/p1.";
+
+0400 = "Verifying the version of the monitor database /p1.";
+0401 = "An upgrade is running on the monitor database /p1.";
+0402 = "Please call an administrator.";
+0403 = "Version mismatch: the software you use is not suitable for the monitor database /p1 format.";
+
+// ==========================================================
+//    Messages for the Monitor Administrator utility
+// ==========================================================
+
+1010 = "Usage: /p1 [/p3 host] [/p4 port] [/p5] [/p6|/p7|/p8|/p9] [/p10 command_identifier...] [/p11 lock_identifier...] [/p12] [/p13] [/p14] [/p15 filter_name:filter_value ...] [/p16 command_id ... ] [/p17 lock_id ....] [/p18 rec_obj_id ...] [/p19] [/p20 verbose_level] [/p21 [/p22 char]] [/p23 file_path][/p2]";
+1011 = "This command permit to manage the monitor activity.";
+1012 = "   /p1 host: name of monitor machine";
+1013 = "   /p1 port: port number of the listen monitor socket.";
+1014 = "   /p1: To test the monitor activity.";
+1015 = "   /p1: To stop the monitor after it has completed all current commands.";
+1016 = "   /p1: To suspend the monitor activity. No more connections can be established.";
+1017 = "   /p1: To resume the monitor activity. Authorize all new connections.";
+1018 = "   /p1: To abort all transactions still running and stop the monitor.";
+1019 = "   /p1 command identifier: Abort and remove a command from the monitor.";
+1020 = "   /p1 lock identifier: Remove a lock of a terminated command from the monitor.";
+1021 = "   /p1: To list all current managed commands by the monitor.";
+1022 = "   /p1: To list all current managed locks by the monitor.";
+1023 = "   /p1: To display all information about commands or locks managed by the monitor.";
+1024 = "   /p1: To select monitor objects according to specified criterias
+  Criterias for all monitor objects are:
+	user: name of user which has launched command
+	cmd : name of command
+	host: name of the host where command has been launched
+	pid : process identifier of the command
+	oid : monitor object identifier (lock, command, recoverable object)
+  Criterias on lock are:
+	criteria: lock criteria of a lock
+	locktype: locking mode of a lock (shared, exclusive, exclforce).
+	";
+1025 = "   /p1 command_id : To display all attributes of specified commands by their identifier.";
+1026 = "   /p1 lock_id    : To display all attributes of specified locks by their identifier.";
+1027 = "   /p1 reco_obj_id: To display all attributes of specified recoverable objects by their identifier.";
+1028 = "   /p1: To inhibit the display of the title of the monitor object list.";
+
+1030 = "   /p1 char: Separator between each field (default value is blank).";
+1031 = "   /p1 file_path: Path of the file where the results are stored.";
+
+1050 = "Options concistency check-up.";
+1051 = "You have set /p1 of these options: \"/p2\",\"/p3\",\"/p4\",\"/p5\" at the same time.";
+
+1055 = "You have set a /p1 option without request the list of commands or locks at the same time.
+Retry the command without a filter";
+
+1060 = "Pinging host: /p1 on port: /p2";
+1061 = "Reply from /p1 time /p2 ms";
+
+1070 = "Verbose level check-up.";
+1071 = "Verbose level value \"/p1\" is invalid.";
+1072 = "Verbose level must be an integer between 0 and 5.";
+
+// Command display with the option \"lscmd\" in ADLMoAdmin utility
+1100 = "
+/p1 commands are currently processed by the monitor:";
+
+// example: ygd@paradoxe(windows_NT):348 Aborted adl_mk_ws (BtL+gZUXZek3+++--+++)
+1101 = "/p1@/p2(/p3):/p4 /p5 /p6 (/p7)";
+
+1105 = "No command is currently processed by the monitor.";
+
+// Lock display with the option 'lslock' in ADLMoAdmin utility
+1110 = "
+/p1 locks are currently processed by the monitor:";
+// example: ygd@paradoxe(windows_NT):348 Aborted adl_mk_ws (BtL+gZUXZek3+++--+++)
+1111 = "/p1@/p2(/p3):/p4 /p5 /p6 (/p7)";
+
+1115 = "No lock is currently processed by the monitor.";
+
+1130 = "Filter criterias decoding process";
+1131 = "An unknown criteria has been detected: /p1";
+1132 = "Set the filter with a valid criteria name.";
+
+1135 = "Syntax of the criteria '/p1'is invalid. No separator has been found";
+1136 = "A filter criteria should be built with a criteria name, a semicolon ':' as the separator and a criteria value.
+	Example: user:username";
+1137 = "Syntax of the criteria '/p1'is invalid. The value of the criteria has a NULL length";
+1138 = "Syntax of the criteria '/p1'is invalid. The name of the criteria has a NULL length";
+
+1150 = "Lock type decoding process";
+1151 = "Unknown lock type declared: /p1";
+1152 = "Valid lock type value are 'shared', 'exclusive', and 'exclforce'.";
+
+1201 = "
+Command Identifier  : /p1
+Command Name        : /p2
+Status              : /p3
+Username            : /p4
+Process Identifier  : /p5
+Parent Process Id   : /p6
+Hostname            : /p7
+OS Type             : /p8
+OS Name             : /p9
+OS Version          : /p10
+Processor Type      : /p11
+Userid              : /p12
+Temporary trace file: /p13
+Launching Date      : /p14
+Beginning Date      : /p15
+Ending    Date      : /p16
+Exit Code           : /p17
+Treated Items Number: /p18
+Successfully Treated Items Number: /p19
+";
+
+
+1301 = "
+Username              : /p1
+Hostname              : /p2
+OS Name               : /p3
+Process Identifier    : /p4
+Lock Identifier       : /p5
+Lock Criteria         : /p6
+Lock Type             : /p7
+Recovery Mode         : /p8
+Is Persistent         : /p9
+Waiting To Lock Status: /p10
+Associated Command Id : /p11
+Recoverable Object Id : /p12
+";
+
+1401 = "
+Recoverable Object Identifier: /p1
+Reference Database Identifier: /p2
+Recoverable Object Type      : /p3
+Associated Command           : /p4
+Associated Lock(s)           : /p5";
+
+1402 = "Parameter /p3 Name  : /p1
+Parameter /p4 Value : /p2";

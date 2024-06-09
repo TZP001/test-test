@@ -1,0 +1,714 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.3ds.ic"
+           xmlns:ic="http://www.3ds.ic"
+           elementFormDefault="qualified">
+
+
+  <!-- ============== Enumerations =========================== -->
+
+  <!-- Access specify a level of interfaces accessible  -->
+  <xs:simpleType name="Access">
+    <xs:annotation>
+      <xs:documentation>Specify an interface level.</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Public"/>
+      <xs:enumeration value="Protected"/>
+      <xs:enumeration value="Private"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="Export">
+    <xs:annotation>
+      <xs:documentation>Specify if this prerequisite will be automaticaly added to the clients of
+      the current framework</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="AddToClientPrereqs"/>
+      <xs:enumeration value="DoNotAddToClientPrereqs"/>
+      <xs:enumeration value="AddToClientNotSpecified"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="Expose">
+    <xs:annotation>
+      <xs:documentation>Specify if the current framework expose interfaces from the prereq</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="DoNotExposePrereq"/>
+      <xs:enumeration value="ExposePrereq"/>
+      <xs:enumeration value="ExposePrereqNotSpecified"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="Scale">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="P1"/>
+      <xs:enumeration value="P2"/>
+      <xs:enumeration value="P3"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="MarketingType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Addon" />
+      <xs:enumeration value="Shareable" />
+      <xs:enumeration value="Delegation" />
+      <xs:enumeration value="Representation" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="LicenseType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="WhereAccessedNamedUser" />
+      <xs:enumeration value="WhereUsedNamedUser" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="layerType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Extend" />
+      <xs:enumeration value="AsIs" />
+    </xs:restriction>
+  </xs:simpleType>
+
+
+  <xs:complexType name="Boolean">
+    <xs:complexContent>
+      <xs:extension base="ic:ConstrainedType">
+        <xs:attribute name="value" type="xs:boolean" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="String">
+    <xs:complexContent>
+      <xs:extension base="ic:ConstrainedType">
+        <xs:attribute name="value" type="xs:string" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:simpleType name="fwName">
+    <xs:annotation>
+      <xs:documentation>The name of a framework</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:pattern value="([a-zA-Z0-9_\-.])+"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="optionName">
+    <xs:annotation>
+      <xs:documentation>The name of the option</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+       <xs:maxLength value="64"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <!-- ============== End of Enumerations =========================== -->
+
+  <!-- ============== Methods =========================== -->
+  <xs:complexType name="subOsBuildtimeType">
+    <xs:annotation>
+      <xs:documentation>@DSInternal Reserved for specific uses</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ic:String"/>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  
+  <xs:complexType name="builtType">
+    <xs:annotation>
+      <xs:documentation>Specifies if FW is to be built</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent><xs:extension base="ic:Boolean"/></xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="transitiveType">
+    <xs:annotation>
+      <xs:documentation>@DSInternal Specifies if build tools will apply transitive rules to determine prerequisites or not</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent><xs:extension base="ic:Boolean"/></xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="checkOnPrereqType">
+    <xs:annotation>
+      <xs:documentation>@DSInternal Reserved for specific uses</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ic:Boolean"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="allowExtraType">
+    <xs:annotation>
+      <xs:documentation>@DSInternal Identifies Product as accessible to other with includedExtraComponent keyword</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ic:Boolean"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+
+  <xs:complexType name="toolNaturesType">
+    <xs:annotation><xs:documentation>@DSInternal Specify this framework is used as a build tool. Reserved for Tools usage.</xs:documentation></xs:annotation>
+    <!-- Added 15/05/2009 -->
+  </xs:complexType>
+
+  <xs:complexType name="disablePackagingType">
+    <xs:annotation>
+      <xs:documentation>@DSInternal tag the framework as a non standard V6 framework, allowing load module to specify a destination other than code/bin.
+        The framework is not packageable anymore.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ic:ConstrainedType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+
+
+  <xs:complexType name="resourceNaturesType">
+    <xs:annotation><xs:documentation>@DSInternal Reserved for futur use</xs:documentation></xs:annotation>
+  </xs:complexType>
+
+  <!-- prerequisite on tools -->
+  <xs:complexType name="ToolPrerequisiteType">
+    <!-- Added 15/05/2009 -->
+    <xs:annotation><xs:documentation>@DSInternal specify the current framework need a tool framework to be built</xs:documentation></xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ic:ConstrainedType">
+        <xs:attribute name="name" type="ic:fwName" use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="caaVisibilityType">
+    <xs:annotation><xs:documentation>@DSInternal For V6 FW, identifies whether FW takes part to CAA offering, and if so, which one.</xs:documentation> </xs:annotation>
+    <!-- Added 15/05/2009 -->
+    <xs:complexContent>
+      <xs:extension base="ic:ConstrainedType">
+        <xs:attribute name="layer" type="ic:layerType" use="required"/>
+        <xs:attribute name="custom" type="xs:boolean" use="optional"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="MarketingTypeType">
+    <xs:annotation>
+      <xs:documentation>@DSInternal Identifies how the entity can be marketed.</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ic:ConstrainedType">
+        <xs:attribute name="name" type="ic:MarketingType" use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="LicenseTypeType">
+    <xs:annotation>
+      <xs:documentation>@DSInternal Identifies licensing scheme.</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ic:ConstrainedType">
+        <xs:attribute name="name" type="ic:LicenseType" use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ScaleType">
+    <xs:annotation>
+      <xs:documentation>@DSInternal Scale of the entity. Define input.</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ic:ConstrainedType">
+        <xs:attribute name="value" type="ic:Scale" use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- 
+  Prereqed component: Specify that a component need another to build or build correctly
+  -->
+  <xs:complexType name="prereqType">
+    <xs:annotation>
+      <xs:documentation>Specify a build time or run time dependency on a framework</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ic:ConstrainedType">
+        <xs:attribute name="name" type="ic:fwName" use="required"/>
+        <xs:attribute name="access" type="ic:Access" use="optional"/>
+        <xs:attribute name="export" type="ic:Export" use="optional"/>
+        <xs:attribute name="expose" type="ic:Expose" use="optional"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <!-- 
+  Prereqed component: Specify that a component need another to build or build correctly
+  -->
+  <xs:complexType name="brprereqType">
+    <xs:annotation>
+      <xs:documentation>@DSInternal Specify a build time only prerequisite. Can be used for interface access, link_with
+        on archives or src_link_with.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ic:ConstrainedType">
+        <xs:attribute name="name" type="ic:fwName" use="required"/>
+        <xs:attribute name="access" type="ic:Access" use="optional"/>
+        <xs:attribute name="export" type="ic:Export" use="optional"/>
+        <xs:attribute name="expose" type="ic:Expose" use="optional"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <!-- Brand -->
+  <xs:complexType name="BrandType">
+    <xs:annotation>
+      <xs:documentation>@DSInternal For Doc FW, identifies the products lines for which dedicated projection of the Doc FW should be built.</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ic:ConstrainedType">
+        <xs:attribute name="name" type="xs:string" use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <!-- Attached Component -->
+  <xs:complexType name="AttachedComponentType">
+    <xs:annotation>
+      <xs:documentation>@DSInternal Specify a coverage by a test framework</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ic:ConstrainedType">
+        <xs:attribute name="name" type="xs:string" use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <!-- authorization -->
+  <xs:complexType name="authorizedFrameworkType">
+    <xs:annotation>
+      <xs:documentation>@DSInternal Specify an authorization to prereq the current framework</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ic:ConstrainedType">
+        <xs:attribute name="name" type="ic:fwName" use="required"/>
+        <xs:attribute name="access" type="ic:Access" use="optional"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <!-- runtime prerequisite 05/05/2010 -->
+  <xs:complexType name="runtimeOnlyprereqType">
+    <xs:annotation>
+      <xs:documentation>@DSInternal Specify a run time dependency on a framework</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ic:ConstrainedType">
+        <xs:attribute name="name" type="ic:fwName" use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+        <!-- Included component for media-->
+  <xs:complexType name="IncludedComponentTypeMedia">
+    <xs:annotation>
+      <xs:documentation>@DSInternal Specify a product or a solution included in the media for a given os</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ic:ConstrainedType">
+        <xs:attribute name="name" type="ic:fwName" use="required"/>
+        <xs:attribute name="os" type="xs:string" use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <!-- Included component for product and solution-->
+  <xs:complexType name="IncludedComponentTypePackaging">
+    <xs:annotation>
+      <xs:documentation>@DSInternal aggregate product or configuration (configuration or product or frameworks (product)</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ic:ConstrainedType">
+        <xs:attribute name="name" type="ic:fwName" use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <!-- Included extra component -->
+  <xs:complexType name="includedExtraComponentType">
+    <xs:annotation>
+      <xs:documentation>@DSInternal Aggregates Extra Product</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ic:ConstrainedType">
+        <xs:attribute name="name" type="ic:fwName" use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <!-- Partner -->
+  <xs:complexType name="PartnerType">
+    <xs:annotation>
+      <xs:documentation>@DSInternal Third party partner involved in development of the entity.</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ic:ConstrainedType">
+        <xs:attribute name="name" type="xs:string" use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <!-- Option -->
+  <xs:complexType name="OptionType">
+    <xs:annotation>
+      <xs:documentation>@DSInternal Options accessible to the entity.</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ic:ConstrainedType">
+        <xs:attribute name="name" type="ic:optionName" use="required"/>
+        <xs:attribute name="scale" type="ic:Scale" use="optional"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <!-- Included Documentation -->
+  <xs:complexType name="IncludedDocType">
+    <xs:annotation>
+      <xs:documentation>@DSInternal Aggregates documentation.</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ic:ConstrainedType">
+        <xs:attribute name="name" type="ic:fwName" use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <!-- Allowed workbench -->
+  <xs:complexType name="AllowedWorkbenchType">
+    <xs:annotation>
+      <xs:documentation>@DSInternal Workbenches accessible to the entity.</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ic:ConstrainedType">
+        <xs:attribute name="name" type="xs:string" use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <!-- included use case code -->
+  <xs:complexType name="IncludedUseCaseCodeType">
+    <xs:annotation>
+      <xs:documentation>@DSInternal Aggregates documentation samples from Education Framework to Product.</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ic:ConstrainedType">
+        <xs:attribute name="name" type="ic:fwName" use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <!-- included header-->
+  <xs:complexType name="IncludedHeaderType">
+    <xs:annotation>
+      <xs:documentation>@DSInternal Aggregates Public Interfaces from Code Framework to Product.</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ic:ConstrainedType">
+        <xs:attribute name="name" type="ic:fwName" use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <!-- included header-->
+  <xs:complexType name="ProductPrereqType">
+    <xs:annotation>
+      <xs:documentation>@DSInternal Prerequisite Product.</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ic:ConstrainedType">
+        <xs:attribute name="name" type="ic:fwName" use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <!-- authorized component-->
+  <xs:complexType name="AuthorizedComponentType">
+    <xs:annotation>
+      <xs:documentation>@DSInternal Licensing authorization associated with aggregated components.</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ic:ConstrainedType">
+        <xs:attribute name="name" type="ic:fwName" use="required"/>
+        <xs:attribute name="scale" type="ic:Scale" use="optional"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <!-- #include of small ic part (not component)-->
+  <xs:complexType name="IncludeFileType">
+    <xs:annotation>
+      <xs:documentation>@DSInternal include a content of a file. The path is relative to the workspace and the file's
+        extension removed</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ic:ConstrainedType">
+        <xs:attribute name="name" type="xs:string" use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <!-- #include component [prereq] cmp->cmp -->
+  <xs:complexType name="CpsIncludeFComponentType">
+    <xs:annotation>
+      <xs:documentation>@DSInternal Component aggregated to current component.</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ic:ConstrainedType">
+        <xs:attribute name="name" type="xs:string" use="required"/>
+        <xs:attribute name="runtime" type="xs:boolean" use="optional" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <!-- #include component [prereq] cmp->cmp -->
+  <xs:complexType name="PrdIncludeFComponentType">
+    <xs:annotation>
+      <xs:documentation>@DSInternal Component aggregated to current Product.</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ic:ConstrainedType">
+        <xs:attribute name="name" type="xs:string" use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <!-- #copyright -->
+<xs:complexType name="copyrighType">
+  <xs:annotation>
+    <xs:documentation>@DSInternal copyright set by mkmk during build. Do not edit.</xs:documentation>
+  </xs:annotation>
+  <xs:complexContent>
+    <xs:extension base="ic:ConstrainedType">
+      <xs:attribute name="companyName" type="xs:string" use="required"/>
+      <xs:attribute name="label" type="xs:string" use="required"/>
+    </xs:extension>
+  </xs:complexContent>
+</xs:complexType>
+
+  <!-- # External prereq: M1 way of packaging -->
+  <xs:complexType name="externalPrereqComponentType">
+    <xs:annotation>
+      <xs:documentation>@DSInternal Specify an external dependency on a component which is not packaged with the current one
+        but needed during installation.</xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="ic:ConstrainedType">
+        <xs:attribute name="name" type="xs:string" use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="descriptionType">
+    <xs:annotation>
+      <xs:documentation>@DSInternal External name of the entity. Define input</xs:documentation>
+    </xs:annotation>
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="comment" type="xs:string" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="mediaDescription">
+    <xs:annotation>
+      <xs:documentation>@DSInternal the media name appearing in the V6 installer</xs:documentation>
+    </xs:annotation>
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="comment" type="xs:string" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  
+  
+  <!-- ============== End of Methods =========================== -->
+
+
+  <!-- ============== Constraints =========================== -->
+
+  <!-- 
+  super type of all element which can be constrained, the constraint attribute reference 
+  a constraint of the same name.
+  -->
+  <xs:complexType name="ConstrainedType">
+    <xs:attribute name="constraint" type="ic:constraintString" use="optional"/>
+    <xs:attribute name="osConstraint" type="xs:string" use="optional"/>
+    <xs:attribute name="meta" type="xs:string" use="optional"/> <!--TOREMOVE, CAA ..-->
+    <xs:attribute name="comment" type="xs:string" use="optional"/> <!-- any free comment -->
+  </xs:complexType>
+
+
+  <xs:simpleType name="constraintString">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="defined\(.+\)"/>
+      <xs:pattern value="undefined\(.+\)"/>
+      <xs:pattern value="defined\(.+\)&amp;undefined\(.+\)"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+
+  <!-- ============== End Constraints =========================== -->
+
+  <!-- ============== Component type =========================== -->
+
+  <!-- Abstract component -->
+  <xs:complexType abstract="true" name="AbstractComponent">
+    <xs:sequence>
+
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Code framework -->
+  <xs:complexType name="CodeFrameworkType">
+    <xs:annotation>
+      <xs:documentation>A code framework</xs:documentation>
+    </xs:annotation>
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element name ="description" type="ic:descriptionType" minOccurs="0" maxOccurs="1"/>
+      <xs:element name ="copyright"  type="ic:copyrighType" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="prerequisite" type="ic:prereqType"/>
+      <xs:element name="authorize" type="ic:authorizedFrameworkType"/>
+      <xs:element name ="attached" type="ic:AttachedComponentType"/>
+      <xs:element name ="brand" type="ic:BrandType"/>
+      <xs:element name="built" type="ic:builtType"/>
+      <xs:element name="transitive" type="ic:transitiveType"/>
+      <xs:element name="checkOnPrereq" type="ic:checkOnPrereqType"/>
+      <xs:element name="caaVisibility" type="ic:caaVisibilityType"/>
+      <xs:element name="subOsBuildtime" type="ic:subOsBuildtimeType"/>
+      <xs:element name ="toolNature" type="ic:toolNaturesType"/>
+      <xs:element name ="resourceNature" type="ic:resourceNaturesType"/>
+      <xs:element name ="toolPrerequisite" type="ic:ToolPrerequisiteType"/>
+      <xs:element name ="runtimeOnlyPrereq" type="ic:runtimeOnlyprereqType"/>
+      <xs:element name="buildtimeOnlyPrereq" type="ic:brprereqType"/>
+      <xs:element name ="disablePackaging" type="ic:disablePackagingType"/>
+    </xs:choice>
+  </xs:complexType>
+
+  <!-- Test framework -->
+  <xs:complexType name="TestFrameworkType">
+    <xs:annotation>
+      <xs:documentation>A test framework</xs:documentation>
+    </xs:annotation>
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element name ="description" type="ic:descriptionType" minOccurs="0" maxOccurs="1"/>
+      <xs:element name ="copyright" type="ic:copyrighType" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="prerequisite" type="ic:prereqType"/>
+      <xs:element name="authorize" type="ic:authorizedFrameworkType"/>
+      <xs:element name ="attached" type="ic:AttachedComponentType"/>
+      <xs:element name ="brand" type="ic:BrandType"/>
+      <xs:element name="built" type="ic:builtType"/>
+      <xs:element name="transitive" type="ic:transitiveType"/>
+      <xs:element name="checkOnPrereq" type="ic:checkOnPrereqType"/>
+      <xs:element name="caaVisibility" type="ic:caaVisibilityType"/>
+      <xs:element name="subOsBuildtime" type="ic:String"/>
+      <xs:element name ="resourceNature" type="ic:resourceNaturesType"/>
+      <xs:element name ="toolPrerequisite" type="ic:ToolPrerequisiteType"/>
+      <xs:element name ="runtimeOnlyPrereq" type="ic:runtimeOnlyprereqType"/>
+      <xs:element name="buildtimeOnlyPrereq" type="ic:brprereqType"/>
+    </xs:choice>
+  </xs:complexType>
+
+  <!-- Education framework -->
+  <xs:complexType name="EduFrameworkType">
+    <xs:annotation>
+      <xs:documentation>An education framework</xs:documentation>
+    </xs:annotation>
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element name ="description" type="ic:descriptionType" minOccurs="0" maxOccurs="1"/>
+      <xs:element name ="copyright" type="ic:copyrighType" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="prerequisite" type="ic:prereqType"/>
+      <xs:element name="authorize" type="ic:authorizedFrameworkType"/>
+      <xs:element name ="attached" type="ic:AttachedComponentType"/>
+      <xs:element name ="brand" type="ic:BrandType"/>
+      <xs:element name="built" type="ic:builtType"/>
+      <xs:element name="transitive" type="ic:transitiveType"/>
+      <xs:element name="checkOnPrereq" type="ic:checkOnPrereqType"/>
+      <xs:element name="caaVisibility" type="ic:caaVisibilityType"/>
+      <xs:element name="subOsBuildtime" type="ic:String"/>
+      <xs:element name ="toolPrerequisite" type="ic:ToolPrerequisiteType"/>
+    </xs:choice>
+  </xs:complexType>
+
+  <!-- Media -->
+  <xs:complexType name="MediaType">
+    <xs:choice maxOccurs="unbounded">
+      <xs:element name ="description" type="ic:mediaDescription" minOccurs="0" maxOccurs="1"/>
+      <xs:element name ="copyright" type="ic:copyrighType" minOccurs="0" maxOccurs="1"/>
+      <xs:element name ="includeFile" type="ic:IncludeFileType"/>
+      <xs:element name ="marketingVersion" type="ic:String"/>
+      <xs:element name ="productLine" type="ic:String"/>
+      <xs:element name ="productItem" type="ic:String"/>
+      <xs:element name ="includedComponent" type="ic:IncludedComponentTypeMedia"/>
+    </xs:choice>
+  </xs:complexType>
+
+  <!-- configuration -->
+  <xs:complexType name="ConfigurationType">
+    <xs:choice maxOccurs="unbounded">
+      <xs:element name ="description" type="ic:descriptionType" minOccurs="0" maxOccurs="1"/>
+      <xs:element name ="copyright" type="ic:copyrighType" minOccurs="0" maxOccurs="1"/>
+      <xs:element name ="includeFile" type="ic:IncludeFileType"/>
+      <xs:element name ="includedComponent" type="ic:IncludedComponentTypePackaging"/>
+      <xs:element name ="authorizedComponent" type="ic:AuthorizedComponentType"/>
+      <xs:element name ="includedExtraComponent" type="ic:includedExtraComponentType"/>
+      <xs:element name="scale" type="ic:ScaleType"/>
+      <xs:element name="marketingType" type="ic:MarketingTypeType"/>
+      <xs:element name="licenseType" type="ic:LicenseTypeType"/>
+      <xs:element name="partner" type="ic:PartnerType"/>
+      <xs:element name="authorizedOption" type="ic:OptionType"/>
+      <xs:element name ="license" type="ic:String" minOccurs="0" maxOccurs="1"/>
+    </xs:choice>
+  </xs:complexType>
+
+  <!-- Product -->
+  <xs:complexType name="ProductType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element name ="description" type="ic:descriptionType" minOccurs="0" maxOccurs="1"/>
+      <xs:element name ="copyright" type="ic:copyrighType" minOccurs="0" maxOccurs="1"/>
+      <xs:element name ="includeFile" type="ic:IncludeFileType"/>
+      <xs:element name ="includeComponentFile" type="ic:PrdIncludeFComponentType"/>
+      <xs:element name="marketingType" type="ic:MarketingTypeType"/>
+      <xs:element name="licenseType" type="ic:LicenseTypeType"/>
+      <xs:element name="partner" type="ic:PartnerType"/>
+      <xs:element name="scale" type="ic:ScaleType"/>
+      <xs:element name="authorizedOption" type="ic:OptionType"/>
+      <xs:element name ="includedComponent" type="ic:IncludedComponentTypePackaging"/>
+      <xs:element name ="includedProgDoc" type="ic:IncludedDocType"/>
+      <xs:element name ="includedDoc" type="ic:IncludedDocType"/>
+      <xs:element name ="includedRefDoc" type="ic:IncludedDocType"/>
+      <xs:element name ="allowedWorkbench" type="ic:AllowedWorkbenchType"/>
+      <xs:element name ="includedUseCaseCode" type="ic:IncludedUseCaseCodeType"/>
+      <xs:element name ="allowExtra" type="ic:Boolean"/>
+      <xs:element name ="includedHeader" type="ic:IncludedHeaderType"/>
+      <xs:element name ="prerequisiteComponent" type="ic:ProductPrereqType"/>
+      <xs:element name ="authorizedComponent" type="ic:AuthorizedComponentType"/>
+      <xs:element name ="license" type="ic:String" minOccurs="0" maxOccurs="1"/>
+      <xs:element name ="includedExtraComponent" type="ic:includedExtraComponentType"/>
+    </xs:choice>
+  </xs:complexType>
+
+  <!-- ComponentDefinition -->
+  <xs:complexType name="ComponentType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element name ="description" type="ic:descriptionType" minOccurs="1" maxOccurs="1"/>
+      <xs:element name ="includeComponentFile" type="ic:CpsIncludeFComponentType"/>
+      <xs:element name="authorizedOption" type="ic:OptionType"/>
+      <xs:element name ="allowedWorkbench" type="ic:AllowedWorkbenchType"/>
+      <xs:element name ="includedComponent" type="ic:IncludedComponentTypePackaging"/>
+      <xs:element name ="includedProgDoc" type="ic:IncludedDocType"/>
+      <xs:element name ="includedDoc" type="ic:IncludedDocType"/>
+      <xs:element name ="includedRefDoc" type="ic:IncludedDocType"/>
+      <xs:element name ="includedUseCaseCode" type="ic:IncludedUseCaseCodeType"/>
+      <xs:element name ="includedHeader" type="ic:IncludedHeaderType"/>
+      <xs:element name ="authorizedComponent" type="ic:AuthorizedComponentType"/>
+      <xs:element name ="externalPrereqComponent" type="ic:externalPrereqComponentType"/>
+      <xs:element name ="copyright" type="ic:copyrighType" minOccurs="0" maxOccurs="1"/>
+    </xs:choice>
+  </xs:complexType>
+  <!-- ============== End of Component type =========================== -->
+
+  <!-- ============== Root =========================== -->
+  <xs:element name="codeFramework" type="ic:CodeFrameworkType"/>
+  <xs:element name="testFramework" type="ic:TestFrameworkType"/>
+  <xs:element name="eduFramework" type="ic:EduFrameworkType"/>
+  <xs:element name="media" type="ic:MediaType"/>
+  <xs:element name="configuration" type="ic:ConfigurationType"/>
+  <xs:element name="product" type="ic:ProductType"/>
+  <xs:element name="component" type="ic:ComponentType"/>
+  <!-- ============== End of Root =========================== -->
+</xs:schema>

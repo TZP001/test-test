@@ -1,0 +1,92 @@
+#
+# Basic objects for build step mkBSDoc
+#
+<Default>  = mkBODocNotSrc
+<Nil>  = mkBODocNotSrc
+#
+.id2url  = mkBODocId2url
+#
+.htm  = mkBODocXMParser
+.html  = mkBODocXMParser
+.cnfxml = mkBODocXMParser
+.js = mkBODocXMParser
+#
+.gif = mkBODocXMCopyImage
+.jpg = mkBODocXMCopyImage
+.png = mkBODocXMCopyImage
+.tif = mkBODocXMCopyImage
+#
+.aptsource = mkBODocXMCopyData
+.ascii = mkBODocXMCopyData
+.avi = mkBODocXMCopyData
+.catalog = mkBODocXMCopyData
+.CATAnalysis = mkBODocXMCopyData
+.CATAnalysisComputations = mkBODocXMCopyData
+.CATAnalysisExport = mkBODocXMCopyData
+.CATAnalysisResults = mkBODocXMCopyData
+.CATDrawing = mkBODocXMCopyData
+.CATfct = mkBODocXMCopyData
+.CATGScript = mkBODocXMCopyData
+.CATMaterial = mkBODocXMCopyData
+.CATNls = mkBODocXMCopyData
+.CATPart = mkBODocXMCopyData
+.CATProcess = mkBODocXMCopyData
+.CATProduct = mkBODocXMCopyData
+.CATShape = mkBODocXMCopyData
+.CATScript = mkBODocXMCopyData
+.CATSwl = mkBODocXMCopyData
+.CATSystem = mkBODocXMCopyData
+.catvba = mkBODocXMCopyData
+.catvbs = mkBODocXMCopyData
+.cgm = mkBODocXMCopyData
+.cgo_ascii = mkBODocXMCopyData
+.cgr = mkBODocXMCopyData
+.class = mkBODocXMCopyData
+.css = mkBODocXMCopyData
+.csv = mkBODocXMCopyData
+.dat = mkBODocXMCopyData
+.doc = mkBODocXMCopyData
+.docx = mkBODocXMCopyData
+.docm = mkBODocXMCopyData
+.DSall = mkBODocXMCopyData
+.DSidx = mkBODocXMCopyData
+.dtd = mkBODocXMCopyData
+.dxf = mkBODocXMCopyData
+.exp = mkBODocXMCopyData
+.idf = mkBODocXMCopyData
+.IGS = mkBODocXMCopyData
+.inf = mkBODocXMCopyData
+.isocode = mkBODocXMCopyData
+.jar = mkBODocXMCopyData
+.lib = mkBODocXMCopyData
+.mdl = mkBODocXMCopyData
+.model = mkBODocXMCopyData
+.mp4 = mkBODocXMCopyData
+.pdb = mkBODocXMCopyData
+.pdf = mkBODocXMCopyData
+.ppparm = mkBODocXMCopyData
+.ppt = mkBODocXMCopyData
+.pptx = mkBODocXMCopyData
+.pptm = mkBODocXMCopyData
+.pptable = mkBODocXMCopyData
+.prdall = mkBODocXMCopyData
+.prdidx = mkBODocXMCopyData
+.properties = mkBODocXMCopyData
+.session = mkBODocXMCopyData
+.SOLall = mkBODocXMCopyData
+.SOLidx = mkBODocXMCopyData
+.stl = mkBODocXMCopyData
+.swf = mkBODocXMCopyData
+.swl = mkBODocXMCopyData
+.sws = mkBODocXMCopyData
+.txt = mkBODocXMCopyData
+.utf8 = mkBODocXMCopyData
+.vbscript = mkBODocXMCopyData
+.vda = mkBODocXMCopyData
+.widlsrc = mkBODocNotSrc
+.xls = mkBODocXMCopyData
+.xlsx = mkBODocXMCopyData
+.xlsm = mkBODocXMCopyData
+.xsdsrc = mkBODocNotSrc
+.xml = mkBODocXMCopyData
+

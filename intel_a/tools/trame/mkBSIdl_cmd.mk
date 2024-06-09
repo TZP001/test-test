@@ -1,0 +1,24 @@
+#
+# Specifications for Build step IDL
+#
+PPROC = cl
+PPROC_OPTS = /E /C /nologo
+PPROC_COMMAND = $(PPROC) $(PPROC_OPTS) $(PPROC_INCLUDE)
+#
+IDL_PATH = $(MkmkINSTALL_PATH)
+#
+IDL_JREROOT_PATH=$(JavaROOT_PATH)
+#
+IDL_CPL  = JS0IDLJava
+IDL_MKID = -mkid "$(MKJS0IDL_MKID)"
+IDL_MKIDOPT = $(MKJS0IDL_MKID:+IDL_MKID)
+IDL_CREATEDFILE = $(IDL_CPL).createdfiles
+#
+IDL_OPTS = $(LOCAL_IDLFLAGS) $(IDL_MKIDOPT) -filetype idl -module __$(MODNAME) -scope # ProtectedInterfaces CATIAApplication
+IDL_COMMAND = $(IDL_CPL) $(IDL_OPTS)
+IDL_COMMAND_TIMEOUT = 300
+#
+#
+DGM_VERSION = 1.0
+#
+

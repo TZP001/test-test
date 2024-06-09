@@ -1,0 +1,42 @@
+Substitute [V5DocHighlight.js] [DSDocHighlight.js]
+#
+IfNotFound [DSDocHighlight.js] Substitute [<head>] [<head><script language="Javascript" src="../../../ICONS/frame.doc/src/DSDocHighlight.js"></script>]
+IfNotFound [DSDocHighlight.js] Substitute [<HEAD>] [<HEAD><script language="Javascript" src="../../../ICONS/frame.doc/src/DSDocHighlight.js"></script>]
+#--------------------------------------------------------------------
+Substitute [<BODY] [<body]
+### Substitute [</HEAD>] [</head>]
+### IfNotFound [<body] Substitute [</head>] [</head><body>]
+RemoveAttribute [<body ] [bgcolor=]
+RemoveAttribute [<body ] [text=]
+RemoveAttribute [<body ] [link=]
+RemoveAttribute [<body ] [vlink=]
+RemoveAttribute [<body ] [alink=]
+RemoveAttribute [<body ] [style=]
+RemoveAttribute [<body ] [background=]
+Substitute [ >] [>]
+#--------------------------------------------------------------------
+#
+IfFound [<body>] Substitute [<body>] [<body onLoad="highlightSearchTerms();">]
+### plus necessaire puisque <BODY devient <body
+### IfFound [<BODY>] Substitute [<BODY>] [<body onLoad="highlightSearchTerms();">]
+#
+IfNotFound [<body onLoad="highlightSearchTerms();">] UpdateProblem [<body onLoad="highlightSearchTerms();">] 
+#
+RemoveAttribute [<img ] [width=]
+RemoveAttribute [<img ] [height=]
+RemoveAttribute [<img ] [WIDTH=]
+RemoveAttribute [<img ] [HEIGHT=]
+#
+RemoveAttribute [<IMG ] [width=]
+RemoveAttribute [<IMG ] [height=]
+RemoveAttribute [<IMG ] [WIDTH=]
+RemoveAttribute [<IMG ] [HEIGHT=]
+#
+RemoveAttribute [<H1 ] [ALIGN=]
+RemoveAttribute [<H1 ] [align=]
+RemoveAttribute [<h1 ] [ALIGN=]
+RemoveAttribute [<h1 ] [align=]
+#
+Substitute [ >] [>]
+#
+Substitute [-&gt;] [&nbsp;&gt;&nbsp;]

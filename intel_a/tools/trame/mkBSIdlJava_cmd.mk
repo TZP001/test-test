@@ -1,0 +1,22 @@
+#
+# Specifications for Build step mkBStypelib
+#
+include mkBSIdl_cmd.mk
+#
+DEPENDENT_ON = FORCE_TYPELIB
+FORCE_TYPELIB = $(MKMK_FORCE_TYPELIB)
+#
+TPLIB_PIA_SNK = SpecialAPI/ProtectedInterfaces/pia.snk
+TPLIB_BUILD_REVISION = $(MKMK_MAJORVERSION).$(MKMK_MINORVERSION).$(MKMK_BUILDNUMBER)
+#
+TPLIB_CPL = $(IDL_CPL)
+TPLIB_CREATEDFILE = $(TPLIB_CPL).createdfiles
+#
+TPLIB_LINKWITH = $(LINK_WITH)
+TPLIB_OPTS = $(LOCAL_IDLFLAGS) $(IDL_MKIDOPT) -filetype java -jnimodule $(IDL_JNI_LIBNAME) $(TPLIB_LINKWITH:+"-link") $(TPLIB_LINKWITH) # CATIAApplication
+TPLIB_COMMAND = $(TPLIB_CPL) $(TPLIB_OPTS)
+#
+#
+DGM_VERSION = 1.0
+#
+

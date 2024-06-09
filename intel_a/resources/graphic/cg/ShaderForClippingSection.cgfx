@@ -1,0 +1,213 @@
+/**
+ *  Dassault Systmes 2008  Do not reproduce, copy or use without a license from Dassault Systmes
+ * CGFX Shader for CATIA V5
+ * Date: 07.10.2008
+ * Author: Gilles COLLIN
+ */
+//
+// Shader for Clipping Sections(GCN)
+// 
+
+
+/******************************************************************/
+/* TEXTURES */
+/******************************************************************/
+
+texture Texture2DForClippingSections
+<
+	string UIName = "2D Triangles";
+	string ResourceName = "Texture2DForClippingSections.dds";
+	string ResourceType = "2D";
+>;
+
+sampler2D Triangles2DMap
+<
+	string File = "Texture2DForClippingSections.dds";
+> = sampler_state
+{
+	Texture = <Texture2DForClippingSections>;
+	MinFilter = Nearest; 
+	MagFilter = Nearest;
+};
+
+texture Texture1DForClippingSections
+<
+	string UIName = "1D Clipping Datas";
+	string ResourceName = "Texture1DForClippingSections.dds";
+	string ResourceType = "1D";
+>;
+
+samplerRECT Triangles1DDatas
+<
+	string File = "Texture1DForClippingSections.dds";
+> = sampler_state
+{
+	Texture = <Texture1DForClippingSections>;
+	MinFilter = Nearest; 
+	MagFilter = Nearest;
+};
+/******************************************************************/
+/* FRAGMENT STRUCTURES */
+/******************************************************************/
+float4x4  wvp                    : WorldViewProjection;
+float4x4  wv                     : WorldView;
+
+struct App2Vertex 
+{
+    float3 Position         : POSITION;
+};
+
+
+struct Vertex2Fragment
+{
+	float4 HPosition : POSITION;
+	float4 screenPosition : TEXCOORD0;
+	float4 worldViewPosition : TEXCOORD1;
+};
+
+
+/******************************************************************/
+/* VERTEX AND FRAGMENT PROGRAMS */
+/******************************************************************/
+Vertex2Fragment ClippingSectionsVS(App2Vertex IN,
+                                   uniform float4x4 iWorldViewProj,
+                                   uniform float4x4 iWorldView
+                                  ) 
+{
+    Vertex2Fragment OUT;
+    
+    // screen clipspace coords
+    //------------------------
+    float4 position = float4( IN.Position.xyz, 1.0 );
+    float4 screenPosition = mul( iWorldViewProj, position );
+    OUT.HPosition = screenPosition;
+	OUT.screenPosition = screenPosition;
+    float4 worldViewPosition = mul( iWorldView, position );
+	OUT.worldViewPosition = worldViewPosition;
+
+    return OUT;
+}
+
+/* Clipping Sections Fragment Program */
+float4 ClippingSectionsFP(Vertex2Fragment IN,
+                          uniform samplerRECT iInputTexture1D,
+                          uniform sampler2D iInputTexture2D
+                          ) : COLOR
+{
+  float3 screenCoord = IN.screenPosition.xyz/IN.screenPosition.w; //x, y et z entre -1 et 1.
+  screenCoord.xyz = ((screenCoord.xyz+1.)*0.5); // x, y et z entre 0 et 1.                 
+  float4 tmp1 = tex2D(iInputTexture2D, screenCoord.xy);
+  tmp1.r = tmp1.r*255.0;
+  tmp1.g = tmp1.g*255.0;
+  tmp1.b = tmp1.b*255.0;
+  tmp1.a = tmp1.a*255.0;
+  float offset = tmp1.r*16777216 + tmp1.g*65536 + tmp1.b*256 + tmp1.a;
+
+  
+  	
+  int offsetInt = floor(offset+0.5);
+
+	float2 coord;
+	coord.x = offsetInt;
+	coord.y = 0;
+	
+  float4 tmp2 = texRECT(iInputTexture1D,coord);
+	
+//int nbSection = round(tmp2.r);
+  int nbSection = floor(tmp2.r+0.5);
+  
+//int clipping = round(tmp2.g);
+  int clipping = floor(tmp2.g+0.5);
+      
+ 	int i = 0;
+ 	float4 tmp3 = float4(0.f,0.f,0.f,0.f);
+ 
+	if (nbSection <= 0)
+	{
+		if (clipping != 0)
+		{
+			discard;
+		}
+	}
+	else
+	{
+		for(i = 0; i < nbSection; i++)
+		{
+      coord.x += 1;
+	    tmp3 = texRECT(iInputTexture1D,coord);
+	    //tmp3.r = -0.34227f;
+	    //tmp3.g = -0.86204f;
+	    //tmp3.b = 0.373805f;
+	    //tmp3.a = 85.255;
+	    
+	    float res = tmp3.r*IN.worldViewPosition.x + tmp3.g*IN.worldViewPosition.y + tmp3.b*IN.worldViewPosition.z + tmp3.a;
+
+      if (clipping != 0)
+      {
+        if (res >= 0) 
+        {
+					discard;
+        }
+        clipping = 0;
+      }
+      else
+      {
+        if (res > 0)
+        {
+          break;
+        }
+        else
+        {
+          if (i == (nbSection-1))
+          {
+            discard;
+          }
+        }
+        clipping = 1;
+      }
+    }
+	}
+   
+    return tmp3;
+}
+//-----------------------------------------------------------------------------------------
+//  Techniques
+//-----------------------------------------------------------------------------------------
+
+technique ClippingSections_NV40
+{
+    pass p0 
+    {		
+        //DepthTestEnable=true;
+        //DepthMask = true;
+        LightingEnable = false;
+        VertexProgram = compile vp40 ClippingSectionsVS(wvp, wv);
+        FragmentProgram = compile fp40 ClippingSectionsFP(Triangles1DDatas,Triangles2DMap);
+     }
+}
+
+technique ClippingSections_GLSL
+{
+    pass p0 
+    {		
+        //DepthTestEnable=true;
+        //DepthMask = true;
+        LightingEnable = false;
+        VertexProgram = compile glslv ClippingSectionsVS(wvp, wv);
+        FragmentProgram = compile glslf ClippingSectionsFP(Triangles1DDatas,Triangles2DMap);
+     }
+}
+
+/*
+technique ClippingSections_ARB
+{
+    pass p0 
+    {		
+        //DepthTestEnable=true;
+        //DepthMask = true;
+        LightingEnable = false;
+        VertexProgram = compile arbvp1 ClippingSectionsVS(wvp, wv);
+        FragmentProgram = compile arbfp1 ClippingSectionsFP(Triangles1DDatas,Triangles2DMap);
+     }
+}
+*/

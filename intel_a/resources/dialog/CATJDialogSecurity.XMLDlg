@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<OptionPanel Name="option" onInitialize="onInit" Attribute="_Option" Controller="com.dassault_systemes.catjsystem.catjsyadmin.CATJDialogSecurity">
+
+  <TabPage Name="TabPage">
+    <Frame Name="Roles" DefaultButton="CreateRole">
+	<TextField Name="NewRole" Attribute="_NewRole"/>
+	<Button Name="CreateRole" onButtonActivated="onNewRole"/>
+
+      <Table Name="Table1" Attribute="_Roles" onCellSelect="onRoleSelected"/>
+      <WebPartFrame Name="Frame">
+        <ACLEditor Name="ACLEditor" Attribute="_ACLEditor"/>
+      </WebPartFrame>
+      <GC Name="NewRole" W="1" A="LT" J="H" H="1" Y="0" X="0"/>
+      <GC Name="CreateRole" W="1" A="LT" H="1" Y="0" X="1"/>
+      <GC Name="Table1" W="2" A="LT" J="H" H="1" Y="1" X="0"/>
+      <GC Name="Frame" W="2" A="LT" J="H" H="1" Y="2" X="0"/>
+      <Row W="100" Y="2"/>
+      <Row W="1" Y="1"/>
+      <Column W="1" X="1"/>
+    </Frame>
+    <Frame Name="Portlets">
+      <Table Name="PortletsMatrix" onCellSelect="onPortletsMatrix" Attribute="_PortletsMatrix"/>
+      <GC A="TL" W="1" Name="PortletsMatrix" J="HV" H="1" Y="0" X="0"/>
+      <Row W="1" Y="0"/>
+      <Column W="1" X="0"/>
+    </Frame>
+    <Frame Name="Audit">
+      <Label Name="UserName"/>
+      <TextField Name="User" Attribute="_User"/>
+      <Button Name="Audit" onButtonActivated="onAudit"/>
+      <Table Name="ResultRoles" Attribute="_AuditResultRoles"/>
+      <Table Name="ResultCommands" Attribute="_AuditResultCommands"/>
+      <GC A="LT" W="1" Name="UserName" H="1" Y="0" X="0"/>
+      <GC A="LT" W="1" Name="User" H="1" Y="0" X="1"/>
+      <GC A="LT" W="1" Name="Audit" H="1" Y="0" X="2"/>
+      <GC A="TL" W="3" Name="ResultRoles" J="HV" Y="1" X="0"/>
+      <GC A="TL" W="3" Name="ResultCommands" J="HV" Y="2" X="0"/>
+      <Row W="1" Y="2"/>
+      <Column W="1" X="2"/>
+    </Frame>
+  </TabPage>
+
+</OptionPanel>

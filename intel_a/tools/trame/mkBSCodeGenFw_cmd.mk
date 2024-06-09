@@ -1,0 +1,13 @@
+# Oct 2009 XNU
+# Specifications for commands of the Build step mkBSCodeGenFw
+# Step calling code generator on .simulia file
+#
+SMA_CODEGENGEN_EXEC = smaCodeGen
+SMA_CODEGENGEN_PATH_W = $(SmaROOTINSTALL_PATH)$(SmaROOTINSTALL_PATH:+"\code\command\")
+SMA_CODEGENGEN_PATH_U = $(SmaROOTINSTALL_PATH)$(SmaROOTINSTALL_PATH:+"/code/command/")
+
+
+SMACODEGEN_COMMAND_WINDOWS = $(SMA_CODEGENGEN_PATH_W)$(SMA_CODEGENGEN_EXEC).bat
+SMACODEGEN_COMMAND_UNIX = $(SMA_CODEGENGEN_PATH_U)$(SMA_CODEGENGEN_EXEC)
+
+#

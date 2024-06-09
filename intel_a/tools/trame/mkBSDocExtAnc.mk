@@ -1,0 +1,16 @@
+#
+# Specifications for Build step mkBSDoc
+#
+METACLASS_NAME = DocExtAnc
+#
+DGM_GRAPH_PATH = MODDGM_GRAPHPATH_DOC
+#
+PREFIX_DERIVED_PATH = $(DOCPATH)/ref
+#
+MOD_LINKWITH = $(MOD_LinkWith)
+#
+SOURCE_EXTENSION = $(MODNAME).docref
+#
+DGM_VERSION = 1.01
+DGM_DEPEND = MOD_LINKWITH
+#

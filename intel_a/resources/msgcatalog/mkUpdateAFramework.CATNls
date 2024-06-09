@@ -1,0 +1,67 @@
+mkUpdateAFramework.Version.BuildLevel = "/P1 (Build /P2)";
+
+mkUpdateAFramework.HelpBegin = "\n",
+"Internal use only.\n",
+"\n",
+"Usage: mkUpdateAFramework -r RefPath -c CheckedPath [-copyfw|-copypreq] [-o OS1] P1 ... Pn",
+"\n";
+
+mkUpdateAFramework.Option.r = "   -/P1 reference path     : reference directory path name.";
+mkUpdateAFramework.Option.c = "   -/P1 checked path       : checked directory path name.";
+mkUpdateAFramework.Option.o = "   -/P1 OS1 -/P1 OS2 ...     : test only OS1, OS2 objects, current OS by default.";
+mkUpdateAFramework.HelpEnd = "   P1 ... Pn             : the list of pattern flags included in expansion filter.\n";
+mkUpdateAFramework.Option.copyfw = "   -/P1               : set installation type as copyfw.";
+mkUpdateAFramework.Option.copypreq = "   -/P1             : set installation type as copypreq.";
+mkUpdateAFramework.Option.cpdo = "   -/P1                 : copy derived objects: filter \"allOS\" applied on reference.";
+mkUpdateAFramework.Option.retry = "   -/P1 Nb             : number of retries when expanding.";
+mkUpdateAFramework.Option.time = "   -/P1 Time            : wait time between retries in sec when expanding.";
+mkUpdateAFramework.Option.copyretry = "   -/P1 Nb         : number of retries when copying.";
+mkUpdateAFramework.Option.copytime = "   -/P1 Time        : wait time between retries in sec when copying.";
+mkUpdateAFramework.Option.simul = "   -/P1                : the batch will be launched in simulation mode.";
+mkUpdateAFramework.Option.simu = "   -/P1                 : same as -simul.";
+mkUpdateAFramework.Option.no = "   -/P1                   : derived objects will not been copied.";
+mkUpdateAFramework.Option.nopdb = "   -/P1                : Do not copy \".pdb\" files and remove existing \".pdb\" for prerequisite frameworks in target directory.";
+mkUpdateAFramework.Option.h = "   -/P1                    : produces help message.";
+mkUpdateAFramework.Option.h.other = "   -/P1                    : same as -h.";
+mkUpdateAFramework.Option.v = "   -/P1                    : verbose mode.";
+mkUpdateAFramework.Option.debug = "   -/P1                : debug mode.";
+
+mkUpdateAFramework.CopyRetryWarn = "# mkmk-WARNING: Retrying copy of file(s) ";
+mkUpdateAFramework.RetryBothWarn = "# mkmk-WARNING: Retrying expansion of /P1 and /P2 ";
+mkUpdateAFramework.RetryWarn = "# mkmk-WARNING: Retrying expansion of /P1 ";
+
+mkUpdateAFramework.BadOptErr = "# mkmk-ERROR: Command line -> Syntax error.";
+mkUpdateAFramework.MESFWPR = "# mkmk-ERROR: Command -> Cannot specify both '/P1' and '/P2' options.";
+mkUpdateAFramework.MESRCM = "# mkmk-ERROR: Command -> Reference and tested workspaces path names are mandatory.";
+mkUpdateAFramework.MESIRC = "# mkmk-ERROR: Command -> Reference and tested workspaces path names are identical.";
+mkUpdateAFramework.MESOSD = "# mkmk-ERROR: Command -> Cannot specify both -o and -no options.";
+mkUpdateAFramework.INFITNM = "# mkmk-ERROR: /P1 -> Failed to update (real install type does not match with specified one).";
+mkUpdateAFramework.ERRINSTALLATION = "# mkmk-ERROR: /P1 -> Failed to create: /P2";
+mkUpdateAFramework.ExecFailedErr = "# mkmk-ERROR: /P1 -> Failed to execute [/P2].";
+
+mkUpdateAFramework.AddPattern = " Add Pattern number: /P1";
+mkUpdateAFramework.CurrentOS = "# Current Operating system is: /P1";
+mkUpdateAFramework.Init = "Updating framework [/P1]\n",
+"in comparison with [/P2]";
+
+mkUpdateAFramework.INFEUP = "# mkmk-INFO: /P1 -> End of update.";
+mkUpdateAFramework.DeleteSimu = " + /P1 ... should be deleted";
+mkUpdateAFramework.DeleteInfo = "# Deleting /P1";
+mkUpdateAFramework.DeleteInfoInSimu = "# Deleting /P1 (simul)";
+mkUpdateAFramework.DeleteErr = "# Error deleting /P1 : /P2";
+mkUpdateAFramework.AddSimu = " + /P1 ... should be added";
+mkUpdateAFramework.CopyInfo = "# Copying /P1 in /P2";
+mkUpdateAFramework.CopyInfoInSimu = "# Copying /P1 in /P2 (simul)";
+mkUpdateAFramework.CopyErr = "# Error copying /P1 : /P2";
+
+mkUpdateAFramework.TypeSimu = " ! /P1 ... has a bad type";
+mkUpdateAFramework.SizeSimu = " ! /P1 ... has an inconsistent size";
+mkUpdateAFramework.DateSimu = " ! /P1 ... is out of date";
+mkUpdateAFramework.ModeSimu = " ! /P1 ... has a bad mode";
+mkUpdateAFramework.LinkSimu = " ! /P1 ... has a bad symbolic link value";
+mkUpdateAFramework.IgnoreWarn = "# mkmk-WARNING: Failed to locate file /P2 in /P1: No such file or directory";
+mkUpdateAFramework.GetDataErr = "# mkmk-ERROR: Unable to get data for /P1.";
+mkUpdateAFramework.CheckRetryWarn = "# mkmk-WARNING: Retrying retreive information about /P1 ";
+mkUpdateAFramework.CheckRetryBothWarn = "# mkmk-WARNING: Retrying retreive information about /P1 and /P2 ";
+mkUpdateAFramework.NotADirErr = "# mkmk-ERROR: /P1 -> This directory does not exist.";
+mkUpdateAFramework.RetryGetDataWarn = "# mkmk-WARNING: Retrying get data for /P1 ";

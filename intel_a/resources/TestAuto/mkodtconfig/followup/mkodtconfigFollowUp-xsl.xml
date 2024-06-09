@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0" 
+xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+
+<xsl:decimal-format name="us" decimal-separator='.' grouping-separator=',' zero-digit='0' />
+
+
+<xsl:param name="currentDate"/>
+
+<xsl:template match="/">
+  <xsl:apply-templates/>
+</xsl:template>
+
+<xsl:template match="CONTEXT">
+<h1><center>mkodtconfig follow up</center></h1>
+<table border="1"><xsl:attribute name="class"><xsl:value-of select="'tableContext'" /></xsl:attribute>
+<tr><td><b>Host</b></td><td><xsl:value-of select="HOSTNAME" /></td></tr>
+<tr><td><b>Workspace</b></td><td><xsl:value-of select="WORKSPACE" /></td></tr>
+<tr><td><b>Output directory</b></td><td><xsl:value-of select="OUTPUT_DIR" /></td></tr>
+<tr><td><b>Default filter</b></td><td><xsl:value-of select="DEFAULT_FILTER" /></td></tr>
+<tr><td><b>Default mode</b></td><td><xsl:value-of select="DEFAULT_MODE" /></td></tr>
+<tr><td><b>Pool</b></td><td><xsl:value-of select="POOL" /></td></tr>
+<tr><td><b>TA_CONFIG_PATH</b></td><td><xsl:value-of select="TA_CONFIG_PATH" /></td></tr>
+<tr><td><b>TA_MODE_PATH</b></td><td><xsl:value-of select="TA_MODE_PATH" /></td></tr>
+<tr><td><b>TA_LIST_PATH</b></td><td><xsl:value-of select="TA_LIST_PATH" /></td></tr>
+</table>
+<hr></hr>
+<p></p>
+</xsl:template>
+
+<xsl:template match="LIST_OF_GROUPS"> 
+<table border="1" align="center"><xsl:attribute name="class"><xsl:value-of select="'tableResult'" /></xsl:attribute>
+<tr><xsl:attribute name="class"><xsl:value-of select="'header'" /></xsl:attribute><th>Group</th><th>Mode</th><th>Total</th><th>Start date</th><th>Replayed</th><th>Failed</th><th>End date</th><th>% Done</th></tr>
+<xsl:for-each select="GROUP">
+	<xsl:variable name="selectedGroup" select="@name"/>
+	<xsl:variable name="mode" select="MODE"/>
+	<xsl:variable name="nbOdts" select="NBODTS"/>
+	<xsl:variable name="list" select="LIST"/>
+	<xsl:variable name="startDate" select="START_DATE"/>
+	<xsl:variable name="endDate" select="END_DATE"/>
+	<xsl:variable name="nbReplayedOdts" select="count(document(@mkodtjobsFile)//REPLAYRESULT//ODTRESULT)"/>
+	<xsl:variable name="nbKOOdts" select="count(document(@mkodtjobsFile)//REPLAYRESULT//ODTRESULT[@rc and not(@rc=0)])"/>
+	<xsl:variable name="KOODTspage" select="concat('KOODTs_',$selectedGroup,'.html')"/>
+	<xsl:variable name="ODTspage" select="concat('ODTs_',$selectedGroup,'.html')"/>
+
+	<xsl:variable name="percentageReplayed"> 
+	<xsl:choose> 
+	<xsl:when test="number($nbOdts) != 0"><xsl:value-of select="number($nbReplayedOdts) * 100 div number($nbOdts)" /></xsl:when> 
+	<xsl:otherwise>
+	<xsl:choose>
+	<xsl:when test="$endDate='?'">0</xsl:when> 
+	<xsl:otherwise>100</xsl:otherwise>
+	</xsl:choose> 
+	</xsl:otherwise> 
+	</xsl:choose> 
+	</xsl:variable> 
+
+
+	
+<tr>
+<xsl:choose>
+<xsl:when test="(position() mod 2) = 0"><xsl:attribute name="class"><xsl:value-of select="'grise1'" /></xsl:attribute></xsl:when>
+<xsl:otherwise><xsl:attribute name="class"><xsl:value-of select="'grise0'" /></xsl:attribute></xsl:otherwise>
+</xsl:choose>	
+
+<td>
+<xsl:choose>
+<xsl:when test="number($nbOdts) != 0">
+<a target="extern"><xsl:attribute name="href"><xsl:value-of select="$list" /></xsl:attribute><xsl:value-of select="$selectedGroup" /></a></xsl:when> 
+<xsl:otherwise><xsl:value-of select="$selectedGroup" /></xsl:otherwise>
+</xsl:choose>
+</td>
+<td><xsl:value-of select="$mode" /></td>
+<td><xsl:value-of select="$nbOdts" /></td>
+<td><xsl:value-of select="$startDate" /></td>
+<td align="right"><a target="extern"><xsl:attribute name="href"><xsl:value-of select="$ODTspage" /></xsl:attribute><xsl:value-of select="$nbReplayedOdts" /></a></td>
+
+<td align="right">
+<xsl:choose>
+<xsl:when test="number($nbKOOdts) > 0"><xsl:attribute name="class"><xsl:value-of select="'KO'" /></xsl:attribute></xsl:when>
+</xsl:choose>
+<a target="extern"><xsl:attribute name="href"><xsl:value-of select="$KOODTspage" /></xsl:attribute><xsl:value-of select="$nbKOOdts" /></a></td>
+<td><xsl:value-of select="$endDate" /></td>
+
+<td align="right">
+<xsl:choose>
+<xsl:when test="number($percentageReplayed) = 100"><xsl:attribute name="class"><xsl:value-of select="'Finished'" /></xsl:attribute></xsl:when>
+<xsl:when test="number($percentageReplayed) > 0"><xsl:attribute name="class"><xsl:value-of select="'Running'" /></xsl:attribute></xsl:when>
+</xsl:choose>	
+<xsl:value-of select="format-number($percentageReplayed, '0.##', 'us')"/>%</td>
+
+</tr>
+
+</xsl:for-each>
+
+</table>
+<p>Last refresh date :<xsl:value-of select="$currentDate" /></p>
+<p>To update the page, click on the refresh button of the navigator.</p>
+
+</xsl:template>
+
+
+
+</xsl:stylesheet>
+
+

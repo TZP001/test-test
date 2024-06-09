@@ -1,0 +1,106 @@
+if "%MKMK_PROGNAME%" == "" set MKMK_PROGNAME="CNEXT.exe"
+
+set CATMsgCatalogPath=
+set CATDictionaryPath=
+set CATICPath=
+set PWD=
+
+set %PATH_NAME%=%PATH_setcatenv%
+set OSDS=%MkmkOS_Buildtime%
+
+if not "%OPTION_FOR_SETCATENV%" == ""         echo # mkmk-INFO: Variable OPTION_FOR_SETCATENV is set. An option is added to setcatenv...
+
+if not "%IT_ORCALE_HOME_V10%" == "" set IT_ORCALE_HOME=%IT_ORCALE_HOME_V10%
+if not "%IT_ORA_NLS33_V10%" == "" set IT_ORA_NLS33=%IT_ORA_NLS33_V10%
+if not "%IT_TNS_ADMIN_V10%" == "" set IT_TNS_ADMIN=%IT_TNS_ADMIN_V10%
+
+set CATDefaultEnvironment=%DEFDefaultEnvironment%
+
+if not "%NEWDefaultEnvironment%" == ""  set CATDefaultEnvironment=%NEWDefaultEnvironment%
+
+if "%NEWDefaultEnvironment%" == "" call setcatenv.exe -p "%MKMK_LST_RTV%" -e %CATDefaultEnvironment% %OPTION_CF_FOR_SETCATENV% %OPTION_FOR_SETCATENV%
+
+set CLASSPATH=%CLASSPATH%;%JavaROOT_PATH%\lib\classes.zip
+
+
+set CATCatchSignals=TRUE
+set CATLogSessionEnd=TRUE
+set CATErrorLog=Error.log
+
+for /F "delims=*" %%i in ( 'readcatenv -e %CATDefaultEnvironment% -a user -var CATInstallPath' ) do set %%i
+
+set CLASS_NAME=com.dassault_systemes.itjavacatalogue.GetEnvNameFromHost
+
+IF NOT "%IT_ENOV_HOSTNAME%" == "localhost" for /F "delims=*" %%i in ( 'StdE4ALLJavaCommand -hostname %IT_ENOV_HOSTNAME% -port %IT_ENOV_ORBIX_PORT%' ) do set ENV_NAME=%%i
+IF "%IT_ENOV_HOSTNAME%" == "localhost" SET ENV_NAME=NotSpecified
+
+if "%ENV_NAME%" == "NotSpecified"  set VaultClient_PropertiesFilePath=NotSpecified
+if "%ENV_NAME%" == "NotSpecified"  set ENO_PROTOCOL=NotSpecified
+
+set CLASS_NAME=com.dassault_systemes.itjavacatalogue.GetEnoviaEnvValue
+
+set OLD_VaultClient_PropertiesFileName=%VaultClient_PropertiesFilePath%
+
+IF NOT "%ENV_NAME%" == "NotSpecified" for /F "delims=*" %%i in ( 'StdE4ALLJavaCommand -conf %ENV_NAME% -i WINDOWS_VaultClient_PropertiesFilePath' ) do set VaultClient_PropertiesFilePath=%%i
+IF NOT "%ENV_NAME%" == "NotSpecified" for /F "delims=*" %%i in ( 'StdE4ALLJavaCommand -conf %ENV_NAME% -i ENO_PROTOCOL' ) do set ENO_PROTOCOL=%%i
+
+if "%VaultClient_PropertiesFilePath%" == "null" set  VaultClient_PropertiesFilePath=%OLD_VaultClient_PropertiesFileName%
+
+if "%VaultClient_PropertiesFilePath%" == "" set VaultClient_PropertiesFilePath=%IT_DATA%\ToolsData\ITEnovia\%OSDS%
+if "%VaultClient_PropertiesFileName%" == "" set VaultClient_PropertiesFileName=VaultClient.properties
+
+rem if not "%ITtoolsUserSettingPath%" == "" call chcatenv.exe -e %CATDefaultEnvironment% -a user -var "CATUserSettingPath=%ITtoolsUserSettingPath%;%APPDATA%\DassaultSystemes\CATSettings"
+
+for /F "delims=*" %%i in ( 'readcatenv -e %CATDefaultEnvironment% -a user -var CATUserSettingPath' ) do set %%i
+
+
+
+
+if not exist  "%CATUserSettingPath%" mkdir "%CATUserSettingPath%"
+
+if not "%ITtoolsUserSettingPath%" == ""  cp  "%ITtoolsUserSettingPath%\CATDbServers.CATSettings" "%CATUserSettingPath%"
+rem if not "%ITtoolsUserSettingPath%" == ""  cp  "%ITtoolsUserSettingPath%\TransactionRepos.CATSettings" "%CATUserSettingPath%"
+if not "%ITtoolsUserSettingPath%" == ""  cp  "%ITtoolsUserSettingPath%\VPMAdmin.CATSettings" "%CATUserSettingPath%"
+if not "%ITtoolsUserSettingPath%" == ""  cp  "%ITtoolsUserSettingPath%\CATRdbServers.CATSettings" "%CATUserSettingPath%"
+
+
+set CATTraDecDir=%mkrun_CATTraDecDir%
+
+set TNS_ADMIN=%IT_TNS_ADMIN%
+set ORA_NLS33=%IT_ORA_NLS33%
+set ORACLE_HOME=%IT_ORACLE_HOME%
+
+if "%JAVA_HOME%" == "" call chcatenv.exe -e %CATDefaultEnvironment% -a user -var "JAVA_HOME=%JavaROOT_PATH%"
+if not "%JAVA_HOME%" == "" call chcatenv.exe -e %CATDefaultEnvironment% -a user -var "JAVA_HOME=%JAVA_HOME%"
+
+REM #######################################################
+REM
+REM	GENERATE CT5 SETTINGS
+REM
+REM #######################################################
+
+IF DEFINED CT_HOSTNAME (
+	IF DEFINED CT_PORT (
+		IF DEFINED CT_ROOT_URI (
+			ECHO Generating CT5 Settings
+			CALL CATSTART.exe -run "CreateCT5Settings -protocol http -server %CT_HOSTNAME% -port %CT_PORT% -application %CT_ROOT_URI%"
+		)
+	)
+)
+
+REM #######################################################
+REM
+REM	END OF GENERATE CT5 SETTINGS
+REM
+REM #######################################################
+
+
+set %PATH_NAME%=%PATH1%
+call CATSTART.exe -run "%MKMK_PROGNAME%"
+
+set %PATH_NAME%=%PATH_setcatenv%
+
+if not "%OPTION_FOR_DELCATENV%" == "" echo # mkmk-INFO: Variable OPTION_FOR_DELCATENV is set. An option is added to delcatenv...
+
+if "%NEWDefaultEnvironment%" == "" call delcatenv.exe -e %CATDefaultEnvironment%  %OPTION_FOR_DELCATENV%
+

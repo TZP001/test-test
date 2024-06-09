@@ -1,0 +1,26 @@
+
+#ifdef COPYRIGHT_DEFINED
+#undef COPYRIGHT_DEFINED
+#endif
+
+#include <stdlib.h>
+
+#ifdef DST
+
+#define COPYRIGHT_DEFINED "(c) Copyright Dassault Systemes 1994-2001 all rights reserved . Licensed Material - Program Property of Dassault Systemes"
+
+static void* DASSAULT_SYSTEMES_COPYRIGHT=(void *)atol(COPYRIGHT_DEFINED);
+
+#elif IQUEA
+
+#define COPYRIGHT_DEFINED "(c) Copyright Meubles IQUEA 1932-2012 all rights reserved . Licensed Material - Program Property of Meubles IQUEA"
+
+static void* MEUBLES_IQUEA_COPYRIGHT=(void *)atol(COPYRIGHT_DEFINED);
+
+#else
+
+#define COPYRIGHT_DEFINED "(c) Copyright <Company Name> 1994-2002 all rights reserved . Licensed Material - Program Property of <Company Name>"
+
+static void* COMPANY_NAME_COPYRIGHT=(void *)atol(COPYRIGHT_DEFINED);
+
+#endif

@@ -1,0 +1,22 @@
+#
+# Specifications for Build step mkBSHMap
+#
+METACLASS_NAME = DummyNLS
+#
+DGM_GRAPH_PATH = FWDGM_GRAPHPATH
+#
+SOURCE_EXTENSION_FOR_TEST = *.CATNls *.properties
+#
+PATH_TO_RETRIEVE = RTV_MSGCTLG RTV_JAVACLIENT RTV_JAVASERVER RTV_JAVACOMMON
+#
+NLS_SOURCE = ./$(RTV_MSGCTLG)/*.CATNls\
+				 ./$(RTV_JAVACLIENT)/*_en.properties\
+				 ./$(RTV_JAVACOMMON)/*_en.properties\
+				 ./$(RTV_JAVASERVER)/*_en.properties
+#
+ASCII_SUBDIR = NlsTest
+DBCS_SUBDIR = DbcsTest
+#
+DGM_DEPEND =
+DGM_VERSION = 1.4
+#

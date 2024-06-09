@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="StockQuoteServiceRemoteInterface" 
+targetNamespace="http://www.stockquoteservice.com/definitions/StockQuoteServiceRemoteInterface" 
+xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.stockquoteservice.com/definitions/StockQuoteServiceRemoteInterface" 
+xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <message name="getQuoteRequest">
+    <part name="symbol" type="xsd:string"/>
+  </message>
+  <message name="getQuoteResponse">
+    <part name="result" type="xsd:float"/>
+  </message>
+  <portType name="StockQuoteServiceJavaPortType">
+    <operation name="getQuote">
+      <input name="getQuoteRequest" message="tns:getQuoteRequest"/>
+      <output name="getQuoteResponse" message="tns:getQuoteResponse"/>
+    </operation>
+  </portType>
+  <binding name="StockQuoteServiceBinding" type="tns:StockQuoteServiceJavaPortType">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="getQuote">
+      <soap:operation soapAction="" style="rpc"/>
+      <input name="getQuoteRequest">
+        <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" 
+        namespace="http://tempuri.org/StockQuoteService"/>
+      </input>
+      <output name="getQuoteResponse">
+        <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" 
+        namespace="http://tempuri.org/StockQuoteService"/>
+      </output>
+    </operation>
+  </binding>
+</definitions>

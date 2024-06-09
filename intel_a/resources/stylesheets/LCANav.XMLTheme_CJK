@@ -1,0 +1,357 @@
+<?xml version="1.0"?>
+<Theme>
+   <!-- CATIA V5 colors and fonts -->
+   <Color Name="SalmonBg" r="250" g="231" b="195"/>
+<!--   <Color Name="SalmonBg" r="239" g="222" b="206"/>-->
+   <Color Name="TextfieldBg" rgb="FFFFFF"/>
+   <Color Name="TextfieldBorder" r="113" g="111" b="100"/>
+   <Font Name="TextFont" Size="12" Face="Tahoma"/>
+   <Color Name="TextColor" rgb="000000"/>
+   <Color Name="TreeSel" r="255" g="118" b="0"/>
+   <Color Name="TreeBg" r="255" g="231" b="189"/>
+   <Color Name="ButtonBg" r="207" g="207" b="230"/>
+<!--   <Color Name="ButtonHBg" rgb="DEDEDE"/>-->
+   <Color Name="ButtonHBg" rgb="F5F5FB"/>
+   <Color Name="TextDisableColor" r="172" g="158" b="163"/>
+   <Color Name="TableHeaderBg" r="236" g="233" b="216"/>
+   <Color Name="TableRowBg1" rgb="FFFFFF"/>
+   <Color Name="TableRowBg2" rgb="FFF1DB"/>
+   <Color Name="TitleBarBg" rgb="CFCFE7"/>
+   <Color Name="TabBorder" rgb="000000"/>
+   <Color Name="TitleBarTitleColor" r="60" g="31" b="129"/>
+   <Color Name="BannerColor" rgb="33006B"/>
+   <Color Name="BannerText" rgb="FFFFFF"/>
+   <Color Name="MessageBoxBg" rgb="EDEDFF"/>
+
+   <Color Name="ScrollFace" r="120" g="120" b="250"/>
+   <Color Name="ScrollArrow" r="120" g="120" b="250"/>
+
+   <Filter Name="HighlightFilter" Class="CATHighlightFilter" Color="TreeSel"/>
+   <Color Name="DisabledColor" r="30" g="30" b="30"/>
+   <Filter Name="DisableFilter" Class="CATHighlightFilter" Color="DisabledColor"/>
+
+   <!-- Required entities -->
+   <Color Name="Highlight" ref="TreeSel"/>
+   <Color Name="Background" ref="SalmonBg"/>
+   <Color Name="DarkBackground" ref="TreeBg"/>
+   <Color Name="LightBackground" ref="SalmonBg"/>
+   <Font Name="Font" Size="12" Face="Tahoma"/>
+   <Color Name="Text" ref="TextColor"/>
+
+   <Margin Name="InnerSpacing" Size="2"/>
+
+   <Group Name="TextField">
+      <Color Name="Border" ref="TextfieldBorder"/>
+      <Color Name="Background" ref="TextfieldBg"/>
+   </Group>
+   <Group Name="Toolbar_off">
+      <Skin Name="Normal.ToolbarBg" Class="Box"
+        Left="Theme_LCANav2/Toolbar.gif#0,0,10,36"
+        Middle="Theme_LCANav2/Toolbar.gif#10,0,10,36"
+        Right="Theme_LCANav2/Toolbar.gif#98,0,10,36"
+        margin-left="3" margin-right="3" margin-top="2" margin-bottom="2"/>
+<!--      <Skin Name="Normal.ToolbarBut" Class="Image" Image="Theme_LCANav/ToolbarBg.gif"
+        margin-left="3" margin-right="3" margin-top="2" margin-bottom="2"/>	-->
+      <Skin Name="Highlight.ToolbarBut" Class="Filtered" Reference="Toolbar.Normal.ToolbarBut" Filter="HighlightFilter"
+        margin-left="3" margin-right="3" margin-top="2" margin-bottom="2"/>
+      <Skin Name="Disabled.ToolbarBut" Class="Filtered" Reference="Toolbar.Normal.ToolbarBut" Filter="DisableFilter"
+        margin-left="3" margin-right="3" margin-top="2" margin-bottom="2"/>
+      <Margin Name="Space" Size="0"/>
+      <Color Name="Disabled.Text" ref="TextDisableColor"/>
+   </Group>
+   <Group Name="TabPage">
+      <Skin Name="Normal" Class="Box"
+         Left="Theme_LCANav/Tab.gif#38,0,8,27"
+         Middle="Theme_LCANav/Tab.gif#46,0,10,27"
+         Right="Theme_LCANav/Tab.gif#68,0,8,27"
+         margin-left="10" margin-right="10"/>
+      <Skin Name="Selected" Class="Box"
+         Left="Theme_LCANav/Tab.gif#0,0,8,27"
+         Middle="Theme_LCANav/Tab.gif#8,0,10,27"
+         Right="Theme_LCANav/Tab.gif#30,0,8,27"
+         margin-left="10" margin-right="10"/>
+      <Skin Name="Highlight" Class="Box"
+         Left="Theme_LCANav/Tab.gif#38,0,8,27"
+         Middle="Theme_LCANav/Tab.gif#46,0,10,27"
+         Right="Theme_LCANav/Tab.gif#68,0,8,27"
+         margin-left="10" margin-right="10"/>
+      <Skin Name="Border"
+         Class="Border"
+         LeftTop="Theme_LCANav/TabBorder.gif#0,0,6,6"
+         Left="Theme_LCANav/TabBorder.gif#0,6,6,10"
+         BottomLeft="Theme_LCANav/TabBorder.gif#0,33,6,7"
+         Top="Theme_LCANav/TabBorder.gif#6,0,10,6"
+         Bottom="Theme_LCANav/TabBorder.gif#6,33,10,7"
+         TopRight="Theme_LCANav/TabBorder.gif#33,0,7,6"
+         Right="Theme_LCANav/TabBorder.gif#33,6,7,10"
+         RightBottom="Theme_LCANav/TabBorder.gif#33,33,7,7"
+         Color="SalmonBg"
+         margin-top="6" margin-bottom="7" margin-left="6" margin-right="7"/>
+      <Skin Name="Next" Class="Image" Image="Theme_LCANav/TabNext.gif"/>
+      <Skin Name="Previous" Class="Image" Image="Theme_LCANav/TabPrevious.gif"/>
+      <Skin Name="Next.Disable" Class="Image" Image="Theme_LCANav/TabNextDisable.gif"/>
+      <Skin Name="Previous.Disable" Class="Image" Image="Theme_LCANav/TabPreviousDisable.gif"/>
+      <Color Name="Selected" ref="TextColor"/>
+      <Color Name="Highlight" ref="TextColor"/>
+      <Color Name="Text" ref="TextfieldBorder"/>
+      <Font Name="Selected" Size="12" Face="Tahoma" Bold="true"/>
+      <Font Name="Highlight" Size="12" Face="Tahoma" Underline="false" Bold="false"/>
+      <Font Name="Font" Size="12" Face="Tahoma" Bold="false"/>
+   </Group>
+   <Group Name="WebPartFrame">
+      <Skin Name="Title" Class="Flat" Color="SalmonBg"
+         margin-left="4" margin-right="4" margin-top="4" margin-bottom="2"/>
+      <Skin Name="Border" Class="Border" Top="Theme_LCANav/WebPartFrame.gif" Color="SalmonBg"
+         margin-top="9" margin-bottom="0" margin-left="0" margin-right="0"/>
+      <Font Name="Title" Size="12" Face="Tahoma" Bold="true"/>
+      <Color Name="Title" ref="TextfieldBorder"/>
+   </Group>
+   <Group Name="Packed">
+      <Color b="165" Name="Background" g="91" r="88"/>
+   </Group>
+   <Group Name="Wizard">
+      <Skin Name="ButtonArea" Middle="Theme_LCANav/HorizontalShading" Class="Box"/>
+   </Group>
+   <Group Name="Button">
+      <Skin Name="Normal"
+         Class="Border"
+         LeftTop="Theme_LCANav/Button#0,0,4,4"
+         Left="Theme_LCANav/Button#0,4,4,13"
+         BottomLeft="Theme_LCANav/Button#0,17,4,4"
+         Top="Theme_LCANav/Button#10,0,10,4"
+         Bottom="Theme_LCANav/Button#10,17,10,4"
+         TopRight="Theme_LCANav/Button#45,0,4,4"
+         Right="Theme_LCANav/Button#45,4,4,13"
+         RightBottom="Theme_LCANav/Button#45,17,4,4"
+         Color="ButtonBg"
+         margin-top="3" margin-bottom="3" margin-left="4" margin-right="4"/>
+      <Skin Name="Highlight" Class="Filtered" Reference="Button.Normal" Filter="HighlightFilter"
+         margin-top="3" margin-bottom="3" margin-left="4" margin-right="4"/>
+      <Skin Name="Disabled"
+         Class="Border"
+         LeftTop="Theme_LCANav/Button#0,0,4,4"
+         Left="Theme_LCANav/Button#0,4,4,13"
+         BottomLeft="Theme_LCANav/Button#0,17,4,4"
+         Top="Theme_LCANav/Button#10,0,10,4"
+         Bottom="Theme_LCANav/Button#10,17,10,4"
+         TopRight="Theme_LCANav/Button#45,0,4,4"
+         Right="Theme_LCANav/Button#45,4,4,13"
+         RightBottom="Theme_LCANav/Button#45,17,4,4"
+         Color="ButtonBg"
+         margin-top="3" margin-bottom="3" margin-left="4" margin-right="4"/>
+      <Color Name="Disabled.Text" ref="TextDisableColor"/>
+<!--      <Font Name="Font" Size="8" Bold="true" Face="Tahoma"/> -->
+   </Group>
+   <Group Name="Scroll">
+      <Skin Name="ArrowLeft" Middle="Theme_Dialog/ScrollH#0,0,13,18" Class="Box"/>
+      <Skin Name="ArrowRight" Middle="Theme_Dialog/ScrollH#56,0,13,18" Class="Box"/>
+      <Skin Name="HorizontalFull" Middle="Theme_Dialog/ScrollH#20,0,10,18" Class="Box"/>
+      <Skin Name="HorizontalEmpty" Middle="Theme_Dialog/ScrollH#45,0,10,18" Class="Box"/>
+      <Skin Name="ArrowTop" Middle="Theme_Dialog/ScrollV#0,0,18,13" Class="Box"/>
+      <Skin Name="ArrowBottom" Middle="Theme_Dialog/ScrollV#0,56,18,13" Class="Box"/>
+      <Skin Name="VerticalFull" Middle="Theme_Dialog/ScrollV#0,33,18,10" Class="Box"/>
+      <Skin Name="VerticalEmpty" Middle="Theme_Dialog/ScrollV#0,14,18,10" Class="Box"/>
+      <Color b="165" Name="Background" g="91" r="88"/>
+      
+      <Color Name="Border" ref="TextfieldBorder"/>
+      <Color Name="Background" ref="LightBackground"/>
+      <Color Name="Arrow" rgb="FF8400"/>
+   </Group>
+   <Group Name="Table">
+      <Group Name="Header">
+         <Color Name="Background" ref="TableHeaderBg"/>
+         <Font Name="Custo.Font" Bold="false" Size="12" Face="Tahoma"/>
+<!--
+         <Skin  Name="Background" Class="Flat" Color="TableHeaderBg"/>
+         <Color Name="Text" rgb="FF8400"/>
+         <Font Name="Font" Bold="false" Size="12" Face="Tahoma"/>
+-->
+      </Group>
+      
+      <!-- 3d effects in rows / columns separators -->
+      <Color Name="BorderLeft" ref="TableRowBg2"/>
+      <Color Name="BorderTop" ref="TableRowBg1"/>
+      <Color Name="BorderRight" ref="TextfieldBorder"/>
+      <Color Name="BorderBottom" ref="TableRowBg2"/>
+
+      <!-- row alternate background colors -->
+      <Group Name="0">
+	      <Color Name="Background" ref="TableRowBg1"/>
+	      <Color Name="Bis.Background" ref="TableRowBg2"/>
+<!--
+         <Skin Name="Line" Class="Flat" Color="TableRowBg1"/>
+         <Skin Name="Line.Highlight" Class="Flat" Color="Highlight"/>
+         <Font Name="Font" Bold="false" Size="12" Face="Tahoma"/>
+-->
+      </Group>
+      <Group Name="1">
+	      <Color Name="Background" ref="TableRowBg1"/>
+	      <Color Name="Bis.Background" ref="TableRowBg2"/>
+         <Font Name="Font" Size="12" Face="Tahoma" Bold="true"/>
+      </Group>
+      <Group Name="2">
+	      <Color Name="Background" ref="TableRowBg1"/>
+	      <Color Name="Bis.Background" ref="TableRowBg2"/>
+<!--
+         <Skin Name="Line" Class="Border" Color="Background" Bottom="Theme_LCANav/ColumnLine"/>
+         <Skin Name="Line.Highlight" Class="Flat" Color="Highlight"/>
+         <Color b="247" Name="Bis.Background" g="205" r="205"/>
+         <Font Name="Font" Size="12" Face="Tahoma"/>
+         <Font Name="Font" Bold="false" Size="12" Face="Tahoma"/>
+-->
+      </Group>
+      <Group Name="Toolbar">
+         <Skin Name="Normal.Background"
+            Class="Box"
+            Left="Theme_LCANav/Button#0,0,4,21"
+            Middle="Theme_LCANav/Button#10,0,10,21"
+            Right="Theme_LCANav/Button#45,0,4,21"
+            margin-left="4" margin-right="4"/>
+         <Skin Name="Highlight.Background" Class="Filtered" Reference="Button.Normal" Filter="HighlightFilter"
+            margin-left="4" margin-right="4"/>
+         <Skin Name="Disabled.Background"
+            Class="Box"
+            Left="Theme_LCANav/ButtonD#0,0,4,21"
+            Middle="Theme_LCANav/ButtonD#10,0,10,21"
+            Right="Theme_LCANav/ButtonD#45,0,4,21"
+            margin-left="4" margin-right="4"/>
+         <Color Name="Disabled.Text" rgb="C1C1C1"/>
+         <Color Name="Background" ref="TitleBarBg"/>
+<!--         <Font Name="Font" Bold="true" Size="12" Face="Tahoma"/>-->
+      </Group>
+   </Group>
+   <Group Name="Calendar">
+      <Color Name="TitleBackground" ref="DarkBackground"/>
+      <Color Name="MonthBackground" ref="Background"/>
+      <Group Name="Title">
+         <Skin  Name="Background" Class="Flat" Color="Background"/>
+         <Color Name="Color" ref="Blue"/>
+         <Font Name="Font" Bold="true" Size="12" Face="Tahoma"/>
+      </Group>
+      <Group Name="Nav">
+         <Skin  Name="Background" Class="Flat" Color="DarkBackground"/>
+         <Color Name="Color" ref="Blue"/>
+         <Font Name="Font" Bold="false" Size="12" Face="Tahoma"/>
+      </Group>
+      <Group Name="DayHeader">
+         <Skin Name="Background" Class="Flat" Color="Background"/>
+         <Color Name="Color" rgb="FF8400"/>
+         <Font Name="Font" Bold="false" Size="12" Face="Tahoma"/>
+      </Group>
+      <Group Name="Day">
+         <Color Name="Background" ref="DarkBackground"/>
+         <Color Name="Background.WeekEnd" ref="LightBackground"/>
+         <Font Name="Font" Bold="false" Size="12" Face="Tahoma"/>
+      </Group>
+   </Group>
+   <Group Name="Banner">
+      <Color Name="Text" ref="BannerText"/>
+      <Skin Name="Background" Class="Flat" Color="BannerColor"/>
+      <Font Name="Font" Size="12" Face="Tahoma" Bold="true"/>
+   </Group>
+   <Group Name="PortletBanner">
+      <Color Name="Background" ref="Blue"/>
+      <Color Name="Text"   ref="Background"/>
+      <Font  Name="Font" Italic="false" Bold="true" Size="12" Face="Tahoma"/>
+   </Group>
+   <Group Name="Heading1">
+      <Color Name="Background" ref="Background"/>
+      <Skin  Name="Background" Class="Flat" Color="Heading1.Background"/>
+      <Color Name="Text" ref="Blue"/>
+      <Font  Name="Font" Italic="false" Bold="true" Size="9" Face="Tahoma"/>
+   </Group>
+   <Group Name="Heading2">
+      <Color Name="Text" rgb="0035CA"/>
+      <Font  Name="Font" Italic="false" Bold="true" Size="14" Face="Tahoma"/>
+   </Group>
+   <Group Name="Heading3">
+      <Font  Name="Font" Italic="false" Bold="true" Size="10" Face="Tahoma"/>
+   </Group>
+   <Group Name="Heading4">
+      <Color Name="Text" ref="TitleBarTitleColor"/>
+      <Font  Name="Font" Italic="true" Bold="true" Size="16" Face="Tahoma"/>
+   </Group>
+   <Group Name="Tree">
+      <Font Name="Font" Size="12" Face="Tahoma"/>
+   </Group>
+   <Group Name="Toolbar">
+      <Skin Name="Button" Class="Image" Image="Theme_Dialog/Toolbar_Button"/>
+      <Skin Name="ButtonV" Class="Image" Image="Theme_Dialog/Toolbar_ButtonV"/>
+      <Skin Name="Highlight" Class="Image" Image="Theme_Dialog/Toolbar_ButtonH"/>
+      <Skin Name="HighlightV" Class="Image" Image="Theme_Dialog/Toolbar_ButtonHV"/>
+      <Skin Name="Background2" Class="Image" Image="Theme_Dialog/Toolbar_Background"/>
+      <Skin Name="BackgroundV" Class="Image" Image="Theme_Dialog/Toolbar_BackgroundV"/>
+   </Group>
+   <Group Name="WebViewer">
+      <Skin Name="Normal" Class="Box"
+         Left="Theme_LCANav/Button#0,0,4,21"
+         Middle="Theme_LCANav/Button#10,0,10,21"
+         Right="Theme_LCANav/Button#45,0,4,21"
+         margin-left="4" margin-right="4" margin-top="4" margin-bottom="4"/>
+      <Color Name="Normal" ref="Text"/>
+      <Skin Name="Highlight" Class="Box"
+         Left="Theme_LCANav/ButtonH#0,0,4,21"
+         Middle="Theme_LCANav/ButtonH#10,0,10,21"
+         Right="Theme_LCANav/ButtonH#45,0,4,21"
+         margin-left="4" margin-right="4" margin-top="4" margin-bottom="4"/>
+      <Color Name="Highlight" ref="Text"/>
+      <Font Name="Normal" Size="8" Bold="true" Face="Tahoma"/>
+      <Font Name="Highlight" Size="8" Bold="true" Face="Tahoma"/>
+   </Group>
+   <Group Name="Splitter">
+      <Color Name="Shadow" g="255" r="255" b="255"/>
+      <Skin Name="VNormal" Class="Flat" Color="Background"/>
+      <Skin Name="VHighlight" Class="Flat" Color="Highlight"/>
+      <Skin Name="HNormal" Class="Flat" Color="Background"/>
+      <Skin Name="HHighlight" Class="Flat" Color="Highlight"/>
+   </Group>
+   <Group Name="Link">
+      <Color Name="Text" r="0" g="0" b="255"/>
+      <Color Name="Visited.Text" r="128" g="0" b="128"/>
+      <Color Name="Disabled.Text" r="128" g="128" b="128"/>
+   </Group>
+   <Group Name="Portal">
+      <!-- separator colors -->
+      <!-- color may also be defined by area: [area name].Sep -->
+      <Color Name="Sep" ref="TitleBarBg"/>
+
+      <!-- portal banner -->
+      <Skin Name="Banner.Background" Class="Flat" Color="TitleBarBg"/>
+      <Color Name="Banner.Text" ref="TitleBarTitleColor"/>
+
+      <!-- starter areas -->
+      <!-- baground may also be defined by starter: Starter.[index].Background -->
+      <Color Name="Starter.Background" ref="TitleBarBg"/>
+      
+      <!-- Message Area -->
+      <Skin Name="MessageArea.Background" Class="Flat" Color="MessageBoxBg"/>
+      
+
+      <!-- areas title bar -->
+      <Group Name="TitleBar">
+         <Font Name="Font" Size="12" Bold="true" Face="Tahoma"/>
+         <Color Name="Text" rgb="FFFFFF"/>
+         <Color Name="Combo.Background" rgb="0055EA"/>
+         <!-- skin for the titlebar background -->
+         <Skin Name="Background" Class="Image" Image="Theme_LCANav/PortletTitleBar"/>
+         <Group Name="Menu">
+            <Color Name="Background" rgb="0055EA"/>
+            <Color Name="Highlight.Background" rgb="316AC5"/>
+         </Group>
+      </Group>
+   </Group>
+   <Group Name="Homelet">
+      <!-- areas title bar -->
+      <Group Name="TitleBar">
+         <Font Name="Font" Size="12" Bold="true" Face="Tahoma"/>
+         <Color Name="Text" rgb="FFFFFF"/>
+         <Color Name="Combo.Background" rgb="C68A34"/>
+         <!-- skin for the titlebar background -->
+         <Skin Name="Background" Class="Image" Image="Theme_LCANav/HomeletTitleBar"/>
+         <Group Name="Menu">
+            <Color Name="Background" rgb="C68A34"/>
+            <Color Name="Highlight.Background" rgb="316AC5"/>
+         </Group>
+      </Group>
+   </Group>
+</Theme>

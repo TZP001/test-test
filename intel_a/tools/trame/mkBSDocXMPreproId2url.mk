@@ -1,0 +1,18 @@
+#
+# Specifications for Build step mkBSDoc
+#
+METACLASS_NAME = DocPreproId2url
+#
+DGM_GRAPH_PATH = MODDGM_GRAPHPATH_DOC
+#
+INXML_PATH = $(DOCPATH)\intermediate_@LANG@\$(MODNAME)\xml\$(MODNAME) 
+INHTM_PATH = $(DOCPATH)\@LANG@\$(MODNAME)
+#
+PREFIX_DERIVED_PATH = $(DOCPATH)/ref
+#
+SOURCE_XML = *.xml
+SOURCE_HTM = *.htm
+#
+DGM_VERSION = 1.01
+DGM_DEPEND =
+#

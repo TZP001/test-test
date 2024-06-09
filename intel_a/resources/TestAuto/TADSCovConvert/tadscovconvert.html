@@ -1,0 +1,48 @@
+<html>
+<STYLE type=text/css>
+BODY { font-family: verdana, arial, helvetica, sans-serif; font-size: 8pt; background-attachment: fixed; background-position: center;background-repeat: no-repeat;}
+TABLE { font-family: verdana, arial, helvetica, sans-serif; font-size: 8pt;}
+</STYLE>
+   <head>
+      <script type="text/javascript">
+      
+      var xslt ;
+      var xslDoc;
+      var xslProc;
+      var xmlDoc; 
+      
+        function tri_init() {
+            xslt = new ActiveXObject("Msxml2.XSLTemplate.4.0"); 
+            xslDoc = new ActiveXObject("Msxml2.FreeThreadedDOMDocument.4.0"); 
+            xslProc; 
+            xslDoc.async = false; 
+            xslDoc.load("TADSCovConvert-xslt.xml"); 
+            xslt.stylesheet = xslDoc; 
+            xmlDoc = new ActiveXObject("Msxml2.DOMDocument.4.0"); 
+            xmlDoc.async = false; 
+            xmlDoc.load("datas.xml"); 
+            xslProc = xslt.createProcessor(); 
+            xslProc.input = xmlDoc; 
+			print('frameworks','','','');
+        }
+        
+        function print(level, fwName, modName, sourceName){
+			xslProc.addParameter("level", level);
+			xslProc.addParameter("fw_name", fwName);
+			xslProc.addParameter("mod_name", modName);
+			xslProc.addParameter("src_name", sourceName);
+			xslProc.addParameter("screen_width", screen.width);
+			xslProc.addParameter("screen_height", screen.height);
+            xslProc.transform(); 
+            document.body.innerHTML=xslProc.output;
+        
+        }
+        
+      </script>
+   </head>
+   <body>
+      <script type="text/javascript">
+        tri_init();
+      </script>
+   </body>
+</html>

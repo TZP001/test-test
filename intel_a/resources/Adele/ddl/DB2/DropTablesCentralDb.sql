@@ -1,0 +1,12 @@
+DROP TABLE adl.central_db_version;
+DROP TABLE adl.site;
+DROP TABLE adl.database;
+DROP TABLE adl.workspace_tree;
+DROP TABLE adl.ws_tree_in_db;
+DROP TABLE adl.multi_tree_ws_c_db;
+DROP TABLE adl.workspace_c_db;
+DROP TABLE adl.contents_server;
+DROP TABLE adl.history_event;
+DROP TABLE adl.associated_comment;
+DROP TABLE adl.file_type;
+DROP TABLE adl.change_set_c_db;

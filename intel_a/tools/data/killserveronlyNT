@@ -1,0 +1,28 @@
+if "%MKMK_PROGNAME%" == "" set MKMK_PROGNAME="CNEXT.exe"
+
+set CATMsgCatalogPath=
+set CATDictionaryPath=
+set CATICPath=
+set PWD=
+set %PATH_NAME%=%PATH_setcatenv%
+set OSDS=%MkmkOS_Buildtime%
+set ORBIX_ItDaemonPort=1570
+if not "%OPTION_FOR_SETCATENV%" == ""         echo # mkmk-INFO: Variable OPTION_FOR_SETCATENV is set. An option is added to setcatenv...
+
+set CATDefaultEnvironment=%DEFDefaultEnvironment%
+
+if not "%NEWDefaultEnvironment%" == ""  set CATDefaultEnvironment=%NEWDefaultEnvironment%
+
+if "%NEWDefaultEnvironment%" == "" call setcatenv.exe -p "%MKMK_LST_RTV%" -e %CATDefaultEnvironment% %OPTION_FOR_SETCATENV%
+
+set CLASSPATH=%CLASSPATH%;%JavaROOT_PATH%\lib\classes.zip
+
+
+set CATCatchSignals=TRUE
+set CATLogSessionEnd=TRUE
+set CATErrorLog=Error.log
+
+call catstart -run KillV5Process
+
+call delcatenv.exe -e %CATDefaultEnvironment%  %OPTION_FOR_DELCATENV%
+

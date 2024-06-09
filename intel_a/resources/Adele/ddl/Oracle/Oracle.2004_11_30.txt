@@ -1,0 +1,237 @@
+[Central Step 1]
+---------------------------- adl.change_set_c_db ----------------------------------
+
+CREATE TABLE adl.change_set_c_db
+(
+	id                VARCHAR2(20)  NOT NULL,
+	case_name         VARCHAR2(32)  NOT NULL,
+	lower_name        VARCHAR2(32)  NOT NULL,
+	is_deleted        VARCHAR2(1)   NOT NULL,
+	native_database   VARCHAR2(20)  NOT NULL,
+	creation_hist_evt VARCHAR2(20)  NOT NULL
+) PCTFREE 10 
+TABLESPACE scm_tbs2;
+
+[Central Step 2]
+-- * Recherche sur identifiant
+CREATE UNIQUE INDEX adl.i_change_set_cdb_1 ON adl.change_set_c_db (id) TABLESPACE scm_idx2
+PCTFREE 10;
+[Central Step 3]
+-- * Recherche à partir du nom et non supprimé
+CREATE INDEX adl.i_change_set_cdb_2 ON adl.change_set_c_db (lower_name, is_deleted) TABLESPACE scm_idx2
+PCTFREE 10;
+
+
+[Departmental Step 1]
+---------------------------- adl.change_set -----------------------------
+
+CREATE TABLE adl.change_set
+(
+	id                VARCHAR2(20)  NOT NULL,
+	case_name         VARCHAR2(32)  NOT NULL,
+	lower_name        VARCHAR2(32)  NOT NULL,
+	is_opened         VARCHAR2(1)   NOT NULL,
+	is_deleted        VARCHAR2(1)   NOT NULL,
+	description       VARCHAR2(255)         ,
+	last_attr_date    DATE          NOT NULL,
+	last_chg_set_date DATE          NOT NULL,
+	native_database   VARCHAR2(20)  NOT NULL,
+	creation_hist_evt VARCHAR2(20)  NOT NULL
+)
+PCTFREE 10
+TABLESPACE scm_tbs2;
+
+[Departmental Step 2]
+-- * Recherche sur identifiant
+CREATE UNIQUE INDEX adl.i_change_set_1 ON adl.change_set (id) TABLESPACE scm_idx2
+PCTFREE 10;
+[Departmental Step 3]
+-- * Recherche des change set non supprimés
+CREATE INDEX adl.i_change_set_2 ON adl.change_set (is_deleted, is_opened) TABLESPACE scm_idx2
+PCTFREE 10;
+
+[Departmental Step 4]
+---------------------------- adl.change_set_in_db -----------------------
+
+CREATE TABLE adl.change_set_in_db
+(
+	id                VARCHAR2(20)  NOT NULL,
+	change_set        VARCHAR2(20)  NOT NULL,
+	database          VARCHAR2(20)  NOT NULL,
+	creation_hist_evt VARCHAR2(20)  NOT NULL
+)
+PCTFREE 5
+TABLESPACE scm_tbs2;
+
+[Departmental Step 5]
+-- * Recherche sur identifiant
+CREATE UNIQUE INDEX adl.i_change_set_db_1 ON adl.change_set_in_db (id) TABLESPACE scm_idx2
+PCTFREE 10;
+[Departmental Step 6]
+-- * Recherche sur change set
+CREATE INDEX adl.i_change_set_db_2 ON adl.change_set_in_db (change_set, database) TABLESPACE scm_idx2
+PCTFREE 10;
+
+[Departmental Step 7]
+---------------------------- adl.change_set_mtws -----------------------------
+
+CREATE TABLE adl.change_set_mtws
+(
+	id                VARCHAR2(20)  NOT NULL,
+	change_set        VARCHAR2(20)  NOT NULL,
+	multi_tree_ws     VARCHAR2(20)  NOT NULL,
+	is_current        VARCHAR2(1)   NOT NULL,
+	creation_hist_evt VARCHAR2(20)  NOT NULL
+)
+PCTFREE 5
+TABLESPACE scm_tbs2;
+
+[Departmental Step 8]
+-- * Recherche sur identifiant
+CREATE UNIQUE INDEX adl.i_so_c_set_mtws_1 ON adl.change_set_mtws (id) TABLESPACE scm_idx2
+PCTFREE 5;
+[Departmental Step 9]
+-- * Recherche sur espace de travail multi-arborescence et courant
+CREATE INDEX adl.i_so_c_set_mtws_2 ON adl.change_set_mtws (multi_tree_ws, is_current) TABLESPACE scm_idx2
+PCTFREE 5;
+[Departmental Step 10]
+-- * Recherche sur objet ensemble de modifications
+CREATE INDEX adl.i_so_c_set_mtws_3 ON adl.change_set_mtws (change_set) TABLESPACE scm_idx2
+PCTFREE 5;
+
+[Departmental Step 11]
+---------------------------- adl.change_set_wstree -----------------------
+
+CREATE TABLE adl.change_set_wstree
+(
+	id                VARCHAR2(20)  NOT NULL,
+	change_set        VARCHAR2(20)  NOT NULL,
+	workspace_tree    VARCHAR2(20)  NOT NULL,
+	creation_hist_evt VARCHAR2(20)  NOT NULL
+)
+PCTFREE 5
+TABLESPACE scm_tbs2;
+
+[Departmental Step 12]
+-- * Recherche sur identifiant
+CREATE UNIQUE INDEX adl.i_so_c_set_wt_1 ON adl.change_set_wstree (id) TABLESPACE scm_idx2
+PCTFREE 5;
+[Departmental Step 13]
+-- * Recherche sur arborescence
+CREATE INDEX adl.i_so_c_set_wt_2 ON adl.change_set_wstree (workspace_tree, change_set) TABLESPACE scm_idx2
+PCTFREE 5;
+[Departmental Step 14]
+-- * Recherche sur objet ensemble de modifications
+CREATE INDEX adl.i_so_c_set_wt_3 ON adl.change_set_wstree (change_set) TABLESPACE scm_idx2
+PCTFREE 5;
+
+[Departmental Step 15]
+---------------------------- adl.so_chg_change_set ----------------------
+
+CREATE TABLE adl.so_chg_change_set
+(
+	id                VARCHAR2(20)  NOT NULL,
+	soft_obj_change   VARCHAR2(25)  NOT NULL,
+	so_chg_type       VARCHAR2(10)  NOT NULL,
+	software_object	  VARCHAR2(20)  NOT NULL,
+	change_set        VARCHAR2(20)  NOT NULL,
+	is_deleted        VARCHAR2(1)   NOT NULL,
+	is_moved          VARCHAR2(1)   NOT NULL,
+	creation_hist_evt VARCHAR2(20)  NOT NULL
+)
+PCTFREE 5
+TABLESPACE scm_tbs3;
+
+[Departmental Step 16]
+-- * Recherche sur identifiant
+CREATE UNIQUE INDEX adl.i_so_c_chg_set_1 ON adl.so_chg_change_set (id) TABLESPACE scm_idx3
+PCTFREE 5;
+[Departmental Step 17]
+-- * Recherche du CS d'une modification
+CREATE INDEX adl.i_so_c_chg_set_2 ON adl.so_chg_change_set (soft_obj_change, is_deleted, is_moved) TABLESPACE scm_idx3
+PCTFREE 5;
+[Departmental Step 18]
+-- * Recherche des modifications d'un CS
+CREATE INDEX adl.i_so_c_chg_set_3 ON adl.so_chg_change_set (change_set, is_deleted, is_moved) TABLESPACE scm_idx3
+PCTFREE 5;
+
+[Departmental Step 19]
+---------------------------- adl.so_chg_chg_set_is ----------------------
+
+CREATE TABLE adl.so_chg_chg_set_is
+(
+	id                VARCHAR2(20)  NOT NULL,
+	so_chg_id         VARCHAR2(25)  NOT NULL,
+	so_chg_type       VARCHAR2(10)  NOT NULL,
+	soft_obj_id  	  VARCHAR2(20)  NOT NULL,
+	change_set        VARCHAR2(20)  NOT NULL,
+	creation_hist_evt VARCHAR2(20)  NOT NULL
+)
+PCTFREE 5
+TABLESPACE scm_tbs2;
+
+[Departmental Step 20]
+-- * Recherche sur identifiant
+CREATE UNIQUE INDEX adl.i_so_c_c_set_is_1 ON adl.so_chg_chg_set_is (id) TABLESPACE scm_idx2
+PCTFREE 5;
+[Departmental Step 21]
+-- * Recherche des modifications d'un CS
+CREATE INDEX adl.i_so_c_c_set_is_2 ON adl.so_chg_chg_set_is (change_set) TABLESPACE scm_idx2
+PCTFREE 5;
+-- * Recherche sur modification
+CREATE INDEX adl.i_so_c_c_set_is_3 ON adl.so_chg_chg_set_is (so_chg_id) TABLESPACE scm_idx2
+PCTFREE 5;
+
+[Departmental Step 22]
+---------------------------- adl.change_set_is -----------------------------
+
+CREATE TABLE adl.change_set_is
+(
+	id                VARCHAR2(20)  NOT NULL,
+	change_set        VARCHAR2(20)  NOT NULL,
+	site_for_hist     VARCHAR2(20)  NOT NULL,
+	workspace_tree    VARCHAR2(20)  NOT NULL,
+	creation_hist_evt VARCHAR2(20)  NOT NULL
+)
+PCTFREE 5
+TABLESPACE scm_tbs1;
+
+[Departmental Step 23]
+-- * Recherche sur identifiant
+CREATE UNIQUE INDEX adl.i_change_set_is_1 ON adl.change_set_is (id) TABLESPACE scm_idx1
+PCTFREE 5;
+[Departmental Step 24]
+-- * Recherche sur site pour historique
+CREATE INDEX adl.i_change_set_is_2 ON adl.change_set_is (site_for_hist, workspace_tree) TABLESPACE scm_idx1
+PCTFREE 5;
+[Departmental Step 25]
+-- * Recherche sur objet ensemble de modifications
+CREATE INDEX adl.i_change_set_is_3 ON adl.change_set_is (change_set, site_for_hist) TABLESPACE scm_idx1
+PCTFREE 5;
+
+[Departmental Step 26]
+---------------------------- adl.chg_req_change_set --------------------------
+
+CREATE TABLE adl.chg_req_change_set
+(
+	id                VARCHAR2(20)  NOT NULL,
+	change_set        VARCHAR2(20)  NOT NULL,
+	chg_req_type      VARCHAR2(15)  NOT NULL,
+	chg_req_id        VARCHAR2(20)          ,
+	creation_hist_evt VARCHAR2(20)  NOT NULL
+)
+PCTFREE 5
+TABLESPACE scm_tbs1;
+
+[Departmental Step 27]
+-- * Recherche sur identifiant
+CREATE UNIQUE INDEX adl.i_chg_req_c_set_1 ON adl.chg_req_change_set (id) TABLESPACE scm_idx2
+PCTFREE 5;
+[Departmental Step 28]
+-- * Recherche sur CS
+CREATE INDEX adl.i_chg_req_c_set_2 ON adl.chg_req_change_set (change_set) TABLESPACE scm_idx2
+PCTFREE 5;
+[Departmental Step 29]
+-- * Recherche sur l'application externe
+CREATE INDEX adl.i_chg_req_c_set_3 ON adl.chg_req_change_set (chg_req_type, chg_req_id) TABLESPACE scm_idx2
+PCTFREE 5;

@@ -1,0 +1,412 @@
+//----------------------------Document-------------------------------------
+// Titre
+//-------------
+Title="Dassault Systemes Software Management";
+FrameButton._PushButOK.Title    = "Close";
+FrameButton._PushButHelp.Title = "Help";
+_Notify.ErrorTitle = "Error";
+//
+// Onglet Général
+//---------------
+FrameTabInfo.TabInfo._GeneralTab.Title                      = "General";
+FrameTabInfo.TabInfo._GeneralTab.LongHelp                   = "Specifies current CATIA build level, service packs (if any), and installation path";
+FrameTabInfo.TabInfo._GeneralTab.LabelGeneralLine1.Title    = " ";
+FrameTabInfo.TabInfo._GeneralTab.LabelGeneralLine2.Title    = " ";
+FrameTabInfo.TabInfo._GeneralTab.LabelGeneralLine3.Title    = " ";
+FrameTabInfo.TabInfo._GeneralTab.LabelGeneralLine4.Title    = " ";
+FrameTabInfo.TabInfo._GeneralTab.LabelGeneralLine5.Title    = " ";
+FrameTabInfo.TabInfo._GeneralTab.LabelGeneralLine6.Title    = " ";
+FrameTabInfo.TabInfo._GeneralTab.FrameGALevel.Title         = "Build Level";
+FrameTabInfo.TabInfo._GeneralTab.FrameGALevel.LongHelp      = "Build Level";
+FrameTabInfo.TabInfo._GeneralTab.LabelGALevel.LongHelp      = "Build Level";
+BuildLevel32 = "/p1 (32-bit)";
+BuildLevel64 = "/p1 (64-bit)";
+FrameTabInfo.TabInfo._GeneralTab.FrameSPKLevel.Title        = "Service Pack Level";
+FrameTabInfo.TabInfo._GeneralTab.FrameSPKLevel.LongHelp     = "Service pack level";
+FrameTabInfo.TabInfo._GeneralTab.LabelSPKLevel.LongHelp     = "Currently installed service pack level";
+FrameTabInfo.TabInfo._GeneralTab.LabelLastSPKLevel.LongHelp = "Last committed service pack level";
+_GeneralTab.LabelCurrentSPK                    = "Currently installed service pack: /p1       \n";
+_GeneralTab.LabelLastSPK                       = "Last service Pack committed     : /p1          \n";
+_GeneralTab.LabelLastSPKNone                   = "Last service Pack committed     : None       \n";
+_GeneralTab.LabelSPKNone                       = "No service pack\n";
+_GeneralTab.LabelCurrentHFX                    = "Currently installed Hot Fix     : /p1       \n";
+_GeneralTab.None                       = "None\n";
+FrameTabInfo.TabInfo._GeneralTab.FrameInstallPath.Title     = "Installation Path";
+FrameTabInfo.TabInfo._GeneralTab.FrameInstallPath.LongHelp  = "Installation Path";
+FrameTabInfo.TabInfo._GeneralTab.FrameInstallLanguages.Title     = "Optional installed  languages and fonts";
+FrameTabInfo.TabInfo._GeneralTab.FrameInstallLanguages.LongHelp  = "Optional installed  languages and fonts";
+FrameTabInfo.TabInfo._GeneralTab.LabelInstallPath.LongHelp  = "Installation Path";
+FrameTabInfo.TabInfo._GeneralTab.FrameCAA2.Title     = "CAA";
+FrameTabInfo.TabInfo._GeneralTab.FrameCAA2.LongHelp  = "CAA";
+FrameTabInfo.TabInfo._GeneralTab.LabelCAA2.LongHelp  = "CAA";
+_GeneralTab.LabelCAA2Installed = "Installed in /p1";
+FrameTabInfo.TabInfo._GeneralTab.LabelCAA2NotInstalled ="Not installed";
+
+//
+// Onglet Information
+//-------------------
+FrameTabInfo.TabInfo._InformationTab.Title                  = "Installed Software";
+FrameTabInfo.TabInfo._InformationTab.LongHelp               = "Lists installed configurations and/or products";
+FrameTabInfo.TabInfo._InformationTab.FrameConfigs.Title     = "Installed CONFIGURATIONS";
+FrameTabInfo.TabInfo._InformationTab.LabelInstalledLine1.Title=" ";
+FrameTabInfo.TabInfo._InformationTab.FrameConfigs.LongHelp  = "Lists installed configurations";
+FrameTabInfo.TabInfo._InformationTab.EditorConfigs.LongHelp = "Lists installed configurations";
+FrameTabInfo.TabInfo._InformationTab.FrameProduits.Title    = "Installed PRODUCTS";
+FrameTabInfo.TabInfo._InformationTab.FrameProduits.LongHelp = "Lists installed products";
+FrameTabInfo.TabInfo._InformationTab.EditorProduits.LongHelp= "Lists installed products";
+
+//
+// Onglet Check Integrity
+//------------------------
+FrameTabInfo.TabInfo._CheckIntegTab.Title                      = "Check Integrity";
+FrameTabInfo.TabInfo._CheckIntegTab.LongHelp                   = "Check Integrity";
+FrameTabInfo.TabInfo._CheckIntegTab._EditorCheckInteg.LongHelp="";
+FrameTabInfo.TabInfo._CheckIntegTab._LabelCheckI.Title="Choose level of check integrity you want to perform, then click on Check button.";
+FrameTabInfo.TabInfo._CheckIntegTab._CheckIButton.Title="Check";
+FrameTabInfo.TabInfo._CheckIntegTab._FrameRadioCheck._RadioButtonI1.Title="Level 1 - Only control files are checked (quickest)."; 
+FrameTabInfo.TabInfo._CheckIntegTab._FrameRadioCheck._RadioButtonI2.Title="Level 2 - Existence of all installed files is checked."; 
+FrameTabInfo.TabInfo._CheckIntegTab._FrameRadioCheck._RadioButtonI3.Title="Level 3 - Existence and validity of all installed files are checked (may take several minutes)."; 
+FrameTabInfo.TabInfo._CheckIntegTab._FrameRadioCheck._RadioButtonI1.LongHelp="Level 1 - Only control files are checked."; 
+FrameTabInfo.TabInfo._CheckIntegTab._FrameRadioCheck._RadioButtonI2.LongHelp="Level 2 - Existence of all installed files is checked."; 
+FrameTabInfo.TabInfo._CheckIntegTab._FrameRadioCheck._RadioButtonI3.LongHelp="Level 3 - Existence and validity of all installed files."; 
+//
+_CheckIntegTab.IntegOK                            = "Check Integrity Level /p1 is OK\n";
+_CheckIntegTab.IntegKO                            = "Check Integrity Level /p1 is KO\n";
+
+//---------------------------------------------------------------------------
+// Progress Window du Check Integrity
+//---------------------------------------------------------------------------
+Progress1.Title           = "Check Integrity - Level 1";
+Progress2.Title           = "Check Integrity - Level 2";
+Progress3.Title           = "Check Integrity - Level 3";
+Progress1.Label1.Title    = "Checking...";
+Progress2.Label1.Title    = "Checking...";
+Progress3.Label1.Title    = "Checking...";
+Progress1.Label2.Title    = "";
+Progress2.Label2.Title    = "";
+Progress3.Label2.Title    = "";
+CAAProgress1.Title        = "CAA Check Integrity - Level 1";
+CAAProgress2.Title        = "CAA Check Integrity - Level 2";
+CAAProgress3.Title        = "CAA Check Integrity - Level 3";
+CAAProgress1.Label1.Title = "Checking...";
+CAAProgress2.Label1.Title = "Checking...";
+CAAProgress3.Label1.Title = "Checking...";
+CAAProgress1.Label2.Title = "";
+CAAProgress2.Label2.Title = "";
+CAAProgress3.Label2.Title = "";
+//Progress.BCancel          = "Cancel" ;
+
+//
+// Onglet Check Prereqs
+//-----------------------
+FrameTabInfo.TabInfo._CheckPrereqTab.Title="Check Prerequisites";
+FrameTabInfo.TabInfo._CheckPrereqTab.LongHelp="Check Prerequisites";
+FrameTabInfo.TabInfo._CheckPrereqTab.FramePrereq._EditorPrereq.LongHelp="";
+FrameTabInfo.TabInfo._CheckPrereqTab.FrameView.LabelView.Title="Click on `Certified Configurations` button to get list of certified hardware configurations   ";
+FrameTabInfo.TabInfo._CheckPrereqTab.FrameView.PushView.Title="Certified Configurations";
+_CheckPrereqTab.PrereqOK="Prerequisites OK\n";
+_CheckPrereqTab.PrereqKO="Prerequisites KO\n";
+//
+//// Onglet NT Config
+//-----------------------
+FrameTabInfo.TabInfo._NTConfigTab.Title="System Information";
+FrameTabInfo.TabInfo._NTConfigTab.LongHelp="Gives  system information ";
+FrameTabInfo.TabInfo._NTConfigTab.FrameNTConfig._EditorNTConfig.LongHelp="";
+//
+
+// Onglet SP Management
+//----------------------
+FrameTabInfo.TabInfo._SPManageTab.Title="Service Pack Management";
+FrameTabInfo.TabInfo._SPManageTab.LabSpace1.Title=" ";
+FrameTabInfo.TabInfo._SPManageTab.LongHelp="Service Pack Management";
+FrameTabInfo.TabInfo._SPManageTab.LabelManage1.LongHelp="";
+FrameTabInfo.TabInfo._SPManageTab.LabelManage2.LongHelp="";
+FrameTabInfo.TabInfo._SPManageTab.Labspace2.Title="";
+_SPManageTab.LabelCommitRollbackGA="You can commit Service Pack /p1 or you can roll back to GA level.";
+_SPManageTab.LabelCommitRollbackSP="You can commit Service Pack /p1 or you can roll back to Service Pack /p2.";
+_SPManageTab.LabelWarning="Before applying a commit or rollback, please exit any other Dassault Systemes application.";
+_SPManageTab.LabelAlready="Current Service Pack /p1 has already been committed.";
+_SPManageTab.LabelNoCommit="There is no service pack to commit or rollback.";
+_SPManageTab.LabelNoSPK="No service pack has been installed.";
+FrameTabInfo.TabInfo._SPManageTab._PushButCommit.Title="Commit";
+FrameTabInfo.TabInfo._SPManageTab._PushButCommit.LongHelp="Push the Commit button to commit the service pack";
+FrameTabInfo.TabInfo._SPManageTab.LabSpace3.Title="                       ";
+FrameTabInfo.TabInfo._SPManageTab._PushButRollback.Title="Rollback";
+FrameTabInfo.TabInfo._SPManageTab._PushButRollback.LongHelp="Push Rollback button to roll back the service pack";
+FrameTabInfo.TabInfo._SPManageTab.LabSpace4.Title="                     ";
+_SPManageTab.CommitOK="Commit was successful\n";
+_SPManageTab.NeedCommitCAA="You need to commit CAA Service Pack /p1\n";
+_SPManageTab.CommitKO="Commit failed\n";
+_SPManageTab.RollbackOK="Rollback was successful\n";
+_SPManageTab.RollbackKO="Rollback failed\n";
+_SPManageTab.RollbackWarning = "Some components you have just installed are not at the correct level\n
+You must reinstall Service Pack /p1\n";
+_SPManageTab.RollbackIncomplete="Please exit CATSoftwareMgt to complete rollback\n";
+_SPManageTab.NeedRollbackCAA="You need to apply a rollback on CAA Service Pack /p1\n";
+_SPManageTab.ErrVPMPeopleUpdate="Command VPMPeopleUpdate failed\n";
+_SPManageTab.ErrConsultLog="Consult file /p1\n";
+_SPManageTab.Notify.Title="Service Pack Management";
+_SPManageTab.LogFile.Debut="Service Pack Management";
+_SPManageTab.LogFile.Fin="End of Service Pack Management";
+_SPManageTab.LogFile.Commit="Commit of Service Pack /p1\n";
+_SPManageTab.LogFile.RollbacktoGA="Rollback of Service Pack /p1 to GA Level\n";
+_SPManageTab.LogFile.RollbacktoSPK="Rollback of Service Pack /p1 to Service Pack /p2\n";
+_SPManageTab.LabelGeneralInfo= "You must be super-user to perform commit or rollback";
+_SPManageTab.LabelGeneralInfoNT = "You must be administrator to perform commit or rollback";
+QuestionWindow.Title="Running processes";
+QuestionWindow.Text="Some Dassault Systemes processes are running, preventing correct Service Pack setup.\nDo you want to terminate them?\n";
+WantLCAUpdate="Restore previous People and Organization database after rollback?\n";
+DatabaseUpgrade="Restore database";
+
+//
+// Onglet CAA
+FrameTabInfo.TabInfo._CAA2Tab.Title                  = "CAA";
+FrameTabInfo.TabInfo._CAA2.LongHelp               = "Lists installed configurations and/or products for CAA";
+FrameTabInfo.TabInfo._CAA2Tab.FrameConfigsCAA2.Title     = "Installed CONFIGURATIONS for CAA";
+FrameTabInfo.TabInfo._CAA2Tab.LabelInstalledCAA2Line1.Title=" ";
+FrameTabInfo.TabInfo._CAA2Tab.FrameConfigsCAA2.LongHelp  = "Lists installed configurations for CAA";
+FrameTabInfo.TabInfo._CAA2Tab.EditorConfigsCAA2.LongHelp = "Lists installed configurations for CAA";
+FrameTabInfo.TabInfo._CAA2Tab.FrameProduitsCAA2.Title    = "Installed PRODUCTS for CAA";
+FrameTabInfo.TabInfo._CAA2Tab.FrameProduitsCAA2.LongHelp = "Lists installed products for CAA";
+FrameTabInfo.TabInfo._CAA2Tab.EditorProduitsCAA2.LongHelp= "Lists installed products for CAA";
+
+//
+// Onglet Check Integrity
+//------------------------
+FrameTabInfo.TabInfo._CheckIntegCAA2Tab.Title                      = "CAA Check Integrity";
+FrameTabInfo.TabInfo._CheckIntegCAA2Tab.LongHelp                   = "CAA Check Integrity";
+FrameTabInfo.TabInfo._CheckIntegCAA2Tab._EditorCheckIntegCAA2.LongHelp="";
+FrameTabInfo.TabInfo._CheckIntegCAA2Tab._LabelCheckICAA2.Title="Choose level of check integrity you want to perform, then click on Check button.";
+FrameTabInfo.TabInfo._CheckIntegCAA2Tab._CheckIButtonCAA2.Title="Check";
+FrameTabInfo.TabInfo._CheckIntegCAA2Tab._FrameRadioCheckCAA2._RadioButtonI1CAA2.Title="Level 1 - Only control files are checked (quickest)."; 
+FrameTabInfo.TabInfo._CheckIntegCAA2Tab._FrameRadioCheckCAA2._RadioButtonI2CAA2.Title="Level 2 - Existence of all installed files is checked."; 
+FrameTabInfo.TabInfo._CheckIntegCAA2Tab._FrameRadioCheckCAA2._RadioButtonI3CAA2.Title="Level 3 - Existence and validity of all installed files  are checked (may take several minutes)."; 
+FrameTabInfo.TabInfo._CheckIntegCAA2Tab._FrameRadioCheckCAA2._RadioButtonI1CAA2.LongHelp="Level 1 - Only control files are checked."; 
+FrameTabInfo.TabInfo._CheckIntegCAA2Tab._FrameRadioCheckCAA2._RadioButtonI2CAA2.LongHelp="Level 2 - Existence of all installed files is checked."; 
+FrameTabInfo.TabInfo._CheckIntegCAA2Tab._FrameRadioCheckCAA2._RadioButtonI3CAA2.LongHelp="Level 3 - Existence and validity of all installed files.";
+ 
+// Onglet SP Management for CAA
+//------------------------------
+FrameTabInfo.TabInfo._SPManageTabCAA2.Title="CAA Service Pack Management";
+FrameTabInfo.TabInfo._SPManageTabCAA2.LabSpace1CAA2.Title=" ";
+FrameTabInfo.TabInfo._SPManageTabCAA2.LongHelp="Service Pack Management for CAA";
+FrameTabInfo.TabInfo._SPManageTabCAA2.LabelManage1CAA2.LongHelp="";
+FrameTabInfo.TabInfo._SPManageTabCAA2.LabelManage2CAA2.LongHelp="";
+FrameTabInfo.TabInfo._SPManageTabCAA2.Labspace2CAA2.Title="";
+_SPManageTabCAA2.LabelCommitRollbackGA="You can commit CAA Service Pack /p1 or you can roll back to GA level.";
+_SPManageTabCAA2.LabelCommitRollbackSP="You can commit CAA Service Pack /p1 or you can roll back to Service Pack /p2.";
+_SPManageTabCAA2.LabelWarning="";
+_SPManageTabCAA2.LabelAlready="Current CAA Service Pack /p1 has already been committed.";
+_SPManageTabCAA2.LabelNoCommit="There is no service pack to commit or rollback for CAA.";
+_SPManageTabCAA2.LabelNoSPK="No service pack has been installed for CAA.";
+FrameTabInfo.TabInfo._SPManageTabCAA2._PushButCommitCAA2.Title="Commit(CAA)";
+FrameTabInfo.TabInfo._SPManageTabCAA2._PushButCommitCAA2.LongHelp="Push the Commit button to commit the CAA service pack";
+FrameTabInfo.TabInfo._SPManageTabCAA2.LabSpace3.Title="                       ";
+FrameTabInfo.TabInfo._SPManageTabCAA2._PushButRollbackCAA2.Title="Rollback(CAA)";
+FrameTabInfo.TabInfo._SPManageTabCAA2._PushButRollbackCAA2.LongHelp="Push Rollback button to roll back the CAA service pack";
+FrameTabInfo.TabInfo._SPManageTabCAA2.LabSpace4.Title="                     ";
+_SPManageTabCAA2.CommitOK="Commit for CAA was successful\n";
+_SPManageTabCAA2.CommitKO="Commit failed for CAA\n";
+_SPManageTabCAA2.NoCommitCAA2="You need to commit Code Service Pack Level /p1\nbefore committing CAA Service Pack Level /p2\n";
+_SPManageTabCAA2.RollbackOK="Rollback was successful for CAA\n";
+_SPManageTabCAA2.RollbackKO="Rollback failed for CAA\n";
+_SPManageTabCAA2.RollbackWarning = "Some components you have just installed are not at the correct level\nYou must reinstall CAA Service Pack /p1\n";
+_SPManageTabCAA2.RollbackIncomplete="Please exit CATSoftwareMgt to complete rollback for CAA\n";
+_SPManageTabCAA2.Notify.Title="CAA Service Pack Management";
+_SPManageTabCAA2.LogFile.Debut="CAA Service Pack Management";
+_SPManageTabCAA2.LogFile.Fin="End of CAA Service Pack Management";
+_SPManageTabCAA2.LogFile.Commit="Commit of CAA Service Pack /p1\n";
+_SPManageTabCAA2.LogFile.RollbacktoGA="Rollback of CAA Service Pack /p1 to GA Level\n";
+_SPManageTabCAA2.LogFile.RollbacktoSPK="Rollback of CAA Service Pack /p1 to Service Pack /p2\n";
+
+
+//
+// Onglet HFX Remove
+//----------------------
+FrameTabInfo.TabInfo._RemoveHFXTab.Title="Hot Fix Uninstall";
+FrameTabInfo.TabInfo._RemoveHFXTab.LabSpaceRemove.Title=" ";
+FrameTabInfo.TabInfo._RemoveHFXTab.LongHelp="Uninstall Hot Fix";
+FrameTabInfo.TabInfo._RemoveHFXTab.LabelRemoveHFX1.LongHelp="";
+_RemoveHFXTab.LabelRemoveHFX="If you want to uninstall hot fix /p1, click on 'Uninstall' button.";
+_RemoveHFXTab.LabelNoHFX="No Hot Fix has been installed.";
+FrameTabInfo.TabInfo._RemoveHFXTab._PushButRemoveHFX.Title="Uninstall";
+FrameTabInfo.TabInfo._RemoveHFXTab._PushButRemoveHFX.LongHelp="Push Uninstall button to uninstall the hot fix";
+_RemoveHFXTab.RemoveHFXOK="HFX was sucessfully removed\n";
+_RemoveHFXTab.RemoveHFXKO="Failed to remove HFX\n";
+_RemoveHFXTab.ErrConsultLog="Consult file /p1\n";
+_RemoveHFXTab.Notify.Title="Hot Fix Uninstall";
+_RemoveHFXTab.LogFile.Debut="Hot Fix Uninstall";
+_RemoveHFXTab.LogFile.Fin="End of Hot Fix Uninstall";
+_RemoveHFXTab.LogFile.RemoveHFX="Hot Fix /p1 Uninstall\n";
+_RemoveHFXTab.LabelRootHFXInfoNT = "You must be administrator to perform hot fix uninstall";
+_RemoveHFXTab.LabelRootHFXInfo = "You must be super-user  to perform hot fix uninstall";
+//---------------------------------------------------------------------------
+// BATCH
+//---------------------------------------------------------------------------
+Result.Title="\nDassault Systemes Software Management\n";
+Result.GALevel="Build Level  = /p1\n";
+Result.SPLevel="Service Pack Level = /p1\n";
+Result.LabelCurrentSPK="Currently installed service pack: /p1 \n";
+ResultCAA2.LabelCurrentSPK="Currently installed service pack for CAA: /p1\n ";
+Result.LabelLastSPK="Last service pack committed     : /p1\n";
+ResultCAA2.LabelLastSPK="Last service pack committed for CAA    : /p1\n";
+Result.LabelLastSPKNone="Last service pack committed     : None\n";
+ResultCAA2.LabelLastSPKNone="Last service pack committed for CAA    : None\n";
+Result.LabelSPKNone="No service pack\n";
+ResultCAA2.LabelSPKNone="No service pack for CAA\n";
+Result.InstallCAA2="CAA is installed in /p1\n";
+Result.InstalledConfigs="Installed CONFIGURATIONS:\n";
+Result.InstalledProducts="Installed PRODUCTS:\n";
+Result.InstalledConfigsCAA2="Installed CONFIGURATIONS for CAA:\n";
+Result.InstalledProductsCAA2="Installed PRODUCTS for CAA:\n";
+Result.CheckInteg="Check Integrity level /p1\n";
+Result.CheckIntegCAA="Check CAA Integrity level /p1\n";
+Result.IntegOK="Integrity is OK\n";
+Result.IntegKO="Integrity is KO\n";
+Result.IntegCAAOK="CAA Integrity is OK\n";
+Result.IntegCAAKO="CAA Integrity is KO\n";
+Result.OptioncaaIorI1Ignored ="CAA is not installed\nOption -caaI/-caaI1 is ignored\n"; 
+Result.OptioncaaI2Ignored ="CAA is not installed\nOption -caaI2 is ignored\n"; 
+Result.OptioncaaI3Ignored ="CAA is not installed\nOption -caaI3 is ignored\n";
+Result.OptionI3IgnoredHFX = "Hot fix /p1 is installed\nOption -I3 is ignored\n"; 
+Result.CheckPrereqs="Check Prerequisites\n";
+Result.PrereqsOK="Prerequisites are OK\n";
+Result.PrereqsKO="Prerequisites are KO\n";
+Result.CommitSP="Commit Service Pack\n";
+Result.CommitSPCAA2="Commit Service Pack CAA\n";
+Result.OptioncaaCIgnored ="CAA is not installed\nOption -caaC is ignored\n"; 
+Result.OptioncaaCIgnored2 ="Option -caaC is ignored\n"; 
+Result.OptioncaaRIgnored ="CAA is not installed\nOption -caaR is ignored\n"; 
+Result.OptioncaaRIgnored2 ="Option -caaR is ignored\n"; 
+Result.NoSPKtoCommit="There is no service pack to commit\n";
+Result.NoSPKCAA2toCommit="There is no service pack CAA to commit\n";
+Result.CommitOK="Commit was successful\n";
+Result.CommitCAA2OK="Commit CAA was sucessful\n";
+Result.CommitKO="Commit failed\n";
+Result.CommitCAA2KO="Commit CAA failed\n";
+Result.RollbackSP="Rollback Service Pack\n";
+Result.RollbackCAA2SP="Rollback CAA Service Pack\n";
+Result.NoSPKtoRollback="There is no service pack to roll back\n";
+Result.NoSPKCAA2toRollback="There is no service pack CAA to roll back\n";
+Result.RollbackOK="Rollback was successful\n";
+Result.RollbackCAA2OK="Rollback CAA was successful\n";
+Result.RollbackKO="Rollback failed\n";
+Result.RollbackCAA2KO="Rollback CAA failed\n";
+Result.ErrVPMPeopleUpdate="Command VPMPeopleUpdate failed\n";
+Result.ErrConsultLog="Consult file /p1\n";
+Result.UnloadDir="Installation path: /p1\n";
+Result.RunningProcess="Use option -killprocess to kill running Dassault Systemes processes :\n";
+// CONFIG NT
+Result.TargetId ="Target Id: /p1";
+Result.Locale = "Locale: /p1";
+Result.MultiLanguageFalse ="Multi Language User Interface: False";
+Result.MultiLanguageTrue ="Multi Language User Interface: True";
+Result.UserEgalSystemFalse ="User UI Language Equal To System UI Language:  False";
+Result.UserEgalSystemTrue ="User UI Language Equal To System UI Language:  True";
+ResultB.MultiLanguageFalse ="Multi Language User Interface: False\n";
+ResultB.MultiLanguageTrue ="Multi Language User Interface: True\n";
+ResultB.UserEgalSystemFalse ="User UI Language Equal To System UI Language:  False\n";
+ResultB.UserEgalSystemTrue ="User UI Language Equal To System UI Language:  True\n";
+Result.Hostname ="Hostname: /p1" ;
+Result.OSLevel = "OsLevel: /p1" ;
+Result.Processor = "Processor: /p1";
+Result.PhysicalMem="Physical Memory: /p1";
+Result.VirtualMem ="Virtual Memory for Process: /p1";
+Result.Paging ="Paging: /p1";
+Result.Settings="Display settings:";
+Result.Resolution="Resolution: /p1 * /p2 pixels"; 
+Result.Refresh="Refresh rate: /p1 Hertz";
+Result.ColorPlanes ="Number of color planes: /p1";
+Result.ColorBits="Number of adjacent color bits for each pixel: /p1"; 
+Result.DeviceTable ="Number of entries in the device`s color table: /p1"; 
+Result.ColorResolution ="Actual color resolution of the device: /p1 bits per pixel"; 
+Result.VideoSettings ="Video settings:";
+Result.AdaptaterString ="HardwareInformation.AdapterString: /p1" ;
+Result.AdaptaterStringNA ="HardwareInformation.AdapterString: Unavailable";  
+Result.BiosString="HardwareInformation.BiosString: /p1";
+Result.BiosStringNA ="HardwareInformation.BiosString: Unavailable"  ;
+Result.ChipType ="HardwareInformation.ChipType:/p1" ;
+Result.ChipTypeNA ="HardwareInformation.ChipType: Unavailable"; 
+Result.DacType ="HardwareInformation.DacType:/p1" ;
+Result.DacTypeNA ="HardwareInformation.DacType: Unavailable";
+Result.MemSize ="HardwareInformation.MemorySize: /p1 MB";
+Result.MemSizeNA ="HardwareInformation.MemorySize: Unavailable";  
+Result.ImagePath ="Driver ImagePath:/p1"  ;
+Result.ImagePathNA ="Driver ImagePath: Unavailable" ;
+Result.DriverVersion ="Driver Version: /p1 ";
+Result.ProductVersion ="Product Version: /p1"; 
+Result.ProductVersionNA ="Product Version: Unavailable"; 
+Result.FileVersion ="File Version:/p1 ";
+Result.FileVersionNA ="File Version: Unavailable ";
+Result.File ="File: /p1"; 
+Result.FileNA ="File: Unavailable";
+ResuletDate = "Date : /p1";
+Result.Date = "Date : Unavailable";
+Result.UnknownAdapter="Invalid network adapter";
+Result.NetworkAdapter="Network Adapter: /p1";
+Result.Dlls ="Prerequed Microsoft DLLs Installed and DLL version:"; 
+Result.DllsVersion ="/p1 : ";
+Result.DllsProductVersion ="ProductVersion:/p1 ";
+Result.DllsFileVersion ="File Version:/p1 ";
+Result.DllsFile ="File:/p1 " ;
+Result.DllsDate ="Date:/p1" ;
+Result.Registry ="Dassault Systemes Environment variables:" ;
+Result.Env = "System and User Environment variables:" ;
+Result.BadOutputfile ="Cannot open file /p1\n";
+Result.RemoveHFX="Removing HFX...\n";
+Result.RemoveHFXOK="HFX was successfully removed\n";
+Result.RemoveHFXKO="Failed to remove HFX\n";
+//----------------------------------------------------------------------------
+// Erreurs sur les Options
+//----------------------------------------------------------------------------
+Erroroption_o= "option -o must be followed by a filename \n";
+Erroroption_CR="options -C and -R cannot be used simultaneously \n";
+Erroroption_CRCAA2="options -caaC and -caaR cannot be used simultaneously \n";
+ErrorCreate="Cannot create report file /p1 \n";
+Erroroption_NoRkill="option -killprocess can only be used with -R or -hfxR option\n";
+Erroroptions="Bad Options:\n";
+ErrorBadOption="/p1 is not a valid option\n";
+Erroroption_su_C="You must be administrator to use the -C option \n";
+Erroroption_su_R="You must be administrator to use the -R option \n";
+Erroroption_su_CCAA2="You must be administrator to use the -caaC option \n";
+Erroroption_su_RCAA2="You must be administrator to use the -caaR option \n";
+ErroroptionUnix_su_C="You must be super-user to use the -C option \n";
+ErroroptionUnix_su_R="You must be super-user to use the -R option \n";
+ErroroptionUnix_su_CCAA2="You must be super-user to use the -caaC option \n";
+ErroroptionUnix_su_RCAA2="You must be super-user to use the -caaR option \n";
+Erroroption_I ="You can't use simultaneously options -I,-I1,-I2 or -I3 \n";
+ErroroptionVista_su_C="Administrator permissions are needed to use the -C option.Use an administrator command prompt\n";
+ErroroptionVista_su_R="Administrator permissions are needed to use the -R option.Use an administrator command prompt\n";
+ErroroptionVista_su_CCAA2="Administrator permissions are needed to use the -caaC option.Use an administrator command prompt\n";
+ErroroptionVista_su_RCAA2="Administrator permissions are needed to use the -caaR option.Use an administrator command prompt\n";
+//-----------------------------------------------------------------------------
+// Help
+//-----------------------------------------------------------------------------
+Help.Usage      ="Usage: \n";
+Help.CommandLineBatch="CATSoftwareMgtB [-h] [-L] [-I or -I1/-I2/-I3] [-P] [-C/-R][-noPOUpdate]  [-caaC/-caaR] [-caaI or -caaI1/-caaI2/-caaI3] [-hfxR] [-killprocess] [-o logfile]\n";
+Help.CommandLineNTBatch="CATSoftwareMgtB [-h] [-D] [-L] [-I or -I1/-I2/-I3] [-P] [-C/-R] [-noPOUpdate] [-caaC/-caaR]  [-caaI or -caaI1/-caaI2/-caaI3] [-hfxR] [-killprocess] [-o logfile]\n";
+Help.Dump       ="-D            : Dumps system information\n";
+Help.Liste      ="-L            : Lists installed configurations and/or products\n";
+Help.Integ1     ="-I or -I1     : Checks integrity - Level 1 (only control files are checked)\n";
+Help.Integ2     ="-I2           : Checks integrity - Level 2 (checks existence of files)\n";
+Help.Integ3     ="-I3           : Checks integrity - Level 3 (checks existence and validity of files)\n";
+Help.Prereqs    ="-P            : Checks prerequisites\n";
+Help.SP         ="-C/-R         : Performs service pack commit or rollback\n";
+Help.SPCAA2     ="-caaC/-caaR : Performs service pack CAA commit or rollback\n";
+Help.IntegCAA1     ="-caaI or -caaI1: Checks CAA integrity - Level 1 (only control files are checked)\n";
+Help.IntegCAA2     ="-caaI2         : Checks CAA integrity - Level 2 (checks existence of files)\n";
+Help.IntegCAA3     ="-caaI3         : Checks CAA integrity - Level 3 (checks existence and validity of files)\n";
+Help.Output     ="-o logfile    : Sets name of output log file\n";
+Help.Administrator="You must be administrator to use options -C,-R,-caaC or -caaR \n";
+Help.OptionsIgnored="Options -caaC/-caaR and -caaI or -caaI1/-caaI2/-caaI3 are ignored if CAA is not installed\n";
+help.killprocess  ="-killprocess  : Terminates running processes \n";
+Help.Help         ="-h            : Displays help on line\n";
+Help.noLCAUpdate  ="-noPOUpdate   : prevents People and Organization database update if ENOVIA V5 VPM is installed\n";
+
+
+
+
+
+
+
+

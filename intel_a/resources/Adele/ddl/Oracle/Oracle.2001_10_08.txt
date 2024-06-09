@@ -1,0 +1,115 @@
+------------------------------- Add new columns in workspace table -----------------------------------
+
+[Departmental Step 1]
+RENAME workspace TO workspace1;
+
+[Departmental Step 2]
+CREATE TABLE adl.workspace
+(
+	id                 VARCHAR2(20) NOT NULL,
+	workspace_tree     VARCHAR2(20) NOT NULL,
+	multi_tree_ws      VARCHAR2(20) NOT NULL,
+	case_name          VARCHAR2(32) NOT NULL,
+	lower_name         VARCHAR2(32) NOT NULL,
+	is_deleted         VARCHAR2(1)  NOT NULL,
+	request_is_locked  VARCHAR2(1)  NOT NULL,
+	allow_auto_merge   VARCHAR2(1)  NOT NULL,
+	allow_promo_any_ws VARCHAR2(1)  NOT NULL,
+	allow_sync_cmd     VARCHAR2(1)  NOT NULL,
+	allow_promote_cmd  VARCHAR2(1)  NOT NULL,
+	allow_mrg_collect  VARCHAR2(1)  NOT NULL,
+	child_sync_promo   VARCHAR2(1)  NOT NULL,
+	flow_traces_files  VARCHAR2(1)  NOT NULL,
+	chg_req_ws_typ     VARCHAR2(10) NOT NULL,
+	publication_type   VARCHAR2(10) NOT NULL,
+	per_attached_mod   NUMBER(10)           ,
+	creation_hist_evt  VARCHAR2(20) NOT NULL
+) PCTFREE 10 PCTUSED 70
+TABLESPACE adele_tbs
+--STORAGE_workspace
+;
+
+[Departmental Step 3]
+INSERT INTO adl.workspace 
+(
+ id, workspace_tree, multi_tree_ws, case_name, lower_name, is_deleted,
+ request_is_locked, allow_auto_merge, allow_promo_any_ws, allow_sync_cmd, allow_promote_cmd,
+ allow_mrg_collect, child_sync_promo, flow_traces_files, chg_req_ws_typ, publication_type,
+ per_attached_mod, creation_hist_evt
+)
+SELECT
+ w1.id, w1.workspace_tree, w1.multi_tree_ws, w1.case_name, w1.lower_name, w1.is_deleted,  
+ mtw1.request_is_locked, mtw1.allow_auto_merge, mtw1.allow_promo_any_ws, mtw1.allow_sync_cmd, 'Y',
+ mtw1.allow_mrg_collect, mtw1.child_sync_promo, mtw1.flow_traces_files, mtw1.chg_req_ws_typ, 'DEFAULT',
+ w1.per_attached_mod, w1.creation_hist_evt
+FROM adl.multi_tree_ws mtw1, adl.workspace1 w1
+WHERE w1.multi_tree_ws = mtw1.id;
+
+COMMIT;
+
+[Departmental Step 4]
+DROP TABLE adl.workspace1;
+
+[Departmental Step 5]
+-- * Recherche sur identifiant
+CREATE UNIQUE INDEX adl.i_workspace_1 ON adl.workspace (id DESC) TABLESPACE adele_idx;
+
+[Departmental Step 6]
+-- * Recherche d'un espace de travail non supprimé avec le nom en minuscule 
+CREATE        INDEX adl.i_workspace_2 ON adl.workspace (lower_name, is_deleted) TABLESPACE adele_idx;
+
+[Departmental Step 7]
+-- * Recherche d'un espace de travail non supprimé avec son espace multi-arborescence
+CREATE        INDEX adl.i_workspace_3 ON adl.workspace (multi_tree_ws, is_deleted) TABLESPACE adele_idx;
+
+[Departmental Step 8]
+-- * Recherche d'un espace de travail non supprimé avec son arborescence d'espace de travail
+CREATE        INDEX adl.i_workspace_4 ON adl.workspace (workspace_tree, is_deleted) TABLESPACE adele_idx;
+
+
+------------------------------- Drop columns in multi_tree_ws table ----------------------------------
+
+[Departmental Step 9]
+RENAME multi_tree_ws TO multi_tree_ws1;
+
+[Departmental Step 10]
+CREATE TABLE adl.multi_tree_ws
+(
+	id                 VARCHAR2(20) NOT NULL,
+	case_name          VARCHAR2(32) NOT NULL,
+	lower_name         VARCHAR2(32) NOT NULL,
+	is_deleted         VARCHAR2(1)  NOT NULL,
+	nb_linked_ws       NUMBER(10)   NOT NULL,
+	native_database    VARCHAR2(20) NOT NULL,
+	merge_cmd_end      VARCHAR2(1)  NOT NULL,
+	case_tck           VARCHAR2(32)         ,
+	lower_tck          VARCHAR2(32)         ,
+	creation_hist_evt  VARCHAR2(20) NOT NULL
+) PCTFREE 10 PCTUSED 70
+TABLESPACE adele_tbs
+--STORAGE_multi_tree_ws
+;
+
+[Departmental Step 11]
+INSERT INTO adl.multi_tree_ws 
+(
+ id, case_name, lower_name, is_deleted, nb_linked_ws, native_database,
+ merge_cmd_end, case_tck, lower_tck, creation_hist_evt)
+SELECT
+ id, case_name, lower_name, is_deleted, nb_linked_ws, native_database,
+ merge_cmd_end, case_tck, lower_tck, creation_hist_evt
+FROM adl.multi_tree_ws1;
+
+COMMIT;
+
+[Departmental Step 12]
+DROP TABLE adl.multi_tree_ws1;
+
+[Departmental Step 13]
+-- * Recherche sur identifiant
+CREATE UNIQUE INDEX adl.i_multi_tree_ws_1 ON adl.multi_tree_ws (id DESC) TABLESPACE adele_idx;
+
+[Departmental Step 14]
+-- * Recherche d'un ensemble d'espaces de travail non supprimé à partir du nom
+CREATE INDEX        adl.i_multi_tree_ws_2 ON adl.multi_tree_ws (lower_name, is_deleted) TABLESPACE adele_idx;
+

@@ -1,0 +1,256 @@
+//
+//	Messages affiches par le serveur de fichiers
+//
+
+
+//
+//	Messages d'erreur.
+//
+CACHE_READC = "While reading file \"/p1\".";
+CACHE_READ = "The file seems to be truncated.";
+CACHE_READA = "Restore it.";
+
+CACHE_WRITEC = "While writing file \"/p1\".";
+CACHE_WRITE = "There is not enough space on the file system.";
+CACHE_WRITEA = "Delete unused files.";
+
+NOTASKC = "While trying to take a client request into account.";
+NOTASK = "Not enough task descriptors.";
+NOTASKA = "Two many clients are connected.";
+
+NOVERC = "While trying to find the version \"/p1\".";
+NOVER = "The description could not be found.";
+NOVERA = "Check that server data matches SCM database.";
+
+PERMC = "While checking user running authorization.";
+PERM = "The user is not the owner of the \"data\" directory.";
+PERMA = "Run the server with the correct user.";
+
+READC = "While reading file \"/p1\".";
+READ = "The file seems to be truncated.";
+READA = "Restore it.";
+
+SAVE_VERC = "While reading backup list file \"/p1\".";
+SAVE_VER = "The version is incompatible with the data.";
+SAVE_VERA = "Run the file server with the option \"-backup_reset\".";
+
+UPGRADE1C = "While trying to update server data format.";
+UPGRADE1 = "The old server was stopped abnormally.";
+UPGRADE1A = "Re-install the old version of the server and run it before ",
+		"installing the new one.";
+
+UPGRADE2C = "While checking server data format.";
+UPGRADE2 = "The last upgrade operation was stopped abnormally.";
+UPGRADE2A = "Contact support.";
+
+USAGEC = "While parsing the command line arguments.";
+USAGE = "Missing or incorrect argument.";
+USAGEA = "Usage: /p1 -data data_path -files files_path [-port n ] { -format | ",
+	"-h | -repair | -recover | -restore file_name | -verbose }.\n",
+	"  -data:\tManagement data directory path.\n",
+	"  -files:\tFiles storage directory path.\n",
+	"  -port:\tListening port (23400 by default).\n",
+	"  -format:\tErase and initialize management data. In case of ",
+		"mistake, the data can still be recovered with the ",
+		"\"-repair\" option.\n",
+	"  -h:\t\tShow this message.\n",
+	"  -repair:\tRebuild management data from the files storage area.\n",
+	"  -recover:\tProcess redo log, finish active transactions and stop.\n",
+	"  -restore:\tRestoration of an incremental backup.\n",
+	"  -verbose:\tPrint traces.\n";
+
+VARC = "While looking for working directories.";
+VAR = "Environment variable \"/p1\" is not defined.";
+VARA = "Set the variable with the correct directory path-name.";
+
+WRITEC = "While writing file \"/p1\".";
+WRITE = "There is not enough space on the file system.";
+WRITEA = "Delete unused files.";
+
+
+//
+//	Messages d'avertissement.
+//
+TASK_NOT_FOUND = "Unable to find a task associated with child process /p1.";
+
+
+//
+//	Messages d'information.
+//
+ABORT_REQ = "Abort requested.";
+
+FORMAT = "Formatting storage area.";
+
+RECOVERY_START = "Recovery start.";
+RECOVERY_STOP = "Recovery stop.";
+
+REDO_START = "Processing REDO log.";
+REDO_STOP = "REDO log processed.";
+
+REPAIR = "Repairing storage area.";
+
+START = "Server start.";
+STOP = "Server stop.";
+
+STOP_REQ = "Stop requested.";
+
+
+//
+//	Messages d'erreur affiches par "ADLFileServerAdmin".
+//
+ADMIN_USAGEC = "While parsing the command line arguments.";
+ADMIN_USAGE = "Missing or incorrect argument.";
+ADMIN_USAGEA = "Usage: /p1 -h | [-host host] [-port port] { -abort | ",
+	"-elements | -full_backup | -incr_backup backup_file_name | -lock | ",
+	"-null | -ping | -resources | -state | -stop | -tasks | -unlock | ",
+	"-versions }.\n",
+	"  -host:\tName of file server host.\n",
+	"  -port:\tAccess port to file server.\n",
+	"  -abort:\tKill all running tasks and stop.\n",
+	"  -elements:\tList the contents of the ELEMENT table.\n",
+	"  -full_backup:\tReset the incremental backup list. When ",
+		"incremental backup is used, this option must be called ",
+		"before each full backup.\n",
+	"  -h:\t\tShow this message.\n",
+	"  -incr_backup:\tGenerate a file compatible with the \"-restore\" ",
+		"option of the file server. The \"backup_file_name\" ",
+		"parameter is the name of a file visible on the file server ",
+		"host.\n",
+	"  -lock:\tFreeze all running transactions and lock server access.\n",
+	"  -null:\tTest the connection.\n",
+	"  -ping:\tSame as \"-null\".\n",
+	"  -resources:\tPrint the amount free memory and disk space.\n",
+	"  -stop:\tWait for the end of all running tasks and stop.\n",
+	"  -state:\tPrint the state of the server.\n",
+	"  -tasks:\tList all running tasks.\n",
+	"  -unlock:\tUnlock the server.\n",
+	"  -versions:\tList the contents of the VERSION table.\n";
+
+
+//
+//	Messages d'erreur affiches par "ADLArchiveAdmin".
+//
+AA_CMD = "While parsing the command line arguments.";
+
+AA_USAGE = "Missing or incorrect argument.";
+AA_USAGEA = "Usage: /p1 -h | ",
+	"-add file_name -bin bool_bin -elem_id elem_id -ident ident ",
+		"-size size -time time arch_path | ",
+	"-format arch_path | ",
+	"-get hex_offset file_name arch_path | ",
+	"-list arch_path | ",
+	"-remove hex_offset arch_path | ",
+	"-restore hex_offset arch_path.";
+
+AA_BIN = "The binary attribute value \"/p1\" cannot be parsed.";
+AA_BINA = "Use a valid boolean value (0 or 1).";
+
+AA_IDENT = "The version or element identifier \"/p1\" has not the correct size.";
+AA_IDENTA = "Use a valid version or element identifier.";
+
+AA_OFF = "The version offset value \"/p1\" cannot be parsed.";
+AA_OFFA = "Use a valid hexadecimal value (0xhhhhhhhh).";
+
+AA_SIZE = "The version size \"/p1\" cannot be parsed.";
+AA_SIZEA = "Use a valid decimal value.";
+
+AA_TIME = "The version time \"/p1\" cannot be parsed.";
+AA_TIMEA = "Use a valid decimal value.";
+
+
+//
+//	Messages d'erreur affiches par "ADLDirectoryAdmin".
+//
+DA_LOGC = "While processing log file.";
+DA_LOG = "There is still an active transaction in log file.";
+DA_LOGA = "The element table must have been closed cleanly.";
+
+DA_NODIRC = "While looking for directory \"/p1\".";
+DA_NODIR = "No description was found.";
+DA_NODIRA = "Use the \"-list\" option to see the known directories.";
+
+DA_CMD = "While parsing the command line arguments.";
+
+DA_USAGE = "Missing or incorrect argument.";
+DA_USAGEA = "Usage: /p1 -h | -data data_path -files files_path ",
+	"{ -add [dir_name] | -check | -format | -list | -remove dir_name }.";
+
+DA_DIR = "The directory name \"/p1\" is too long.";
+DA_DIRA = "Use a valid directory name.";
+
+
+//
+//	Messages d'erreur affiches par "ADLElementAdmin".
+//
+EA_LOGC = "While processing log file.";
+EA_LOG = "There is still an active transaction in log file.";
+EA_LOGA = "The element table must have been closed cleanly.";
+
+EA_NOVERC = "While looking for element \"/p1\" description.";
+EA_NOVER = "No description was found.";
+EA_NOVERA = "Use the \"-print\" option to see the known descriptions.";
+
+EA_CMD = "While parsing the command line arguments.";
+
+EA_USAGE = "Missing or incorrect argument.";
+EA_USAGEA = "Usage: /p1 -h | ",
+	"-add elem_id -name file_name -dir dir_name table_dir_path | ",
+	"-format table_dir_path | ",
+	"table_dir_path -print [elem_id] | ",
+	"-remove elem_id table_dir_path .";
+
+EA_DIR = "The directory name \"/p1\" is too long.";
+EA_DIRA = "Use a valid directory name.";
+
+EA_IDENT = "The element identifier \"/p1\" has not the correct size.";
+EA_IDENTA = "Use a valid version identifier.";
+
+EA_NAME = "The file name value \"/p1\" is too long.";
+EA_NAMEA = "Use a valid file name.";
+
+
+//
+//	Messages d'erreur affiches par "ADLVersionAdmin".
+//
+VA_LOGC = "While processing log file.";
+VA_LOG = "There is still an active transaction in log file.";
+VA_LOGA = "The version table must have been closed cleanly.";
+
+VA_NOVERC = "While looking for version \"/p1\" description.";
+VA_NOVER = "No description was found.";
+VA_NOVERA = "Use the \"-print\" option to see the known descriptions.";
+
+VA_CMD = "While parsing the command line arguments.";
+
+VA_USAGE = "Missing or incorrect argument.";
+VA_USAGEA = "Usage: /p1 -h | ",
+	"-add ver_id -name file_name -dir dir_name -flags flags ",
+		"-offset hex_offset -size size -size_comp size ",
+		"-time time table_dir_path | ",
+	"-format table_dir_path | ",
+	"table_dir_path -print [ver_id] | ",
+	"-remove ver_id table_dir_path .";
+
+VA_DIR = "The directory name \"/p1\" is too long.";
+VA_DIRA = "Use a valid directory name.";
+
+VA_FLAGS = "The flags value \"/p1\" cannot be parsed.";
+VA_FLAGSA = "Use a valid decimal value.";
+
+VA_IDENT = "The version identifier \"/p1\" has not the correct size.";
+VA_IDENTA = "Use a valid version identifier.";
+
+VA_NAME = "The file name value \"/p1\" is too long.";
+VA_NAMEA = "Use a valid file name.";
+
+VA_OFF = "The version offset value \"/p1\" cannot be parsed.";
+VA_OFFA = "Use a valid hexadecimal value (0xhhhhhhhh).";
+
+VA_SIZE = "The version size \"/p1\" cannot be parsed.";
+VA_SIZEA = "Use a valid decimal value.";
+
+VA_SZCOMP = "The compressed version size \"/p1\" cannot be parsed.";
+VA_SZCOMPA = "Use a valid decimal value.";
+
+VA_TIME = "The version time \"/p1\" cannot be parsed.";
+VA_TIMEA = "Use a valid decimal value.";

@@ -1,0 +1,145 @@
+
+if "%MKMK_PROGNAME%" == "" set MKMK_PROGNAME="CNEXT.exe"
+
+set CATMsgCatalogPath=
+set CATDictionaryPath=
+set CATICPath=
+set PWD=
+set %PATH_NAME%=%PATH_setcatenv%
+set OSDS=%MkmkOS_Buildtime%
+set ORBIX_ItDaemonPort=1570
+if not "%OPTION_FOR_SETCATENV%" == ""         echo # mkmk-INFO: Variable OPTION_FOR_SETCATENV is set. An option is added to setcatenv...
+
+for /F "delims=*" %%i in ( 'cd' ) do set PWD=%%i
+
+set CATDefaultEnvironment=%DEFDefaultEnvironment%
+
+mkdir %PWD%\CATEnv
+echo %PWD%\CATEnv > %OSDS%\EnvDir.txt
+
+if not "%NEWDefaultEnvironment%" == ""  set CATDefaultEnvironment=%NEWDefaultEnvironment%
+
+call setcatenv.exe -p "%MKMK_LST_RTV%" -d %PWD%\CATEnv   -e %CATDefaultEnvironment% %OPTION_FOR_SETCATENV%
+
+echo %PWD%\CATEnv> %OSDS%\EnvDir.txt
+echo %CATDefaultEnvironment%> %OSDS%\EnvName.txt
+
+set CLASSPATH=%CLASSPATH%;%JavaROOT_PATH%\lib\classes.zip
+
+
+set CATCatchSignals=TRUE
+set CATLogSessionEnd=TRUE
+set CATErrorLog=Error.log
+
+
+mkdir CATSettings
+chcatenv.exe  -d .\CATEnv  -e %CATDefaultEnvironment% -a user -var "CATUserSettingPath=%PWD%\CATSettings"
+
+for /F "delims=*" %%i in ( 'readcatenv -d %PWD%\CATEnv   -e %CATDefaultEnvironment% -a user -var CATUserSettingPath' ) do set %%i
+for /F "delims=*" %%i in ( 'readcatenv -d %PWD%\CATEnv   -e %CATDefaultEnvironment% -a user -var CATInstallPath' ) do set %%i
+
+cp %ITtoolsVPMAdminPath% %CATUserSettingPath%
+attrib -R  %CATUserSettingPath%\VPMAdmin.CATSettings
+
+call CATSTART.exe -direnv %PWD%\CATEnv  -run "CATDBENB VPMADMIN %SETUP_DBID% %SETUP_RDBMS% Server tacr ovbupc"
+call CATSTART.exe -direnv %PWD%\CATEnv  -run "CATDBENB VPMPEOPLE %SETUP_DBID% %SETUP_RDBMS% Server tacr ovbupc"
+call CATSTART.exe -direnv %PWD%\CATEnv  -run "CATDBENB VPMPUBSUB %SETUP_DBID% %SETUP_RDBMS% Server tacr ovbupc"
+call CATSTART.exe -direnv %PWD%\CATEnv  -run "CATDBENB ENOCOMMON %SETUP_DBID% %SETUP_RDBMS% Server tacr ovbupc"
+call CATSTART.exe -direnv %PWD%\CATEnv  -run "PR0ADSRB VPMADMIN VPMADMIN TACR"
+call CATSTART.exe -direnv %PWD%\CATEnv  -run "PR0ADSRB VPMPEOPLE VPMPEOPLE TACR"
+call CATSTART.exe -direnv %PWD%\CATEnv  -run "PR0ADSRB VPMPUBSUB VPMPUBSUB TACR"
+call CATSTART.exe -direnv %PWD%\CATEnv  -run "PR0ADSRB ENOCOMMON ENOCOMMON TACR"
+
+rem  VPMSettings -a -n VPM_ADMINISTRATOR -v TACR
+rem  VPMSettings -a -n VPM_DATA_ADM -v TACR
+
+rem SDMRepoManager -add -type CDMStep -name ENOCOMMON
+rem SDMRepoManager -add -type CDMStep -name VPMPUBSUB
+rem SDMRepoManager -add -type CDMStep -name VPMPEOPLE
+rem SDMRepoManager -add -type CDMStep -name VPMADMIN
+
+if "%JAVA_HOME%" == "" call chcatenv.exe -d %PWD%\CATEnv  -e %CATDefaultEnvironment% -a user -var "JAVA_HOME=%JavaROOT_Path%"
+if not "%JAVA_HOME%" == "" call chcatenv.exe -d %PWD%\CATEnv  -e %CATDefaultEnvironment% -a user -var "JAVA_HOME=%JAVA_HOME%"
+
+if not exist  c:\temp mkdir c:\temp
+
+set TNS_ADMIN=%IT_TNS_ADMIN%
+set ORA_NLS33=%IT_ORA_NLS33%
+set ORACLE_HOME=%IT_ORACLE_HOME%
+
+chcatenv.exe -d %PWD%\CATEnv  -e %CATDefaultEnvironment% -a user -new -var "TNS_ADMIN=%IT_TNS_ADMIN%"
+chcatenv.exe -d %PWD%\CATEnv  -e %CATDefaultEnvironment% -a user -new -var "ORA_NLS33=%IT_ORA_NLS33%"
+chcatenv.exe -d %PWD%\CATEnv  -e %CATDefaultEnvironment% -a user -new -var "ORACLE_HOME=%IT_ORACLE_HOME%"
+chcatenv.exe -d %PWD%\CATEnv  -e %CATDefaultEnvironment% -a user -new -var "DB2INSTANCE=%DB2INSTANCE%"
+for /F "delims=*" %%i in ( 'readcatenv -d %PWD%\CATEnv   -e %CATDefaultEnvironment% -a user -var PATH' ) do set %%i
+chcatenv.exe -d %PWD%\CATEnv  -e %CATDefaultEnvironment% -a user -var "PATH=%IT_ORACLE_HOME%\bin;%PATH%"
+
+set CATTraceSDir=c:\temp\
+set CATSharedWorkbookPath=c:\temp\
+touch c:\temp\ServerManager.web
+
+rem ### A virer et demander un mode silent ...
+
+mkdir intel_a\control
+touch intel_a\control\CORBARuntime
+
+
+
+set IT_DAEMON_PORT=%SETUP_ORBIX_DAEMON_PORT%
+set ORBIX_ItDaemonPort=%SETUP_ORBIX_DAEMON_PORT%
+set ENVNAME=%CATDefaultEnvironment%
+set DS_ENVDIR=%PWD%\CATEnv
+
+if not "%ENO_PROTOCOL%" == "HTTP" call CORBARuntime_post
+if not "%ENO_PROTOCOL%" == "HTTP" call CORBAServerInfra_post
+
+if "%ENO_PROTOCOL%" == "HTTP" set SDAM_START=YES
+if "%ENO_PROTOCOL%" == "HTTP" set SDAM_PORT=%SETUP_SDAM_PORT%
+if "%ENO_PROTOCOL%" == "HTTP" call PortalSDAMInfra_post
+
+
+chmod a+rw %PWD%\%OSDS%\docs\java\VaultClient.properties
+
+rem ## Vault Client Properties File
+
+rem ## File read protocol
+echo VaultClient_ReadProtocol = 3 > %PWD%\%OSDS%\docs\java\VaultClient.properties
+echo VaultClient_ReadProtocol_0 = NFS >> %PWD%\%OSDS%\docs\java\VaultClient.properties
+echo VaultClient_ReadProtocol_1 = CORBA >> %PWD%\%OSDS%\docs\java\VaultClient.properties
+echo VaultClient_ReadProtocol_2 = HTTP >> %PWD%\%OSDS%\docs\java\VaultClient.properties
+
+rem ## File write protocol
+echo VaultClient_WriteProtocol = 2 >> %PWD%\%OSDS%\docs\java\VaultClient.properties
+echo VaultClient_WriteProtocol_0 =  NFS >> %PWD%\%OSDS%\docs\java\VaultClient.properties
+echo VaultClient_WriteProtocol_1 = CORBA  >> %PWD%\%OSDS%\docs\java\VaultClient.properties
+
+rem ## File transfer protocol activation
+rem # echo VaultClient_Active_ReadProtocol = CORBA >> %PWD%\%OSDS%\docs\java\VaultClient.properties
+rem # echo VaultClient_Active_WriteProtocol = CORBA >> %PWD%\%OSDS%\docs\java\VaultClient.properties
+
+rem ## Data BlockSize parameter
+echo VaultClient_BlockSize = 262144 >> %PWD%\%OSDS%\docs\java\VaultClient.properties
+
+rem ## Trace parameter
+echo VaultClient_Trace = OFF >> %PWD%\%OSDS%\docs\java\VaultClient.properties
+
+rem ## Default alias name
+echo VaultClient_DefaultAliasName = %SETUP_VAULTNAME%  >> %PWD%\%OSDS%\docs\java\VaultClient.properties
+
+rem ## First VaultClient alias entry
+echo VaultClient_%SETUP_VAULTNAME%_ReadVaultServerName = %SETUP_VAULTNAME%  >> %PWD%\%OSDS%\docs\java\VaultClient.properties
+echo VaultClient_%SETUP_VAULTNAME%_ReadVaultServerHostName = %SETUP_VAULTHOSTNAME% >> %PWD%\%OSDS%\docs\java\VaultClient.properties
+echo VaultClient_%SETUP_VAULTNAME%_ReadVaultServerDaemonPort = %SETUP_VAULTPORT% >> %PWD%\%OSDS%\docs\java\VaultClient.properties
+echo VaultClient_%SETUP_VAULTNAME%_ReadHTTPServerHost = %SETUP_VAULTHTTPHOSTNAME% >> %PWD%\%OSDS%\docs\java\VaultClient.properties
+echo VaultClient_%SETUP_VAULTNAME%_ReadHTTPServerPort = %SETUP_VAULTHTTPPORT% >> %PWD%\%OSDS%\docs\java\VaultClient.properties
+
+if "%ENO_PROTOCOL%" == "HTTP" echo VaultClient_%SETUP_VAULTNAME%_CommandHTTPServerPort= %SETUP_VAULTPORT% >> %PWD%\%OSDS%\docs\java\VaultClient.properties
+if "%ENO_PROTOCOL%" == "HTTP" echo VaultClient_%SETUP_VAULTNAME%_CommandHTTPMode=ON >> %PWD%\%OSDS%\docs\java\VaultClient.properties
+
+echo VaultClient_%SETUP_VAULTNAME%_WriteVaultServerName = %SETUP_VAULTNAME% >> %PWD%\%OSDS%\docs\java\VaultClient.properties
+echo VaultClient_%SETUP_VAULTNAME%_WriteVaultServerHostName = %SETUP_VAULTHOSTNAME% >> %PWD%\%OSDS%\docs\java\VaultClient.properties
+echo VaultClient_%SETUP_VAULTNAME%_WriteVaultServerDaemonPort = %SETUP_VAULTPORT% >> %PWD%\%OSDS%\docs\java\VaultClient.properties
+
+
+
+

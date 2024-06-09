@@ -1,0 +1,35 @@
+// ==================================================
+//    Messages for the ADLCalcDate module
+// ==================================================
+
+
+0001 = "Usage: /p1 [date1] /p3|/p4 date2 [/p5 env_file [/p6 /p7|/p8]] [/p2]";
+0002 = "This command adds ore substracts <date2> to <date1>, or to the current date if no <date1> is specified.
+Format:
+   <date1>: YYYY/MM/DD[-hh[:mm[:ss]]]
+   <date2>: [[YYYY/[MM/]]DD[[-hh[:mm[:ss]]] or hh:mm[:ss]
+            NOTICE that YYYY = number of years to add or substract, MM = number of monthes... Each field may be null (0).
+Examples:
+/p1 /p3 15                 returns the current date minus 15 days
+/p1 2001/01/01 /p3 10:00   returns 2001/01/01-00:00:00 minus 10 hours = 2000/12/31-14:00:00
+/p1 /p2 01/00/00            returns the current date plus one year.
+
+If the option /p4 isn't specified
+   The new date is displayed
+If the option /p4 is specified
+   The file <env_file> is writen with the initialization of the variable /p5 with the DOS format (default on Windows, or with /p6 /p7) or the KSH format (default on Unix, or with /p6 /p8).
+   Then, you can run this file: \"CALL <env_file>\" (don't forget the extension \".BAT\") on DOS or \". <env_file>\" on KSH.";
+0003 = "   /p1 date1: Date to which add or substract <date2>.";
+0004 = "   /p1: Adds <date2>.";
+0005 = "   /p1: Substracts <date2>.";
+0006 = "   /p1 env_file: Path of the file in which write the initialization of the variable /p2.";
+0007 = "   /p1 /p2|/p3: Writes the file as a DOS batch file (/p2) or as a KSH file (/p3).";
+
+0012 = "/p1 isn't valid.";
+0013 = "Choose between /p1 and /p2.";
+
+0020 = "Verifying the first date \"/p1\".";
+0021 = "Give a date with the format YYYY/MM/DD[-hh[:mm[:ss]]].";
+
+0023 = "Verifying the date to add or substract \"/p1\".";
+0024 = "Give a date with the format [[YYYY/[MM/]]DD[[-hh[:mm[:ss]]] or hh:mm[:ss].";

@@ -1,0 +1,20 @@
+#
+# Specifications for Build step mkBSArchiveJava
+#
+METACLASS_NAME   = ArchiveJava
+#
+METACLASS_SOURCE = CompilJava
+METACLASS_XMLMANIFEST = GrammarMF
+#
+DGM_GRAPH_PATH   = MODDGM_GRAPHPATH_JAVA
+#
+SOURCE_EXTENSION = *.class
+#
+SOURCE_EXTENSION_XML = *.ProfileCard.xml $(MKMK_DEVSTAGE:%+"*.ProfileCard.dev")
+SOURCE_EXTENSION_XML_REPLACEMENT = $(MKMK_DEVSTAGE:%+".dev .xml")
+#
+include mkBSJavaSet.mk
+include mkBSJavaVersion.mk
+#
+DGM_DEPEND = JAVA_VERSION $(JARSIGNER:+"JARSIGNER") $(JARSIGNER:+"JARSIGNER_OPTS") $(JLMDEPLOY:+"JLMDEPLOY") $(JLMDEPLOY:+"JLMDEPLOY_OPTS")
+#

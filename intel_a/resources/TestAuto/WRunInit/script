@@ -1,0 +1,68 @@
+GUI_close_all();
+ODT_LOG_NAME = getenv ("ODT_LOG_NAME");
+ADL_ODT_REC = getenv ("ADL_ODT_REC");
+ADL_ODT_IN = getenv ("ADL_ODT_IN");
+ADL_ODT_OUT = getenv ("ADL_ODT_OUT");
+ADL_ODT_TMP = getenv ("ADL_ODT_TMP");
+ADL_ODT_IN_SERVER = getenv ("ADL_ODT_IN_SERVER");
+ADL_ODT_OUT_SERVER = getenv ("ADL_ODT_OUT_SERVER");
+ADL_ODT_TMP_SERVER = getenv ("ADL_ODT_TMP_SERVER");
+ODTEnoviaUser=getenv("ODTEnoviaUser");
+ODTEnoviaPasswd=getenv("ODTEnoviaPasswd");
+ODT3DComUser=getenv("ODT3DComUser");
+ODT3DComPasswd=getenv("ODT3DComPasswd");
+report_msg("Starting replay from script " & ADL_ODT_REC & "\\" & ODT_LOG_NAME & " ");
+GUI_load(ADL_ODT_REC & "\\" & ODT_LOG_NAME & ".gui");
+invoke_application("C:\\temp\\StartWinRunnerVPM.bat","","",SW_MINIMIZE);
+#---------------------------------------------------------------------------------------------------------
+# START YOUR SCRIPT FROM HERE :
+#---------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#---------------------------------------------------------------------------------------------------------
+# RULES AND TIPS
+#	1)To take in account the ODTUser and ODTPasswd variables, you must set them in your ODT script
+#	and replace :
+#	edit_set("Username :", "enodt1");
+#	edit_set("Password :", "enodt1");
+#	by
+#	edit_set("Username :", ODTEnoviaUser);
+#	edit_set("Password :", ODTEnoviaPasswd); if you launch Enovia Application
+#	or
+#	edit_set("Username :", ODT3DComUser);
+#	edit_set("Password :", ODT3DComPasswd); if you launch 3DCom Application
+#	2) When waiting for the server connection, you may put the following lines to interact with error panel
+#	to stabilize the record.
+#     button_press("Logon");
+#	if(win_exists("Error", 200) == E_OK)
+#	{
+# 	 set_window("Error", 200);
+# 	 report_msg("Message: Error window appeared ");
+# 	 button_press("Ok");
+#	}	
+#	3)The time server connection depends on the logon server, the expected time must be multiplied by 10:
+#     ex :	set_window("ENOVIA Portal -", 18);
+#	must be changed to
+#		set_window("ENOVIA Portal -", 180);
+#	4) To make a right click operation on a button, you must substitute in the script :
+#		button_press("CATlet[Administration-1]");
+#		by
+#		obj_mouse_click("CATlet[Administration-1]", 1, 1, RIGHT);
+#	5) At the end of the record, check and remove double lines if necessary.
+# 	6) Replay your ODT
+#---------------------------------------------------------------------------------------------------------
+#LAST LINE OF YOUR SCRIPT
+while (win_exists("C:\\temp\\StartWinRunnerVPM.bat") != E_NOT_FOUND);
+report_msg("Stopping replay");

@@ -1,0 +1,347 @@
+<!ENTITY % DomainNames "(RunType?,ReportSet?,OptionLists?)">
+
+
+
+<!ENTITY % SuspiciousAlloc_MessageNames "SRNT|SRDU|SRDR|SRIN|SRNS|SRDM">
+
+<!ENTITY % LifeCycle_SimpleMessageNames "LCDMNI|LCLVNI|LCGVNI|LCDMMN|LCLVMN|LCVMNA|LCLVMNAR|LCVMNAAR|LCLVMNAC|LCVMNAAC">
+<!ENTITY % LifeCycle_MissingCheckMessageNames "LCDMMCBU|LCLVMCBU|LCAVMCBU|LCDMMCBU2|LCLVMCBU2|LCAVMCBU2|LCLEMCBU">
+<!ENTITY % LifeCycle_AOEMessageNames "LCDMAOE|LCLVAOE|LCAVAOE">
+<!ENTITY % LifeCycle_AllMessageNames "%LifeCycle_SimpleMessageNames;|%LifeCycle_MissingCheckMessageNames;|%LifeCycle_AOEMessageNames;">
+
+<!ENTITY % MemoryManagement_MessageNames "AARS|AWRS|AWR2|PNSS|INFO|MARS|MRAS|NCDT|NVDT|RARS|RWAS|WART|HRWR|AddRef_AWRS">
+
+<!ENTITY % Naming_MessageNames "NPHI|BID|BIA|BIMT|BMR|MNAN|MSAN|ANSN|BAT|HUMT|HNTL|HFCH|HNSN|CLNSN|DSCM|MCDH|MCIH|HCNSN|CLNSN|IFCH|INSN|INTL|NFAN|MUMT|DUMT|MCUMT|FUMT|FNTL|FFCH|FNSN|MNTL|MFCH|MNSN|CNTL|CFCH|CNSN|DNTL|DFCH|DNSN|MENTL|MENSN|MEFCH|FCNSN|FCNTL|FCFCH|MCDS|MCIS|CCNSN">
+
+<!ENTITY % OtherMessageNames1 "BDON|BDON2|UACS|STRTOK|BCBA|UADC|EXCP|EXBM|SCIS|BVSS|IOS1|IOS2|IOSS|IOSC|INI">
+<!ENTITY % OtherMessageNames2 "UCCS|UADS|TRCP|UINC|DUHA|DUHA2|UPVA|EOLC|IDGP|NWD1|NWD2|VC6|VC6_1|VC6_2">
+<!ENTITY % OtherMessageNames3 "CCCS|BCDB|PIC64|DOKM|PMUT|IOVC7|MINC|FSSL|IOSS2|IOANSI">
+<!ENTITY % Deprecation_MessageNames "PUCE|PCOM|DECS_P1|DECS_P2|DECS_P3|VISI|VIOI|VIAI|UDER|UNER|VISN1|VISN2|VIPN1|VIPN2|PEDA1|PEDA2|PEDA3|PEDA5|OFDA1|OEDA1|OIDA1|OLDA2|OXDA2|GHU|AFDA1|ERDA|OFER|SLDA|FMDA|NSTOL">
+<!ENTITY % CAA_MessageNames "CAACAT01|CAADOCC|MDCAA1|DFTCAA1|CAASRAM|CAASRAE1|CAAPRO1|CAAKB02|CAASET1|CAAINF1|CAAINF3|CAACAT02|MDCAA3|DFTCAA3|DFTCAA4|SDSCAA1|SDSCAA2|CESCAA1|CAAKB01|CAASYS01|MDCAA2|CAACGM1">
+
+<!-- Correspond a l'ensemble des messages existant -->
+<!ENTITY % MessageNames "%SuspiciousAlloc_MessageNames;|%LifeCycle_AllMessageNames;|%MemoryManagement_MessageNames;|%Naming_MessageNames;|%OtherMessageNames1;|%OtherMessageNames2;|%OtherMessageNames3;|%Deprecation_MessageNames;">
+
+<!-- ******** Niveau d'erreur ******** -->
+<!-- Correspond aux differents niveaux d'erreur possibles -->
+<!-- Warning = active comme warning en standard, desactive a la promotion
+     Error = active comme erreur en standard, comme warning a la promotion
+	 ErrorPreventingPromotion = active comme erreur en standard et a la promotion -->
+<!-- ENTITY % ErrorLevels "Warning|Error|ErrorPreventingPromotion"-->
+<!-- ENTITY % ErrorLevels "P1|P2|P3"-->
+
+<!-- Definition d'une macro = une string -->
+<!ELEMENT Macro (#PCDATA)>
+
+<!-- nom d'un Framework = une string -->
+<!ELEMENT FrameworkName (#PCDATA)>
+
+<!-- nom d'une classe = une string -->
+<!ELEMENT ClassName (#PCDATA)>
+
+<!-- signature d'une function = une string func(?,?,?) -->
+<!ELEMENT MethodOrFunctionSign (#PCDATA)>
+
+<!-- methode ou function + numero d'arg specifique (ex : pointeur AddRef) = ArgNb + ClassName (evt si pas function) + MethodOrFunctionSign -->
+<!ELEMENT CallWithSpecificArg (SpecificArg, ClassName?, MethodOrFunctionSign) >
+
+<!-- methode ou function (ex : throw method) = ClassName (evt si pas function) + MethodOrFunctionSign -->
+<!ELEMENT Call (ClassName?, MethodOrFunctionSign) >
+
+<!-- methode ou function (ex : safe methode for MCBU) = FrameworkName + ClassName (evt si pas function) + MethodOrFunctionSign -->
+<!ELEMENT CallDeclaration (FrameworkName?, ClassName?, MethodOrFunctionSign) >
+
+<!-- Argument Specifique d'un CallWithSpecificArg = un numero -->
+<!ELEMENT SpecificArg (#PCDATA)>
+
+<!ELEMENT Word (#PCDATA)>
+
+<!-- fichier include = un numero -->
+<!ELEMENT Include (#PCDATA)>
+
+<!-- **********      Remplacement   ********* -->
+<!-- A remplacer par : -->
+<!ELEMENT Replacement (#PCDATA)>
+
+
+<!-- **********      Utilisations de classes   ********* -->
+<!-- Correspond a l'ensemble des utilisations possibles d'une entite classe C++ -->
+<!ENTITY % ClassUses "Derivation|MethodOrFunctionArgument|DataMemberOrLocalVar|CastInto|IncludeOfHeader|New|StaticMember">
+
+<!-- Classe dont certaines utilisations sont prohibees donc a detecter et eventuellement proposer un pattern de remplacement -->
+<!ELEMENT ClassDetection (ClassName,ClassUseSet,Replacement?)>
+
+<!-- Liste des utilisations prohibees ou non pour une classe donnee -->
+<!ELEMENT ClassUseSet (ClassUse)+>
+
+<!-- un cas d'utilisation de classe -->
+<!ELEMENT ClassUse EMPTY>
+<!ATTLIST ClassUse use (%ClassUses;) #REQUIRED>
+<!ATTLIST ClassUse prohibited (true|false) 'true'>
+
+<!-- **********      Utilisations d'interfaces   ********* -->
+<!-- Interface dont certaines utilisations sont prohibees donc a detecter et eventuellement proposer un pattern de remplacement -->
+<!-- Correspond a l'ensemble des utilisations possibles d'une entite interface OM -->
+<!ENTITY % InterfaceUses "Derivation|MethodOrFunctionArgument|DataMemberOrLocalVar|CastInto|IncludeOfHeader|TIE|StaticMember">
+
+<!ELEMENT InterfaceDetection (ClassName,InterfaceUseSet,Replacement?)>
+
+<!-- Liste des utilisations prohibees ou non pour une interface donnee -->
+<!ELEMENT InterfaceUseSet (InterfaceUse)+>
+
+<!-- un cas d'utilisation d'interface -->
+<!ELEMENT InterfaceUse EMPTY>
+<!ATTLIST InterfaceUse use (%InterfaceUses;) #REQUIRED>
+<!ATTLIST InterfaceUse prohibited (true|false) 'true'>
+
+<!-- **********      Utilisations de methodes/fonctions   ********* -->
+<!-- Methode/fonction dont l'utilisation est prohibee, donc a detecter et eventuellement proposer un pattern de remplacement -->
+<!ELEMENT MethodDetection (ClassName,MethodOrFunctionSign,Replacement?)>
+
+
+<!-- **********      Utilisations de "mots"   ********* -->
+<!-- Mot dont l'utilisation est prohibee, donc a detecter et eventuellement proposer un pattern de remplacement -->
+<!ELEMENT WordDetection (WordName,Replacement?)>
+<!ELEMENT WordName (#PCDATA)>
+
+
+
+<!-- SettingsSet est la racine, elle contient 0 a n Domains -->
+<!ELEMENT SettingsSet %DomainNames;>
+
+
+<!-- RunType = fils de SettingsSet, type de run (Check, Metrics, Naming) -->
+<!ELEMENT RunType (ExcludeFramework)*>
+<!ATTLIST RunType TypeOfRun (Check|Metrics|Naming) #REQUIRED>
+<!ATTLIST RunType ReportTestFw (true|false) 'false'>
+
+<!-- ExcludeFramework = fils de RunType, liste de Framework a exclure du check -->
+<!ELEMENT ExcludeFramework (FrameworkName)*>
+
+
+<!-- ReportSet = fils de SettingsSet, liste de traces a activer ou non -->
+<!ELEMENT ReportSet (Report)*>
+
+<!-- Report = fils de ReportSet, trace a activer ou non -->
+<!ELEMENT Report (#PCDATA)>
+<!ATTLIST Report MessageName (%MessageNames;) #REQUIRED>
+<!ATTLIST Report Activate (true|false) 'false'>
+
+
+<!-- OptionLists = liste d'options classees par type de check -->
+<!ELEMENT OptionLists 
+		(Global_OptionLists?,LifeCycle_OptionLists?,SuspiciousAlloc_OptionLists?,MemoryManagement_OptionLists?,ExceptionManagement_OptionLists?,EntityDetection_OptionLists?,Various_OptionLists?)>
+
+<!-- Global_OptionLists = fils de OptionLists, options globales pour tous les checks -->
+<!ELEMENT Global_OptionLists
+			(Macro2Expand?)>
+
+
+<!-- Macro2Expand= Macros a expander -->
+<!ELEMENT Macro2Expand (Macro)*>
+
+
+
+<!-- LifeCycle_OptionList = fils de OptionLists, options specifiques aux checks LifeCycle -->
+<!ELEMENT LifeCycle_OptionLists
+			(LifeCycle_DeleteMacro?,LifeCycle_NewMacro?,LifeCycle_IgnoredClassesForMCBU?,LifeCycle_AddRefOnListElementsMethods?,LifeCycle_SafeMethodsForMCBU?,LifeCycle_UntrustableForMCBU2?,LifeCycle_DeleteMethods?)>
+
+
+<!-- LifeCycle_DeleteMacro = Macros de type
+					#define DELETEMACRO(ptr) if(ptr) {delete(ptr);ptr=NULL;} 
+			-->
+<!ELEMENT LifeCycle_DeleteMacro (Macro)*>
+
+<!-- LifeCycle_NewMacro = Macros de type
+					#define NEWMACRO(ptr) ptr= new CL(); 
+			-->
+<!ELEMENT LifeCycle_NewMacro (Macro)*>
+
+<!-- LifeCycle_IgnoredClassesForMCBU = Types de classes ignorees (et leur derivees) pour le check MCBU 
+				La vie de ces objects est geree en interne
+			-->
+<!ELEMENT LifeCycle_IgnoredClassesForMCBU (ClassName)*>
+
+<!-- LifeCycle_AddRefOnListElementsMethods = Methodes faisant AddRef sur les elements d'une liste -->
+<!ELEMENT LifeCycle_AddRefOnListElementsMethods (CallWithSpecificArg)*>
+
+<!-- LifeCycle_SafeMethodsForMCBU = list of safe methods for mcbu, with framework of declaration -->
+<!ELEMENT LifeCycle_SafeMethodsForMCBU (CallDeclaration|Call)*>
+
+<!-- LifeCycle_UntrustableForMCBU2 = Si cette liste n'est pas vide, elle contient les seules methodes suivies pour le check MCBU2 -->
+<!ELEMENT LifeCycle_UntrustableForMCBU2 (Call)*>
+
+<!-- LifeCycle_DeleteMethods = After the call of one of these methods on a pointer, one has to set this pointer to NULL or to a valid data. -->
+<!-- Used by the LVMNAC | VMNAAC checks -->
+<!ELEMENT LifeCycle_DeleteMethods (Call)*>
+
+
+<!-- SuspiciousAlloc_OptionList = fils de OptionLists, options specifiques aux checks SuspiciousAlloc -->
+<!ELEMENT SuspiciousAlloc_OptionLists 
+			(SuspiciousAlloc_Methods?,SuspiciousAlloc_CheckMacro?,SuspiciousAlloc_SafeMethods?)>
+
+<!-- SuspiciousAlloc_Methods = methodes renvoyant un pointeur ou un handler qu'il faut tester avant utilisation -->
+<!ELEMENT SuspiciousAlloc_Methods (CallWithSpecificArg)*>
+
+<!-- SuspiciousAlloc_CheckMacro = Macros verifiant l'element passe en argument -->
+<!ELEMENT SuspiciousAlloc_CheckMacro (Macro)*>
+
+<!-- SuspiciousAlloc_SafeMethods = methodes safe par rapport a la nullite de l'argument -->
+<!ELEMENT SuspiciousAlloc_SafeMethods (CallWithSpecificArg)*>
+
+
+<!-- MemoryManagement_OptionLists = fils de OptionLists, options specifiques aux checks SuspiciousAlloc -->
+<!ELEMENT MemoryManagement_OptionLists 
+			(MemoryManagement_AddRefMethods?,MemoryManagement_NeutralMethods?,MemoryManagement_StorageMethods?,MemoryManagement_NewMethods?)>
+
+<!-- MemoryManagement_AddRefMethods = methodes renvoyant un pointeur qu'il faut releaser (les classes derivees heritent du comportement) -->
+<!ELEMENT MemoryManagement_AddRefMethods (CallWithSpecificArg)*>
+
+<!-- MemoryManagement_NeutralMethods = surchargeant une methode de MemoryManagement_AddRefMethods (classe derivee) 
+				mais l'element renvoye n'est pas a Releaser (les classes derivees heritent du comportement) -->
+<!ELEMENT MemoryManagement_NeutralMethods (Call)*>
+
+<!-- MemoryManagement_StorageMethods = methodes stockant un pointeur qui sera Release + tard, ou methodes releasant un pointeur passe en argument -->
+<!ELEMENT MemoryManagement_StorageMethods (CallWithSpecificArg)*>
+
+<!-- MemoryManagement_NewMethods = methodes renvoyant un pointeur qu'il faut deleter (les classes derivees heritent du comportement) -->
+<!ELEMENT MemoryManagement_NewMethods (CallWithSpecificArg)*>
+
+<!-- ExceptionManagement_OptionLists= fils de OptionLists, options specifiques aux checks EXCP -->
+<!ELEMENT ExceptionManagement_OptionLists (ExceptionManagement_ThrowMethods?)>
+
+<!-- ExceptionManagement_ThrowMethods= methodes pouvant faire un Throw -->
+<!ELEMENT ExceptionManagement_ThrowMethods (Call)*>
+
+
+<!-- EntityDetection_OptionLists = fils de OptionLists, options cpecifiques aux checks Detection -->
+<!ELEMENT EntityDetection_OptionLists (EntityDetection_Classes|EntityDetection_Interfaces|
+		EntityDetection_Classes_VISI|EntityDetection_Classes_VIPN1|
+		EntityDetection_Classes_GHU|EntityDetection_Interfaces_GHU|
+		EntityDetection_Classes_PEDA3|EntityDetection_Interfaces_PEDA3|
+  	EntityDetection_Classes_PEDA5|EntityDetection_Interfaces_PEDA5|
+		EntityDetection_Classes_ERDA|EntityDetection_Interfaces_ERDA|
+		EntityDetection_Classes_FMDA|EntityDetection_Interfaces_FMDA|
+		EntityDetection_Classes_OXDA2|EntityDetection_Interfaces_OXDA2|				
+		EntityDetection_Interfaces_OFER|
+		EntityDetection_Words_VISN2|EntityDetection_Words_NSTOL|
+		EntityDetection_Methods_PCOM|EntityDetection_Methods_PEDA1|EntityDetection_Methods_PEDA2|
+		EntityDetection_Methods_VIPN1|EntityDetection_Methods_VIPN2|EntityDetection_Methods_VISN1|
+		EntityDetection_Methods_VISN2|EntityDetection_Methods_OFDA1|EntityDetection_Methods_OEDA1|
+		EntityDetection_Methods_OIDA1|EntityDetection_Methods_OLDA2|EntityDetection_Methods_OXDA2|
+		EntityDetection_Methods_AFDA1|EntityDetection_Methods_OFER|EntityDetection_Methods_SLDA|
+		EntityDetection_Methods_FMDA)*>
+
+<!-- EntityDetection_Classes = classes dont certaines utilisations sont prohibees -->
+<!ELEMENT EntityDetection_Classes (ClassDetection)*>
+
+<!-- EntityDetection_Interfaces = interfaces dont certaines utilisations sont prohibees -->
+<!ELEMENT EntityDetection_Interfaces (InterfaceDetection)*>
+
+<!-- EntityDetection_Classes_VISI = classes dont certaines utilisations sont prohibees -->
+<!ELEMENT EntityDetection_Classes_VISI (ClassDetection)*>
+
+<!-- EntityDetection_Classes_VIPN1 = classes dont certaines utilisations sont prohibees -->
+<!ELEMENT EntityDetection_Classes_VIPN1 (ClassDetection)*>
+
+<!-- EntityDetection_Classes_GHU = classes dont certaines utilisations sont prohibees -->
+<!ELEMENT EntityDetection_Classes_GHU (ClassDetection)*>
+<!-- EntityDetection_Interfaces_GHU = interfaces dont certaines utilisations sont prohibees -->
+<!ELEMENT EntityDetection_Interfaces_GHU (InterfaceDetection)*>
+
+<!-- EntityDetection_Classes_PEDA3 = classes dont certaines utilisations sont prohibees -->
+<!ELEMENT EntityDetection_Classes_PEDA3 (ClassDetection)*>
+<!-- EntityDetection_Interfaces_PEDA3 = interfaces dont certaines utilisations sont prohibees -->
+<!ELEMENT EntityDetection_Interfaces_PEDA3 (InterfaceDetection)*>
+
+<!-- EntityDetection_Classes_PEDA5 = classes dont certaines utilisations sont prohibees -->
+<!ELEMENT EntityDetection_Classes_PEDA5 (ClassDetection)*>
+<!-- EntityDetection_Interfaces_PEDA5 = interfaces dont certaines utilisations sont prohibees -->
+<!ELEMENT EntityDetection_Interfaces_PEDA5 (InterfaceDetection)*>
+
+<!-- EntityDetection_Classes_ERDA = classes dont certaines utilisations sont prohibees -->
+<!ELEMENT EntityDetection_Classes_ERDA (ClassDetection)*>
+<!-- EntityDetection_Interfaces_ERDA = interfaces dont certaines utilisations sont prohibees -->
+<!ELEMENT EntityDetection_Interfaces_ERDA (InterfaceDetection)*>
+
+<!-- EntityDetection_Interfaces_OFER = interfaces dont certaines utilisations sont prohibees -->
+<!ELEMENT EntityDetection_Interfaces_OFER (InterfaceDetection)*>
+
+<!-- EntityDetection_Classes_FMDA = classes dont certaines utilisations sont prohibees -->
+<!ELEMENT EntityDetection_Classes_FMDA (ClassDetection)*>
+<!-- EntityDetection_Interfaces_FMDA = interfaces dont certaines utilisations sont prohibees -->
+<!ELEMENT EntityDetection_Interfaces_FMDA (InterfaceDetection)*>
+
+<!-- EntityDetection_Classes_OXDA2 = classes dont certaines utilisations sont prohibees -->
+<!ELEMENT EntityDetection_Classes_OXDA2 (ClassDetection)*>
+<!-- EntityDetection_Interfaces_OXDA2 = interfaces dont certaines utilisations sont prohibees -->
+<!ELEMENT EntityDetection_Interfaces_OXDA2 (InterfaceDetection)*>
+
+<!-- EntityDetection_Words_VISN2 = mots dont l'utilisation est prohibee -->
+<!ELEMENT EntityDetection_Words_VISN2 (WordDetection)*>
+
+<!-- EntityDetection_Words_NSTOL = mots dont l'utilisation est prohibee -->
+<!ELEMENT EntityDetection_Words_NSTOL (WordDetection)*>
+
+<!-- methodes dont l'utilisation est prohibee -->
+<!ELEMENT EntityDetection_Methods_PCOM (MethodDetection)*>
+<!ELEMENT EntityDetection_Methods_PEDA1 (MethodDetection)*>
+<!ELEMENT EntityDetection_Methods_PEDA2 (MethodDetection)*>
+<!ELEMENT EntityDetection_Methods_VIPN1 (MethodDetection)*>
+<!ELEMENT EntityDetection_Methods_VIPN2 (MethodDetection)*>
+<!ELEMENT EntityDetection_Methods_VISN1 (MethodDetection)*>
+<!ELEMENT EntityDetection_Methods_VISN2 (MethodDetection)*>
+<!ELEMENT EntityDetection_Methods_OFDA1 (MethodDetection)*>
+<!ELEMENT EntityDetection_Methods_OEDA1 (MethodDetection)*>
+<!ELEMENT EntityDetection_Methods_OIDA1 (MethodDetection)*>
+<!ELEMENT EntityDetection_Methods_OLDA2 (MethodDetection)*>
+<!ELEMENT EntityDetection_Methods_OXDA2 (MethodDetection)*>
+<!ELEMENT EntityDetection_Methods_AFDA1 (MethodDetection)*>
+<!ELEMENT EntityDetection_Methods_SLDA (MethodDetection)*>
+<!ELEMENT EntityDetection_Methods_OFER (MethodDetection)*>
+<!ELEMENT EntityDetection_Methods_FMDA (MethodDetection)*>
+
+
+
+<!-- Various_OptionLists= fils de OptionLists, options relatives a divers checks -->
+<!ELEMENT Various_OptionLists	(UnauthorizedClassDelete?,ReplaceDeleteMethods?,UnauthorizedIdentifiers?,
+				TracePatterns?,TracePreproSymbol?,UselessInclude?,
+				AuthorizedNullInitClass?,EffectiveCopyClass?,ProhibitedCalls?,DeprecatedMethods?,NonExposedMethods?,CallbackSignature?)>
+
+			<!-- UnauthorizedClassDelete = Classes qui ne doivent pas etre deletees directement (de meme que leurs derivees) -->
+			<!ELEMENT UnauthorizedClassDelete (ClassName)*>
+
+			<!-- ReplaceDeleteMethods = Pour erreur UADC - methode/fonction/macro a utiliser a la place de delete pour la classe et ses derivees -->
+			<!ELEMENT ReplaceDeleteMethods (Call)*>
+
+			<!-- UnauthorizedIdentifiers = Identifiants interdits (ex : assert) -->
+			<!ELEMENT UnauthorizedIdentifiers (Word)*>
+
+			<!-- TracePatterns = Patterns de recherche pour les traces -->
+			<!ELEMENT TracePatterns (Word)*>
+
+			<!-- TracePreproSymbol = Symbole de prepro pour les traces -->
+			<!ELEMENT TracePreproSymbol (Word?)>
+
+			<!-- UselessInclude = includes inutiles -->
+			<!ELEMENT UselessInclude (Include*)>
+
+			<!-- AuthorizedNullInitClass = Classes pour lesquelles l'init a NULL est authorise -->
+			<!ELEMENT AuthorizedNullInitClass (ClassName*)>
+
+			<!--  EffectiveCopyClass = Pour erreur UPVA - Classes pour lesquelles le passage par reference n'est pas utile (mecanisme enveloppe/lettre ...) -->
+			<!ELEMENT EffectiveCopyClass (ClassName*)>
+
+			<!-- ProhibitedCalls = Pour erreur PCOM - methode dont l'appel est interdit pour la classe et ses derivees -->
+			<!ELEMENT ProhibitedCalls (Call)*>
+
+			<!-- DeprecatedMethods = Pour erreur UDER - methodes depreciees pour la classe et ses derivees -->
+			<!ELEMENT DeprecatedMethods (Call)*>
+
+			<!-- NonExposedMethods = Pour erreur UNER - methodes non exposees (pour la classe et ses derivees) -->
+			<!ELEMENT NonExposedMethods (Call)*>
+
+      <!-- CallbackSignature = Pour erreur BCBA2 - verification du respect de certaines signatures -->
+      <!ELEMENT CallbackSignature (Call)*>
+
+

@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<DialogFrame onCreate="onCreate" Controller="com.dassault_systemes.catjsystem.catjsyadmin.CATEventLogQueryController">
+<Frame Name="frame">
+    <WebPartFrame Name="Select">
+      <Frame Name="frame" DefaultButton="SetSelect">
+        <Label Name="FieldLbl"/>
+        <TextField Name="SelectField" Attribute="_SelectField"/>
+        <Label Name="ComparatorLbl"/>
+        <ComboBox Name="SelectComparator" Attribute="_SelectComparator"/>
+        <Label Name="ValueLbl"/>
+        <Frame Name="SelectFrame">
+          <TextField Name="SelectValue" Attribute="_SelectValue"/>
+          <ComboBox Name="SelectEnum" Attribute="_SelectEnum"/>
+          <GC W="1" A="MT" Name="SelectValue" H="1" Y="0" X="0"/>
+          <GC W="1" A="MT" Name="SelectEnum" H="1" Y="0" X="1"/>
+        </Frame>
+        <Button Name="SetSelect" onButtonActivated="onSetSelect"/>
+        <Label Name="SelectFormatLbl"/>
+        <TextField Name="SelectFormat" Attribute="_SelectFormat"/>
+        <Table Name="SelectTable" Attribute="_SelectTable" onCellAction="onCellAction" Height="10"/>
+
+        <GC W="1" A="MT" Name="FieldLbl" H="1" Y="0" X="0"/>
+        <GC W="1" A="MT" Name="ComparatorLbl" H="1" Y="0" X="1"/>
+        <GC W="1" A="MT" Name="ValueLbl" H="1" Y="0" X="2"/>
+        <GC W="1" A="MT" Name="SelectField" H="1" Y="1" X="0"/>
+        <GC W="1" A="MT" Name="SelectComparator" H="1" Y="1" X="1"/>
+        <GC W="1" A="MT" Name="SelectFrame" H="1" Y="1" X="2"/>
+        <GC W="1" A="MT" Name="SelectFormatLbl" H="1" Y="0" X="3"/>
+        <GC W="1" A="MT" Name="SelectFormat" H="1" Y="1" X="3"/>
+        <GC W="1" A="LT" Name="SetSelect" H="1" Y="1" X="4"/>
+
+        <GC W="5" A="LT" Name="SelectTable" J="HV" H="1" Y="3" X="0"/>
+        <Row W="1" Y="3"/>
+        <Column W="1" X="4"/>
+      </Frame>
+    </WebPartFrame>
+    
+    <WebPartFrame Name="Return">
+      <Frame Name="frame">
+        <Label Name="DateFormatLbl"/>
+        <TextField Name="DateFormat" Attribute="_OutDateFormat"/>
+        <Label Name="TimeFormatLbl"/>
+        <TextField Name="TimeFormat" Attribute="_OutTimeFormat"/>
+        <Table Name="ReturnTable" Attribute="_ReturnTable" onCellAction="onReturnCell" Height="10"/>
+        <GC W="1" A="LT" Name="DateFormatLbl" H="1" Y="0" X="0"/>
+        <GC W="1" A="LT" Name="DateFormat" H="1" Y="0" X="1"/>
+        <GC W="1" A="LT" Name="TimeFormatLbl" H="1" Y="1" X="0"/>
+        <GC W="1" A="LT" Name="TimeFormat" H="1" Y="1" X="1"/>
+        <GC W="2" A="LT" Name="ReturnTable" J="HV" H="1" Y="2" X="0"/>
+        <Row W="1" Y="2"/>
+        <Column W="1" X="1"/>
+      </Frame>
+    </WebPartFrame>
+    
+    <Button Name="QueryButton" onButtonActivated="onQuery"/>
+    <WebLink Name="QueryLink" Attribute="_QueryLink"/>
+    
+    <GC Name="Select" W="2" A="TL" J="HV" H="1" Y="0" X="0"/>
+    <GC Name="Return" W="1" A="TL" J="HV" H="1" Y="0" X="2"/>
+    <GC Name="QueryButton" W="1" A="TL" J="V" H="1" Y="1" X="0"/>
+    <GC Name="QueryLink" W="1" A="TL" J="V" H="1" Y="1" X="1"/>
+    <Row W="1" Y="0"/>
+</Frame>
+</DialogFrame>

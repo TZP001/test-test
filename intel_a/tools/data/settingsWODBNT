@@ -1,0 +1,36 @@
+if "%MKMK_PROGNAME%" == "" set MKMK_PROGNAME="CNEXT.exe"
+
+set CATMsgCatalogPath=
+set CATDictionaryPath=
+set CATICPath=
+set PWD=
+set %PATH_NAME%=%PATH_setcatenv%
+set OSDS=%MkmkOS_Buildtime%
+
+set CATDefaultEnvironment=%DEFDefaultEnvironment%
+if not "%NEWDefaultEnvironment%" == ""  set CATDefaultEnvironment=%NEWDefaultEnvironment%
+if "%NEWDefaultEnvironment%" == "" call setcatenv.exe -p "%MKMK_LST_RTV%" -e %CATDefaultEnvironment%
+
+if not exist  c:\temp mkdir c:\temp
+
+if not exist  c:\temp\CATSettings mkdir c:\temp\CATSettings
+
+for /F "delims=*" %%i in ( 'readcatenv -e %CATDefaultEnvironment% -a user -var CATInstallPath' ) do set %%i
+
+set CLASS_NAME=com.dassault_systemes.itjavacatalogue.GetEnvNameFromHost
+
+for /F "delims=*" %%i in ( 'StdE4ALLJavaCommand -hostname %IT_ENOV_HOSTNAME% -port %IT_ENOV_ORBIX_PORT%' ) do set ENV_NAME=%%i
+
+
+set CLASS_NAME=com.dassault_systemes.itjavacatalogue.GetEnoviaEnvValue
+for /F "delims=*" %%i in ( 'StdE4ALLJavaCommand -conf %ENV_NAME% -i ENO_PROTOCOL' ) do set ENO_PROTOCOL=%%i
+
+if "%ENO_PROTOCOL%" == "" set  ENO_PROTOCOL=CORBA
+
+catstart -run "ImmLogonSetting.exe -Host %IT_ENOV_HOSTNAME%:%IT_ENOV_ORBIX_PORT% -WICH -protocol %ENO_PROTOCOL%"
+for /F "delims=*" %%i in ( 'readcatenv -e %CATDefaultEnvironment% -a user -var CATUserSettingPath' ) do set %%i
+catstart -run "cp \"%CATUserSettingPath%\ImmersiveLogon.CATSettings\" %ITtoolsUserSettingPath%\ImmersiveLogon.CATSettings"
+catstart -run "cp \"%CATUserSettingPath%\PLMServers.CATSettings\" %ITtoolsUserSettingPath%\PLMServers.CATSettings"
+
+set %PATH_NAME%=%PATH_setcatenv%
+if "%NEWDefaultEnvironment%" == "" call delcatenv.exe -e %CATDefaultEnvironment%

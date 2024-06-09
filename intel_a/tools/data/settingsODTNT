@@ -1,0 +1,97 @@
+echo OFF
+
+if "%MKMK_PROGNAME%" == "" set MKMK_PROGNAME="CNEXT.exe"
+
+set CATMsgCatalogPath=
+set CATDictionaryPath=
+set CATICPath=
+set PWD=
+set %PATH_NAME%=%PATH_setcatenv%
+set OSDS=%MkmkOS_Buildtime%
+
+for /F "delims=*" %%i in ( 'cd' ) do set PWD=%%i
+
+set CATDefaultEnvironment=%DEFDefaultEnvironment%
+
+mkdir %PWD%\CATEnv
+
+if not "%NEWDefaultEnvironment%" == ""  set CATDefaultEnvironment=%NEWDefaultEnvironment%
+
+call setcatenv.exe -p "%MKMK_LST_RTV%" -d %PWD%\CATEnv -e %CATDefaultEnvironment%Client
+
+set CATDefaultEnvironment=%CATDefaultEnvironment%Client
+
+set TNS_ADMIN=
+set ORA_NLS33=
+set ORACLE_HOME=
+
+mkdir %PWD%\ToolsData 
+mkdir %PWD%\ToolsData\ITEnovia
+mkdir %PWD%\ToolsData\ITEnovia\%OSDS%
+
+if "%SETUP_REMOTE_HOST%" == "" set SETUP_REMOTE_HOST=localhost
+
+echo "LOCAL|localhost|%SETUP_ORBIX_DAEMON_PORT%|LOCAL|%SETUP_VAULTHOSTNAME%|%SETUP_VAULTPORT%|ENOVIA server for ODT|%SETUP_DBID%|%SETUP_RDBMS%|localhost|%CATDefaultVaultName%|" > ToolsData\ITEnovia\%OSDS%\ENOVIA_config_server
+
+if "%ENO_PROTOCOL%" == "HTTP" echo "LOCAL|%SETUP_REMOTE_HOST%|%SETUP_SDAM_PORT%|LOCAL|%SETUP_VAULTHOSTNAME%|%SETUP_VAULTPORT%|ENOVIA server for ODT|%SETUP_DBID%|%SETUP_RDBMS%|localhost|%CATDefaultVaultName%|" > ToolsData\ITEnovia\%OSDS%\ENOVIA_config_server
+
+
+set CATUserSettingPath=%PWD%\ToolsData\ITEnovia\%OSDS%
+
+cp %ITtoolsVPMAdminPath% %CATUserSettingPath%
+attrib -R  %CATUserSettingPath%\VPMAdmin.CATSettings
+chcatenv.exe  -d .\CATEnv  -e %CATDefaultEnvironment% -a user -var "CATUserSettingPath=%CATUserSettingPath%"
+
+call CATSTART.exe -direnv %PWD%\CATEnv -run "CATDBENB VPMADMIN %SETUP_DBID% %SETUP_RDBMS% Server tacr ovbupc"
+call CATSTART.exe -direnv %PWD%\CATEnv -run "CATDBENB VPMPEOPLE %SETUP_DBID% %SETUP_RDBMS% Server tacr ovbupc"
+call CATSTART.exe -direnv %PWD%\CATEnv -run "CATDBENB VPMPUBSUB %SETUP_DBID% %SETUP_RDBMS% Server tacr ovbupc"
+call CATSTART.exe -direnv %PWD%\CATEnv -run "CATDBENB ENOCOMMON %SETUP_DBID% %SETUP_RDBMS% Server tacr ovbupc"
+call CATSTART.exe -direnv %PWD%\CATEnv -run "PR0ADSRB VPMADMIN VPMADMIN TACR"
+call CATSTART.exe -direnv %PWD%\CATEnv -run "PR0ADSRB VPMPEOPLE VPMPEOPLE TACR"
+call CATSTART.exe -direnv %PWD%\CATEnv -run "PR0ADSRB VPMPUBSUB VPMPUBSUB TACR"
+call CATSTART.exe -direnv %PWD%\CATEnv -run "PR0ADSRB ENOCOMMON ENOCOMMON TACR"
+
+
+rem ## Vault Client Properties File
+
+rem ## File read protocol
+echo VaultClient_ReadProtocol = 3 > %CATUserSettingPath%/VaultClient.properties  
+echo VaultClient_ReadProtocol_0 = NFS >> %CATUserSettingPath%/VaultClient.properties  
+echo VaultClient_ReadProtocol_1 = CORBA >> %CATUserSettingPath%/VaultClient.properties 
+echo VaultClient_ReadProtocol_2 = HTTP >> %CATUserSettingPath%/VaultClient.properties 
+
+rem ## File write protocol
+echo VaultClient_WriteProtocol = 2 >> %CATUserSettingPath%/VaultClient.properties 
+echo VaultClient_WriteProtocol_0 =  NFS >> %CATUserSettingPath%/VaultClient.properties 
+echo VaultClient_WriteProtocol_1 = CORBA  >> %CATUserSettingPath%/VaultClient.properties 
+
+rem ## File transfer protocol activation
+rem # echo VaultClient_Active_ReadProtocol = CORBA >> %CATUserSettingPath%/VaultClient.properties 
+rem # echo VaultClient_Active_WriteProtocol = CORBA >> %CATUserSettingPath%/VaultClient.properties 
+
+rem ## Data BlockSize parameter
+echo VaultClient_BlockSize = 262144 >> %CATUserSettingPath%/VaultClient.properties 
+
+rem ## Trace parameter
+echo VaultClient_Trace = OFF >> %CATUserSettingPath%/VaultClient.properties 
+
+rem ## Default alias name
+echo VaultClient_DefaultAliasName = %SETUP_VAULTNAME%  >> %CATUserSettingPath%/VaultClient.properties 
+
+rem ## First VaultClient alias entry
+echo VaultClient_%SETUP_VAULTNAME%_ReadVaultServerName = %SETUP_VAULTNAME%  >> %CATUserSettingPath%/VaultClient.properties 
+echo VaultClient_%SETUP_VAULTNAME%_ReadVaultServerHostName = %SETUP_VAULTHOSTNAME% >> %CATUserSettingPath%/VaultClient.properties 
+echo VaultClient_%SETUP_VAULTNAME%_ReadVaultServerDaemonPort = %SETUP_VAULTPORT% >> %CATUserSettingPath%/VaultClient.properties 
+echo VaultClient_%SETUP_VAULTNAME%_ReadHTTPServerHost = %SETUP_VAULTHTTPHOSTNAME% >> %CATUserSettingPath%/VaultClient.properties
+echo VaultClient_%SETUP_VAULTNAME%_ReadHTTPServerPort = %SETUP_VAULTHTTPPORT% >> %CATUserSettingPath%/VaultClient.properties
+
+if "%ENO_PROTOCOL%" == "HTTP" echo VaultClient_%SETUP_VAULTNAME%_CommandHTTPServerPort= %SETUP_VAULTPORT% >> %CATUserSettingPath%/VaultClient.properties
+if "%ENO_PROTOCOL%" == "HTTP" echo VaultClient_%SETUP_VAULTNAME%_CommandHTTPMode=ON >> %CATUserSettingPath%/VaultClient.properties
+
+echo VaultClient_%SETUP_VAULTNAME%_WriteVaultServerName = %SETUP_VAULTNAME% >> %CATUserSettingPath%/VaultClient.properties 
+echo VaultClient_%SETUP_VAULTNAME%_WriteVaultServerHostName = %SETUP_VAULTHOSTNAME% >> %CATUserSettingPath%/VaultClient.properties 
+echo VaultClient_%SETUP_VAULTNAME%_WriteVaultServerDaemonPort = %SETUP_VAULTPORT% >> %CATUserSettingPath%/VaultClient.properties 
+
+call CATSTART.exe -direnv %PWD%\CATEnv -run "ImmLogonSetting.exe -Host localhost:%SETUP_ORBIX_DAEMON_PORT% -WICH -protocol CORBA"
+if "%ENO_PROTOCOL%" == "HTTP" call CATSTART.exe -direnv %PWD%\CATEnv -run "ImmLogonSetting.exe -Host %SETUP_REMOTE_HOST%:%SETUP_SDAM_PORT% -WICH -protocol HTTP"
+

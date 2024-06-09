@@ -1,0 +1,13 @@
+#
+# Specifications for Build step mkBSPostCompilCORBAjavaS
+#
+METACLASS_NAME = Modification_S
+METACLASS_SOURCE = Grammar_S
+#
+DGM_GRAPH_PATH = MODDGM_GRAPHPATH
+#
+SOURCE_EXTENSION = *.generated
+#
+CORBA_DIRECTORY = tmp.server
+CORBA_JAVA_PACKAGE_CS = $(CORBA_JAVA_PACKAGE:-"com.dassault_systemes")
+CORBA_PACKAGE = $(CORBA_JAVA_PACKAGE_S:-CORBA_JAVA_PACKAGE_CS)

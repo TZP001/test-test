@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<GLOSSARY>
+	<TYPE name="RECORD" doclink="http://tools2e/Mkodt/Record/ODTRecord.htm">
+		<DESCRIPTION name="short" detail="Global description and requirements">
+			<LABEL name="Interactive record"/>
+			<REQUIREMENT name="Tested application must be based on V5 Dialog User Interface"/>
+			<REQUIREMENT name="must have DISPLAY"/>
+			<FRIEND type="none"/>				
+			<UNCOMPATIBILITY type="JAVABATCH"/>		
+		</DESCRIPTION>
+		<DESCRIPTION name="mkodt" detail="Impact on mkodt command">
+			<REQUIREMENT name="none"/>
+			<ACTION name="Create the InputData/ODT.rec/capture.env file"/>
+			<ACTION name="set ADL_ODT_REC variable"/>
+			<ACTION name="set CATReferenceSettingPath variable"/>
+			<MANDATORY name="none"/>		
+		</DESCRIPTION>
+	</TYPE>
+	<TYPE name="JAVABATCH" doclink="http://tools2e/Mkodt/caamkodt_dmu-dsx.htm#SetOdtParam">
+		<DESCRIPTION name="short" detail="Global description and requirements">
+			<LABEL name="Java Batch application"/>
+			<REQUIREMENT name="JRE installed"/>
+			<FRIEND type="none"/>			
+			<UNCOMPATIBILITY type="RECORD"/>		
+		</DESCRIPTION>
+		<DESCRIPTION name="mkodt" detail="Impact on mkodt command">
+			<REQUIREMENT name="none"/>
+			<ACTION name="set JAVA_HOME variable if not set"/>
+			<ACTION name="set CLASSPATH and BOOTCLASSPATH variable if not set"/>
+			<MANDATORY name="Use the JavaReplay command to launch your java application"/>		
+		</DESCRIPTION>
+	</TYPE>
+</GLOSSARY>

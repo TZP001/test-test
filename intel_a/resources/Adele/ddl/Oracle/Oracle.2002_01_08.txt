@@ -1,0 +1,89 @@
+[Departmental Step 1]
+---------------------------- adl.dept_db_clean ----------------------------------
+
+CREATE TABLE adl.dept_db_clean
+(
+	cleaner           VARCHAR2(20) NOT NULL,
+	workspace_tree    VARCHAR2(20),
+	nb_table_cleaners NUMBER(10)   NOT NULL,
+	nb_checker_sets   NUMBER(10)   NOT NULL,
+	step              NUMBER(10)   NOT NULL,
+	family_to_clean   VARCHAR2(20) NOT NULL,
+	name_to_clean     VARCHAR2(20) NOT NULL
+) PCTFREE 1 PCTUSED 80
+TABLESPACE adele_tbs
+STORAGE (initial 20K  next 10K);
+
+[Departmental Step 2]
+---------------------------- adl.dept_id_to_clean ----------------------------------
+
+CREATE TABLE adl.dept_id_to_clean
+(
+	family      VARCHAR2(20) NOT NULL,
+	name        VARCHAR2(10) NOT NULL,
+	id_to_clean VARCHAR2(27) NOT NULL
+) PCTFREE 1 PCTUSED 80
+TABLESPACE adele_tbs
+STORAGE (initial 20K  next 10K);
+
+[Departmental Step 3]
+-- * Recherche sur la famille
+CREATE INDEX adl.i_dept_id_to_cln_1 ON adl.dept_id_to_clean (family) TABLESPACE adele_idx;
+
+[Departmental Step 4]
+---------------------------- adl.transfer ----------------------------------
+
+CREATE TABLE adl.transfer
+(
+	id                 VARCHAR2(20) NOT NULL,
+	case_name          VARCHAR2(32) NOT NULL,
+	lower_name         VARCHAR2(32) NOT NULL,
+	multi_tree_ws      VARCHAR2(20) NOT NULL,
+	image              VARCHAR2(20)         ,
+	case_store_path    VARCHAR2(512)        ,
+	lower_store_path   VARCHAR2(512)        ,
+	local_path_host    VARCHAR2(32)         ,
+	is_server_host     VARCHAR2(32)         ,
+	is_server_port     NUMBER(10)           ,
+	site2              VARCHAR2(20)         ,
+	creation_hist_evt  VARCHAR2(20) NOT NULL
+) PCTFREE 10 PCTUSED 70
+TABLESPACE adele_tbs
+STORAGE (initial 20K  next 10K);
+
+[Departmental Step 5]
+-- * Recherche sur identifiant
+CREATE UNIQUE INDEX adl.i_transfer_1 ON adl.transfer (id) TABLESPACE adele_idx;
+
+[Departmental Step 6]
+-- * Recherche sur espace de travail multi-arborescence et nom
+CREATE        INDEX adl.i_transfer_2 ON adl.transfer (multi_tree_ws, lower_name) TABLESPACE adele_idx;
+
+[Departmental Step 7]
+---------------------------- adl.transfer_in_tree ----------------------------------
+
+CREATE TABLE adl.transfer_in_tree
+(
+	id                VARCHAR2(20) NOT NULL,
+	transfer          VARCHAR2(20) NOT NULL,
+	multi_tree_ws     VARCHAR2(20) NOT NULL,
+	workspace_tree    VARCHAR2(20) NOT NULL,
+	multi_tree_ws2    VARCHAR2(20) NOT NULL,
+	workspace_tree2   VARCHAR2(20) NOT NULL,
+	fw_status         VARCHAR2(10) NOT NULL,
+	creation_hist_evt VARCHAR2(20) NOT NULL
+) PCTFREE 10 PCTUSED 70
+TABLESPACE adele_tbs
+STORAGE (initial 20K  next 10K);
+
+[Departmental Step 8]
+-- * Recherche sur identifiant
+CREATE UNIQUE INDEX adl.i_trf_in_tree_1 ON adl.transfer_in_tree (id) TABLESPACE adele_idx;
+
+[Departmental Step 9]
+-- * Recherche sur transfert
+CREATE        INDEX adl.i_trf_in_tree_2 ON adl.transfer_in_tree (transfer, workspace_tree) TABLESPACE adele_idx;
+
+[Departmental Step 10]
+-- * Recherche sur transfert
+CREATE        INDEX adl.i_trf_in_tree_3 ON adl.transfer_in_tree (multi_tree_ws, workspace_tree) TABLESPACE adele_idx;

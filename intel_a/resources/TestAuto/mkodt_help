@@ -1,0 +1,97 @@
+Options:
+
+    Contextual mode
+      mkodt : -D|-sname|-a [-ktXcC]  
+
+    Descriptive mode
+      mkodt : -Wname|-dname -Fname -D|-sname|-lname|-a [-SktXcC]  
+
+    -W name
+       Workspace directory from $HOME
+    -d name 
+       Workspace directory from /
+    -F name
+       Framework directory from Workspace directory
+    -s name
+       Shell script name to test
+    -S Search ODT in SwitchTestCases
+    -L name
+       Read the file 'name' to obtain a list of shell script files
+	name :	FW1 type1 odt1   (type : TestCases or SwitchTestCases)
+		FW2 type2 odt2...
+    -h help on line
+    -q quiet (no user information)
+    -t time a ODT shell 
+    -a Replay all ODT (for a workspace, framework or directory)
+    -c Generate coverage information 
+    -D Display mode: open a window for Interactive testing 
+    -X Display Output
+    -C Capture record (SetOdtParam TYPE=RECORD)
+    -b load_name
+       Use debugger on load module (main) 'load_name'
+    -B debugger_mode
+       Use debugger mode 'debugger_mode'. Only usefull with -b option.
+       Available debuggers mode (first is default) :
+         solaris_a      : debugger, dbx
+         irix53     : cvd, dbx, purify
+         aix_a     : xldb, dbx
+         hp1020     : dde
+         hpux_a : dde
+         intel_a     : msdev
+         alpha_a     : msdev
+      !! Use only one of those debugger-mode, no other mode available
+      !! in mkodt
+
+Environment VARIABLE available:
+
+   ADL_ODT_TMP:   [read only variable] temporary directory
+   ADL_ODT_OUT:   [r/w variable      ] Output directory
+   ADL_ODT_REF:   [read only variable] Output Reference Directory
+   ADL_ODT_COV:   [r/w variable      ] Coverage information directory
+   ADL_ODT_NULL:  [read only variable] /dev/null directory (NUL for W_NT)
+   ADL_ODT_IN:    [read only variable] Input directory
+   ADL_ODT_MODEL: [read only variable] MODEL directory for record (see -C)
+
+SetOdtParam commands:
+
+   The SetOdtParam can be use in an ODT for specific parameters:
+
+   - Max-time
+        To set ODT max-time to XX minutes (default is 5) :
+        SetOdtParam max_time=XX
+
+   - No replay on specified OS
+        If you don't want an ODT to be replay on OS XXX :
+        SetOdtParam Replay_XXX=NO
+        XXX can be : Unix, Windows_NT, intel_a, aix_a, AIX, ...
+        you may use more than one SetOdtParam Replay_XXX=NO in an ODT
+
+   - Record
+        To declare an ODT as a record :
+        SetOdtParam TYPE=RECORD
+        Use -C option to record or re-record a scenario, replay the
+        ODT with no special option to replay the scenario.
+
+Examples:
+
+   - Run ODT burger.sh in framework Dialog.tst and display ODT
+     traces
+        cd /u/lego/CXR2/BSF/Dialog.tst/FunctionTests/TestCases
+        mkodt -s burger -X
+
+   - Run ODT test01.sh in framework FW.tst with debugger on
+     load module module01
+        cd ~/WS/FW.tst/FunctionTests/TestCases
+        mkodt -s test01 -b module01
+
+   - Run all ODT in framework System.tst in 'quiet' mode
+        cd ~/WS/System.tst
+        mkodt -a -q
+
+   - Run all ODT in workspace WS
+        cd ~/WS
+        mkodt -a
+
+   - Run all 'Switch' ODTs in framework System.tst
+        cd ~/WS/System.tst/FunctionTests/SwitchTestCases
+        mkodt -a

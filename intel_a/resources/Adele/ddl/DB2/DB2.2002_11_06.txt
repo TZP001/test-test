@@ -1,0 +1,24 @@
+------------------------------- Create database table -----------------------------------
+
+[Central + Departmental Step 1]
+
+CREATE TABLE adl.database
+(
+	id                 VARCHAR(20)  NOT NULL,
+	case_name          VARCHAR(255) NOT NULL,
+	upper_name         VARCHAR(255) NOT NULL,
+	is_central         VARCHAR(1)   NOT NULL,
+	is_dept            VARCHAR(1)   NOT NULL,
+	is_monitor         VARCHAR(1)   NOT NULL,
+	description        VARCHAR(250)         ,
+	creation_hist_evt  VARCHAR(20)  NOT NULL
+)
+--TABLESPACE tablespace_name
+;
+
+[Central + Departmental Step 2]
+-- * Recherche sur identifiant
+CREATE UNIQUE INDEX adl.i_database_1 ON adl.database (id);
+
+[Central + Departmental Step 3]
+CREATE INDEX adl.i_database_2 ON adl.database (upper_name);

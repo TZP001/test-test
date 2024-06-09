@@ -1,0 +1,29 @@
+﻿<?xml version="1.0"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+    <CodeSnippet Format="1.0.0">
+        <Header>
+            <Title>isnotdefault</Title>
+            <Description>Generate code only if a property has not default setting</Description>
+            <Shortcut>isnotdefault</Shortcut>
+        </Header>
+        <Snippet>
+            <Declarations>
+                <Literal>
+                    <ID>name</ID>
+                    <ToolTip>Replace with a property name.</ToolTip>
+                    <Default>name</Default>
+                </Literal>
+                <Literal>
+                    <ID>code</ID>
+                    <ToolTip>Replace with MTL code.</ToolTip>
+                    <Default>code</Default>
+                </Literal>
+            </Declarations>
+            <Code Language="dsmtl">
+                <![CDATA[<@if ($${$name$/IsDefault}=="false"){@>
+  $code$
+<@}@>]]>
+            </Code>
+        </Snippet>
+    </CodeSnippet>
+</CodeSnippets>

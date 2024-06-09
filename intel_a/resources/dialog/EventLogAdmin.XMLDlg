@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<DialogFrame onCreate="onCreate" Controller="com.dassault_systemes.catjsystem.catjsyadmin.CATEventLogAdmin">
+<Frame Name="frame">
+    <WebPartFrame Name="DBConnection">
+      <Frame Name="frame" DefaultButton="SetDriver">
+        <Label Name="DBURLLbl"/>
+        <TextField Name="DBURL" Attribute="_dbURL"/>
+        <Label Name="DBUserLbl"/>
+        <TextField Name="DBUser" Attribute="_dbUser"/>
+        <Label Name="DBPasswdLbl"/>
+        <TextField Name="DBPasswd" Password="true" Attribute="_dbPassword"/>
+        <Label Name="DBDriverLbl"/>
+        <TextField Name="DBDriver" Attribute="_dbDriver"/>
+        <Button Name="SetDriver" onButtonActivated="onSetDriver"/>
+
+        <GC W="1" A="RT" Name="DBURLLbl" H="1" Y="0" X="0"/>
+        <GC W="1" A="LT" Name="DBURL" H="1" Y="0" X="1"/>
+        <GC W="1" A="RT" Name="DBUserLbl" H="1" Y="1" X="0"/>
+        <GC W="1" A="LT" Name="DBUser" H="1" Y="1" X="1"/>
+        <GC W="1" A="RT" Name="DBPasswdLbl" H="1" Y="2" X="0"/>
+        <GC W="1" A="LT" Name="DBPasswd" H="1" Y="2" X="1"/>
+        <GC W="1" A="RT" Name="DBDriverLbl" H="1" Y="3" X="0"/>
+        <GC W="1" A="LT" Name="DBDriver" H="1" Y="3" X="1"/>
+        <GC W="2" A="LT" Name="SetDriver" H="1" Y="4" X="1"/>
+        <Row W="1" Y="4"/>
+        <Column W="1" X="1"/>
+      </Frame>
+    </WebPartFrame>
+
+    <WebPartFrame Name="Controls">
+      <Frame Name="frame">
+        <Button Name="Start" onButtonActivated="onStart" Attribute="_Start"/>
+        <Button Name="Stop" onButtonActivated="onStop" Attribute="_Stop"/>
+        <Button Name="Save" onButtonActivated="onSave"/>
+
+        <GC W="1" A="LT" Name="Start" H="1" Y="0" X="0"/>
+        <GC W="1" A="LT" Name="Stop" H="1" Y="1" X="0"/>
+        <GC W="1" A="LT" Name="Save" H="1" Y="2" X="0"/>
+        <Row W="1" Y="2"/>
+      </Frame>
+    </WebPartFrame>
+    
+    <WebPartFrame Name="Thematics">
+      <Frame Name="frame">
+        <Label Name="DfltThActivityLbl"/>
+        <CheckBox Name="DfltThActivity" Attribute="_DefaultThemActivity" onStateChanged="onDfltThemActivity"/>
+        <CheckBox Name="DfltErrorActivity" Attribute="_DefaultErrorActivity" onStateChanged="onDfltErrorActivity"/>
+        <CheckBox Name="DfltWarningActivity" Attribute="_DefaultWarningActivity" onStateChanged="onDfltWarningActivity"/>
+        <CheckBox Name="DfltInfoActivity" Attribute="_DefaultInfoActivity" onStateChanged="onDfltInfoActivity"/>
+        <CheckBox Name="DfltStatActivity" Attribute="_DefaultStatsActivity" onStateChanged="onDfltStatActivity"/>
+
+        <Table Name="ThematicsTable" Attribute="_ThematicsTable" onCellAction="onCellAction" onMenu="onCellMenu" Height="10"/>
+
+        <GC W="1" A="LT" Name="DfltThActivityLbl" H="1" Y="0" X="0"/>
+        <GC W="1" A="LT" Name="DfltThActivity" H="1" Y="0" X="1"/>
+        <GC W="1" A="LT" Name="DfltErrorActivity" H="1" Y="0" X="2"/>
+        <GC W="1" A="LT" Name="DfltWarningActivity" H="1" Y="0" X="3"/>
+        <GC W="1" A="LT" Name="DfltInfoActivity" H="1" Y="0" X="4"/>
+        <GC W="1" A="LT" Name="DfltStatActivity" H="1" Y="0" X="5"/>
+        <GC W="6" A="LT" Name="ThematicsTable" J="H" H="1" Y="1" X="0"/>
+        <Row W="1" Y="1"/>
+        <Column W="1" X="5"/>
+      </Frame>
+    </WebPartFrame>
+    
+    <GC Name="Controls" W="1" A="TL" J="VH" H="1" Y="0" X="0"/>
+    <GC Name="DBConnection" W="1" A="TL" J="VH" H="1" Y="0" X="1"/>
+    <GC Name="Thematics" W="2" A="TL" J="VH" H="1" Y="1" X="0"/>
+    <Row W="1" Y="1"/>
+</Frame>
+</DialogFrame>

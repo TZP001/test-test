@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+    <xsl:output method="html" indent="yes"/>
+    
+    <xsl:param name="level"/>
+	<xsl:param name="fw_name"/>
+    <xsl:param name="mod_name"/>
+    <xsl:param name="src_name"/>
+    <xsl:param name="screen_width"/>
+    <xsl:param name="screen_height"/>
+    
+	<xsl:template match="frameworks">
+
+			<xsl:if test="$level='frameworks'"><xsl:call-template name="fw_list"/></xsl:if>
+			<xsl:if test="$level='framework'"><xsl:call-template name="listOfModule_from_fw"/></xsl:if>
+			<xsl:if test="$level='module'"><xsl:call-template name="listOfSource_from_module"/></xsl:if>
+			<xsl:if test="$level='source'"><xsl:call-template name="listOfMeth_from_src"/></xsl:if>
+
+	</xsl:template>
+
+
+	<xsl:template name="fw_list">
+		<table width="$screen_width" height="$screen_height" align="center">
+		<TABLE width="300" BORDER="1" CELLSPACING="2" CELLPADDING="1">
+		<TR>
+			<TD COLSPAN="2" ROWSPAN="1" align="center">Framework List</TD>
+		</TR>
+		<TR>
+			<TD width="200">Framework</TD>
+			<TD align="center">NB Cov Lines</TD>
+		</TR>
+		<TR>
+			<TD width="200"><B>Total</B></TD>
+			<TD WIDTH="100" align="right"><B><xsl:value-of select="@nbL"/></B></TD>
+		</TR>
+		<xsl:for-each select="framework">
+			<TR bgcolor="C0C0C0">
+				<xsl:variable name="fwname"><xsl:value-of select="@name"/></xsl:variable>
+				<xsl:variable name="path">framework[@name=<xsl:value-of select="@name"/>]</xsl:variable>
+				<TD WIDTH="200"><a href="javascript:print('framework','{$fwname}','','')"><xsl:value-of select="@name"/></a></TD>
+				<TD WIDTH="100" align="right"><xsl:value-of select="@nbL"/></TD>
+			</TR>
+		</xsl:for-each>
+		</TABLE>
+		</table>
+	</xsl:template>
+
+
+
+
+	<xsl:template name="listOfModule_from_fw">
+		<table width="$screen_width" height="$screen_height" align="center">
+		<TABLE WIDTH="300" BORDER="0"><tr align="right">
+			<p><a href="javascript:print('frameworks','','','')">Back</a></p>
+		</tr></TABLE>
+		<TABLE WIDTH="300" BORDER="1" CELLSPACING="2" CELLPADDING="1">
+		<xsl:for-each select="framework[@name=$fw_name]">
+			<TR>
+				<TD COLSPAN="2" align="center" ROWSPAN="1"><xsl:value-of select="@name"/></TD>
+			</TR>
+			<TR>
+				<TD width="200">Module</TD>
+				<TD align="center">NB Cov Lines</TD>
+			</TR>
+			<TR>
+				<TD width="200"><B>Total</B></TD>
+				<TD WIDTH="100" align="right"><B><xsl:value-of select="@nbL"/></B></TD>
+			</TR>		
+		
+		<xsl:for-each select="module">
+			<TR bgcolor="C0C0C0">
+				<xsl:variable name="modname"><xsl:value-of select="@name"/></xsl:variable>
+				<xsl:variable name="path">module[@name=<xsl:value-of select="@name"/>]</xsl:variable>
+				<TD WIDTH="200"><a href="javascript:print('module','{$fw_name}','{$modname}','')"><xsl:value-of select="@name"/></a></TD>
+				<TD WIDTH="100" align="right"><xsl:value-of select="@nbL"/></TD>
+			</TR>
+		</xsl:for-each>
+		</xsl:for-each>
+		</TABLE>
+		</table>
+	</xsl:template>
+
+
+	<xsl:template name="listOfSource_from_module">
+		<table width="$screen_width" height="$screen_height" align="center">
+		<TABLE WIDTH="300" BORDER="0"><tr align="right">
+			<p><a href="javascript:print('framework','{$fw_name}','{$mod_name}','')">Back</a></p>
+		</tr></TABLE>
+		<TABLE WIDTH="300" BORDER="1" CELLSPACING="2" CELLPADDING="1">
+		<xsl:for-each select="framework[@name=$fw_name]/module[@name=$mod_name]">
+			<TR>
+				<TD COLSPAN="2" align="center" ROWSPAN="1"><xsl:value-of select="$fw_name"/>\<xsl:value-of select="@name"/></TD>
+			</TR>
+			<TR>
+				<TD width="200">Source</TD>
+				<TD align="center">NB Cov Lines</TD>
+			</TR>
+			<TR>
+				<TD width="200"><B>Total</B></TD>
+				<TD WIDTH="100" align="right"><B><xsl:value-of select="@nbL"/></B></TD>
+			</TR>		
+		<xsl:for-each select="source">
+			<TR bgcolor="C0C0C0">
+				<xsl:variable name="source_name"><xsl:value-of select="@name"/></xsl:variable>
+				<xsl:variable name="path">source[@name=<xsl:value-of select="@name"/>]</xsl:variable>
+				<TD WIDTH="200"><a href="javascript:print('source','{$fw_name}','{$mod_name}','{$source_name}')"><xsl:value-of select="@name"/></a></TD>
+				<TD WIDTH="100" align="right"><xsl:value-of select="@nbL"/></TD>
+			</TR>
+		</xsl:for-each>
+		</xsl:for-each>
+		</TABLE>
+		</table>
+	</xsl:template>
+	
+	
+	<xsl:template name="listOfMeth_from_src">
+		<table width="$screen_width" height="$screen_height" align="center">
+		<TABLE WIDTH="400" BORDER="0"><tr align="right">
+		<p><a href="javascript:print('module','{$fw_name}','{$mod_name}','{$src_name}')">Back</a></p>		
+		</tr></TABLE>
+		
+		<TABLE BORDER="1" CELLSPACING="2" CELLPADDING="1">
+
+		<xsl:for-each select="framework[@name=$fw_name]/module[@name=$mod_name]/source[@name=$src_name]">
+		<TR>
+			<TD COLSPAN="3" align="center" ROWSPAN="1"><xsl:value-of select="$fw_name"/>\<xsl:value-of select="$mod_name"/>\<xsl:value-of select="@name"/></TD>
+		</TR>
+		<TR>
+			<TD>Method</TD>
+			<TD align="center">NB ODT</TD>
+			<TD align="center">NB Cov Lines</TD>
+		</TR>
+		<TR>
+			<TD><B>Total</B></TD>
+			<TD align="right"><B>&#160;</B></TD>
+			<TD align="right"><B><xsl:value-of select="@nbL"/></B></TD>
+		</TR>
+		
+		
+		<xsl:variable name="lien"><xsl:value-of select="link/@link_start"/></xsl:variable>
+
+		<xsl:for-each select="method">
+		<xsl:variable name="start"><xsl:value-of select="@start"/></xsl:variable>
+		<TR bgcolor="C0C0C0">
+			<TD><a href="src/{$lien}{$start}" TARGET="_blank"><xsl:value-of select="@name"/></a></TD>
+			<TD align="right"><xsl:value-of select="@nbOdt"/></TD>
+			<TD align="right"><xsl:value-of select="@nbL"/></TD>
+		</TR>
+		</xsl:for-each>
+		</xsl:for-each>
+		
+		</TABLE>	
+		</table>
+	</xsl:template>
+
+</xsl:stylesheet>

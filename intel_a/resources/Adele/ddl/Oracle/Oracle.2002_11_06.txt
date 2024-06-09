@@ -1,0 +1,23 @@
+------------------------------- Create database table -----------------------------------
+
+[Central + Departmental Step 1]
+CREATE TABLE adl.database
+(
+	id                 VARCHAR2(20)  NOT NULL,
+	case_name          VARCHAR2(255) NOT NULL,
+	upper_name         VARCHAR2(255) NOT NULL,
+	is_central         VARCHAR2(1)   NOT NULL,
+	is_dept            VARCHAR2(1)   NOT NULL,
+	is_monitor         VARCHAR2(1)   NOT NULL,
+	description        VARCHAR2(250)         ,
+	creation_hist_evt  VARCHAR2(20)  NOT NULL
+) PCTFREE 10 PCTUSED 70
+TABLESPACE adele_tbs
+STORAGE (initial 20K  next 10K);
+
+[Central + Departmental Step 2]
+-- * Recherche sur identifiant
+CREATE UNIQUE INDEX adl.i_database_1 ON adl.database (id) TABLESPACE adele_idx;
+
+[Central + Departmental Step 3]
+CREATE INDEX adl.i_database_2 ON adl.database (upper_name, is_dept) TABLESPACE adele_idx;

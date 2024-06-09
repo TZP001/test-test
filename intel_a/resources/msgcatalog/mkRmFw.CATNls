@@ -1,0 +1,60 @@
+mkRmFw.Version.BuildLevel = "/P1 (Build /P2)";
+
+mkRmFw.HelpBegin = "\n",
+"Delete framework(s) in a user environment directory.\n",
+"\n", 
+"Usage: mkRmFw [-W WorkspacePath] [FW1 FW2 ... | -lFW PATH1] [-preq | -nopreq] [-fw | -nofw] [-simul]\n",
+"              [-jobs N] [-h, -?] [-v, -debug]\n";
+
+mkRmFw.Option.W = "   -/P1 Workspace       : workspace path name. If not specified, use the current one.";
+
+mkRmFw.HelpEnd = "   FW1 FW2 ...        : delete FW1, FW2, ... frameworks.\n";
+
+mkRmFw.Option.lFW = "   -/P1 PATH1         : path of the list of framework to take into account.";
+
+mkRmFw.Option.preq = "   -/P1              : only delete derived objects of frameworks installed with mkCopyPreq command.";
+
+mkRmFw.Option.nopreq = "   -/P1            : do not delete derived objects of frameworks installed with mkCopyPreq command.";
+
+mkRmFw.Option.fw = "   -/P1                : only delete derived objects of frameworks installed with mkCopyFw command.";
+
+mkRmFw.Option.nofw = "   -/P1              : do not delete derived objects of frameworks installed with mkCopyFw command.";
+
+mkRmFw.Option.simul = "   -/P1             : simulate framework delete, and give a report.";
+
+mkRmFw.Option.simu = "   -/P1              : same as -simul.";
+
+mkRmFw.Option.jobs = "   -/P1 N            : max number of parallel copy processes (default is 5).";
+
+mkRmFw.Option.h = "   -/P1                 : produces help message.";
+
+mkRmFw.Option.h.other = "   -/P1                 : same as -h.";
+
+mkRmFw.Option.v = "   -/P1                 : verbose mode.";
+
+mkRmFw.Option.debug = "   -/P1             : debug mode.";
+
+mkRmFw.BadOptErr = "# mkmk-ERROR: Command line -> Syntax error.";
+
+mkRmFw.NotADirErr = "# mkmk-ERROR: /P1 -> This directory does not exist.";
+
+mkRmFw.CannotLoadErr = "# mkmk-ERROR: /P1 -> Failed to load file.";
+
+mkRmFw.Init = "/P1 : Starting mkRmFw";
+
+mkRmFw.INFWSP = "# mkmk-INFO: /P1 -> Workspace directory.";
+
+mkRmFw.INFSIM = "# mkmk-INFO: Command -> -simul option specified, no delete will be launched.";
+
+mkRmFw.MESFWPR = "# mkmk-ERROR: Command -> Cannot specify both '/P1' and '/P2' options.";
+
+mkRmFw.ExecFailedErr = "# mkmk-ERROR: /P1 -> Failed to execute [/P2].";
+
+mkRmFw.INFSTS = "# mkmk-INFO: Start of the cleaning procedure simulation.";
+
+mkRmFw.INFSTR = "# mkmk-INFO: Start of the removal procedure.";
+
+mkRmFw.WARNNODEL = "# mkmk-INFO: Nothing to do, no framework to delete in [/P1]!";
+
+mkRmFw.Command = " Command: /P1";
+

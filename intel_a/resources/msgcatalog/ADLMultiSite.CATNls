@@ -1,0 +1,387 @@
+
+0001 = "Cannot find adl_transfer_client.exe. Environment is not correctly set.";
+0002 = "Failed to compute one UUID for current command.";
+0003 = "Cannot determine what the current OS on /p1 is.";
+0004 = "Check that a multisite transfer manager is running on host(s) /p1.
+Check also that the hosts in /p1 are reachable from peer to peer.
+Check that hosts and ports are allowed by firewalls that messages are to go through.
+Finally check that the multisite transfer manager is not too old.";
+0005 = "Checking local workspace /p1...";
+0006 = "Checking remote workspace /p1...";
+0007 = "Checking connection with host /p1...";
+0008 = "Could not get name of local SCM site.";
+0009 = "Could not get identification of SCM remote site.";
+
+// ---- adl_mk_is_transfer
+0010 = "This command creates a transfer object between the local workspace and the remote workspace.";
+0011 = "adl_mk_is_transfer [transfer_name] -ws local_workspace -r_is_server host:port[{#host:port}] | {-r_is_server_host host -r_is_server_port port} -r_parent_ws remote_workspace
+    [-r_tree remote_ws_tree_name] [-tree local_ws_tree_name] [-image image_name]|[-dir directory [-local_dir]] [-no_mirror_ws] [-h|-help|-?]
+    transfer_name: name of the new transfer. It must be unique for the local workspace.
+    -ws: local workspace being the origin of the new transfer.
+    -r_is_server: host and port to use for communicating with the remote multi-site transfer manager.
+                  a list of (host:port) can be specified when intermediate transfer managers are to be used.
+    -r_is_server_host: name or IP address of the remote host where the multi-site transfer manager is running.
+    -r_is_server_port: port on which the remote multi-site transfer manager is running.
+    -r_parent_ws: name of the remote workspace with which the transfer is to be set up.
+    -r_tree: to specify with which remote tree the transfer is to be set up. 
+             This parameter can be omitted in case the remote workspace exists in only one tree.
+    -tree: to specify with which local tree the transfer is to be set up.
+             This parameter can be omitted in case the local workspace exists in only one tree.
+    -image: name of one image of the local workspace that will be used for storing transfer specific files.
+    -dir: path to a directory that will be used for storing transfer specific files.
+    -local_dir: to indicate that the directory specified by -dir option is local to the local host.
+    -no_mirror_ws: to indicate that a mirror workspace (child of remote workspace) is not created in remote site.
+";
+0012 = "Only one transfer name can be given. What does /p1 mean?";
+0013 = "A transfer named /p1 is already associated with the workspace /p2.
+If you want to add another tree to this existing transfer, you must use adl_link_is_transfer command.";
+0014 = "Failed to list transfers associated with workspace /p1.";
+0015 = "You must choose between -image or [-dir [-local_dir]] options to specify the location for storing transfer specific files.";
+0016 = "There is no image /p1 associated with workspace /p2.";
+0017 = "There is more than one image associated with the local workspace on the current operating system.
+You must either choose one image in the list below or specify a directory using -dir option.";
+0018 = "The workspace /p1 has no image on the current operating system.
+You must either create one image or specify a directory using -dir option.";
+0019 = "There is more than one transfer defined for the local workspace. Select one transfer in the list below:";
+0020 = "The transfer /p1 is not defined for the workspace /p2.";
+0021 = "The transfer /p1 is not defined in the workspace tree /p2 for the workspace /p3.";
+0022 = "Could not get path of remote temporary directory.
+If the remote multisite transfer manager does not provide this information, specify this directory using the -rtmp option.";
+0023 = "The current image is \"/p1\" but the transfer /p2 is associated with the image \"/p3\".
+Please change the current image using the command adl_ch_ws /p4 -image /p3.";
+0024 = "Could not create remote temporary directory \"/p1\" for current command. Call a SCM administrator.";
+0025 = "Failed to copy remote file \"/p1\" to local file \"/p2\". Call a SCM administrator.";
+0026 = "The local workspace \"/p1\" must be a root workspace in order to be able to transfer CR to remote site.
+If it is not a root workspace, use the adl_set_ws command to forbid any promotion from it.";
+0027 = "The transfer /p1 is associated with the image \"/p2\" but there is no current image.
+Please change the current image using the command adl_ch_ws /p3 -image /p2.";
+0028 = "The transfer /p1 is declared to store files in the directory \"/p2\" on the host \"/p3\"
+but the current host is \"/p4\". Please log on the machine \"/p3\" and restart the command.";
+0029 = "The directory \"/p1\" does not exist or there is not enough rights to use it.";
+
+0030 = "##### THE INTERSITE COMMAND ENTIRELY OR PARTIALLY FAILED #####";
+0031 = "Failed to create the directory /p1.";
+0032 = "Failed to create the file /p1. Check the rights to acces the directory.";
+
+0040 = "Checking new transfer against existing transfers with remote site \"/p1\"...";
+0041 = "Warning: the local workspace \"/p1\" is a root workspace. In that case no component can be detached in it.
+If you want to be able to remove some components from the set components to be shared with the distant site,
+you must use another workspace under the root workspace.
+";
+
+// ---- adl_link_is_transfer
+0050 = "This command enlarge an existing transfer object to a new couple of local and remote workspace trees.";
+0051 = "adl_link_is_transfer [transfer_name] -ws local_workspace -r_parent_ws remote_workspace -r_tree remote_ws_tree_name -tree local_ws_tree_name [-h|-help|-?]
+    transfer_name: name of a transfer that has been already defined for the local workspace.
+    -ws: local workspace being the origin of the transfer.
+    -r_parent_ws: name of the remote workspace with which the transfer is to be set up.
+    -r_tree: to specify with which remote tree the transfer is to be set up. 
+    -tree: to specify with which local tree the transfer is to be set up.
+";
+0052 = "There is no transfer \"/p1\" defined for workspace \"/p2\".
+Use the adl_ls_transfer command to list the existing transfers.";
+0053 = "Linking remote mirror workspace \"/p1\" in workspace tree \"/p2\"...";
+0054 = "Failed to link workspace \"/p1\" in workspace tree \"/p2\".";
+0055 = "Failed to retrieve identifier of remote  workspace tree \"/p1\".
+Unlinking mirror workspace \"/p2\" from workspace tree \"/p3\"...";
+0056 = "Failed to register transfer \"/p1\" in new workspace tree \"/p2\". 
+Unlinking mirror workspace \"/p3\" from workspace tree \"/p4\"...";
+0057 = "Failed to unlink mirror workspace \"/p1\" from workspace tree \"/p2\".";
+0058 = "The transfer \"/p1\" is already defined in workspace tree \"/p2\" for workspace \"/p3\".";
+0059 = "The transfer \"/p1\" is already defined in remote workspace tree \"/p2\" for workspace \"/p3\".";
+
+0098 = "Intersite command successful in workspace tree \"/p1\" for the component /p2";
+0099 = "Intersite command successful in workspace tree \"/p1\"";
+0100 = "Command interrupted";
+0101 = "Intersite command successful";
+0102 = "Command aborted";
+0103 = "Option /p1: one argument is required";
+0104 = "Unknown option: /p1";
+0105 = "/p1: Missing mandatory parameter: /p2.";
+0106 = "Failed to extract information about local workspace";
+0107 = "The local workspace exists in more than one workspace tree. You must specify one tree using /p1 option.";
+0108 = "No current workspace. Use /p1 to set the current workspace to the local transfer workspace.";
+0109 = "The workspace \"/p1\" does not exist in the tree /p2.";
+0110 = "The workspace \"/p1\" is defined in the following workspace trees:";
+0111 = "The workspace tree /p1 does not exist on current site.";
+0112 = "Failed to retrieve information about the remote workspace /p1.";
+0113 = "The remote workspace exists in more than one workspace tree. You must specify one tree using /p1 option.";
+0114 = "Failed to retrieve information about remote workspace tree /p1.";
+0115 = "The workspace \"/p1\" must exist on the remote site.";
+0116 = "The workspace \"/p1\" must exist in the workspace tree /p2.";
+0117 = "Creating mirror workspace under \"/p1\"...";
+0118 = "Failed to create the remote workspace \"/p1\".";
+0119 = "Registering the new intersite transfer /p1 between \"/p2\" and \"/p3\" in local database.";
+0120 = "Error when writing in file \"/p1\". The new transfer cannot be registered in local database.";
+0121 = "Failed to register new transfer. Removing mirror workspace from remote site...";
+0122 = "Failed to remove mirror workspace \"/p1\" from remote site.";
+0123 = "Failed to retrieve identifier of mirror workspace. Removing mirror workspace from remote site...";
+0124 = "Mirror workspace \"/p1\" has been created.";
+0125 = "Failed to retrieve information about remote workspace trees.";
+0126 = "Another transfer \"/p1\" (from \"/p6\") is currently set between the same local workspace tree \"/p2\" and another remote workspace tree \"/p3\"
+but this other remote workspace tree has the same software level \"/p4\" than \"/p5\".
+Check that the remote workspace tree of the new transfer is the good one and that it owns a correct software level.";
+0127 = "Another transfer \"/p1\" (from \"/p4\") is currently set between the same local workspace tree \"/p2\" and another remote workspace tree \"/p3\".
+The new transfer is allowed only if the two target workspace trees have different software levels.
+Check that the remote workspace tree of the new transfer is the good one and that it owns a correct software level.";
+
+// ---- adl_ls_fw_is
+0200 = "This command lists the remote components that are currently shared or that can be shared with the remote site.";
+0210 = "adl_ls_fw_is [component...] [-transfer transfer_name] [-tree local_ws_tree_name...] [-mod] [-all] [-h|-help|-?]
+    component...: Path(s) of the components to list.
+    -transfer: name of an existing transfer of the current workspace.
+    -tree: to list only components that can be shared in the given workspace tree(s).
+    -mod: to list modules and data too.
+    -all: to list all the remote components that can be shared.
+";
+0220 = "There is no transfer defined for workspace /p1.
+Use the adl_mk_is_transfer to create the transfer object in the first couple of workspace trees and then use adl_link_is_transfer for next trees.";
+0221 = "Failed to create temporary file /p1. Please restart the command.";
+0222 = "Could not get name and uuid of the remote mirror workspace. Call a SCM administrator.";
+0223 = "Failed to retrieve information about the remote workspace /p1. Call a SCM administrator.";
+0224 = "The remote workspace /p1 has not the same UUID (/p2) as the one created when setting up the transfer (/p3). Call a SCM administrator.";
+0225 = "The remote workspace /p1 has been renamed to /p2. Call a SCM administrator in order to change local transfer information.";
+0226 = "Failed to list components on remote site.";
+0227 = "Could not get information about the remote multisite transfer manager. Call a SCM administrator.";
+0228 = "Failed to write in file /p1. Please restart the command or call a SCM administrator.";
+0229 = "Failed to list components in current workspace.";
+0230 = "There is no component in workspace \"/p1\" for workspace tree \"/p2\".";
+
+// ---- adl_attach_is
+0300 = "This command attaches one or many components in the current workspace.
+Those components are found on the remote site, are attached first in the remote mirror workspace, then transferred into the current workspace.
+(2) If you use the option -mod and frameworks are specified, all their modules and their data components will be attached.
+(3) If you use the option -attached_fw_mod, all modules and all data components belonging to the attached frameworks will be attached.
+";
+0310 = "adl_attach_is component... [-transfer transfer_name] [-tree ws_tree_name] [-h|-help|-?] (1)
+    adl_attach_is framework... [-transfer transfer_name] -mod [-tree ws_tree_name] (2)
+    adl_attach_is -attached_fw_mod [-transfer transfer_name] [-tree ws_tree_name] (3)
+   -h|-help|-?: Help
+    component...: Path(s) of the components to attach
+   -mod: to attach all contained modules and data components in the workspace hierarchy
+   -attached_fw_mod: to attach all contained modules and data components in the workspace hierarchy of attached frameworks
+   -transfer: name of an existing transfer of the current workspace.
+   -tree ws_tree_name: name of the local workspace tree in which the framework(s) will be attached
+";
+0311 = "At least one component must be supplied.";
+0312 = "Failed to send /p1 to /p2 on remote host /p3. Restart the command or call a SCM administrator.";
+0313 = "Option -attached_fw_mod can be used only when no component is specified.";
+0314 = "Failed to set current remote workspace.";
+0315 = "Failed to attach components in remote workspace in workspace tree \"/p1\".";
+0316 = "Failed to attach component /p1 in remote workspace.";
+0317 = "The image /p1 of workspace /p2 has been registered as the directory where transfer specific files are stored but this image no more exists. Contact a SCM administrator";
+0318 = "The directory /p1 has been registered as the directory where transfer specific files are stored but it is not reachable.
+Check the current host or change the transfer characteristics using adl_set_transfer command or call a SCM administrator.";
+0319 = "Failed to synchronize remote mirror workspace before attaching components.";
+0320 = "Changing current remote working workspace to \"/p1\"...";
+0321 = "Synchronizing workspace \"/p1\" in workspace tree(s) \"/p2\"...";
+0322 = "Attaching components in workspace \"/p1\"...";
+0323 = "Sending component \"/p1\" from remote site \"/p2\" to local workspace \"/p3\" in workspace tree /p4...";
+0324 = "The transfer of component \"/p1\" from site \"/p2\" has failed.";
+0325 = "The transfer of components from site \"/p1\" has failed.";
+0326 = "The transfer /p1 has been defined in more than one tree. You must specify one tree using -tree option.";
+0327 = "Failed to send list of components into remote file /p1.";
+0328 = "Sending components from remote site \"/p1\" to local workspace \"/p2\" for workspace tree /p3...";
+0329 = "Synchronizing workspace \"/p1\"...";
+0330 = "Component \"/p1\" received successfully.";
+0331 = "Failed to retrieve information about remote components.";
+0332 = "Getting information about remote components...";
+0333 = "The same transfer \"/p1\" from workspace \"/p2\" is already registered on the remote host /p3.
+If there is no other transfer that is really running, you can restart the current transfer by adding the -force_start option.";
+0334 = "The remote transfer manager does not respond from /p1.";
+0335 = "There is already another command that is registered on the remote host /p3 for the transfer \"/p1\" and the workspace \"/p2\". If there is no other transfer that is really running, you can restart the current command by adding the -force_start option.";
+0340 = "This command cannot be used because the transfer has been created without remote mirror workspace.";
+
+// ---- adl_sync_is
+0400 = "This command synchronizes the current workspace against the remote workspace according to a given transfer.";
+0410 = "adl_sync_is [-transfer transfer_name] [-tree ws_tree_name...] [-from label] [-h|-help|-?]
+   -h|-help|-?: Help
+   -transfer: name of an existing transfer of the current workspace.
+   -tree: to restrict the synchronization to a subset of the workspace trees for which the given transfer has been set.
+   -from label: Synchronize with the revision of the remote parent workspace published with label <label>.
+";
+0411 = "Argument /p1 is not expected.";
+0412 = "Synchronizing the workspace \"/p1\" in the workspace tree \"/p2\"...";
+0413 = "Failed to extract name of remote workspace tree corresponding to local workspace tree \"/p1\".";
+0414 = "The synchronization in workspace tree \"/p1\" has failed.
+All traces can be found in file \"/p2\".";
+0415 = "The synchronization in workspace tree \"/p1\" has failed.
+All traces can be found in file \"/p2\".";
+0416 = "Looking for merge to solve in workspace \"/p1\"...";
+0417 = "The workspace \"/p1\" is already synchronized in the workspace tree \"/p2\".";
+0418 = "The workspace \"/p1\" is already synchronized.";
+
+// ---- adl_promote_is
+0500 = "This command promotes the current workspace to the remote parent workspace according to a given transfer.";
+0510 = "adl_promote_is [-transfer transfer_name] [-tree ws_tree_name...] [-cr change_request_name...] [-h|-help|-?]
+   -h|-help|-?: Help
+   -transfer: name of an existing transfer of the current workspace.
+   -tree: to restrict the promotion to a subset of the workspace trees for which the given transfer has been set.
+   -cr change_request_name...: Change request names with which the promoted modifications are associated (should be used only if there are changes that were performed directly in the workspace to promote).
+";
+0511 = "Transferring the workspace \"/p1\" in the workspace tree \"/p2\"...";
+0512 = "The transfer in workspace tree \"/p1\" has failed.
+All traces can be found in file \"/p2\".";
+0514 = "Failed to retrieve information on parent workspace \"/p1\" of remote mirror workspace \"/p2\".";
+0515 = "The remote mirror workspace \"/p1\" is not synchronized in tree \"/p2\" with its parent workspace \"/p3\".
+Use the adl_sync_is command to synchronize \"/p1\" before promoting the local workspace \"/p4\".
+Failed to promote \"/p1\" in tree \"/p2\".";
+0516 = "Could not remove temporary directory \"/p1\".";
+0517 = "Information: this is the first promotion from \"/p1\" to distant site \"/p2\" in workspace tree \"/p3\".
+Each local framework will be transferred in a separate intersite transfer in order to prevent database problem in case of a large amount of data to be imported in it.
+";
+0518 = "
+Transferring component \"/p1\"...";
+0519 = "The workspace \"/p1\" is already promoted in the workspace tree \"/p2\".";
+0520 = "Failed to retrieve information about local workspace tree \"/p1\".";
+0521 = "Failed to access Osirix from remote host \"/p1\". 
+Wait for Osirix to be available and restart the command.";
+0522 = "
+
+Promoting the workspace \"/p1\" in the workspace trees \"/p2\"...";
+0523 = "The workspace \"/p1\" is already promoted.";
+
+// ---- adl_solve_merge_is
+0600 = "This command solves the merge existing in both local and remote mirror workspace according to a given transfer.";
+0610 = "adl_solve_merge_is [-transfer transfer_name] [-tree ws_tree_name...] [-h|-help|-?]
+   -h|-help|-?: Help
+   -transfer: name of an existing transfer of the current workspace.
+   -tree: to restrict the command to a subset of the workspace trees for which the given transfer has been set.
+";
+0611 = "Failed to list merges in remote mirror workspace \"/p1\".";
+0612 = "Solving merge(s) for the workspace \"/p1\" in the workspace tree \"/p2\"...";
+0613 = "There is no merge to be solved in remote mirror workspace \"/p1\".";
+0614 = "Failed to solve merge(s) in workspace tree \"/p1\".
+All traces can be found in file \"/p2\".";
+0615 = "Failed to solve merge(s) in workspace tree \"/p1\".
+All traces can be found in file \"/p2\".";
+
+// ---- adl_detach_is
+0700 = "This command detaches one or many frameworks from the local workspace and from the remote mirror workspace.
+This command does not work if the current workspace is a root workspace.
+";
+0710 = "adl_detach_is framework... [-transfer transfer_name] -h|-help|-?: Help
+    framework...: list of frameworks to detach
+   -transfer: name of an existing transfer of the current workspace.
+   -force: in parent workspace, if exists, import the framework to detach from the current workspace and publish; then current workspace is synchronized.
+";
+0711 = "Detaching /p1 in workspace /p2...";
+0712 = "Failed to detach component /p1 in remote workspace.";
+0713 = "Failed to get information about framework /p1 in workspace /p2.";
+0714 = "Failed to detach component /p1 in current workspace.";
+0715 = "The framework /p1 exists in workspace tree /p2 but the transfer /p3 is not defined in this workspace tree.
+If this framework is not shared with another site, then use the adl_detach command to detach it.
+If this framework is shared, then verify that you use the right transfer name.";
+0716 = "The workspace /p1 is a root workspace in the workspace tree /p2. You cannot detach a framework in this workspace tree.";
+0717 = "The framework /p1 cannot be found in remote workspace /p2 and remote tree /p3 using its local identifier /p4. Call a SCM administrator";
+0718 = "Failed to detach /p1 in local workspace. It won't be detached in remote workspace /p2.";
+0719 = "Failed to detach /p1 in remote workspace /p2. Call a SCM administrator";
+0720 = "Information: the command will use the parent workspace to import in it modifications that are local to the component \"/p1\" 
+in workspace \"/p2\" and synchronize \"/p2\" against its parent workspace, then the component will be detached.";
+0721 = "Failed to change current workspace to workpace \"/p1\".";
+0722 = "Importing component to detach in workspace \"/p1\"...";
+0723 = "Failed to import component \"/p1\" in workspace \"/p2\".";
+0724 = "Synchronizing workspace \"/p1\" against contents of workspace \"/p2\" in workspace tree \"/p3\"...";
+0725 = "Failed to publish workspace \"/p1\". Component \"/p2\" won't be detached.";
+0726 = "Failed to synchronize workspace \"/p1\". Component \"/p2\" won't be detached.";
+0727 = "Failed to detach \"/p1\" in local workspace. If the component \"/p1\" contains local modifications and if you want to force its detaching, then use
+  adl_detach_is \"/p1\" -force -transfer \"/p4\"
+to import those modifications into the parent workspace \"/p2\", synchronize the current workspace \"/p3\" and finally detach the component.";
+0728 = "The use of the -force option requires that the local workspace \"/p1\" forbids promotions from itself.
+Execute the command
+  adl_set_ws \"/p1\" -tree \"/p2\" -no_promote_cmd
+if you want to forbid promotions from workspace \"/p1\".";
+
+// ---- adl_rm_is_transfer
+0800 = "This command removes the transfer for the specified workspace <workspace_name> for all trees or for the specified trees.
+If more than one transfer is associated with the workspace, a transfer name must be specified.";
+0810 = "adl_rm_is_transfer [transfer_name] -ws workspace_name [-tree ws_tree_name...] [-h|-help|-?]
+   -h|-help|-?: Help
+   transfer_name: name of an existing transfer of the specified workspace.
+   -ws: name of the workspace with which the transfer to removed is associated.
+   -tree: to restrict the deletion to the specified tree(s). If this option is not set, the transfer will be removed in all trees.
+";
+0811 = "Removing remote mirror workspace \"/p1\"...";
+0812 = "Failed to unlink remote mirror workspace \"/p1\" from workspace tree(s) /p2.";
+0813 = "Failed to remove remote mirror workspace \"/p1\".";
+0814 = "Removing transfer /p1 on local site...";
+0815 = "Failed to list transfers associated with workspace \"/p1\". Does this workspace exist?";
+
+// ---- adl_ds_ws_is
+0900 = "This command displays intersite information for the current workspace.
+For each workspace tree, the command displays:
+  - the name of the associated remote workspace tree
+  - the name of the associated remote parent workspace and whether it is published or not
+  - the name of the associated remote mirror workspace and whether it is synchronized and promoted against the remote parent workspace
+  - the synchronization status regarding intersite transfers: does adl_sync_is should be started?
+  - the promotion status regarding intersite transfers: does adl_promote_is should be started?
+";
+0910 = "adl_ds_ws_is [-transfer transfer_name] [-tree ws_tree_name...] [-h|-help|-?]
+   -h|-help|-?: Help
+   -transfer: name of an existing transfer of the current workspace.
+   -tree: to restrict information to a subset of the workspace trees for which the given transfer has been set.
+";
+0911 = "Current workspace: /p1
+Transfer: /p2
+Remote site: /p3";
+0914 = "For local workspace tree: /p1
+  Remote workspace tree: /p2
+  Remote parent workspace: /p3";
+0917 = "    Published: Yes";
+0918 = "    Published: No";
+0919 = "  Remote mirror workspace: /p1";
+0920 = "    Synchronized: Yes";
+0921 = "    Synchronized: No";
+0922 = "    Promoted: Yes";
+0923 = "    Promoted: No";
+0924 = "  Synchronized with remote site: Yes";
+0925 = "  Synchronized with remote site: No";
+0926 = "  Promoted to remote site: Yes";
+0927 = "  Promoted to remote site: No";
+
+// ---- adl_mirror_is
+1000 = "This command transfers
+   either the content of the current workspace to the remote workspace,
+   or the content of the remote workspace to the current workspace.";
+1010 = "adl_mirror_is -to_remote_ws|-from_remote_ws [-transfer transfer_name] [-tree ws_tree_name...] [-h|-help|-?]
+   -h|-help|-?: Help
+   -to_remote_ws: transfer the content of the current workspace to the remote workspace.
+   -from_remote_ws: transfer the content of the remote workspace to the current workspace.
+   -transfer: name of an existing transfer of the current workspace.
+   -tree: to restrict the command to a subset of the workspace trees for which the given transfer has been set.
+";
+
+1020 = "/p1 or /p2 option must be defined.";
+1021 = "The options /p1 and /p2 can't be defined together.";
+1022 = "The mirroring in workspace tree \"/p1\" has failed.
+All traces can be found in file \"/p2\".";
+1023 = "Transfering the content of workspace \"/p1\" in the workspace tree \"/p2\" to the remote workspace...";
+1024 = "Transfering the content of the remote workspace to workspace \"/p1\" in the workspace tree \"/p2\"...";
+1025 = "Information: this is the first transfer from the remote site \"/p1\" to the current workspace \"/p2\" in workspace tree \"/p3\".
+Each remote framework will be transferred in a separate intersite transfer in order to prevent database problem
+in case of a large amount of data to be imported in it.
+";
+1026 = "Information: this is the first transfer from the current workspace \"/p1\" to remote site \"/p2\" in workspace tree \"/p3\".
+Each local framework will be transferred in a separate intersite transfer in order to prevent database problem
+in case of a large amount of data to be imported in it.
+";
+1027 = "
+Transfering component \"/p1\"...";
+1030 = "This command cannot be used because the transfer has been created with remote mirror workspace.";
+
+// ---- adl_rm_promo_is
+1100 = "This command removes the current promotion request of the current workspace to the parent site parent workspace.";
+1110 = "adl_rm_promo_is [-transfer transfer_name] [-tree ws_tree_name...] [-h|-help|-?]
+   -h|-help|-?: Help
+   -transfer: name of an existing transfer of the current workspace.
+   -tree: to restrict the promotion to a subset of the workspace trees for which the given transfer has been set.
+";
+
+// ---- adl_ls_promo_is
+1200 = "This command lists the intersite promotion requests history.";
+1210 = "adl_ls_promo_is [-transfer transfer_name] [-tree ws_tree_name...] [-h|-help|-?]
+   -h|-help|-?: Help
+   -transfer: name of an existing transfer of the current workspace.
+   -tree: List promotion requests only in these workspace trees.
+";
+

@@ -1,0 +1,124 @@
+mkCopyFw.Version.BuildLevel = "/P1 (Build /P2)";
+
+mkCopyFw.HelpBeginWindows = "\n",
+    "Framework duplication from an official to a user environment directory.\n",
+    "\n",
+    "Usage: mkCopyFw [-W WorkspacePath] -p Path1;Path2;... [-no|-o OS1 -o OS2 ...] [-update] [-remove]\n",
+    "                [-nm] [-sniff] [-d] [-f] [-jobs N] [-h, -?] [-v, -debug] [FW1 FW2 ... | -lFW PATH1] [-simul]\n";
+
+mkCopyFw.HelpBeginUnix = "\n",
+    "Framework duplication from an official to a user environment directory.\n",
+    "\n",
+    "Usage: mkCopyFw [-W WorkspacePath] -p Path1:Path2;... [-no|-o OS1 -o OS2 ...] [-update] [-remove]\n",
+    "                [-nm] [-sniff] [-d] [-f] [-jobs N] [-h, -?] [-v, -debug] [FW1 FW2 ... | -lFW PATH1] [-simul]\n";
+
+mkCopyFw.Option.W = "   -/P1 Workspace    : target workspace directory path name. If not specified,\n",
+                    "                     mkCopyFw uses current directory path name.";
+
+mkCopyFw.Option.p = "   -/P1 Path1...     : list of reference Workspaces where frameworks are searched for.";
+
+mkCopyFw.Option.no = "   -/P1             : derived objects will not been copied (only sources).";
+
+mkCopyFw.Option.np = "   -/P1             : protected interfaces will not been copied.";
+
+mkCopyFw.Option.o = "   -/P1 OS1 -/P1 OS2   : copy derived objects for this or these operating system only.";
+
+mkCopyFw.Option.d = "   -/P1              : copy DATA type directories.";
+
+mkCopyFw.Option.f = "   -/P1              : copy FUNCTION TESTS directories.";
+
+mkCopyFw.Option.remove = "   -/P1         : delete existing frameworks in the target Workspace before copying.";
+
+mkCopyFw.Option.update = "   -/P1         : copy frameworks (the default).\n",
+                         "                     NOTICE: mkCopyFw does not take care of deleted objects.";
+
+mkCopyFw.Option.sniff = "   -/P1          : copy SNIFF directories.";
+
+mkCopyFw.HelpEnd = "   FW1 FW2 ...     : list of frameworks to be copied.\n";
+
+mkCopyFw.Option.lFW = "   -/P1 PATH1      : path of the list of framework to take into account.";
+
+mkCopyFw.Option.nm = "   -/P1             : MODULE directories will not been copied (only Imakefile.mk). Ignored with -no.";
+
+mkCopyFw.Option.retry = "   -/P1 Nb       : number of retries when expanding.";
+
+mkCopyFw.Option.time = "   -/P1 Time      : wait time between retries in sec when expanding.";
+
+mkCopyFw.Option.copyretry = "   -/P1 Nb   : number of retries when copying.";
+
+mkCopyFw.Option.copytime = "   -/P1 Time  : wait time between retries in sec when copying.";
+
+mkCopyFw.Option.j = "   -/P1 N            : same as -jobs.";
+
+mkCopyFw.Option.jobs = "   -/P1 N         : max number of parallel copy processes (default is 5).";
+
+mkCopyFw.Option.h = "   -/P1              : produces help message.";
+
+mkCopyFw.Option.h.other = "   -/P1              : same as -h.";
+
+mkCopyFw.Option.v = "   -/P1              : verbose mode.";
+
+mkCopyFw.Option.debug = "   -/P1          : debug mode.";
+
+mkCopyFw.Option.simul = "   -/P1          : Simulation mode (get list of framework to copy & delete).";
+
+mkCopyFw.Option.simu = "   -/P1           : same as -simul.";
+
+mkCopyFw.Init = "/P1 : Starting mkCopyFw";
+
+mkCopyFw.MESSPL = "# mkmk-ERROR: Command -> Specify search path list with -p option.";
+
+mkCopyFw.BadOptErr = "# mkmk-ERROR: Command line -> Syntax error.";
+
+mkCopyFw.INFWSP = "# mkmk-INFO: /P1 -> Workspace directory.";
+
+mkCopyFw.MESFWPR = "# mkmk-ERROR: Command -> Cannot specify both '/P1' and '/P2' options.";
+
+mkCopyFw.INFREM = "# mkmk-INFO: Command -> -remove option has been specified!!";
+
+mkCopyFw.INFREP = "# mkmk-INFO: Command -> -update option has been specified!!";
+
+mkCopyFw.MESERP = "# mkmk-ERROR: /P1 -> This element is not accessible, it will not be used has search path.";
+
+mkCopyFw.MESNMP = "# mkmk-ERROR: Command -> No valid search path specified with -p option.";
+
+mkCopyFw.INFPUS = "# mkmk-INFO: /P1 -> will be used as a search path.";
+
+mkCopyFw.CannotLoadErr = "# mkmk-ERROR: /P1 -> Failed to load file.";
+
+mkCopyFw.MESFWM = "# mkmk-ERROR: Command -> Specify a framework.";
+
+mkCopyFw.MESOSD = "# mkmk-ERROR: Command -> Cannot specify both -o and -no options.";
+
+mkCopyFw.NotExistErr = "# mkmk-ERROR: /P1 -> This element does not exist.";
+
+mkCopyFw.MESRER = "# mkmk-ERROR: /P1 -> Failed to read.";
+
+mkCopyFw.MESEX3 = "# mkmk-INFO: /P1 -> This element already exists in [/P2] and will be removed.";
+
+mkCopyFw.MESEX1 = "# mkmk-WARNING: /P1 -> This element already exists in [/P2] and will be replaced.";
+
+mkCopyFw.MESNFD = "# mkmk-ERROR: /P1 -> Cannot locate this framework in any search path.";
+
+mkCopyFw.MESNMF = "# mkmk-ERROR: No more valid framework to copy.";
+
+mkCopyFw.INFSTR = "# mkmk-INFO: Start of the removal procedure.";
+
+mkCopyFw.INFSTC = "# mkmk-INFO: Start of the copy procedure.";
+
+mkCopyFw.INFNOM = "# mkmk-INFO: Will not copy module directories.";
+
+mkCopyFw.INFNOO = "# mkmk-INFO: Will not copy derived objects directories.";
+
+mkCopyFw.INFNOP = "# mkmk-INFO: Will not copy protected interfaces directories.";
+
+mkCopyFw.INFNOT = "# mkmk-INFO: Will not copy function tests directories.";
+
+mkCopyFw.INFNOD = "# mkmk-INFO: Will not copy data directories.";
+
+mkCopyFw.INFNOS = "# mkmk-INFO: Will not copy sniff directories.";
+
+mkCopyFw.Command = " With: /P1";
+
+mkCopyFw.CheckRetryWarn = "# mkmk-WARNING: Retrying retreive information about /P1 ";
+

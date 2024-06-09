@@ -1,0 +1,2181 @@
+# Fichier ENV pour ODT (mkodt)
+# Fonction pour initialiser l'env pour mode in-process :
+InprocessModeInit()
+{
+	#18.03.2009 WIB => in process init
+	  
+	if [ ! -e "$MkmkROOT_PATH/resources/TestAuto/mkodt_inprocess_init.sh" ];then
+		echo "## ERROR: mkodt_inprocess_init.sh not found in tools path"
+		exit 1
+	fi
+	. $MkmkROOT_PATH/resources/TestAuto/mkodt_inprocess_init.sh
+	if [ $? != 0 ];then
+		echo "## ERROR during mkodt_inprocess_init.sh"
+		exit 1
+	fi
+  
+}
+# Fonction pour vérifier la cohérence entre le mode rejoué et la VM server :
+CheckHeteroServer()
+{
+  #28.10.2008 WIB => Heterogeneous modes
+  
+  if [ "$DISABLE_SERVERVMCHECK" = "YES" ];then
+	return
+  fi
+  
+  if [  "$ADL_ODT_E4AEnvType" = "M1" ]; then
+	#Read last result from res_servervmcheck
+	
+	if [ -e $ADL_ODT_TMP/_tmp_mkodt_managed_results/result ];then
+		cat $ADL_ODT_TMP/_tmp_mkodt_managed_results/result | grep "SERVERVMCHECK=33" >$ADL_ODT_NULL
+		rc=$?
+		if [ $rc = 0 ]; then
+			check_rc=33
+		else
+			cat $ADL_ODT_TMP/_tmp_mkodt_managed_results/result | grep "SERVERVMCHECK=0" >$ADL_ODT_NULL
+			rc=$?
+			if [ $rc = 0 ]; then
+				check_rc=0
+			else
+				check_rc=1
+			fi
+		fi
+		
+	else
+
+		#Checking java existence
+		which $JAVA_HOME/bin/java >$ADL_ODT_NULL 2>&1
+		if [ $? != 0 ]; then
+	  		echo "## java not found in concatenation"
+			exit 1	  
+		fi
+			
+		#Checking JAR existences
+		WhichDir $MkmkOS_Buildtime/docs/javaserver/MkMngReplayServerCheck.jar >$ADL_ODT_NULL 2>&1
+		if [ $? != 0 ]; then
+	  		echo "## MkMngReplayServerCheck.jar not found in concatenation"
+			exit 1	  
+		fi
+		
+		#WhichDir $MkmkOS_Buildtime/docs/javaserver/eMatrixServletRMI.jar >$ADL_ODT_NULL 2>&1
+		#if [ $? != 0 ]; then
+	  	#	echo "## eMatrixServletRMI.jar not found in concatenation"
+		#	exit 1	  
+		#fi
+		
+		#WhichDir $MkmkOS_Buildtime/docs/javaserver/VPLMJarStarter.jar >$ADL_ODT_NULL 2>&1
+		#if [ $? != 0 ]; then
+	  	#	echo "## VPLMJarStarter.jar not found in concatenation"
+		#	exit 1	  
+		#fi
+			
+		WhichDir $MkmkOS_Buildtime/docs/javaserver/ENOSysJarStarter.jar >$ADL_ODT_NULL 2>&1
+		if [ $? != 0 ]; then
+	  		echo "## ENOSysJarStarter.jar not found in concatenation"
+			exit 1	  
+		fi
+		
+		if [ "$_MKODT_NO_VPLMCHECK" = "" ];then
+			$JAVA_HOME/bin/java -cp $(WhichDir $MkmkOS_Buildtime/docs/javaserver/ENOSysJarStarter.jar) -DVPLMrtvType=MKMK -DVPLMLoaderMainClass=com.dassault_systemes.mkmanagedreplay.mkmngreplayservercheck.ServerVMCheck com.dassault_systemes.enosysteminfra.enosysjarstarter.JarStarter
+			check_rc=$?
+		else
+			check_rc=$_MKODT_NO_VPLMCHECK
+		fi
+		
+		#save result value for next check
+		if [ ! -d $ADL_ODT_TMP/_tmp_mkodt_managed_results ];then
+			mkdir $ADL_ODT_TMP/_tmp_mkodt_managed_results
+		fi
+		echo "SERVERVMCHECK=$check_rc" > $ADL_ODT_TMP/_tmp_mkodt_managed_results/result		
+	
+	fi
+
+
+	if [ $check_rc = 33 ];then
+		if [ "$ODT_MANAGED_MODE" = "Java" ];then
+			echo "## ODT not Replayed: Replay mode ($ODT_MANAGED_MODE) and M1 server Virtual Machine are not compatible"
+			exit 0
+		else
+			#Replay ODT
+			return
+		fi
+	else
+		if [ $check_rc = 0 ];then
+			if [ "$ODT_MANAGED_MODE" != "Java" ];then
+				echo "## ODT not Replayed: Replay mode ($ODT_MANAGED_MODE) and M1 server Virtual Machine are not compatible"
+				exit 0
+			else
+				#Replay ODT
+				return
+			fi
+		else
+			echo "## Error detected in ServerVMCheck"
+			exit $check_rc
+		fi
+	fi
+  fi	
+  
+}
+# Fonctions pour positionner l'environnement ENOVIA (Typage VPMNAV et ENOVIA ) :
+CheckPLMSupport()
+{
+  if [ "$PERTINENCE" = "Yes" ];then
+    echo "Pertinence traces : OS Support defined"
+  fi
+  if [ "$valeur" = "COMMON" ];then
+    IsIn=1
+  else
+    for osmode in $ADL_ODT_AUTH_OSMODE
+    do
+      if [ "$valeur" = "$osmode" ];then
+        IsIn=1
+      fi
+    done  
+    if [ "$IsIn" != 1 ];then
+      echo "## ODT $valeur not replayed on $MkodtOS_Runtime."
+      exit 0
+    fi
+  fi
+  
+}
+    
+InternSetE4ALLEnv()
+{
+# 1- Positionnement de ADL_ODT_PROVIDER :
+	#if [ "$_MKODT_NO_VPLMCHECK" = "" ];then
+	#	# Verification que GetVPLMProvider est bien trouve dans la concatenation : 
+ 	#	which GetVPLMProvider > $ADL_ODT_NULL 2>&1
+	#	if [ $? != 0 ]; then 
+	#	  echo "## ERROR : GetVPLMProvider was not found in the concatenation : Abort..."
+	#	  exit 45
+	#	fi
+	#	ADL_ODT_PROVIDER=$(GetVPLMProvider)
+	#	rc=$?
+    #else
+	#	ADL_ODT_PROVIDER=PLMx
+	#	rc=0
+	#fi
+	
+	#21.08.2009 WIB => R208 no need to call GetVPLMProvider anymore
+	ADL_ODT_PROVIDER=PLM1
+    export ADL_ODT_PROVIDER
+    
+  	# Verification que GetVPLMProvider s'est bien passe (rc=0): 
+    #if [ $rc != 0 ]; then 
+	#  echo "## ERROR : GetVPLMProvider exited with rc = $rc : Abort..."
+    #  exit 45    
+    #fi
+   	
+   	# Verification que ADL_ODT_PROVIDER n'est pas vide : 
+    if [ -z "$ADL_ODT_PROVIDER" ];then
+      echo "## ERROR : The GetVPLMProvider module returned a NULL string to set ADL_ODT_PROVIDER : Abort..."
+      exit 45    
+    fi
+# 2- Appel de PLMDBSetupB :
+  if [ -z "$PLMDBSETUPENV" ];then
+    if [ "$ADL_FR_CATIA" = "R205" ];then
+      #echo "Launching PLMDBSetupB..."
+      rc=1
+      if [ -z "$RDBMS" ];then
+        echo "## ERROR : Environment variable RDBMS is empty...."
+        echo "## ERROR : PLMDBSetupB can not be launched..."
+        echo "## ERROR : Please check that the E4All environment is properly set..."
+        exit 45
+      fi
+      if [ "$MkmkOS_NAME" = "Windows_NT" ];then  
+        export DoNotInstrumentNextExecutables=1
+        if [ "$RDBMS" = "ORACLE" ];then
+          cmdPLMDB="\"PLMDBSetupB -light -regen_envfile_and_settings_only -db_vendor $RDBMS -db $DATABASE_NAME -dic_owner tacr:ovbupc -oracle_home $IT_ORACLE_HOME -connect tacr:ovbupc -tbs TACR -adm ${USERDOMAIN}@tacr:ovbupc -tns_path $IT_TNS_ADMIN\""
+          PLMDBSetupB -light -regen_envfile_and_settings_only -db_vendor $RDBMS -db $DATABASE_NAME -dic_owner tacr:ovbupc -oracle_home $IT_ORACLE_HOME -connect tacr:ovbupc -tbs TACR -adm ${USERDOMAIN}@tacr:ovbupc -tns_path $IT_TNS_ADMIN > $ADL_ODT_NULL 2>&1
+          rc=$?
+        fi
+        if [ "$RDBMS" = "DB2" ];then
+          cmdPLMDB="\"PLMDBSetupB -light -regen_envfile_and_settings_only -db_vendor $RDBMS -instance $IT_DB2INSTANCE -db $DATABASE_NAME -dic_owner tacr -connect tacr:ovbupc -tbs TACR -adm ${USERDOMAIN}@tacr:ovbupc\""
+          PLMDBSetupB -light -regen_envfile_and_settings_only -db_vendor $RDBMS -instance $IT_DB2INSTANCE -db $DATABASE_NAME -dic_owner tacr -connect tacr:ovbupc -tbs TACR -adm ${USERDOMAIN}@tacr:ovbupc > $ADL_ODT_NULL 2>&1
+          rc=$?
+        fi
+  	    unset DoNotInstrumentNextExecutables
+      else
+        if [ "$RDBMS" = "ORACLE" ];then
+          cmdPLMDB="\"PLMDBSetupB -light -regen_envfile_and_settings_only -db_vendor $RDBMS -db $DATABASE_NAME -dic_owner tacr:ovbupc -oracle_home $IT_ORACLE_HOME -connect tacr:ovbupc -tbs TACR -adm tacr:ovbupc -tns_path $IT_TNS_ADMIN\""
+          PLMDBSetupB -light -regen_envfile_and_settings_only -db_vendor $RDBMS -db $DATABASE_NAME -dic_owner tacr:ovbupc -oracle_home $IT_ORACLE_HOME -connect tacr:ovbupc -tbs TACR -adm tacr:ovbupc -tns_path $IT_TNS_ADMIN > $ADL_ODT_NULL 2>&1
+          rc=$?
+        fi
+        if [ "$RDBMS" = "DB2" ];then
+          cmdPLMDB="\"PLMDBSetupB -light -regen_envfile_and_settings_only -db_vendor $RDBMS -instance $IT_DB2INSTANCE -db $DATABASE_NAME -dic_owner tacr -connect tacr:ovbupc -tbs TACR -adm tacr:ovbupc\""
+          PLMDBSetupB -light -regen_envfile_and_settings_only -db_vendor $RDBMS -instance $IT_DB2INSTANCE -db $DATABASE_NAME -dic_owner tacr -connect tacr:ovbupc -tbs TACR -adm tacr:ovbupc > $ADL_ODT_NULL 2>&1
+          rc=$?
+        fi
+      fi
+      export PLMDBSETUPENV=1
+      if [ $rc != 0 ];then
+        echo "## ERROR : Problem during PLMDBSetupB execution."
+        echo "####################################################"
+        echo "## PLMDBSetupB Command Line :"
+        printf "## %s\n" "$cmdPLMDB" 
+        echo "##"
+        echo "## Content of the file \$ADL_ODT_TMP/SetupPLMDB.log :"
+        echo "##"
+        cat $ADL_ODT_TMP/SetupPLMDB.log
+        echo "##"
+        echo "## End of \$ADL_ODT_TMP/SetupPLMDB.log"
+        echo "####################################################"
+        echo "## ERROR : The environment is not properly set : Abort..."
+        exit 45
+      fi
+      cp $ITtoolsUserSettingPath/ImmersiveLogon.CATSettings $CATUserSettingPath > $ADL_ODT_NULL 2>&1
+      cp $ITtoolsUserSettingPath/PLMServers.CATSettings $CATUserSettingPath > $ADL_ODT_NULL 2>&1
+      if [ "$MkmkOS_NAME" = "Windows_NT" ];then  
+        export FILE_ENV=YES
+        catstart.exe -direnv $ADL_ODT_TMP\CATEnv -s -noconsole -run "sh -c $0 2>&1"
+	    rcodt=$?
+        unset FILE_ENV
+      else
+# SUR HP : $0 vaut InternSetE4ALLEnv!!!
+        if [ "$MkmkOS_NAME" != "HP-UX" ];then
+          if [ "$MkmkOS_NAME" != "SunOS" ];then
+            MODNAME="$0"
+          else
+            echo "ENV=\$ENV_mkodt" > $ADL_ODT_TMP/CATEnv/GetPLMEnvODT.sh
+            echo "export ENV" >> $ADL_ODT_TMP/CATEnv/GetPLMEnvODT.sh
+            echo ". \$ENV" >> $ADL_ODT_TMP/CATEnv/GetPLMEnvODT.sh
+            echo "$SUBODT_PROGNAME" >> $ADL_ODT_TMP/CATEnv/GetPLMEnvODT.sh
+            chmod +x $ADL_ODT_TMP/CATEnv/GetPLMEnvODT.sh
+            MODNAME=$ADL_ODT_TMP/CATEnv/GetPLMEnvODT.sh
+          fi
+        else
+          echo "$SUBODT_PROGNAME" | grep $ODT_LOG_NAME > $ADL_ODT_NULL 2>&1
+          if [ $? = 0 ];then
+            MODNAME="$SUBODT_PROGNAME"
+          else
+            MODNAME=/usr/bin/ksh
+          fi
+        fi  
+        export FILE_ENV=YES
+        catstart -direnv $ADL_ODT_TMP/CATEnv -env $CATDefaultEnvironment -s -run "$MODNAME 2>&1"
+        rcodt=$?
+        unset FILE_ENV
+      fi
+      exit $rcodt
+    else
+      if [ ! -d $CATUserSettingPath ];then 
+        mkdir -p $CATUserSettingPath > $ADL_ODT_NULL 2>&1
+      fi
+      cp $ITtoolsUserSettingPath/ImmersiveLogon.CATSettings $CATUserSettingPath > $ADL_ODT_NULL 2>&1
+      cp $ITtoolsUserSettingPath/PLMServers.CATSettings $CATUserSettingPath > $ADL_ODT_NULL 2>&1
+    fi
+  fi
+}
+
+# Fonctions pour positionner l'environnement V4 :
+InternSetV4Env()
+{
+  if [ ! -z "$1" ];then
+    export ODT=$1
+  else
+    if [ -z "$ODT" ];then
+      export ODT=$ODT_LOG_NAME
+    fi
+  fi
+  #export CATDEC=$CATDEC_INI:${DIR_SITE}/dec:$AUTO_OUT/decdata
+ 
+  #if [ -z "$V4_SUPENV" ];then
+  #  IFS=":"
+  #  for  s in $MkmkROOT_PATH
+  #  do
+  #    if [ -r  $s/resources/TestAuto/setV4odtenv.sh -a -z "$V4_SUPENV" ]; then
+  #      export V4_SUPENV=$s/resources/TestAuto/setV4odtenv.sh
+  #    fi  
+  #  done
+  #  unset IFS 
+  #fi
+      
+#Positionnement de l'environnement V4 :
+  #if [ "$SETV4ENV" != "YES" ];then
+  #  grep "^SetOdtParam TYPE=AEC" $0 > $ADL_ODT_NULL 2>&1
+  #  if [ $? != 0 ];then
+  #    . $V4_SUPENV
+  #  else
+  #    if [ "$AEC_REP" = "YES" ];then
+#	echo "Executing $V4_SUPENV..."
+ #       . $V4_SUPENV
+  #    fi
+  #  fi
+  #fi
+}
+SetMDFStepEnv()
+{
+  # Verification que l'ODT courant est de TYPE MDFV4 :
+  if [ "$ODTV4TYPE" != "MDFV4" ];then
+    echo "## ERROR : The SetMDFStepEnv function can be used in a MDFV4 odt typed only." && exit 14
+  fi
+  if [ -f "$ADL_ODT_TMP/USRENV.dcls.save" ];then
+    cp $ADL_ODT_TMP/USRENV.dcls.save $ADL_ODT_TMP/USRENV.dcls
+  else
+    cp $ADL_ODT_TMP/USRENV.dcls $ADL_ODT_TMP/USRENV.dcls.save
+  fi
+  export ODT=$1
+  InternSetV4Env $1
+
+if [ "$2" = "REC" ];then
+  SetOdtParam TYPE=RECORDV4
+fi
+if [ "$2" = "BAT" ];then
+  SetOdtParam TYPE=BATCHV4
+fi
+if [ "$2" = "GEO" ];then
+  SetOdtParam TYPE=CATGEOV4
+fi
+}
+# FIN des Fonctions pour positionner l'environnement V4 
+
+
+ODTInit()
+{
+	if [ -z "$MKODT_IS_ODTINIT" ]
+    then
+		ODTInitOLD $*
+		return $?
+	fi
+	
+
+	typeset -i flag_TSTPROV=0
+
+	while [ "$1" != "" ]
+	do
+		case $1 in 
+			-TSTPROVIDER) flag_TSTPROV=1;;
+			*) logicname=$1;;
+
+		esac
+		shift
+	done
+    
+	if [ -z "$PERTINENCE" ]
+    then
+		PERTINENCE=No
+	fi
+	if [ $PERTINENCE != "No" ]
+	then
+		return 0
+	fi	
+
+	_MKODT_LOCK_FILE=$ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}ODTInit.lock
+	_MKODT_UNLOCK_FILE=$ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}ODTInit.unlock
+	_MKODT_TIME_FILE=$ADL_ODT_TMP${ADL_ODT_SLASH}mkodt_timestamp
+
+	while true
+	do
+  		if [ ! -f $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}Result.ODTInit ]
+		then		
+			mv $_MKODT_UNLOCK_FILE $_MKODT_LOCK_FILE > $ADL_ODT_NULL 2>&1
+			rclock=$?
+  			if [ $rclock != 0 ]
+			then
+				echo "ODTInit is run by another ODT (found lock file), sleeping 10s..."
+				if [ -f $_MKODT_LOCK_FILE ]
+				then
+					#an ODT is launching init
+					sleep 10				
+					time_of_lock=`cat $_MKODT_LOCK_FILE`
+					current_time=`cat $_MKODT_TIME_FILE`
+					let time_diff=$current_time-$time_of_lock
+					if [ $time_diff -gt 0 ]
+					then
+						echo "Lock file is out-of-date, unlocking ODTInit..."
+						mv $_MKODT_LOCK_FILE $_MKODT_UNLOCK_FILE > $ADL_ODT_NULL 2>&1
+						continue
+					fi					
+				else
+					if [ ! -f $_MKODT_UNLOCK_FILE ]
+					then
+						#Situation pas normale
+						echo "no lock file & no unlock file, recreating unlock file..."
+						mkdir -p $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname$
+						touch $_MKODT_UNLOCK_FILE
+						sleep 1
+						continue
+					fi												
+				fi		
+			else
+				current_date_to_save=`cat $_MKODT_TIME_FILE`
+				delta_seconds_to_add=3600
+				let sum_to_save=$current_date_to_save+$delta_seconds_to_add
+				echo $sum_to_save > $_MKODT_LOCK_FILE			
+				break
+			fi
+		else			
+			break
+		fi
+	done		
+  	
+  	
+  	if [ -f $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}Result.ODTInit ]
+	then
+		export ADL_INIT_UUID=$(< $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}ADL_INIT_UUID.value )
+		RC=$(< $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}Result.ODTInit)
+ 		if [ $RC = 0 ]
+		then
+			RetC=0
+			echo "########################################"
+  			echo "## ++ RESULT : Init already OK."
+			echo Init executed by : $(< $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}ODTNameExecInit.txt)
+			echo "Init TRACES :"
+			cat $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}$logicname.traces 
+ 	        #Specificite option -TSTPROVIDER :
+            if [ $flag_TSTPROV -eq 1 ];then
+              if [ -d $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}TSTPROVIDER ];then
+                cp -r $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}TSTPROVIDER/* $ADL_ODT_TSTPROVIDER >$ADL_ODT_NULL 2>&1
+                if [ $? != 0 ];then
+                  echo "## ERROR : Unable to copy TSTPROVIDER datas in $ADL_ODT_TSTPROVIDER."
+                fi
+              else
+                   echo "## ERROR : Unable to find TSTPROVIDER datas in $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}TSTPROVIDER , aborting..."
+                   RetC=41          
+              fi  
+            fi
+			echo "########################################"
+			if [ $RetC = 0 ];then
+				return $RetC		
+			else
+				exit $RetC
+			fi			
+		else
+			echo "########################################"
+			echo "## ++ RESULT : Init already KO : RC=$RC."
+			echo Init executed by : $(< $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}ODTNameExecInit.txt)
+			echo "Init TRACES :"
+			cat $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}$logicname.traces 
+	        #Specificite option -TSTPROVIDER :
+            if [ $flag_TSTPROV -eq 1 ];then
+              if [ -d $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}TSTPROVIDER ];then
+                echo "COPIE OUT"
+                cp -r $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}TSTPROVIDER/* $ADL_ODT_TSTPROVIDER >$ADL_ODT_NULL 2>&1
+                if [ $? != 0 ];then
+                  echo "## WARNING : Unable to copy TSTPROVIDER datas in $ADL_ODT_TSTPROVIDER."
+                fi
+              else
+                   echo "## ERROR : Unable to find TSTPROVIDER datas in $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}TSTPROVIDER , aborting..."
+              fi
+            fi
+			echo "########################################"
+			exit 50		
+		fi		
+	else
+		export ADL_INIT_UUID=$(echo $ADL_ODT_UUID | sed -e 's+^o+i+g')
+			
+		echo $ADL_INIT_UUID > $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}ADL_INIT_UUID.value
+		echo $ODT_LOG_NAME > $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}ODTNameExecInit.txt
+		echo "########################################"
+		echo "Executing Init..."
+		if [ "$MkmkOS_NAME" != "Linux" ];then
+			$ADL_ODT_IN${ADL_ODT_SLASH}ODTInit_$logicname.sh > $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}$logicname.traces 2>&1
+			RC=$?
+		else
+			$(WhichDir $OS/code/command/LaunchShellScript.sh) $ADL_ODT_IN${ADL_ODT_SLASH}ODTInit_$logicname.sh > $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}$logicname.traces 2>&1
+			RC=$?
+        fi
+	    
+		# Specificite option -TSTPROVIDER : Recopie des donnees TSTPROVIDER datas dans ADL_ODT_OUT
+		if [ $flag_TSTPROV -eq 1 ];then
+			cp -r $ADL_ODT_TSTPROVIDER $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname > $ADL_ODT_NULL 2>&1
+			if [ $? != 0 ];then
+				echo "## ERROR : Unable to copy TSTPROVIDER datas in $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname , aborting..." >> $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}$logicname.traces 2>&1
+				RC=41
+			fi
+		fi
+		echo "Init TRACES :"
+		cat $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}$logicname.traces 
+		# Test sur RC pour voir si la creation de la part s'est bien passee:
+ 		if [ $RC != 0 ]
+		then
+    		echo "## ++ RESULT : Init KO : RC=$RC."
+    		echo $RC > $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}Result.ODTInit
+			echo "########################################"
+			
+			mv $_MKODT_LOCK_FILE $_MKODT_UNLOCK_FILE
+			
+			exit 50
+		else
+  			echo "## ++ RESULT : Init OK."
+  			echo 0 > $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}Result.ODTInit
+ 			echo "########################################"
+			
+			mv $_MKODT_LOCK_FILE $_MKODT_UNLOCK_FILE
+			
+			return 0
+		fi		
+	fi
+  	
+  	return 0
+}
+
+ODTInitOLD()
+{
+  typeset -i flag_TSTPROV=0
+
+  while [ "$1" != "" ]
+  do
+    case $1 in 
+      -TSTPROVIDER) flag_TSTPROV=1;;
+      *) logicname=$1;;
+
+    esac
+    shift
+  done
+    
+  if [ -z "$PERTINENCE" ]
+    then
+        PERTINENCE=No
+  fi
+  if [ $PERTINENCE = "No" ]
+  then	
+  	if [ -f $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}Result.ODTInit ]
+	then
+    # Test pour verifier si l'init s'est bien passee :
+  	    while [ -f $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}ODTInit.lock ]
+	    do
+		  sleep 10
+		done
+		export ADL_INIT_UUID=$(< $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}ADL_INIT_UUID.value )
+		RC=$(< $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}Result.ODTInit)
+ 		if [ $RC = 0 ]
+		then
+			RetC=0
+			echo "########################################"
+  			echo "## ++ RESULT : Init already OK."
+			echo Init executed by : $(< $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}ODTNameExecInit.txt)
+			echo "Init TRACES :"
+			cat $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}$logicname.traces 
+ 	        #Specificite option -TSTPROVIDER :
+            if [ $flag_TSTPROV -eq 1 ];then
+              if [ -d $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}TSTPROVIDER ];then
+                cp -r $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}TSTPROVIDER/* $ADL_ODT_TSTPROVIDER >$ADL_ODT_NULL 2>&1
+                if [ $? != 0 ];then
+                  echo "## ERROR : Unable to copy TSTPROVIDER datas in $ADL_ODT_TSTPROVIDER."
+                fi
+              else
+                   echo "## ERROR : Unable to find TSTPROVIDER datas in $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}TSTPROVIDER , aborting..."
+                   RetC=41          
+              fi  
+            fi
+			echo "########################################"
+			if [ $RetC = 0 ];then
+			  return $RetC		
+			else
+			  exit $RetC
+			fi
+		else
+			echo "########################################"
+			echo "## ++ RESULT : Init already KO : RC=$RC."
+			echo Init executed by : $(< $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}ODTNameExecInit.txt)
+			echo "Init TRACES :"
+			cat $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}$logicname.traces 
+	        #Specificite option -TSTPROVIDER :
+            if [ $flag_TSTPROV -eq 1 ];then
+              if [ -d $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}TSTPROVIDER ];then
+                echo "COPIE OUT"
+                cp -r $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}TSTPROVIDER/* $ADL_ODT_TSTPROVIDER >$ADL_ODT_NULL 2>&1
+                if [ $? != 0 ];then
+                  echo "## WARNING : Unable to copy TSTPROVIDER datas in $ADL_ODT_TSTPROVIDER."
+                fi
+              else
+                   echo "## ERROR : Unable to find TSTPROVIDER datas in $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}TSTPROVIDER , aborting..."
+              fi
+            fi
+			echo "########################################"
+			exit 50
+		fi
+	else 
+		mkdir $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname > $ADL_ODT_NULL 2>&1
+		#Si ODTInit.lock et que Result.ODTInit n'existe pas => l'ODTInit a ete kille en max_time :
+		if [ -f $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}ODTInit.lock ];then
+		  echo "## ++ WARNING : ODTInit $logicname has already been launched by $(< $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}ODTNameExecInit.txt)."
+		  echo "## ++ WARNING : This ODTInit has probably been killed in max_time."
+echo 
+		  echo ## Init TRACES launched by $(< $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}ODTNameExecInit.txt)
+  		  cat $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}$logicname.traces 
+		  echo "########################################"
+		  echo 
+		  echo 
+		  echo "## ++ WARNING : Launching again the ODTInit $logicname:"
+		fi
+		touch $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}ODTInit.lock > $ADL_ODT_NULL 2>&1
+		export ADL_INIT_UUID=$(echo $ADL_ODT_UUID | sed -e 's+^o+i+g')
+	fi	
+	
+	echo $ADL_INIT_UUID > $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}ADL_INIT_UUID.value
+	echo $ODT_LOG_NAME > $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}ODTNameExecInit.txt
+	echo "########################################"
+	echo "Executing Init..."
+	if [ "$MkmkOS_NAME" != "Linux" ];then
+	  $ADL_ODT_IN${ADL_ODT_SLASH}ODTInit_$logicname.sh > $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}$logicname.traces 2>&1
+	  RC=$?
+        else
+          $(WhichDir $OS/code/command/LaunchShellScript.sh) $ADL_ODT_IN${ADL_ODT_SLASH}ODTInit_$logicname.sh > $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}$logicname.traces 2>&1
+	  RC=$?
+        fi
+	export RM_ENV=YES
+	rm $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}ODTInit.lock > $ADL_ODT_NULL 2>&1
+	unset RM_ENV
+    
+    # Specificite option -TSTPROVIDER : Recopie des donnees TSTPROVIDER datas dans ADL_ODT_OUT
+    if [ $flag_TSTPROV -eq 1 ];then
+      cp -r $ADL_ODT_TSTPROVIDER $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname > $ADL_ODT_NULL 2>&1
+      if [ $? != 0 ];then
+        echo "## ERROR : Unable to copy TSTPROVIDER datas in $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname , aborting..." >> $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}$logicname.traces 2>&1
+        RC=41
+      fi
+    fi
+	echo "Init TRACES :"
+	cat $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}$logicname.traces 
+# Test sur RC pour voir si la creation de la part s'est bien passee:
+ 	if [ $RC != 0 ]
+	then
+    		echo "## ++ RESULT : Init KO : RC=$RC."
+    		echo $RC > $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}Result.ODTInit
+		echo "########################################"
+		exit 50
+	else
+  		echo "## ++ RESULT : Init OK."
+  		echo 0 > $ADL_ODT_OUT${ADL_ODT_SLASH}$logicname${ADL_ODT_SLASH}Result.ODTInit
+ 		echo "########################################"
+		return 0
+	fi
+  else
+  	return 0
+fi
+}
+
+WhichDir()
+{
+  Find=NO
+  printf "%s" "$*"| grep "^$OS" > $ADL_ODT_NULL 2>&1
+  if [ $? != 0 ];then
+    for WSPREQ in $ADL_ODT_CONCATENATION
+    do
+      if [ "$WSPREQ" != "" ]
+      then
+      #echo $WSPREQ/$1
+        if [ -d $WSPREQ/$1 -o -r $WSPREQ/$1 ]
+        then
+          if [ "$MkmkOS_NAME" = "Windows_NT" ];then  
+            printf "%s" "$WSPREQ/$1"|sed -e 's+/+\\+g'
+          else
+            echo $WSPREQ/$*
+          fi
+          return 0
+        fi
+      fi
+    done
+    printf "%s\n" "${1}_Not_Found"
+    return 1
+
+  else
+    if [ "$MkmkOS_NAME" = "Windows_NT" ];then  
+      IFS=";"
+	else
+	  IFS=":"
+	fi
+    for WSPREQ in $MKMK_LST_RTV
+    do
+      if [ "$WSPREQ" != "" ]
+      then
+        #echo $WSPREQ/$1
+        if [ -d $WSPREQ/$1 -o -r $WSPREQ/$1 ]
+        then
+          unset IFS
+          if [ "$MkmkOS_NAME" = "Windows_NT" ];then  
+            printf "%s" "$WSPREQ/$1"|sed -e 's+/+\\+g'
+          else
+            echo $WSPREQ/$*
+          fi
+          return 0
+        fi
+      fi
+    done
+    unset IFS
+    printf "%s\n" "${1}_Not_Found"
+    return 1
+  fi 
+}
+WhichRTVDir()
+{
+	if [ "$MkmkOS_NAME" = "Windows_NT" ];then  
+	  IFS=";"
+	else
+	  IFS=":"
+	fi
+	for WSPREQ in $MKMK_LST_RTV
+	do
+	  if [ "$WSPREQ" != "" ]
+	  then
+		#echo $WSPREQ/$1
+		if [ -d $WSPREQ/$OS/$1 -o -r $WSPREQ/$OS/$1 ]
+		then
+		  unset IFS
+		  if [ "$MkmkOS_NAME" = "Windows_NT" ];then  
+			printf "%s" "$WSPREQ/$OS/$1"|sed -e 's+/+\\+g'
+		  else
+			echo $WSPREQ/$OS/$*
+		  fi
+		  return 0
+		fi
+	  fi
+	done
+	unset IFS
+	printf "%s\n" "${1}_Not_Found"
+	return 1
+}
+WhichDocDir()
+{
+	if [ "$MkmkOS_NAME" = "Windows_NT" ];then  
+	  IFS=";"
+	else
+	  IFS=":"
+	fi
+	for WSPREQ in $MKMK_LST_RTV
+	do
+	  if [ "$WSPREQ" != "" ]
+	  then
+		#echo $WSPREQ/$1
+		if [ -d $WSPREQ/doc/$1 -o -r $WSPREQ/doc/$1 ]
+		then
+		  unset IFS
+		  if [ "$MkmkOS_NAME" = "Windows_NT" ];then  
+			printf "%s" "$WSPREQ/doc/$1"|sed -e 's+/+\\+g'
+		  else
+			echo $WSPREQ/doc/$*
+		  fi
+		  return 0
+		fi
+	  fi
+	done
+	unset IFS
+	printf "%s\n" "${1}_Not_Found"
+	return 1
+}
+WhichJar()
+{
+	jar=$(WhichDir $MkmkOS_VAR/docs/javaserver/$*)
+	if [ $? != 0 ]
+	then
+		jar=$(WhichDir $MkmkOS_VAR/docs/javacommon/$*)
+		if [ $? != 0 ]
+		then
+			jar=$(WhichDir $MkmkOS_VAR/docs/java/$*)
+		fi
+	fi
+	if [ "$MkmkOS_NAME" = "Windows_NT" ];then  
+		printf "%s" $jar|sed -e 's+/+\\+g'
+	else
+		echo $jar
+	fi
+	return $?
+}
+SetOdtParamInit()
+{
+echo $* >>$ADL_ODT_PARAM.Init
+
+valeur=${1#*=}
+motcle=${1%=*}
+
+if [ "$motcle" = "max_time" ] ; then
+	export ADL_ODT_MAXTIME=$(($ADL_ODT_MAXTIME+$valeur))
+fi
+
+}
+
+SetOdtParam()
+{
+echo $* >>$ADL_ODT_PARAM
+chmod 777 $ADL_ODT_PARAM > $ADL_ODT_NULL 2>&1
+if [ "${1%=*}" = "USER" ]; then
+  if [ ${1#*=} = "root" ];then
+    if [ "$debuggerMode" = "moleFinder" ];then
+	  echo "## ODT not Replayed in moleFinder mode and using root for username"
+      exit 0
+	fi
+  fi
+  if [ "$SETODTPARAMUSER" = "${1#*=}" ]; then
+    \export $MkmkSHLIB_NAME=$SETODTPARAMUSER_LD
+    export OS=$MkmkOS_VAR
+  else
+    \export SETODTPARAMUSER="${1#*=}"
+    eval export SETODTPARAMUSER_LD=\$$MkmkSHLIB_NAME
+    typeset -u useruppercase="${1#*=}"
+    typeset -u newuseruppercase="$USERNAME"
+    if [ "$MkmkOS_NAME" = "Windows_NT" -a "$newuseruppercase" = "$useruppercase" ]; then
+      echo "## User is ${1#*=}"
+    else
+      if [ "$whence_ro" != "" ]; then
+        echo "## Changing user to ${1#*=}"
+		printf "#! /bin/ksh\nENV='%s'\nexport ENV\n. \$ENV\n. %s\n" "$ENV" "$SUBODT_PROGNAME" > $ADL_ODT_TMP/RunOdtWithNewUser.sh
+        chmod a+x $ADL_ODT_TMP/RunOdtWithNewUser.sh
+		if [ ${1#*=} = "root" ];then
+			if [ "$MkmkOS_NAME" != "Darwin" ]; then
+				\exec $whence_ro $ADL_ODT_TMP/RunOdtWithNewUser.sh
+			else
+				\exec $whence_ro -E $ADL_ODT_TMP/RunOdtWithNewUser.sh
+			fi
+		else
+			if [ "$MkmkOS_NAME" != "Darwin" ]; then
+				\exec $whence_ro su ${1#*=} $ADL_ODT_TMP/RunOdtWithNewUser.sh
+			else
+				\exec $whence_ro -E su ${1#*=} $ADL_ODT_TMP/RunOdtWithNewUser.sh
+			fi
+		fi
+      else
+        echo "## Unable to change to user ${1#*=}, running with current user"
+      fi
+    fi
+  fi
+fi
+
+valeur=${1#*=}
+motcle=${1%=*}
+
+if [ "$motcle" = "max_time" ] ; then
+	export ADL_ODT_MAXTIME=$valeur
+fi
+
+if [ "$motcle" = "TYPE" ] ; then
+      if [ "$ReplayExcludType" != "" ] ; then
+        for valExclud in $(echo $ReplayExcludType| sed -e 's/&/ /g') ;do
+          if [ "$valeur" = "$valExclud" ] ; then
+            if [ "$PERTINENCE" = "Yes" ];then
+              exit 127
+            fi
+            echo "## ODT not Replayed on Developer Request Excluded parameter: $valeur"
+            exit 0
+          fi 
+        done
+      fi
+
+########################### INTEROP ##############################
+ITP_TYPE=${valeur#*_}
+ITP=${valeur%_*}
+if [ "$ITP" = "INTEROP" ];then
+  if [ -z "$INTEROP_SUPENV" ]; then
+    if [ "$OS_NAME" = "Windows_NT" ]; then
+	  #Ajout du CATCommandPath dans le PATH
+	  \export PATH="$PATH${ADL_ODT_SEPARATOR}$(readcatenv -e $CATDefaultEnvironment -a user -var CATCommandPath | sed -e 's/CATCommandPath=//g')"
+    fi
+	which SetITPEnv_${ITP_TYPE}.sh > $ADL_ODT_NULL 2>&1
+    if [ $? = 0 ]; then 
+      if [ "$OS_NAME" = "Windows_NT" ]; then
+        export ITP_SUPENV="$(which SetITPEnv_${ITP_TYPE}.sh | sed -e 's+\\+/+g')"
+	  else
+	    export ITP_SUPENV="$(which SetITPEnv_${ITP_TYPE}.sh )"
+	  fi
+	  if [ "$PERTINENCE" != "Yes" ];then
+        echo "## Using environment extension [$ITP_SUPENV]"
+        . $ITP_SUPENV
+      fi
+    else 
+      echo "## WARNING : The command SetITPEnv_${ITP_TYPE}.sh was not found in the concatenation."
+      echo "## WARNING : Chech your concatenation or set the environment variable INTEROP_SUPENV."
+	  
+      #if [ "$OS_NAME" = "Windows_NT" ]; then
+      #  IFS=";"
+      #else
+      #  IFS=":"
+      #fi
+      #for  s in $MkmkROOT_PATH
+      #do
+      #  if [ -r  $s/code/command/INTEROP_SUPENV.sh ]; then
+      #    export INTEROP_SUPENV=$s/code/command/INTEROP_SUPENV.sh 
+	  #  fi  
+      #done
+      #unset IFS 
+      #if [ -z "$INTEROP_ENV" ] ;then
+      #  if [ "$INTEROP_SUPENV" != "" ];then
+      #    if [ "$PERTINENCE" != "Yes" ];then
+      #      echo "## Using environment extension [$INTEROP_SUPENV]"
+      #      . $INTEROP_SUPENV
+      #      export INTEROP_ENV="OK"
+      #    fi
+      #  else
+      #    echo "## WARNING : The environment variable INTEROP_SUPENV is not set."
+      #    echo "## WARNING : The file INTEROP_SUPENV.sh was not found in $MkmkROOT_PATH."
+      # fi
+      #fi
+	fi
+  else
+    if [ -z "$INTEROP_ENV" ] ;then
+      if [ "$PERTINENCE" != "Yes" ];then
+        echo "## Using environment extension [$INTEROP_SUPENV]"
+        . $INTEROP_SUPENV
+        export INTEROP_ENV="OK"
+      fi
+    fi
+  fi
+  if [ -z "$ADL_ODT_UUID" ];then
+    export ADL_ODT_UUID="$CATDefaultEnvironment"$$"$(date '+%T' | sed -e 's/://g'| sed -e 's/ //g')"
+	#export ADL_ODT_UUID="$CATDefaultEnvironment"_$$_"$(date '+%e%T%Y' | sed -e 's/://g'| sed -e 's/ //g')"_$RANDOM
+  fi
+fi
+
+########################### INTEROP ##############################
+
+fi
+if [ "$1" = "TYPE=VPMNAV" ];then
+  export ADL_ODT_VPMNAV=1 
+  
+  if [ -z "$JAVA_HOME" ];then
+    export JAVA_HOME=$JREROOT_PATH
+  fi
+  if [ ! -z "$PLMDBSetup_Mode" ] && [ -z "$NO_PLMDBSetup_Mode" ];then
+    InternSetE4ALLEnv
+  else
+    if [  "$ENOVIA_ENV" != "OK" ]; then
+      if [ "$ENOVIA_SUPENV" != "" ];then
+        if [ "$PERTINENCE" != "Yes" ];then
+          . $ENOVIA_SUPENV
+	    fi
+ 	    export ENOVIA_ENV="OK"
+      fi
+    fi
+  fi
+  
+  # 28.10.2008 WIB => Check VM Server
+  if [ "$CHK_HETERO_SERVER" = "2" ];then
+	CheckHeteroServer
+	export CHK_HETERO_SERVER=-1
+  else
+	if [ "$CHK_HETERO_SERVER" != "-1" ];then
+		export CHK_HETERO_SERVER=1
+	fi
+  fi
+
+  #if [ "$TEST_MKODT_INPROCESS" != "" ];then
+	# 18.03.2009 WIB => INPROCESS MODE
+	if [ "$ODT_INPROCESS_MODE" != "" ];then
+		InprocessModeInit
+	fi  
+  #fi 
+  
+fi
+
+if [ "$1" = "TYPE=RECORD" ];then
+  echo "## ODT type: Record "
+  #\export CATUSERPATH="$ADL_ODT_TMP$MK_SEPARATOR$ADL_ODT_REC"
+  #grep "SetOdtParam TYPE=ENOVIA" $SUBODT_PROGNAME >$MK_DEVNULL
+  #if [  $? = 0 ]; then
+  #   \export CATUserSettingPath="$CATUSERPATH$MK_SEPARATOR$CATUserSettingPath"
+  #else
+  #   \export CATUserSettingPath="$CATUSERPATH"
+  #fi
+
+# Recopie des *.CATPreferences de $ADL_ODT_REC dans $CATUserSettingPath :
+  if [ ! -d $CATUserSettingPath ];then 
+    mkdir -p $CATUserSettingPath > $ADL_ODT_NULL 2>&1
+  fi
+  cp $ADL_ODT_REC/*.CATPreferences $CATUserSettingPath > $ADL_ODT_NULL 2>&1
+ 
+# Positionnement de CATReferenceSettingPath pour record:
+########################################################
+# Recopie des Settings de connexion dans CATUserSettingPath :
+  #if [ ! -z "$CATReferenceSettingPath" ];then
+  	# Recopie des Settings de connexion dans CATUserSettingPath :
+	#cp $CATReferenceSettingPath/CATDbServers.CATSettings $CATUserSettingPath > $ADL_ODT_NULL 2>&1
+    #cp $CATReferenceSettingPath/CATRdbServers.CATSettings $CATUserSettingPath > $ADL_ODT_NULL 2>&1
+    #cp $CATReferenceSettingPath/VPMAdmin.CATSettings $CATUserSettingPath > $ADL_ODT_NULL 2>&1
+    #cp $CATReferenceSettingPath/TransactionRepos.CATSettings $CATUserSettingPath > $ADL_ODT_NULL 2>&1
+  #fi
+  if [ -z "$OLD_ENVIRONMENT_MODE" ];then
+    # NEW_ENVIRONMENT_MODE : unset de la variable et MAJ du fichier d'environnement :
+     unset CATReferenceSettingPath
+	 export DoNotInstrumentNextExecutables=1
+     chcatenv -notms -a user -e $CATDefaultEnvironment -var CATReferenceSettingPath="$ADL_ODT_REC" >$ADL_ODT_NULL
+	 unset DoNotInstrumentNextExecutables 
+    else
+     \export CATReferenceSettingPath="$ADL_ODT_REC"
+ fi
+  if [ "$CATRECORDCAPTURE" = "" ];then
+    \export CATRECORDREPLAY=$ADL_ODT_REC
+    \export REP_PATH1="$ADL_ODT_IN"
+    \export REP_PATH2="$ADL_ODT_OUT"
+    \export REP_PATH3="$ADL_ODT_TMP"
+    \export REP_PATH4="$ADL_ODT_MODEL"
+    echo "## ODT type: Record Mode: Replay"
+  else
+    #mkdir $ADL_ODT_REC 2>$ADL_ODT_NULL
+    \export CAP_PATH1=$ADL_ODT_IN
+    \export CAP_PATH2=$ADL_ODT_OUT
+    \export CAP_PATH3=$ADL_ODT_TMP
+    \export CAP_PATH4=$ADL_ODT_MODEL
+    #echo "CAP_PATH1 $ADL_ODT_IN"     >$ADL_ODT_REC/capture.env
+    #echo "CAP_PATH2 $ADL_ODT_OUT"   >>$ADL_ODT_REC/capture.env
+    #echo "CAP_PATH3 $ADL_ODT_TMP"   >>$ADL_ODT_REC/capture.env
+    #echo "CAP_PATH4 $ADL_ODT_MODEL" >>$ADL_ODT_REC/capture.env
+    #if [ $? != 0 ];then
+    #  echo "$ADL_ODT_REC/capture.env Cannot be writen "
+    #  exit 22
+    #fi
+    echo "## ODT type: Record Mode: Capture"
+  fi
+elif [ "$1" = "TYPE=WRRECORD" ];then
+  export RecordType=WRRECORD
+  if [ "$PERTINENCE" != "Yes" ];then
+    if [ "$OS_NAME" = "Windows_NT" ]; then
+
+# Positionnement de CATReferenceSettingPath pour record:
+########################################################
+      if [ -z "$OLD_ENVIRONMENT_MODE" ];then
+		unset CATReferenceSettingPath
+		export DoNotInstrumentNextExecutables=1
+		chcatenv -notms -a user -e $CATDefaultEnvironment -var CATReferenceSettingPath="$ADL_ODT_REC" >$ADL_ODT_NULL
+		unset DoNotInstrumentNextExecutables
+
+     #chcatenv -notms -a user -e $CATDefaultEnvironment -var CATReferenceSettingPath="$CATReferenceSettingPath$MK_SEPARATOR$ADL_ODT_REC" >$ADL_ODT_NULL
+      else
+        if [ -z "$CATReferenceSettingPath" ];then
+          \export CATReferenceSettingPath="$ADL_ODT_REC"
+        else
+          \export CATReferenceSettingPath="$CATReferenceSettingPath$MK_SEPARATOR$ADL_ODT_REC"
+        fi
+      fi
+
+      echo "## ODT type: WinRunner Record "
+
+# Ajout dans le PATH du Path de WRRecord.bat:
+#########################################################
+	  IFS=";"
+      export FILE_ENV=YES 
+      for  s in $MkmkROOT_PATH
+      do
+	    if [ -r  $s/resources/TestAuto/WRRecord.bat ];then
+	      export PATH="$PATH${ADL_ODT_SEPARATOR}$s/resources/TestAuto"
+	    fi
+      done
+	  unset IFS
+      unset FILE_ENV
+#fin ajout
+
+# Replay/Record:
+################
+      if [ "$WRRECORDCAPTURE" = "" ];then
+        echo "## ODT type: Record Mode: Replay"
+      else
+	    IFS=";"
+        for  s in $MkmkROOT_PATH
+        do
+	      if [ -d  $s/resources/TestAuto/CATWRunInit -a "$REC" = "" ];then
+             export RM_ENV="YES"
+
+	        rm -rf $ADL_ODT_REC 2>$ADL_ODT_NULL
+	        cp -rf $s/resources/TestAuto/CATWRunInit $ADL_ODT_REC 2>$ADL_ODT_NULL
+	        REC="Yes"
+	        unset RM_ENV
+	      fi
+        done
+        unset IFS
+        echo "## ODT type: Record Mode: Capture"
+      fi
+# fin Replay/Record
+
+	else
+      echo "## ODT not Replayed on Developer Request on OS : $OS / $OS_NAME"
+      exit 0
+    fi
+  fi
+
+elif [ "$1" = "TYPE=ENOVIA" ];then
+  if [ ! -z "$PLMDBSetup_Mode" ] && [ -z "$NO_PLMDBSetup_Mode" ];then
+    InternSetE4ALLEnv
+  else
+
+    if [  "$ENOVIA_ENV" != "OK" ]; then
+      if [  "$MKODT_SUPENV" = "" ]; then
+        if [ "$ENOVIA_SUPENV" = "" ]; then
+          if [ "$OS_NAME" = "Windows_NT" ]; then
+            IFS=";"
+          else
+            IFS=":"
+  	      fi
+          for  s in $MkmkROOT_PATH
+          do
+            if [ -r  $s/code/command/vpm_supenv_${ADL_FR_CATIA}.sh  -a "$ENOVIA_SUPENV" = "" ]; then
+              export ENOVIA_SUPENV=$s/code/command/vpm_supenv_${ADL_FR_CATIA}.sh 
+	        fi  
+          done
+        fi
+        unset IFS 
+	    if [ "$ENOVIA_SUPENV" != "" ];then
+	      if [ "$PERTINENCE" != "Yes" ];then
+	        echo "## Using environment extension [$ENOVIA_SUPENV]"
+            . $ENOVIA_SUPENV
+  	      fi
+	    else
+	      echo "## WARNING : The environment variable ENOVIA_SUPENV (or MKODT_SUPENV) is not set."
+	    fi
+ 	    export ENOVIA_ENV="OK"
+      fi
+    fi
+  fi
+  
+  # 28.10.2008 WIB => Check VM Server
+  if [ "$CHK_HETERO_SERVER" = "2" ];then
+	CheckHeteroServer
+	export CHK_HETERO_SERVER=-1
+  else
+	if [ "$CHK_HETERO_SERVER" != "-1" ];then
+		export CHK_HETERO_SERVER=1
+	fi
+  fi
+
+  #if [ "$TEST_MKODT_INPROCESS" != "" ];then
+	# 18.03.2009 WIB => INPROCESS MODE
+	if [ "$ODT_INPROCESS_MODE" != "" ];then
+		InprocessModeInit
+	fi  
+  #fi
+
+elif [ "$1" = "TYPE=JAVARECORD" ];then
+  export JavaType=RECORD
+  export CATFPExceptions=FALSE
+  if [ "$PERTINENCE" != "Yes" ];then
+    if [ "$OS_NAME" = "Windows_NT" ]; then
+
+# Positionnement de CATReferenceSettingPath pour record:
+###################################################
+      #\export CATUSERPATH="$ADL_ODT_TMP$MK_SEPARATOR$ADL_ODT_REC"
+      #grep "SetOdtParam TYPE=ENOVIA" $SUBODT_PROGNAME >$MK_DEVNULL
+      #if [  $? = 0 ]; then
+      #  \export CATUserSettingPath="$CATUSERPATH$MK_SEPARATOR$CATUserSettingPath"
+      #else
+      #  \export CATUserSettingPath="$CATUSERPATH"
+      #fi
+      if [ -z "$OLD_ENVIRONMENT_MODE" ];then
+        unset CATReferenceSettingPath
+		export DoNotInstrumentNextExecutables=1
+        chcatenv -notms -a user -e $CATDefaultEnvironment -var CATReferenceSettingPath="$ADL_ODT_REC" >$ADL_ODT_NULL
+		unset DoNotInstrumentNextExecutables
+#chcatenv -notms -a user -e $CATDefaultEnvironment -var CATReferenceSettingPath="$CATReferenceSettingPath$MK_SEPARATOR$ADL_ODT_REC" >$ADL_ODT_NULL
+             else
+       if [ -z "$CATReferenceSettingPath" ];then
+        \export CATReferenceSettingPath="$ADL_ODT_REC"
+       else
+        \export CATReferenceSettingPath="$CATReferenceSettingPath$MK_SEPARATOR$ADL_ODT_REC"
+       fi
+      fi
+
+# Positionnement de ADL_ODT_JRE par defaut:
+###########################################
+      if [ "$WRVersion" != "7.0" ];then
+	  # WR7.6 => On utilise le jre13 :
+        if [ -z "$JAVA_HOME" ];then
+          #if [ -n "$JRE3ROOT_PATH" ];then
+		  #  export JAVA_HOME=$JRE3ROOT_PATH
+	      #else
+            export JAVA_HOME=$JREROOT_PATH
+	  	  #fi
+        fi
+	    if [ -z "$ADL_ODT_JRE" ];then
+	      export ADL_ODT_JRE=sunjre_a
+          fi
+	  else
+	  # WR7.0 => On utilise le jre de MS :
+	    if [ -z "$ADL_ODT_JRE" ];then
+	      export ADL_ODT_JRE=msjre_a
+	    else
+	      if [ "$ADL_ODT_JRE" != "msjre_a" ];then
+	        echo "## WARNING : Java Record not Replayed on JRE $ADL_ODT_JRE; Doing replay on msjre_a" 
+	        export ADL_ODT_JRE=msjre_a
+		  fi
+	    fi
+		unset JAVA_HOME
+	  fi
+	  
+# fin positionnement ADL_ODT_JRE
+
+      echo "## ODT type: Java Record "
+
+# surcharge pour java:
+######################
+     
+# Ajout de JAVA_HOME/bin et du Path de WinRunnerReplay.bat dans le PATH :
+      #if [ "$WRVersion" = "7.5" ];then
+  	  #  export FILE_ENV=YES 
+      #  export PATH="$JAVA_HOME/bin${ADL_ODT_SEPARATOR}$PATH"
+	  #fi
+	  IFS=";"
+      export FILE_ENV=YES 
+      for  s in $MkmkROOT_PATH
+      do
+	    if [ -r  $s/resources/TestAuto/WinRunnerReplay.bat ];then
+	      export PATH="$PATH${ADL_ODT_SEPARATOR}$s/resources/TestAuto"
+	    fi
+      done
+	  unset IFS
+      unset FILE_ENV
+#fin ajout
+
+# Modification du CLASSPATH:    
+ 	  IFS=";"
+      for  s in $MKMK_LST_RTV
+      do
+        CLASSPATH_RTV="$CLASSPATH_RTV${ADL_ODT_SEPARATOR}$s/$OS/docs/java${ADL_ODT_SEPARATOR}$s/$OS/docs/javacommon"
+      done
+      unset IFS
+
+      export CLASSPATH="$CLASSPATH_RTV${ADL_ODT_SEPARATOR}${CLASSPATH}"
+
+#Surcharge specifique de BOOTCLASSPATH pour java1.3  et WR7.6:
+
+      if [ "$WRVersion" != "7.0" ];then
+	    if [ -z "$ADL_ODT_JRE_VERSION" ];then
+	      JarsToLoad=$(WhichDir $OS/reffiles/ODT/JarsToLoadInBOOT.txt)
+		  if [ $? = "0" ];then
+	        for JarFile in $(cat $JarsToLoad)
+	        do
+	          BOOTCLASSPATH_TMP=$(WhichDir $MkmkOS_VAR/$JarFile)
+			  if [ $? = "0" ];then
+				if [ -z "$BOOTCLASSPATH" ];then
+					export BOOTCLASSPATH="$BOOTCLASSPATH_TMP"
+				else
+					export BOOTCLASSPATH="$BOOTCLASSPATH${ADL_ODT_SEPARATOR}$BOOTCLASSPATH_TMP"
+				fi
+              else
+	            echo " ## WARNING : BOOTCLASSPATH variable is uncomplete; $JarFile was not found."
+              fi
+	        done
+          else
+            echo " ## WARNING : JarsToLoadInBOOT.txt was not found in resources : BOOTCLASSPATH variable is uncomplete."
+          fi
+        fi
+	  fi
+# fin surcharge
+
+# Replay/Record:
+################
+      if [ "$JAVARECORDCAPTURE" = "" ];then
+        echo "## ODT type: Record Mode: Replay"
+      else
+	    IFS=";"
+        for  s in $MkmkROOT_PATH
+        do
+	      if [ -d  $s/resources/TestAuto/WRunInit -a "$REC" = "" ];then
+              export RM_ENV="YES"
+	        rm -rf $ADL_ODT_REC 2>$ADL_ODT_NULL
+	        cp -rf $s/resources/TestAuto/WRunInit $ADL_ODT_REC 2>$ADL_ODT_NULL
+	        REC="Yes"
+	        unset RM_ENV
+	      fi
+        done
+        unset IFS
+        echo "## ODT type: Record Mode: Capture"
+      fi
+# fin Replay/Record
+
+	else
+      echo "## ODT not Replayed on Developer Request on OS : $OS / $OS_NAME"
+      exit 0
+    fi
+  else
+    unset CLASSPATH
+  fi
+elif [ "$1" = "TYPE=JAVABATCH" ];then
+  export JavaType=BATCH
+  export CATFPExceptions=FALSE
+  if [ "$PERTINENCE" != "Yes" ];then
+  
+# Positionnement de ADL_ODT_JRE par defaut (et de JAVA_HOME si pas positionne):
+###############################################################################
+    if [ -z "$JAVA_HOME" ];then
+      export JAVA_HOME=$JREROOT_PATH
+    fi
+    if [ -z "$ADL_ODT_JRE" ];then
+      case $MkmkOS_NAME in
+        Windows_NT) ADL_ODT_JRE=sunjre_a;;
+        AIX) ADL_ODT_JRE=ibmjre_a;;
+        SunOS) ADL_ODT_JRE=sunjre_a;;
+        IRIX) ADL_ODT_JRE=sgijre_a;;
+        HP-UX) ADL_ODT_JRE=hpjre_a;;
+      esac
+	  export ADL_ODT_JRE
+    fi 
+# fin positionnement ADL_ODT_JRE
+
+# surcharge pour java:
+######################
+
+###############################################################
+#    export FILE_ENV=YES 
+#    if [ -z "$JAVACATENV" ];then
+#      export PATH="$JAVA_HOME/bin${ADL_ODT_SEPARATOR}$PATH"
+#    fi
+#    unset FILE_ENV
+###############################################################
+   	if [ ! -z "$ADL_ODT_JRE_VERSION" ];then
+	  if [ "$ADL_ODT_JRE" = "msjre_a" ]; then
+        CLASSPATH_RTV=C:\Winnt/Java/classes/classes.zip
+      else
+        CLASSPATH_RTV=$JAVA_HOME/lib/classes.zip
+      fi
+	fi
+
+    #CLASSPATH_RTV=$JAVA_HOME/lib/classes.zip
+    if [ "$OS_NAME" = "Windows_NT" ]; then
+      IFS=";"
+    else
+      IFS=":"
+    fi
+    for  s in $MKMK_LST_RTV
+    do
+      CLASSPATH_RTV="$CLASSPATH_RTV${ADL_ODT_SEPARATOR}$s/$OS/docs/java${ADL_ODT_SEPARATOR}$s/$OS/docs/javacommon"
+    done
+    unset IFS
+
+    export CLASSPATH="$CLASSPATH_RTV${ADL_ODT_SEPARATOR}${CLASSPATH}"
+
+
+#Surcharge specifique de BOOTCLASSPATH pour java1.3 :
+
+	if [ -z "$ADL_ODT_JRE_VERSION" ];then
+	  JarsToLoad=$(WhichDir $OS/reffiles/ODT/JarsToLoadInBOOT.txt)
+      if [ $? = "0" ];then
+	    for JarFile in $(cat $JarsToLoad)
+	    do
+	      BOOTCLASSPATH_TMP=$(WhichDir $MkmkOS_VAR/$JarFile)
+	      if [ $? = "0" ];then
+			if [ -z "$BOOTCLASSPATH" ];then
+			  export BOOTCLASSPATH="$BOOTCLASSPATH_TMP"
+			else
+			  export BOOTCLASSPATH="$BOOTCLASSPATH${ADL_ODT_SEPARATOR}$BOOTCLASSPATH_TMP"
+			fi
+          else
+	        echo " ## WARNING : BOOTCLASSPATH variable is uncomplete; $JarFile was not found."
+          fi
+	    done
+      else
+        echo " ## WARNING : JarsToLoadInBOOT.txt was not found in resources : BOOTCLASSPATH variable is uncomplete."
+      fi
+    fi
+
+# fin surcharge
+
+# Ajout dans le PATH du Path de ReplayJView.bat:
+#########################################################
+	  IFS=";"
+      export FILE_ENV=YES 
+      for  s in $MkmkROOT_PATH
+      do
+	    if [ -r  $s/resources/TestAuto/ReplayJView.bat ];then
+	      export PATH="$PATH${ADL_ODT_SEPARATOR}$s/resources/TestAuto"
+	    fi
+      done
+	  unset IFS
+      unset FILE_ENV
+#fin ajout
+
+  else
+    unset CLASSPATH
+  fi
+
+# Software counters :
+#####################
+elif [ "$1" = "TYPE=CheckPerfCounters" ];then
+  export CATSysPerfCounters=YES
+#####################
+# ODTs WebSphere :
+#####################
+elif [ "$1" = "TYPE=WAS" ];then
+  export ADL_ODT_WAS=YES
+#####################
+# TYPE=NoPurify :
+#####################
+elif [ "$1" = "TYPE=NoPurify" ];then
+	if [ -z "$ADL_ODT_FORCE_MC" ];then
+		export MC_OPTIONS=nocheck
+	fi
+
+## TYPAGE SPECIFIQUE V4 :
+elif [ "$1" = "TYPE=RECORDV4" ];then
+  echo "## ODT type: Record V4"
+##Positionnement env V4 :
+  if [ -z "$ODTV4TYPE" ];then
+    export ODTV4TYPE="RECORDV4"
+  fi
+  InternSetV4Env
+
+  if [ -z "$CATRECORDCAPTURE" ];then
+   echo "## ODT type: Record Mode: Replay"
+## Specificite RECORDV4 :
+    mkdir $ADL_ODT_TMP/autorec > $ADL_ODT_NULL 2>&1
+    echo "*RECORD DDN R05" > $ADL_ODT_TMP/autorec/EDITREC.in
+    head -1 $ADL_ODT_IN/$ODT.rec/script >> $ADL_ODT_TMP/autorec/EDITREC.in
+    chmod +x $ADL_ODT_TMP/autorec/EDITREC.in
+
+  # Generation de RECORDV2.ft05 :
+    echo "*DDN CHN01" > $ADL_ODT_TMP/script.ft05
+    echo "*MBR EDITREC" >> $ADL_ODT_TMP/script.ft05
+
+  # Generation de CATIA.dcls specifique
+    inforec=$($AUTO_LOAD/recinfo $ADL_ODT_IN/$ODT.rec/$ODT*)
+
+    echo "catia.MODEL_KBYTES.MAX_ACTIVE_INDEX = $(echo $inforec | awk '{print $4}') ;" > $ADL_ODT_TMP/decdata/CATIA.dcls
+    echo "catia.MODEL_KBYTES.MAX_ACTIVE_DATA  = $(echo $inforec | awk '{print $6}') ;" >> $ADL_ODT_TMP/decdata/CATIA.dcls
+    chmod +x $ADL_ODT_TMP/decdata/CATIA.dcls
+
+    echo "catsite.CTRL_SITE = FALSE;" > $ADL_ODT_TMP/decdata/CATSITE.dcls
+    chmod +x $ADL_ODT_TMP/decdata/CATSITE.dcls
+  # Copie du record dans $ADL_ODT_TMP/RECORDV2 :
+    mkdir $ADL_ODT_TMP/RECORDV2 > $ADL_ODT_NULL 2>&1
+    cp $ADL_ODT_IN/$ODT.rec/$ODT*.record $ADL_ODT_TMP/RECORDV2 > $ADL_ODT_NULL 2>&1
+    echo "alias R05 =catia.RECORD='\"\$ADL_ODT_TMP/RECORDV2\",\"RECMAST\"';" >> $ADL_ODT_TMP/decdata/CATIA.dcls
+    echo "alias M02 =catia.MODEL='\"\$AUTO_IN/ISO/RECORDV2_MDL\",\"MODEL_RECMAST\"';" >> $ADL_ODT_TMP/decdata/CATIA.dcls
+    echo "alias NEWMOD =catia.MODEL='\"\$ADL_ODT_TMP\",\"NEWMOD\"';" >> $ADL_ODT_TMP/decdata/CATIA.dcls
+    if [ -f $ADL_ODT_IN/$ODT.rec/odt.dec ];then
+      cat $ADL_ODT_IN/$ODT.rec/odt.dec >> $ADL_ODT_TMP/USRENV.dcls
+    fi
+    if [ "$AUTO_MODE_RECORD" = "AUTO" ]; then
+      echo "catia.RECORDV2 = 'AUTO' ;" >> $ADL_ODT_TMP/USRENV.dcls
+    else
+      echo "catia.RECORDV2 = 'BATCH' ;" >> $ADL_ODT_TMP/USRENV.dcls
+    fi 
+    if [ "$AUTO_MODE_RECORD" = "AUTO" ]; then
+      export CATINIOPTIONS=-XM
+    fi
+    if [ -f $ADL_ODT_TMP/USRENV.dcls ];then
+      chmod +x $ADL_ODT_TMP/USRENV.dcls
+      export CATMSTR=$ADL_ODT_TMP/USRENV.dcls
+    fi
+    # Si le modele est livree dans l'inputdata :
+    cp -p $ADL_ODT_REC/*.model $ADL_ODT_TMP > $ADL_ODT_NULL 2>&1
+    if [ "$?" = "0" ];then
+      echo "Model detected in $ADL_ODT_REC."
+    fi
+  else
+    echo "## ODT type: Record Mode: Capture"
+    mkdir $ADL_ODT_TMP/RECORDV2 > $ADL_ODT_NULL 2>&1
+    echo "alias R05 =catia.RECORD='\"\$ADL_ODT_TMP/RECORDV2\",\"RECMAST\"';" >> $ADL_ODT_TMP/decdata/CATIA.dcls
+    #if [ -f "$ADL_ODT_REC/*.model" ];then
+      echo "alias NEWMOD =catia.MODEL='\"\$ADL_ODT_TMP\",\"NEWMOD\"';" >> $ADL_ODT_TMP/decdata/CATIA.dcls
+    #else
+      echo "alias M02 =catia.MODEL='\"\$AUTO_IN/ISO/RECORDV2_MDL\",\"MODEL_RECMAST\"';" >> $ADL_ODT_TMP/decdata/CATIA.dcls
+    #fi
+	export CATMSTR=$ADL_ODT_TMP/USRENV.dcls	
+    #cat /u/users/dmh/ADELEV5/mkodt201_dmh/aix_a/resources/TestAuto/USRODTCapture.dcls >> $CATMSTR
+    export CATINIOPTIONS=-XM
+#Recopie des .model de ADL_ODT_REC  dans ADL_ODT_TMP:
+    cp -p $ADL_ODT_REC/*.model $ADL_ODT_TMP > $ADL_ODT_NULL 2>&1
+    if [ "$?" = "0" ];then
+      echo "Model detected in $ADL_ODT_REC."
+    fi
+    alias catini="$ADL_ODT_TMP/catini"
+   echo "catini -XM" > $ADL_ODT_TMP/catini
+   echo "cp \$ADL_ODT_TMP/RECORDV2/*.record \$ADL_ODT_REC/\$ODT_LOG_NAME.record > $ADL_ODT_NULL 2>&1 " >> $ADL_ODT_TMP/catini
+   echo "$ODT_LOG_NAME" > $ADL_ODT_REC/script
+   chmod +x $ADL_ODT_TMP/catini
+   touch $ADL_ODT_TMP/script.ft05
+  fi
+  #export CATDEC_INI=$CATDEC
+elif [ "$1" = "TYPE=BATCHV4" ];then
+  echo "## Batch V4" 
+##Positionnement env V4 :
+  if [ -z "$ODTV4TYPE" ];then
+    export ODTV4TYPE="BATCHV4"
+  fi
+  InternSetV4Env 
+  
+## Specificite BATCHV4 :
+  if [ -f $ADL_ODT_IN/$ODT/odt.dec ];then
+    cat $ADL_ODT_IN/$ODT/odt.dec >> $ADL_ODT_TMP/USRENV.dcls
+  fi
+  #if [ $? = 0 ];then
+  grep "AUTOV4W"  $ADL_ODT_IN/$ODT/script.ft05  > /dev/null  2>&1
+  rc=$?
+  if [ $rc -eq 0 ]
+    then
+      export CATDEC=${CATDEC_INI}:${DIR_SITE}/dec/decout
+    else
+      export CATDEC=${CATDEC_INI}:${DIR_SITE}/dec/decin
+  fi
+  #fi
+# Si le modele est livree dans l'inputdata :
+  cp -p $ADL_ODT_IN/$ODT_LOG_NAME/*.model $ADL_ODT_TMP > $ADL_ODT_NULL 2>&1
+  if [ "$?" = "0" ];then
+    echo "Model detected in $ADL_ODT_IN/$ODT_LOG_NAME"
+  fi
+  echo "alias NEWMOD =catia.MODEL='\"\$ADL_ODT_TMP\",\"NEWMOD\"';" > $ADL_ODT_TMP/decdata/CATIA.dcls
+    chmod +x $ADL_ODT_TMP/decdata/CATIA.dcls
+
+  if [ -f $ADL_ODT_TMP/USRENV.dcls ];then
+    chmod +x $ADL_ODT_TMP/USRENV.dcls
+    export CATMSTR=$ADL_ODT_TMP/USRENV.dcls
+  fi
+  #export CATDEC_INI=$CATDEC
+
+elif [ "$1" = "TYPE=CATGEOV4" ];then
+  echo "## CATGeo V4" 
+##Positionnement env V4 :
+  if [ -z "$ODTV4TYPE" ];then
+    export ODTV4TYPE="CATGEOV4"
+  fi
+  InternSetV4Env
+## Specificite CATGEOV4 :
+  if [ -f $ADL_ODT_IN/$ODT/odt.dec ];then
+    cat $ADL_ODT_IN/$ODT/odt.dec >> $ADL_ODT_TMP/USRENV.dcls
+  fi
+  # A MODIFIER DES QUE LE FILETREE V425 sera complet: 
+  #\export PATH=/u/lego/j24/$MkmkOS_NAME/pltest:$PATH
+  grep "AUTOV4W"  $ADL_ODT_IN/$ODT/script.ft05  > /dev/null  2>&1
+  rc=$?
+  if [ $rc -eq 0 ]
+    then
+      export CATDEC=${CATDEC_INI}:${DIR_SITE}/dec/decout
+    else
+      export CATDEC=${CATDEC_INI}:${DIR_SITE}/dec/decin
+  fi
+# Si le modele est livree dans l'inputdata :
+  cp -p $ADL_ODT_IN/$ODT_LOG_NAME/*.model $ADL_ODT_TMP > $ADL_ODT_NULL 2>&1
+  if [ "$?" = "0" ];then
+    echo "Model detected in $ADL_ODT_IN/$ODT_LOG_NAME"
+  fi
+  echo "alias NEWMOD =catia.MODEL='\"\$ADL_ODT_TMP\",\"NEWMOD\"';" > $ADL_ODT_TMP/decdata/CATIA.dcls
+    chmod +x $ADL_ODT_TMP/decdata/CATIA.dcls
+
+  if [ -f $ADL_ODT_TMP/USRENV.dcls ];then
+    chmod +x $ADL_ODT_TMP/USRENV.dcls
+    export CATMSTR=$ADL_ODT_TMP/USRENV.dcls
+  fi
+  #export CATDEC_INI=$CATDEC
+
+elif [ "$1" = "TYPE=MDFV4" ];then
+  export ODTV4TYPE="MDFV4"
+  #export CATDEC_INI=$CATDEC
+
+elif [ "$1" = "TYPE=AEC" ];then
+##Positionnement env V4 :
+  export AEC_REP="YES"
+  InternSetV4Env
+
+# Surcharge de CAT_SITE :
+  export CAT_SITE=$V4O/s/aec
+# Execution de AECOFFds.supenv pour la surcharge AEC :
+  ADL_ODT_AEC=$(WhichDir $OS/samples/env/AECOFFds.supenv)
+  if [ $? != 0 ];then
+    echo "## WARNING : File samples/env/AECOFFds.supenv was not found in Runtime View..."
+  else
+    . $ADL_ODT_AEC
+  fi
+
+  export CATDEC=$CATDEC:$DIR_SITE/dec/aecoff
+elif [ "$1" = "TYPE=DataBaseV4" ];then
+	DBENV=$(WhichDir $OS/samples/env/setCDMenv.sh)
+	if [ $? = 0 ]
+	then
+	  echo "## INFO : Executing DBENV..."  	
+	  export FILE_ENV=YES
+	  . $DBENV
+          unset FILE_ENV
+	else
+	  echo "## WARNING : The file $OS/samples/env/setCDMenv.sh to set the V4 database environment was not found."  	
+	fi
+elif [ "$1" = "TYPE=TSTPROVIDER" ];then
+  export ADL_ODT_TSTPROVIDER=$ADL_ODT_TMP/TSTPROVIDER
+  export ADL_ODT_PROVIDER=TST
+  if [ ! -d "$ADL_ODT_TSTPROVIDER" ];then
+    mkdir -p $ADL_ODT_TSTPROVIDER
+    chmod +w $ADL_ODT_TSTPROVIDER
+  fi
+
+elif [ "$motcle" = "PLMENV" ];then
+  if [ -z "$PLM_privateCustoEnv" ];then
+    export PLM_privateCustoEnv=$valeur 
+  fi
+  
+elif [ "$1" = "CONTROLRTV=YES" ];then
+    export CATSysControlRTV=$(basename $(dirname $(dirname $ADL_ODT_IN)))IC.required
+
+elif [ "$1" = "VMCHECK=NO" ];then
+    export DISABLE_SERVERVMCHECK=YES
+
+elif [ "$1" = "SERVER_AUTOLOGON=YES" ];then
+    export PLMSSOLogon=1
+
+elif [ "$motcle" = "SERVER_REQUESTED_CONFIGS" ];then
+  if [ ! -z "$MKODT_SERVER_NOT_COMPATIBLE" ];then
+	echo "## ERROR : ODT not compatible with given ENOVIA environments"
+	exit 45
+  fi
+
+elif [ "$motcle" = "SERVER_INCOMPATIBLE_CONFIGS" ];then
+  if [ ! -z "$MKODT_SERVER_NOT_COMPATIBLE" ];then
+	echo "## ERROR : ODT not compatible with given ENOVIA environments"
+	exit 45
+  fi
+
+elif [ "$motcle" = "TSTPROVIDER_IN" ];then
+  if [ -z "$ADL_ODT_TSTPROVIDER" ];then
+    ADL_ODT_TSTPROVIDER=$ADL_ODT_TMP/TSTPROVIDER
+    if [ ! -d "$ADL_ODT_TSTPROVIDER" ];then
+      mkdir -p $ADL_ODT_TSTPROVIDER
+      chmod +w $ADL_ODT_TSTPROVIDER
+    fi
+  fi
+  if [ -d "$ADL_ODT_IN/$valeur" ];then
+    cp -r $ADL_ODT_IN/$valeur/* $ADL_ODT_TSTPROVIDER > $ADL_ODT_NULL 2>&1
+   if [ $? != 0 ];then
+    echo "## ERROR : Unable to copy TSTPROVIDER datas in $ADL_ODT_TSTPROVIDER, aborting..."
+    exit 40
+    fi
+    chmod +w $ADL_ODT_TSTPROVIDER/*
+  else
+    echo "## ERROR : $ADL_ODT_IN/$valeur does not exists, aborting..."
+    exit 40
+  fi 
+elif [ "$1" = "TYPE=VIRTUAL_PACKAGING" ];then
+  if [ -n "$mkodtBSFPKG" ];then
+    CATICPath="$mkodtBSFPKG${ADL_ODT_SLASH}${OS}${ADL_ODT_SLASH}code${ADL_ODT_SLASH}productIC"
+    export CATICPath
+  fi
+elif [ "$motcle" = "PRODUCT_LIST" ];then
+  if [ ! -z "$PLMDBSetup_Mode" ] && [ -z "$NO_PLMDBSetup_Mode" ];then
+    CATOverrideLicense="InternalDS.prd=$valeur"
+	export CATOverrideLicense
+  else
+    ODT_SIMULATED_PRODUCT="InternalDS.prd=$valeur"
+	export ODT_SIMULATED_PRODUCT
+  fi
+elif [ "$1" = "TYPE=MANAGED" ];then
+   	whence ManagedReplay > $ADL_ODT_NULL 2>&1
+    if [ $? != 0 ]; then 
+	  echo "## ERROR : ManagedReplay was not found in the concatenation : Abort..."
+      exit 45
+	fi
+	
+	# 28.10.2008 WIB => Check VM Server
+	if [ "$CHK_HETERO_SERVER" = "1" ];then
+		CheckHeteroServer
+		export CHK_HETERO_SERVER=-1
+	else
+		if [ "$CHK_HETERO_SERVER" != "-1" ];then
+			export CHK_HETERO_SERVER=2
+		fi
+	fi	
+	
+elif [ "$1" = "TYPE=CLIENT" -o "$1" = "TYPE=SERVER" -o "$1" = "TYPE=COMMON" ];then
+	ADL_ODT_PLMTYPE=$valeur
+	export ADL_ODT_PLMTYPE
+  if [ ! -z "$CheckPLMSUPPORT" ];then
+    CheckPLMSupport  
+  fi
+  #if [ ! -z "$PLMDBSetup_Mode" ] && [ -z "$NO_PLMDBSetup_Mode" ];then
+    #if [ -z "$FORCE_ODT_REPLAY" ];then
+      #if [ "$valeur" = "SERVER" ];then
+        # Si TYPE=SERVER && M1 et pas de Replay_M1=YES=> Replay=NO 
+        #if [ "$ADL_ODT_E4AEnvType" = "M1" -a "$ODT_Replay_M1" != "YES" ];then
+          #if [ "$PERTINENCE" = "Yes" ];then
+           #exit 127
+          #else
+            #grep "^SetOdtParam Replay_M1=YES" $SUBODT_PROGNAME > $ADL_ODT_NULL 2>&1
+            #if [ $? != 0 ]; then
+              #echo "## ODT $valeur not replayed with $ADL_ODT_E4AEnvType environment type."
+              #exit 0
+            #fi
+          #fi
+        #fi
+      #fi
+      #if [ "$ADL_ODT_E4AEnvType" = "EV5" -a "$ODT_Replay_EV5" = "NO" ];then
+  	  #  echo "## ODT not replayed with $ADL_ODT_E4AEnvType environment type."
+      #  exit 0
+	  #fi
+      #if [ "$ADL_ODT_E4AEnvType" = "MOne" -a "$ODT_Replay_M1" = "NO" ];then
+	  #  echo "## ODT not replayed with $ADL_ODT_E4AEnvType environment type."
+      #  exit 0
+      #fi
+    #fi
+  #fi
+else
+  export OS=$MkmkOS_VAR
+  if [ "$OS_NAME" = "Windows_NT" ];then
+    OS_TYPE="Windows_NT"
+  else
+    OS_TYPE="Unix"
+  fi
+  if [ "$1" = "Replay_${OS}=NO" -o "$1" = "Replay_${MkodtOS_Runtime}=NO" -o "$1" = "Replay_${OS_NAME}=NO" -o "$1" = "Replay_${OS_TYPE}=NO" -o "$1" = "Replay_${MkmkOS_RootBuildtime}=NO" ];then
+    if [ -z "$FORCE_ODT_REPLAY" ];then
+      if [ "$PERTINENCE" = "Yes" ];then
+      exit 127
+      fi
+      if [ "$1" = "Replay_${MkodtOS_Runtime}=NO" ];then
+        echo "## ODT not Replayed on Developer Request on OS RunTime : $MkodtOS_Runtime"
+      else
+        echo "## ODT not Replayed on Developer Request on OS : $OS / $OS_NAME"
+      fi
+      exit 0
+	fi
+  elif [ "$1" = "Replay_win32on64=NO" ];then
+	if [ "$MkmkOS_BitMode" = "32" ];then
+		if [ "$PROCESSOR_ARCHITECTURE" = "AMD64" -o "$PROCESSOR_ARCHITEW6432" = "AMD64" ];then
+		  # C'est une machine 64 bits
+			if [ "$1" = "Replay_win32on64=NO" ];then
+			  if [ -z "$FORCE_ODT_REPLAY" ];then
+				if [ "$PERTINENCE" = "Yes" ];then
+				exit 127
+				fi
+				echo "## ODT not Replayed on Developer Request on OS : win32on64"
+				exit 0
+			  fi
+			fi
+		fi
+	fi
+  elif [ "$1" = "Replay_${ADL_ODT_JRE}=NO" ];then
+    if [ -z "$FORCE_ODT_REPLAY" ];then
+      if [ "$PERTINENCE" = "Yes" ];then
+        exit 127
+      fi
+      echo "## ODT not Replayed on JRE : $ADL_ODT_JRE"
+      exit 0 
+    fi
+  elif [ "$1" = "Replay_${ODT_MANAGED_MODE}=NO" ];then
+    if [ -z "$FORCE_ODT_REPLAY" ];then
+      if [ "$PERTINENCE" = "Yes" ];then
+        exit 127
+      fi
+      echo "## ODT not Replayed on Managed Runtime Environment : $ODT_MANAGED_MODE"
+      exit 0 
+    fi
+  elif [ "$1" = "Replay_${ADL_ODT_E4AEnvType}=NO" ];then
+    if [ -z "$FORCE_ODT_REPLAY" ];then
+      if [ "$PERTINENCE" = "Yes" ];then
+        exit 127
+      fi
+	    echo "## ODT not replayed with $ADL_ODT_E4AEnvType environment type."
+      exit 0 
+    fi
+  elif [ "$1" = "Replay_${ADL_ODT_E4AEnvType}=YES" ];then
+	export ODT_Replay_${ADL_ODT_E4AEnvType}=YES
+  else
+    if [ -z "$FORCE_ODT_REPLAY" ];then
+      valeur=${1#*=}
+      motcle=${1%=*}
+      if [ "$valeur" = "ONLY" ] ; then
+        echo "cas du ONLY..."
+        echo $motcle|sed -e 's/_/ /'| read prefix sufix
+        if [ "$prefix" = "Replay" ] ;then
+          echo "replay uniquement sur: $sufix"
+          if [ "$sufix" != "$OS" -a "$sufix" != "$OS_NAME" ] ; then
+            if [ "$PERTINENCE" = "Yes" ];then
+              exit 127
+            fi
+            echo "## ODT not Replayed on Developer Request on OS : $OS / $OS_NAME"
+            exit 0
+          fi
+        fi
+      elif [ "$motcle" = "Mandatory" ] ; then
+        echo " Parametre: $valeur is Mandatory ..."
+        if [ "$AuthorizedMandatory" != "" ] ; then
+          grep -w "$valeur" $AuthorizedMandatory >$MK_DEVNULL
+          if [ $? != 0 ]; then
+            echo " Mandatory parameter not Authorized "
+            exit 456
+          fi
+        fi
+      fi
+### BE
+#    elif [ "$motcle" = "TYPE" ] ; then
+#      if [ "$ReplayExcludType" != "" ] ; then
+#        for valExclud in $(echo $ReplayExcludType| sed -e 's/&/ /g') ;do
+#          if [ "$valeur" = "$valExclud" ] ; then
+#            if [ "$PERTINENCE" = "Yes" ];then
+#              exit 127
+#            fi
+#            echo "## ODT not Replayed on Developer Request Excluded parameter: $valeur"
+#            exit 0
+#          fi 
+#        done
+#      fi
+### BE
+    fi
+  fi
+fi
+}
+JavaReplay()
+{
+if [ "$PERTINENCE" = "Yes" ];then
+  return 127
+fi
+if [ "$ADL_FR_CATIA" = "CXR19" -o "$ADL_FR_CATIA" = "R206" ];then
+	if [ -z "$JREROOT_PATH" -a ! -z "$ODT_JRE_RTV" ];then
+	  echo "## ERROR : The environment variable JREROOT_PATH is not set."
+	  echo "## ERROR : The JRE was not found in the RunTime concatenation... Abort."
+	  exit 42
+	fi
+else
+	if [ ! -z "$ODT_DIS_JRE_RTV" ];then
+		if [ -z "$JREROOT_PATH" -a ! -z "$ODT_JRE_RTV" ];then
+		  echo "## ERROR : The environment variable JREROOT_PATH is not set."
+		  echo "## ERROR : The JRE was not found in the RunTime concatenation... Abort."
+		  exit 42
+		fi
+	else
+		if [ -z "$JREROOT_PATH" ];then
+		  echo "## ERROR : The environment variable JREROOT_PATH is not set."
+		  echo "## ERROR : The JRE was not found in the RunTime concatenation... Abort."
+		  exit 42
+		fi
+	fi
+fi
+if [ "$JavaType" = "BATCH" ] ; then
+  if [ "$ADL_ODT_JRE" = "msjre_a" ] ; then
+	# Creation du fichier pour recuperation des traces du serveur
+  
+	echo export CLASSPATH=\"$(printf "%s" "$CLASSPATH" | sed -e 's+\\+/+g')\"  > $ADL_ODT_TMP/GetServerTraces.sh
+	echo jview /cp "\$CLASSPATH"  /d:debug=true /d:MainClass=com.dassault_systemes.catweb.base.util.ServerTracesSniffer com.dassault_systemes.catweb.frame.applet.SwingJARStarter $WSROOT/$OS/docs/java \> $(printf "%s" "$ADL_ODT_TMP" | sed -e 's+\\+/+g')/Server "2>&1" >> $ADL_ODT_TMP/GetServerTraces.sh
+
+	ReplayJView $* 2>$ADL_ODT_NULL
+	rc=$?
+	if [ "$ADL_ODT_SERVERTraces" != "No" ] ; then
+      jview /cp "$CLASSPATH"  /d:debug=true /d:MainClass=com.dassault_systemes.catweb.base.util.ServerTracesSniffer com.dassault_systemes.catweb.frame.applet.SwingJARStarter $WSROOT/$OS/docs/java > $ADL_ODT_TMP/Server 2>&1
+
+    fi
+	return $rc
+  else
+	# Creation du fichier pour recuperation des traces du serveur
+  	if [ "$MkmkOS_NAME" = "Windows_NT" ];then
+		echo export CLASSPATH=\"$(printf "%s" "$CLASSPATH" | sed -e 's+\\+/+g')\"  > $ADL_ODT_TMP/GetServerTraces.sh
+		echo export FILE_ENV=YES >> $ADL_ODT_TMP/GetServerTraces.sh
+		echo export PATH=\"$(printf "%s" "$PATH" | sed -e 's+\\+/+g')\"  >> $ADL_ODT_TMP/GetServerTraces.sh
+		echo unset FILE_ENV >> $ADL_ODT_TMP/GetServerTraces.sh
+		echo java -classpath "\$CLASSPATH" -Xbootclasspath/p:"\$BOOTCLASSPATH" -Xms128m -Xmx512m  -Ddebug=true -DMainClass=com.dassault_systemes.catweb.base.util.ServerTracesSniffer com.dassault_systemes.catweb.frame.applet.SwingJARStarter $WSROOT/$OS/docs/java \> $(printf "%s" "$ADL_ODT_TMP" | sed -e 's+\\+/+g')/Server "2>&1" >> $ADL_ODT_TMP/GetServerTraces.sh
+	else
+		echo export CLASSPATH=$CLASSPATH > $ADL_ODT_TMP/GetServerTraces.sh
+		echo export FILE_ENV=YES >> $ADL_ODT_TMP/GetServerTraces.sh
+		echo export PATH=$PATH >> $ADL_ODT_TMP/GetServerTraces.sh
+		echo unset FILE_ENV >> $ADL_ODT_TMP/GetServerTraces.sh
+		echo java -classpath "\$CLASSPATH" -Xbootclasspath/p:"\$BOOTCLASSPATH" -Xms128m -Xmx512m  -Ddebug=true -DMainClass=com.dassault_systemes.catweb.base.util.ServerTracesSniffer com.dassault_systemes.catweb.frame.applet.SwingJARStarter $WSROOT/$OS/docs/java \> $ADL_ODT_TMP/Server "2>&1" >> $ADL_ODT_TMP/GetServerTraces.sh
+		chmod +x $ADL_ODT_TMP/GetServerTraces.sh
+	fi
+
+	if [ -z "$ADL_ODT_JRE_VERSION" ];then
+	  if [ "$MkmkOS_NAME" = "Windows_NT" ];then
+        args=$(printf "%s" "$*" |  sed -e 's/-mx[0-9a-z]*/-Xmx512m/g' | sed -e 's/-ms[0-9a-z]*/-Xms128m/g')
+	  else
+	    args=$(echo "$*" |  sed -e 's/-mx[0-9a-z]*/-Xmx512m/g' | sed -e 's/-ms[0-9a-z]*/-Xms128m/g')
+	  fi
+	  #echo $ADL_ODT_JAVACOV java -Xbootclasspath/p:"$BOOTCLASSPATH" -classpath "$CLASSPATH" $args
+	  #$ADL_ODT_JAVACOV java -Xbootclasspath/p:"$BOOTCLASSPATH" -classpath "$CLASSPATH" $args
+	  # RWN : JAVACOV
+        if [ "$ADL_ODT_JAVACOV" != "" ] ; then
+            #echo "## Coverage mode activated"
+		which Coverage >$ADL_ODT_NULL 2>&1
+		[ $? != "0" ] && echo "## ERROR : Coverage tool not available or not installed, aborting" && exit 15
+		# rapatriement QProfJ.dll
+		whichCoverage=`which Coverage`
+		installPureCoverage=`dirname $whichCoverage`
+		cp -p "$installPureCoverage"/QProfJ.dll "$JAVA_HOME/bin" >$ADL_ODT_NULL 2>&1
+		export BOOTCLASSPATH="$installPureCoverage/Rational.jar;$BOOTCLASSPATH"
+		#$ADL_ODT_JAVACOV $JAVA_HOME/bin/java -Xbootclasspath/p:"\$BOOTCLASSPATH" \$args
+	    #export CLASSPATH="$BOOTCLASSPATH;$CLASSPATH"
+		echo @echo off > $ADL_ODT_TMP/start.bat
+		printf "%s" "\"$JAVA_HOME/bin/java\" -Xbootclasspath/p:"%BOOTCLASSPATH%"  $args"  >> $ADL_ODT_TMP/start.bat
+		$ADL_ODT_JAVACOV $ADL_ODT_TMP/start.bat
+	  else
+		# run std
+	    	java -Xbootclasspath/p:"$BOOTCLASSPATH" -classpath "$CLASSPATH" $args
+	  fi	
+
+	else
+        $ADL_ODT_JAVACOV java -classpath "$CLASSPATH" $*
+	fi
+	rc=$?
+
+	# conditional cleaning QProfJ moved to ADL_ODT_TMP
+	if [ -f "$JAVA_HOME/bin/QProfJ.dll" ]; then
+		mv "$JAVA_HOME/bin/QProfJ.dll" $ADL_ODT_TMP >$ADL_ODT_NULL 2>&1
+	fi
+
+	
+
+        if [ "$ADL_ODT_SERVERTraces" != "No" ] ; then
+	  if [ -z "$ADL_ODT_JRE_VERSION" ];then
+	    java -Xms128m -Xmx512m -classpath "$CLASSPATH" -Xbootclasspath/p:"$BOOTCLASSPATH" -Ddebug=true -DMainClass=com.dassault_systemes.catweb.base.util.ServerTracesSniffer com.dassault_systemes.catweb.frame.applet.SwingJARStarter $WSROOT/$OS/docs/java > $ADL_ODT_TMP/Server 2>&1
+    	  else
+	    java -classpath "$CLASSPATH" -ms16m -mx96m -Ddebug=true -DMainClass=com.dassault_systemes.catweb.base.util.ServerTracesSniffer com.dassault_systemes.catweb.frame.applet.SwingJARStarter $WSROOT/$OS/docs/java > $ADL_ODT_TMP/Server 2>&1
+	  fi
+
+	fi
+	return $rc
+  fi
+elif [ "$JavaType" = "RECORD" ] ; then
+  
+  # Modification des arguments de java pour jre13:
+  if [ "$WRVersion" != "7.0" ];then
+    if [ -z "$ADL_ODT_JRE_VERSION" ];then
+      args=$(printf "%s" "$*" |  sed -e 's/-mx[0-9a-z]*/-Xmx512m/g' | sed -e 's/-ms[0-9a-z]*/-Xms128m/g')
+    fi
+  fi
+  # Creation du fichier pour recuperation des traces du serveur
+  
+  echo export CLASSPATH=\"$(printf "%s" "$CLASSPATH" | sed -e 's+\\+/+g')\"  > $ADL_ODT_TMP/GetServerTraces.sh
+  echo java -Xms128m -Xmx512m -classpath "\$CLASSPATH" -Xbootclasspath/p:"\$BOOTCLASSPATH" -Ddebug=true -DMainClass=com.dassault_systemes.catweb.base.util.ServerTracesSniffer com.dassault_systemes.catweb.frame.applet.SwingJARStarter $WSROOT/$OS/docs/java  \> $(printf "%s" "$ADL_ODT_TMP" | sed -e 's+\\+/+g')/Server "2>&1" >> $ADL_ODT_TMP/GetServerTraces.sh
+  
+  # Specificite Coverage :  
+  if [ "$ADL_ODT_JAVACOV" != "" ] ; then
+    #echo "## Coverage mode activated"
+	which Coverage >$ADL_ODT_NULL 2>&1
+	[ $? != "0" ] && echo "## ERROR : Coverage tool not available or not installed, aborting" && exit 15
+	# rapatriement QProfJ.dll
+	whichCoverage=`which Coverage`
+	whichCoverage=`which Coverage`
+	installPureCoverage=`dirname $whichCoverage`
+	cp -p "$installPureCoverage"/QProfJ.dll "$JAVA_HOME/bin" >$ADL_ODT_NULL 2>&1
+	export BOOTCLASSPATH_ToAdd="$installPureCoverage/Rational.jar"
+  fi
+  # Lancement de WinRunner:
+  if [ "$WRVersion" != "7.0" ];then
+    WinRunnerReplay $args 2>$ADL_ODT_NULL
+	rc=$?
+  else
+    WinRunnerReplayJView $* 2>$ADL_ODT_NULL
+    rc=$?
+  fi
+ 
+# kill des eventuels process residuels :
+########################################
+  IFS=";"
+  for  s in $MkmkROOT_PATH
+  do
+    if [ "$KillDone" != "Yes" ];then
+      if [ -f $s/code/bin/TAProcessInfoM.exe ];then
+        $s/code/bin/TAProcessInfoM.exe  -kill java CATSysDemon jview
+        KillDone=Yes
+      fi
+    fi
+  done
+  unset IFS
+# Fin du kill
+#############
+
+  if [ "$ADL_ODT_SERVERTraces" != "No" ] ; then
+  	java -Xms128m -Xmx512m -classpath "$CLASSPATH" -Xbootclasspath/p:"$BOOTCLASSPATH" -Ddebug=true -DMainClass=com.dassault_systemes.catweb.base.util.ServerTracesSniffer com.dassault_systemes.catweb.frame.applet.SwingJARStarter $WSROOT/$OS/docs/java > $ADL_ODT_TMP/Server 2>&1
+    return $rc
+  fi
+fi   
+}
+
+Replay()
+{
+if [ "$PERTINENCE" = "Yes" ];then
+  exit 127
+fi
+
+if [ "$RecordType" = "WRRECORD" ] ; then
+  WRRecord $*
+  rc=$?
+
+  # kill de l'appli
+
+  ps -ef | grep $1 | awk '{ print $2 }' | while read pid
+  do
+	kill -9 $pid > $ADL_ODT_NULL 2>&1
+  done
+  # Fin du kill
+  return $rc
+
+fi   
+}
+CTDReplay()
+{
+  if [ "$1" != "-Interactive" -a "$1" != "-CATStateCommand" -a ! -z "$1" ];then
+    echo "## ERROR : Incompatible option : $1 is not an available option of CTDReplay command"
+    echo "CTDReplay -Interactive | CATStateCommand"
+    exit 47
+  fi
+  if [ ! -z "$2" ];then
+    echo "## ERROR : Incompatible option(s) : Give a single option to CTDReplay command."
+    echo "CTDReplay -Interactive | CATStateCommand"
+    exit 47
+  fi
+  if [ -z "$1" ];then
+    #Launch CATUTDRun
+    pathModule=$(whence CATUTDRun) 
+ 	rc1=$?
+ 	#if windows & debug : 
+   	if [ "$MkmkOS_NAME" = "Windows_NT" -a ! -z "$MKODT_DEBUG" ];then
+ 	  pathModule=$(whence CATUTDRun.exe) 
+ 	  rc1=$?
+    fi
+    if [ $rc1 != 0 ]; then 
+	  echo "## ERROR : CATUTDRun was not found in the concatenation : Abort..."
+      exit 47
+	else
+   	  if [ "$MkmkOS_NAME" = "Windows_NT" ];then
+        path1=$( printf "%s\n" "$MKMK_LST_RTV" | sed -e 's+;.*++g' | sed -e 's+\\+/+g')
+        echo $pathModule | grep "$path1" > $ADL_ODT_NULL 2>&1
+        if [ $? != 0 ]; then 
+  	      echo "#########################################################################"
+ 	      echo "## WARNING : The CATUTDRun module was not found in the runtime view :"
+ 	      echo "## WARNING : $path1"
+ 	      echo "## WARNING : Your local DLLs are not loaded by this module(on Windows!)."
+ 	      echo "## WARNING : Copy CATUTDRun in local workspace to not have this message."
+	      echo "#########################################################################"
+        fi
+      fi 
+	  CATUTDRun
+	  rc=$?
+	fi
+  fi
+  if [ "$1" = "-Interactive" -o "$1" = "-CATStateCommand" ];then
+    # Launch CATITDRun
+   	 pathModule=$(whence CATITDRun) 
+ 	rc1=$?
+ 	#if windows & debug : 
+   	if [ "$MkmkOS_NAME" = "Windows_NT" -a ! -z "$MKODT_DEBUG" ];then
+ 	  pathModule=$(whence CATITDRun.exe) 
+ 	  rc1=$?
+    fi
+    if [ $rc1 != 0 ]; then 
+	  echo "## ERROR : CATITDRun was not found in the concatenation : Abort..."
+      exit 47
+    else
+   	  if [ "$MkmkOS_NAME" = "Windows_NT" ];then
+        path1=$( printf "%s\n" "$MKMK_LST_RTV" | sed -e 's+;.*++g' | sed -e 's+\\+/+g')
+        echo $pathModule | grep "$path1" > $ADL_ODT_NULL 2>&1
+        if [ $? != 0 ]; then 
+  	      echo "#########################################################################"
+ 	      echo "## WARNING : The CATITDRun module was not found in the runtime view :"
+ 	      echo "## WARNING : $path1"
+ 	      echo "## WARNING : You local DLL are not loaded by this module."
+ 	      echo "## WARNING : Copy CATITDRun in local workspace to not have this message."
+	      echo "#########################################################################"
+        fi
+      fi 
+      if [ "$1" = "-CATStateCommand" ];then
+        export CATRECORDREPLAY=1
+        export CTD_CATCOMMAND_MODE=1   
+      fi
+      CATITDRun
+      rc=$?
+	fi
+  fi
+  return $rc
+}
+mkrun()
+{
+  echo "L'utilisation de mkrun est interdite au sein d'un ODT"
+  exit 58
+}
+rm()
+{
+  flag_rm=""
+
+##################### TEMPORAIRE pour pouvoir deleter ADL_ODT_REC ###########
+if [ "$RM_ENV" != "YES" ];then 
+  if [ "$MkmkOS_NAME" = "Windows_NT" ];then
+
+	rm_arg_slash=$(printf "%s\n" "$*" | sed -e 's:\\:/:g')
+	mkodt_tmp_slash=$(printf "%s\n" "$MKODT_TMP" | sed -e 's:\\:/:g')
+	echo $rm_arg_slash | grep -i $mkodt_tmp_slash >$MK_DEVNULL
+	flag_rm=$?
+
+	if [ $flag_rm != 0 ];then  
+		printf "%s\n" "$*" | grep -i 'c:[\\,/]temp[\\,/]' >$MK_DEVNULL
+		flag_rm=$?
+	fi	
+	if [ $flag_rm != 0 ];then  
+	  printf "%s\n" "$*" | grep -i 'c:[\\,/]WINNT[\\,/]temp[\\,/]' >$MK_DEVNULL
+	  flag_rm=$?
+	fi
+	if [ $flag_rm != 0 ];then  
+	  printf "%s\n" "$PWD" | grep -i 'c:[\\,/]WINNT[\\,/]temp[\\,/]' >$MK_DEVNULL
+	  flag_rm=$?
+	fi
+	
+  else
+ 
+	echo "$*" | grep -i "$MKODT_TMP" >$MK_DEVNULL
+	flag_rm=$?
+
+    if [ $flag_rm != 0 ];then  
+		printf "%s\n" "$*" | grep '/tmp/' >$MK_DEVNULL
+		flag_rm=$?
+    fi	
+    if [ $flag_rm != 0 ];then  
+      printf "%s\n" "$PWD" | grep '/tmp/' >$MK_DEVNULL
+      flag_rm=$?
+    fi
+    
+  fi
+  if [ $flag_rm != 0 ];then  
+    echo "rm commande interdite dans un shell de test (sauf repertoire temp)"  
+    exit 55
+  fi
+fi
+##################### FIN TEMPORAIRE #########################################
+  "$RM" $*
+}
+expodt()
+{
+arg_expodt="$*"
+  var_expodt="${arg_expodt%%=*}"
+  val_expodt="${arg_expodt#*=}"
+  if [ "$var_expodt" = "$*" ]; then
+    for var in $var_expodt
+    do
+      \export "$var"
+    done
+    return 0
+  fi
+ if [ "$FILE_ENV" != "YES" ];then  
+  if [ "$var_expodt" = "PATH" -o "$var_expodt" = "LIBPATH" -o "$var_expodt" = "SHLIB_PATH" -o "$var_expodt" = "LD_LIBRARY_PATH" ]; then
+    echo "Il est interdit d'exporter $var_expodt ..."
+    exit 56
+  fi
+  fi
+  \export "$var_expodt"="$val_expodt"
+}
+ds_ls()
+{
+  if [ "$MkmkOS_NAME" = "Windows_NT" ];then
+    ls $* | sed -e 's+/+\\+g'
+  else
+    ls $*
+  fi
+}
+
+ds_find()
+{
+  if [ "$MkmkOS_NAME" = "Windows_NT" ];then
+    find $* | sed -e 's+/+\\+g'
+  else
+    find $* 
+  fi
+
+}
+
+typeset -fx rm
+typeset -fx expodt
+typeset -fx SetOdtParamInit
+typeset -fx SetOdtParam
+typeset -fx JavaReplay
+typeset -fx Replay
+typeset -fx CTDReplay
+typeset -fx mkrun
+typeset -fx WhichDir
+typeset -fx WhichRTVDir
+typeset -fx WhichDocDir
+typeset -fx WhichJar
+typeset -fx ds_ls
+typeset -fx ds_find
+
+typeset -fx ODTInit
+typeset -fx ODTInitOLD
+typeset -fx SetMDFStepEnv
+typeset -fx InternSetV4Env
+typeset -fx InternSetE4ALLEnv
+typeset -fx CheckPLMSupport
+typeset -fx CheckHeteroServer
+typeset -fx InprocessModeInit
+alias -x export="expodt"
+alias -x ucc="$ODT_UCC"
+
+if [ "$LIBPATHSAVE" != "" ];then
+  \export LIBPATH=$LIBPATHSAVE
+fi
+\export LIBPATHSAVE=""

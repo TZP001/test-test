@@ -1,0 +1,14 @@
+#
+# Specifications for Build step mkBSDoc
+#
+METACLASS_NAME = DocGenXml
+#
+DGM_GRAPH_PATH = MODDGM_GRAPHPATH_DOC
+#
+MOD_LINKWITH = $(MOD_LinkWith)
+#
+SOURCE_EXTENSION = structure.cnf
+#
+DGM_VERSION = 1.02
+DGM_DEPEND = MOD_LINKWITH
+#

@@ -1,0 +1,175 @@
+mkCreateRuntimeView.Version.BuildLevel = "/P1 (Build /P2)";
+
+mkCreateRuntimeView.HelpBeginWindows = "\n",
+"Workspace runtime view creation.\n",
+"\n",
+"Usage: mkCreateRuntimeView [-W WSPath] [-FW Fw1 [Fw2] &| -lFW FWListPath] [-k Type [-k Type]] [-doc]\n",
+"                           [-c | -f] [-d] [-x] [-t DestinationPath [-externa]] [-xml FilePath] [-v, debug] [-h, -?]\n";
+
+mkCreateRuntimeView.HelpBeginUnix = "\n",
+"Workspace runtime view creation.\n", 
+"\n", 
+"Usage: mkCreateRuntimeView [-W WSPath] [-FW Fw1 [Fw2] &| -lFW FWListPath] [-k Type [-k Type]] [-doc]\n", 
+"                           [-c | -f | -l] [-d] [-x] [-t DestinationPath [-s] [-external]] [-xml FilePath]\n",
+"                           [-v, -debug] [-h, -?]\n";
+
+mkCreateRuntimeView.HelpEnd = "";
+
+mkCreateRuntimeView.Option.W = "   -/P1 WSPath           : workspace path name. WARNING: cannot be used with mkrtv command";
+
+mkCreateRuntimeView.Option.FW = "   -/P1 Fw1 ... Fwn     : list of framework to take into account.";
+
+mkCreateRuntimeView.Option.lFW = "   -/P1 FWListPath     : path of the list of framework to take into account.";
+
+mkCreateRuntimeView.Option.k = "   -/P1 Type1            : type of framework to copy. Possible values are code, tst, edu (default is all).";
+
+mkCreateRuntimeView.Option.t = "   -/P1 DestinationPath  : destination directory.";
+
+mkCreateRuntimeView.Option.doc = "   -/P1                : work on the documentation runtime view (Doc).";
+
+mkCreateRuntimeView.OptionUnix.l = "   -/P1                  : do symbolic link (default).";
+
+mkCreateRuntimeView.OptionUnix.f = "   -/P1                  : copy file.";
+
+mkCreateRuntimeView.OptionUnix.c = "   -/P1                  : copy file if last modification time and size are different (only modification time with -s).";
+
+mkCreateRuntimeView.OptionUnix.s = "   -/P1                  : strip executable if copy is request (only with -t).";
+
+mkCreateRuntimeView.OptionWindows.pdb = "   -/P1                : copy *.pdb internal data (only with -t).";
+
+mkCreateRuntimeView.OptionWindows.f = "   -/P1                  : copy file (default).";
+
+mkCreateRuntimeView.OptionWindows.c = "   -/P1                  : copy file if last modification time and size are different.";
+
+mkCreateRuntimeView.OptionWindows.l = "   -/P1                  : for compatibility, not used.";
+
+mkCreateRuntimeView.OptionWindows.s = "   -/P1                  : for compatibility, not used.";
+
+mkCreateRuntimeView.Option.d = "   -/P1                  : clean destination when processing.";
+
+mkCreateRuntimeView.Option.keep = "   -/P1               : keep old file when processing.";
+
+mkCreateRuntimeView.Option.x = "   -/P1                  : append to destination (only with -t).";
+
+mkCreateRuntimeView.Option.external = "   -/P1           : without not deliverable and internal data (only with -t).";
+
+mkCreateRuntimeView.Option.xml = "   -/P1 FilePath       : Specifies the XML file.";
+
+mkCreateRuntimeView.Option.wdata = "   -/P1 DataPath     : path of the workspace data file to generate (not with -t).";
+
+mkCreateRuntimeView.Option.ctrl = "   -/P1               : for compatibility, not used.";
+
+mkCreateRuntimeView.Option.simul = "   -/P1              : simulation mode.";
+
+mkCreateRuntimeView.Option.h = "   -/P1                  : help message.";
+
+mkCreateRuntimeView.Option.h.other = "   -/P1                  : same as -h.";
+
+mkCreateRuntimeView.Option.v = "   -/P1                  : verbose mode.";
+
+mkCreateRuntimeView.Option.debug = "   -/P1              : debug mode.";
+
+mkCreateRuntimeView.RemoveDirectoryInfo = "Directory [/P1] is empty; Removing directory [/P1].";
+
+mkCreateRuntimeView.SimulRemoveDirectoryInfo = "Directory [/P1] is empty; Simulate removing directory [/P1].";
+
+mkCreateRuntimeView.RemoveLinkInfo = "Removing link [/P1].";
+
+mkCreateRuntimeView.SimulRemoveLinkInfo = "Simulate removing link [/P1].";
+
+mkCreateRuntimeView.RemoveFileInfo = "Removing file [/P1].";
+
+mkCreateRuntimeView.SimulRemoveFileInfo = "Simulate removing file [/P1].";
+
+mkCreateRuntimeView.StripInfo = "Stripping file [/P1].";
+
+mkCreateRuntimeView.SetRightsErr = "Unable to set rights: /P1";
+
+mkCreateRuntimeView.StripErr = "Strip of file [/P1] failed.";
+
+mkCreateRuntimeView.WriteTimeStampsErr = "Unable to write time stamps: /P1";
+
+mkCreateRuntimeView.RestoreRightsErr = "Unable to restore rights: /P1";
+
+mkCreateRuntimeView.BadOptErr = "Command line -> Syntax error.";
+
+mkCreateRuntimeView.Init = "/P1: Starting mkCreateRuntimeView for OS [/P2].";
+
+mkCreateRuntimeView.OptIgnInfo = "Option -/P1 ignored.";
+
+mkCreateRuntimeView.OptIgnConcat = "Option -/P1 ignored.";
+
+mkCreateRuntimeView.OptUseInfo = "Option -/P1 used.";
+
+mkCreateRuntimeView.CannotLoadErr = "Failed to load file [/P1].";
+
+mkCreateRuntimeView.NotADirErr = "/P1 -> This directory does not exist.";
+
+mkCreateRuntimeView.WorkspaceInfo = "Workspace directory is [/P1].";
+
+mkCreateRuntimeView.OptCompIgnInfo = "Option -/P1 and -/P2 are not compatible. Option -/P3 ignored.";
+
+mkCreateRuntimeView.OptLinkStripCompIgnInfo = "Link is not compatible with strip. Option -s ignored.";
+
+mkCreateRuntimeView.OptRequIgnInfo = "Option -/P1 required option -/P2. Option -/P3 ignored.";
+
+mkCreateRuntimeView.TargetDefaultInfo = "Target directory is default.";
+
+mkCreateRuntimeView.TargetInfo = "Target directory is [/P1].";
+
+mkCreateRuntimeView.ExecFailedErr = "Failed to expand [/P1]: /P2";
+
+mkCreateRuntimeView.FwBadTypeInfo = "Framework [/P1] has a bad type.";
+
+mkCreateRuntimeView.NoFwFoundInWsInfo = "No framework have been found in specified workspace, aborting.";
+
+mkCreateRuntimeView.InFwOptIgnInfo = "In a framework, option -/P1 ignored.";
+
+mkCreateRuntimeView.FwFoundInfo = "Found framework [/P1].";
+
+mkCreateRuntimeView.FwLoadScriptErr = "Unable to load component [/P1].";
+
+mkCreateRuntimeView.FwNotTreatedErr = "Framework [/P1] is not treated.";
+
+mkCreateRuntimeView.LoadFwModDataErr = "Unable to load framework.data or one or more module.data for framework [/P1].";
+
+mkCreateRuntimeView.LoadModDataErr = "Unable to load one or more module.data for framework [/P1].";
+
+mkCreateRuntimeView.FormatErr = "[/P1] has a bad format.";
+
+mkCreateRuntimeView.SameTimeInfo = "Files [/P1] and [/P2] have the same modification time.";
+
+mkCreateRuntimeView.SameTimeSizeInfo = "Files [/P1] and [/P2] have the same modification time and size.";
+
+mkCreateRuntimeView.ControlFileInfo = "Add in control file of framework [/P1]: [/P2]";
+
+mkCreateRuntimeView.ControlFileErr = "Unable to create control file [/P1]: /P2";
+
+mkCreateRuntimeView.CtrlFileErr = "Unable to create .ctrl file [/P1]: /P2";
+
+mkCreateRuntimeView.LinkErr3 = "Unable to link file [/P1]: /P2";
+
+mkCreateRuntimeView.LinkInfo = "Linking file [/P1] with [/P2].";
+
+mkCreateRuntimeView.SimulLinkInfo = "Simulate linking file [/P1] with [/P2].";
+
+mkCreateRuntimeView.LinkErr2 = "Unable to link file [/P1] with [/P2].";
+
+mkCreateRuntimeView.LinkErr1 = "Unable to link file [/P1] with [/P2]: /P3";
+
+mkCreateRuntimeView.RemoveErr = "Unable to remove [/P1]: /P2";
+
+mkCreateRuntimeView.GoodLinkInfo = "Link is good [/P1] with [/P2].";
+
+mkCreateRuntimeView.CopyErr = "Unable to copy file [/P1]: /P2";
+
+mkCreateRuntimeView.CopyInfo = "Copying file [/P1] to [/P2].";
+
+mkCreateRuntimeView.SimulCopyInfo = "Simulate copying file [/P1] to [/P2].";
+
+mkCreateRuntimeView.CaseErr = "File [/P1] has a bad case, must be [/P2].";
+
+mkCreateRuntimeView.ChangeCaseInfo = "Change case of [/P1] with [/P2].";
+
+mkCreateRuntimeView.SimulChangeCaseInfo = "Simulate change case of [/P1] with [/P2].";
+

@@ -1,0 +1,141 @@
+#
+# Specifications for Build step Grammar
+# ----------------------
+include mkBSCompilersPathDecl.mk
+include mkBScppOnly_cmd.mk
+#
+############################################
+CPP_TOOUPUT = /EP
+CPP_OPTS = $(CPP_DYNOPTS) $(CPP_MKOPTS) $(LOCAL_POST_CCFLAGS) # no CATWarningPromote.h please !
+CPP_COMMAND = "$(PPROC)" $(PPROC_OPTS) $(CPP_OPTS) # too long: $(CPP_INCLUDE)
+############################################
+# Microsoft typelib
+MKTYPLIB = $(_MK_MIDL_UTILPATH)
+# MKTYPLIB_OPTS is set in specifics declarative files for 64-bit or 32-bit modes
+MKTYPLIB_COMMAND = "$(MKTYPLIB)" $(MKTYPLIB_OPTS) /tlb
+############################################
+# Microsoft Message Compiler
+MSMC = $(_MK_MC_UTILPATH)
+#
+MSMC_CREATEDSUFFIXLIST = $(LOCAL_MSMCCREATEDSUFFIXLIST:-".h .rc .dbg _MSG00001.bin")
+MSMC_OPTS = $(LOCAL_MSMCFLAGS) -e "h" -b
+MSMC_DEPEND = $(MSMC_CREATEDSUFFIXLIST) $(MSMC_OPTS)
+MSMC_COMMAND = "$(MSMC)" $(MSMC_OPTS) -h "." -r "." -x "."
+############################################
+DSXDEVINSTROSPECTION = DSxDevIntrospectionCompiler
+#
+DSXDEVINSTROSPECTION_CREATEDFILE = DSxDevIntrospectionCompiler.createdfiles
+DSXDEVINSTROSPECTION_USEDFILE = DSxDevIntrospectionCompiler.usedfiles
+DSXDEVINSTROSPECTION_COMMAND_TIMEOUT = 900
+DSXDEVINSTROSPECTION_DEBUG = $(MKMK_DEBUG:+"-g")
+DSXDEVINSTROSPECTION_WARNING = $(MKMK_WARNING:+"-w")
+DSXDEVINSTROSPECTION_MKID = -mkid "$(DSXDEVINSTROSPECTIONVERSION)"
+_MK_DSXDEVINSTROSPECTION_TEMPLATE = $(MkmkROOTINSTALL_PATH)\code\template\sypintroToCode.dsmtl
+DSXDEVINSTROSPECTION_TEMPLATE = $(MY_DSXDEVINSTROSPECTION_TEMPLATE:-_MK_DSXDEVINSTROSPECTION_TEMPLATE)
+DSXDEVINSTROSPECTION_OPTS = $(DSXDEVINSTROSPECTIONVERSION:+DSXDEVINSTROSPECTION_MKID) $(DSXDEVINSTROSPECTION_DEBUG) $(DSXDEVINSTROSPECTION_WARNING)\
+	-mod $(PROGRAM_NAME:-CONTNAME) -f "$(FILE_INCLUDES)" -t "$(DSXDEVINSTROSPECTION_TEMPLATE)" $(LOCAL_DSXDEVINSTROSPECTIONFLAGS)
+DSXDEVINSTROSPECTION_COMMAND = $(DSXDEVINSTROSPECTION) $(DSXDEVINSTROSPECTION_OPTS)
+############################################
+DSXDEVVISUALEXP = DSxDevVisualCompilerM
+#
+DSXDEVVISUALEXP_CREATEDFILE = DSxDevVisualCompiler.createdfiles
+DSXDEVVISUALEXP_USEDFILE = DSxDevVisualCompiler.usedfiles
+DSXDEVVISUALEXP_COMMAND_TIMEOUT = 900
+DSXDEVVISUALEXP_DEBUG = $(MKMK_DEBUG:+"-g")
+DSXDEVVISUALEXP_WARNING = $(MKMK_WARNING:+"-w")
+DSXDEVVISUALEXP_MKID = -mkid "$(DSXDEVVISUALCOMPILERVERSION)"
+DSXDEVVISUALEXP_OPTS = $(DSXDEVVISUALCOMPILERVERSION:+DSXDEVVISUALEXP_MKID) $(DSXDEVVISUALEXP_DEBUG) $(DSXDEVVISUALEXP_WARNING) -exp -mod $(PROGRAM_NAME:-CONTNAME) $(LOCAL_DSXDEVVISUALEXPFLAGS)
+DSXDEVVISUALEXP_COMMAND = $(DSXDEVVISUALEXP) $(DSXDEVVISUALEXP_OPTS)
+############################################
+FLEX = mkflex.bat
+_MK_LOCAL_FLFLAGS = $(LOCAL_FLFLAGS:@LOCAL_LFLAGS)
+# generate C scanner class 
+FLEX_SRCNAME = flex.yy.c
+FLEX_OPTS = -L $(_MK_LOCAL_FLFLAGS) -o$(FLEX_SRCNAME)
+FLEX_COMMAND = $(FLEX) $(FLEX_OPTS)
+# generate C++ scanner class
+FLEX_CPP_SRCNAME = flex.yy.cpp
+FLEX_CPP_OPTS = -+ -L $(_MK_LOCAL_FLFLAGS) -o$(FLEX_CPP_SRCNAME)
+FLEX_CPP_COMMAND = $(FLEX) $(FLEX_CPP_OPTS)
+############################################
+LEX = $(FLEX) # lex is flex
+# generate C scanner class 
+LEX_SRCNAME = $(FLEX_SRCNAME)
+LEX_OPTS = -L $(LOCAL_LFLAGS) -o$(LEX_SRCNAME)
+LEX_COMMAND = $(LEX) $(LEX_OPTS)
+# generate C++ scanner class
+LEX_CPP_SRCNAME = $(FLEX_CPP_SRCNAME)
+LEX_CPP_OPTS = -+ -L $(LOCAL_LFLAGS) -o$(LEX_CPP_SRCNAME)
+LEX_CPP_COMMAND = $(LEX) $(LEX_CPP_OPTS)
+############################################
+BISON = mkbison.bat
+_MK_BISONFLAGS = --no-line --define
+#
+BISON_SRCNAME = y.tab.c
+BISON_HDRNAME = y.tab.h
+BISON_OPTS = --file-prefix=y $(_MK_BISONFLAGS) $(LOCAL_BYFLAGS)
+BISON_COMMAND = $(BISON) $(BISON_OPTS)
+############################################
+YACC = mkyacc.bat
+#
+YACC_SRCNAME = ytab.c
+YACC_HDRNAME = ytab.h
+YACC_OPTS = -d -l $(LOCAL_YFLAGS)
+YACC_COMMAND = $(YACC) $(YACC_OPTS)
+############################################
+OCAML_BIN=$(OCAMLROOT_PATH)\bin
+OCAMLYACC = $(OCAML_BIN)\ocamlyacc
+#
+OCAMLYACC_SRCEXT = .ml
+OCAMLYACC_HDREXT = .mli
+OCAMLYACC_OPTS = -v $(LOCAL_OCAMLYACCFLAGS)
+OCAMLYACC_COMMAND = "$(OCAMLYACC)" $(OCAMLYACC_OPTS)
+############################################
+OCAMLLEX = $(OCAML_BIN)\ocamllex
+#
+OCAMLLEX_SRCEXT = .ml
+OCAMLLEX_OPTS = $(LOCAL_OCAMLLEXFLAGS)
+OCAMLLEX_COMMAND = "$(OCAMLLEX)" $(OCAMLLEX_OPTS)
+############################################
+EXPRESS = KS0BT
+#
+EXPRESS_CREATEDFILE = KS0BT.createdfiles
+EXPRESS_USEDFILE = .depend
+EXPRESS_OPTS = $(LOCAL_CKMFLAGS) -cpp
+EXPRESS_COMMAND = $(EXPRESS) $(EXPRESS_OPTS) -M__$(MODNAME) -F"$(FILE_INCLUDES)"
+EXPRESS_COMMAND_TIMEOUT = 900
+# ExpressX compilation
+EXPRESSX_CREATEDFILE = $(EXPRESS_CREATEDFILE)
+EXPRESSX_USEDFILE = $(EXPRESS_USEDFILE)
+EXPRESSX_OPTS = $(EXPRESS_OPTS)
+EXPRESSX_COMMAND = $(EXPRESS_COMMAND)
+############################################
+#OSMFEAT = $(OSMFEATROOT_PATH)\code\command\osmfeat.pl
+#
+#OSMFEAT_CREATEDFILE = osmfeat.createdfiles
+#OSMFEAT_USEDFILE = osmfeat.usedfiles
+#OSMFEAT_COMMAND_TIMEOUT = 900
+#OSMFEAT_OPTS = $(LOCAL_OSMFEATFLAGS) -used-file $(OSMFEAT_USEDFILE) -target-file $(OSMFEAT_CREATEDFILE)
+#OSMFEAT_COMMAND = $(OSMFEAT) $(OSMFEAT_OPTS)
+############################################
+SPATIALMSG = mkspatialmessagesM
+#
+SPATIALMSG_CREATEDFILE = messages.createdfiles
+SPATIALMSG_VERSION = 100
+SPATIALMSG_OPTS = $(LOCAL_SPATIALMSGFLAGS) $(CONTNAME) "$(BUILT_OBJECT_TYPE)" $(SPATIALMSG_VERSION)
+SPATIALMSG_COMMAND = $(SPATIALMSG) $(SPATIALMSG_OPTS)
+############################################
+MXJDL = mxjdlcompiler.bat
+MXJDL_VERSION = 1.1
+MXJDL_CREATEDFILE = mxjdlcompiler.createdfiles
+MXJDL_OPTS = -mkid $(MXJDL_VERSION) $(LOCAL_MXJDLFLAGS)
+MXJDL_COMMAND = $(MXJDL) $(MXJDL_OPTS)
+MXJDL_COMMAND_TIMEOUT = 900
+############################################
+MOC = mkmoc.bat
+#
+MOC_OPTS = $(LOCAL_MOCFLAGS) -o "%SOURCE%"
+MOC_COMMAND = $(MOC) $(MOC_OPTS)
+MOC_INCL_FILE = $(GLocal)\mocincl.mk
+############################################
+#

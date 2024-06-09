@@ -1,0 +1,25 @@
+#
+# Specifications for Build step Java Archive
+#
+# ---------------------
+#
+TODOXMLMANIFEST=$(MkmkXMLMANIFEST:@"YES")
+#
+JAR      = $(JAVA_PATH)\bin\jar
+JAR_OUT  = "$(SET_JAROBJNAME)" $(SET_XMLMANIFEST:+'"')$(SET_XMLMANIFEST:+SET_XMLMANIFEST)$(SET_XMLMANIFEST:+'"')
+JAR_OBJS = .
+JAR_OPTS = $(LOCAL_JARFLAGS) cf$(SET_XMLMANIFEST:+"m")
+JAR_COMMAND = "$(JAR)" $(JAR_OPTS) $(JAR_OUT) $(JAR_OBJS)
+#
+JARSIGNER_OPTS = $(LOCAL_JARSIGNERFLAGS) $(LOCAL_POST_JARSIGNERFLAGS)
+JARSIGNER_COMMAND = "$(JAVA_PATH)\bin\jarsigner" $(LOCAL_JARSIGNERFLAGS) "$(SET_JAROBJNAME)" $(LOCAL_POST_JARSIGNERFLAGS)
+#
+JLMDEPLOY_OPTS = -a "DS/ENOVIA JAVA Infrastructure" -crypt\
+		 -p "JViews-Diagrammer" 6.5 -p "JViews-Gantt" 6.5\
+		 -p "JViews-Charts" 6.5 -p "JViews-Maps" 6.5
+JLMDEPLOY_COMMAND = "$(JLMDeployROOT_PATH)\mkjlmdeploy.bat" $(JLMDEPLOY_OPTS) -o "%OBJECT%"
+#
+#
+DGM_VERSION = 1.0
+#
+

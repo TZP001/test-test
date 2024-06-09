@@ -1,0 +1,60 @@
+------------------------------- Add new columns in transfer table -----------------------------------
+
+[Departmental Step 1]
+RENAME transfer TO transfer1;
+
+[Departmental Step 2]
+CREATE TABLE adl.transfer
+(
+	id                 VARCHAR2(20) NOT NULL,
+	case_name          VARCHAR2(32) NOT NULL,
+	lower_name         VARCHAR2(32) NOT NULL,
+	multi_tree_ws      VARCHAR2(20) NOT NULL,
+	image              VARCHAR2(20)         ,
+	case_store_path    VARCHAR2(512)        ,
+	lower_store_path   VARCHAR2(512)        ,
+	local_path_host    VARCHAR2(255)        ,
+	is_server          VARCHAR2(512)        ,
+	is_server_host     VARCHAR2(255)        ,
+	is_server_port     NUMBER(10)           ,
+	site2              VARCHAR2(20)         ,
+	is_with_mirror_ws  VARCHAR2(1)  NOT NULL,
+	creation_hist_evt  VARCHAR2(20) NOT NULL
+) 
+PCTFREE 10
+TABLESPACE scm_tbs0;
+
+[Departmental Step 3]
+INSERT INTO adl.transfer 
+(
+ id, case_name, lower_name, multi_tree_ws, is_with_mirror_ws, image,
+ case_store_path, lower_store_path, local_path_host, is_server, is_server_host, is_server_port,
+ site2, creation_hist_evt
+)
+SELECT
+ t1.id, t1.case_name, t1.lower_name, t1.multi_tree_ws, 'Y', t1.image,  
+ t1.case_store_path, t1.lower_store_path, t1.local_path_host, t1.is_server, t1.is_server_host, t1.is_server_port,
+ t1.site2, t1.creation_hist_evt
+FROM adl.transfer1 t1;
+
+COMMIT;
+
+[Departmental Step 4]
+DROP TABLE adl.transfer1;
+
+[Departmental Step 5]
+-- * Recherche sur identifiant
+CREATE UNIQUE INDEX adl.i_transfer_1 ON adl.transfer (id) TABLESPACE scm_idx0
+PCTFREE 10;
+
+[Departmental Step 6]
+-- * Recherche sur espace de travail multi-arborescence et nom
+CREATE        INDEX adl.i_transfer_2 ON adl.transfer (multi_tree_ws, lower_name) TABLESPACE scm_idx0
+PCTFREE 10;
+
+------------------------------- New index in so_resp_in_wstree table ----------------------------------
+
+[Departmental Step 7]
+-- * Recherche du responsable de tous les objets dans une arborescence
+CREATE INDEX        adl.i_so_resp_wstree_3 ON adl.so_resp_in_wstree (workspace_tree, responsible) TABLESPACE scm_idx1
+PCTFREE 10;

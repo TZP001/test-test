@@ -1,0 +1,178 @@
+
+set %PATH_NAME%=%PATH_setcatenv%
+set OSDS=%MkmkOS_Buildtime%
+set OSNAME=%MkmkOS_NAME%
+
+for /F "delims=*" %%i in ( 'cd' ) do set PWD=%%i
+
+set CATDefaultEnvironment=DefaultEnvironment
+
+if "%DS_ENVDIR%" == "" set DS_ENVDIR=c:\CATEnv
+
+md %DS_ENVDIR%
+
+echo ------------------------------------
+echo DS_ENVDIR %DS_ENVDIR%
+echo ------------------------------------
+
+set CATDefaultEnvironment=%DEFDefaultEnvironment%
+
+if not "%NEWDefaultEnvironment%" == ""  set CATDefaultEnvironment=%NEWDefaultEnvironment%
+
+call delcatenv.exe -p "%MKMK_LST_RTV%"  -d %DS_ENVDIR% -e %CATDefaultEnvironment% %OPTION_FOR_SETCATENV%
+
+call setcatenv.exe -p "%MKMK_LST_RTV%"  -a global -cs ENOVIA_LCA -server -d %DS_ENVDIR% -e %CATDefaultEnvironment% %OPTION_FOR_SETCATENV%
+
+if "%VLT_ORACLE_HOME%" == "" set VLT_ORACLE_HOME=%IT_ORACLE_HOME%
+
+call chcatenv -e %CATDefaultEnvironment% -new -d %DS_ENVDIR% -var  ORACLE_HOME=%VLT_ORACLE_HOME%  
+call chcatenv -e %CATDefaultEnvironment% -d %DS_ENVDIR% -var  TNS_ADMIN=%VLT_ORACLE_HOME%\network\admin   
+call chcatenv -e %CATDefaultEnvironment% -new -d %DS_ENVDIR% -var  ORA_NLS33=%VLT_ORACLE_HOME%\ocommon\nls\admin\data    
+call chcatenv -e %CATDefaultEnvironment% -d %DS_ENVDIR% -var  CATUserSettingPath=%PWD%\CATSettings:%CATUserSettingPath% 
+call chcatenv -e %CATDefaultEnvironment% -d %DS_ENVDIR% -var  CLASSPATH=%HOME_DB2%\sqllib\java12\db2java.zip:%HOME_DB2%\sqllib\java12\sqlj.zip:%HOME_DB2%\sqllib\java12\common.jar:%VLT_ORACLE_HOME%\jdbc\lib\classes111.zip:%VLT_ORACLE_HOME%\jdbc\lib\nls_charset.zip:%JavaROOT_PATH%\lib\classes.zip
+call chcatenv -e %CATDefaultEnvironment% -d %DS_ENVDIR% -var  PATH=%HOME_DB2%\sqllib\lib:%VLT_ORACLE_HOME%\lib:%VLT_ORACLE_HOME%\jdbc\lib:%PATH%
+call chcatenv -e %CATDefaultEnvironment% -d %DS_ENVDIR% -var  JAVA_HOME="%JavaROOT_PATH%"
+call chcatenv -e %CATDefaultEnvironment% -new -d %DS_ENVDIR% -var  VaultServer_PropertiesFilePath=%PWD%\%OSDS%\docs\java  
+call chcatenv -e %CATDefaultEnvironment% -new -d %DS_ENVDIR% -var  VaultServer_PropertiesFileName=VaultServer.properties 
+
+set VaultServer_PropertiesFilePath=%PWD%\%OSDS%\docs\java
+set VaultServer_PropertiesFileName=VaultServer.properties
+
+if "%DB2INSTANCE%" == "" set DB2INSTANCE=%DB_USER%
+
+call chcatenv -e %CATDefaultEnvironment% -d %DS_ENVDIR% -var DB2INSTANCE=%DB2INSTANCE%
+
+set ENVNAME=%CATDefaultEnvironment%
+
+set %PATH_NAME%=%PATH1%
+
+for /F "delims=*" %%i in ( 'readcatenv -d %DS_ENVDIR%   -e %CATDefaultEnvironment% -a user -var CATInstallPath' ) do set %%i
+
+
+if "%ENO_PROTOCOL%" == "CORBA" call	CORBARuntime_post
+if "%ENO_PROTOCOL%" == "" call	CORBARuntime_post
+
+
+if  "%SETUP_VAULTNAME%" == "" set SETUP_VAULTNAME=ENOVIAVaultServer
+
+for /F "delims=*" %%i in ( 'hostname' ) do set VAULTHOSTNAME=%%i
+
+rem #-------------------------------------------------------------------------#
+rem # Register ENOVIA V5 Vault Starter
+rem #-------------------------------------------------------------------------#
+set IT_CONFIG_PATH=%PWD%\%OSDS%\startup\orbix
+rem VPMVaultStarter.exe -env EnvVaultXPServerR201 -user tacr -passwd 1B1716140402 -domain DS -PFilePath $VaultServer_PropertiesFilePath -PFileName $VaultServer_PropertiesFileName
+
+if "%ENO_PROTOCOL%" == "CORBA"  call putit -h %VAULTHOSTNAME% -shared %SETUP_VAULTNAME% "%PWD%\%OSDS%\code\bin\catstart.exe -env \"%CATDefaultEnvironment%\" -direnv \"%DS_ENVDIR%\" -run %PWD%\%OSDS%\code\bin\VPMVaultStarter -object \"-user tacr -passwd 1B1716140402 -env %CATDefaultEnvironment%  -PFilePath %VaultServer_PropertiesFilePath% -PFileName %VaultServer_PropertiesFileName%\""
+if "%ENO_PROTOCOL%" == "CORBA"  call chmodit %SETUP_VAULTNAME% i+all
+if "%ENO_PROTOCOL%" == "CORBA"  call chmodit %SETUP_VAULTNAME% l+all
+
+
+chmod 777 %PWD%\%OSDS%\docs\java
+chmod 777 %PWD%\%OSDS%\docs\java\VaultServer.properties
+chmod 777 %PWD%\%OSDS%\startup\orbix
+rm %PWD%\%OSDS%\startup\orbix\EnvPathName.txt
+touch %PWD%\%OSDS%\startup\orbix\EnvPathName.txt
+echo %CATDefaultEnvironment% >> %PWD%\%OSDS%\startup\orbix\EnvPathName.txt
+echo %DS_ENVDIR% > %PWD%\%OSDS%\EnvDir.txt
+echo %CATDefaultEnvironment% > %PWD%\%OSDS%\EnvName.txt
+set CLASS_NAME=com.dassault_systemes.itjavacatalogue.GetEnoviaEnvValue
+if "%SETUP_RDBMS%" == ""  set SETUP_RDBMS=`StdE4ALLJavaCommand.sh -conf %CATALOG_NAME -i DB_type `
+if "%SETUP_DBID%" == ""  set SETUP_DBID=`StdE4ALLJavaCommand.sh -conf %CATALOG_NAME -i DB_ID `
+
+rem ## Vault Server Properties File
+
+echo VaultServer_Name = %SETUP_VAULTNAME%  > %PWD%\%OSDS%\docs\java\VaultServer.properties 
+echo VaultServer_HostName = %VAULTHOSTNAME% >> %PWD%\%OSDS%\docs\java\VaultServer.properties
+echo VaultServer_DaemonPort = %VAULTPORT% >> %PWD%\%OSDS%\docs\java\VaultServer.properties 
+
+if "%SETUP_VaultServer_TimeOut%" == "" set SETUP_VaultServer_TimeOut=55000000
+
+echo VaultServer_TimeOut = %SETUP_VaultServer_TimeOut% >> %PWD%\%OSDS%\docs\java\VaultServer.properties
+
+rem ## Request execution parameters
+
+echo VaultServer_ThreadNumber = 2 >> %PWD%\%OSDS%\docs\java\VaultServer.properties
+
+echo VaultServer_TimeZoneRawOffset = 0 >> %PWD%\%OSDS%\docs\java\VaultServer.properties 
+
+if "%VAULTPORTHTTP%" == "" set VAULTPORTHTTP=%SETUP_VAULTHTTPPORT%
+
+if "%SETUP_VAULTLOG%" == "" set SETUP_VAULTLOG=c:\temp\%SETUP_VAULTNAME%.log
+
+
+if "%ENO_PROTOCOL%" == "HTTP" echo VaultServer_CommandHTTPServerPort= %VAULTPORT% >> %PWD%\%OSDS%\docs\java\VaultServer.properties
+if "%ENO_PROTOCOL%" == "HTTP" echo VaultServer_StartCmd="%PWD%\%OSDS%\code\bin\catstart.exe" -env "%CATDefaultEnvironment%" -direnv "%DS_ENVDIR%" -run %PWD%\%OSDS%\code\bin\VPMVaultStarter -object "-user tacr -passwd 1B1716140402 -domain DS -log \"%SETUP_VAULTLOG%\" -env %CATDefaultEnvironment%  -PFilePath %VaultServer_PropertiesFilePath% -PFileName %VaultServer_PropertiesFileName%"  >> %PWD%\%OSDS%\docs\java\VaultServer.properties
+
+rem ## Database connection pool parameters
+
+echo VaultServer_DBMINPoolSize = 4 >> %PWD%\%OSDS%\docs\java\VaultServer.properties
+echo VaultServer_DBMAXPoolSize = 6 >> %PWD%\%OSDS%\docs\java\VaultServer.properties
+
+rem ## Database connection parameters
+
+echo VaultServer_DBName = %DBNAME% >> %PWD%\%OSDS%\docs\java\VaultServer.properties 
+echo VaultServer_DBVendor = %SETUP_RDBMS% >> %PWD%\%OSDS%\docs\java\VaultServer.properties 
+echo VaultServer_DBUser = tacr   >> %PWD%\%OSDS%\docs\java\VaultServer.properties 
+echo VaultServer_DBPassword = 1B1716140402  >> %PWD%\%OSDS%\docs\java\VaultServer.properties 
+
+
+rem ## VaultServer file repositories parameters
+rem ## Number of VaultServer repositories
+
+echo VaultServer_NumOfRepo = 1 >> %PWD%\%OSDS%\docs\java\VaultServer.properties  
+
+rem ## First VaultServer repository
+
+echo VaultServer_Repo_0_Name = Repo0 >> %PWD%\%OSDS%\docs\java\VaultServer.properties 
+echo VaultServer_Repo_0_Path = %VAULTPATH% >> %PWD%\%OSDS%\docs\java\VaultServer.properties
+echo VaultServer_Repo_0_TmpDirName = tmp >> %PWD%\%OSDS%\docs\java\VaultServer.properties 
+echo VaultServer_Repo_0_NumOfSecDir = 1 >> %PWD%\%OSDS%\docs\java\VaultServer.properties 
+echo VaultServer_Repo_0_SecDirName0 = secured0 >> %PWD%\%OSDS%\docs\java\VaultServer.properties 
+echo VaultServer_TmpFilesAccessRights = 666 >> %PWD%\%OSDS%\docs\java\VaultServer.properties 
+echo VaultServer_SecuredFilesAccessRights = 444 >> %PWD%\%OSDS%\docs\java\VaultServer.properties 
+
+rem ## Trace parameter
+ 
+echo VaultServer_Trace = OFF >> %PWD%\%OSDS%\docs\java\VaultServer.properties 
+
+chmod 777 %PWD%\%OSDS%\docs\java\VaultClient.properties
+
+rem ## Vault Client Properties File
+
+rem ## File read protocol
+echo VaultClient_ReadProtocol = 3 > %PWD%\%OSDS%\docs\java\VaultClient.properties  
+echo VaultClient_ReadProtocol_0 = CORBA >> %PWD%\%OSDS%\docs\java\VaultClient.properties  
+echo VaultClient_ReadProtocol_1 = NFS >> %PWD%\%OSDS%\docs\java\VaultClient.properties 
+echo VaultClient_ReadProtocol_2 = HTTP >> %PWD%\%OSDS%\docs\java\VaultClient.properties 
+
+rem ## File write protocol
+echo VaultClient_WriteProtocol = 2 >> %PWD%\%OSDS%\docs\java\VaultClient.properties 
+echo VaultClient_WriteProtocol_0 = CORBA >> %PWD%\%OSDS%\docs\java\VaultClient.properties 
+echo VaultClient_WriteProtocol_1 = NFS >> %PWD%\%OSDS%\docs\java\VaultClient.properties 
+
+
+rem ## Data BlockSize parameter
+echo VaultClient_BlockSize = 1048576 >> %PWD%\%OSDS%\docs\java\VaultClient.properties 
+
+rem ## Trace parameter
+echo VaultClient_Trace = OFF >> %PWD%\%OSDS%\docs\java\VaultClient.properties 
+
+rem ## Default alias name
+echo VaultClient_DefaultAliasName = %SETUP_VAULTNAME% >> %PWD%\%OSDS%\docs\java\VaultClient.properties 
+
+rem ## First VaultClient alias entry 
+echo VaultClient_%SETUP_VAULTNAME%_ReadVaultServerName = %SETUP_VAULTNAME% >> %PWD%\%OSDS%\docs\java\VaultClient.properties 
+echo VaultClient_%SETUP_VAULTNAME%_ReadVaultServerHostName = %VAULTHOSTNAME% >> %PWD%\%OSDS%\docs\java\VaultClient.properties 
+echo VaultClient_%SETUP_VAULTNAME%_ReadVaultServerDaemonPort = %VAULTPORT% >> %PWD%\%OSDS%\docs\java\VaultClient.properties 
+if "%ENO_PROTOCOL%" == "HTTP" echo VaultClient_%SETUP_VAULTNAME%_CommandHTTPServerPort=%VAULTPORT%  >> %PWD%\%OSDS%\docs\java\VaultClient.properties 
+if "%ENO_PROTOCOL%" == "HTTP" echo VaultClient_%SETUP_VAULTNAME%_CommandHTTPMode=ON >> %PWD%\%OSDS%\docs\java\VaultClient.properties 
+echo VaultClient_%SETUP_VAULTNAME%_WriteVaultServerName = %SETUP_VAULTNAME% >> %PWD%\%OSDS%\docs\java\VaultClient.properties 
+echo VaultClient_%SETUP_VAULTNAME%_WriteVaultServerHostName = %VAULTHOSTNAME% >> %PWD%\%OSDS%\docs\java\VaultClient.properties 
+echo VaultClient_%SETUP_VAULTNAME%_WriteVaultServerDaemonPort = %VAULTPORT% >> %PWD%\%OSDS%\docs\java\VaultClient.properties 
+
+
+rem if "%ENO_PROTOCOL%" == "HTTP" call "%PWD%\%OSDS%\code\bin\catstart.exe" -env "%CATDefaultEnvironment%" -direnv "%DS_ENVDIR%" -run %PWD%\%OSDS%\code\bin\VPMVaultStarter -object "-user tacr -passwd 1B1716140402 -domain DS -log \"%SETUP_VAULTLOG%\" -env %CATDefaultEnvironment%  -PFilePath %VaultServer_PropertiesFilePath% -PFileName %VaultServer_PropertiesFileName%"
+if "%ENO_PROTOCOL%" == "HTTP" call "%PWD%\%OSDS%\code\bin\catstart.exe" -env "%CATDefaultEnvironment%" -direnv "%DS_ENVDIR%" -run "%PWD%\%OSDS%\code\bin\vsadm" -object  "START ALIAS  %SETUP_VAULTNAME% RESPAWN 10" &
+
+set %PATH_NAME%=%PATH_setcatenv%

@@ -1,0 +1,65 @@
+------------------------------- Add new columns in workspace table -----------------------------------
+
+[Departmental Step 1]
+RENAME promotion_request TO promotion_request1;
+
+[Departmental Step 2]
+CREATE TABLE adl.promotion_request
+(
+	id                 VARCHAR(20) NOT NULL,
+	workspace          VARCHAR(20) NOT NULL,
+	workspace_revision VARCHAR(27) NOT NULL,
+	collector_ws       VARCHAR(20) NOT NULL,
+	is_enabled         VARCHAR(1)  NOT NULL,
+	is_prepromotion    VARCHAR(1)  NOT NULL,
+	first_history_rank INTEGER     NOT NULL,
+	first_date         TIMESTAMP   NOT NULL,
+	disable_hist_evt   VARCHAR(20)         ,
+	disable_reason     VARCHAR(10)         ,
+	replaced_by_promo  VARCHAR(20)         ,
+	collector_is_child VARCHAR(1)          ,
+	collector_wr       VARCHAR(27)         ,
+	collector_hist_rk  INTEGER             ,
+	cr_collect_is_done VARCHAR(1)          ,
+	creation_hist_evt  VARCHAR(20) NOT NULL
+)
+--TABLESPACE tablespace_name
+;
+
+[Departmental Step 3]
+INSERT INTO adl.promotion_request 
+(
+ id, workspace, workspace_revision, collector_ws, is_enabled, is_prepromotion,
+ first_history_rank, first_date, disable_hist_evt, disable_reason, replaced_by_promo, collector_is_child,
+ collector_wr, collector_hist_rk, cr_collect_is_done, creation_hist_evt
+)
+SELECT
+ pr1.id, pr1.workspace, pr1.workspace_revision, pr1.collector_ws, pr1.is_enabled, 'N',
+ pr1.first_history_rank, pr1.first_date, pr1.disable_hist_evt, pr1.disable_reason, pr1.replaced_by_promo, pr1.collector_is_child,
+ pr1.collector_wr, pr1.collector_hist_rk, pr1.cr_collect_is_done, pr1.creation_hist_evt
+FROM adl.promotion_request1 pr1;
+
+COMMIT;
+
+[Departmental Step 4]
+DROP TABLE adl.promotion_request1;
+
+[Departmental Step 5]
+-- * Recherche sur identifiant
+CREATE UNIQUE INDEX adl.i_promo_request_1 ON adl.promotion_request (id)
+
+[Departmental Step 6]
+-- * Recherche des demandes de promotion actives d'un espace de travail
+CREATE INDEX        adl.i_promo_request_2 ON adl.promotion_request (workspace, is_enabled)
+
+[Departmental Step 7]
+-- * Recherche de la demande de promotion active d'un espace de travail vers un espace de travail
+CREATE INDEX        adl.i_promo_request_3 ON adl.promotion_request (workspace, collector_ws, is_enabled)
+
+[Departmental Step 8]
+-- * Recherche si une version d'espace de trvail a une demande de promotion active
+CREATE INDEX        adl.i_promo_request_4 ON adl.promotion_request (workspace_revision, is_enabled)
+
+[Departmental Step 9]
+-- * Recherche des demandes de promotion en attente de collecte par un espace de travail
+CREATE INDEX        adl.i_promo_request_5 ON adl.promotion_request (collector_ws, is_enabled)

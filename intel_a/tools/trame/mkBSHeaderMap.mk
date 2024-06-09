@@ -1,0 +1,16 @@
+#
+# Specifications for Build step mkBSHMap
+#
+METACLASS_NAME = HeaderMap
+#
+DGM_GRAPH_PATH = FWDGM_GRAPHPATH
+#
+SOURCE_EXTENSION_FOR_TEST = *.hl
+#
+HLIST_LIST = $(MKMK_ROOTDATA)/.mkHLpath
+#
+DGM_DEPEND = WSCONCAT FWALLPREQ
+DGM_VERSION = 1.0
+WSCONCAT = $(WS_Concat)
+FWALLPREQ = $(FW_AllPreq)
+#

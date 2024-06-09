@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="ReleaseManager" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="DateType">
+    <xs:sequence>
+      <xs:element default="NoDate" name="Begin" type="xs:string" />
+      <xs:element default="NoDate" name="End" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="SourceType">
+    <xs:sequence>
+      <xs:element name="Name" type="xs:string" />
+      <xs:element name="Type" type="SourceElementType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="RequestedOnType">
+    <xs:sequence>
+      <xs:element name="Name" type="xs:string" />
+      <xs:element name="Type" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ExecutedOnType">
+    <xs:sequence>
+      <xs:element default="NoHost" name="Name" type="xs:string" />
+      <xs:element default="NoType" name="Type" type="xs:string" />
+      <xs:element name="Date" type="DateType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="RetryType">
+    <xs:sequence>
+      <xs:element name="Expression" type="xs:string" />
+      <xs:element name="Number" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ExportedOnType">
+    <xs:sequence>
+      <xs:element default="NoHost" name="Name" type="xs:string" />
+      <xs:element default="NoType" name="Type" type="xs:string" />
+      <xs:element name="Date" type="DateType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ReturnCodeType">
+    <xs:sequence>
+      <xs:element name="Value" type="xs:long" />
+      <xs:element name="Type" type="ReturnCodeElementType" />
+      <xs:element name="Expression" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="AttachedOnType">
+    <xs:sequence>
+      <xs:element name="Name" type="xs:string" />
+      <xs:element name="Type" type="AttachedOnElementType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="StateType">
+    <xs:sequence>
+      <xs:element name="Name" type="xs:string" />
+      <xs:element name="Value" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="DataType">
+    <xs:sequence>
+      <xs:element name="Name" type="xs:string" />
+      <xs:element name="Type" type="DataElementType" />
+      <xs:element name="Value" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CommandType">
+    <xs:sequence>
+      <xs:element name="Name" type="xs:string" />
+      <xs:element name="State" type="StateType" />
+      <xs:element name="ReturnCode" type="ReturnCodeType" />
+      <xs:element name="RequestedOn" type="RequestedOnType" />
+      <xs:element name="ExportedOn" type="ExportedOnType" />
+      <xs:element name="ExecutedOn" type="ExecutedOnType" />
+      <xs:element name="Argument" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="TimeOut" type="xs:long" />
+      <xs:element minOccurs="0" maxOccurs="1" name="TimeOutForce" type="xs:long" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Retry" type="RetryType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="DesactivateTimeOut" type="xs:long" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Data" type="DataType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="SequenceType">
+    <xs:sequence>
+      <xs:element name="Name" type="xs:string" />
+      <xs:element name="Type" type="SequenceElementType" />
+      <xs:element name="State" type="StateType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Source" type="SourceType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Command" type="CommandType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="SequenceRegionType">
+    <xs:sequence>
+      <xs:element name="Name" type="xs:string" />
+      <xs:element name="State" type="StateType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Source" type="SourceType" />
+      <xs:choice minOccurs="1" maxOccurs="unbounded">
+        <xs:element name="Sequence" type="SequenceType" />
+        <xs:element name="SequenceRegion" type="SequenceRegionType" />
+      </xs:choice>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ReleaseHostType">
+    <xs:sequence>
+      <xs:element name="Name" type="xs:string" />
+      <xs:element name="Type" type="xs:string" />
+      <xs:element name="Port" type="xs:int" />
+      <xs:element name="State" type="StateType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="CryptedID" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="UpdateTimeOut" type="xs:long" />
+      <xs:element minOccurs="0" maxOccurs="1" name="WaitTimeOut" type="xs:long" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Elevate" type="xs:int" />  
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="AttachedOn" type="AttachedOnType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Data" type="DataType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ReleaseSequenceType">
+    <xs:sequence>
+      <xs:element name="Name" type="xs:string" />
+      <xs:element name="Date" type="DateType" />
+      <xs:choice minOccurs="1" maxOccurs="unbounded">
+        <xs:element name="Sequence" type="SequenceType" />
+        <xs:element name="SequenceRegion" type="SequenceRegionType" />
+      </xs:choice>
+      <xs:element minOccurs="1" maxOccurs="unbounded" name="ReleaseHost" type="ReleaseHostType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ReleaseSequence" type="ReleaseSequenceType" />
+  <xs:simpleType name="SourceElementType">
+    <xs:restriction base="xs:NMTOKEN">
+      <xs:enumeration value="Sequence" />
+      <xs:enumeration value="SequenceRegion" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="DataElementType">
+    <xs:restriction base="xs:NMTOKEN">
+      <xs:enumeration value="Static" />
+      <xs:enumeration value="Dynamic" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="AttachedOnElementType">
+    <xs:restriction base="xs:NMTOKEN">
+      <xs:enumeration value="Command" />
+      <xs:enumeration value="Sequence" />
+      <xs:enumeration value="SequenceRegion" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="ReturnCodeElementType">
+    <xs:restriction base="xs:NMTOKEN">
+      <xs:enumeration value="NoBlocking" />
+      <xs:enumeration value="Blocking" />
+      <xs:enumeration value="BlockingAbort" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="SequenceElementType">
+    <xs:restriction base="xs:NMTOKEN">
+      <xs:enumeration value="Single" />
+      <xs:enumeration value="Virtual" />
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

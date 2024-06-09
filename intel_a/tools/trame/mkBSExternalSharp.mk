@@ -1,0 +1,14 @@
+#
+# Specifications for Build step mkBSExternalSharp
+#
+METACLASS_NAME = Link-edit
+#
+DGM_GRAPH_PATH = MODDGM_GRAPHPATH
+#
+# Loop on MkmkOS_RootBuildtime to build SRCPATH_OSBT_PATH macro
+SRCPATH_OSBT_MASK = $(MODPATH)/lib/
+#
+_MKMK_SRCPATH = $(SRCPATH_OSBT_PATH) "$(MODPATH)/lib/$(MkmkOS_NAME)"
+_USER_SRCPATH = $(LOCAL_SRCPATH:+SRCPATH_OSBT_MASK)$(LOCAL_SRCPATH)
+#
+SRCPATH = $(_USER_SRCPATH:-_MKMK_SRCPATH)

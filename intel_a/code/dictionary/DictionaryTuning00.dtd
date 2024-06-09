@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!ELEMENT Package                   (Class|Extension)* >
+<!ATTLIST Package                   Uuid           CDATA  #REQUIRED
+                                    Name           CDATA  #REQUIRED
+                                    Alias          CDATA  #IMPLIED  >
+
+<!ELEMENT Class                     (AttributeBlock|AttributeBlockExtension)* >
+<!ATTLIST Class                     Uuid           CDATA  #REQUIRED
+                                    Name           CDATA  #IMPLIED  >
+
+<!ELEMENT Extension                 (AttributeBlock|AttributeBlockExtension)* >
+<!ATTLIST Extension                 Uuid           CDATA  #REQUIRED
+                                    Name           CDATA  #IMPLIED  >
+
+<!ELEMENT AttributeBlock            EMPTY >
+<!ATTLIST AttributeBlock            Uuid           CDATA  #REQUIRED
+                                    Name           CDATA  #REQUIRED
+                                    AttributeNames CDATA  #IMPLIED
+                                    AttributeUuids CDATA  #REQUIRED >
+
+<!ELEMENT AttributeBlockExtension   EMPTY >
+<!ATTLIST AttributeBlockExtension   Uuid           CDATA  #REQUIRED
+                                    Name           CDATA  #IMPLIED
+                                    Extents        CDATA  #REQUIRED
+                                    AttributeNames CDATA  #IMPLIED
+                                    AttributeUuids CDATA  #REQUIRED >

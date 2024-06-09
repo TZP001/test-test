@@ -1,0 +1,25 @@
+#
+# Specifications for Build step mkBSJavaToCSharp
+#
+METACLASS_NAME = JavaToCSharp
+#
+DGM_GRAPH_PATH = MODDGM_GRAPHPATH
+# Mandatory
+MKMK_DGM_BEHAVIOUR = update
+#
+SOURCE_EXTENSION_JSHARP = .jsl
+SOURCE_EXTENSION = *.jsl *.java
+#
+DEPENDENT_ON = $(MOD_LinkWith) $(MOD_ClrLinkWith) $(MOD_ClrType)
+#
+MKJ2C_RESPONSEFILE = $(MOD_ObjectsPath)\.mkj2c.mkrsp
+MKJ2C_OUTDIR = $(GLocal)\mkj2c
+#
+MKJ2C_OPTJARS = -jars
+MKJ2C_OPTDLLS = -dlls
+#
+MKJ2C_COMPILER = mkj2c.bat
+MKJ2C_OPTS = -mkid 1.0 $(LOCAL_MKJ2CFLAGS)
+MKJ2C_COMMAND = $(MKJ2C_COMPILER) $(MKJ2C_OPTS) @"$(MKJ2C_RESPONSEFILE)" -o "$(MKJ2C_OUTDIR)"
+#MKJ2C_COMMAND = $(MKJ2C_COMPILER) $(MKJ2C_OPTS) -o "$(MKJ2C_OUTDIR)" -f "$(MKJ2C_RESPONSEFILE)"
+#

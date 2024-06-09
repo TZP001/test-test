@@ -1,0 +1,127 @@
+//*********************************************************************************************************************
+// HELP MESSAGES
+//***************
+
+mkcsReport.HelpBegin = "\n",
+	"-- mkcsReport --\n",
+	"***********************************************************\n",
+	"synopsis : Report\n",
+	"	[-help|-h]\n",
+	"	[-sd dirPath1;dirPath2;...][-sdlist textFilePath]\n",
+	"	-lg checkTool\n",
+	"	-data errDataFilePath\n",
+	"	-out outputDirPath\n",
+	"***********************************************************\n";
+
+mkcsReport.HelpEnd = " \n",
+		"Report Options:\n",
+		"---------------\n",
+		"  -h                           : Displays command help (synopsis)\n",
+		"  -help                        : Displays command help (detailled)\n",
+		"  -data errDataFilePath        : Errors data file path for which HTML\n",
+		"                                 report is generated\n",
+		"  -out outputDirPath           : HTML report directory path\n",
+		"                                 CAUTION: If HTML report directory doesn't\n",
+		"                                 exist, it is created. If HTML report\n",
+		"                                 directory already exists, it is overwritten\n",
+		"                                 with the new HTML report. If needed, make a\n",
+		"                                 copy of the existing HTML report before\n",
+		"                                 creating a new one.\n",
+		"  -lg checkTool                : Indicates for which tool the HTML report\n",
+		"                                 is required.\n",
+		"                                 CAUTION: this option gives the resource\n",
+		"                                 catalog key corresponding to the tool UID\n",
+		"                                 that has collected errors information. If this\n",
+		"                                 option is missing, the first UID of the\n",
+		"                                 catalog is considered as the right one.\n",
+		"  -sd dirPath1;dirPath2;...    : Directories where checked source files\n",
+		"                                 can be found\n",
+		"  -sdlist textFilePath         : \"textFilePath\" is a text file containing\n",
+		"                                 a list of directories where checked source\n",
+		"                                 files can be found.\n",
+		"                                 CAUTION: Each line of this text file must\n",
+		"                                 have only one directory path.\n";
+
+mkcsReport.Processing = "\n ***** Generating HTML report from errors data...\n";
+
+//*********************************************************************************************************************
+// SIMPLE SWITCH  MESSAGES
+//************************
+mkcsReport.Option.version	= " -version : Displays version number\n";
+mkcsReport.Option.h		= " -h : Displays command help (synopsis)\n";
+mkcsReport.Option.help		= " -help : Displays command help (detailled)\n";
+
+//*********************************************************************************************************************
+// VALUE SWITCH  MESSAGES
+//************************
+mkcsReport.Option.data		= " -data errDataFilePath : Errors data file path for which HTML\n",
+				  	  "                         report is generated\n";
+
+mkcsReport.Option.sd		= " -sd dirPath1;dirPath2;... : Directories where checked source files\n",
+					  "               can be found\n";
+
+mkcsReport.Option.sdlist	= " -sdlist textFilePath : \"textFilePath\" is a text file containing\n",
+					  "                        a list of directories where checked source\n",
+					  "                        files can be found.\n",
+					  "                        CAUTION: Each line of this text file must\n",
+					  "                        have only one directory path.\n";
+
+mkcsReport.Option.out		= " -out outputDirPath : HTML report directory path\n",
+					  "                      CAUTION: If HTML report directory doesn't exist,\n",
+					  "                      it is created. If HTML report directory already\n",
+					  "                      exists, it is overwritten with the new HTML report.\n",
+					  "                      Make a copy of the existing HTML report before\n",
+					  "                      creating a new one if needed.\n";
+mkcsReport.Option.lg		= " -lg checkTool : Indicates for which tool check result's the\n",
+					  "                 HTML report is required.\n",
+					  "                 CAUTION: this option gives the resource\n",
+					  "                 catalog key corresponding to the tool UID\n",
+					  "                 that has collected errors information. If this\n",
+					  "                 option is missing, the first UID of the\n",
+					  "                 catalog is considered as the right one.\n";
+
+//*********************************************************************************************************************
+// ERROR MESSAGES
+//***************
+
+// General errors
+mkcsReport.Error.1	= "--> MKRP-ERROR: Undefined error occured!";
+mkcsReport.Error.3	= "--> MKRP-ERROR: Empty errors data file!";
+mkcsReport.Error.101	= "--> MKRP-ERROR: Invalid or missing options or parameters on command line!";
+
+// Errors data manager errors
+mkcsReport.Error.10	= "--> MKRP-ERROR: An error occured while creating errors data manager!";
+mkcsReport.Error.11	= "--> MKRP-ERROR: An error occured while opening errors data file!";
+mkcsReport.Error.12	= "--> MKRP-ERROR: An error occured while closing errors data file!";
+mkcsReport.Error.13	= "--> MKRP-ERROR: An error occured while setting errors data file!";
+mkcsReport.Error.14	= "--> MKRP-ERROR: An error occured while reading errors data file!";
+mkcsReport.Warning.noData = "--> MKRP-WARNING: No Usable Errors data found.\n",
+							"                  File might be empty for required language!";
+
+// Command line analysis error
+mkcsReport.Error.102	= "--> MKRP-ERROR: [-sd] An error occured while reading source directory!";
+mkcsReport.Error.103	= "--> MKRP-ERROR: [-sdlist] An error occured while reading list of sources directories!";
+mkcsReport.Error.105	= "--> MKRP-ERROR: An error occured while reading source path!";
+mkcsReport.Error.106	= "--> MKRP-ERROR: [-out] An error occured while reading output path!";
+mkcsReport.Error.113	= "--> MKRP-ERROR: [-lg] An error occured while reading source code language!";
+
+// HTML related elements creation
+mkcsReport.Error.107	= "--> MKRP-ERROR: An error occured while creating output directory!";
+mkcsReport.Error.108	= "--> MKRP-ERROR: An error occured while creating HTML stream!";
+mkcsReport.Error.109	= "--> MKRP-ERROR: An error occured while creating HTML table!";
+mkcsReport.Error.110	= "--> MKRP-ERROR: An error occured while creating errors data HTML table!";
+mkcsReport.Error.111	= "--> MKRP-ERROR: An error occured while creating CSS file!";
+mkcsReport.Error.112	= "--> MKRP-ERROR: An error occured while creating resources catalog!";
+
+mkcsReport.Error.CmdLine	= "\n***********************************************************\n",
+					  "MKRP-ERROR: Refer to command line synopsis or help.\n";
+
+//*********************************************************************************************************************
+// WARNING MESSAGES
+//***************
+mkcsReport.Warning.headers	= "--> MKRP-INFO: No headers directory paths given.\n";
+mkcsReport.Warning.Report	= "--> MKRP-INFO: REPORT processing...\n",
+					  "-----------------------------------------------------------";
+mkcsReport.Warning.endProcess	= "--> MKRP-INFO: Process successfully completed.\n";
+mkcsReport.Separate		= "-----------------------------------------------------------";
+

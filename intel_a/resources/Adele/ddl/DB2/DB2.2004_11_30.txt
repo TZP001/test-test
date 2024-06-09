@@ -1,0 +1,214 @@
+[Central Step 1]
+---------------------------- adl.change_set_c_db ----------------------------------
+
+CREATE TABLE adl.change_set_c_db
+(
+	id                VARCHAR(20)  NOT NULL,
+	case_name         VARCHAR(32)  NOT NULL,
+	lower_name        VARCHAR(32)  NOT NULL,
+	is_deleted        VARCHAR(1)   NOT NULL,
+	native_database   VARCHAR(20)  NOT NULL,
+	creation_hist_evt VARCHAR(20)  NOT NULL
+)
+--TABLESPACE tablespace_name
+;
+
+[Central Step 2]
+-- * Recherche sur identifiant
+CREATE UNIQUE INDEX adl.i_change_set_cdb_1 ON adl.change_set_c_db (id);
+[Central Step 3]
+-- * Recherche à partir du nom et non supprimé
+CREATE INDEX adl.i_change_set_cdb_2 ON adl.change_set_c_db (lower_name, is_deleted);
+
+
+[Departmental Step 1]
+---------------------------- adl.change_set -----------------------------
+
+CREATE TABLE adl.change_set
+(
+	id                VARCHAR(20)  NOT NULL,
+	case_name         VARCHAR(32)  NOT NULL,
+	lower_name        VARCHAR(32)  NOT NULL,
+	is_opened         VARCHAR(1)   NOT NULL,
+	is_deleted        VARCHAR(1)   NOT NULL,
+	description       VARCHAR(255)         ,
+	last_attr_date    TIMESTAMP    NOT NULL,
+	last_chg_set_date TIMESTAMP    NOT NULL,
+	native_database   VARCHAR(20)  NOT NULL,
+	creation_hist_evt VARCHAR(20)  NOT NULL
+)
+--TABLESPACE tablespace_name
+;
+
+[Departmental Step 2]
+-- * Recherche sur identifiant
+CREATE UNIQUE INDEX adl.i_change_set_1 ON adl.change_set (id);
+[Departmental Step 3]
+-- * Recherche des change set non supprimés
+CREATE INDEX adl.i_change_set_2 ON adl.change_set (is_deleted, is_opened);
+
+[Departmental Step 4]
+---------------------------- adl.change_set_in_db -----------------------
+
+CREATE TABLE adl.change_set_in_db
+(
+	id                VARCHAR(20)  NOT NULL,
+	change_set        VARCHAR(20)  NOT NULL,
+	database          VARCHAR(20)  NOT NULL,
+	creation_hist_evt VARCHAR(20)  NOT NULL
+)
+--TABLESPACE tablespace_name
+;
+
+[Departmental Step 5]
+-- * Recherche sur identifiant
+CREATE UNIQUE INDEX adl.i_change_set_db_1 ON adl.change_set_in_db (id);
+[Departmental Step 6]
+-- * Recherche sur change set
+CREATE INDEX adl.i_change_set_db_2 ON adl.change_set_in_db (change_set, database);
+
+[Departmental Step 7]
+---------------------------- adl.change_set_mtws -----------------------------
+
+CREATE TABLE adl.change_set_mtws
+(
+	id                VARCHAR(20)  NOT NULL,
+	change_set        VARCHAR(20)  NOT NULL,
+	multi_tree_ws     VARCHAR(20)  NOT NULL,
+	is_current        VARCHAR(1)   NOT NULL,
+	creation_hist_evt VARCHAR(20)  NOT NULL
+)
+--TABLESPACE tablespace_name
+;
+
+[Departmental Step 8]
+-- * Recherche sur identifiant
+CREATE UNIQUE INDEX adl.i_so_c_set_mtws_1 ON adl.change_set_mtws (id);
+[Departmental Step 9]
+-- * Recherche sur espace de travail multi-arborescence et courant
+CREATE INDEX adl.i_so_c_set_mtws_2 ON adl.change_set_mtws (multi_tree_ws, is_current);
+[Departmental Step 10]
+-- * Recherche sur objet ensemble de modifications
+CREATE INDEX adl.i_so_c_set_mtws_3 ON adl.change_set_mtws (change_set);
+
+[Departmental Step 11]
+---------------------------- adl.change_set_wstree -----------------------
+
+CREATE TABLE adl.change_set_wstree
+(
+	id                VARCHAR(20)  NOT NULL,
+	change_set        VARCHAR(20)  NOT NULL,
+	workspace_tree    VARCHAR(20)  NOT NULL,
+	creation_hist_evt VARCHAR(20)  NOT NULL
+)
+--TABLESPACE tablespace_name
+;
+
+[Departmental Step 12]
+-- * Recherche sur identifiant
+CREATE UNIQUE INDEX adl.i_so_c_set_wt_1 ON adl.change_set_wstree (id);
+[Departmental Step 13]
+-- * Recherche sur arborescence
+CREATE INDEX adl.i_so_c_set_wt_2 ON adl.change_set_wstree (workspace_tree, change_set);
+[Departmental Step 14]
+-- * Recherche sur objet ensemble de modifications
+CREATE INDEX adl.i_so_c_set_wt_3 ON adl.change_set_wstree (change_set);
+
+[Departmental Step 15]
+---------------------------- adl.so_chg_change_set ----------------------
+
+CREATE TABLE adl.so_chg_change_set
+(
+	id                VARCHAR(20)  NOT NULL,
+	soft_obj_change   VARCHAR(25)  NOT NULL,
+	so_chg_type       VARCHAR(10)  NOT NULL,
+	software_object	  VARCHAR(20)  NOT NULL,
+	change_set        VARCHAR(20)  NOT NULL,
+	is_deleted        VARCHAR(1)   NOT NULL,
+	is_moved          VARCHAR(1)   NOT NULL,
+	creation_hist_evt VARCHAR(20)  NOT NULL
+)
+--TABLESPACE tablespace_name
+;
+
+[Departmental Step 16]
+-- * Recherche sur identifiant
+CREATE UNIQUE INDEX adl.i_so_c_chg_set_1 ON adl.so_chg_change_set (id);
+[Departmental Step 17]
+-- * Recherche du CS d'une modification
+CREATE INDEX adl.i_so_c_chg_set_2 ON adl.so_chg_change_set (soft_obj_change, is_deleted, is_moved);
+[Departmental Step 18]
+-- * Recherche des modifications d'un CS
+CREATE INDEX adl.i_so_c_chg_set_3 ON adl.so_chg_change_set (change_set, is_deleted, is_moved);
+
+[Departmental Step 19]
+---------------------------- adl.so_chg_chg_set_is ----------------------
+
+CREATE TABLE adl.so_chg_chg_set_is
+(
+	id                VARCHAR(20)  NOT NULL,
+	so_chg_id         VARCHAR(25)  NOT NULL,
+	so_chg_type       VARCHAR(10)  NOT NULL,
+	soft_obj_id  	  VARCHAR(20)  NOT NULL,
+	change_set        VARCHAR(20)  NOT NULL,
+	creation_hist_evt VARCHAR(20)  NOT NULL
+)
+--TABLESPACE tablespace_name
+;
+
+[Departmental Step 20]
+-- * Recherche sur identifiant
+CREATE UNIQUE INDEX adl.i_so_c_c_set_is_1 ON adl.so_chg_chg_set_is (id);
+[Departmental Step 21]
+-- * Recherche des modifications d'un CS
+CREATE INDEX adl.i_so_c_c_set_is_2 ON adl.so_chg_chg_set_is (change_set);
+-- * Recherche sur modification
+CREATE INDEX adl.i_so_c_c_set_is_3 ON adl.so_chg_chg_set_is (so_chg_id);
+
+[Departmental Step 22]
+---------------------------- adl.change_set_is -----------------------------
+
+CREATE TABLE adl.change_set_is
+(
+	id                VARCHAR(20)  NOT NULL,
+	change_set        VARCHAR(20)  NOT NULL,
+	site_for_hist     VARCHAR(20)  NOT NULL,
+	workspace_tree    VARCHAR(20)  NOT NULL,
+	creation_hist_evt VARCHAR(20)  NOT NULL
+)
+--TABLESPACE tablespace_name
+;
+
+[Departmental Step 23]
+-- * Recherche sur identifiant
+CREATE UNIQUE INDEX adl.i_change_set_is_1 ON adl.change_set_is (id);
+[Departmental Step 24]
+-- * Recherche sur site pour historique
+CREATE INDEX adl.i_change_set_is_2 ON adl.change_set_is (site_for_hist, workspace_tree);
+[Departmental Step 25]
+-- * Recherche sur objet ensemble de modifications
+CREATE INDEX adl.i_change_set_is_3 ON adl.change_set_is (change_set, site_for_hist);
+
+[Departmental Step 26]
+---------------------------- adl.chg_req_change_set --------------------------
+
+CREATE TABLE adl.chg_req_change_set
+(
+	id                VARCHAR(20)  NOT NULL,
+	change_set        VARCHAR(20)  NOT NULL,
+	chg_req_type      VARCHAR(15)  NOT NULL,
+	chg_req_id        VARCHAR(20)          ,
+	creation_hist_evt VARCHAR(20)  NOT NULL
+)
+--TABLESPACE tablespace_name
+;
+
+[Departmental Step 27]
+-- * Recherche sur identifiant
+CREATE UNIQUE INDEX adl.i_chg_req_c_set_1 ON adl.chg_req_change_set (id);
+[Departmental Step 28]
+-- * Recherche sur CS
+CREATE INDEX adl.i_chg_req_c_set_2 ON adl.chg_req_change_set (change_set);
+[Departmental Step 29]
+-- * Recherche sur l'application externe
+CREATE INDEX adl.i_chg_req_c_set_3 ON adl.chg_req_change_set (chg_req_type, chg_req_id);

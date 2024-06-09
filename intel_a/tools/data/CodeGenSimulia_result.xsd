@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.3ds.CodeGenSimulia_result.xsd"
+           xmlns:scgr="http://www.3ds.CodeGenSimulia_result.xsd"
+           elementFormDefault="qualified"
+>
+  
+  <!-- entry point -->
+  <xs:element name="GenerationReport" type="scgr:GenerationReportType"/>
+
+  <!-- a report is a -->
+  <xs:complexType name="GenerationReportType">
+    <xs:sequence>
+      <!-- list Generated files -->
+      <xs:element name="Message" type="xs:string" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="Generated" type="scgr:GeneratedType" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="Used" type="scgr:UsedType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="status" type="scgr:StatusType" use="required"/>
+  </xs:complexType>
+
+  <xs:simpleType name="StatusType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="OK"/>
+      <xs:enumeration value="KO"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="GeneratedType">
+    <xs:attribute name="path" type="xs:string"/>
+    <xs:attribute name="destination" type="scgr:DestinationType"/>
+  </xs:complexType>
+
+
+  <xs:complexType name="UsedType">
+    <xs:attribute name="fullpath" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:simpleType name="DestinationType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Runtimeview"/>
+      <xs:enumeration value="Implementation"/>
+      <xs:enumeration value="Interface"/>
+      <xs:enumeration value="PublicInterface"/>
+      <xs:enumeration value="ProtectedInterface"/>
+      <xs:enumeration value="PrivateInterface"/>
+    </xs:restriction>
+  </xs:simpleType>
+  
+</xs:schema>

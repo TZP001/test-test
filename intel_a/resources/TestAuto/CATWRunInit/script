@@ -1,0 +1,22 @@
+GUI_close_all();
+ODT_LOG_NAME = getenv ("ODT_LOG_NAME");
+ADL_ODT_REC = getenv ("ADL_ODT_REC");
+report_msg("Starting replay from script " & ADL_ODT_REC & "\\" & "script ");
+GUI_load(ADL_ODT_REC & "\\" & ODT_LOG_NAME & ".gui");
+invoke_application("C:\\temp\\StartWinRunner.bat","","",SW_MINIMIZE);
+#val = 0;
+#while (val == 0)
+#{
+#    if (win_check_info ("CATIA V5", "enabled", val) == E_OK)
+#	wait (0.5);
+#}
+#---------------------------------------------------------------------------------------------------------
+# START YOUR SCRIPT FROM HERE :
+#---------------------------------------------------------------------------------------------------------
+
+
+
+#---------------------------------------------------------------------------------------------------------
+#LAST LINE OF YOUR SCRIPT
+while (win_exists("C:\\temp\\StartWinRunner.bat") != E_NOT_FOUND);
+report_msg("Stopping replay ");

@@ -1,0 +1,137 @@
+//*********************************************************************************************************************
+// HELP MESSAGES
+//***************
+
+MkSourceCodeChecker.HelpBegin = "\n",
+    "Usage: MkSourceCodeChecker [-d WorkspacePath] [[-f Framework] | [-s sourceList]] [-help for more information] \n";
+MkSourceCodeChecker.HelpEnd = " \n",
+		"Options :\n",
+		"  -Check                     : Parsing only on code Frameworks (no test fw)\n",
+		"  -CheckTst                  : Parsing on code AND test Frameworks\n",
+		"                               same settings as the ones use for the promotion\n",
+		"                               are not checked\n",
+		"  -version                   : Displays version number\n",
+		"  -d directory               : Workspace directory containing sources to be\n",
+		"                               parsed\n",
+		"                               concatenation(if different from Install_Config)\n",
+		"  -f fwk1 [-f fwk2...]       : Framework, list of frameworks or pattern\n",
+		"                               matching a list of frameworks to analyze.\n",
+		"                               (* for all,[\\\\* for UNIX OS])\n",
+		"  -s src1 [-s src2...]       : Source files to analyse (list of sources\n",
+		"                               included in a WS)\n",
+		"  -sourcelist <textfile>     : Filename is a text file containing a list of\n",
+		"                               files to be parsed\n",
+		"  -optionset <filename>      : Text Option file to use (deprecated)\n",
+		"  -settings <filename>       : XML file containing settings to use (you can\n",
+		"                               use this option several times:\n",
+		"                               \"-settings file1 -settings file2\" \n",
+		"  -rep <dir>                 : Error report directory (default:stdout)\n",
+		"  -msdev <dir>               : Output in text format for quick open in msdev\n",
+		"                               (do not use this option with option -rep)\n",
+		"  -ignoreFiltering [err1 ...]: The listed errors are ignored. The others are\n",
+		"                               activated\n";
+
+MkSourceCodeChecker.hidden.HelpEnd = " \n",
+		"Hidden Options :\n",
+		"  -debugParse                : Smaller error message displayed when build\n",
+		"                               syntaxe tree failed\n",
+		"  -noCheckFiltering          : All error filters are activated, certification\n",
+		"                               keys\n",
+		"  -ignoreAllFiltering        : All error filters are ignored\n",
+		"  -perf                      : Display of application performance\n",
+		"  -monoThread                : No multithread execution\n",
+		"  -p concatenation           : List of paths corresponding to the workspace\n",
+		"                               concatenation(if different from Install_Config)\n",
+		"  -optionset <filename>      : Text Option file to use (deprecated)\n",
+		"  -OutOptions                : \n";
+
+//*********************************************************************************************************************
+// SIMPLE SWITCH  MESSAGES
+//************************
+
+MkSourceCodeChecker.Option.Check		= "  -Check : If \"-Check\" is specified in the command line only frameworks\n",
+						  "           will be parsed (no test framework)\n";
+MkSourceCodeChecker.Option.CheckTst		= "  -CheckTst : If \"-CheckTst\" is specified in the command line, test\n",
+						  "              frameworks and source code frameworks will be parsed\n";
+MkSourceCodeChecker.Option.version		= "  -version : Displays version\n";
+
+// HIDDEN
+MkSourceCodeChecker.hOption.debugParse		= "  -debugParse : If \"-debugParse\" is specified, smaller error message is\n",
+						  "                displayed when build syntaxe tree failed\n";
+MkSourceCodeChecker.hOption.noCheckFiltering	= "  -noCheckFiltering : All error filters are activated, certification keys are\n",
+						  "                      not checked\n";
+MkSourceCodeChecker.hOption.ignoreAllFiltering	= "  -version : All error filters are ignored\n";
+MkSourceCodeChecker.hOption.perf		= "  -perf : Display of application performance\n";
+MkSourceCodeChecker.hOption.monoThread		= "  -monoThread : No multithread execution\n";
+
+//*********************************************************************************************************************
+// VALUE SWITCH  MESSAGES
+//************************
+MkSourceCodeChecker.Option.d			= "  -d directory : Workspace directory containing the frameworks/sources to\n",
+                                        	  "                 analyze. If no workspace directory is provided, the tool\n",
+                                        	  "                 will look for a workspace directory including the directory\n",
+                                        	  "                 of run. If none of the directories including the directory\n",
+                                        	  "                 of run is a workspace, the tool will exit. If the command\n",
+                                        	  "                 is launched from the root directory of a workspace, this\n",
+                                        	  "                 option is useless.\n";
+
+MkSourceCodeChecker.Option.f			= "  -f fwk1 [-f fwk2...] : Framework, list of frameworks or pattern matching\n",
+                                        	  "                         a list of frameworks to analyze. These frameworks\n",
+                                        	  "                         must be included in the workspace directory.\n",
+                                        	  "                         (* for all [\\\\* for UNIX OS])\n";
+
+MkSourceCodeChecker.Option.s			= "  -s src1 [-s src2...] : Source path, list of source paths or pattern\n",
+                                        	  "                         matching a list of source paths to analyze.\n",
+	                                          "                         Every source must be included in a framework\n",
+                                        	  "                         contained in the workspace directory.\n";
+
+MkSourceCodeChecker.Option.sourcelist		= "  -sourcelist filename : File containing a source path or a list of source\n",
+                                        	  "                         paths. One source path by line. Paths should be\n",
+                                        	  "                         absolute. Every source must be included in a\n",
+                                        	  "                         framework contained in the workspace directory.\n",
+                                        	  "                         This option is similar to option\n",
+                                        	  "                         \"-s source_paths_pattern\", but input is a file.\n",
+                                        	  "                         This option is useful when you need to analyze a\n",
+                                        	  "                         lot of source paths if you get the system error\n",
+                                        	  "                         message \"command line too long\" with option\n",
+                                        	  "                         \"-s source_paths_pattern\".\n";
+
+MkSourceCodeChecker.Option.settings		= "  -settings filename : Indicates an XML file containing the user's defined\n",
+                                        	  "                       settings for the source analyze. You can use this\n",
+                                        	  "                       option several times: \"-settings file1 -settings\n",
+                                        	  "                       file2…\". This file is added to the default settings\n",
+                                        	  "                       file if the options \"-Check\" or \"-CheckTst\" are\n",
+                                        	  "                       not specified in the command line. Otherwise, this\n",
+                                        	  "                       file replace the default one.\n";
+
+MkSourceCodeChecker.Option.rep			= "  -rep dir : Directory for error report output(DON'T USE THIS OPTION WITH -msdev).\n",
+                                        	  "              If the output directory does not exist, it will be created.\n",
+                                        	  "              html_output_dir will contain a file named \"Main.html\",\n",
+                                         	  "              which is the main report file. If this option is not\n",
+                                        	  "              specified errors detected will be reported in standard\n",
+                                        	  "              output.\n";
+                                       
+MkSourceCodeChecker.Option.msdev	        = "  -msdev [dir] : Output in text format for quick open in msdev (DON'T USE\n",
+                                        	  "                 THIS OPTION WITH -rep)\n";                               
+// HIDDEN
+MkSourceCodeChecker.hOption.p		      	= "  -p concatenation : List of paths corresponding to the workspace\n",
+                                        	  "                     concatenation. Paths must be  separated by \";\" on NT\n",
+                                         	  "                     and \":\" on UNIX. If this option is not specify (it is\n",
+                                        	  "                     recommended not to specify this option), the tool will\n",
+                                         	  "                     take the default concatenation_path_list used by mkmk\n",
+                                        	  "                     (reading the Install_config file).\n";
+
+MkSourceCodeChecker.hOption.ignoreFiltering  	= "  -ignoreFiltering [err1 err2...]: The listed errors are ignored. The\n",
+                                        "                                    others are activated.\n";
+MkSourceCodeChecker.hOption.optionset	      	= "  -optionset : Text Option file to use (deprecated)\n";    
+MkSourceCodeChecker.hOption.OutOptions      	= "  -OutOptions : \n";
+
+//*********************************************************************************************************************
+// ERROR MESSAGES
+//***************
+
+MkSourceCodeChecker.Error.BuildHelp	= "\nERROR: Unable to build MKCS help from messages catalog\n";
+MkSourceCodeChecker.Error.SetOptions	= "\nERROR: Unable to set possible command options\n";
+MkSourceCodeChecker.Error.noFramework	= "\nERROR: You must specify a list of framework to process\n";
+MkSourceCodeChecker.Error.noSource	= "\nERROR: You must specify a list of sources to process\n";
+MkSourceCodeChecker.Error.loadSource	= "\nERROR: Unable to load source from specified file\n";

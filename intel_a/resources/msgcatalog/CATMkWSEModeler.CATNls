@@ -1,0 +1,396 @@
+Global.Version.BuildLevel =	"/P1 (Build /P2)";
+
+Global.Usage = 			"\n",
+"Usage:\n";
+
+
+mkmk.Usage = "\nMain code builder tool.\n\n",
+"Usage: mkmk [-W WSPath] [-a|-lFW FWlist|framework [framework]|module [module]] [[-g|-ge]|-w|-dev] [-u] [-idcard|-noci] [-nobuild] [-nomk] [-xrefdb] [-javadoc] [-jobs #] [-perf] [-showcmd] [-showdgmupdate] [-h, -?, -help] [-v]\n";
+
+mkdoc.Usage = "\nMain code builder tool for online documentation.\n\n",
+"Usage: mkdoc [-W WSPath] [-a|-lFW FWlist|framework [framework]|module [module]] [-u] [-idcard|-noci] [-nobuild] [-nomk] [-xrefdb] [-jobs #] [-perf] [-showcmd] [-showdgmupdate] [-h, -?, -help] [-v]\n";
+
+mkstep.Usage = "\nExecute specified steps of build on modules and frameworks of a workspace.\n\n",
+"Usage: mkstep -s Step1[:Step2] [-W WSPath] [-a|-lFW FWlist|-lMod MODlist|framework [framework]|module [module]] [-jobs #] [-h, -?, -help] [-v]\n";
+
+mkmk.Option.i =			"   -/P1                : -- No more used --";
+mkmk.Option.c =			"   -/P1                : -- No more used --";
+mkmk.Option.nomsg =		"   -/P1            : -- Same as -nomk -";
+mkmk.Option.u =			"   -/P1                : Force mkdata update";
+mkmk.Option.mkdataonly ="   -/P1       : Update mkdata but does not build";
+mkmk.Option.ignore_mkerror ="   -/P1   : Ignore errors during mkdata update and allow build steps to proceed";
+mkmk.Option.nobuild = 	"   -/P1          : Do not launch make of modules";
+mkmk.Option.nomk =		"   -/P1             : Ignore mkdata update";
+mkmk.Option.bsargs =		"   -/P1 xxx       : Special options for [\"-clean -v -n foo.o\"]";
+mkmk.Option.w =			"   -/P1                : Activate the detection of warnings while compiling";
+mkmk.Option.g =			"   -/P1                : Activate the debug mode while compiling";
+mkmk.Option.ge =			"   -/P1               : Activate the edit and continue debug mode while compiling";
+mkmk.Option.dev =			"   -/P1              : No optimization is performed while compiling";
+mkmk.Option.bsc =			"   -/P1              : Produce browser information files .bsc while compiling/linking";
+mkmk.Option.zip =       "   -/P1              : Produce java source archive files .zip while compiling";
+mkmk.Option.idcard =		"   -/P1           : Framework only";
+mkmk.Option.noci = 		"   -/P1             : Module only";
+mkmk.Option.xrefdb = 	"   -/P1           : Generate dependencies database for Frameworks";
+mkmk.Option.javadoc = 	"   -/P1          : Generate Java documentation";
+mkmk.Option.java2 =		"   -/P1            : -- No more used --";
+mkmk.Option.jobsdebug = "   -/P1        : Debug multiprocessing (optional)";
+
+mkdoc.Option.lang =		"   -/P1             : Specifies the NLS language for the documentation build (EN|JA|FR|...). Default value is EN";
+
+mkstep.Option.s =			"   -/P1 Step           : The name of the steps to be executed (i.e. grammar, compilation, link, ...)";
+
+Global.Option.onlydoc = 	"   -/P1          : Build only modules with BUILT_OBJECT_TYPE = DOC";
+Global.Option.nodoc =		"   -/P1            : Does not build modules with BUILT_OBJECT_TYPE = DOC";
+Global.Option.h =				"   -/P1                : This help";
+Global.Option.h.other =		"   -/P1                : The same as -h";
+Global.Option.help =			"   -/P1             : The same as -h";
+Global.Option.v =				"   -/P1                : Activates the verbose mode";
+Global.Option.showcmd=		"   -/P1          : Print command lines before executing them";
+Global.Option.showdgmupdate="   -/P1    : Display the modification status of dependencies graph's objects and trace a possible reason for the changes.";
+Global.Option.perf =			"   -/P1             : Displays command's performances";
+Global.Option.jobs =			"   -/P1 #           : Sets number of simultaneous jobs";
+Global.Option.BSdef =		"   -/P1 xxx        : Specifies the file for step definition (default:StepsDefinition.mk)";
+Global.Option.BSgraph =		"   -/P1 xxx      : Specifies the file for graph of step (default:StepsGraph.mk)";
+Global.Option.dbg =			"   -/P1 xxx          : xxx = Mod or FW to activate debug mode";
+Global.Option.targetsdecl ="   -/P1 xxx  : xxx = Specifies the file for targets descriptions";
+Global.Option.rootdecl =	"   -/P1 xxx     : xxx = Specifies the file for main declarations";
+Global.Option.nobig =		"   -/P1            : To avoid automatic addition of container modules while considering NONE";
+Global.Option.a =		"   -/P1                : Considers all modules or frameworks";
+Global.Option.W =		"   -/P1 WSPath         : Sets the workspace directory to WSPath";
+Global.Option.lFW =	"   -/P1 FWlist       : The name of the list of frameworks to work on";
+Global.Option.lMod =	"   -/P1 MODlist     : The name of the list of modules to work on";
+Global.Option.xml = 	"   -/P1 xxx          : Specifies the XML file";
+
+mkCreateView.Option.view1 = 	"   -/P1            : Imakefile.mk from module != DOC, DOC_BASE and DOC_MAIN";
+mkCreateView.Option.view2 =	"   -/P1            : Imakefile.mk from module = DOC, DOC_BASE or DOC_MAIN";
+mkCreateView.Option.view3 =	"   -/P1            : IdentityCard.h  + CNext* & FuntionTests directory contents";
+mkCreateView.Option.view4 = 	"   -/P1            : Sources from module != DOC, DOC_BASE and DOC_MAIN";
+mkCreateView.Option.view5 =	"   -/P1            : Sources from module = DOC, DOC_BASE or DOC_MAIN";
+mkCreateView.Option.view6 =	"   -/P1            : PublicInterfaces directory contents";
+mkCreateView.Option.view7 =	"   -/P1            : ProtectedInterfaces directory contents";
+mkCreateView.Option.view8 =	"   -/P1            : PrivateInterfaces & LocalInterfaces (from module != DOC, DOC_BASE and DOC_MAIN) directories contents";
+mkCreateView.Option.view9 =	"   -/P1            : Generated objects required for build time (level public)";
+mkCreateView.Option.view10 =	"   -/P1           : Additional generated objects required for build time (level protected)";
+mkCreateView.Option.viewDOC =	"   -/P1          : Create DOC views";
+mkCreateView.Option.viewJDOC =	"   -/P1         : Create Javadoc views";
+mkCreateView.Option.viewALL =	"   -/P1          : Activate -view* switches (except -viewCAA -viewJDOC )";
+mkCreateView.Option.viewCAA =	"   -/P1          : Create CAA views (cannot be mixed with other -view* switches)";
+mkCreateView.Option.viewCBT =   "   -/P1          : Create CBT view (cannot be mixed with other -view* switches)";
+mkCreateView.Option.t =		"   -/P1 xxx            : Created view's path (default is under current Workspace runtime view)";
+mkCreateView.Option.o =		"   -/P1 xxx            : Add OS to CAA view (current OS is not automatically added)";
+mkCreateView.Option.protected = "   -/P1        : Add ProtectedInterfaces directory contents (with -viewCAA)"; 
+mkCreateView.Option.l0 =	"   -/P1               : Create CAA L0 views (with -viewCAA)";
+mkCreateView.Option.jdocExt= "   -/P1 xxx      : Change the default mkJDoc control file extension .caa2jdoc into xxx";
+
+
+mkmkimpact.Usage =			"\nRetrieves inter-objects relations by analyzing mkmk databases\n\n",
+"Usage: mkmkimpact [-p Path1[:Path2]] [-depth #] [-tree] [-detail] [-usedby(default)|-use|-produce] [-nocode] [-edu [-test]] [-h, -?, -help] [-v] Object_name | -f list_of_object_names\n\n",
+"The search is performed on existing mkmk databases generated by command 'mkxrefdb -a' or with 'mkmk -a -xrefdb'.",
+" Object name must be the full name of the object relative to the workspace.\n",
+"Examples:\n",
+" MkUtilities\ProtectedInterfaces\mkUsefull.h\n",
+" MkUtilities\CATMkServices.m\LocalInterfaces\mkTabArgPrivate.h\n";
+
+mkmkimpact.Option.f = 		"   -/P1 file           : Specify a list of objects to search for";
+mkmkimpact.Option.p = 		"   -/P1 Path1:Path2    : Specify a path concatenation";
+mkmkimpact.Option.nocode =	"   -/P1           : Don't search CODE frameworks";
+mkmkimpact.Option.test = 	"   -/P1             : Search TEST frameworks";
+mkmkimpact.Option.edu = 	"   -/P1              : Search EDUCATION frameworks";
+mkmkimpact.Option.usedby = "   -/P1           : Search for objects which USE input, the default";
+mkmkimpact.Option.use =		"   -/P1              : Search for objects USED BY the input";
+mkmkimpact.Option.produce ="   -/P1          : Search for objects which are PRODUCED by the input";
+mkmkimpact.Option.detail = "   -/P1           : Report whole dependencies of each object separately";
+mkmkimpact.Option.depth = 	"   -/P1 #          : Causes descent of the dependencies to be done to input maximum level";
+mkmkimpact.Option.tree = 	"   -/P1             : Report a tree hierarchy of objects";
+mkmkimpact.Option.load =        "   -/P1 file        : Specify a database file to load";
+mkmkimpact.Option.save =        "   -/P1 file        : Specify a database file to save";
+
+mkGetPreq.Usage =			   "\nSets or displays the workspaces concatenation used for prerequisites access\n\n",
+"Usage: mkGetPreq [-W WSPath] [-a (always true)] [-p Path1[:Path2]] [-q] [-simul] [-noci] [-jobs #] [-h, -?, -help] [-v]\n";
+
+mkGetPreq.Option.c = 		"   -/P1                : -- Useless, for compatibility --";
+mkGetPreq.Option.p = 		"   -/P1 Path1:Path2    : Set workspace paths concatenation";
+mkGetPreq.Option.q = 		"   -/P1                : Quiet mode, only errors are printed";
+mkGetPreq.Option.simul = 	"   -/P1            : Simulate new workspace paths concatenation";
+mkGetPreq.Option.simu =		"   -/P1             : The same as -simul";
+mkGetPreq.Option.noci = 	"   -/P1             : Ignore frameworks build";
+mkGetPreq.Option.rt = 		"   -/P1               : Also treats runtime prerequisite";
+
+mkDocV2.Option.wsroot = 	"   -/P1           : Workspace directory";
+mkDocV2.Option.src = 		"   -/P1              : Src path of input module";
+mkDocV2.Option.output = 	"   -/P1           : module.data path";
+mkDocV2.Option.substitute = "   -/P1       : Variables substitution file";
+mkDocV2.Option.lang =		"   -/P1             : Lang value defined in Imakefile.mk";
+mkDocV2.Option.config = 	"   -/P1           : Extension file path";
+mkDocV2.Option.docnoprereq ="   -/P1      : No prerequisite definition";
+mkDocV2.Option.verbose = 	"   -/P1          : Verbose mode";
+mkDocV2.Option.main_doc = 	"   -/P1         : DOC_MAIN module type";
+mkDocV2.Option.base_doc = 	"   -/P1         : DOC_BASE module type";
+mkDocV2.Option.fwname = 	"   -/P1           : Framework name";
+mkDocV2.Option.modname = 	"   -/P1          : Module name";
+
+
+mkPrintPreq.Usage =			"\nDisplay prerequisites relations between frameworks.\n\n",
+"Usage: mkPrintPreq [-W WSPath] [-a|-lFW FWlist|framework [framework]] [-p Path1[:Path2]] [-d] [-f] [-l] [-h, -?, -help] [-v]\n";
+
+mkPrintPreq.Option.p = 		"   -/P1 Path1:Path2    : Set workspace paths concatenation to be added to the current workspace directory";
+mkPrintPreq.Option.f = 		"   -/P1                : Prints path where prerequisites are found";
+mkPrintPreq.Option.l = 		"   -/P1                : Prints framework(s) detailed prerequisites";
+mkPrintPreq.Option.e = 		"   -/P1                : Prints framework(s) prerequisites extended information";
+mkPrintPreq.Option.d = 		"   -/P1                : Prints only direct prerequisites";
+mkPrintPreq.Option.rt =		"   -/P1                : Also prints runtime prerequisites";
+ 
+mkrun.Option.p = 		"   -/P1 xxx            : Defines a new path concatenation for the execution";
+mkrun.Option.s = 		"   -/P1 xxx            : Defines the path to find setcatenv out of the path concatenation";
+mkrun.Option.c = 		"   -/P1 xxx            : Command to launch (CNEXT is the default)";
+mkrun.Option.r = 		"   -/P1 xxx            : Define an install path";
+mkrun.Option.e = 		"   -/P1 xxx            : Use a already defined environment";
+mkrun.Option.n = 		"   -/P1 xxx            : Name of the default environment to create";
+mkrun.Option.defaultEnvName = 	"   -/P1 xxx : ENOVIA V5 VPM : Environment name for the server";
+mkrun.Option.envNameFile = 	"   -/P1 xxx  : ENOVIA V5 VPM : Name of the file that contains Environments definitions";
+mkrun.Option.hostname = 	"   -/P1 xxx     : ENOVIA V5 VPM : hostname of server, use server:port ex : gwenn:1574";
+mkrun.Option.ITPort = 	"   -/P1 xxx     : internal do not use ";
+mkrun.Option.ITServer = 	"   -/P1 xxx     : internal do not use ";
+mkrun.Option.EnoviaEnv = 	"   -/P1 xxx    : Define which ENOVIA V5 VPM environment to use from IT catalog ";
+mkrun.Option.EnoviaV6Env = 	"   -/P1 xxx  : Define which ENOVIA V6 VPM environment to use from IT catalog ";
+mkrun.Option.enovia = 		"   -/P1           : ENOVIA V5 VPM : Launch ENOVIA V5 VPM client";
+mkrun.Option.keep = 		"   -/P1             : Keep the shell used to launch the command";
+mkrun.Option.x = 		"   -/P1                : Activate verbose mode";
+mkrun.Option.mkmk = 		"   -/P1             : ???";
+mkrun.Option.cf =  "   -/P1 xxx           : Concatenate workspace environment to an installed environement, xxx is the full path to environment file";
+mkrun.Option.DBSettings =  "   -/P1               : Create settings to access database from the ENOVIA V5 VPM for all env choosed";
+
+mkidx.Option.wsroot = 		"   -/P1 xxx       : Workspace directory";
+mkidx.Option.srcfile = 		"   -/P1 xxx      : module.data path";
+mkidx.Option.srclist = 		"   -/P1 xxx      : List of files";
+mkidx.Option.modname = 		"   -/P1 xxx      : Module name";
+mkidx.Option.part_title = 	"   -/P1 xxx   : Module identification";
+mkidx.Option.prdidx = 		"   -/P1 xxx       : Product name defined in Imakefile.mk";
+mkidx.Option.modidx =           "   -/P1 xxx       : Modeler name defined in Imakefile.mk";
+mkidx.Option.solidx =           "   -/P1 xxx       : Solution name defined in Imakefile.mk";
+mkidx.Option.lang = 		"   -/P1 xxx         : Lang value defined in Imakefile.mk";
+mkidx.Option.appletpath = 	"   -/P1 xxx   : Runtime view path";
+mkidx.Option.dic_chinese = 	"   -/P1 xxx  : Chinese dictionary";
+mkidx.Option.verbose = 		"   -/P1          : verbose mode";
+
+mkid2url.Option.bsf =		"   -/P1 xxx          : Define the path of BSF";
+mkid2url.Option.bsfdoc =		"   -/P1 xxx       : Define the path of BSFDOC";
+mkid2url.Option.pack =		"   -/P1 xxx         : Define the packaging path";
+mkid2url.Option.showanc =		"   -/P1 xxx      : Show anchors not resolved";
+// mkid2url.Option.packdoc =	"   -/P1 xxx      : Define the DOC packaging path";
+// mkid2url.Option.d =		"   -/P1 xxx            : Define the path of the documentation";
+// mkid2url.Option.online =	"   -/P1 xxx       : Define if online/onlineP1 file tree";
+// mkid2url.Option.w =		"   -/P1 xxx            : Output file path";
+// mkid2url.Option.o =		"   -/P1 xxx            : Output file name";
+// mkid2url.Option.m =		"   -/P1 xxx            : Product/Solution/Media file name";
+// mkid2url.Option.ldoc =		"   -/P1 xxx         : List of module to work on";
+// mkid2url.Option.util =		"   -/P1             : To take into account only UTIL LongHelpId ( Batch monitor )";
+
+atpCheckMedia.Option.c = 	"   -/P1 xxx            : List of component to work on";
+atpCheckMedia.Option.p = 	"   -/P1 xxx            : Define the path concatenation";
+atpCheckMedia.Option.a = 	"   -/P1                : Check all components in Workspace";
+atpCheckMedia.Option.i = 	"   -/P1 xxx            : Type of check performed";
+atpCheckMedia.Option.relpack = 	"   -/P1          : Packaging Release Check mode";
+atpCheckMedia.Option.relbuild = "   -/P1         : Code Release Check mode";
+atpCheckMedia.Option.w = 	"   -/P1                : Enable warning message";
+atpCheckMedia.Option.alltests = "   -/P1         : Enable all checks";
+atpCheckMedia.Option.noCAA = "   -/P1            : Skip CAA checks";
+atpCheckMedia.Option.noDOC = "   -/P1            : Skip DOC checks";
+atpCheckMedia.Option.lAuthFw = "   -/P1         : list of authorized framework for packaging";
+
+atpDownload.UsageUnix = "\nDownload runtime view.\n\n",
+"Usage: atpDownload [-W WSPath] [-t Path] [-code Path1[:Path2]] [-packaging Path] [-clean] [-internal] [-wdata Path] [-c Fw1...-c Fwn] [-h, -?, -help] [-v]\n";
+atpDownload.UsageWindows = "\nDownload runtime view.\n\n",
+"Usage: atpDownload [-W WSPath] [-t Path] [-code Path1[;Path2]] [-packaging Path] [-clean] [-internal] [-wdata Path] [-pdb] [-h, -?, -help] [-v]\n";
+atpDownload.Option.c = 	"   -/P1 xxx            : Product, solution or framework to download";
+atpDownload.OptionWindows.pdb = 	"   -/P1 xxx          : Allow downloading pdb for Windows";
+atpDownload.Option.clean = 	"   -/P1            : Check all components in target directory";
+atpDownload.Option.internal = "   -/P1         : With not deliverable and internal data";
+atpDownload.Option.packaging = 	"   -/P1 xxx    : Define the path of the Packaging";
+atpDownload.Option.code = 	"   -/P1 xxx         : Define concatenation path of the Code";
+atpDownload.Option.t = "   -/P1 xxx            : Target directory for the download (must be created before)";
+atpDownload.Option.wdata = "   -/P1 xxx        : Relative workspace data file to take into account";
+atpDownload.Option.filter = "   -/P1 xxx       : Path of the filter file to take into account";
+atpSilentInstall.Option.c = 	"   -/P1 xxx            : Component to install (must contain a solution). Ex: -c AL2.slt -c M1.prd";
+atpSilentInstall.Option.t = 	"   -/P1 xxx            : Destination directory. Ex: -t c:\CATIA\B04";
+atpSilentInstall.Option.Packaging = "   -/P1 xxx    : Path of the packaging BSF. Ex: -Packaging \\Atlas\CXR5\PACKAGINGBSF";
+atpSilentInstall.Option.Cdrom = "   -/P1 xxx        : Path of the CD image. Ex: -Cdrom \\Rubens\CDROM_5\Ga\Catia";
+atpSilentInstall.Option.ServicePack = "   -/P1 xxx  : Path of the service pack. Ex: -ServicePack \\Rubens\CDROM_5\SP1\SPK.intel_a";
+atpSilentInstall.Option.KeepCD = "   -/P1           : keep the local CD copy";
+atpSilentInstall.Option.InternalDS = "   -/P1       : copy InternalDS.prdIC.script into the local install";
+atpSilentInstall.Option.Uninstall = "   -/P1        : Uninstall at the end (Test install only)";
+atpSilentInstall.Option.Orbix = "   -/P1            : For install that need orbix configuration";
+atpSilentInstall.Option.New =	"   -/P1              : There have been no install made on this machine before";
+
+
+atpExtendedMediaDataGen.Option.a = "   -/P1              : Consider any media from the workspace";
+atpExtendedMediaDataGen.Option.o = "   -/P1 path         : Set the output path to xxx. Mandatory";
+atpExtendedMediaDataGen.Option.p = "   -/P1 path         : Workspace paths concatenation where prerequisites are searched for.";
+atpExtendedMediaDataGen.Option.gview = "   -/P1 fileName : Also generate a global view file fileName in the output directory.";
+//=====================================================================================
+// mkcheckrtv command
+//=====================================================================================
+
+mkcheckrtv.Usage = "\nCheck some internal rules for run time views.\n",
+"\nUsage : mkcheckrtv [-dictionary] [-data [-noic]] [-catalog] [-xml logfile] [-h, -?] [-v]\n";
+
+mkcheckrtv.Option.wdata =	"   -/P1 DataPath   : Relative workspace data file to take into account.";
+mkcheckrtv.Option.dico =	"   -/P1       : To restrict the check to dictionary anomalies.";
+mkcheckrtv.Option.data =	"   -/P1             : To restrict the check to data anomalies.";
+mkcheckrtv.Option.noic =	"   -/P1             : To not ignore upper/lower case distinction while checking data file names.";
+mkcheckrtv.Option.catalog ="   -/P1          : To restrict the check to catalog anomalies.";
+
+mkprintsteps.Usage =				"\nRetrieve the list of mkmk build steps.\n\n",
+"Usage: mkprintsteps [-xrefdb] [-h, -?, -help] [-v]\n";
+
+//====================================================
+global.badopterr = "Command line -> Syntax error.";
+global.usage.buildlevel =	"\t/P1 (Build /P2)";
+global.usage.name =			"NAME";
+global.usage.description =	"DESCRIPTION";
+global.usage.options =		"OPTIONS";
+global.usage.synopsis =		"SYNOPSIS";
+// ---------------------------------------------------
+global.opt.synopsis = " [-jobs #] [-xml file] [-h|-?|-help]";
+// ---
+global.opt.h =			"\t-/P1                : This help.";
+global.opt.helpmark =	"\t-/P1                : -- Same as -h --";
+global.opt.help =		"\t-/P1             : More help for additional features.";
+global.opt.v =			"\t-/P1                : Activate the verbose mode.";
+global.opt.perf =		"\t-/P1             : Display command's performances.";
+global.opt.jobs =		"\t-/P1 #           : Set number of simultaneous jobs.";
+global.opt.jobsdebug =	"\t-/P1        : Debug multiprocessing.";
+global.opt.xml =		"\t-/P1 xxx          : Specify the XML output file.";
+//====================================================
+wsconcat.opt.synopsis = " [-p path[:path]|-pfile file]";
+// ---
+wsconcat.opt.p =	"\t-/P1 path           : The list of pathnames of the concatenated workspaces to add to the current workspace separated by ':' on UNIX and ';' on Windows.";
+wsconcat.opt.pfile ="\t-/P1 file       : The name of the file containing a workspaces concatenation created by mkGetPreq, the default file name is 'Install_config' for UNIX and 'Install_config_${MkmkOS_Buildtime}' for Windows.";
+// ---------------------------------------------------
+wsconcat.isamodule.duplicated = "Module [/P1] found in [/P2] is ignored since a module [/P3] already exists in [/P4].";
+wsconcat.searchforfw.dirnotfound = "Directory [/P1] was not found in specified workspace(s), framework [/P1] does not exist.";
+wsconcat.searchformod.dirnotfound = "Directory [/P1.m*] was not found in specified workspace(s), module [/P1] does not exist.";
+wsconcat.searchformod.modulenotfound = "Module [/P1] does not exist in specified workspace(s).";
+//====================================================
+wseoncmdline.opt.synopsis = " [-W WSPath] [-a|-lFW list|framework [framework]|module [module]]";
+// ---
+wseoncmdline.opt.W =	"\t-/P1 WSPath         : The pathname of the working workspace, the default is to use current directory to determine the location within the workspace.";
+wseoncmdline.opt.a =	"\t-/P1                : Consider all modules or frameworks.";
+wseoncmdline.opt.lFW =	"\t-/P1 FWlist       : The name of the list of frameworks to work on.";
+//SHE: wseoncmdline.opt.lMod = "\t-/P1 MODlist     : The name of the list of modules to work on.";
+wseoncmdline.opt.nobig ="\t-/P1            : To avoid automatic addition of container modules while considering NONE.";
+// ---
+wseoncmdline.listfw.notinwws = "The specifed framework [/P1] which belongs to workspace [/P2] is ignored since it is not in the current working workspace [/P3].";
+wseoncmdline.listfw.isempty = "The list of frameworks to work on is empty.";
+wseoncmdline.listmod.notinwfw = "The specifed module [/P1] which belongs to framework [/P2] in workspace [/P3] is ignored since it is not in the current working framework [/P4].";
+wseoncmdline.listmod.notinwws = "The specifed module [/P1] which belongs to framework [/P2] in workspace [/P3] is ignored since it is not in the current working workspace [/P4].";
+//====================================================
+mkmergexrefdb.opt.description = "\tMerge existing XrefDB files to a single output.";
+mkmergexrefdb.opt.synopsis =
+"\tmkmergexrefdb -save output [-W WSPath] [-p path[:path]] [-a] [-h|-?|-help]\n",
+"\tmkmergexrefdb -save output -load input[,input] [-h|-?|-help]\n",
+"\tmkmergexrefdb -save output -load input[,input] -W WSPath [-p path[:path]] [-h|-?|-help]";
+// ---
+mkmergexrefdb.opt.save =	"\t-/P1 output      : Specify the file name of the XrefDB to create.";
+mkmergexrefdb.opt.load =	"\t-/P1 input       : Specify the file name of the XrefDB to merge.";
+// ---
+mkmergexrefdb.opt.help =
+"Without option '-load':\n",
+"\tThe current directory is the working workspace.\n",
+"\tAll existing XrefDB files in all frameworks are merged to the output.\n",
+"\tThe working workspace can be specified with option '-W' in place of the current directory.\n",
+"\tThe option '-p' can be used to add workspaces to the working workspace.\n",
+"\nWith option '-load':\n",
+"\tOnly the files specified with option '-load' are used, a working workspace is not mandatory.\n",
+"\tAdditional file names can be specified in a comma separated list to the option 'load'\n",
+"\tWith option '-load', the option '-W' is mandatory to add a working workspace to the list of files.\n",
+"";
+// ---
+mergexrefdb.loadingxrefdb = "Loading XrefDB files";
+mergexrefdb.startloading = "Start loading /P1 XrefDB files ...";
+mergexrefdb.writingdg = "Writing dependencies graph to file [/P1] ...";
+mergexrefdb.nofw = "/P1: This command must be executed in a workspace containing at least one framework.";
+mergexrefdb.fwhasnoxrefdb = "/P1: This framework has no XrefDB file named [/P2].";
+mergexrefdb.noxrefdb = "/P1: The list of XrefDB files may not be empty.";
+//====================================================
+mkmkimpact.opt.description = "\tRetrieves inter-objects relations by analyzing mkmk databases.";
+mkmkimpact.opt.synopsis =
+"\tmkmkimpact [-W WSPath] [-p path[:path]] [-depth #] [-tree] [-detail] [-usedby(default)|-use|-produce] [-nocode] [-edu [-test]] [-h|-?|-help] -f list|name ...\n",
+"\tmkmkimpact -load input[,input] [-depth #] [-tree] [-detail] [-usedby(default)|-use|-produce] [-nocode] [-edu [-test]] [-h|-?|-help] -f list|name ...\n",
+"\nOld deprecated usages. Prefer command named 'mkmergexrefdb' to merge databases.\n",
+"\tmkmkimpact -save output [-W WSPath] [-p path[:path]] [-h|-?|-help]";
+// ---
+mkmkimpact.opt.f =		"\t-/P1 file           : Specify a list of objects to search for.";
+mkmkimpact.opt.nocode =	"\t-/P1           : Do not search CODE frameworks.";
+mkmkimpact.opt.test =	"\t-/P1             : Search TEST frameworks.";
+mkmkimpact.opt.edu =	"\t-/P1              : Search EDUCATION frameworks.";
+mkmkimpact.opt.usedby =	"\t-/P1           : Search for objects which USE input, the default.";
+mkmkimpact.opt.use =	"\t-/P1              : Search for objects USED BY the input.";
+mkmkimpact.opt.produce ="\t-/P1          : Search for objects which are PRODUCED by the input.";
+mkmkimpact.opt.detail =	"\t-/P1           : Report whole dependencies of each object separately.";
+mkmkimpact.opt.depth =	"\t-/P1 #          : Causes descent of the dependencies to be done to input maximum level.";
+mkmkimpact.opt.tree =	"\t-/P1             : Report a tree hierarchy of objects.";
+// ---
+mkmkimpact.opt.help =
+"\nObject names on command line, or listed in the input file with option '-f', must be the pathname of the objects relative to the workspace.\n",
+"Examples:\n",
+"\tMkUtilities\ProtectedInterfaces\mkUsefull.h\n",
+"\tMkUtilities\CATMkServices.m\LocalInterfaces\mkTabArgPrivate.h\n",
+"\nWithout option '-load':\n",
+"\tThe current directory is the working workspace.\n",
+"\tThe search is performed on existing XrefDB files in all frameworks generated by command 'mkxrefdb -a' or with 'mkmk -a -xrefdb'.\n",
+"\tThe working workspace can be specified with option '-W' in place of the current directory.\n",
+"\tThe option '-p' can be used to add workspaces to the working workspace.\n",
+"\nWith option '-load':\n",
+"\tOnly the files specified with option '-load' are used, a working workspace is not mandatory.\n",
+"\tAdditional file names can be specified in a comma separated list to the option 'load'\n",
+"";
+// ---
+mkmkimpact.noobjects = "/P1: The list of file names to work on may not be empty.";
+mkmkimpact.bldproducebytable = "Building ProducedBy tables ...";
+mkmkimpact.bldusedbytable = "Building UsedBy tables ...";
+//====================================================
+mkmk.opt.description = "\tMain code builder tool";
+mkmk.opt.synopsis = "\tmkmk [-g|-ge] [-w] [-dev] [-u] [-idcard|-noci] [-nobuild] [-mkdataonly|-nomk] [-xrefdb] [-javadoc] [-showcmd]";
+// ---
+mkmk.opt.mkdataonly =	"\t-/P1       : Update mkdata but do not build.";
+mkmk.opt.showcmd=		"\t-/P1          : Print command lines before executing them.";
+mkmk.opt.nomk =			"\t-/P1             : Ignore mkdata update.";
+mkmk.opt.nomsg =		"\t-/P1            : -- Same as -nomk --";
+mkmk.opt.showdgmupdate=	"\t-/P1    : Display the modification status of dependencies graph's objects and trace a possible reason for the changes.";
+mkmk.opt.u =			"\t-/P1                : Force mkdata update.";
+mkmk.opt.ignore_mkerror ="\t-/P1   : Ignore errors during mkdata update and allow build steps to proceed.";
+mkmk.opt.nobuild =		"\t-/P1          : Do not launch make of modules.";
+mkmk.opt.w =			"\t-/P1                : Activate the detection of warnings while compiling;";
+mkmk.opt.g =			"\t-/P1                : Activate the debug mode while compiling.";
+mkmk.opt.ge =			"\t-/P1               : Activate the edit and continue debug mode while compiling.";
+mkmk.opt.bsc =			"\t-/P1              : Produce browser information files .bsc while compiling/linking.";
+mkmk.opt.zip =			"\t-/P1              : Produce java source archive files .zip while compiling.";
+mkmk.opt.dev =			"\t-/P1              : No optimization is performed while compiling.";
+mkmk.opt.idcard =		"\t-/P1           : Framework only.";
+mkmk.opt.noci =			"\t-/P1             : Module only.";
+mkmk.opt.xrefdb =		"\t-/P1           : Generate dependencies database for Frameworks.";
+mkmk.opt.javadoc =		"\t-/P1          : Generate Java documentation.";
+mkmk.opt.nodoc =		"\t-/P1            : Does not build modules with BUILT_OBJECT_TYPE = DOC.";
+mkmk.opt.BSgraph =		"\t-/P1 file     : Specify the file for graph of step (default:StepsGraph.mk);";
+mkmk.opt.help = "";
+// ---
+mkmk.nothingtodo = "/P1: This command must be executed in a workspace containing at least one framework.";
+//====================================================
+mkcscreateview.opt.description = "\tMerge existing CSC databases to a single output.";
+mkcscreateview.opt.synopsis =
+"\tmkcscreateview [-W WSPath] -out output [-a|Framework [Framework...]]";
+// ---
+mkcscreateview.opt.out =	"\t-/P1 output       : Specify the file name of the database to create.";
+// ---
+mkcscreateview.opt.help = 
+"";
+// ---
+cscreateview.loadingcscdb = "Loading CSC databases";
+cscreateview.startloading = "Start loading /P1 CSC databases ...";
+cscreateview.nofw = "/P1: This command must be executed in a workspace containing at least one framework.";
+cscreateview.fwhasnocscdb = "/P1: This framework has no CSC database named [/P2].";
+cscreateview.modhasnocscdb = "/P1/P2: This module has no CSC database named [/P3].";
+cscreateview.nocscdb = "/P1: The list of CSC databases may not be empty.";
+cscreateview.failed = "/P1: Failed to create CSC database output [/P2].";
+// ---------------------------------------------------

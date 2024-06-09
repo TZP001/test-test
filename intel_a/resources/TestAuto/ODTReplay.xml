@@ -1,0 +1,135 @@
+<?xml version="1.0"?>
+<ODTReplayDictionary>
+    <OSDefinition>
+		<OS_TYPE name="Unix">
+			<MkmkOS_NAME name="AIX">
+				<MkmkOS_VAR name="aix_a">
+					<MkodtOS_Runtime name="aix_a" client="yes" server="yes"/>
+				</MkmkOS_VAR>
+				<MkmkOS_VAR name="aix_a64">
+					<MkodtOS_Runtime name="aix_a64" client="no" server="yes"/>
+				</MkmkOS_VAR>
+			</MkmkOS_NAME>
+			<MkmkOS_NAME name="HP-UX">
+				<MkmkOS_VAR name="hpux_b">
+					<MkodtOS_Runtime name="hpux_b" client="yes" server="yes"/>
+				</MkmkOS_VAR>
+			</MkmkOS_NAME>
+			<MkmkOS_NAME name="SunOS">
+				<MkmkOS_VAR name="solaris_a">
+					<MkodtOS_Runtime name="solaris_a" client="yes" server="yes"/>
+				</MkmkOS_VAR>
+			</MkmkOS_NAME>
+			<MkmkOS_NAME name="Linux">
+				<MkmkOS_VAR name="linux_a64">
+					<MkodtOS_Runtime name="linux_a64" client="no" server="yes"/>
+				</MkmkOS_VAR>
+			</MkmkOS_NAME>
+		</OS_TYPE>
+		<OS_TYPE name="Windows_NT">
+			<MkmkOS_NAME name="Windows_NT">
+				<MkmkOS_VAR name="intel_a">
+					<MkodtOS_Runtime name="intel_a" client="yes" server="no"/>
+					<MkodtOS_Runtime name="win32on64" client="yes" server="yes"/>
+					<MkodtOS_Runtime name="winsrv_a" client="no" server="yes"/>
+					<MkodtOS_Runtime name="winsrv_a64" client="no" server="yes"/>
+				</MkmkOS_VAR>
+				<MkmkOS_VAR name="win_b64">
+					<MkodtOS_Runtime name="win_b64" client="yes" server="no"/>
+				</MkmkOS_VAR>
+			</MkmkOS_NAME>
+		</OS_TYPE>
+	</OSDefinition>
+	<ContextDefinition>
+		<Context Name="SYSTEM" Template="resources\TestObject\Environment\SYSTEM.bat">
+			<DESCRIPTION name="short" detail="Description and requirements">
+				<LABEL name="Minimum environment to launch a basic test (set PATH and LIBPATH on Unix)"/>
+				<REQUIREMENT Mode="BATCH" Context="none"/>
+				<UNCOMPATIBILITY Mode="RECORD"/>
+				<FRIEND type="none"/>				
+				<MANDATORY name="none"/>		
+				<ACTION name="Create a SYSTEM environment file"/>
+			</DESCRIPTION>
+		</Context>
+		<Context Name="CATIA" Template="reffiles\TestAuto\Context\CATIA.bat"> 		
+			<DESCRIPTION name="short" detail="Description and requirements">
+				<LABEL name="Minimum environment to launch a V5 test"/>
+				<REQUIREMENT Mode="BATCH" Context="SYSTEM"/>
+				<UNCOMPATIBILITY Mode="none"/>
+				<FRIEND type="none"/>				
+				<MANDATORY name="none"/>		
+				<ACTION name="Create a CATIA environment file using setcatenv/chcatenv"/>
+			</DESCRIPTION>
+		</Context>
+		<Context Name="JAVA" Template="reffiles\TestAuto\Context\JAVA.bat">
+			<DESCRIPTION name="short" detail="Description and requirements">
+				<LABEL name="Minimum environment to launch a V5 java test"/>
+				<REQUIREMENT Mode="none" Context="CATIA"/>
+				<UNCOMPATIBILITY Mode="none"/>
+				<FRIEND type="none"/>				
+				<MANDATORY name="none"/>		
+				<ACTION name="Create a Java environment file using chcatenv : Update JAVA_HOME, BOOTCLASSPATH and CLASSPATH"/>
+			</DESCRIPTION>
+		</Context>
+		<Context Name="PROVIDER" E4AllEnv="EV5" Template="reffiles\TestAuto\Context\PROVIDER_EV5.bat">
+			<DESCRIPTION name="short" detail="Description and requirements">
+				<LABEL name="Minimum environment to launch a test using the EV5 provider"/>
+				<REQUIREMENT Mode="none" Context="CATIA"/>
+				<REQUIREMENT name="Use a EV5 For All environment"/>
+				<REQUIREMENT name="To have PLMDBSetup in concatenation"/>
+				<UNCOMPATIBILITY Mode="none"/>
+				<FRIEND type="none"/>				
+				<MANDATORY name="none"/>		
+				<ACTION name="Create an EV5 provider environment file"/>
+			</DESCRIPTION>
+		</Context>
+		<Context Name="PROVIDER" E4AllEnv="TST" Template="reffiles\TestAuto\Context\PROVIDER_TST.bat">
+			<DESCRIPTION name="short" detail="Description and requirements">
+				<LABEL name="Minimum environment to launch a test using the TST provider"/>
+				<REQUIREMENT Mode="none" Context="CATIA"/>
+				<UNCOMPATIBILITY Mode="none"/>
+				<FRIEND type="none"/>				
+				<MANDATORY name="none"/>		
+				<ACTION name="Create a TST provider environment file"/>
+			</DESCRIPTION>
+		</Context>
+		<Context Name="VIRTUAL_PACKAGING"  Template="reffiles\TestAuto\Context\PROVIDER_VIRTUAL_PACKAGING.bat">
+			<DESCRIPTION name="short" detail="Description and requirements">
+				<LABEL name="Minimum environment to launch a test using the EV5 provider"/>
+				<REQUIREMENT Mode="none" Context="CATIA"/>
+				<REQUIREMENT name="Use the BSFPKGPATH environment variable to get the packaging"/>
+				<UNCOMPATIBILITY Mode="none"/>
+				<FRIEND type="none"/>				
+				<MANDATORY name="none"/>		
+				<ACTION name="Create a V5 licensed environment file for the given product"/>
+			</DESCRIPTION>
+		</Context>
+		<Context Name="INTEROP_VPM"  Template="reffiles\TestAuto\Context\PROVIDER_INTEROP_VPM.bat">
+			<DESCRIPTION name="short" detail="Description and requirements">
+				<LABEL name="Minimum environment to launch an interop CATIA-VPM test"/>
+				<REQUIREMENT Mode="none" Context="CATIA"/>
+				<REQUIREMENT name="Have the SetITPEnv_VPM.sh file in the Runtime View"/>
+				<UNCOMPATIBILITY Mode="none"/>
+				<FRIEND type="none"/>				
+				<MANDATORY name="none"/>		
+				<ACTION name="Create a VPM and V5 environment file"/>
+			</DESCRIPTION>
+		</Context>
+	</ContextDefinition>
+	<ModeDefinition>
+		<Mode Name="BATCH" Description=""/>
+		<Mode Name="RECORD" Description=""/>
+		<Mode Name="DEBUG" Template="resources/Debug"/>
+	</ModeDefinition>
+	<PLMTypeDefinition>
+		<PLMType Name="COMMON" Description=""/>
+		<PLMType Name="CLIENT" Description=""/>
+		<PLMType Name="SERVER" Description=""/>
+	</PLMTypeDefinition>
+	<GroupDefinition>
+		<Group Name="NoPurify" Description=""/>
+		<Group Name="ODTIndus" Description=""/>
+		<Group Name="PERFO" Description=""/>
+		<Group Name="COVERAGE" Description=""/>
+	</GroupDefinition>
+</ODTReplayDictionary>
