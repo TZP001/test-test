@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="CATJWACHelper" targetNamespace="http://www.stockquoteservice.com/definitions/StockQuoteServiceRemoteInterface" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.stockquoteservice.com/definitions/StockQuoteServiceRemoteInterface" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd2="http://dassaultsystemes.com/pprgenericws_pprreplica">
+    <import location="pprgenericws_pprreplica.xsd" namespace="http://dassaultsystemes.com/pprgenericws_pprreplica"/>
+    <message name="gotoPageRequest">
+        <part name="PageName" type="xsd:string"/>
+    </message>
+    <message name="startProcessRequest">
+        <part name="ProcessName" type="xsd:string"/>
+    </message>
+    <message name="inputArgsRequest">
+        <part name="iArgs" type="xsd:string[]"/>
+    </message>
+    <message name="outputArgResponse">
+        <part name="oArgument" type="xsd:string"/>
+    </message>
+    <message name="argNumberRequest">
+        <part name="iArgNumber" type="xsd:int"/>
+    </message>
+    <message name="argNameRequest">
+        <part name="iArgName" type="xsd:string"/>
+    </message>
+    <message name="titleRequest">
+        <part name="iTitle" type="xsd:string"/>
+    </message>
+    <message name="messageRequest">
+        <part name="iMessage" type="xsd:string"/>
+    </message>
+    <message name="dialogRequest">
+        <part name="iDialog" type="xsd:com.dassault_systemes.catjdialog.CATDialog"/>
+    </message>
+    <message name="severityRequest">
+        <part name="iSeverity" type="xsd:int"/>
+    </message>
+    <message name="commandRequest">
+        <part name="iCommand" type="xsd:string"/>
+    </message>
+    <message name="outputStringResponse">
+        <part name="outputString" type="xsd:string"/>
+    </message>
+    <message name="stringTableResponse">
+        <part name="oStringTable" type="xsd:string[]"/>
+    </message>
+    <message name="stringTableRequest">
+        <part name="iStringTable" type="xsd:string[]"/>
+    </message>
+    <message name="notifClassName">
+        <part name="iNotifClassName" type="xsd:string"/>
+    </message>
+    <message name="notifObject">
+        <part name="iNotifObject" type="xsd:string"/>
+    </message>
+    <message name="portalUIDRequest">
+        <part name="iPortalUID" type="xsd:PortalUID"/>
+    </message>
+    <message name="portalUIDResponse">
+        <part name="oPortalUID" type="xsd:PortalUID"/>
+    </message>
+    <message name="portalUIDTableRequest">
+        <part name="iPortalUIDTable" type="xsd:PortalUID[]"/>
+    </message>
+    <message name="portalUIDTableResponse">
+        <part name="oPortalUIDTable" type="xsd:PortalUID[]"/>
+    </message>
+    <message name="KeyTableModelResponse">
+        <part name="oKeyTableModel" type="xsd:com.dassault_systemes.catjdialog.CATKeyTableModel"/>
+    </message>
+    <message name="stringRequest">
+        <part name="iString" type="xsd:string"/>
+    </message>
+    
+    <portType name="CATJWACPortType">
+        <operation name="gotoPage">
+            <input name="gotoPageRequest" message="tns:gotoPageRequest"/>
+        </operation>
+        <operation name="startProcess">
+            <input name="startProcessRequest" message="tns:startProcessRequest"/>
+        </operation>
+        <operation name="getArgByName">
+            <input name="inputArgsRequest" message="tns:inputArgsRequest"/>
+            <input name="argNameRequest" message="tns:argNameRequest"/>
+            <output name="outputArgResponse" message="tns:outputArgResponse"/>
+        </operation>
+        <operation name="buildMessageOutput">
+            <input name="titleRequest" message="tns:titleRequest"/>
+            <input name="messageRequest" message="tns:messageRequest"/>
+            <input name="severityRequest" message="tns:severityRequest"/>
+            <output name="outputStringResponse" message="tns:outputStringResponse"/>
+        </operation>
+        <operation name="buildJDialogCommandOutputWithStringArg">
+            <input name="commandRequest" message="tns:commandRequest"/>
+            <input name="stringRequest" message="tns:stringRequest"/>
+            <output name="outputStringResponse" message="tns:outputStringResponse"/>
+        </operation> 
+        <operation name="buildJDialogCommandOutputWithStringTableArg">
+            <input name="commandRequest" message="tns:commandRequest"/>
+            <input name="stringTableRequest" message="stringTableRequest"/>
+            <output name="outputStringResponse" message="tns:outputStringResponse"/>
+        </operation>
+        <operation name="buildJDialogCommandOutputWithPortalUIDArg">
+            <input name="commandRequest" message="tns:commandRequest"/>
+            <input name="portalUIDRequest" message="tns:portalUIDRequest"/>
+            <output name="outputStringResponse" message="tns:outputStringResponse"/>
+        </operation> 
+        <operation name="buildJDialogCommandOutputWithPortalUIDTableArg">
+            <input name="commandRequest" message="tns:commandRequest"/>
+            <input name="portalUIDTableRequest" message="tns:portalUIDTableRequest"/>
+            <output name="outputStringResponse" message="tns:outputStringResponse"/>
+        </operation> 
+        <operation name="buildEAppCommandOutputWithStringArg">
+            <input name="commandRequest" message="tns:commandRequest"/>
+            <input name="stringRequest" message="tns:stringRequest"/>
+            <output name="outputStringResponse" message="tns:outputStringResponse"/>
+        </operation> 
+        <operation name="buildEAppCommandOutputWithStringTableArg">
+            <input name="commandRequest" message="tns:commandRequest"/>
+            <input name="stringTableRequest" message="stringTableRequest"/>
+            <output name="StringTableResponse" message="tns:StringTableResponse"/>
+        </operation>
+        <operation name="buildEAppCommandOutputWithPortalUIDArg">
+            <input name="commandRequest" message="tns:commandRequest"/>
+            <input name="portalUIDRequest" message="tns:portalUIDRequest"/>
+            <output name="outputStringResponse" message="tns:outputStringResponse"/>
+        </operation> 
+        <operation name="buildEAppCommandOutputWithPortalUIDTableArg">
+            <input name="commandRequest" message="tns:commandRequest"/>
+            <input name="portalUIDTableRequest" message="tns:portalUIDTableRequest"/>
+            <output name="StringTableResponse" message="tns:StringTableResponse"/>
+        </operation>    
+        <operation name="buildHookupNotifOutput">
+            <input name="notifClassName" message="tns:notifClassName"/>
+            <input name="notifObject" message="tns:notifObject"/>
+            <output name="outputStringResponse" message="tns:outputStringResponse"/>
+        </operation>       
+        <operation name="displayError">
+            <input name="dialogRequest" message="tns:dialogRequest"/>
+            <input name="titleRequest" message="tns:titleRequest"/>
+            <input name="messageRequest" message="tns:messageRequest"/>
+            <input name="severityRequest" message="tns:severityRequest"/>
+        </operation>
+        <operation name="convertPortalUIDtoString">
+            <input name="portalUIDRequest" message="tns:portalUIDRequest"/>
+            <output name="outputStringResponse" message="tns:outputStringResponse"/>
+        </operation>
+        <operation name="convertPortalUIDtoStringForTable">
+            <input name="portalUIDTableRequest" message="tns:portalUIDTableRequest"/>
+            <output name="stringTableResponse" message="tns:stringTableResponse"/>
+        </operation>
+        <operation name="convertStringToPortalUID">
+            <input name="stringRequest" message="tns:stringRequest"/>
+            <output name="portalUIDResponse" message="tns:portalUIDResponse"/>
+        </operation>
+        <operation name="convertStringToPortalUIDForTable">
+            <input name="stringTableRequest" message="tns:stringTableRequest"/>
+            <output name="portalUIDTableResponse" message="tns:portalUIDTableResponse"/>
+        </operation>
+        <operation name="sendOpenDocsIn3DViewerNotif">
+            <input name="dialogRequest" message="tns:dialogRequest"/>
+            <input name="portalUIDTableRequest" message="tns:portalUIDTableRequest"/>
+        </operation> 
+        <operation name="sendAddDocsTo3DViewerNotif">
+            <input name="dialogRequest" message="tns:dialogRequest"/>
+            <input name="portalUIDTableRequest" message="tns:portalUIDTableRequest"/>
+        </operation>        
+        <operation name="sendOpenDocIn2DViewerNotif">
+            <input name="dialogRequest" message="tns:dialogRequest"/>
+            <input name="portalUIDRequest" message="tns:portalUIDRequest"/>
+        </operation> 
+        <operation name="createKeyTableModelSimpleString">
+            <input name="stringTableRequest" message="tns:stringTableRequest"/>
+            <input name="titleRequest" message="tns:titleRequest"/>
+            <output name="KeyTableModelResponse" message="tns:KeyTableModelResponse"/>
+        </operation> 
+    </portType>
+</definitions>
