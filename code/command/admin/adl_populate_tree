@@ -1,0 +1,377 @@
+#!/bin/ksh
+[ ! -z "$ADL_DEBUG" ] && set -x
+
+# =====================================================================
+# Variable Initialization
+# =====================================================================
+OS=$(uname -s)
+case $OS in
+	AIX)
+		_AWK=/bin/awk
+		;;
+	HP-UX)
+		_AWK=/bin/awk
+		;;
+	IRIX*)
+		_AWK=/bin/nawk
+		;;
+	SunOS)
+		_AWK=/bin/nawk
+		;;
+	Windows_NT)
+		_AWK=awk
+		;;
+esac
+
+if [ $OS = Windows_NT ]
+then
+	FullShellName="$(whence "$0" | \sed 's+\\+/+g')"
+	ShellName="${FullShellName##*/}"
+	\cd "${FullShellName%/*}"
+	ShellDir="$(pwd)"
+	\cd -
+
+	TMP=$(printf "%s\n" "$ADL_TMP" | \sed 's+\\+/+g')
+	NULL=nul
+	ShellVersion=${shellName}"("$(\ls -l $FullShellName | $_AWK '{print $6" "$7" "$8}')")"
+	DefaultImageName="WINDOWS"
+
+else
+	FullShellName=$(whence "$0" | \sed 's+\\+/+g')
+	ShellName=${FullShellName##*/}
+	ShellDir=${FullShellName%/*}
+
+	TMP="$ADL_TMP"
+	NULL=/dev/null
+	ShellVersion=${shellName}"("$(\ls -lL $FullShellName | $_AWK '{print $6" "$7" "$8}')")"
+	DefaultImageName="UNIX"
+fi
+
+CmdLine="$@"
+
+
+#
+# 20/06/2001 - initialize a new CXRn tree from a CXRn-1 tree contents 
+#
+
+Usage1="Usage: $ShellName -f File_name -wdir dir_name [-no_check|-cr|-h] "
+
+Usage=" $Usage1  
+
+$ShellName allows to initialize a new CXRn from a CXRn-1 tree contents using the SCM import functionality 
+
+Parameters description :
+
+File_name is a file containing the list of frameworks to import with the following format :
+Framework Origin_tree  Origin_WS Destination_tree Destination_WS
+
+Example 1 :
+CATCloudEditorInterfaces DSPRVSCXR7 DSPRVSCXR7BSF DSPRVSCXR8 DSPRVSCXR8BSF
+CATCloudEditorResources  DSPRVSCXR7 DSPRVSCXR7BSF DSPRVSCXR8 DSPRVSCXR8BSF
+
+In this example, the CATCloudEditorInterfaces and CATCloudEditorResources frameworks will be imported in the DSPRVSCXR8BSF workspace from the DSPRVSCXR7BSF ws contents
+
+Example 2 :
+* DSPRVSCXR7 DSPRVSCXR7BSF DSPRVSCXR8 DSPRVSCXR8BSF
+
+In this example, all the frameworks contained in the DSPRVSCXR7BSF ws will be imported in the DSPRVSCXR8BSF ws 
+
+Options descriptions :
+
+-wdir     : Working directory to write persistent data (traces...).
+
+-no_check : no check is done on the input file contents  
+            otherwise a checking is done on the frameworks / workspaces /trees existence  
+
+-cr       : a db2 update is done in the OSIRIX tables - the origin ws/tree ids are replaced with the destination ws/tree ids   
+
+-h        : to visualize the help  
+     
+"
+
+# =====================================================================
+# Out function
+# =====================================================================
+Out()
+{
+	[ ! -z "$ADL_DEBUG" ] && set -x
+	trap ' ' HUP INT QUIT TERM
+	ExitCode=$1
+	shift
+	if [ $# -ge 1 ]
+	then
+		echo "$*"
+		echo
+	fi
+	[ $ExitCode -ne 0 ] && echo "##### THE COMMAND ENTIRELY OR PARTIALLY FAILED #####"
+	
+	[ -z "$ADL_DEBUG" ] && \rm -fr "$TMP"/*_$$ "$TMP"/*_$$.*
+
+	exit $ExitCode
+}
+
+trap 'Out 9999 "Command interrupted" ' HUP INT QUIT TERM
+
+# =====================================================================
+# Options treatment
+# =====================================================================
+typeset -L1 OneChar
+CheckOptArg()
+{
+        # Usage : CheckOptArg opt arg
+        OneChar="$2"
+        if [ "$2" = "" -o "$OneChar" = "-" ]
+        then
+                Out 3 "Option $1: one argument is required"
+        fi
+}
+# =====================================================================
+# Initialisation des variables
+# =====================================================================
+unset _NO_CHECK_INPUT_FILE 
+unset _WORKING_DIR
+
+if [ -z "$COMPUTERNAME" ]
+then
+# If UNIX :
+   cpu_name=$(hostname)
+else
+# If Windows NT :
+   cpu_name=$COMPUTERNAME
+fi
+
+# =====================================================================
+# Decodage des arguments
+# =====================================================================
+while [ $# -ge 1 ]
+do
+	case "$1" in
+		-h ) #-------------------> HELP NEEDED
+			Out 0 "$Usage"
+			;;
+		-no_check ) #--------------> no check done on input file contents 
+			_NO_CHECK_INPUT_FILE=TRUE
+			shift 
+            ;;
+		-cr ) #--------------> updating osirix 
+			_CR=TRUE
+			shift 
+			;;
+		-f ) #--------------> INPUT FILE  
+            CheckOptArg "$1" "$2"
+            _INPUT_FILE=$2
+            shift 2
+            ;;
+		-wdir ) #-------------------> WORKING DIRECTORY
+			CheckOptArg "$1" "$2"
+			_WORKING_DIR=$(printf "%s\n" "$2" | \sed 's+\\+/+g')
+			shift 2
+			;;
+		*) echo  "#ERR# : Unknown option: $1\n"
+			Out 5 "$Usage1"
+			;;
+	esac
+done
+
+# =============================================================
+# 0) Tests preliminaires
+# =============================================================
+
+CheckParamIsDefined()
+{
+	if [ -z "$1" ]
+	then
+		echo "$ShellName: the $2 parameter is required; use the option $3."
+		Out 3 "$Usage"
+	fi
+}
+
+CheckParamIsDefined "$_INPUT_FILE"  "working directory" "-f"
+CheckParamIsDefined "$_WORKING_DIR" "working directory" "-wdir"
+
+# the input file should exist   
+[ ! -f "$_INPUT_FILE" ] && Out 5 "\n !Error : the file $_INPUT_FILE does not exist        "
+
+# if the -cr option is not used 
+[ -z "$_CR" ] && cr_option="-no_cr" 
+#
+
+#
+# 1) checking the input file contents 
+#
+if [ -z "$_NO_CHECK_INPUT_FILE" ]
+then
+#
+echo
+echo " Checking the input file : $_INPUT_FILE ...       "  
+echo
+#MAJ LRU 30.01.02
+IFS='
+'
+while read ligne
+do 
+
+  nfield=$( echo "$ligne" | $_AWK '{ print NF }' )
+  if [ $nfield -lt 5  ]
+  then
+    echo
+    echo "------------------------------------------------------------------"
+    echo " $ligne : "
+    echo " ---->    "
+    echo " !Error : Parameters are missing    "
+    echo " The correct format is :            "
+    echo " Framework  Origin_tree Origin_WS Destination_tree Destination_WS   "
+    echo
+    Out 5
+  fi
+
+  if [ $nfield -gt 5 ]
+  then
+    echo
+    echo "------------------------------------------------------------------"
+    echo " $ligne : "
+    echo " ---->    "
+    echo " !Error : Too many parameters       "
+    echo " The correct format is :            "
+    echo " Framework  Origin_tree Origin_WS Destination_tree Destination_WS   "
+    echo
+    Out 5
+  fi
+
+#   testing the parameters one by one
+
+  fw=$(    echo "$ligne" | $_AWK '{ print $1}' )
+  rtree=$( echo "$ligne" | $_AWK '{ print $2}' )
+  rws=$(   echo "$ligne" | $_AWK '{ print $3}' )
+  ltree=$( echo "$ligne" | $_AWK '{ print $4}' )
+  lws=$(   echo "$ligne" | $_AWK '{ print $5}' )
+
+  # checking the rtree field
+  adl_ls_tree "${rtree}" -program -out "$TMP"/lstree_$$
+  if [ $? -ne 0 ]
+  then
+   echo
+   echo "------------------------------------------------------------------"
+   echo " $ligne : "
+   echo " ---->    "
+   echo " !Error : the tree $rtree does not exist                          "
+   Out 5
+  fi
+
+  # checking the ltree field
+  adl_ls_tree "${ltree}" -program -out "$TMP"/lstree_$$
+  if [ $? -ne 0 ]
+  then
+   echo
+   echo "------------------------------------------------------------------"
+   echo " $ligne : "
+   echo " ---->    "
+   echo " !Error : the tree $ltree does not exist                          "
+   Out 5
+  fi
+
+  # checking the rws workspace
+  adl_ds_ws ${rws} 1>"$TMP"/dsws_$$ 2>&1 
+  if [ $? -ne 0 ]
+  then
+   echo
+   echo "------------------------------------------------------------------"
+   echo " $ligne : "
+   echo " ---->    "
+   echo " !Error : the workspace $rws does not exit                        "
+   cat "$TMP"/dsws_$$
+   Out 5
+  fi
+
+  # checking the lws workspace
+  adl_ds_ws ${lws} 1>"$TMP"/dsws_$$ 2>&1 
+  if [ $? -ne 0 ]
+  then
+   echo
+   echo "------------------------------------------------------------------"
+   echo " $ligne : "
+   echo " ---->    "
+   echo " !Error : the workspace $lws does not exist                       "
+   cat "$TMP"/dsws_$$
+   Out 5
+  fi
+
+  # checking the fw framework workspace
+  # do not check if the framework field = *
+  if [ "$fw" != "*" ]
+  then
+   adl_ls_fw "${fw}" -ws ${rws} -tree ${rtree} -program -out "$TMP"/lsfw_$$
+   if [ $? -ne 0 ]
+   then
+    echo
+    echo "------------------------------------------------------------------"
+    echo " $ligne : "
+    echo " ---->    "
+    echo " !Error : the framework ${fw} does not exist in the ws ${rws} tree ${rtree} "
+    Out 5
+   fi
+  fi
+
+done < $_INPUT_FILE
+
+fi
+#
+#
+# 2) Launching the import framework by framework   
+#
+echo "------------------------------------------------------------------"
+echo " Starting the frameworks import  ...                              "  
+sleep 5
+
+#
+while read ligne
+do
+	echo "$ligne"
+	fw=$(    echo "$ligne" | $_AWK '{ print $1}' )
+	echo "$fw"
+	if [ "$fw" != "*" ]
+	then
+
+		rtree=$( echo "$ligne" | $_AWK '{ print $2}' )
+		rws=$(   echo "$ligne" | $_AWK '{ print $3}' )
+		ltree=$( echo "$ligne" | $_AWK '{ print $4}' )
+		lws=$(   echo "$ligne" | $_AWK '{ print $5}' )
+
+		cmd=" adl_transfer_ws_v5.sh -tid ${fw} -fw ${fw} -rw ${rws}  -rtree ${rtree} -lw ${lws} -ltree ${ltree} -r_no_image -l_no_image -wd $_WORKING_DIR/${lws}_${rws}_${ltree} ${cr_option}"
+
+		echo $cmd
+		echo
+		eval $cmd
+		[ $? -ne 0 ] &&	Out 5 "$cmd failed !!!"
+
+	# case where the fw field is * ( all the frameworks should be imported )
+	else 
+
+		rtree=$( echo "$ligne" | $_AWK '{ print $2}' )
+		rws=$(   echo "$ligne" | $_AWK '{ print $3}' )
+		ltree=$( echo "$ligne" | $_AWK '{ print $4}' )
+		lws=$(   echo "$ligne" | $_AWK '{ print $5}' )
+
+		#  loop on the frameworks of the origin workspace 
+		for fw in `adl_ls_fw -ws $rws -tree $rtree -program | $_AWK '{ print $1 }'`
+		do
+
+			echo " Importing ${fw} in ${lws}@${ltree}               " 
+			echo " from               ${rws}@${rtree} contents ...  "  
+			echo
+			 cmd=" adl_transfer_ws_v5.sh -tid ${fw} -fw ${fw} -rw ${rws}  -rtree ${rtree} -lw ${lws} -ltree ${ltree} -r_no_image -l_no_image -wd $_WORKING_DIR/${lws}_${rws}_${ltree} ${cr_option}"
+
+			echo $cmd
+			echo
+			eval $cmd
+			[ $? -ne 0 ] &&	Out 5 "$cmd failed !!!"
+		done 
+
+	fi
+
+done < $_INPUT_FILE
+#
+echo 
+echo " Job completed - Traces in the $_WORKING_DIR/${lws}_${rws}_${ltree} directory  "
+echo " You can now refresh the destination workspace(s)     "
+echo

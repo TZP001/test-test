@@ -1,0 +1,411 @@
+#!/bin/ksh 
+# =====================================================================
+# Copyright 2002 (C) Dassault-Systemes
+# 
+# adl_link_is_transfer: enlarge an existing transfer object to a new 
+# couple of local and remote workspace trees
+#
+# A TCK for SCM administration is required for accessing this program.
+# =====================================================================
+
+[ "$(uname -s)" = "Windows_NT" ] && export ADL_USER_PATH="$(printf "%s" "$ADL_USER_PATH" | sed 's+\\+/+g')"
+unset _R_TMP
+. "$ADL_USER_PATH"/admin/ADLMultiSiteCommon.sh
+
+# =====================================================================
+# Out function
+# Syntax: $1 = exit code; $2 = message code; $3... = message parameter(s)
+# =====================================================================
+Out()
+{
+	ExitCode=$1
+	shift
+	trap ' ' HUP INT QUIT TERM
+
+	if [ $ExitCode -ge 1 ]
+	then
+		[ ! -z "$1" ] && _printerr $* >&2
+		echo "" 
+		_printerr 0030 >&2
+	else
+		echo ""
+		 _printmsg $* 
+	fi
+
+	# Clean possibly dedicated environment in the transfer manager daemon
+	"$_CLIENT" $_RUN_COMMON -finish > $NULL 2>&1
+	# Remove dedicated temporary directory (its name contains an UUID)
+	if [ ! -z "$_R_TMP" ]
+	then
+		"$_CLIENT" $_RUN_COMMON -rm '"'$_R_TMP'"' -rec || _printerr 0516 "$_R_TMP"
+	fi
+
+	\rm -rf "$DefaultTmpDir"/*_$$
+	\rm -rf "$DefaultTmpDir"/*_$$.sh
+	\rm -rf "$DefaultTmpDir"/*_$$.txt 
+
+	exit $ExitCode
+}
+
+trap 'Out 5 0100 ' HUP INT QUIT TERM
+
+
+# =====================================================================
+# Analyse des parametres d'appel
+# =====================================================================
+
+typeset -L1 OneChar
+CheckOptArg()
+{
+	# Usage : CheckOptArg opt arg
+	OneChar="$2"
+	if [ "$2" = "" -o "$OneChar" = "-" ]
+	then
+		_printerr 0103 "$1" # "Option /p1: one argument is required"
+		Out 5 0051
+	fi
+}
+
+unset _T_NAME
+
+# Note: _R_HOST & _R_PORT sont obsoletes -> utiliser _R_SERVER
+unset _R_HOST
+unset _R_PORT
+unset _R_SERVER
+unset _R_SITE
+unset _R_NEW_WS
+unset _R_NEW_WS_TREE
+
+unset _L_WS
+unset _L_IMAGE
+unset _L_WS_TREE
+unset _L_DIR
+unset _LOCAL_DIR
+
+while [ $# -ge 1 ]
+do
+	case "$1" in
+		-h | -help | -\? ) #-------------------> HELP NEEDED
+			_printmsg 0051 # usage ...
+			_printmsg 0050
+			exit 0
+			;;
+		-r_parent_ws ) #-------------------> REMOTE WORKSPACE
+			CheckOptArg "$1" "$2"
+			export _R_NEW_WS="$2"
+			shift 2
+			;;
+		-r_tree ) #-------------------> REMOTE WORKSPACE TREE
+			CheckOptArg "$1" "$2"
+			export _R_NEW_WS_TREE=$2
+			shift 2
+			;;
+		-ws ) #-------------------> LOCAL WORKSPACE
+			CheckOptArg "$1" "$2"
+			export _L_WS="$2"
+			shift 2
+			;;
+		-tree ) #-------------------> LOCAL WORKSPACE TREE
+			CheckOptArg "$1" "$2"
+			export _L_WS_TREE="$2"
+			shift 2
+			;;
+		-* ) _printerr 0104 $1 # "Unknown option: /p1"
+			Out 5 0051 
+			;;
+		*)  if [ ! -z "$_T_NAME" ]
+			then 
+				_printerr 0012 $1 # "Only one transfer name can be given. What does /p1 mean?"
+				Out 5 0051 
+			fi
+			export _T_NAME=$1
+			shift
+			;;
+	esac
+done
+
+CheckArgIsDefined()
+{
+	if [ -z "$1" ]
+	then
+		_printerr 0105 "adl_link_is_transfer" $2 # "/p1: Missing mandatory remote parameter: /p2.";
+		Out 5 0051 
+	fi
+}
+
+CheckArgIsDefined "$_L_WS"          "-ws"
+CheckArgIsDefined "$_R_NEW_WS"      "-r_parent_ws"
+CheckArgIsDefined "$_R_NEW_WS_TREE" "-r_tree"
+CheckArgIsDefined "$_L_WS_TREE"     "-tree"
+
+######################################################################
+#
+# Check or compute name of transfer
+#
+######################################################################
+"$ADL_USER_PATH"/adl_ls_transfer -ws "$_L_WS" -program -sep "|" -out "$DefaultTmpDir"/ls_transfer_$$.txt >$NULL
+[ $? -ne 0 ] && Out 5 0014 "$_L_WS" # "Failed to list transfers associated with workspace /p1."
+
+# If no transfer name is specified, there must be already one defined
+
+if [ -z "$_T_NAME" ]
+then
+	"$ADL_USER_PATH"/adl_ls_transfer -ws "$_L_WS" -program -sep "|" -out "$DefaultTmpDir"/ls_transfer_$$.txt >$NULL
+	[ $? -ne 0 ] && Out 5 0014 "$_L_WS" # "Failed to list transfers associated with workspace /p1."
+	[ ! -f "$DefaultTmpDir"/ls_transfer_$$.txt -o ! -s "$DefaultTmpDir"/ls_transfer_$$.txt ] && Out 5 0220 "$_L_WS" # "There is no transfer defined for workspace /p1."
+	nbl=$($_AWK -F\| '{print $3}' "$DefaultTmpDir"/ls_transfer_$$.txt | "$_SORT" -u | wc -l)
+	if [ $nbl -gt 1 ]
+	then
+		_printerr 0019 # "There is more than one transfer defined for the current workspace. Select one transfer in the list below:"
+		$_AWK -F\| '{print "    "$3}' "$DefaultTmpDir"/ls_transfer_$$.txt | "$_SORT" -u
+		Out 5 # "Command aborted"
+	fi
+else
+	# Check transfer name exists for the given workspace
+	"$ADL_USER_PATH"/adl_ls_transfer $_T_NAME -ws "$_L_WS" -program -sep "|" -out "$DefaultTmpDir"/ls_transfer_$$.txt >$NULL
+	[ $? -ne 0 ] && Out 5 0014 "$_L_WS" # "Failed to list transfers associated with workspace /p1."
+	nbl=$(cat "$DefaultTmpDir"/ls_transfer_$$.txt | wc -l)
+	if [ $nbl -eq 0 ]
+	then
+		Out 5 0020 "$_T_NAME" "$_L_WS" # "The transfer /p1 is not defined for the workspace /p2."
+	fi
+fi
+export _T_NAME=$($_AWK -F\| '{print $3}' "$DefaultTmpDir"/ls_transfer_$$.txt | "$_SORT" -u)
+
+# Given a transfer name, it must exist but cannot be already defined in the given local and remote trees
+nbl=$($_AWK -F\| '{if (tolower($5)==tolower("'$_L_WS_TREE'")) print $3}' "$DefaultTmpDir"/ls_transfer_$$.txt | wc -l)
+[ $nbl -ne 0 ] && Out 5 0058 "$_T_NAME" "$_L_WS_TREE" "$_L_WS" # "The transfer \"/p1\" is already defined in workspace tree \"/p2\"..."
+nbl=$($_AWK -F\| '{if (tolower($9)==tolower("'$_R_NEW_WS_TREE'")) print $3}' "$DefaultTmpDir"/ls_transfer_$$.txt | wc -l)
+[ $nbl -ne 0 ] && Out 5 0059 "$_T_NAME" "$_R_NEW_WS_TREE" "$_L_WS" # "The transfer \"/p1\" is already defined in workspace tree \"/p2\"..."
+
+# Get name and UUID of remote mirror workspace + information about the remote transfer manager
+# All the transfers are supposed to have the same remote workspace and the same attributes
+# So we take the first transfer of the list
+head -1 "$DefaultTmpDir"/ls_transfer_$$.txt > "$DefaultTmpDir"/ls_transfer2_$$.txt
+[ $? -ne 0 ] && Out 5 0221 "$DefaultTmpDir"/ls_transfer2_$$.txt
+export _R_WS=$($_AWK -F\| '{print $7}' "$DefaultTmpDir"/ls_transfer2_$$.txt)
+export _R_WS_ID=$($_AWK -F\| '{print $8}' "$DefaultTmpDir"/ls_transfer2_$$.txt)
+export _R_SERVER=$($_AWK -F\| '{print $13}' "$DefaultTmpDir"/ls_transfer2_$$.txt)
+export _R_PORT=$($_AWK -F\| '{print $14}' "$DefaultTmpDir"/ls_transfer2_$$.txt)
+# On gere la compatibilite avec l'ancien format
+[ "$_R_PORT" != "\0" ] && export _R_SERVER="$_R_SERVER:$_R_PORT"
+unset _R_PORT
+export _R_MIRROR_WS=$($_AWK -F\| '{print $19}' "$DefaultTmpDir"/ls_transfer2_$$.txt)
+
+######################################################################
+#
+# Check LOCAL workspace
+#
+######################################################################
+
+_printmsg 0005 "$_L_WS" # "Checking current workspace /p1..."
+
+unset _OPTIONS
+[ ! -z "$_L_WS_TREE" ] && _OPTIONS="-tree $_L_WS_TREE"
+"$ADL_USER_PATH"/adl_ds_ws "$_L_WS" $_OPTIONS -program -sep "|" -out "$DefaultTmpDir"/ds_ws_$$.txt || Out 5 0106 # "Failed to extract information about local workspace"
+
+# Check that the given tree is a valid tree and also convert it in the proper letter case
+"$ADL_USER_PATH"/adl_ls_tree $_L_WS_TREE -program -sep "|" -out "$DefaultTmpDir"/ls_tree_$$.txt >$NULL 2>&1
+if [ $? -ne 0 ]
+then
+	Out 5 0111 "$_L_WS_TREE" # "The workspace tree /p1 does not exist on current site.";
+fi
+_L_WS_TREE=$($_AWK -F\| '{print $1}' "$DefaultTmpDir"/ls_tree_$$.txt)
+
+# Check that the workspace exists in this tree 
+nbl=$($_AWK -F\| '{if ($1=="_WS" && $4=="'$_L_WS_TREE'") print $4}' "$DefaultTmpDir"/ds_ws_$$.txt | wc -l)
+if [ $nbl -ne 1 ]
+then
+	Out 5 0109 "$_L_WS" "$_L_WS_TREE" # "The workspace /p1 does not exist in the tree /p2.";
+fi
+
+# For DS installation (and CR management), we force the local workspace to be a root workspace
+# or that no promotion is allowed from it
+_parent_ws=$($_AWK -F\| '{if ($1=="_WS") print $9}' "$DefaultTmpDir"/ds_ws_$$.txt)
+_promote_cmd=$($_AWK -F\| '{if ($1=="_WS") print $15}' "$DefaultTmpDir"/ds_ws_$$.txt)
+if [ "$_parent_ws" != "<NO_PARENT_NAME>" -a "$_promote_cmd" != "PROMOTE_CMD_FORBIDDEN" -a -z "$_NO_CR_OPTION" ]
+then
+	if [ "$(adl_version -program -sep "|" | $_AWK -F\| '{print $2}')" = "NULL" ]
+	then
+		# Specific to DS installation
+		Out 5 0026 "$_L_WS" # "The local workspace \"/p1\" must be a root workspace..."
+	fi
+fi
+
+# A warning is issued when the local workspace is a root workspace because no component will be detached afterwards
+[ "$_parent_ws" = "<NO_PARENT_NAME>" ] && _printmsg 0041 "$_L_WS"
+
+######################################################################
+#
+# Check connection with REMOTE Multisite transfer manager
+#
+######################################################################
+
+init_connection_with_remote_site "$_R_SERVER"
+
+# Get identification of remote site
+"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/admin/adl_ls_site'"' -program '-sep "|"' -out '"'$_R_TMP/ls_site.txt'"'
+if [ $? -eq 0 ]
+then
+	"$_CLIENT" $_RUN_COMMON -get "$_R_TMP"/ls_site.txt "$DefaultTmpDir"/ls_site_$$.txt || Out 5 0025 "$_R_TMP"/ls_site.txt "$DefaultTmpDir"/ls_site_$$.txt 
+	_R_SITE_ID=$($_AWK -F\| '{print $1}' "$DefaultTmpDir"/ls_site_$$.txt)
+	_R_SITE="$($_AWK -F\| '{print $2}' "$DefaultTmpDir"/ls_site_$$.txt)"
+else
+	Out 5 0009 # "Could not get identification of remote SCM site."
+fi
+
+
+######################################################################
+#
+# Check REMOTE workspace
+#
+######################################################################
+_printmsg 0006 "$_R_NEW_WS" # "Checking remote workspace /p1..."
+
+unset _OPTIONS
+[ ! -z "$_R_NEW_WS_TREE" ] && _OPTIONS="-tree $_R_NEW_WS_TREE"
+"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/adl_ds_ws'"' $_R_NEW_WS $_OPTIONS -program '-sep "|"' -out '"'$_R_TMP/r_ds_ws.txt'"'
+if [ $? -ne 0 ]
+then
+	_printerr 0112 "$_R_NEW_WS" # "Failed to retrieve information about the remote workspace /p1."
+	_printmsg 0115 "$_R_NEW_WS" # "The workspace /p1 must exist on the remote site."
+	[ ! -z "$_R_NEW_WS_TREE" ] && _printmsg 0116 "$_R_NEW_WS" "$_R_NEW_WS_TREE" # "The workspace /p1 must exist in the workspace tree /p2."
+	Out 5
+else
+	"$_CLIENT" $_RUN_COMMON -get "$_R_TMP/r_ds_ws.txt" "$DefaultTmpDir"/ds_ws_$$.txt || Out 5 0025 "$_R_TMP/r_ds_ws.txt" "$DefaultTmpDir"/ds_ws_$$.txt 
+	# Check that the given tree is a valid tree and also convert it in the proper letter case
+	"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/adl_ls_tree'"' $_R_NEW_WS_TREE -program '-sep "|"' -out '"'$_R_TMP/r_ls_tree.txt'"' 
+	if [ $? -ne 0 ]
+	then
+		Out 5 0114 "$_R_NEW_WS_TREE" # "Failed to retrieve information about remote workspace tree /p1."
+	fi
+	"$_CLIENT" $_RUN_COMMON -get "$_R_TMP/r_ls_tree.txt" "$DefaultTmpDir"/ls_tree_$$.txt || Out 5 0025 "$_R_TMP/r_ls_tree.txt" "$DefaultTmpDir"/ls_tree_$$.txt 
+	_R_NEW_WS_TREE=$($_AWK -F\| '{print $1}' "$DefaultTmpDir"/ls_tree_$$.txt)
+
+	# Check that the workspace exists in this tree 
+	nbl=$($_AWK -F\| '{if ($1=="_WS" && $4=="'$_R_NEW_WS_TREE'") print $4}' "$DefaultTmpDir"/ds_ws_$$.txt | wc -l)
+	if [ $nbl -ne 1 ]
+	then
+		Out 5 0109 "$_R_NEW_WS" "$_R_NEW_WS_TREE" # "The workspace /p1 does not exist in the tree /p2.";
+	fi
+fi
+
+######################################################################
+#
+# Check intersite flows -> in order to prevent to having same objects
+# transferred to two different trees of the same release, we forbid
+# to have more than one transfer set between a local tree and
+# different remote trees with the same software levels associated.
+# Examples
+#     Allowed
+#             transfer1 = local_tree1 -> remote_tree1 (level X)
+#             transfer2 = local_tree1 -> remote_tree2 (level Y) <<<<<
+#     NOT allowed
+#             transfer1 = local_tree1 -> remote_tree1 (level X)
+#             transfer2 = local_tree1 -> remote_tree2 (level X)
+#
+######################################################################
+
+_printmsg 0040 "$_R_SITE" # "Checking new transfer against existing transfers with remote site /p1..."
+
+"$ADL_USER_PATH"/adl_ls_transfer -tree "$_L_WS_TREE" -program -sep "|" -out "$DefaultTmpDir"/ls_transfer3_$$.txt >"$DefaultTmpDir"/ls_transfer2_$$.txt
+if [ $? -ne 0 ]
+then
+	\cat "$DefaultTmpDir"/ls_transfer2_$$.txt
+	Out 5
+fi
+
+# If other transfers have been already defined
+$_AWK -F\| '{print $1" "$3" "$9}' "$DefaultTmpDir"/ls_transfer3_$$.txt | "$_SORT" -u > "$DefaultTmpDir"/ls_transfer2_$$.txt
+if [ -s "$DefaultTmpDir"/ls_transfer2_$$.txt ]
+then
+	# Get distinct remote tree(s) of existing transfer(s)
+	"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/adl_ls_tree'"' -program '-sep "|"' -out '"'$_R_TMP/ls_tree.txt'"'
+	if [ $? -ne 0 ]
+	then
+		Out 5 0125 # "Failed to retrieve information about remote workspace trees."
+	else
+		"$_CLIENT" $_RUN_COMMON -get "$_R_TMP"/ls_tree.txt "$DefaultTmpDir"/ls_tree_$$.txt || Out 5 0025 "$_R_TMP"/ls_tree.txt "$DefaultTmpDir"/ls_tree_$$.txt 
+	fi
+
+	_NewRTreeSoftLevel=$($_AWK -F\| '{if (tolower($1)==tolower("'$_R_NEW_WS_TREE'")) print $7}' "$DefaultTmpDir"/ls_tree_$$.txt)
+	while read _one_ws _one_transfer _one_r_tree
+	do
+		if [ "$_one_r_tree" != "$_R_NEW_WS_TREE" ]
+		then
+			_OtherRTreeSoftLevel=$($_AWK -F\| '{if (tolower($1)==tolower("'$_one_r_tree'")) print $7}' "$DefaultTmpDir"/ls_tree_$$.txt)
+			if [ "$_OtherRTreeSoftLevel" = "$_NewRTreeSoftLevel" ]
+			then
+				if [ "$_OtherRTreeSoftLevel" = "\0" ]
+				then
+					Out 5 0127 "$_one_transfer" "$_L_WS_TREE" "$_one_r_tree" "$_one_ws "
+				else
+					Out 5 0126 "$_one_transfer" "$_L_WS_TREE" "$_one_r_tree" "$_NewRTreeSoftLevel" "$_R_NEW_WS_TREE" "$_one_ws "
+				fi
+			fi
+		fi
+	done < "$DefaultTmpDir"/ls_transfer2_$$.txt
+
+fi
+
+######################################################################
+#
+# Execute the command
+#
+######################################################################
+
+# Unlink function
+unlink_mirror_ws()
+{
+	"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/adl_unlink_ws'"' "$_R_WS" -tree '"'$_R_NEW_WS_TREE'"'>$NULL
+	if [ $? -ne 0 ]
+	then
+		Out 5 0057 "$_R_WS" "$_R_NEW_WS_TREE" # "Failed to unlink mirror workspace /p1..."
+	else
+		Out 5
+	fi
+}
+
+if [ "$_R_MIRROR_WS" = "MIRROR_WS" ]
+then
+	# Create the mirror workspace. We reuse the same mirror workspace as for the other trees
+
+	_printmsg 0053 "$_R_WS" "$_R_NEW_WS_TREE" # "Linking remote mirror workspace \"/p1\" in workspace tree \"/p2\"..."
+
+	"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/adl_link_ws'"' "$_R_WS" -parent_ws '"'$_R_NEW_WS'"' -tree '"'$_R_NEW_WS_TREE'"'>"$DefaultTmpDir"/link_ws_$$.txt 2>&1
+	if [ $? -ne 0 ]
+	then
+		\cat "$DefaultTmpDir"/link_ws_$$.txt
+		Out 5 0054 "$_R_WS" "_R_NEW_WS_TREE" # "Failed to link workspace \"/p1\" in workspace tree \"/p2\"."
+	fi
+fi
+
+# Register the new transfer object in the database of the local site
+_printmsg 0119 "$_T_NAME" "$_L_WS" "$_R_WS" # "Registering the new intersite transfer between /p1 and /p2 in local database."
+
+# I need to retrieve the ID of the remote tree
+"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/adl_ds_ws'"' "$_R_WS" -tree "$_R_NEW_WS_TREE" -program '-sep "|"' -out '"'$_R_TMP/r_ds_ws.txt'"'
+if [ $? -ne 0 ]
+then
+	_printerr 0055 "$_R_NEW_WS_TREE" "$_R_WS" "$_R_NEW_WS_TREE" # "Failed to retrieve identifier of remote  workspace tree \"/p1\"."
+	unlink_mirror_ws
+else
+	"$_CLIENT" $_RUN_COMMON -get "$_R_TMP/r_ds_ws.txt" "$DefaultTmpDir"/ds_ws_$$.txt || Out 5 0025 "$_R_TMP/r_ds_ws.txt" "$DefaultTmpDir"/ds_ws_$$.txt 
+	_R_NEW_WS_TREE_ID=$($_AWK -F\| '{if ($1=="_WS") print $5}' "$DefaultTmpDir"/ds_ws_$$.txt)
+fi
+
+# Information about remote site will be given using a file
+echo "MULTI_TREE_WS|${_R_WS}|${_R_WS_ID}" > "$DefaultTmpDir"/link_is_$$.txt || Out 5 0120 $_T_NAME
+echo "WS_TREE|${_R_NEW_WS_TREE}|${_R_NEW_WS_TREE_ID}" >> "$DefaultTmpDir"/link_is_$$.txt || Out 5 0120 $_T_NAME
+
+"$ADL_USER_PATH"/admin/adl_link_is_transfer_i "$_T_NAME" -ws "$_L_WS" -tree "$_L_WS_TREE" -remote_info_file "$DefaultTmpDir"/link_is_$$.txt >"$DefaultTmpDir"/traces_mk_$$.txt
+
+if [ $? -ne 0 ]
+then
+	cat "$DefaultTmpDir"/traces_mk_$$.txt
+	_printerr 0056 "$_T_NAME" "$_L_WS_TREE" "$_R_WS" "$_R_NEW_WS_TREE" # "Failed to register new transfer. Unlinking mirror workspace from remote site..."
+	unlink_mirror_ws
+fi
+
+Out 0 0101 # "Command successful";
+

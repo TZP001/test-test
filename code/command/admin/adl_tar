@@ -1,0 +1,304 @@
+#!/bin/ksh
+
+# ====================================================================
+# Copyright © 2001, Dassault-Systemes.
+#
+# This command is an encapsulation of any tar command
+# To have a command that have same results on differents platform
+# we recommend to use the GNU tar command
+# ====================================================================
+
+# ====================================================================
+# NOTE about Windows-NT
+# adl_tar has been developed using a GNUtar that didn't support compressed files
+# that's why the current shell looks for GZIP tool in the search path to know whether
+# tar files can be compressed.
+# This is different than on Unix platform where the compress operation is delegated to GNUtar
+# ====================================================================
+
+OS=$(uname -s)
+
+if [ $OS = Windows_NT ]
+then
+	FullShellName="$(whence "$0" | \sed 's+\\+/+g')"
+	ShellName="${FullShellName##*/}"
+	\cd "${FullShellName%/*}"
+	ShellDir="$(pwd)"
+	\cd -
+
+	TMP="$(printf "%s\n" "$ADL_TMP" | \sed 's+\\+/+g')"
+	NULL=nul
+else
+	FullShellName="$(whence "$0" | \sed 's+\\+/+g')"
+	ShellName="${FullShellName##*/}"
+	ShellDir="${FullShellName%/*}"
+
+	TMP=$ADL_TMP
+	NULL=/dev/null
+fi
+
+
+Usage="\n$ShellName  {-t|-x|-c} -f tarfile [-T filelist] [-z | -Z] [-v] [-h]
+
+Main operation mode: 
+-t       list the contents of an archive 
+-x       extract files from an archive 
+-c       create a new archive 
+ 
+Device selection and switching: 
+-f FILE  use archive FILE  
+ 
+Archive format selection: 
+-z       filter the archive through gzip and gunzip
+-Z       filter the archive through compress and uncompress
+ 
+Local file selection: 
+-T NAME  get names to extract or create from file NAME 
+ 
+Informative output: 
+-h       print this help, then exit 
+-v       verbosely list files processed"
+
+# ---------------------------------------------------------------------
+# Sortie du programe
+# ---------------------------------------------------------------------
+sortie()
+{
+  trap ' ' HUP INT QUIT TERM
+  if [ $# -ge 2 ]
+  then
+    echo "$2" 1>&2
+  fi
+  exit $1
+}
+
+# ---------------------------------------------------------------------
+# Debut
+# ---------------------------------------------------------------------
+
+trap 'sortie 1 "Command interrupted" ' HUP INT QUIT TERM
+
+unset _TARFILE
+unset _FILELIST
+unset _FILELIST_OPTION
+unset _VERBOSE
+unset _MAIN_OPERATION
+unset _COMPRESS
+
+#set -- $(getopt txczZhvf:T: "$@") || sortie 1 "$Usage"
+while [ -n "$1" -a "$1" != "--" ]
+do
+  if [ "$1" = "-h" ]
+  then
+	echo "$Usage"
+	exit 0
+  elif [ "$1" = "-T" ]
+  then
+   #-------------------> MANDATORY WITH -c OPTION: LIST OF FILE TO TAR
+        if [ -z "$2" ] 
+	then
+	  sortie 3 "A list of files to tar should be set"
+        fi
+        _FILELIST="$2"
+	if [ ! -f "$_FILELIST" ]
+	then
+	  sortie 3 "File not found: $_FILELIST"
+	fi
+        _FILELIST_OPTION="-T"
+        shift;shift
+  elif [ "$1" = "-v" ]
+  then
+   #-------------------> VERBOSE NEEDED
+	_VERBOSE="-v"
+	shift
+  elif [ "$1" = "-t" ]
+  then
+  #-------------------> LIST ARCHIVE NEEDED
+        if [ ! -z "$_MAIN_OPERATION" ]
+        then
+	  sortie 3 "Operations incompatible: $_MAIN_OPERATION and -t"
+	fi
+	_MAIN_OPERATION="-t"
+	shift
+  elif [ "$1" = "-c" ]
+  then
+    #-------------------> CREATE ARCHIVE NEEDED
+        if [ ! -z "$_MAIN_OPERATION" ]
+        then
+	  sortie 3 "Operations incompatible: $_MAIN_OPERATION and -c"
+	fi
+	_MAIN_OPERATION="-c"
+	shift
+  elif [ "$1" = "-x" ]
+  then
+    #-------------------> EXTRACT ARCHIVE NEEDED
+        if [ ! -z "$_MAIN_OPERATION" ]
+        then
+	  sortie 3 "Operations incompatible: $_MAIN_OPERATION and -x"
+	fi
+	_MAIN_OPERATION="-x"
+	shift
+  elif [ "$1" = "-Z" ]
+  then
+    #-------------------> COMPRESS NEEDED
+	[ ! -z "$_COMPRESS" ] && sortie 3 "Only one of these options can be set: -z -Z"
+	_COMPRESS="-Z"
+	shift
+  elif [ "$1" = "-z" ]
+  then
+  #-------------------> COMPRESS NEEDED
+	[ ! -z "$_COMPRESS" ] && sortie 3 "Only one of these options can be set: -z -Z"
+	_COMPRESS="-z"
+	shift
+  elif [ "$1" = "-f" ]
+  then
+    #-------------------> MANDATORY: ARCHIVE DESTINATION FILE
+        if [ -z "$2" ] 
+	then
+	  sortie 3 "A destination archive file should be set"
+        fi
+        _TARFILE="$2"
+        shift;shift
+  else
+    echo "Unknown option: $1" 1>&2
+	 sortie 3 "$Usage"
+	fi
+done
+
+if [ -z "$_TARFILE" -o -z "$_MAIN_OPERATION" ] 
+then
+  echo "$ShellName: Missing mandatory parameter." 1>&2
+  sortie 3 "$Usage"
+fi
+
+if [ "$_MAIN_OPERATION" = "-c" ] && [ -z "$_FILELIST" ] 
+then
+  echo "$ShellName: Missing list of files when creating an archive." 1>&2
+  sortie 3 "$Usage"
+fi
+
+if [ ! -z "$_TARFILE" ]
+then
+	if [ "$_MAIN_OPERATION" = "-c" ]
+	then
+		touch "$_TARFILE"
+		if [ $? -ne 0 ]
+		then
+			sortie 3 "Cannot create archive file: $_TARFILE"
+		fi
+	else
+		if [ ! -f "$_TARFILE" ]
+		then
+			sortie 3 "Cannot access archive file: $_TARFILE"
+		fi
+	fi
+fi
+
+# Recherche de GNUTar dans la RTV, sinon dans PATH
+if [ "$OS" = "Windows_NT" ]
+then
+	TAR_CMD="$ADL_USER_PATH/../bin/GNUtar.exe"
+else
+	TAR_CMD="$ADL_USER_PATH/../bin/GNUtar"
+fi
+
+if [ ! -f "$TAR_CMD" ]
+then
+	TAR_CMD="$(whence GNUtar)"
+	if [ $? -ne 0 ]
+	then
+		sortie 3 "Cannot find GNUtar command."
+	else
+		TAR_CMD="$(whence GNUtar | sed 's/\\/\//g')"
+		if [ $? -ne 0 ]
+		then
+		  if [ "$OS" = "IRIX64" ]
+		  then
+			  PATH=$PATH:"$ShellDir"/IRIX
+			  TAR_CMD="$(whence GNUtar)"
+			  if [ $? -ne 0 ]
+			  then
+				sortie 3 "Cannot find GNUtar command."
+			  fi
+		  else
+		  	sortie 3 "Cannot find GNUtar command."
+		  fi
+		fi
+	fi
+fi
+
+if [ "$OS" = "Windows_NT" ]
+then
+	if [ "$_COMPRESS" = "-z" ]
+	then
+		GZIP_CMD="$(whence gzip)"
+		[ $? -ne 0 ] && sortie 3 "Cannot find gzip command."
+		GZIP_CMD="$(whence gzip | sed 's/\\/\//g')"
+
+		if [ "$(basename "$_TARFILE" .z)" = "$(basename "$_TARFILE")" ]
+		then
+			withsuffix=false
+		else
+			withsuffix=true
+		fi
+
+		if [ "$_MAIN_OPERATION" = "-x" -o "$_MAIN_OPERATION" = "-t" ]
+		then
+			[ -z "$TMP" ] && sortie 5 "Variable TEMP must be defined for using compressed tar file"
+
+			cp -fp "$_TARFILE" "$TMP/$(basename "${_TARFILE}$$.z")"
+			"$GZIP_CMD" -d -S .z "$TMP/$(basename "${_TARFILE}$$.z")"
+			rc=$?
+			[ $rc -ne 0 ] && rm -f "$TMP/$(basename "${_TARFILE}$$.z")" && sortie $rc "Failed to uncompress $_TARFILE"
+
+			if [ -z "$_FILELIST_OPTION" ]
+			then
+				"$TAR_CMD" $_MAIN_OPERATION $_VERBOSE -f "$TMP/$(basename "${_TARFILE}$$")"
+			else
+				"$TAR_CMD" $_MAIN_OPERATION $_VERBOSE "$_FILELIST_OPTION" "$_FILELIST" -f "$TMP/$(basename "${_TARFILE}$$")"
+			fi
+			rc=$?
+			rm -f "$TMP/$(basename "${_TARFILE}$$")"
+		else
+			# -x option
+			if [ -z "$_FILELIST_OPTION" ]
+			then
+				"$TAR_CMD" $_MAIN_OPERATION $_VERBOSE -f "$_TARFILE"
+			else
+				"$TAR_CMD" $_MAIN_OPERATION $_VERBOSE "$_FILELIST_OPTION" "$_FILELIST" -f "$_TARFILE"
+			fi
+			rc=$?
+			[ $rc -ne 0 ] && sortie $rc
+			if [ $withsuffix = true ]
+			then
+				mv "$_TARFILE" "$(dirname "$_TARFILE")/$(basename "$_TARFILE" .z)"
+				[ $? -ne 0 ] && sortie $rc "Failed to rename tar file $_TARFILE"
+			fi
+			"$GZIP_CMD" -S .z "$(dirname "$_TARFILE")/$(basename "$_TARFILE" .z)"
+			rc=$?
+			[ $withsuffix = false ] && mv "${_TARFILE}.z" "$_TARFILE"
+			[ $rc -ne 0 ] && sortie $rc "Failed to compress $_TARFILE"
+		fi
+	else
+		# No compression
+		if [ -z "$_FILELIST_OPTION" ]
+		then
+			"$TAR_CMD" $_MAIN_OPERATION $_VERBOSE -f "$_TARFILE"
+		else
+			"$TAR_CMD" $_MAIN_OPERATION $_VERBOSE "$_FILELIST_OPTION" "$_FILELIST" -f "$_TARFILE"
+		fi
+		rc=$?
+		[ $rc -ne 0 ] && sortie $rc		
+	fi
+else
+	# UNIX platform
+	if [ -z "$_FILELIST_OPTION" ]
+	then
+		"$TAR_CMD" $_MAIN_OPERATION $_VERBOSE $_COMPRESS -f "$_TARFILE" 
+	else
+		"$TAR_CMD" $_MAIN_OPERATION $_VERBOSE "$_FILELIST_OPTION" "$_FILELIST" $_COMPRESS -f "$_TARFILE" 
+	fi
+	rc=$?
+fi
+
+sortie $rc

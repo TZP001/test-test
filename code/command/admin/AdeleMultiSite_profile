@@ -1,0 +1,62 @@
+#!/bin/ksh
+
+# -----------------------------------------------------------------------------
+# This profile should be executed before to start any command or script of the
+# AdeleMultiSite product.
+#
+# Example: . $ADL_MULTISITE_INSTALL/AdeleMultiSite_profile
+#
+# -----------------------------------------------------------------------------
+
+# Set Adele profile path
+ADL_PROFILE_PATH="#&#ADL_PROFILE_PATH#&#"
+
+# Set AdeleMultiSite installation  path
+export ADL_MULTISITE_INSTALL="#&#ADL_MULTISITE_INSTALL#&#"
+
+# Set AdeleMultiSite data transfer activity log directory
+export ADL_MULTISITE_LOG_DIR="#&#ADL_MULTISITE_LOG_DIR#&#"
+
+
+# Executing Adele profile
+# ------------------------
+if [ -z "$ADL_PROFILE_PATH" -o ! -x "$ADL_PROFILE_PATH" ]
+then
+  echo "ADL_PROFILE_PATH should be customized with a right value" 1>&2
+  return 3
+fi
+. $ADL_PROFILE_PATH
+
+# Set PATH 
+# --------------------------
+OS=$(uname -s)
+case $OS in
+AIX) OS_INST=aix_a
+  ;;
+HP-UX) 
+   case `uname -r|cut -c3-` in
+   10.*)
+       OS_INST=hpux_a
+       ;;
+   11.*)
+       OS_INST=hpux_b
+       ;;
+   esac
+   ;;
+IRIX | IRIX64) OS_INST=irix_a
+  ;;
+SunOS) OS_INST=solaris_a
+  ;;
+*) echo "Unknown OS: $OS"
+  return 3
+  ;;
+esac
+
+if [ -z "$ADL_MULTISITE_INSTALL" -o ! -d "$ADL_MULTISITE_INSTALL/$OS_INST" ]
+then
+  echo "Cannot find directory $ADL_MULTISITE_INSTALL/$OS_INST" 1>&2
+  return 3
+fi
+
+export PATH=$PATH:$ADL_MULTISITE_INSTALL/$OS_INST/code/command/admin
+

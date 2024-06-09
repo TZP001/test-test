@@ -1,0 +1,352 @@
+#!/bin/ksh 
+
+# =====================================================================
+# Copyright 2002 (C) Dassault-Systemes
+# 
+# adl_rm_is_transfer: remove an existing intersite transfer,
+# e.g. remove it from the list of existing transfers and delete
+# the remote mirror workspace
+#
+# A TCK for SCM administration is required for accessing this program.
+# =====================================================================
+unset _lock_code
+
+[ ! -z "$ADL_DEBUG" ] && set -x
+[ "$(uname -s)" = "Windows_NT" ] && export ADL_USER_PATH="$(printf "%s" "$ADL_USER_PATH" | sed 's+\\+/+g')"
+. "$ADL_USER_PATH"/admin/ADLMultiSiteCommon.sh
+
+# =====================================================================
+# Out function
+# Syntax: $1 = exit code; $2 = message code; $3... = message parameter(s)
+# CAUTION: only the first for message parameters can have spaces
+# =====================================================================
+Out()
+{
+	ExitCode=$1
+	shift
+	trap 'Out 5 0100 ' HUP INT QUIT TERM
+
+	# Send 'finish' event to the remote transfer manager
+	[ $ExitCode -eq 0 -a $_lock_code -eq 0 ] && "$_CLIENT" $_RUN_COMMON -finish "$_T_NAME" "$_L_WS" "$_L_SITE" "#CMD=adl_rm_is_transfer"
+
+	if [ $ExitCode -ge 1 ]
+	then
+		# Send 'abort' event to the remote transfer manager
+		[ $_lock_code -eq 0 ] && "$_CLIENT" $_RUN_COMMON -abort "$_T_NAME" "$_L_WS" "$_L_SITE" "#CMD=adl_rm_is_transfer"
+
+		echo ""
+		if [ $# -eq 1 ]
+		then
+			_printerr "$1" >&2
+		elif [ $# -eq 2 ]
+		then
+			_printerr "$1" "$2" >&2
+		elif [ $# -eq 3 ]
+		then
+			_printerr "$1" "$2" "$3" >&2
+		elif [ $# -eq 4 ]
+		then
+			_printerr "$1" "$2" "$3" "$4" >&2
+		elif [ $# -gt 4 ]
+		then
+			_printerr $* >&2
+		fi
+
+		echo ""
+		_printerr 0030 >&2
+
+	elif [ $# -ge 1 ]
+	then
+		echo ""
+		if [ $# -eq 1 ]
+		then
+			_printmsg "$1" >&2
+		elif [ $# -eq 2 ]
+		then
+			_printmsg "$1" "$2" >&2
+		elif [ $# -eq 3 ]
+		then
+			_printmsg "$1" "$2" "$3" >&2
+		elif [ $# -eq 4 ]
+		then
+			_printmsg "$1" "$2" "$3" "$4" >&2
+		elif [ $# -gt 4 ]
+		then
+			_printmsg $* >&2
+		fi
+	fi
+	unset IFS
+
+	# Clean possibly dedicated environment in the transfer manager daemon
+	"$_CLIENT" $_RUN_COMMON -finish > $NULL 2>&1
+	# Remove dedicated temporary directory (its name contains an UUID)
+	if [ ! -z "$_R_TMP" ]
+	then
+		"$_CLIENT" $_RUN_COMMON -rm '"'$_R_TMP'"' -rec || _printerr 0516 "$_R_TMP"
+	fi
+
+	\rm -rf "$DefaultTmpDir"/*_$$
+	\rm -rf "$DefaultTmpDir"/*_$$.sh
+	\rm -rf "$DefaultTmpDir"/*_$$.txt
+
+	exit $ExitCode
+}
+trap 'Out 5 0100 ' HUP INT QUIT TERM
+
+# =====================================================================
+# Analyse des parametres d'appel
+# =====================================================================
+
+typeset -L1 OneChar
+CheckOptArg()
+{
+	# Usage : CheckOptArg opt arg
+	OneChar="$2"
+	if [ "$2" = "" -o "$OneChar" = "-" ]
+	then
+		_printerr 0103 "$1" # "Option /p1: one argument is required"
+		Out 5 0810 
+	fi
+}
+
+unset _T_NAME
+
+# Note: _R_HOST & _R_PORT sont obsoletes -> utiliser _R_SERVER
+unset _R_HOST
+unset _R_PORT
+unset _R_SERVER
+unset _R_WS
+unset _R_WS_TREE
+
+unset _L_WS
+unset _L_WS_TREE
+
+unset _TREE_OPTION
+unset _L_WS_TREE_LIST
+unset _FORCE_START_OPTION
+
+export _TREE_LIST_FILE="$DefaultTmpDir"/ls_tree_$$.txt
+
+while [ $# -ge 1 ]
+do
+	case "$1" in
+		-h | -help | -\? ) #-------------------> HELP NEEDED
+			_printmsg 0810 # usage ...
+			_printmsg 0800
+			exit 0
+			;;
+		-ws ) #-------------------> LOCAL WORKSPACE
+			CheckOptArg "$1" "$2"
+			export _L_WS="$2"
+			shift 2
+			;;
+		-tree ) #-------------------> LOCAL WORKSPACE TREE
+			_TREE_OPTION=true
+			CheckOptArg "$1" "$2"
+			export _L_WS_TREE=$2
+			\touch "$_TREE_LIST_FILE" 
+			echo "$_L_WS_TREE" >> "$_TREE_LIST_FILE"|| Out 5 0228 "$_TREE_LIST_FILE" # "Failed to write in file /p1..."
+			_L_WS_TREE_LIST="${_L_WS_TREE} $_L_WS_TREE_LIST"
+			shift 2
+			;;
+		-force_start ) #-------------------> FORCE TRANSFER TO START
+			export _FORCE_START_OPTION="-force_start"
+			shift
+			;;
+		-* ) _printerr 0104 $1 # "Unknown option: /p1"
+			Out 5 0810 
+			;;
+		*)  if [ ! -z "$_T_NAME" ]
+			then 
+				_printerr 0012 $1 # "Only one transfer name can be given. What does /p1 mean?"
+				Out 5 0011 
+			fi
+			export _T_NAME="$1"
+			shift
+			;;
+	esac
+done
+
+if [ -z "$_L_WS" ]
+then
+	_printerr 0105 "adl_rm_is_transfer" "-ws" # "/p1: Missing mandatory remote parameter: /p2.";
+	Out 5 0810
+fi
+
+######################################################################
+#
+# Check or compute name of transfer
+#
+######################################################################
+
+# Note that _T_NAME can be empty in the query below
+"$ADL_USER_PATH"/adl_ls_transfer $_T_NAME -ws "$_L_WS" -program -sep "|" -out "$DefaultTmpDir"/ls_transfer_$$.txt >$NULL
+if [ $? -ne 0 ]
+then
+	"$ADL_USER_PATH"/adl_ds_ws "$_L_WS" -program -out "$DefaultTmpDir"/ls_transfer_$$.txt >$NULL
+	if [ $? -ne 0 ]
+	then
+		Out 5 0815 "$_L_WS" # "Failed to list transfers associated with workspace /p1. Does this workspace exist?"
+	else
+		Out 5 0014 "$_L_WS" # "Failed to list transfers associated with workspace /p1."
+	fi
+fi
+
+if [ -z "$_T_NAME" ]
+then
+	# If no transfer name is specified, there must be one already defined
+	[ ! -f "$DefaultTmpDir"/ls_transfer_$$.txt -o ! -s "$DefaultTmpDir"/ls_transfer_$$.txt ] && Out 5 0220 "$_L_WS" # "There is no transfer defined for workspace /p1."
+	nbl=$($_AWK -F\| '{print $3}' "$DefaultTmpDir"/ls_transfer_$$.txt | "$_SORT" -u | wc -l)
+	if [ $nbl -gt 1 ]
+	then
+		_printerr 0019 # "There is more than one transfer defined for the current workspace. Select one transfer in the list below:"
+		$_AWK -F\| '{print "    "$3}' "$DefaultTmpDir"/ls_transfer_$$.txt | "$_SORT" -u
+		Out 5 # "Command aborted"
+	fi
+else
+	# Check transfer name exists for the given workspace
+	nbl=$(cat "$DefaultTmpDir"/ls_transfer_$$.txt | wc -l)
+	if [ $nbl -eq 0 ]
+	then
+		Out 5 0020 "$_T_NAME" "$_L_WS" # "The transfer /p1 is not defined for the workspace /p2."
+	fi
+fi
+export _T_NAME=$($_AWK -F\| '{print $3}' "$DefaultTmpDir"/ls_transfer_$$.txt | "$_SORT" -u)
+
+# Get name and UUID of remote mirror workspace + information about the remote transfer manager
+# All the transfers are supposed to have the same remote workspace and the same attributes
+# So we take the first transfer of the list
+head -1 "$DefaultTmpDir"/ls_transfer_$$.txt > "$DefaultTmpDir"/ls_transfer2_$$.txt
+[ $? -ne 0 ] && Out 5 0221 "$DefaultTmpDir"/ls_transfer2_$$.txt
+export _R_WS=$($_AWK -F\| '{print $7}' "$DefaultTmpDir"/ls_transfer2_$$.txt)
+export _R_WS_ID=$($_AWK -F\| '{print $8}' "$DefaultTmpDir"/ls_transfer2_$$.txt)
+export _R_SERVER=$($_AWK -F\| '{print $13}' "$DefaultTmpDir"/ls_transfer2_$$.txt)
+export _R_PORT=$($_AWK -F\| '{print $14}' "$DefaultTmpDir"/ls_transfer2_$$.txt)
+# On gere la compatibilite avec l'ancien format
+[ "$_R_PORT" != "\0" ] && export _R_SERVER="$_R_SERVER:$_R_PORT"
+unset _R_PORT
+export _R_MIRROR_WS=$($_AWK -F\| '{print $19}' "$DefaultTmpDir"/ls_transfer2_$$.txt)
+
+
+######################################################################
+#
+# Connection to the remote Multisite transfer manager
+#
+######################################################################
+init_connection_with_remote_site "$_R_SERVER"
+
+######################################################################
+#
+# Prevent for concurrent accesses
+#
+######################################################################
+[ ! -z $_FORCE_START_OPTION ] && "$_CLIENT" $_RUN_COMMON -abort "$_T_NAME" "$_L_WS" "$_L_SITE"
+"$_CLIENT" $_RUN_COMMON -start "$_T_NAME" "$_L_WS" "$_L_SITE" "#CMD=adl_rm_is_transfer" >"$DefaultTmpDir"/start_is_$$.txt
+_lock_code=$?
+if [ $_lock_code -ne 0 ]
+then
+	grep 'A session already exists with this identifier' "$DefaultTmpDir"/start_is_$$.txt >$NULL
+	if [ $? -eq 0 ]
+	then
+		# There is already another command that is registered on the remote host /p3 ...
+		Out 5 0335 "$_T_NAME" "$ADL_WS" "$_R_SERVER"
+	else
+		Out 5 0334 "$_R_SERVER" # "The remote transfer manager does not respond from /p1."
+	fi
+fi
+
+######################################################################
+#
+# Execute the command
+#
+######################################################################
+
+#
+# Remove the remote mirror workspace using either adl_rm_ws or adl_unlink_ws
+# regarding the transfer is to be removed in all trees or only in a subset of them
+#
+unset _alltrees
+if [ ! -z "$_TREE_OPTION" ]
+then
+	# In any cases, check the given trees are valid
+	unset _R_WS_TREE_LIST
+	while read _one_tree
+	do
+		_R_WS_TREE=$($_AWK -F\| '{if (tolower($5)==tolower("'$_one_tree'")) print $9}' "$DefaultTmpDir"/ls_transfer_$$.txt)
+		[ -z "$_R_WS_TREE" ] && Out 5 0021 "$_T_NAME" "$_one_tree" "$_L_WS" # "The transfer /p1 is not defined in the workspace tree /p2 for the workspace /p3."
+		if [ -z "$_R_WS_TREE_LIST" ]
+		then
+			_R_WS_TREE_LIST="${_R_WS_TREE}"
+		else
+			_R_WS_TREE_LIST="${_R_WS_TREE} $_R_WS_TREE_LIST"
+		fi
+	done < "$_TREE_LIST_FILE"
+
+	nbl1=$(cat "$DefaultTmpDir"/ls_transfer_$$.txt | wc -l)
+	nbl2=$(cat "$_TREE_LIST_FILE" | wc -l)
+	[ $nbl1 -eq $nbl2 ] && _alltrees=true
+else
+	_alltrees=true
+fi
+
+if [ "$_R_MIRROR_WS" = "MIRROR_WS" ]
+then
+	_printmsg 0811 "$_R_WS" # "Removing remote mirror workspace \"/p1\"..."
+	if [ -z "$_alltrees" ]
+	then
+		# Change current workspace to avoid problem in adl_unlink_ws
+		_printmsg 0320 "$_R_WS" # "Changing current remote working workspace to /p1..."
+		"$_CLIENT" $_RUN_COMMON -setenv "$_R_WS" -no_image > "$DefaultTmpDir"/r_traces_$$.txt 2>&1
+		if [ $? -ne 0 ]
+		then
+			# Check if the workspace does not exist
+			grep '#ERR# ADLCMD - 0421' "$DefaultTmpDir"/r_traces_$$.txt >$NULL
+			if [ $? -ne 0 ]
+			then
+				\cat "$DefaultTmpDir"/r_traces_$$.txt
+				Out 5 0314 # "Failed to set current remote workspace."
+			fi
+		fi
+
+		# Use adl_unlink_ws to remove the remote mirror workspace
+		"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/adl_unlink_ws'"' "$_R_WS" -tree '"'$_R_WS_TREE_LIST'"' >"$DefaultTmpDir"/unlink_ws_$$.txt 2>&1
+		if [ $? -ne 0 ]
+		then
+			\cat "$DefaultTmpDir"/unlink_ws_$$.txt
+            ## API sept 13rd 07 - do not exit if the mirror ws has been removed - continue the program 
+			##Out 5 0812 "$_R_WS" "$_R_WS_TREE_LIST" # "Failed to unlink remote mirror workspace \"/p1\" from workspace tree(s) /p2."
+		fi
+	else
+		# Use adl_rm_ws to remove the remote mirror workspace
+		"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/adl_rm_ws'"' "$_R_WS" >"$DefaultTmpDir"/rm_ws_$$.txt 2>&1
+		if [ $? -ne 0 ]
+		then
+			# Check if the workspace does not exist
+			grep '#ERR# ADLCMD - 0421' "$DefaultTmpDir"/rm_ws_$$.txt >$NULL
+			if [ $? -ne 0 ]
+			then
+				\cat "$DefaultTmpDir"/rm_ws_$$.txt
+                ## API sept 13rd 07 - do not exit if the mirror ws has been removed - continue the program 
+				##Out 5 0813 "$_R_WS" # "Failed to remove remote mirror workspace \"/p1\"."
+			fi
+		fi
+	fi
+fi
+
+#
+# Remove the transfer object
+#
+
+_printmsg 0814 "$_T_NAME" # "Removing transfer /p1 on local site..."
+
+unset _OPTIONS
+[ ! -z "$_TREE_OPTION" ] && _OPTIONS="-tree $_L_WS_TREE_LIST"
+"$ADL_USER_PATH"/admin/adl_rm_transfer_i "$_T_NAME" -ws "$_L_WS" $_OPTIONS >"$DefaultTmpDir"/traces_rm_$$.txt
+
+if [ $? -ne 0 ]
+then
+	cat "$DefaultTmpDir"/traces_rm_$$.txt
+	Out 5
+fi
+
+Out 0 0101 # "Command successful";
