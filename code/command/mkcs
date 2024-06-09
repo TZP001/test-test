@@ -1,0 +1,24 @@
+
+# Acces aux modules C++
+
+CATTraDecDir="/dev/null"
+CATICPath="$MkmkIC_PATH"
+CATDictionaryPath="$MkmkDictionary_PATH"
+CATMsgCatalogPath="$MkmkMsgCatalog_PATH"
+CATDefaultEnvironment="MkmkEnvironment"
+CATUserSettingPath="/dev/null"
+unset CATReferenceSettingPath
+
+eval "$mkcsSHLIB_NAME"="$mkcsSHLIB_PATH"
+PATH="$PATH:$mkcsSHLIB_PATH"
+
+export PATH $mkcsSHLIB_NAME
+export CATICPath CATDictionaryPath CATMsgCatalogPath
+export CATTraDecDir CATDefaultEnvironment CATUserSettingPath CATReferenceSettingPath
+
+if [ "$mkcsOS_NAME" = "AIX" ]; then
+	\ulimit -d unlimited
+fi
+
+# Lancement
+exec mkCheckSourceM "$@"

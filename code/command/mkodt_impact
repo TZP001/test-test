@@ -1,0 +1,214 @@
+
+#------------------------------------------------------------------------------
+#-- BE 10/97
+#------------------------------------------------------------------------------
+#-- Calcul d'Impact PTO -> ODT 
+#-- Le calcul est base sur le replay de couverture du niveau AIX switche
+#------------------------------------------------------------------------------
+out()
+{
+  rm /tmp/*_$$ 2>/dev/null
+  exit $1
+}
+
+USAGE="usage: $0 -i pto_liste [-o liste_odt]
+
+      pto_liste = liste de pto sous la forme:
+      FW Module.m pto.0
+
+      liste_odt sous la forme: (si non precisee stdout)
+      FW.tst type(TestCases ou SwitchTestCases) ODT.sh"
+
+if [ "$ADL_FR_CATIA" = "" ];then
+  echo la variable ADL_FR_CATIA n est pas valuee  >&2
+  out 4 
+fi
+
+if [ "$MkmkOS_NAME" = "Windows_NT" ]; then
+	OutputROOT=//dahlia/HOME/users/Cov${ADL_FR_CATIA}
+	else
+	OutputROOT=/u/lego/CXR1cov/COV${ADL_FR_CATIA}purcov
+fi
+
+if [ ! -d $OutputROOT ];then
+  echo le repertoire donnees de couverture associe au niveau ${ADL_FR_CATIA} >&2
+  echo n existe pas. >&2
+  out 5 
+fi
+
+if [ "$1" = "" ] ;then
+  echo "$USAGE" >&2
+  out 0
+fi
+
+set -- `getopt hi:o: $*`
+
+
+Output_tmp=/tmp/output_$$
+
+while [ "$1" != "" ]
+do
+  if [ "$1" = "-h" ];then
+    echo "$USAGE" >&2
+    out 0
+  elif [ "$1" = "-o" ] ;then
+    Output="$2"
+    echo "Output File: $Output" >&2
+    shift 2
+  elif [ "$1" = "-i" ] ;then
+    Input="$2"
+    echo "Input File: $Input" >&2
+    shift 2
+  elif [ "$1" = "--" ] ;then
+    echo "Ici -- " >&2
+    if [ "$2" != "" ] ; then
+      Input="$2"
+      shift 
+    fi
+    shift
+  else
+    echo ERROR >&2
+    echo "$USAGE" >&2
+    out 2 
+  fi
+done
+
+if [ ! -f "$Input" ]; then
+  echo "$USAGE" >&2
+  echo "  $Input: file not found " >&2
+  out 1
+fi
+
+awk '{
+  if (NF != 3) {
+    print 
+    print "line format error: must be 3 parameters (FW Module.m pto.o)"
+  }
+}' $Input >/tmp/error_$$
+ 
+if [ -s /tmp/error_$$ ] ;then
+  echo "$USAGE" >&2
+  cat /tmp/error_$$ >&2
+  out 2
+fi
+
+awk '{
+  if (NF == 3) {
+    print $1"/"$2"!"$3
+  }
+}' $Input |sort -u > /tmp/klug_$$
+
+
+if  [ "$MkmkOS_NAME" = "Windows_NT" ]; then
+# OS WindowsNT
+	awk 'BEGIN {
+		n=0;
+		nl=0;
+		while ( getline line < "'/tmp/klug_$$'" ){
+			n++;
+			request[n]=line;
+			};
+		}
+		{
+			nl++;
+			for ( j=1; j<=n; j++ )
+			{
+				if ( $1==request[j] )
+				{
+					nfw=split($2,fwlist,"!");
+					for ( i=1; i<=nfw; i++ ){
+						print fwlist[i];
+					}
+			}
+			}
+		}' $OutputROOT/ImpactOdt-solaris_a | sort -u > /tmp/Liste_framework_$$
+
+
+	for fw in `cat /tmp/Liste_framework_$$`
+	do
+		awk 'BEGIN{
+			n=0;
+			while ( getline line < "'/tmp/klug_$$'" ){
+				n++;
+				request[n]=line;
+		   	};
+			}
+			{
+				for ( j=1; j<=n; j++ )
+				{
+					if ( $1==request[j] )
+					{
+						nfw=split($2,fwlist,"!");
+						for (i=1;i<=nfw;i++){
+							print "'$fw' " fwlist[i];
+						}
+					}
+				}
+			}' $OutputROOT/$fw/FunctionTests/Coverage/solaris_a/ImpactOdt |sort -u >/tmp/Liste_odt_$$
+  		while read fwtst odt
+  	 	do
+    		if [ -f $OutputROOT/WSROOT/${fwtst}/FunctionTests/TestCases/${odt}.sh ] ;then
+      			echo $fwtst TestCases $odt
+    		elif [ -f $OutputROOT/WSROOT/${fwtst}/FunctionTests/SwitchTestCases/${odt}.sh ] ;then
+      			echo $fwtst SwitchTestCases $odt
+    		else
+      			echo PB coherence pour ODT $fwts $odt file tree $OutputROOT
+      			echo              detecte dans impact $fw
+    		fi
+  		done < /tmp/Liste_odt_$$ >> $Output_tmp
+	done
+else
+# OS ! WindowsNT
+	join $OutputROOT/ImpactOdt-solaris_a /tmp/klug_$$ | awk '{
+ 		nfw=split($2,fwlist,"!");
+ 		for (i=1;i<=nfw;i++){
+   			print fwlist[i]
+ 		}
+		}' |sort -u >/tmp/Liste_framework_$$
+
+	for fw in `cat /tmp/Liste_framework_$$`
+	do
+  		join $OutputROOT/$fw/FunctionTests/Coverage/solaris_a/ImpactOdt /tmp/klug_$$ | awk '{
+    		nfw=split($2,fwlist,"!");
+    		for (i=1;i<=nfw;i++){
+      			print "'$fw' " fwlist[i]
+    		}
+  			}' |sort -u >/tmp/Liste_odt_$$
+  		while read fwtst odt
+  		do
+    		if [ -f $OutputROOT/WSROOT/${fwtst}/FunctionTests/TestCases/${odt}.sh ] ;then
+      			echo $fwtst TestCases $odt
+    		elif [ -f $OutputROOT/WSROOT/${fwtst}/FunctionTests/SwitchTestCases/${odt}.sh ] ;then
+      			echo $fwtst SwitchTestCases $odt
+    		else
+      		  	echo PB coherence pour ODT $fwts $odt file tree $OutputROOT
+      			echo              detecte dans impact $fw
+    		fi
+  		done < /tmp/Liste_odt_$$ >>$Output_tmp
+	done
+fi
+
+
+if [ "$Output" != "" ]; then
+		cp $Output_tmp $Output
+	else
+		cat $Output_tmp;
+fi
+
+out 0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

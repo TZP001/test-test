@@ -1,0 +1,279 @@
+#
+{ typeset >/dev/null; } 2>/dev/null || exec ksh -c "$0 $*"
+#
+#set -x
+#-----------------------------------------------------------------------------
+# Instrumentation :
+#      sur AIX, creer stubs pour CatDbg sur tous les loads
+#      sur SunOS, instrumentation purify/purecoverage
+#      remontee des loads instrumentes
+#-----------------------------------------------------------------------------
+# Parametres :
+#       [-U] -d RealFileTree
+# l'options -U entraine la remontee des loads instrumentes
+#-----------------------------------------------------------------------------
+
+trap 'out 2' 2
+umask 0
+
+unset ENV
+
+trace()
+{
+	echo
+	echo "## $(date +"%m-%d.%H:%M") - $*"
+	echo
+}
+
+out()
+{
+	typeset -i ret=${1:-1}
+	rm -fr /tmp/*[A-z]$$
+	exit $ret
+}
+
+infos()
+{
+   echo "update_dup =           [$update_dup]"
+   echo "MkmkOS_VAR =           [$MkmkOS_VAR]"
+   echo "Mkmk_HOST =            [$Mkmk_HOST]"
+   echo "MkmkRUNTIMEVIEW_PATH = [$MkmkRUNTIMEVIEW_PATH]"
+   echo "RealFileTree =         [$RealFileTree]"
+   echo "FileTree =             [$FileTree]"
+   echo "OffFileTree =          [$OffFileTree]"
+   echo "RemoteFileTree =       [$RemoteFileTree]"
+   echo
+}
+
+get_envfile()
+{
+        . mk_specos.sh
+        . mk_static.sh
+        . ReleaseFunctions.sh
+        EV_for_By_FR_CATIA
+        envfile=${env_LocalMachine}$Mkmk_HOST
+        if [ -x $envfile ]
+        then
+                echo $envfile
+        fi
+        return
+}
+
+#-----------------------------------------------------------------------------
+# Lecture des parametres
+#-----------------------------------------------------------------------------
+
+set -- $(getopt nUd: $*) || out 1
+
+update_dup=""
+noaction=""
+while [ -n "$1" -a "$1" != "--" ]; do
+
+        case "$1" in
+                -d )
+                        RealFileTree=$2
+                        shift; shift
+         		;;
+		-U )
+			update_dup="yes"
+			shift
+			;;
+		-n )
+			noaction="yes"
+			shift
+			;;
+	esac
+done
+
+#-----------------------------------------------------------------------------
+# Controle et creation de l'environnement
+#-----------------------------------------------------------------------------
+
+if [ -z "$RealFileTree" ]; then
+   if [ -z "$WSROOT" ]; then
+	echo "$0: ERROR: option -d missing." >&2
+	out 1
+   else
+        echo "$0: WARNING: option -d missing, defaulting to $WSROOT"
+	export RealFileTree="$WSROOT"
+   fi
+fi
+if [ -z "$MkmkOS_VAR" ]; then
+	echo "$0: ERROR: MkmkOS_VAR is not set." >&2
+	out 1
+fi
+if [ -z "$MkmkOS_NAME" ]; then
+	echo "$0: ERROR: MkmkOS_NAME is not set." >&2
+	out 1
+fi
+
+envfile=$(get_envfile)
+if [ -n "$envfile" ]
+then
+        . $envfile
+fi
+
+export BLDx="${ADL_BLD_LEVEL:+".$ADL_BLD_LEVEL"}"
+export FRx=$ADL_FR_CATIA
+
+. mk_specos.sh
+. mk_static.sh
+. ReleaseFunctions.sh
+
+EV_for_By_FR_CATIA
+EV_for_By_BLD_GRP
+
+FileTree=$(directory_equiv AutofsReference $RealFileTree)
+OffFileTree=$(directory_equiv BuildOff $RealFileTree)
+
+RemoteFileTree="$OffFileTree"
+
+# FileTree est le WS pour diffusion (u/autofs/...)
+# OffFileTree est le WS de build (u/lego/CXR1)
+# RemoteFileTree est le WS de build non -g
+
+if [ "$FileTree" = "" ]
+then
+   trace "No file tree found"
+   infos
+   exit 1
+fi
+
+#-----------------------------------------------------------------------------
+# Flag -n : pour afficher les repertoires obtenu, pas d'instrumentation
+# et duplication (pour debug/mise au point)
+#-----------------------------------------------------------------------------
+
+if [ ! -z "$MKMK_RELEASE_DE_TEST" ]
+then
+   echo "Release de test, flag -n force"
+   noaction="yes"
+fi
+
+if [ ! -z "$noaction" ]
+then
+
+   trace "-n option no actions (simulation)"
+
+   infos
+fi
+
+#-----------------------------------------------------------------------------
+# Pas d'instrumentation en release de test (Pour epargner le cache !)
+#-----------------------------------------------------------------------------
+
+if [ "$MkmkRUNTIMEVIEW_PATH" = "" ]
+then
+  CNext_ext=
+else
+  CNext_ext=$MkmkRUNTIMEVIEW_PATH
+fi
+CovDir=$OffFileTree/$MkmkOS_VAR/$CNext_ext/code/bin_inst
+
+create_dir $CovDir
+if [ ! -d $CovDir ]; then
+   mkdir $CovDir || out 1
+fi
+
+if [ $MkmkOS_NAME = "SunOS" ]; then
+
+#-----------------------------------------------------------------------------
+# SunOS : Verrue pour copie des shared non debug synchro aleatoire ...
+#-----------------------------------------------------------------------------
+
+   if [ "$Mkmk_HOST" = "solaris_adbg" ]; then
+     if [ -f $FR_Controle_p/NoDebugSharedList ] ; then
+       echo prise en compte fichier $FR_Controle_p/NoDebugSharedList
+       $FR_Controle_p/NoDebugSharedList
+     fi
+   fi
+
+#-----------------------------------------------------------------------------
+# SunOS : Instrumentation (mkmk -a -pcov -nobuild)
+#-----------------------------------------------------------------------------
+
+   trace "Build of purify/purecoverage loads"
+
+   cd $OffFileTree || out 1
+   unset MKMKOPTS
+   if [ -z "$noaction" ]; then
+      mkmk -a -pcov -nobuild
+   else
+      echo "mkmk -a -pcov -nobuild"
+   fi
+
+#-----------------------------------------------------------------------------
+# AIX : Stubs pour appel de CatDbg
+#-----------------------------------------------------------------------------
+
+elif [ $MkmkOS_NAME = "AIX" ]; then
+
+   if [ -z "$noaction" ]
+   then
+   echo "PGM_NAME=\`basename \$0 \`
+\\export LIBPATH=\$CatdbgLib:\$LIBPATH
+\\export PATH=\$PATH_NO_COV
+\$CatdbgPgm \$PGM_NAME \$*
+return \$? " >$CovDir/CatdbgGeneric
+
+   chmod +x $CovDir/CatdbgGeneric
+
+   (
+      cd $OffFileTree/$MkmkOS_VAR/code/bin || exit 1
+      ls |grep -v "^lib" >/tmp/lst_modu
+   ) || out 1
+
+   (
+      cd $CovDir || exit 1
+      for Mod in `cat /tmp/lst_modu` 
+      do
+         rm $Mod
+         cp CatdbgGeneric $Mod
+      done
+   ) || out 1
+   fi
+fi
+
+#-----------------------------------------------------------------------------
+# si option -U duplication des LocalCoverage 
+#-----------------------------------------------------------------------------
+
+if [ ! -z "$update_dup" ]
+then
+   Cible="$FileTree/$MkmkOS_VAR/$CNext_ext/code/bin_inst"
+   if [ "$Cible" != "" ]
+   then
+
+      trace "Duplication of $CovDir in $Cible"
+
+      if [ -z "$noaction" ]
+      then
+         rm -r $Cible >/dev/null
+         cp -rp $CovDir $Cible
+         rc="$?"
+      else
+         echo "rm -r $Cible"
+         echo "cp -rp $CovDir $Cible"
+         rc="0"
+      fi
+      if [ $rc -eq 0 ]
+      then
+
+         trace "Duplication Successful"
+
+         if [ -z "$noaction" ]
+         then
+            touch ${ODT_Log_p}/EndInstrum.$MkmkOS_VAR 
+            echo $Started_at > ${ODT_Log_p}/mkLocalCoverage.Flag.$MkmkOS_VAR 2> /dev/null 
+            chmod 777 ${ODT_Log_p}/mkLocalCoverage.Flag.$MkmkOS_VAR 2> /dev/null
+         else
+            echo "touch ${ODT_Log_p}/EndInstrum.$MkmkOS_VAR"
+            echo "echo $Started_at > ${ODT_Log_p}/mkLocalCoverage.Flag.$MkmkOS_VAR 2> /dev/null"
+         fi
+      else
+         trace "Duplication Error =============="
+      fi
+   fi
+fi
+
+out 0

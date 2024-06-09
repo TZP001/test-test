@@ -1,0 +1,138 @@
+#
+# --------------------------------------------
+# Generation des fichiers ODTReplayed
+# (resultats cumules des ODT)
+# --------------------------------------------
+# GDE - 10/97
+# --------------------------------------------
+
+if [ "$MkmkOS_NAME" != "Windows_NT" ]; then
+  export MK_DEVNULL="/dev/null"
+  export MK_TEMPDIR="/tmp"
+else
+  export MK_DEVNULL="NUL"
+  export MK_TEMPDIR="c:/temp"
+fi
+
+# --------------------------------------------
+# Utilitaires
+# --------------------------------------------
+
+if [ "$MkmkOS_VAR" = "" ]; then
+  echo "No mkmk environnement, abort"
+  exit 1
+fi
+trap 'out 2' 2
+umask 0
+
+out()
+{
+  rm -rf $MK_TEMPDIR/*_$$
+  exit $1
+}
+
+Trace()
+{
+  printf "## %s\n" "$*"
+}
+TraceWarn()
+{
+  printf "## WARNING: %s\n" "$*"
+}
+
+TraceErr()
+{
+  printf "## ! ERROR: %s\n" "$*"
+}
+
+Help()
+{
+  if [ "$*" != "" ]; then
+    TraceErr "$*"
+  fi
+  echo "
+  -W WSROOT     : Workspace in $HOME
+  -d WSROOT     : Workspace (full path)
+  [-os OS]      : OS
+  [-n name]     : Report ID
+  [-p previous] : Reference replay report
+  [-web]        : Open web browser on report"
+  if [ "$*" != "" ]; then
+    out 1
+  fi
+  out 0
+}
+
+# --------------------------------------------
+# Valeurs par defaut
+# --------------------------------------------
+
+webFlag="0"
+WSROOT=""
+
+name=""
+previous=""
+os="$MkmkOS_VAR"
+
+# --------------------------------------------
+# Lecture des options
+# --------------------------------------------
+
+while [ "$1" != "" ]
+do
+  case "$1" in
+  -W)   WSROOT="$HOME/$2"; shift ;;
+  -d)   WSROOT="$2"; shift ;;
+  -n)   name=".$2"; shift ;;
+  -p)   previous="$2"; shift ;;
+  -os)  os="$2"; shift ;;
+  -web) webFlag=1 ;;
+  -h)   Help ;;
+  *)    Help "$0: Wrong args" ;;
+  esac
+  shift
+done
+
+# --------------------------------------------
+# Verification des options
+# --------------------------------------------
+
+if [ "$WSROOT" = "" ]; then
+  pwd="$(pwd)"
+  pwd_old=""
+  while [ "$pwd" != "$pwd_old" ]
+  do
+    ls -d $pwd/*/FunctionTests > $MK_DEVNULL 2>&1
+    if [ "$?" = "0" ]; then
+      WSROOT="$pwd"
+      break
+    fi
+    cd .. 2> /dev/null
+    pwd_old="$pwd"
+    pwd="$(pwd)"
+  done
+fi
+
+if [ "$WSROOT" = "" ]; then
+  TraceErr "Unable to define current workspace"
+  out 1
+fi
+
+# --------------------------------------------
+# Calcul
+# --------------------------------------------
+
+mkdir $WSROOT/ODTList.$os 2> $MK_DEVNULL
+
+TestAutoRun.sh ODTCompute\
+	-97\
+  	-InputROOT $WSROOT\
+	-OutputROOT $WSROOT\
+	-OS $os\
+	-o1 $WSROOT/ODTList.$os/ODTReplayed.$os$name\
+	-o2 $WSROOT/ODTList.$os/ODTReplayed-$os$name\
+	$options
+
+if [ "$webFlag" = "1" ]; then
+  mkodt_web "cgi-bin/TAODTUser.sh?WS=$WSROOT"
+fi

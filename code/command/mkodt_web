@@ -1,0 +1,52 @@
+#!/bin/ksh
+#------------------------------------
+# Ouverture Netscape sur URL parameters
+#------------------------------------
+out()
+{
+  rm -rf /tmp/*_$$ 2>/dev/null
+  exit $1
+}
+USAGE=" mkodt_web URL "
+if [ "$1" = "" ]; then 
+  echo "$USAGE"
+  out 0
+else
+  URL="$1"
+fi
+
+if [ "$SERVER_PORT" = "" ] ; then
+  SERVER_PORT="herrero:8009"
+fi
+
+netscape -remote 'openURL('http://lyon:80/ged/diffusion/doc')' 2>/dev/null
+if [ $? != 0 ]; then
+
+#------- Lancement de netscape si necessaire
+  if [ "$USER" = "" ]; then
+    USER=`whoami`
+  fi
+
+  ps -fu $USER| grep netscape| grep -v grep >/dev/null 2>&1
+  Is_netscape=$?
+
+  if [ "$Is_netscape" = 1 ]
+  then
+    rm ~/.netscape/lock 2>/dev/null
+    netscape &
+    echo Start Netscape
+    while [ true ]; do
+      netscape -remote 'openURL('http://lyon:80/ged/diffusion/doc')' 2>/dev/null
+      if [ $? = 0 ]; then
+        break
+      fi
+      echo wait for Netsacpe ....
+      sleep 2
+    done
+  fi
+fi
+
+#------- Activation de l adresse html 
+#echo netscape -remote 'openURL(http://'$SERVER_PORT/$URL')'
+netscape -remote 'openURL(http://'$SERVER_PORT/$URL')'
+

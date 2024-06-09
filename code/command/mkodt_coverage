@@ -1,0 +1,187 @@
+#!/bin/ksh
+#--------------------------------------------------------------- 
+# usage mkodt_coverage FRAMEWORK [ -r ] 
+#--------------------------------------------------------------- 
+trap 'out 2' HUP INT ABRT TERM KILL
+out()
+{  
+  rm -fr /tmp/*[A-z]$$
+  exit $1
+}
+#---------------------------------------------------------------
+export COVOFF=/u/lego/CXRcov/COV$ADL_FR_CATIA
+#--------------------------------------------------------------- 
+
+Help=" usage: mkodt_coverage [-W WSROOT] [-d WSROOT] -l liste | -f framework | -a [-r]
+
+ -W WSROOT    : Workspace en relatif / HOME
+ -d WSROOT    : Workspace en alsolu
+ -l liste     : fichier contenant une liste de Framework (de test) a rejouer
+ -a           : tous les framework de test locaux
+ -f framework : nom d un framework de test (repeter option si plusieurs framework)
+ -r           : pour faire le replay des ODT 
+ -h           : help
+ -web         : display du resultat a l ecran par Netscape sitot termine" 
+
+
+if [ "$1" = "" ]; then
+  echo "$Help"
+  exit 0
+fi
+#--------------------------------------------------------------- 
+WSROOT=""
+ODT_LIST=""
+COMPUTE_LIST=""
+COMPUTE_LIST_TST=""
+ECHO=""
+while [ "$1" != "" ]
+do
+  if [ "$1" = "-r" ];then
+    flag_replay="Yes"
+  elif [ "$1" = "-d" ];then
+    WSROOT="$2"
+    shift
+  elif [ "$1" = "-W" ];then
+    WSROOT="$HOME/$2"
+    shift
+  elif [ "$1" = "-f" ];then
+    if [ "${2%.tst}" = "$2" ]; then
+      echo "$2 is not a test framework, $2.tst assumed"
+      ODT_LIST="${2}.tst $ODT_LIST"
+    else
+      ODT_LIST="$2 $ODT_LIST"
+    fi
+    shift
+  elif [ "$1" = "-a" ];then
+    flag_a="Yes"
+  elif [ "$1" = "-l" ];then
+    ODT_LIST="$(cat $2)"
+    shift
+  elif [ "$1" = "-h" ];then
+    echo "$Help"
+    exit 0
+  elif [ "$1" = "-D" ];then
+    echo Mode Debug
+    ECHO='echo '
+  elif [ "$1" = "-web" ];then
+    echo Display Netscape
+    flag_web="Yes"
+  fi
+  shift
+done
+
+if [ "$WSROOT" = "" ]; then
+  pwd="$(pwd)"
+  pwd_old=""
+  while [ "$pwd" != "$pwd_old" ]
+  do
+    ls -d $pwd/*/FunctionTests > /dev/null 2>&1
+    if [ "$?" = "0" ]; then
+      WSROOT="$pwd"
+      break
+    fi
+    cd .. 2> /dev/null
+    pwd_old="$pwd"
+    pwd="$(pwd)"
+  done
+fi
+
+#--------------------------------------------------------------- 
+if [ "$WSROOT" = "" ]; then
+  echo Unable to find Current WorkSpace
+  exit 1
+fi
+#--------------------------------------------------------------- 
+if [ "$flag_a" = "Yes" ];then
+  cd $WSROOT
+  ODT_LIST="$(ls -d *.tst)"
+  cd -
+fi
+
+OS=`uname -s`
+if [ "$OS" != "AIX" ]; then
+  echo $0 ne fonctionne que sur AIX
+  exit 1
+fi
+export Mkmk_HOST=aix_a
+export Mkmk_HOST_Ref=solaris_a
+
+if [ "$ADL_FR_CATIA" = "CXR1" ]; then
+  echo CALCUL SUR CXR1
+else 
+  echo $ADL_FR_CATIA niveau non supporte par $0
+  exit 1
+fi
+
+#--------------------------------------------------------------- 
+
+export PATH=~bsfr/rel/tools/bin:~tacr/bin:$PATH
+cd $WSROOT || exit 1
+if [ ! -d WSROOT ]; then
+  ln -s $WSROOT WSROOT
+fi
+#--------------------------------------------------------------- 
+# 1) Generation de LocalCoverage (Steplib "instrumentee")
+#--------------------------------------------------------------- 
+if [ "$flag_replay" = "Yes" ]; then
+  echo mkLocalCoverage .......
+  $ECHO mkLocalCoverage -d $WSROOT 2>/dev/null
+fi
+
+for frame in $ODT_LIST
+do
+#--------------------------------------------------------------- 
+# 2) Replay des ODT avec generation de la liste des methodes couvertes 
+#--------------------------------------------------------------- 
+  if [ "$flag_replay" = "Yes" ]; then
+    cd $WSROOT/$frametst
+    $ECHO mkodt -a -c -q
+  fi
+#--------------------------------------------------------------- 
+# 3) calcul des taux de couverture 
+#--------------------------------------------------------------- 
+done
+
+for f in $(ls $WSROOT)
+do
+  if [ ! -f $WSROOT/$f/IdentityCard/IdentityCard.h ]; then continue; fi
+
+  if [ -f $COVOFF/$f/FunctionTests/Coverage/Sniff_Liste_Methodes_Public -o -f $COVOFF/$f/FunctionTests/Coverage/Sniff_Liste_Methodes_Protected ]; then
+
+    echo "Resultats construits par comparaison avec le repertoire $COVOFF/$f/FunctionTests/Coverage/.."
+    $ECHO mkdir -p $WSROOT/$f/FunctionTests/Coverage/$Mkmk_HOST 2>/dev/null
+    $ECHO cp $COVOFF/$f/FunctionTests/Coverage/Sniff_Liste_Methodes_* $WSROOT/$f/FunctionTests/Coverage
+    $ECHO cp $COVOFF/$f/FunctionTests/Coverage/Liste_Classes_* $WSROOT/$f/FunctionTests/Coverage
+    $ECHO cp $COVOFF/$f/FunctionTests/Coverage/$Mkmk_HOST_Ref/NM_* $WSROOT/$f/FunctionTests/Coverage/$Mkmk_HOST
+  fi
+done
+
+$ECHO cp $COVOFF/Typedef $WSROOT/$Typedef
+
+$ECHO TestAutoRun.sh CovCompute\
+     -InputROOT $WSROOT \
+     -OutputROOT $WSROOT \
+     -o $WSROOT/Coverage \
+     -a ~bsfr/PARAM/$ADL_FR_CATIA/Controle/ADELE_Responsibles_* \
+     -d ~bsfr/PARAM/Controle/DSOrg \
+     -97
+
+$ECHO mkdir -p $WSROOT/ODTList.$Mkmk_HOST 2>/dev/null
+
+$ECHO TestAutoRun.sh ODTCompute\
+     -InputROOT $WSROOT \
+     -OutputROOT $WSROOT \
+     -o1 $WSROOT/ODTList.$Mkmk_HOST/ODTReplayed.$Mkmk_HOST \
+     -o2 $WSROOT/ODTList.$Mkmk_HOST/ODTReplayed-$Mkmk_HOST \
+     -ADLFile ~bsfr/PARAM/$ADL_FR_CATIA/Controle/ADELE_Responsibles_* \
+     -DSOrg ~bsfr/PARAM/Controle/DSOrg \
+     -97 \
+     -OS $Mkmk_HOST
+
+     echo " Les resultats sont consultables par le WEB: 
+DSDOC/Developer s Workshop/Odt Coverage/CNext/TestAuto CNext/Resultat ... User"
+     if [ "$flag_web" = "Yes" ] ; then
+       mkodt_web "cgi-bin/TACOV.sh?WS=$WSROOT"
+     fi
+out 0
+
