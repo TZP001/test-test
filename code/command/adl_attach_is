@@ -1,0 +1,490 @@
+#!/bin/ksh 
+
+# =====================================================================
+# Copyright 2002 (C) Dassault-Systemes
+# 
+# adl_attach_is: attach one or several frameworks in the remote workspace
+# and transfer them in the local workspace too.
+#
+# =====================================================================
+unset _lock_code
+[ ! -z "$ADL_DEBUG" ] && set -x
+[ "$(uname -s)" = "Windows_NT" ] && export ADL_USER_PATH="$(printf "%s" "$ADL_USER_PATH" | sed 's+\\+/+g')"
+. "$ADL_USER_PATH"/admin/ADLMultiSiteCommon.sh
+
+# =====================================================================
+# Out function
+# Syntax: $1 = exit code; $2 = message code; $3... = message parameter(s)
+# CAUTION: only the first for message parameters can have spaces
+# =====================================================================
+Out()
+{
+	ExitCode=$1
+	shift
+	trap 'Out 5 0100' HUP INT QUIT TERM
+
+	# Send 'finish' event to the remote transfer manager
+	[ $ExitCode -eq 0 -a $_lock_code -eq 0 ] && "$_CLIENT" $_RUN_COMMON -finish "$_T_NAME" "$ADL_WS" "$_L_SITE" "#CMD=adl_attach_is"
+
+	if [ $ExitCode -ge 1 ]
+	then
+		# Send 'abort' event to the remote transfer manager
+		[ $_lock_code -eq 0 ] && "$_CLIENT" $_RUN_COMMON -abort "$_T_NAME" "$ADL_WS" "$_L_SITE" "#CMD=adl_attach_is"
+
+		echo ""
+		if [ $# -eq 1 ]
+		then
+			_printerr "$1" >&2
+		elif [ $# -eq 2 ]
+		then
+			_printerr "$1" "$2" >&2
+		elif [ $# -eq 3 ]
+		then
+			_printerr "$1" "$2" "$3" >&2
+		elif [ $# -eq 4 ]
+		then
+			_printerr "$1" "$2" "$3" "$4" >&2
+		elif [ $# -gt 4 ]
+		then
+			_printerr $* >&2
+		fi
+
+		echo ""
+		_printerr 0030 >&2
+
+	elif [ $# -ge 1 ]
+	then
+		echo ""
+		if [ $# -eq 1 ]
+		then
+			_printmsg "$1" >&2
+		elif [ $# -eq 2 ]
+		then
+			_printmsg "$1" "$2" >&2
+		elif [ $# -eq 3 ]
+		then
+			_printmsg "$1" "$2" "$3" >&2
+		elif [ $# -eq 4 ]
+		then
+			_printmsg "$1" "$2" "$3" "$4" >&2
+		elif [ $# -gt 4 ]
+		then
+			_printmsg $* >&2
+		fi
+	fi
+	unset IFS
+
+	# Clean possibly dedicated environment in the transfer manager daemon
+	"$_CLIENT" $_RUN_COMMON -finish > $NULL 2>&1
+	# Remove dedicated temporary directory (its name contains an UUID)
+	if [ ! -z "$_R_TMP" ]
+	then
+		"$_CLIENT" $_RUN_COMMON -rm '"'$_R_TMP'"' -rec || _printerr 0516 "$_R_TMP"
+	fi
+
+	\rm -rf "$DefaultTmpDir"/*_$$
+	\rm -rf "$DefaultTmpDir"/*_$$.sh
+	\rm -rf "$DefaultTmpDir"/*_$$.txt
+
+	exit $ExitCode
+}
+trap 'Out 5 0100 ' HUP INT QUIT TERM
+
+# =====================================================================
+# Analyse des parametres d'appel
+# =====================================================================
+
+typeset -L1 OneChar
+CheckOptArg()
+{
+	# Usage : CheckOptArg opt arg
+	OneChar="$2"
+	if [ "$2" = "" -o "$OneChar" = "-" ]
+	then
+		_printerr 0103 "$1" # "Option /p1: one argument is required"
+		Out 5 0310 
+	fi
+}
+
+unset _T_NAME
+
+# Note: _R_HOST & _R_PORT sont obsoletes -> utiliser _R_SERVER
+unset _R_HOST
+unset _R_PORT
+unset _R_SERVER
+unset _R_WS
+unset _R_WS_TREE
+
+unset _L_WS_TREE
+
+unset _TREE_OPTION
+unset _COMP_LIST
+unset _COMP_LIST_NO_MOD
+export _TREE_LIST_FILE="$DefaultTmpDir"/ls_tree_$$.txt
+export _COMP_LIST_FILE="$DefaultTmpDir"/ls_comp_$$.txt
+unset _ATTACH_FW_MOD_OPTION
+unset _MOD_OPTION
+unset _FORCE_START_OPTION
+
+# Special case where the current directory corresponds to a framework and the user asks for attaching a module
+_upperdir="$(dirname $(pwd|sed "s/\\\/\//"g))"
+_imgdir="$(env | sed "s/\\\/\//"g | grep "^ADL_IMAGE_DOS_DIR=" | sed "s/ADL_IMAGE_DOS_DIR=//")"
+if [ "$OS" = "Windows_NT" ]
+then
+	typeset -u _upperdir
+	typeset -u _imgdir
+fi
+if [ "$_upperdir" = "$_imgdir" ]
+then
+	_currfw="$(basename $(pwd|sed "s/\\\/\//"g))/"
+else
+	unset _currfw
+fi
+
+\rm -f "$_COMP_LIST_FILE" || Out 5 0221 "$_COMP_LIST_FILE" # "Failed to create temporary file /p1..."
+\touch "$_COMP_LIST_FILE" || Out 5 0221 "$_COMP_LIST_FILE" # "Failed to create temporary file /p1..."
+
+while [ $# -ge 1 ]
+do
+	case "$1" in
+		-h | -help | -\? ) #-------------------> HELP NEEDED
+			_printmsg 0310 # usage ...
+			_printmsg 0300
+			exit 0
+			;;
+		-attached_fw_mod ) #-------------------> ALL COMPONENTS OF ALREADY ATTACHED FRAMEWORKS
+			_ATTACH_FW_MOD_OPTION=true
+			shift
+			;;
+		-mod ) #-------------------> ATTACH MODULES AND DATA TOO
+			_MOD_OPTION=true
+			shift
+			;;
+		-tree ) #-------------------> LOCAL WORKSPACE TREE
+			_TREE_OPTION=true
+			CheckOptArg "$1" "$2"
+			export _L_WS_TREE=$2
+			\touch "$_TREE_LIST_FILE" 
+			echo "$_L_WS_TREE" >> "$_TREE_LIST_FILE"|| Out 5 0228 "$_TREE_LIST_FILE" # "Failed to write in file /p1..."
+			shift 2
+			;;
+		-force_start ) #-------------------> FORCE TRANSFER TO START
+			export _FORCE_START_OPTION="-force_start"
+			shift
+			;;
+		-transfer ) #-------------------> TRANSFER IDENTIFIER
+			CheckOptArg "$1" "$2"
+			export _T_NAME=$2
+			shift 2
+			;;
+		-* ) _printerr 0104 $1 # "Unknown option: /p1"
+			Out 5 0310 
+			;;
+		*) #-------------------> COMPONENT NAME
+			_one_component=$(printf "%s\n" "${_currfw}$1" | sed 's+\\+/+g')
+			_one_component2=$(printf "%s\n" "${_currfw}$1" | sed 's+\\+/+g'|$_AWK -F/ '{print $1}')
+			_COMP_LIST="$_COMP_LIST \"$_one_component\""
+			_COMP_LIST_NO_MOD="$_COMP_LIST_NO_MOD \"$_one_component2\""
+			echo "$_one_component" >> "$_COMP_LIST_FILE" || Out 5 0228 "$_COMP_LIST_FILE" # "Failed to write in file /p1..."
+			shift
+			;;
+	esac
+done
+
+if [ ! -z "$_ATTACH_FW_MOD_OPTION" ]
+then
+	if [ -s "$_COMP_LIST_FILE" ]
+	then
+		_printerr 0313 # "Option -attached_fw_mod can be used only when no component is specified.";
+		Out 5 0310 
+	fi
+else
+	if [ ! -s "$_COMP_LIST_FILE" ]
+	then
+		_printerr 0311 # "At least one component must be supplied."
+		Out 5 0310 
+	fi
+fi
+
+# Check there is a current workspace
+if [ -z "$ADL_WS" ]
+then
+	Out 5 0108 "adl_ch_ws" # "No current workspace. Use /p1 to set the current workspace to the local transfer workspace.";
+fi
+
+######################################################################
+#
+# Check or compute name of transfer + check remote workspace
+#
+######################################################################
+check_transfer
+
+# Check a mirror workspace exists
+[ "$_R_MIRROR_WS" = "NOT_MIRROR_WS" ] && Out 5 0340 # "This command cannot be used because the transfer has been created without remote mirror workspace."
+
+# If no tree is specified, use the adl_ls_transfer command to know the list of trees to take in account
+if [ ! -s "$_TREE_LIST_FILE" ]
+then
+	$_AWK -F\| '{print $5}' "$DefaultTmpDir"/ls_transfer_$$.txt >"$_TREE_LIST_FILE"
+	[ $? -ne 0 ] && Out 5 0221 "$_TREE_LIST_FILE" # "Failed to create temporary file /p1..."
+fi
+
+######################################################################
+#
+# Connection to the remote Multisite transfer manager
+#
+######################################################################
+init_connection_with_remote_site "$_R_SERVER"
+
+######################################################################
+#
+# Check information registered locally against current state
+# of remote site
+#
+######################################################################
+check_remote_transfer
+
+######################################################################
+#
+# Prevent for concurrent accesses
+#
+######################################################################
+[ ! -z "$_FORCE_START_OPTION" ] && "$_CLIENT" $_RUN_COMMON -abort "$_T_NAME" "$ADL_WS" "$_L_SITE"
+"$_CLIENT" $_RUN_COMMON -start "$_T_NAME" "$ADL_WS" "$_L_SITE" "#CMD=adl_attach_is" >"$DefaultTmpDir"/start_is_$$.txt
+_lock_code=$?
+if [ $_lock_code -ne 0 ]
+then
+	grep 'A session already exists with this identifier' "$DefaultTmpDir"/start_is_$$.txt >$NULL
+	if [ $? -eq 0 ]
+	then
+		 # "The same transfer \"/p1\" from workspace \"/p2\" is already registered on the remote host /p3..."
+		Out 5 0333 "$_T_NAME" "$ADL_WS" "$_R_HOST"
+	else
+		Out 5 0334 "$_R_SERVER" # "The remote transfer manager does not respond from /p1."
+	fi
+fi
+
+
+######################################################################
+#
+# Execute the command
+#
+######################################################################
+
+# Change current workspace and remote host
+_printmsg 0320 "$_R_WS" # "Changing current remote working workspace to /p1..."
+"$_CLIENT" $_RUN_COMMON -setenv "$_R_WS" -no_image > "$DefaultTmpDir"/r_traces_$$.txt 2>&1
+[ $? -ne 0 ] && \cat "$DefaultTmpDir"/r_traces_$$.txt && Out 5 0314 # "Failed to set current remote workspace for attaching components."
+
+# Get information about remote components
+# Those information will be used during loops below...
+_printmsg 0332 # "Getting information about remote components..."
+if [ -z "$_ATTACH_FW_MOD_OPTION" ]
+then
+	# adl_ls_fw command does not support module names on command line so run it without them if they have been specified
+	if [ "$_COMP_LIST_NO_MOD" != "$_COMP_LIST" ]
+	then
+		# We expect to be able to write all component names on the command line...
+		"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/adl_ls_fw'"' "$_COMP_LIST_NO_MOD" -all -mod -program '-sep "|"' -out '"'$_R_TMP/r_ls_fw_$$.txt'"' >"$DefaultTmpDir"/err_ls_fw_$$.txt 2>&1
+		rc=$?
+	else
+		# We expect to be able to write all component names on the command line...
+		"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/adl_ls_fw'"' "$_COMP_LIST" -all -program '-sep "|"' -out '"'$_R_TMP/r_ls_fw_$$.txt'"' >"$DefaultTmpDir"/err_ls_fw_$$.txt 2>&1
+		rc=$?
+	fi
+
+	if [ $rc -ne 0 ]
+	then
+		if [ -s "$DefaultTmpDir"/err_ls_fw_$$.txt ]
+		then
+			cat "$DefaultTmpDir"/err_ls_fw_$$.txt | "$_CLIENT" $_RUN_COMMON -log_input -echo
+		fi
+		Out 5 0331 # "Failed to retrieve information about remote components."
+	else
+		"$_CLIENT" $_RUN_COMMON -get "$_R_TMP/r_ls_fw_$$.txt" "$DefaultTmpDir"/r_ls_fw_$$.txt || Out 5 0025 "$_R_TMP/r_ls_fw_$$.txt" "$DefaultTmpDir"/r_ls_fw_$$.txt
+	fi
+fi
+
+
+# Attach components
+# For each component, it is first attached in remote workspace
+# then a intersite transfer is launched for importing the corresponding objects
+# in the local workspace. 
+# There are several transfers instead of a single one in order to avoid
+# database problems due to the amount of data transferred.
+
+unset _OPTIONS
+rc=0
+while read _one_tree
+do
+	# Translate the local workspace tree using proper upper/lower case
+	_L_WS_TREE=$($_AWK -F\| '{if (tolower($5)==tolower("'$_one_tree'")) print $5}' "$DefaultTmpDir"/ls_transfer_$$.txt)
+
+	if [ ! -z "$_L_IMAGE" ]
+	then
+		_ADL_WORKING_DIR="$ADL_IMAGE_DOS_DIR/ToolsData/MultiSite/${_T_NAME}/${_L_WS_TREE}"
+	else
+		_ADL_WORKING_DIR="$_L_DIR/MultiSite/${ADL_WS}/${_T_NAME}/${_L_WS_TREE}"
+	fi
+	if [ ! -d "$_ADL_WORKING_DIR" ]
+	then
+		\mkdir -p "$_ADL_WORKING_DIR" || Out 5 0031 "$_ADL_WORKING_DIR"
+	fi
+
+	if [ ! -z "$_ATTACH_FW_MOD_OPTION" ]
+	then
+		# No framework specified -> one transfer per workspace tree
+
+		_R_WS_TREE=$($_AWK -F\| '{if (tolower($5)==tolower("'$_L_WS_TREE'")) print $9}' "$DefaultTmpDir"/ls_transfer_$$.txt)
+		[ -z "$_R_WS_TREE" ] && Out 5 413 "$_L_WS_TREE" # "Failed to extract name of remote workspace tree..."
+
+		_OPTIONS="-attached_fw_mod"
+		[ ! -z "$_R_WS_TREE" ] && _OPTIONS="$_OPTIONS -tree $_R_WS_TREE"
+		"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/adl_attach'"' $_OPTIONS >"$DefaultTmpDir"/msg_attach_$$.txt 2>&1
+		if [  $? -ne 0 ]
+		then
+			\cat "$DefaultTmpDir"/msg_attach_$$.txt | "$_CLIENT" $_RUN_COMMON -log_input -echo
+			Out 5 0315 "$_R_WS_TREE" # "Failed to attach components in remote workspace in workspace tree \"/p1\"."
+		fi
+
+		_printmsg 0328 "$_R_SITE" "$ADL_WS" "$_L_WS_TREE" # "Sending components from remote site /p1 to local workspace /p2 for workspace tree /p3..."
+
+		# Generate information to help reporting
+		echo "Command = adl_attach_is -attached_fw_mod / Local tree = $_L_WS_TREE" > "$_ADL_WORKING_DIR/0Information.txt" || Out 5 0032 "$_ADL_WORKING_DIR/0Information.txt"
+
+		if [ ! -z "$_L_IMAGE" ]
+		then
+			$_CALL_SH "$ADL_USER_PATH"/adl_site_transfer -rhost "$_R_SERVER" -rsite "$_R_SITE" -rw "$_R_WS" -rno_image -rtree $_R_WS_TREE -rtmp "$_R_TMP" \
+				-lw "$ADL_WS" -ltree "$_L_WS_TREE" -ltmp "$DefaultTmpDir" -limage "$_L_IMAGE" -import_only \
+				$_FORCE_START_OPTION -transfer "$_T_NAME" -run_no_check -rno_attach -tuuid $_TUUID -no_opt_delta -short_traces 2>&1 | tee -a "$DefaultTmpDir"/r_attach_$$.txt
+			rc2=$?
+			nbl=$(\grep '#ERR# transfer failed.' "$DefaultTmpDir"/r_attach_$$.txt | wc -l)
+			if [ $rc2 -ne 0  -o $nbl -ge 1 ]
+			then
+				\cp "$DefaultTmpDir"/r_attach_$$.txt "$_ADL_WORKING_DIR"/0LastError.txt
+				\chmod 777 "$_ADL_WORKING_DIR"/0LastError.txt
+				Out 5 0325 "$_R_SITE"  # The transfer of components from site "/p1" has failed...
+			fi
+		else
+			$_CALL_SH "$ADL_USER_PATH"/adl_site_transfer -rhost "$_R_SERVER" -rsite "$_R_SITE" -rw "$_R_WS" -rno_image -rtree $_R_WS_TREE -rtmp "$_R_TMP" \
+				-lw "$ADL_WS" -ltree "$_L_WS_TREE" -ltmp "$DefaultTmpDir" -lwd "$_L_DIR" -import_only \
+				$_FORCE_START_OPTION -transfer "$_T_NAME" -run_no_check -rno_attach -tuuid $_TUUID -no_opt_delta -short_traces 2>&1 | tee -a "$DefaultTmpDir"/r_attach_$$.txt
+			rc2=$?
+			nbl=$(\grep '#ERR# transfer failed.' "$DefaultTmpDir"/r_attach_$$.txt | wc -l)
+			if [ $rc2 -ne 0  -o $nbl -ge 1 ]
+			then
+				\cp "$DefaultTmpDir"/r_attach_$$.txt "$_ADL_WORKING_DIR"/0LastError.txt
+				\chmod 777 "$_ADL_WORKING_DIR"/0LastError.txt
+				Out 5 0325 "$_R_SITE" # The transfer of components from site "/p1" has failed...
+			fi
+		fi
+		_printmsg 0099 "$_L_WS_TREE" # "Intersite command successful in tree /p1"
+	else
+
+		##################################################################
+		# Case of multiple transfers because looping on each framework
+
+		_R_WS_TREE=$($_AWK -F\| '{if (tolower($5)==tolower("'$_L_WS_TREE'")) print $9}' "$DefaultTmpDir"/ls_transfer_$$.txt)
+		[ -z "$_R_WS_TREE" ] && Out 5 413 "$_L_WS_TREE" # "Failed to extract name of remote workspace tree..."
+	
+		# There is a first loop for attaching all the components on the remote site
+		# then a second loop for running a transfer for each framework
+
+		echo ""
+		while read _one_component
+		do
+			# Check whether the current component is to be treated in current workspace tree loop
+			_r_comp_tree=$($_AWK -F\| '{if (tolower($1)==tolower("'$_one_component'") && tolower($5)==tolower("'$_R_WS_TREE'")) print $5}' "$DefaultTmpDir"/r_ls_fw_$$.txt)
+			[ -z "$_r_comp_tree" ] && continue
+
+			unset _OPTIONS
+			[ ! -z "$_MOD_OPTION" ] && _OPTIONS="$_OPTIONS -mod"
+			_OPTIONS="$_OPTIONS -tree $_R_WS_TREE"
+		
+			"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/adl_attach'"' '"'$_one_component'"' $_OPTIONS >"$DefaultTmpDir"/msg_attach_$$.txt 2>&1
+			if [ $? -ne 0 ]
+			then
+				\cat "$DefaultTmpDir"/msg_attach_$$.txt | "$_CLIENT" $_RUN_COMMON -log_input -echo
+				_printerr 0316 "$_one_component" # "Failed to attach component /p1 in remote workspace."
+				rc=5
+			fi
+		done < "$_COMP_LIST_FILE"
+
+		# No transfer is performed if at least one component was not attached
+		[ $rc -ne 0 ] && Out 5 # "##### THE COMMAND ENTIRELY OR PARTIALLY FAILED #####"
+
+		# As a transfer operates on frameworks, we build a list of framework 
+		# from the list of components in which modules can be found
+		\sed 's+\\+/+g' "$_COMP_LIST_FILE" | $_AWK -F/ '{print $1}' | "$_SORT" -u > "$DefaultTmpDir"/ls_comp2_$$.txt
+
+		# Count number of components to attach in order to adapt the garbage of trace files
+		_nb_to_keep=$(\cat "$DefaultTmpDir"/ls_comp2_$$.txt | wc -l)
+		[ $_nb_to_keep -gt 10 ] && _nb_to_keep=$(expr $_nb_to_keep + 2)
+		[ $_nb_to_keep -lt 10 ] && _nb_to_keep=10
+		
+		# Loop on transfers of frameworks from the current remote workspace tree
+		while read _one_component
+		do
+
+			# Check whether this component should be treated in current loop
+			_r_comp_tree=$($_AWK -F\| '{if (tolower($1)==tolower("'$_one_component'") && tolower($5)==tolower("'$_R_WS_TREE'")) print $5}' "$DefaultTmpDir"/r_ls_fw_$$.txt)
+			[ -z "$_r_comp_tree" ] && continue
+
+			_printmsg 0323 "$_one_component" "$_R_SITE" "$ADL_WS" "$_L_WS_TREE" # "Sending component /p1 from remote site /p2 to local workspace /p3 in workspace tree /p4..."
+	
+			# Generate information to help reporting
+			echo "Command = adl_attach_is / Local tree = $_L_WS_TREE / Framework = $_one_component" > "$_ADL_WORKING_DIR/0Information.txt" || Out 5 0032 "$_ADL_WORKING_DIR/0Information.txt"
+
+			if [ ! -z "$_L_IMAGE" ]
+			then
+				$_CALL_SH "$ADL_USER_PATH"/adl_site_transfer -rhost "$_R_SERVER" -rsite "$_R_SITE" -rw "$_R_WS" -rno_image -rtree $_R_WS_TREE -rtmp "$_R_TMP" \
+					-lw "$ADL_WS" -ltree "$_L_WS_TREE" -ltmp "$DefaultTmpDir" -limage "$_L_IMAGE" -import_only -keep_trace $_nb_to_keep \
+					$_FORCE_START_OPTION -transfer "$_T_NAME" -run_no_check -rno_attach -tuuid $_TUUID -no_opt_delta -short_traces \
+					-fw "$_one_component" 2>&1 | tee -a "$DefaultTmpDir"/r_attach_$$.txt
+				rc2=$?
+				nbl=$(\grep '#ERR# transfer failed.' "$DefaultTmpDir"/r_attach_$$.txt | wc -l)
+				if [ $rc2 -ne 0  -o $nbl -ge 1 ]
+				then
+				\cp "$DefaultTmpDir"/r_attach_$$.txt "$_ADL_WORKING_DIR"/0LastError.txt
+
+					_printerr 0324 "$_one_component" "$_R_SITE"
+					rc=5
+					continue
+				else
+					_printmsg 0330 "$_one_component"
+				fi
+			else
+				$_CALL_SH "$ADL_USER_PATH"/adl_site_transfer -rhost "$_R_SERVER" -rsite "$_R_SITE" -rw "$_R_WS" -rno_image -rtree $_R_WS_TREE -rtmp "$_R_TMP" \
+					-lw "$ADL_WS" -ltree "$_L_WS_TREE" -ltmp "$DefaultTmpDir" -lwd "$_L_DIR" -import_only -keep_trace $_nb_to_keep \
+					$_FORCE_START_OPTION -transfer "$_T_NAME" -run_no_check -rno_attach -tuuid $_TUUID -no_opt_delta -short_traces \
+					-fw "$_one_component" 2>&1 | tee -a "$DefaultTmpDir"/r_attach_$$.txt
+				rc2=$?
+				nbl=$(\grep '#ERR# transfer failed.' "$DefaultTmpDir"/r_attach_$$.txt | wc -l)
+				if [ $rc2 -ne 0  -o $nbl -ge 1 ]
+				then
+					\cp "$DefaultTmpDir"/r_attach_$$.txt "$_ADL_WORKING_DIR"/0LastError.txt
+					\chmod 777 "$_ADL_WORKING_DIR"/0LastError.txt
+					_printerr 0324 "$_one_component" "$_R_SITE"
+					rc=5
+					continue
+				else
+					_printmsg 0330 "$_one_component"
+				fi
+			fi
+		
+		done < "$DefaultTmpDir"/ls_comp2_$$.txt
+	fi
+done < "$_TREE_LIST_FILE"
+
+if [ $rc -eq 0 ]
+then
+	Out 0 0101 # "Intersite command successful"
+else
+	Out 5 # "##### THE INTERSITE COMMAND ENTIRELY OR PARTIALLY FAILED #####"
+fi
+
+
+
+
+
+

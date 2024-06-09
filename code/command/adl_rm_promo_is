@@ -1,0 +1,270 @@
+#!/bin/ksh
+
+# =====================================================================
+# Copyright 2008 (C) Dassault-Systemes
+# 
+# adl_rm_promo_is: removes an intersite promotion
+# - removal of the promote done in the intersite ws   
+# - this command does not rollback the import done in the mirror ws    
+#
+# =====================================================================
+unset _lock_code
+[ ! -z "$ADL_DEBUG" ] && set -x
+[ "$(uname -s)" = "Windows_NT" ] && export ADL_USER_PATH="$(printf "%s" "$ADL_USER_PATH" | sed 's+\\+/+g')"
+. "$ADL_USER_PATH"/admin/ADLMultiSiteCommon.sh
+
+# =====================================================================
+# Out function
+# Syntax: $1 = exit code; $2 = message code; $3... = message parameter(s)
+# CAUTION: only the first for message parameters can have spaces
+# =====================================================================
+Out()
+{
+	ExitCode=$1
+	shift
+	trap 'Out 5 0100' HUP INT QUIT TERM
+
+	# Send event 'finish' to the remote transfer manager
+	[ $ExitCode -eq 0 -a $_lock_code -eq 0 ] && "$_CLIENT" $_RUN_COMMON -finish "$_T_NAME" "$ADL_WS" "$_L_SITE" "#CMD=adl_rm_promo_is"
+
+	if [ $ExitCode -ge 1 ]
+	then
+		# Send 'abort' event to the remote transfer manager
+		[ $_lock_code -eq 0 ] && "$_CLIENT" $_RUN_COMMON -abort "$_T_NAME" "$ADL_WS" "$_L_SITE" "#CMD=adl_rm_promo_is"
+
+		echo ""
+		if [ $# -eq 1 ]
+		then
+			_printerr "$1" >&2
+		elif [ $# -eq 2 ]
+		then
+			_printerr "$1" "$2" >&2
+		elif [ $# -eq 3 ]
+		then
+			_printerr "$1" "$2" "$3" >&2
+		elif [ $# -eq 4 ]
+		then
+			_printerr "$1" "$2" "$3" "$4" >&2
+		elif [ $# -gt 4 ]
+		then
+			_printerr $* >&2
+		fi
+
+		echo ""
+		_printerr 0030 >&2
+
+	elif [ $# -ge 1 ]
+	then
+		echo ""
+		if [ $# -eq 1 ]
+		then
+			_printmsg "$1" >&2
+		elif [ $# -eq 2 ]
+		then
+			_printmsg "$1" "$2" >&2
+		elif [ $# -eq 3 ]
+		then
+			_printmsg "$1" "$2" "$3" >&2
+		elif [ $# -eq 4 ]
+		then
+			_printmsg "$1" "$2" "$3" "$4" >&2
+		elif [ $# -gt 4 ]
+		then
+			_printmsg $* >&2
+		fi
+	fi
+	unset IFS
+
+	# Clean possibly dedicated environment in the transfer manager daemon
+	"$_CLIENT" $_RUN_COMMON -finish > $NULL 2>&1
+	# Remove dedicated temporary directory (its name contains an UUID)
+	if [ ! -z "$_R_TMP" ]
+	then
+		"$_CLIENT" $_RUN_COMMON -rm '"'$_R_TMP'"' -rec || _printerr 0516 "$_R_TMP"
+	fi
+
+	\rm -rf "$DefaultTmpDir"/*_$$
+	\rm -rf "$DefaultTmpDir"/*_$$.sh
+	\rm -rf "$DefaultTmpDir"/*_$$.txt
+
+	exit $ExitCode
+}
+trap 'Out 5 0100 ' HUP INT QUIT TERM
+
+# =====================================================================
+# Analyse des parametres d'appel
+# =====================================================================
+
+typeset -L1 OneChar
+CheckOptArg()
+{
+	# Usage : CheckOptArg opt arg
+	OneChar="$2"
+	if [ "$2" = "" -o "$OneChar" = "-" ]
+	then
+		_printerr 0103 "$1" # "Option /p1: one argument is required"
+		Out 5 0510
+	fi
+}
+
+unset _T_NAME
+
+# Note: _R_HOST & _R_PORT sont obsoletes -> utiliser _R_SERVER
+unset _R_HOST
+unset _R_PORT
+unset _R_SERVER
+unset _R_WS
+unset _TREE_OPTION
+unset _FORCE_START_OPTION
+unset _L_WS_TREE_LIST
+export _WS_TREE_LIST_FILE="$DefaultTmpDir"/ls_tree_$$.txt
+unset _FW_BY_FW_OPTION
+unset _R_ALL_WS_TREE
+unset _L_ALL_WS_TREE
+
+while [ $# -ge 1 ]
+do
+	case "$1" in
+		-h | -help | -\? ) #-------------------> HELP NEEDED
+			_printmsg 1110 # usage ...
+			_printmsg 1100
+			exit 0
+			;;
+		-tree ) #-------------------> LOCAL WORKSPACE TREE(s)
+			_TREE_OPTION=true
+			shift
+			touch "$_WS_TREE_LIST_FILE"
+			while [ $# -ne 0 ]
+			do
+				OneChar="$1"
+				if [ "$OneChar" != "-" ]
+				then
+					echo "$1" >> "$_WS_TREE_LIST_FILE"
+					_L_WS_TREE_LIST="$1 $_L_WS_TREE_LIST"
+					shift
+				else
+					break
+				fi
+			done
+			if [ ! -s "$_WS_TREE_LIST_FILE" ]
+			then
+				_printerr 0103 "$1" # "Option /p1: one argument is required"
+				Out 5 1110
+			fi
+			;;
+		-transfer ) #-------------------> TRANSFER NAME
+			CheckOptArg "$1" "$2"
+			export _T_NAME="$2"
+			shift 2
+			;;
+		-force_start ) #-------------------> FORCE TRANSFER TO START
+			export _FORCE_START_OPTION="-force_start"
+			shift
+			;;
+		-* ) _printerr 0104 "$1" # "Unknown option: /p1"
+			Out 5 1110
+			;;
+		*) _printerr 0411 "$1" # "Argument /p1 is not expected."
+			Out 5 1110
+			;;
+	esac
+done
+
+# Check there is a current workspace
+if [ -z "$ADL_WS" ]
+then
+	Out 5 0108 "adl_ch_ws" # "No current workspace. Use /p1 to set the current workspace to the local transfer workspace.";
+fi
+
+######################################################################
+#
+# Check or compute name of transfer + check remote workspace
+#
+######################################################################
+check_transfer
+
+# Check a mirror workspace exists
+[ "$_R_MIRROR_WS" = "NOT_MIRROR_WS" ] && Out 5 0340 # "This command cannot be used because the transfer has been created without remote mirror workspace."
+
+######################################################################
+#
+# Connection to the remote Multisite transfer manager
+#
+######################################################################
+init_connection_with_remote_site "$_R_SERVER"
+
+######################################################################
+#
+# Check information registered locally against current state
+# of remote site -> information can be then retrieved in the 
+# $_MIRROR_INFO_FILE file that is transferred locally
+#
+######################################################################
+check_remote_transfer
+
+# If no tree is specified, use the adl_ls_transfer command to know the list of trees to take in account
+if [ ! -s "$_WS_TREE_LIST_FILE" ]
+then
+	$_AWK -F\| '{print $5}' "$DefaultTmpDir"/ls_transfer_$$.txt >"$_WS_TREE_LIST_FILE"
+	[ $? -ne 0 ] && Out 5 0221 "$_WS_TREE_LIST_FILE" # "Failed to create temporary file /p1..."
+fi
+
+# Specific to DS: if CR management is on, set a flag to check before promoting in each tree if osirix is available
+unset _DS_INSTALL
+[ "$(adl_version -program -sep "|" | $_AWK -F\| '{print $2}')" = "NULL" ] && export _DS_INSTALL=true
+
+######################################################################
+#
+# Prevent for concurrent accesses
+#
+######################################################################
+[ ! -z "$_FORCE_START_OPTION" ] && "$_CLIENT" $_RUN_COMMON -abort "$_T_NAME" "$ADL_WS" "$_L_SITE"
+"$_CLIENT" $_RUN_COMMON -start "$_T_NAME" "$ADL_WS" "$_L_SITE" "#CMD=adl_promote_is" >"$DefaultTmpDir"/start_is_$$.txt
+_lock_code=$?
+if [ $_lock_code -ne 0 ]
+then
+	grep 'A session already exists with this identifier' "$DefaultTmpDir"/start_is_$$.txt >$NULL
+	if [ $? -eq 0 ]
+	then
+		 # "The same transfer \"/p1\" from workspace \"/p2\" is already registered on the remote host /p3..."
+		Out 5 0333 "$_T_NAME" "$ADL_WS" "$_R_HOST"
+	else
+		Out 5 0334 "$_R_SERVER" # "The remote transfer manager does not respond from /p1."
+	fi
+fi
+
+######################################################################
+#
+# Execute the command
+#
+######################################################################
+
+# Change current workspace and remote host
+_printmsg 0320 "$_R_WS" # "Changing current remote working workspace to /p1..."
+"$_CLIENT" $_RUN_COMMON -setenv "$_R_WS" -no_image > "$DefaultTmpDir"/r_traces_$$.txt 2>&1
+[ $? -ne 0 ] && \cat "$DefaultTmpDir"/r_traces_$$.txt && Out 5 0314 # "Failed to set current remote workspace for attaching components."
+
+# fill the _OPTIONS variable 
+if [ -z "$_L_WS_TREE_LIST" ]
+then
+  # case where the -tree option is not used 
+  _OPTIONS=""
+else
+  # case where the -tree option is used , then the local trees should be converted into remote(parent ) trees  
+  _OPTIONS="-tree $_R_WS_TREE_LIST"
+fi
+
+#
+rc=0
+#
+# remove the promotion on the remote site 
+  "$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/adl_rm_promo'"' $_OPTIONS >"$DefaultTmpDir/trace_adl_rm_promo_remote_$$.txt" 2>&1
+  rc=$?
+  \cat "$DefaultTmpDir/trace_adl_rm_promo_remote_$$.txt"|"$_CLIENT" $_RUN_COMMON -log_input -echo 
+
+if [ $rc -eq 0 ]
+then
+	Out 0
+else
+	Out 5 # "##### THE INTERSITE COMMAND ENTIRELY OR PARTIALLY FAILED #####"
+fi

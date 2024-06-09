@@ -1,0 +1,658 @@
+#!/bin/ksh
+[ ! -z "$ADL_DEBUG" ] && set -x
+
+# =====================================================================
+# Variable Initialization
+# =====================================================================
+OS=$(uname -s)
+case $OS in
+	AIX)
+		_AWK=/bin/awk
+		_ADL_DB_ORACLE="libADLDbOracle.a"
+		_ADL_DB_DB2="libADLDbDB2.a"
+		;;
+	HP-UX)
+		_AWK=/bin/awk
+		_ADL_DB_ORACLE="libADLDbOracle.sl"
+		_ADL_DB_DB2="libADLDbDB2.sl"
+		;;
+	IRIX*)
+		_AWK=/bin/nawk
+		_ADL_DB_ORACLE="libADLDbOracle.so"
+		_ADL_DB_DB2="libADLDbDB2.so"
+		;;
+	SunOS)
+		_AWK=/bin/nawk
+		_ADL_DB_ORACLE="libADLDbOracle.so"
+		_ADL_DB_DB2="libADLDbDB2.so"
+		;;
+	Windows_NT)
+		_AWK=awk
+		_ADL_DB_ORACLE="ADLDbOracle.dll"
+		_ADL_DB_DB2="ADLDbDB2.dll"
+		;;
+esac
+
+if [ $OS = Windows_NT ]
+then
+	FullShellName="$(whence "$0" | \sed 's+\\+/+g')"
+	ShellName="${FullShellName##*/}"
+	\cd "${FullShellName%/*}"
+	ShellDir="$(pwd)"
+	\cd -
+
+	TMP="$(printf "%s\n" "$ADL_TMP" | \sed 's+\\+/+g')"
+	NULL=nul
+else
+	FullShellName=$(whence "$0" | \sed 's+\\+/+g')
+	ShellName=${FullShellName##*/}
+	ShellDir=${FullShellName%/*}
+
+	TMP=$ADL_TMP
+	NULL=/dev/null
+fi
+
+CmdLine="$@"
+
+#
+# 20/06/2001 - checking the SCM environment  
+#
+Usage="Usage: $ShellName [-oracle] [-db2] [-check_caa_rules] [-scm] [-osirix] [-java] 
+
+$ShellName checks that the services called by SCM product are working properly on a UNIX or Windows NT workstation. The tested services are:
+
+    Oracle:
+        Oracle client installation
+     
+    Db2:
+        Db2 client installation
+     
+    check_caa_rules:
+        check_caa_rules profile availability
+    
+    SCM:
+        adl_ls_tree command
+    
+    Osirix (for DS purpose only):
+        1 Db2 client installation
+        2 Db2 client connection with the Osirix tables on MVS
+    
+    Java:
+        Java installation
+
+
+Run the following commands before:
+ tck_init
+ tck_profile [ profile_name ]
+"
+
+# =====================================================================
+# Out function
+# =====================================================================
+Out()
+{
+	[ ! -z "$ADL_DEBUG" ] && set -x
+	trap ' ' HUP INT QUIT TERM
+	ExitCode=$1
+	shift
+	if [ $# -ge 1 ]
+	then
+		echo "$*"
+		echo
+	fi
+	[ $ExitCode -ne 0 ] && echo "##### THE COMMAND ENTIRELY OR PARTIALLY FAILED #####"
+	
+	[ -z "$ADL_DEBUG" ] && \rm -fr "$TMP"/*_$$ "$TMP"/*_$$.*
+
+	exit $ExitCode
+}
+
+trap 'Out 9999 "Command interrupted" ' HUP INT QUIT TERM
+
+# =====================================================================
+# try_rcp function
+# =====================================================================
+try_rcp()
+{
+        nbtry=1
+        while [ $nbtry -lt 3 ]
+        do
+                rcp $* 1>$NULL 2>&1
+                rtcode=$?
+                [ $rtcode -eq 0 ] && break
+                nbtry=`expr $nbtry + 1`
+        done
+
+        return $rtcode
+}
+
+# =====================================================================
+# Initialisation des variables
+# =====================================================================
+unset _SPECIFIED_TEST
+unset _ORACLE_TEST
+unset _DB2_TEST
+unset _MKCS_TEST
+unset _SCM_TEST
+unset _OSIRIX_TEST
+unset _JAVA_TEST
+export TEST_STEP_OK="--> OK"
+
+TestReturnCode=0
+
+if [ -z "$COMPUTERNAME" ]
+then
+# If UNIX :
+   cpu_name=$(hostname)
+else
+# If Windows NT :
+   cpu_name=$COMPUTERNAME
+fi
+
+# =====================================================================
+# Decodage des arguments
+# =====================================================================
+while [ $# -ge 1 ]
+do
+	case "$1" in
+		-h ) #-------------------> HELP NEEDED
+			Out 0 "$Usage"
+			;;
+		-oracle ) #--------------> testing oracle client
+			_ORACLE_TEST=TRUE
+			shift 
+			;;
+		-db2 ) #-----------------> testing db2 client
+			_DB2_TEST=TRUE
+			shift 
+			;;
+		-check_caa_rules ) #-------> testing check_caa_rules integration
+			_MKCS_TEST=TRUE
+			shift 
+			;;
+		-scm ) #-----------------> testing scm client
+			_SCM_TEST=TRUE
+			shift 
+			;;
+		-osirix ) #--------------> testing osirix 
+			_OSIRIX_TEST=TRUE
+			shift 
+			;;
+		-java ) #--------------> testing java  
+			_JAVA_TEST=TRUE
+			shift 
+			;;
+
+		-perl ) #--------------> testing perl  
+			_PERL_TEST=TRUE
+			shift 
+			;;
+
+		*) echo  "#ERR# : Unknown option: $1\n"
+			Out 5 "$Usage"
+			;;
+	esac
+done
+_SPECIFIED_TEST=${_ORACLE_TEST}${_DB2_TEST}${_MKCS_TEST}${_SCM_TEST}${_OSIRIX_TEST}${_JAVA_TEST}
+# =============================================================
+# 0) Tests preliminaires
+# =============================================================
+# Testing that the tck_init and tck_profile environement are set
+[ -z "$TCK_ROOT_PATH" ] && Out 5 "\n !Error : the TCK environment is not set  \n$Usage"
+
+[ -z "$ADL_USER_PATH" ] && Out 5 "\n !Error : the SCM environment is not set      \n$Usage"
+
+# =============================================================
+# 1) Testing Oracle :
+# =============================================================
+TestADLDbOracle()
+{
+	[ ! -z "$ADL_DEBUG" ] && set -x
+	echo
+	echo -------------------------------------------------
+	echo " Oracle 1) Searching adl_test_load for Oracle"
+
+	USER_PATH=$(printf "%s\n" "$ADL_USER_PATH" | \sed 's+\\+/+g')
+	ADL_TEST_LOAD=$(whence "$USER_PATH/admin/adl_test_load")
+	if [ $? -eq 0 ]
+	then
+		echo $TEST_STEP_OK
+		echo
+		echo " Oracle 2) Searching and loading $_ADL_DB_ORACLE library"
+		Command="\"$USER_PATH/admin/adl_test_load\" \"$USER_PATH/../bin/$_ADL_DB_ORACLE\""
+		eval $Command 1> "$TMP"/ResultADLTestLoad_$$.txt 2>&1
+		if [ $? -ne 0 ]
+		then
+			echo
+			echo " --> !!! KO : "  
+			echo
+			echo " adl_test_load  --> "$Command
+			cat "$TMP"/ResultADLTestLoad_$$.txt
+			return 5
+		else
+			echo $TEST_STEP_OK
+		fi
+	else
+		echo
+		echo " --> !!! KO : adl_test_load not found in \$ADL_USER_PATH/admin = $USER_PATH/admin   "
+		echo
+		echo " Check your SCM installation                             " 
+		return 5
+	fi
+	return 0
+}
+# =============================================================
+# 2) Testing Db2 client:
+# =============================================================
+TestADLDbDb2()
+{
+	[ ! -z "$ADL_DEBUG" ] && set -x
+	echo
+	echo -------------------------------------------------
+	echo " Db2 1) Searching adl_test_load for Db2"
+
+	USER_PATH=$(printf "%s\n" "$ADL_USER_PATH" | \sed 's+\\+/+g')
+	ADL_TEST_LOAD=$(whence "$USER_PATH/admin/adl_test_load")
+	if [ $? -eq 0 ]
+	then
+		echo $TEST_STEP_OK
+		echo
+		echo " Db2 2) Searching and loading $_ADL_DB_DB2 library"
+		Command="\"$USER_PATH/admin/adl_test_load\" \"$USER_PATH/../bin/$_ADL_DB_DB2\""
+		eval $Command 1> "$TMP"/ResultADLTestLoad_$$.txt 2>&1
+		if [ $? -ne 0 ]
+		then
+			echo
+			echo " --> !!! KO : "  
+			echo
+			echo " adl_test_load  --> "$Command
+			cat "$TMP"/ResultADLTestLoad_$$.txt
+			return 5
+		else
+			echo $TEST_STEP_OK
+		fi
+	else
+		echo
+		echo " --> !!! KO : adl_test_load not found in \$ADL_USER_PATH/admin = $USER_PATH/admin   "
+		echo
+		echo " Check your SCM installation                             " 
+		return 5
+	fi
+	return 0
+}
+
+# =============================================================
+# 3) Testing check_caa_rules profile availability
+# =============================================================
+Testcheck_caa_rules()
+{
+	[ ! -z "$ADL_DEBUG" ] && set -x
+	echo 
+	echo -------------------------------------------------
+	echo " CAA 1) Testing check_caa_rules profile availability"
+
+	if [ -z "$ADL_CAA_PROMOTE_LOADER" ] 
+	then
+		echo "\n --> !!! KO : \nVariable ADL_CAA_PROMOTE_LOADER is empty"
+		return 5
+	fi
+		
+	if [ ! -x "$ADL_CAA_PROMOTE_LOADER" ]
+	then
+		echo "\n --> !!! KO : \nFile $ADL_CAA_PROMOTE_LOADER is not executable"
+		return 5
+	fi
+
+	echo $TEST_STEP_OK
+
+	return 0
+}
+
+# =============================================================
+# 4) Testing scm client command
+# =============================================================
+TestSCM()
+{
+	[ ! -z "$ADL_DEBUG" ] && set -x
+	echo
+	echo -------------------------------------------------
+	echo " SCM 1) Searching adl_ls_tree"
+
+	ADL_TEST_LOAD=$(whence adl_ls_tree)
+	if [ $? -eq 0 ]
+	then
+		echo $TEST_STEP_OK
+		echo
+		echo " SCM 2) Testing SCM client adl_ls_tree command"
+
+		Command="adl_ls_tree -out $TMP/adl_ls_tree_$$.txt"
+		eval $Command 1>"$TMP"/adl_ls_tree_result_$$.txt 2>&1
+		if [ $? -ne 0 ]
+		then
+			echo "\n --> !!! KO : \n$Command"
+			cat "$TMP"/adl_ls_tree_result_$$.txt
+			return 5
+		else
+			echo $TEST_STEP_OK
+		fi
+	else
+		echo
+		echo " --> !!! KO : adl_ls_tree command not found in path"
+		echo
+		echo " Check your SCM installation                             " 
+		return 5
+	fi
+	return 0
+}
+# =============================================================
+# 5) Testing Db2 client and Db2 connection to Osirix tables :
+# =============================================================
+TestDb2Osirix()
+{
+	[ ! -z "$ADL_DEBUG" ] && set -x
+	echo 
+	echo -------------------------------------------------
+	echo " DB2/Osirix 1) Testing DB2/Osirix profile availability"
+
+	if [ -z "$ADL_OX_DATABASE" ]
+	then 
+		echo "\n --> !!! KO : \nVariable ADL_OX_DATABASE is empty"
+		return 5
+	fi
+
+	if [ -z "$ADL_OX_USERNAME" ] 
+	then 
+		echo "\n --> !!! KO : \nVariable ADL_OX_USERNAME is empty"
+		return 5
+	fi
+
+	if [ -z "$ADL_OX_PASSWORD" ]
+	then 
+		echo "\n --> !!! KO : \nVariable ADL_OX_DATABASE is empty"
+		return 5
+	fi
+
+	if [ -z "$ADL_OX_SCHEMA_NAME" ] 
+	then 
+		echo "\n --> !!! KO : \nVariable ADL_OX_USERNAME is empty"
+		return 5
+	fi
+
+	if [ -n "$COMPUTERNAME" ] # Dans le cas ou on est sur NT
+	then
+		if [ ! -z "$ADL_PATH" ]
+		then
+			PATH=$ADL_PATH/code/bin\;$PATH
+		fi
+		echo
+		echo " DB2/Osirix 2) Testing Db2 client installation on $cpu_name"
+		whence db2clpex.exe 1> "$TMP"/ResultWhence_$$.txt 2>&1
+		if [ $? -ne 0 ]
+		then
+			echo
+			echo " --> !!! KO : "
+			echo
+			echo " whence db2clpex.exe --> "
+			cat "$TMP"/ResultWhence_$$.txt
+			return 5
+		else
+			echo $TEST_STEP_OK
+		fi
+
+		echo
+		echo " DB2/Osirix 3) Testing Db2 connection from $cpu_name to MVS Osirix tables"
+		echo
+		echo "connect to $ADL_OX_DATABASE user $ADL_OX_USERNAME using $ADL_OX_PASSWORD;" > "$TMP"/ToExecInDb2_$$.txt 2>&1
+		echo "connect reset;" >> "$TMP"/ToExecInDb2_$$.txt
+		echo "terminate;" >> "$TMP"/ToExecInDb2_$$.txt
+
+        ## API April 3rd 2008 / add comment to help the support to reproduce db2 client issues on windows
+                echo " Running :          "
+                echo " Start / Programs / Ibmdb2 / Command line tools / Command Line Processor "
+                echo " db2 => connect to osirix user adl using adele "
+		db2clpex.exe db2 +o -tvf "$TMP"/ToExecInDb2_$$.txt -z "$TMP"/FoundResult_$$.txt
+
+	else # Sur UNIX
+		echo 
+		echo " DB2/Osirix 2) Testing Osirix profile availability"
+		# Execution de la profile pour initialiser les variables
+		if [ ! -r $ADL_OX_PROFILE -o ! -s $ADL_OX_PROFILE ]
+		then
+			echo "The file $ADL_OX_PROFILE defined by ADL_OX_PROFILE variable is empty or cannot be read"
+			return 5
+		fi
+                echo 
+                echo " Running :             "
+                echo " . $ADL_OX_PROFILE ... "
+		. $ADL_OX_PROFILE
+		echo $TEST_STEP_OK
+
+		echo 
+		echo " Osirix 3) Testing Db2 connection from $cpu_name to MVS Osirix tables"
+
+		# Lancement du profile db2
+		if [ ! -r $DB2_PROFILE -o ! -s $DB2_PROFILE ]
+		then
+			echo " The file $DB2_PROFILE defined by DB2_PROFILE variable is empty or cannot be read"
+			return 5
+		fi
+                echo 
+                echo " Running :          "
+                echo " . $DB2_PROFILE ... "
+		. $DB2_PROFILE
+		
+		_DB2_LIB_INSTALL=${DB2_PROFILE%/*}/lib
+		_DB2_LIB32_INSTALL=${DB2_PROFILE%/*}/lib32
+		
+		LIBPATH=${_DB2_LIB_INSTALL}:$LIBPATH
+		LD_LIBRARY_PATH=${_DB2_LIB_INSTALL}:$LD_LIBRARY_PATH
+		LD_LIBRARYN32_PATH=${_DB2_LIB32_INSTALL}:$LD_LIBRARYN32_PATH
+		SHLIB_PATH=${_DB2_LIB_INSTALL}:$SHLIB_PATH
+
+                echo " db2 connect to $ADL_OX_DATABASE user $ADL_OX_USERNAME using $ADL_OX_PASSWORD " 
+		db2 "connect to $ADL_OX_DATABASE user $ADL_OX_USERNAME using $ADL_OX_PASSWORD" > "$TMP"/FoundResult_$$.txt 2>&1
+		if [ $? -ne 0 ]
+		then
+			echo
+			echo " --> !!! KO : "
+			echo
+			echo "connect to $ADL_OX_DATABASE user $ADL_OX_USERNAME using $ADL_OX_PASSWORD"
+			cat "$TMP"/FoundResult_$$.txt
+			return 5
+		fi
+		db2 "connect reset" >> "$TMP"/FoundResult_$$.txt 2>&1
+		db2 "terminate" >> "$TMP"/FoundResult_$$.txt 2>&1
+	fi
+
+	#  Looking for a DB2 error
+	grep "Database Connection Information" "$TMP"/FoundResult_$$.txt 1> $NULL 2>&1
+	if [ $? -eq 0 ]
+	then
+		echo $TEST_STEP_OK
+	else
+		grep "Informations de connexion " "$TMP"/FoundResult_$$.txt 1> $NULL 2>&1
+		if [ $? -eq 0 ]
+		then
+			echo $TEST_STEP_OK
+		else
+			echo
+			echo " --> !!! KO : "
+			echo
+			echo "connect to $ADL_OX_DATABASE user $ADL_OX_USERNAME using $ADL_OX_PASSWORD"
+			cat "$TMP"/FoundResult_$$.txt
+			return 5
+        fi
+	fi
+	\rm -f "$TMP"/FoundResult_$$.txt
+
+	return 0
+}
+
+# =============================================================
+# 5.3) Testing adl_ds_cr :
+# =============================================================
+TestDscr()
+{
+	[ ! -z "$ADL_DEBUG" ] && set -x
+	echo
+	echo -------------------------------------------------
+	echo " iBox 3.1) Searching adl_ds_cr"
+
+	ADL_TEST_LOAD=$(whence adl_ds_cr)
+	if [ $? -eq 0 ]
+	then
+		echo $TEST_STEP_OK
+		echo
+		echo " iBox 3.2) Testing adl_ds_cr command"
+
+		Command="adl_ds_cr 492741A"
+                echo 
+                echo " Running :          "
+                echo $Command
+		eval $Command 1>"$TMP"/adl_ds_cr_result_$$.txt 2>&1
+		if [ $? -ne 0 ]
+		then
+			echo "\n --> !!! KO : \n$Command"
+			cat "$TMP"/adl_ds_cr_result_$$.txt
+			return 5
+		else
+			echo $TEST_STEP_OK
+		fi
+	else
+		echo
+		echo " --> !!! KO : adl_ds_cr command not found in path"
+		echo
+		echo " Check your SCM installation                             " 
+		return 5
+	fi
+	return 0
+}
+
+# ==============================
+# 6) Testing JAVA installation :
+# ==============================
+TestJAVA()
+{
+    [ ! -z "$ADL_DEBUG" ] && set -x
+
+    echo
+    echo -------------------------------------------------
+    echo " Java 1) Testing Java installation on $cpu_name"
+	if [ -z "$ADL_JAVA_ROOT_PATH" ] 
+	then
+		echo "\n --> !!! KO : \nADL_JAVA_ROOT_PATH variable is empty"
+		return 5
+	fi
+	path_java="$ADL_JAVA_ROOT_PATH"/bin/java
+    whence "$path_java" 1> "$TMP"/ResultJAVA_$$.txt 2>&1
+    if [ $? -ne 0 ]
+    then
+         echo
+         echo " --> !!! KO : "
+         echo
+         echo " whence "$path_java" --> "
+         cat "$TMP"/ResultJAVA_$$.txt
+         return 5
+    else
+         echo $TEST_STEP_OK
+    fi
+}
+
+# ==============================
+# 7) Testing Perl installation :
+# ==============================
+TestPERL()
+{
+    [ ! -z "$ADL_DEBUG" ] && set -x
+
+    echo
+    echo -------------------------------------------------
+    echo " Perl 1) Testing Perl installation on $cpu_name"	
+    perl -version 1> "$TMP"/ResultPERL_$$.txt 2>&1
+    if [ $? -ne 0 ]
+    then
+         echo
+         echo " --> !!! KO : "
+         echo
+         cat "$TMP"/ResultPERL_$$.txt
+         return 5
+    else
+         echo $TEST_STEP_OK
+    fi
+}
+
+
+
+# =======================================================================
+# Debut du traitement principal
+# =======================================================================
+ExitCode=0
+
+if [ "$ADL_DBMS" = "Oracle" ] || [ -z "$ADL_DBMS" ]
+then
+	_CHK_ORACLE=TRUE
+fi
+if [ -z "$_SPECIFIED_TEST" -a ! -z "$_CHK_ORACLE" ] || [ ! -z "$_ORACLE_TEST" ]
+then
+	TestADLDbOracle
+	rc=$?
+	let "ExitCode=ExitCode+$rc"
+fi
+
+if [ "$ADL_DBMS" = "DB2" ] || [ ! -z "$ADL_LEVEL" ]
+then
+	_CHK_DB2=TRUE
+fi
+if [ -z "$_SPECIFIED_TEST" -a ! -z "$_CHK_DB2" ] || [ ! -z "$_DB2_TEST" ] || [ ! -z "$_OSIRIX_TEST" ]
+then
+	TestADLDbDb2
+	rc=$?
+	let "ExitCode=ExitCode+$rc"
+fi
+
+if [ -z "$_SPECIFIED_TEST" -a ! -z "$ADL_LEVEL" ] || [ ! -z "$_MKCS_TEST" ]
+then
+	Testcheck_caa_rules
+	rc=$?
+	let "ExitCode=ExitCode+$rc"
+fi
+
+if [ -z "$_SPECIFIED_TEST" ] || [ ! -z "$_SCM_TEST" ]
+then
+	TestSCM
+	rc=$?
+	let "ExitCode=ExitCode+$rc"
+fi
+
+if [ -z "$_SPECIFIED_TEST" -a ! -z "$ADL_LEVEL" ] || [ ! -z "$_OSIRIX_TEST" ]
+then
+	TestDb2Osirix
+	rc=$?
+	let "ExitCode=ExitCode+$rc"
+
+	TestDscr
+	rc=$?
+	let "ExitCode=ExitCode+$rc"
+fi
+
+if [ -z "$_SPECIFIED_TEST" ] || [ ! -z "$_JAVA_TEST" ]
+then
+	TestJAVA
+	rc=$?
+	let "ExitCode=ExitCode+$rc"
+fi
+
+if [ -z "$_SPECIFIED_TEST" ] || [ ! -z "$_PERL_TEST" ]
+then
+	TestPERL
+	rc=$?
+	let "ExitCode=ExitCode+$rc"
+fi
+
+	echo -------------------------------------------------
+if [ $ExitCode -eq 0 ] 
+then
+	echo "Command successfull"
+fi
+
+Out $ExitCode

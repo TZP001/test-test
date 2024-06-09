@@ -1,0 +1,16 @@
+@if defined ADL_Debug @echo on
+@if not defined ADL_Debug @echo off
+
+if not defined TCK_ROOT_PATH goto tckenvfailed
+goto start
+
+:tckenvfailed
+echo Variable TCK_ROOT_PATH is not set. Run tck_init first.
+set TCK_ROOT_PATH= >nul
+goto label_end
+
+:start
+rem Clean PATH
+"%TCK_ROOT_PATH%\code\bin\search_path" adl_unset.bat >nul 2>&1
+if not errorlevel 1 @call adl_unset.bat
+

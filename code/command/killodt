@@ -1,0 +1,200 @@
+#set -x
+# ------------------------------------------------
+# killodt - shell lance par mkodt pour surveiller
+# le time-out sur les ODT
+# ------------------------------------------------
+
+typeset -i nbM
+typeset -i nbS
+typeset -i DebTime
+typeset -i ElaTime=0
+typeset -i ElaMax=0
+typeset -i Max_time_odt
+typeset -i Max_Max_time
+
+out()
+{
+  nbM=$ElaTime/60
+  nbS=$ElaTime-$nbM*60
+  echo "elapsed_time: $nbM min $nbS sec"
+
+  unset -f rm
+  rm -rf $MK_TEMPDIR/*_$$
+  rm ${ADL_ODT_PARAM}.stamp 2> $MK_DEVNULL
+  exit $1
+}
+
+#
+# Fonctions pour le kill (recursif) des process
+#
+
+liste_fils()
+{
+  while read user pid ppid c d e f
+  do
+    if [ $ppid = $1 ]; then
+      echo $pid
+    fi
+  done <$MK_TEMPDIR/psres_$$
+}
+
+kill_famille()
+{
+  ps -ef >$MK_TEMPDIR/psres_$$
+  Trouve=Yes
+  echo $1> $MK_TEMPDIR/liste_process_$$
+  echo $1> $MK_TEMPDIR/liste_fils_$$
+
+  while [ "$Trouve" = "Yes" ]
+  do
+    for fils in `cat $MK_TEMPDIR/liste_fils_$$`
+    do
+      liste_fils $fils >>$MK_TEMPDIR/liste_fils_new_$$
+    done
+    if [ -s $MK_TEMPDIR/liste_fils_new_$$ ]; then
+      cat $MK_TEMPDIR/liste_fils_new_$$ >> $MK_TEMPDIR/liste_process_$$
+      mv $MK_TEMPDIR/liste_fils_new_$$ $MK_TEMPDIR/liste_fils_$$
+    else
+      Trouve="No"
+    fi
+  done
+  for proc in `cat $MK_TEMPDIR/liste_process_$$`
+  do 
+    echo kill du process: $proc
+    kill -9 $proc
+  done
+}
+
+kill_famille_NT()
+{
+  nbpid="$1"
+  > $MK_TEMPDIR/liste_a_tuer_$$
+  for proc in $(ps -ef | awk ' ( $2 != "PID" ) { print $2}')
+  do
+    KillProcGrpNT -d KillProcGrpNT.dll -p $proc -n ProcessToBeKilled -v $ProcessToBeKilledBack 2>NUL > NUL
+    if [ $? = 99 ]; then 
+      echo kill du process: $proc
+      echo $proc >> $MK_TEMPDIR/liste_a_tuer_$$
+    fi
+  done
+  kill -9 $nbpid
+  kill -9 `cat $MK_TEMPDIR/liste_a_tuer_$$ ` 2> NUL
+  sleep 1
+}
+
+#
+# Valeur du max-time par defaut
+#
+
+Max_time_odt=${ODT_MAX_TIME-5}
+if [ "$flag_c" = "1" ]; then
+  Max_time_odt=$Max_time_odt+$Max_time_odt
+fi
+if [ "$ODT_MAX_TIME_COEF" != "" ] ; then
+  typeset -i multiple
+  multiple=$ODT_MAX_TIME_COEF
+  if [ $multiple != 0 ] ; then
+    Max_time_odt=$Max_time_odt*$multiple/100
+    if [ $Max_time_odt = 0 ]; then
+      Max_time_odt=1
+    fi
+  fi
+fi
+if [ "$flag_b" = "1" ]; then
+  Max_time_odt=600
+fi
+
+ElaMax=$Max_time_odt*60
+
+#
+# Boucle d'attente de la mort du process
+#
+
+DebTime=$SECONDS
+nbpid=$1
+nameshell=$2
+
+while [ $ElaTime -lt $ElaMax ]
+do
+
+  ElaTime=$SECONDS-$DebTime
+
+  # Process termine ?
+  kill -0 $nbpid 2> $MK_DEVNULL
+  if [ $? != 0 ]; then break; fi
+
+  sleep 2
+done
+
+#
+# Lecture du max-time user
+#
+
+if [ -s "$ADL_ODT_PARAM" ]; then 
+  Max_Max_time=${ODT_MAX_TIME_MAX-60}
+  IFS="="
+  while read var val
+  do
+    if [ "$var" = "max_time" ]; then
+      Max_time_odt=$val
+      if [ $Max_time_odt -gt $Max_Max_time ]; then
+        echo "## max-time value exceed $Max_Max_time min ($Max_time_odt)"
+        Max_time_odt=$Max_Max_time
+      fi 
+      echo "max_time: $Max_time_odt min"
+      if [ "$flag_c" = "1" ]; then
+        Max_time_odt=$Max_time_odt+$Max_time_odt
+      fi
+      if [ "$ODT_MAX_TIME_COEF" != "" ] ; then
+        typeset -i multiple
+        multiple=$ODT_MAX_TIME_COEF
+        if [ $multiple != 0 ] ; then
+          Max_time_odt=$Max_time_odt*$multiple/100
+          if [ $Max_time_odt = 0 ]; then
+            Max_time_odt=1
+          fi
+        fi
+      fi
+    fi
+  done < $ADL_ODT_PARAM
+  unset IFS
+fi
+
+if [ $ElaTime -lt $ElaMax ]; then out 0; fi
+
+#
+# Boucle d'attente sur max-time user
+#
+
+ElaMax=$Max_time_odt*60
+
+while [ $ElaTime -lt $ElaMax ]
+do
+
+  ElaTime=$SECONDS-$DebTime
+
+  # Process termine ?
+  kill -0 $nbpid 2> $MK_DEVNULL
+  if [ $? != 0 ]; then break; fi
+
+  sleep 2
+done
+
+if [ $ElaTime -lt $ElaMax ]; then out 0; fi
+
+#
+# Kill du process
+#
+
+if [ "$MkmkOS_NAME" = "Windows_NT" ]; then 
+  kill_famille_NT $nbpid
+else
+  kill_famille $nbpid
+fi
+
+echo "## (ERROR) $nameshell : process killed"
+out 99
+
+
+
+

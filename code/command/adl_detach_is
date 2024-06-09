@@ -1,0 +1,421 @@
+#!/bin/ksh
+
+# =====================================================================
+# Copyright 2002 (C) Dassault-Systemes
+# 
+# adl_detach_is: detach one or several frameworks in both the local 
+# and the remote mirror workspace
+#
+# =====================================================================
+unset _lock_code
+[ ! -z "$ADL_DEBUG" ] && set -x
+[ "$(uname -s)" = "Windows_NT" ] && export ADL_USER_PATH="$(printf "%s" "$ADL_USER_PATH" | sed 's+\\+/+g')"
+. "$ADL_USER_PATH"/admin/ADLMultiSiteCommon.sh
+
+# =====================================================================
+# Out function
+# Syntax: $1 = exit code; $2 = message code; $3... = message parameter(s)
+# CAUTION: only the first for message parameters can have spaces
+# =====================================================================
+Out()
+{
+	ExitCode=$1
+	shift
+	trap 'Out 5 0100' HUP INT QUIT TERM
+
+	# Send 'finish' event to the remote transfer manager
+	[ $ExitCode -eq 0 -a $_lock_code -eq 0 ] && "$_CLIENT" $_RUN_COMMON -finish "$_T_NAME" "$_SAVE_ADL_WS" "$_L_SITE" "#CMD=adl_detach_is"
+
+	if [ $ExitCode -ge 1 ]
+	then
+		# Send 'abort' event to the remote transfer manager
+		[ $_lock_code -eq 0 ] && "$_CLIENT" $_RUN_COMMON -abort "$_T_NAME" "$_SAVE_ADL_WS" "$_L_SITE" "#CMD=adl_detach_is"
+
+		echo ""
+		if [ $# -eq 1 ]
+		then
+			_printerr "$1" >&2
+		elif [ $# -eq 2 ]
+		then
+			_printerr "$1" "$2" >&2
+		elif [ $# -eq 3 ]
+		then
+			_printerr "$1" "$2" "$3" >&2
+		elif [ $# -eq 4 ]
+		then
+			_printerr "$1" "$2" "$3" "$4" >&2
+		elif [ $# -gt 4 ]
+		then
+			_printerr $* >&2
+		fi
+
+		echo ""
+		_printerr 0030 >&2
+
+	elif [ $# -ge 1 ]
+	then
+		echo ""
+		if [ $# -eq 1 ]
+		then
+			_printmsg "$1" >&2
+		elif [ $# -eq 2 ]
+		then
+			_printmsg "$1" "$2" >&2
+		elif [ $# -eq 3 ]
+		then
+			_printmsg "$1" "$2" "$3" >&2
+		elif [ $# -eq 4 ]
+		then
+			_printmsg "$1" "$2" "$3" "$4" >&2
+		elif [ $# -gt 4 ]
+		then
+			_printmsg $* >&2
+		fi
+	fi
+	unset IFS
+
+	# Clean possibly dedicated environment in the transfer manager daemon
+	"$_CLIENT" $_RUN_COMMON -finish > $NULL 2>&1
+	# Remove dedicated temporary directory (its name contains an UUID)
+	if [ ! -z "$_R_TMP" ]
+	then
+		"$_CLIENT" $_RUN_COMMON -rm '"'$_R_TMP'"' -rec || _printerr 0516 "$_R_TMP"
+	fi
+
+	\rm -rf "$DefaultTmpDir"/*_$$
+	\rm -rf "$DefaultTmpDir"/*_$$.sh
+	\rm -rf "$DefaultTmpDir"/*_$$.txt
+
+	exit $ExitCode
+}
+trap 'Out 5 0100 ' HUP INT QUIT TERM
+
+# =====================================================================
+# Analyse des parametres d'appel
+# =====================================================================
+
+typeset -L1 OneChar
+CheckOptArg()
+{
+	# Usage : CheckOptArg opt arg
+	OneChar="$2"
+	if [ "$2" = "" -o "$OneChar" = "-" ]
+	then
+		_printerr 0103 "$1" # "Option /p1: one argument is required"
+		Out 5 0710
+	fi
+}
+
+unset _T_NAME
+
+# Note: _R_HOST & _R_PORT sont obsoletes -> utiliser _R_SERVER
+unset _R_HOST
+unset _R_PORT
+unset _R_SERVER
+unset _R_WS
+unset _R_WS_TREE
+
+unset _FORCE_OPTION
+unset _FORCE_START_OPTION
+
+unset _L_WS_TREE
+
+export _COMP_LIST_FILE="$DefaultTmpDir"/ls_comp_$$.txt
+
+\rm -f "$_COMP_LIST_FILE" || Out 5 0221 "$_COMP_LIST_FILE" # "Failed to create temporary file /p1..."
+\touch "$_COMP_LIST_FILE" || Out 5 0221 "$_COMP_LIST_FILE" # "Failed to create temporary file /p1..."
+
+while [ $# -ge 1 ]
+do
+	case "$1" in
+		-h | -help | -\? ) #-------------------> HELP NEEDED
+			_printmsg 0710 # usage ...
+			_printmsg 0700
+			exit 0
+			;;
+		-transfer ) #-------------------> TRANSFER IDENTIFIER
+			CheckOptArg "$1" "$2"
+			export _T_NAME=$2
+			shift 2
+			;;
+		-force ) #-------------------> FORCE import THEN detach
+			export _FORCE_OPTION=true
+			shift
+			;;
+		-force_start ) #-------------------> FORCE TRANSFER TO START
+			export _FORCE_START_OPTION="-force_start"
+			shift
+			;;
+		-* ) _printerr 0104 $1 # "Unknown option: /p1"
+			Out 5 0710
+			;;
+		*) #-------------------> COMPONENT NAME
+			printf "%s\n" "$1" | sed 's+\\+/+g' >> "$_COMP_LIST_FILE" || Out 5 0228 "$_COMP_LIST_FILE" # "Failed to write in file /p1..."
+			shift
+			;;
+	esac
+done
+
+if [ ! -s "$_COMP_LIST_FILE" ]
+then
+	_printerr 0311 # "At least one component must be supplied."
+	Out 5 0710
+fi
+
+# Check there is a current workspace
+if [ -z "$ADL_WS" ]
+then
+	Out 5 0108 "adl_ch_ws" # "No current workspace. Use /p1 to set the current workspace to the local transfer workspace.";
+else
+	_SAVE_ADL_WS="$ADL_WS"
+	unset _SAVE_ADL_IMAGE
+	[ ! -z "$ADL_IMAGE" ] && export _SAVE_ADL_IMAGE="$ADL_IMAGE"
+fi
+
+######################################################################
+#
+# Check or compute name of transfer + check remote workspace
+#
+######################################################################
+check_transfer
+
+# Check a mirror workspace exists
+[ "$_R_MIRROR_WS" = "NOT_MIRROR_WS" ] && Out 5 0340 # "This command cannot be used because the transfer has been created without remote mirror workspace."
+
+######################################################################
+#
+# Connection to the remote Multisite transfer manager
+#
+######################################################################
+init_connection_with_remote_site "$_R_SERVER"
+
+######################################################################
+#
+# Check information registered locally against current state
+# of remote site
+#
+######################################################################
+check_remote_transfer
+
+######################################################################
+#
+# Prevent for concurrent accesses
+#
+######################################################################
+[ ! -z "$_FORCE_START_OPTION" ] && "$_CLIENT" $_RUN_COMMON -abort "$_T_NAME" "$_SAVE_ADL_WS" "$_L_SITE"
+"$_CLIENT" $_RUN_COMMON -start "$_T_NAME" "$_SAVE_ADL_WS" "$_L_SITE" "#CMD=adl_detach_is" >"$DefaultTmpDir"/start_is_$$.txt
+_lock_code=$?
+if [ $_lock_code -ne 0 ]
+then
+	grep 'A session already exists with this identifier' "$DefaultTmpDir"/start_is_$$.txt >$NULL
+	if [ $? -eq 0 ]
+	then
+		# There is already another command that is registered on the remote host /p3 ...
+		Out 5 0335 "$_T_NAME" "$_SAVE_ADL_WS" "$_R_HOST"
+	else
+		Out 5 0334 "$_R_SERVER" # "The remote transfer manager does not respond from /p1."
+	fi
+fi
+
+
+######################################################################
+#
+# Execute the command
+#
+######################################################################
+
+# Change current workspace on remote host
+_printmsg 0320 "$_R_WS" # "Changing current remote working workspace to /p1..."
+"$_CLIENT" $_RUN_COMMON -setenv "$_R_WS" -no_image > "$DefaultTmpDir"/r_traces_$$.txt 2>&1
+[ $? -ne 0 ] && \cat "$DefaultTmpDir"/r_traces_$$.txt && Out 5 0314 # "Failed to set current remote workspace for attaching components."
+
+# Detach components:
+# 1. the name of the component must be valid in current local workspace
+# 2. the current workspace cannot be a root workspace in the corresponding tree
+# 3. the framework is detached locally then detach in the remote mirror workspace
+
+rc=0
+while read _one_component
+do
+	"$ADL_USER_PATH"/adl_ls_fw "$_one_component" -program -sep "|" -out "$DefaultTmpDir"/ls_fw_$$.txt >$NULL 2>&1
+	if [ $? -eq 0 ]
+	then
+		# Find the tree associated with the component
+		_L_WS_TREE=$($_AWK -F\| '{print $5}' "$DefaultTmpDir"/ls_fw_$$.txt)
+		_currtreeid=$($_AWK -F\| '{print $6}' "$DefaultTmpDir"/ls_fw_$$.txt)
+
+		# Find the ID of this component
+		_component_id=$($_AWK -F\| '{print $7}' "$DefaultTmpDir"/ls_fw_$$.txt)
+
+		# Check the framework is shared with remote site
+		_currtreeid2=$($_AWK -F\| '{if ($6=="'$_currtreeid'") print $10}' "$DefaultTmpDir"/ls_transfer_$$.txt)
+		if [ -z "$_currtreeid2" ]
+		then
+			# "The framework /p1 exists in workspace tree /p2 but the transfer /p3 is not defined in this workspace tree..."
+			_printerr 0715 "$_one_component" "$_L_WS_TREE" "$_T_NAME"
+			rc=5
+			continue
+		else
+			_R_WS_TREE=$($_AWK -F\| '{if ($6=="'$_currtreeid'") print $9}' "$DefaultTmpDir"/ls_transfer_$$.txt)
+		fi
+
+		# Check the current workspace is not a root workspace in the current tree
+		# and also if a "dummy" root workspace is available for importing local modifications in it
+		"$ADL_USER_PATH"/adl_ds_ws -tree "$_L_WS_TREE" -program -sep "|" -out "$DefaultTmpDir"/ds_ws_$$.txt
+		_parent_ws=$($_AWK -F\| '{if ($1=="_WS") print $9}' "$DefaultTmpDir"/ds_ws_$$.txt)
+		_promote_cmd=$($_AWK -F\| '{if ($1=="_WS") print $15}' "$DefaultTmpDir"/ds_ws_$$.txt)
+		if [ "$_parent_ws" = "<NO_PARENT_NAME>" ]
+		then
+			_printerr 0716 "$ADL_WS" "$_L_WS_TREE" # "The workspace /p1 is a root workspace..."
+			rc=5
+			continue
+		elif [ ! -z "$_FORCE_OPTION" -a "$_promote_cmd" != "PROMOTE_CMD_FORBIDDEN" ]
+		then
+			# If the -force option is used, the local workspace must forbid promotions from it
+			_printerr 0728 "$ADL_WS" "$_L_WS_TREE" # "The workspace /p1 is a root workspace..."
+			rc=5
+			continue
+		fi
+
+		# Find the corresponding remote tree and component name (same UUID)
+		"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/adl_ls_fw'"' -tree '"'$_R_WS_TREE'"' -program '-sep "|"' -out '"'$_R_TMP/r_ls_fw_$$.txt'"'
+		if [ $? -ne 0 ]
+		then
+			_printerr 0226  # "Failed to list components on remote site."
+			rc=5
+			continue
+		else
+			"$_CLIENT" $_RUN_COMMON -get "$_R_TMP/r_ls_fw_$$.txt" "$DefaultTmpDir"/r_ls_fw_$$.txt || Out 5 0025 "$_R_TMP/r_ls_fw_$$.txt" "$DefaultTmpDir"/r_ls_fw_$$.txt || Out 5 0025 "$_R_TMP/r_ls_fw_$$.txt" "$DefaultTmpDir"/r_ls_fw_$$.txt
+			_remote_component=$($_AWK -F\| '{if ($7=="'$_component_id'") print $1}' "$DefaultTmpDir"/r_ls_fw_$$.txt)
+			if [ -z "$_remote_component" ]
+			then
+				_printerr 0717 "$_one_component" "$_R_WS" "$_R_WS_TREE" "$_component_id" # "The framework /p1 cannot be found in remote workspace /p2..."
+				rc=5
+				continue
+			fi
+		fi
+
+		# Everything seems to be correct, detach the framework locally then remotely
+		if [ ! -z "$_FORCE_OPTION" -a "$_promote_cmd" = "PROMOTE_CMD_FORBIDDEN" ]
+		then
+			_printmsg 0720 "$_one_component" "$ADL_WS" # "the command will import local modification in parent workspace..."
+			echo ""
+			_printmsg 0722 "$_parent_ws" # "Importing component to detach in workspace \"/p1\"..."
+
+			"$ADL_USER_PATH"/adl_ch_ws_i "$_parent_ws" -no_image -no_ds -env_file "$DefaultTmpDir"/ch_ws_$$.sh -env_file_type ksh 2>&1 >"$DefaultTmpDir"/traces_ch_ws_$$.sh
+			if [ $? -ne 0 ]
+			then
+				\cat "$DefaultTmpDir"/traces_ch_ws_$$.sh | "$_CLIENT" $_RUN_COMMON -log_input -echo
+				Out 5 0721 "$_parent_ws" # Failed to change current workspace
+			fi
+			. "$DefaultTmpDir"/ch_ws_$$.sh 2>&1 >"$DefaultTmpDir"/traces_ch_ws_$$.sh
+			if [ $? -ne 0 ]
+			then
+				\cat "$DefaultTmpDir"/traces_ch_ws_$$.sh | "$_CLIENT" $_RUN_COMMON -log_input -echo
+				Out 5 0721 "$_parent_ws" # Failed to change current workspace
+			fi
+			"$ADL_USER_PATH"/adl_import "$_one_component" -from "${_SAVE_ADL_WS}"."${_L_WS_TREE}".last -tree "${_L_WS_TREE}" -op 2>&1 >"$DefaultTmpDir"/traces_import_$$.txt
+			if [ $? -ne 0 ]
+			then
+				\cat "$DefaultTmpDir"/traces_import_$$.txt | "$_CLIENT" $_RUN_COMMON -log_input -echo
+				Out 5 0723 "$_one_component" "$ADL_WS" # "Failed to import component..."
+			fi
+			"$ADL_USER_PATH"/adl_import_ws -from "$_SAVE_ADL_WS" -fw "$_one_component" -dir "$DefaultTmpDir" 2>&1 >>"$DefaultTmpDir"/traces_import_$$.txt
+			if [ $? -ne 0 ]
+			then
+				\cat "$DefaultTmpDir"/traces_import_$$.txt | "$_CLIENT" $_RUN_COMMON -log_input -echo
+				Out 5 0723 "$_one_component" "$ADL_WS" # "Failed to import component..."
+			fi
+			"$ADL_USER_PATH"/adl_publish 2>&1 >>"$DefaultTmpDir"/traces_import_$$.txt
+			if [ $? -ne 0 ]
+			then 
+				\cat "$DefaultTmpDir"/traces_import_$$.txt | "$_CLIENT" $_RUN_COMMON -log_input -echo
+				Out 5 0725 "$ADL_WS" "$_one_component" # "Failed to publish workspace. Component won't be detached."
+			fi
+			
+			_printmsg 0724 "$_SAVE_ADL_WS" "$ADL_WS" "$_L_WS_TREE" # "Synchronizing /p1 against contents of /p2..."
+
+			# Go back to the previous current workspace
+			if [ ! -z "$_SAVE_ADL_IMAGE" ]
+			then
+				"$ADL_USER_PATH"/adl_ch_ws_i "$_SAVE_ADL_WS" -image "$_SAVE_ADL_IMAGE" -no_ds -env_file "$DefaultTmpDir"/ch_ws_$$.sh -env_file_type ksh 2>&1 >"$DefaultTmpDir"/traces_ch_ws_$$.sh
+				if [ $? -ne 0 ]
+				then
+					\cat "$DefaultTmpDir"/traces_ch_ws_$$.sh | "$_CLIENT" $_RUN_COMMON -log_input -echo
+					Out 5 0721 "$_SAVE_ADL_WS" # Failed to change current workspace
+				fi
+			else
+				"$ADL_USER_PATH"/adl_ch_ws_i "$_SAVE_ADL_WS" -no_image -no_ds -env_file "$DefaultTmpDir"/ch_ws_$$.sh -env_file_type ksh 2>&1 >"$DefaultTmpDir"/traces_ch_ws_$$.sh
+				if [ $? -ne 0 ]
+				then
+					\cat "$DefaultTmpDir"/traces_ch_ws_$$.sh | "$_CLIENT" $_RUN_COMMON -log_input -echo
+					Out 5 0721 "$_SAVE_ADL_WS" # Failed to change current workspace
+				fi
+			fi
+			. "$DefaultTmpDir"/ch_ws_$$.sh 2>&1 >"$DefaultTmpDir"/traces_ch_ws_$$.sh
+			if [ $? -ne 0 ]
+			then
+				\cat "$DefaultTmpDir"/traces_ch_ws_$$.sh | "$_CLIENT" $_RUN_COMMON -log_input -echo
+				Out 5 0721 "$_parent_ws" # Failed to change current workspace
+			fi
+			
+			"$ADL_USER_PATH"/adl_sync -tree "$_L_WS_TREE" 2>&1 >"$DefaultTmpDir"/traces_sync_$$.txt
+			if [ $? -ne 0 ]
+			then
+				\cat "$DefaultTmpDir"/traces_sync_$$.txt | "$_CLIENT" $_RUN_COMMON -log_input -echo
+				Out 5 0726 "$ADL_WS" "$_one_component" # "Failed to synchronize workspace \"/p1\"..."
+			fi
+
+			_printmsg 0711 "$_one_component" "$ADL_WS" # "Detaching /p1 in workspace /p2..."
+			"$ADL_USER_PATH"/adl_detach "$_one_component" >"$DefaultTmpDir"/traces_detach_$$.txt 2>&1
+			if [ $? -ne 0 ]
+			then
+				\cat "$DefaultTmpDir"/traces_detach_$$.txt | "$_CLIENT" $_RUN_COMMON -log_input -echo
+				_printerr 0718 "$_one_component" "$_R_WS" # "Failed to detach /p1 in local workspace. It won't be detached in remote workspace /p2."
+				rc=5
+				continue
+			fi
+		else
+			_printmsg 0711 "$_one_component" "$ADL_WS" # "Detaching /p1 in workspace /p2..."
+			"$ADL_USER_PATH"/adl_detach "$_one_component" >"$DefaultTmpDir"/traces_detach_$$.txt 2>&1
+			if [ $? -ne 0 ]
+			then
+				\cat "$DefaultTmpDir"/traces_detach_$$.txt | "$_CLIENT" $_RUN_COMMON -log_input -echo
+				_printerr 0727 "$_one_component" "$_parent_ws" "$ADL_WS" "$_T_NAME" # "Failed to detach /p1 in local workspace..."
+				rc=5
+				continue
+			fi
+		fi
+
+		if [ $rc -ne 0 ]
+		then
+			_printerr 0718 "$_one_component" "$_R_WS" # "Failed to detach /p1 in local workspace. It won't be detached in remote workspace /p2."
+			rc=5
+			continue
+		else
+			_printmsg 0711 "$_remote_component" "$_R_WS" # "Detaching /p1 in /p2..."
+			"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/adl_detach'"' '"'$_remote_component'"' -tree '"'$_R_WS_TREE'"' >"$DefaultTmpDir"/traces_detach_$$.txt 2>&1
+			if [ $? -ne 0 ]
+			then
+				\cat "$DefaultTmpDir"/traces_detach_$$.txt | "$_CLIENT" $_RUN_COMMON -log_input -echo
+				_printerr 0719 "$_remote_component" "$_R_WS" # "Failed to detach /p1 in remote workspace /p2..."
+				rc=5
+				continue
+			fi
+		fi
+	else
+		_printerr 0713 "$_one_component" "$ADL_WS" # "Failed to get information about framework /p1 in workspace /p2."
+		_printerr 0714 "$_one_component" # "Failed to detach component /p1 in current workspace."
+		rc=5
+	fi
+
+done < "$_COMP_LIST_FILE"
+
+if [ $rc -eq 0 ]
+then
+	Out 0
+else
+	Out 5 # "##### THE COMMAND ENTIRELY OR PARTIALLY FAILED #####"
+fi
+
+

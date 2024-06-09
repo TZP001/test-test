@@ -1,0 +1,3378 @@
+#!/bin/ksh 
+# =====================================================================
+# 
+# Shell de transfert de donnees entre sites ADELE
+# par utilisation des fonctionnalites d'import/export
+#
+# =====================================================================
+
+[ ! -z "$ADL_DEBUG" ] && set -x
+
+CmdLine="$@"
+
+OS=$(uname -s)
+if [ "$OS" = "Windows_NT" ]
+then
+	export _CALL_SH="sh +C -K "
+	export FullShellName="$(whence "$0" | sed 's+\\+/+g')"
+	export ShellName="${FullShellName##*/}"
+	cd "${FullShellName%/*}"
+	export ShellDir="$(pwd)"
+	cd - >nul
+
+	export DefaultTmpDir="$(printf "%s" "$ADL_TMP" | sed 's+\\+/+g')"
+	[ -z ""$DefaultTmpDir"" ] && export DefaultTmpDir="$(printf "%s" "$TEMP" | sed 's+\\+/+g')"
+	[ -z ""$DefaultTmpDir"" ] && export DefaultTmpDir=C:/TEMP
+	export NULL=nul
+
+	export ADL_USER_PATH="$(printf "%s" "$ADL_USER_PATH" | sed 's+\\+/+g')"
+
+else
+	unset _CALL_SH
+	export FullShellName="$(whence "$0" | sed 's+\\+/+g')"
+	export FullShellName2=${FullShellName%\'}
+	export FullShellName=${FullShellName2##\'}
+	export ShellName="${FullShellName##*/}"
+	export ShellDir="${FullShellName%/*}"
+
+	export DefaultTmpDir="$ADL_TMP"
+	[ -z ""$DefaultTmpDir"" ] && export DefaultTmpDir=/tmp
+	export NULL=/dev/null
+fi
+# Global variable initialization
+case $OS in
+	AIX)
+		export WHOAMI="/bin/whoami"
+		export MAIL="/bin/mail"
+		export _AWK=/bin/awk
+		export _FIND=find
+		;;
+	HP-UX)
+		export WHOAMI="/usr/bin/whoami"
+		export MAIL="/usr/bin/mail"
+		export _AWK=/bin/awk
+		export _FIND=find
+		;;
+	IRIX | IRIX64)
+		export WHOAMI="/usr/bin/whoami"
+		export MAIL="/usr/bin/mail"
+		export _AWK=/bin/nawk
+		export _FIND=find
+		;;
+	SunOS)
+		export WHOAMI="/usr/ucb/whoami"
+		export MAIL="/bin/mailx"
+		export _AWK=/bin/nawk
+		export _FIND=find
+		;;
+	Windows_NT)
+		export WHOAMI="$SystemDrive/ntreskit/whoami.exe"
+		export MAIL="mail_not_found"
+		export _AWK="awk"
+		export _FIND="$(dirname "$SHELL")/find.exe"
+		;;
+esac
+
+unset _ConnectionWithRemote
+unset _TarAvailable
+unset _CompressionMode
+unset _RecoveryMode
+unset _ADL_WORKING_DIR
+export DefaultTmpDir
+export _ADL_TRACE_DIR
+export _L_HOST=$(uname -n)
+typeset -i SyncExitCode
+unalias rm
+unalias cp
+export _last_transfer_step=STATUS
+export _last_transfer_step_info="-"
+_lock_code=5
+
+BeginTransferDate=$(date +"%Y_%m_%d_%H_%M")
+
+if [ "$OS" = "Windows_NT" ]
+then
+	if [ ! -f "$ADL_USER_PATH"/admin/adl_transfer_client.exe ]
+	then
+		"#ERR# Cannot find adl_transfer_client.exe. Environment is not correctly set."
+		"#ERR# transfer aborted"
+		exit 1
+	else
+		export _CLIENT="$(printf "%s" "$ADL_USER_PATH/admin/adl_transfer_client.exe" | sed 's+\\+/+g')"
+	fi
+elif [ ! -f "$ADL_USER_PATH"/admin/adl_transfer_client ]
+then
+	"#ERR# Cannot find adl_transfer_client. Environment is not correctly set."
+	"#ERR# transfer aborted"
+	exit 1
+else
+	export _CLIENT="$ADL_USER_PATH/admin/adl_transfer_client"
+fi
+
+# =====================================================================
+Usage="
+$ShellName
+    -rhost RemoteHost -rport RemotePort 
+    -rsite Site -rw Ws -rtree ws_tree -rtmp TmpDir [-rimage image | -rno_image] 
+    [-r_sync] [-r_collect] [-r_publish] [-r_promote [WS... ] ]
+    -lw Ws -ltree ws_tree [-ltmp TmpDir] [-limage image | -lno_image] 
+    [-l_collect] [-l_sync]
+    [-lwd directory]
+    [-all_fw | -fw fw... | -fw_file fw_file]
+    [-simul] [-import_only | -export_only]
+    [-keep_trace n] [-no_compress] [-force_start]
+
+Global parameters:
+-keep_trace n    : Number of trace directories to keep;
+                   the trace directories are created into the local workspace directory
+                   <ws_dir>/ToolsData/MultiSite/<TransferId>/Tracexxx
+-simul           : Simulate import specific operations
+                   Note that other actions will be done (adl_sync, adl_photo, etc)
+                   and also that data will be imported at database level (not workspace level)
+-import_only     : Only get what changed on remote site
+-export_only     : Only send what changed on local site
+-no_compress     : Transfer data without compressing them
+-force_start     : If the previous transfer crashed without being unregistered by the transfer manager
+                   the new transfer won't be allowed to start. This option can be used to force the
+                   new transfer to start by unregistering the previous transfer.
+                   Warning: to use with care because having two instances of the same transfer running
+                   at the same time may cause unpredictable results.
+-lwd             : A directory in which the program will stored persistent data.
+                   If not set, data will be stored in the current working image of the local workspace.
+
+REMOTE parameters reference the master site
+-rhost RemoteHost: Remote host name or IP address
+-rport number    : Port on which the transfer manager is listening on remote host
+-rsite Site      : A string identifying uniquely the remote SCM installation
+-rw Ws           : Remote workspace name
+-rimage image    : Image name
+-rno_image       : To specify that the remote workspace has no image on the remote host.
+-rtree ws_tree   : Remote workspace tree to consider (only one tree can be treated in one transfer)
+-rtmp TmpDir     : Temporary directory for remote operations
+
+Parameters to control actions performed in the REMOTE workspace
+-r_collect       : To collect remote workspace's child workspace(s) BEFORE computing remote changes
+-r_sync          : To synchronize the remote workspace BEFORE computing remote changes
+-r_publish       : To publish the remote workspace AFTER the transfer
+-r_promote [WS]  : To promote the remote workspace AFTER the transfer. 
+                   One or several target workspaces can be specified for the promotion.
+LOCAL parameters reference the workspace to be "synchronized" with the master site
+-lw Ws           : Workspace name
+-limage image    : Image name
+-lno_image       : To specify that the local workspace has no image on the current host.
+-ltree ws_tree   : Workspace tree to consider (only one tree can be treated in one transfer)
+-ltmp TmpDir     : Temporary directory for local operations
+
+Parameters to control actions performed in the LOCAL workspace
+-l_collect       : To collect local workspace's child workspace(s) BEFORE starting the transfer
+-l_sync          : To synchronize the local workspace BEFORE starting the transfer
+
+FRAMEWORKS
+-all_fw          : Consider all the attached frameworks. It's the default.
+-fw fw...        : Consider the frameworks whose names or Id (prefixed by \"soid:\") are given.
+-fw_file fw_file : Consider the frameworks whose names or Id are read in the file fw_file.
+
+If framework names are given
+   If the option -export_only is specified, the frameworks are found in the local workspace.
+   Otherwise the frameworks are found in the remote workspace.
+
+INTERNAL PARAMETERS: are reserved for SCM command that calls directly the current shell.
+-transfer name   : name of an existing transfer as listed by adl_ls_transfer command.
+-run_no_check    : To skip some treatments since already performed.
+-rno_attach      : To skip the check for missing components on remote site.
+-lno_attach      : To skip the check for missing components on local site.
+-tuuid           : Provide a UUID for remote calls.
+-no_opt_delta    : Transfer data without asking other site if some are already present.
+                   This reduces the exchanges between sites but may increase the amount of data
+                   to be transferred.
+-short_traces    : To reduces the traces produced by the program.
+-allow_merges    : To avoid to transfer to fail in case of merges existing in the workspace.
+-cr cr...        : To specify cr(s) when using adl_promote_is command.
+"
+# =====================================================================
+
+# =====================================================================
+# Out function
+# =====================================================================
+Out()
+{
+	# On se place dans un repertoire qui ne sera pas detruit
+	cd "$DefaultTmpDir" >$NULL 2>&1
+
+	ExitCode=$1
+	shift
+	if [ $ExitCode -ge 1 -a ! -z "$ADL_SITE_TRANSFER_RUN_IF_KO" ]
+	then
+		$ADL_SITE_TRANSFER_RUN_IF_KO
+	fi
+
+	[ ! -z "$ADL_DEBUG" ] && set -x
+	trap ' ' HUP INT QUIT TERM
+
+	if [ ! -z "$_TUUID" -a ! -z "$_R_SERVER" -a ! -z "$_ConnectionWithRemote" ]
+	then
+		# On nettoie les donnees temporaires sur le serveur distant
+		if [ -z "$ADL_DEBUG" -o $ExitCode -eq 0 ]
+		then
+			"$_CLIENT" $_RUN_COMMON -rm '"'$_R_TMP/transfer_${_R_WS}_${_TID}'"' -rec
+		else
+			echo "#INFO# As debug is turned on, the remote directory is not removed: $_R_TMP/transfer_${_R_WS}_${_TID}" | "$_CLIENT" $_RUN_COMMON -log_input -echo
+		fi
+
+		# On avertit le serveur distant qu'on a finit de travailler avec lui
+		# mais seulement si on est proprietaire de la session correspondante
+		if [ $_lock_code -eq 0 ]
+		then
+			if [ $ExitCode -ge 1 ]
+			then
+				"$_CLIENT" $_RUN_COMMON -log_file "$_ADL_WORKING_DIR/$_last_transfer_step_info" >$NULL 2>&1
+				echo "#ERR# $*" | "$_CLIENT" $_RUN_COMMON -log_input
+				echo "#ERR# transfer failed." | "$_CLIENT" $_RUN_COMMON -log_input
+
+				"$_CLIENT" $_RUN_COMMON -abort $_L_SITE $_L_WS $_L_WS_TREE $_R_WS
+			else
+				echo "$*" | "$_CLIENT" $_RUN_COMMON -log_input
+				"$_CLIENT" $_RUN_COMMON -finish $_L_SITE $_L_WS $_L_WS_TREE $_R_WS
+			fi
+		fi
+	fi
+
+	if [ $ExitCode -ge 1 ]
+	then
+		[ -f "$_ADL_WORKING_DIR/$_last_transfer_step_info" ] && \cat "$_ADL_WORKING_DIR/$_last_transfer_step_info"
+		echo "#ERR# $*" >&2
+		echo "#ERR# transfer failed." >&2
+	else
+		echo "$*"
+	fi
+
+	if [ ! -z "$_ADL_WORKING_DIR" ] && [ -d "$_ADL_WORKING_DIR" ]
+	then
+		# On met en rouge (si erreur) la derniere etape du transfert dans le fichier de suivi html
+		if [ $ExitCode -eq 9999 ]
+		then
+			_save_step=$_last_transfer_step
+			_save_step_info=$_last_transfer_step_info
+			update_tracking_html STATUS interrupt "$_ADL_TRACE_DIR/follow_up.htm" >$NULL 2>&1
+			_last_transfer_step=$_save_step
+			_last_transfer_step_info=$_save_step_info
+			update_tracking_html $_last_transfer_step interrupt $_last_transfer_step_info >$NULL 2>&1
+		elif [ $ExitCode -ne 0 ]
+		then
+			_save_step=$_last_transfer_step
+			_save_step_info=$_last_transfer_step_info
+			update_tracking_html STATUS fail "$_ADL_TRACE_DIR/follow_up.htm" >$NULL 2>&1
+			_last_transfer_step=$_save_step
+			_last_transfer_step_info=$_save_step_info
+			update_tracking_html $_last_transfer_step fail $_last_transfer_step_info >$NULL 2>&1
+		fi
+
+		# On recopie les fichiers de _ADL_WORKING_DIR dans _ADL_TRACE_DIR
+		ls -l "$_ADL_WORKING_DIR" | $_AWK '/^-/ && (NF >= 8) {print $NF}' > "$DefaultTmpDir"/TraceFilelist_$$
+		while read fic
+		do
+			\cp -p "$_ADL_WORKING_DIR/$fic" "$_ADL_TRACE_DIR/$fic" 2>$NULL
+		done < "$DefaultTmpDir"/TraceFilelist_$$
+		
+		# Modification des liens a l'interieur du fichier follow_up.htm
+		[ -d "$_ADL_TRACE_DIR" ] && \sed 's|'"$TraceDirName/"'||g' "$_ADL_WORKING_DIR/follow_up.htm" > "$_ADL_TRACE_DIR/follow_up.htm" 2>$NULL
+	fi
+
+	 \rm -rf "$DefaultTmpDir"/*_$$
+	 \rm -rf "$DefaultTmpDir"/*_$$.sh
+	 \rm -rf "$DefaultTmpDir"/*_$$.txt 
+	if [ -z "$ADL_DEBUG" -o $ExitCode -eq 0 ]
+	then
+		[ ! -z "$_L_TMP" ] && \rm -rf "$_L_TMP/transfer_${_L_WS}_${_TID}"
+	else
+		echo "#INFO# As debug is turned on, the local directory is not removed: $_L_TMP/transfer_${_L_WS}_${_TID}"
+	fi
+
+	exit $ExitCode
+}
+
+trap 'Out 9999 "Command interrupted" ' HUP INT QUIT TERM
+
+# ===========================================================
+# Mise a jour du suivi HTML
+# ===========================================================
+# $1 = cle de tache
+# $2 = 'start', 'end', 'fail' ou 'interrupt'
+# $3 = fichier de traces (optionnel)
+update_tracking_html()
+{
+	# Arret immediat du transfert courant
+	[ "$ADL_KILL_TRANSFER" = "$1" ] && echo "## STOP ASKED AT STEP $1 ##" && exit 5
+
+	_last_transfer_step="$1"
+	_last_transfer_step_info="$3"
+¨
+	_current_step_info="$3"
+	[ -z "$3" ] && _current_step_info="-"
+
+	if [ -f "$_ADL_WORKING_DIR/trame_suivi_import.txt" ]
+	then
+		if [ $2 = "start" ]
+		then
+			[ "$_current_step_info" != "-" ] && \rm -f "$_ADL_WORKING_DIR"/$_current_step_info 2>$NULL
+			$_CALL_SH "$ShellDir"/admin/adl_generate_html.sh $1 o $_current_step_info "$_ADL_WORKING_DIR/trame_suivi_import.txt" > "$_ADL_TRACE_DIR/follow_up_${_TID}.tmp"
+		elif [ $2 = "end" ]
+		then
+			[ ! -f "$_current_step_info" -o ! -s "$_current_step_info" ] && _current_step_info="-"
+			$_CALL_SH "$ShellDir"/admin/adl_generate_html.sh $1 g $_current_step_info "$_ADL_WORKING_DIR/trame_suivi_import.txt" > "$_ADL_TRACE_DIR/follow_up_${_TID}.tmp"
+		elif [ $2 = "fail" ]
+		then
+			$_CALL_SH "$ShellDir"/admin/adl_generate_html.sh $1 r $_current_step_info "$_ADL_WORKING_DIR/trame_suivi_import.txt" > "$_ADL_TRACE_DIR/follow_up_${_TID}.tmp"
+		elif [ $2 = "interrupt" ]
+		then
+			$_CALL_SH "$ShellDir"/admin/adl_generate_html.sh $1 i $_current_step_info "$_ADL_WORKING_DIR/trame_suivi_import.txt" > "$_ADL_TRACE_DIR/follow_up_${_TID}.tmp"
+		else 
+			echo "##ERROR in update_tracking_html: unknown status: $2"
+			$_CALL_SH "$ShellDir"/admin/adl_generate_html.sh $1 r $_current_step_info "$_ADL_WORKING_DIR/trame_suivi_import.txt" > "$_ADL_TRACE_DIR/follow_up_${_TID}.tmp"
+		fi
+	fi
+	mv -f "$_ADL_TRACE_DIR/follow_up_${_TID}.tmp" "$_ADL_WORKING_DIR/follow_up.htm" 2>$NULL
+}
+
+# =====================================================================
+# Fonction d'envoi d'un fichier vers le site distant
+# =====================================================================
+# $1 = fichier local, $2 = fichier distant, $3 = vide ou -binary
+send_to_rhost()
+{
+	[ ! -z "$ADL_DEBUG" ] && set -x
+
+	if [ -z "$_CompressionMode" ]
+	then
+		# Pas de compression
+		"$_CLIENT" $_RUN_COMMON -put "$1" "$2" $3
+		rc=$?
+	elif [ "$_CompressionMode" = "-z" ]
+	then
+		# Compression 'gzip' + transfert forcement binaire
+		gzip -f -S .z "$1" || return $?
+		"$_CLIENT" $_RUN_COMMON -put "${1}.z" "${2}.z" -binary || return $?
+		"$_CLIENT" $_RUN_COMMON -cmd gzip -d -f -S .z '"'${2}.z'"'
+		rc=$?
+		# On decompresse celui qu'on vient d'envoyer
+		gzip -d -f -S .z "${1}.z"
+	else
+		# le compress de mks ne fonctionne pas bien...
+		# Compression 'compress' + transfert forcement binaire
+		compress -f "$1" || return $?
+		"$_CLIENT" $_RUN_COMMON -put "${1}.Z" "${2}.Z" -binary || return $?
+		
+		"$_CLIENT" $_RUN_COMMON -cmd uncompress -f '"'${2}.Z'"'
+		rc=$?
+		# On decompresse celui qu'on vient d'envoyer
+		uncompress -f "${1}.Z"
+	fi
+
+	return $rc
+}
+
+# =====================================================================
+# Fonction de recuperation d'un fichier depuis le site distant
+# =====================================================================
+# $1 = fichier distant, $2 = fichier local, $3 = vide ou -binary
+get_from_rhost()
+{
+	[ ! -z "$ADL_DEBUG" ] && set -x
+
+	if [ -z "$_CompressionMode" ]
+	then
+		# Pas de compression
+		"$_CLIENT" $_RUN_COMMON -get "$1" "$2" $3
+		rc=$?
+	elif [ "$_CompressionMode" = "-z" ]
+	then
+		# Compression 'gzip' + transfert forcement binaire
+		"$_CLIENT" $_RUN_COMMON -cmd gzip -f -S .z '"'${1}'"' || return $?
+		"$_CLIENT" $_RUN_COMMON -get "${1}.z" "${2}.z" -binary || return $?
+		gzip -d -f -S .z "${2}.z"
+		rc=$?
+		# On decompresse le fichier de depart sur le site distant
+		"$_CLIENT" $_RUN_COMMON -cmd gzip -d -f -S .z '"'${1}.z'"'
+	else
+		# Compression 'compress' + transfert forcement binaire
+		"$_CLIENT" $_RUN_COMMON -cmd compress -f '"'${1}'"' || return $?
+		"$_CLIENT" $_RUN_COMMON -get "${1}.Z" "${2}.Z" -binary || return $?
+		uncompress -f "${2}.Z"
+		rc=$?
+		# On decompresse le fichier de depart sur le site distant
+		"$_CLIENT" $_RUN_COMMON -cmd uncompress -f '"'${1}.Z'"'
+	fi
+
+	return $rc
+}
+
+# =====================================================================
+# Partie du transfert consistant a recuperer du site distant
+# les contenus de fichiers correspondant aux modifications qui
+# viennent d'etre importees.
+# Note : le code est isole dans une fonction pour pouvoir etre appele
+# par le mecanisme de reprise sur panne
+# =====================================================================
+import_f_content_local()
+{
+	[ ! -z "$ADL_DEBUG" ] && set -x
+
+	#------------------------------------------------------------------------
+	# On calcule les contenus de fichiers qu'il va falloir rapatrier du site distant
+	# Remarque : on ne s'interesse qu'a la derniere version de chaque fichier
+	#------------------------------------------------------------------------
+	update_tracking_html chg_f_cont_1 start "$TraceDirName/0trace_chg_f_cont_1_$$.txt" >$NULL 2>&1
+	OPTIONS="-tree $_L_WS_TREE"
+	"$ADL_USER_PATH"/admin/adl_assoc_f_cont_ws_tree -f_cont_file "$_ADL_WORKING_DIR/remote_last_content.txt" -missing_f_cont_file "$_ADL_WORKING_DIR/remote_content_to_export.txt" $OPTIONS > "$_ADL_TRACE_DIR/0trace_chg_f_cont_1_$$.txt" 2>&1
+	[ $? -ne 0 ] && Out 5 "Could not compute list of files to be imported from remote host"
+	
+	update_tracking_html chg_f_cont_1 end "$TraceDirName/0trace_chg_f_cont_1_$$.txt" >$NULL 2>&1
+
+	#------------------------------------------------------------------------
+	# Transfert sur le site distant de la liste des contenus de fichiers
+	# qu'il faut rapatrier
+	#------------------------------------------------------------------------
+	update_tracking_html send_f_cont_1 start "$TraceDirName/0trace_send_f_cont_1_$$.txt" >$NULL 2>&1
+	send_to_rhost "$_ADL_WORKING_DIR/remote_content_to_export.txt" "$_R_TMP/transfer_${_R_WS}_${_TID}/remote_content_to_export.txt" > "$_ADL_TRACE_DIR/0trace_send_f_cont_1_$$.txt" 2>&1
+	[ $? -ne 0 ] && Out 5 "Could not send to $_R_HOST the list of files to import: $_R_TMP/transfer_${_R_WS}_${_TID}/remote_content_to_export.txt"
+	update_tracking_html send_f_cont_1 end "$TraceDirName/0trace_send_f_cont_1_$$.txt" >$NULL 2>&1
+
+	#------------------------------------------------------------------------
+	# Extraction des contenus de fichiers
+	#------------------------------------------------------------------------
+	update_tracking_html extract_f_1 start "$TraceDirName/0trace_extract_f_1_$$.txt" >$NULL 2>&1
+	OPTIONS="-tree $_R_WS_TREE -unix_eol"
+	"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/admin/adl_export_file_contents'"' -file '"'$_R_TMP/transfer_${_R_WS}_${_TID}/remote_content_to_export.txt'"' -dir '"'$_R_TMP/transfer_${_R_WS}_${_TID}/export_f_dir'"' $OPTIONS > "$_ADL_TRACE_DIR/0trace_extract_f_1_$$.txt" 2>&1
+	[ $? -ne 0 ] && Out 5 "Error when extracting file contents on remote host $_R_HOST"
+	update_tracking_html extract_f_1 end "$TraceDirName/0trace_extract_f_1_$$.txt" >$NULL 2>&1
+
+	#------------------------------------------------------------------------
+	# On rapatrie localement les contenus de fichiers venant d'etre extraits sur le site master
+	#------------------------------------------------------------------------
+	update_tracking_html get_user_file start "$TraceDirName/0trace_get_user_file_$$.txt" >$NULL 2>&1
+	\mkdir "$_L_TMP/transfer_${_L_WS}_${_TID}/import_f_dir" 2>$NULL
+	[ ! -d "$_L_TMP/transfer_${_L_WS}_${_TID}/import_f_dir" ] && Out 5 "Failed to create directory $_L_TMP/transfer_${_L_WS}_${_TID}/import_f_dir for importing data from remote host"
+
+	echo "Transfering contents of user files from remote host $_R_HOST..."| "$_CLIENT" $_RUN_COMMON -log_input -echo
+	sizetotransfer=$("$_CLIENT" $_RUN_COMMON -cmd du -k -s '"'$_R_TMP/transfer_${_R_WS}_${_TID}/export_f_dir'"')
+	if [ $? -ne 0 ]
+	then 
+		echo "Cannot compute size of data to transfer. du failed on remote directory $_R_TMP/transfer_${_R_WS}_${_TID}/export_f_dir." >> "$_ADL_TRACE_DIR/0trace_get_user_file_$$.txt"
+		echo "Is 'du' command allowed on remote site?" >> "$_ADL_TRACE_DIR/0trace_get_user_file_$$.txt"
+	else
+		echo "Number of Kbytes to transfer = $(echo $sizetotransfer | $_AWK '{print $1}')" | "$_CLIENT" $_RUN_COMMON -log_input -echo | tee -a "$_ADL_TRACE_DIR/0trace_get_user_file_$$.txt"
+	fi
+	if [ -z "$_TarAvailable" ]
+	then
+		_SAVE_ADL_DEBUG=$ADL_DEBUG
+		unset ADL_DEBUG
+		"$_CLIENT" $_RUN_COMMON -cmd find '"'$_R_TMP/transfer_${_R_WS}_${_TID}/export_f_dir'"' -type d -print >"$DefaultTmpDir"/Find1_$$
+		if [ $? -ne 0 ]
+		then
+			\cat "$DefaultTmpDir"/Find1_$$
+			Out 5 "Failed to search directories for transfering contents of user files from remote host $_R_HOST"
+		fi
+		typeset -i NbChar
+		NbChar=$(echo "$_R_TMP/transfer_${_R_WS}_${_TID}/export_f_dir" | wc -c)
+		while read _f
+		do
+			_f=$(echo "$_f" | cut -c $NbChar-)
+			[ -z "$_f" ] && continue
+			if [ -z "$_SHORT_TRACES" ]
+			then
+				echo ".\c"
+				echo "<- $_f" >>"$_ADL_TRACE_DIR/0trace_get_user_file_$$.txt" 2>&1
+			fi
+			\mkdir -p "$_L_TMP/transfer_${_L_WS}_${_TID}/import_f_dir/$_f" >>"$_ADL_TRACE_DIR/0trace_get_user_file_$$.txt" 2>&1
+			[ $? -ne 0 ] && Out 5 "Error when creating temporary directory $_L_TMP/transfer_${_L_WS}_${_TID}/import_f_dir/$_f"
+		done < "$DefaultTmpDir"/Find1_$$
+
+		"$_CLIENT" $_RUN_COMMON -cmd find '"'$_R_TMP/transfer_${_R_WS}_${_TID}/export_f_dir'"' -type f -print >"$DefaultTmpDir"/Find1_$$
+		if [ $? -ne 0 ]
+		then
+			\cat "$DefaultTmpDir"/Find1_$$
+			Out 5 "Failed to search files for transfering contents of user files from remote host $_R_HOST"
+		fi
+		while read _f
+		do
+			_f=$(echo "$_f" | cut -c $NbChar-)
+			[ -z "$_f" ] && continue
+			if [ -z "$_SHORT_TRACES" ]
+			then
+				echo ".\c"
+				echo "<- $_f" >>"$_ADL_TRACE_DIR/0trace_get_user_file_$$.txt" 2>&1
+			fi
+			get_from_rhost "$_R_TMP/transfer_${_R_WS}_${_TID}/export_f_dir/$_f" "$_L_TMP/transfer_${_L_WS}_${_TID}/import_f_dir/$_f" -binary >> "$_ADL_TRACE_DIR/0trace_get_user_file_$$.txt" 2>&1
+			[ $? -ne 0 ] && Out 5 "Error when transfering file $_R_TMP/transfer_${_R_WS}_${_TID}/export_f_dir/$_f into $_L_TMP/transfer_${_L_WS}_${_TID}/import_f_dir/$_f"
+		done < "$DefaultTmpDir"/Find1_$$
+		[ -z "$_SHORT_TRACES" ] && echo ""
+		[ ! -z "$_SAVE_ADL_DEBUG" ] && export ADL_DEBUG=$_SAVE_ADL_DEBUG
+	else
+		"$_CLIENT" $_RUN_COMMON -cmd $_REM_CALL_SH '"'$_RemoteADLUserPath/admin/adl_transfer_tar.sh'"' -c -f '"'$_R_TMP/transfer_${_R_WS}_${_TID}/ftar'"' -d '"'$_R_TMP/transfer_${_R_WS}_${_TID}/export_f_dir'"' $_CompressionMode >> "$_ADL_TRACE_DIR/0trace_get_user_file_$$.txt" 2>&1
+		[ $? -ne 0 ] && Out 5 "Failed to create tar file for importing user files from $_R_HOST"
+		"$_CLIENT" $_RUN_COMMON -get "$_R_TMP/transfer_${_R_WS}_${_TID}/ftar" "$_L_TMP/transfer_${_L_WS}_${_TID}/import_f_dir/ftar" -binary >>"$_ADL_TRACE_DIR/0trace_get_user_file_$$.txt" 2>&1
+		[ $? -ne 0 ] && Out 5 "Failed to get tar file from remote host $_R_HOST"
+		$_CALL_SH "$ShellDir"/admin/adl_transfer_tar.sh -x -f "$_L_TMP/transfer_${_L_WS}_${_TID}/import_f_dir/ftar" -d "$_L_TMP/transfer_${_L_WS}_${_TID}/import_f_dir" $_CompressionMode >>"$_ADL_TRACE_DIR/0trace_get_user_file_$$.txt" 2>&1
+		[ $? -ne 0 ] && Out 5 "Error when extracting data in $_L_TMP/transfer_${_L_WS}_${_TID}/import_f_dir"
+		# on fait du nettoyage
+		\rm "$_L_TMP/transfer_${_L_WS}_${_TID}/import_f_dir/ftar"
+	fi
+	update_tracking_html get_user_file end "$TraceDirName/0trace_get_user_file_$$.txt" >$NULL 2>&1
+
+	#------------------------------------------------------------------------
+	# On importe les contenus de fichiers dans la BD locale
+	#------------------------------------------------------------------------
+	update_tracking_html import_f_local start "$TraceDirName/0trace_import_f_local_$$.txt" >$NULL 2>&1
+	echo "Importing transferred user files into local database..."| "$_CLIENT" $_RUN_COMMON -log_input -echo
+	OPTIONS="-tree $_L_WS_TREE"
+	"$ADL_USER_PATH"/admin/adl_import_file_contents -dir "$_L_TMP/transfer_${_L_WS}_${_TID}/import_f_dir" $OPTIONS >"$_ADL_TRACE_DIR/0trace_import_f_local_$$.txt" 2>&1
+	if [ $? -ne 0 ]
+	then
+		echo "An error occured when importing user files into local database." >> "$_ADL_TRACE_DIR/0trace_import_f_local_$$.txt"
+		echo "Please correct the problem and restart a transfer." >> "$_ADL_TRACE_DIR/0trace_import_f_local_$$.txt"
+		Out 5 "Error when importing user file' contents in local database"
+	fi
+	\rm -f "$_ADL_WORKING_DIR/0RECOVER_import_f_local"
+	update_tracking_html import_f_local end "$TraceDirName/0trace_import_f_local_$$.txt" >$NULL 2>&1
+	unset _RecoveryMode
+}
+
+
+# =====================================================================
+# Partie du transfert consistant a transferer sur le site distant
+# les contenus de fichiers correspondant aux modifications qui
+# viennent d'y etre exportees.
+# Note : le code est isole dans une fonction pour pouvoir etre appele
+# par le mecanisme de reprise sur panne
+# =====================================================================
+import_f_content_remote()
+{
+	[ ! -z "$ADL_DEBUG" ] && set -x
+
+	if [ ! -z "$_RecoveryMode" ]
+	then
+		send_to_rhost "$_ADL_WORKING_DIR/local_last_so_chg.txt" "$_R_TMP/transfer_${_R_WS}_${_TID}/local_last_so_chg.txt" >> "$_ADL_TRACE_DIR/0trace_put_anc_local_$$.txt" 2>&1
+		[ $? -ne 0 ] && Out 5 "Could not send list of new modifications to remote host $_R_HOST."
+		send_to_rhost "$_ADL_WORKING_DIR/local_last_content.txt" "$_R_TMP/transfer_${_R_WS}_${_TID}/local_last_content.txt" >> "$_ADL_TRACE_DIR/0trace_put_anc_local_$$.txt" 2>&1
+		[ $? -ne 0 ] && Out 5 "Could not send list of new file contents to remote host $_R_HOST."
+	fi
+
+	#------------------------------------------------------------------------
+	# On calcule les contenus de fichiers qu'il va falloir envoyer sur le site distant
+	# Remarque : on ne s'interesse qu'a la derniere version de chaque fichier
+	#------------------------------------------------------------------------
+	update_tracking_html chg_f_cont_2 start "$TraceDirName/0trace_chg_f_cont_2_$$.txt" >$NULL 2>&1
+	echo "Computing list of files to send from local to remote host $_R_HOST..."| "$_CLIENT" $_RUN_COMMON -log_input -echo
+	OPTIONS="-tree $_R_WS_TREE"
+	"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/admin/adl_assoc_f_cont_ws_tree'"' -f_cont_file '"'$_R_TMP/transfer_${_R_WS}_${_TID}/local_last_content.txt'"' -missing_f_cont_file '"'$_R_TMP/transfer_${_R_WS}_${_TID}/local_content_to_export.txt'"' $OPTIONS >> "$_ADL_TRACE_DIR/0trace_chg_f_cont_2_$$.txt" 2>&1
+	[ $? -ne 0 ] && Out 5 "Could not compute list of files to be exported from local host"
+	update_tracking_html chg_f_cont_2 end "$TraceDirName/0trace_chg_f_cont_2_$$.txt" >$NULL 2>&1
+
+	#------------------------------------------------------------------------
+	# Recuperation en local de la liste des contenus de fichiers qu'il faut envoyer
+	# sur le site distant
+	#------------------------------------------------------------------------
+	update_tracking_html send_f_cont_2 start "$TraceDirName/0trace_send_f_cont_2_$$.txt" >$NULL 2>&1
+	[ -z "$_SHORT_TRACES" ] && echo "Getting from $_R_HOST the list of files to send..."| "$_CLIENT" $_RUN_COMMON -log_input -echo
+	get_from_rhost "$_R_TMP/transfer_${_R_WS}_${_TID}/local_content_to_export.txt" "$_ADL_WORKING_DIR/local_content_to_export.txt" >"$_ADL_TRACE_DIR/0trace_send_f_cont_2_$$.txt" 2>&1
+	[ $? -ne 0 ] && Out 5 "Could not get from $_R_HOST the list of files to export: $_R_TMP/transfer_${_R_WS}_${_TID}/local_content_to_export.txt"
+	update_tracking_html send_f_cont_2 end "$TraceDirName/0trace_send_f_cont_2_$$.txt" >$NULL 2>&1
+
+	#------------------------------------------------------------------------
+	# Extraction en local des contenus de fichiers a envoyer sur le site distant
+	#------------------------------------------------------------------------
+	update_tracking_html extract_f_2 start "$TraceDirName/0trace_extract_f_2_$$.txt" >$NULL 2>&1
+	echo "Extracting from $_L_WS the user files to send to remote host $_R_HOST..."| "$_CLIENT" $_RUN_COMMON -log_input -echo
+	OPTIONS="-tree $_L_WS_TREE -unix_eol"
+	"$ADL_USER_PATH"/admin/adl_export_file_contents -file "$_ADL_WORKING_DIR/local_content_to_export.txt" -dir "$_L_TMP/transfer_${_L_WS}_${_TID}/export_f_dir" $OPTIONS > "$_ADL_TRACE_DIR/0trace_extract_f_2_$$.txt" 2>&1
+	[ $? -ne 0 ] && Out 5 "Error when extracting file contents on local host $_L_HOST"
+	update_tracking_html extract_f_2 end "$TraceDirName/0trace_extract_f_2_$$.txt" >$NULL 2>&1
+
+	#------------------------------------------------------------------------
+	# On envoie sur le site distant les contenus de fichiers venant d'etre extraits localement
+	#------------------------------------------------------------------------
+	update_tracking_html send_user_file start "$TraceDirName/0trace_send_user_file_$$.txt" >$NULL 2>&1
+
+	"$_CLIENT" $_RUN_COMMON -cmd mkdir "$_R_TMP/transfer_${_R_WS}_${_TID}/import_f_dir" > "$_ADL_TRACE_DIR/0trace_send_user_file_$$.txt" 2>&1
+	[ $? -ne 0 ] && Out 5 "Failed to create directory $_R_TMP/transfer_${_R_WS}_${_TID}/import_f_dir for importing data from local host"
+
+	echo "Sending contents of user files to remote host $_R_HOST..."| "$_CLIENT" $_RUN_COMMON -log_input -echo
+	sizetotransfer=$(\du -k -s "$_L_TMP/transfer_${_L_WS}_${_TID}/export_f_dir")
+	if [ $? -ne 0 ]
+	then 
+		echo "Cannot compute size of data to transfer. du failed on directory $_L_TMP/transfer_${_L_WS}_${_TID}/export_f_dir" >> "$_ADL_TRACE_DIR/0trace_send_user_file_$$.txt "
+	else
+		echo "Number of Kbytes to transfer = $(echo $sizetotransfer | $_AWK '{print $1}')" | "$_CLIENT" $_RUN_COMMON -log_input -echo | tee -a  "$_ADL_TRACE_DIR/0trace_send_user_file_$$.txt"
+	fi
+	if [ -z "$_TarAvailable" ]
+	then
+		_SAVE_ADL_DEBUG=$ADL_DEBUG
+		unset ADL_DEBUG
+			
+		cd "$_L_TMP/transfer_${_L_WS}_${_TID}/export_f_dir"
+		"$_FIND" . -type d -print | \
+		while read _f
+		do
+			[ -z "$_f" -o "$_f" = "." ] && continue
+			if [ -z "$_SHORT_TRACES" ]
+			then
+				echo ".\c"| "$_CLIENT" $_RUN_COMMON -log_input -echo
+				echo "-> $_f" >> "$_ADL_TRACE_DIR/0trace_send_user_file_$$.txt "
+			fi
+			"$_CLIENT" $_RUN_COMMON -cmd mkdir "$_R_TMP/transfer_${_R_WS}_${_TID}/import_f_dir/$_f" >>"$_ADL_TRACE_DIR/0trace_send_user_file_$$.txt" 2>&1
+			[ $? -ne 0 ] && Out 5 "Error when creating temporary directory $_R_TMP/transfer_${_R_WS}_${_TID}/import_f_dir/$_f"
+		done
+
+		"$_FIND" . -type f -print | \
+		while read _f
+		do
+			[ -z "$_f" -o "$_f" = "." ] && continue
+			if [ -z "$_SHORT_TRACES" ]
+			then
+				echo ".\c"| "$_CLIENT" $_RUN_COMMON -log_input -echo
+				echo "-> $_f" >> "$_ADL_TRACE_DIR/0trace_send_user_file_$$.txt "
+			fi
+			
+			send_to_rhost "$_L_TMP/transfer_${_L_WS}_${_TID}/export_f_dir/$_f" "$_R_TMP/transfer_${_R_WS}_${_TID}/import_f_dir/$_f" -binary >>"$_ADL_TRACE_DIR/0trace_send_user_file_$$.txt" 2>&1
+			[ $? -ne 0 ] && Out 5 "Error when transfering file $_L_TMP/transfer_${_L_WS}_${_TID}/export_f_dir/$_f into $_R_TMP/transfer_${_R_WS}_${_TID}/import_f_dir/$_f "
+		done
+		cd - 2>&1 >>"$_ADL_TRACE_DIR/0trace_send_user_file_$$.txt"
+
+		[ -z "$_SHORT_TRACES" ] && echo ""
+		[ ! -z "$_SAVE_ADL_DEBUG" ] && export ADL_DEBUG=$_SAVE_ADL_DEBUG
+	else
+		$_CALL_SH "$ShellDir"/admin/adl_transfer_tar.sh -c -f "$_L_TMP/transfer_${_L_WS}_${_TID}/export_f_dir/ftar" -d "$_L_TMP/transfer_${_L_WS}_${_TID}/export_f_dir" $_CompressionMode >>"$_ADL_TRACE_DIR/0trace_send_user_file_$$.txt" 2>&1
+		[ $? -ne 0 ] && Out 5 "Failed to create tar file for sending user files to $_R_HOST"
+		"$_CLIENT" $_RUN_COMMON -put "$_L_TMP/transfer_${_L_WS}_${_TID}/export_f_dir/ftar" "$_R_TMP/transfer_${_R_WS}_${_TID}/import_f_dir/ftar" -binary >>"$_ADL_TRACE_DIR/0trace_send_user_file_$$.txt" 2>&1
+		[ $? -ne 0 ] && Out 5 "Failed to send tar file to remote host $_R_HOST"
+		"$_CLIENT" $_RUN_COMMON -cmd $_REM_CALL_SH '"'$_RemoteADLUserPath/admin/adl_transfer_tar.sh'"' -x -f '"'$_R_TMP/transfer_${_R_WS}_${_TID}/import_f_dir/ftar'"' -d '"'$_R_TMP/transfer_${_R_WS}_${_TID}/import_f_dir'"' $_CompressionMode >>"$_ADL_TRACE_DIR/0trace_send_user_file_$$.txt" 2>&1
+		[ $? -ne 0 ] && Out 5 "Failed to extract user files from tar file on remote host $_R_HOST"
+		# on fait le menage
+		"$_CLIENT" $_RUN_COMMON -rm '"'$_R_TMP/transfer_${_R_WS}_${_TID}/import_f_dir/ftar'"' >>"$_ADL_TRACE_DIR/0trace_send_user_file_$$.txt" 2>&1
+	fi
+	update_tracking_html send_user_file end "$TraceDirName/0trace_send_user_file_$$.txt" >$NULL 2>&1
+
+	#------------------------------------------------------------------------
+	# On importe les contenus de fichiers dans la BD distante
+	#------------------------------------------------------------------------
+	update_tracking_html import_f_remote start "$TraceDirName/0trace_import_f_remote_$$.txt" >$NULL 2>&1
+	echo "Importing transferred user files into remote database..."| "$_CLIENT" $_RUN_COMMON -log_input -echo
+	OPTIONS="-tree $_R_WS_TREE"
+	"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/admin/adl_import_file_contents'"' -dir '"'$_R_TMP/transfer_${_R_WS}_${_TID}/import_f_dir'"' $OPTIONS > "$_ADL_TRACE_DIR/0trace_import_f_remote_$$.txt" 2>&1
+	if [ $? -ne 0 ]
+	then
+		echo "An error occured when importing user files into remote database." >> "$_ADL_TRACE_DIR/0trace_import_f_remote_$$.txt"
+		echo "Please correct the problem and restart a transfer." >> "$_ADL_TRACE_DIR/0trace_import_f_remote_$$.txt"
+		Out 5 "Error when importing user file' contents in remote database"
+	fi
+
+	\rm -f "$_ADL_WORKING_DIR/0RECOVER_import_f_remote"
+	update_tracking_html import_f_remote end "$TraceDirName/0trace_import_f_remote_$$.txt" >$NULL 2>&1
+	unset _RecoveryMode
+}
+
+# =====================================================================
+# Usage : output_fw_id fichier_fw fichier_filtre
+# Extraction des Id des frameworks à partir de tous les frameworks
+# attachés et du filtre par nom ou par Id (précédé de "soid:")
+# =====================================================================
+output_fw_id()
+{
+if [ -s "$1" -a -s "$2" ]
+then 
+
+	$_AWK -F"|" '\
+BEGIN \
+{
+	num_file = 0;
+}
+(FNR == 1) \
+{
+	num_file++;
+}
+(num_file == 1) \
+{
+	# Fichier filtre
+	if ($0 != "")
+	{
+		if (substr($0, 1, 5) == "soid:")
+			fw_id_table[substr($0, 6)] = 1;
+		else
+			fw_name_table[tolower($0)] = 1;
+	}
+}
+(num_file == 2) \
+{
+	# Fichier des fw lus dans l espace courant
+	if (fw_id_table[$7] == "1" || fw_name_table[tolower($1)] == "1")
+		print $7; # Id ou nom trouvé
+}' "$1" "$2"
+
+fi
+}
+
+# =====================================================================
+# Usage : output_fw_to_attach fichier_fw_id fichier_fw
+# Extraction de tous les frameworks, à partir des Id des frameworks récupérés
+# et du fichier de tous les frameworks, y compris ceux vus dans la hiérarchie.
+# Maxi 20 frameworks par ligne.
+# =====================================================================
+output_fw_to_attach()
+{
+if [ -s "$1" -a -s "$2" ]
+then 
+
+	$_AWK -F"|" '\
+BEGIN \
+{
+	num_file = 0;
+	first = 1;
+	cnt_fw = 0;
+}
+(FNR == 1) \
+{
+	num_file++;
+}
+(num_file == 1) \
+{
+	# Fichier des Id des fw lus dans l espace 2
+	fw_id_table[$0] = 1;
+}
+(num_file == 2) \
+{
+	# Fichier des fw lus dans l espace courant
+	if (fw_id_table[$7] == "1")
+	{
+		# Id trouvé
+		printf(" %s", $1);
+		cnt_fw = (cnt_fw + 1) % 20; # 20 frameworks par ligne
+		if (cnt_fw == 0)
+			printf("\n");
+	}
+}
+END \
+{
+	if (cnt_fw != 0)
+		printf("\n");
+}' "$1" "$2"
+
+fi
+}
+
+
+
+# 
+# Fonction pour faire le transfert du site distant vers le site local
+# par calcul des nouveautes et l'import/export des modifs et des fichiers associes
+# 
+
+compute_delta_and_send_from_remote_to_local()
+{
+	#------------------------------------------------------------------------
+	# Calcul des modifications visibles dans l'espace distant
+	#------------------------------------------------------------------------
+	# Fichier paramètre de référence et liste de frameworks
+	update_tracking_html put_delta_param start "$TraceDirName/0trace_put_delta_param_$$.txt" >$NULL 2>&1
+	\touch "$_ADL_WORKING_DIR/remote_delta_param.txt"
+	# Envoi de ce fichier de reference pour calculer sur le site distant quelles sont les nouvelles modifications
+	send_to_rhost "$_ADL_WORKING_DIR/remote_delta_param.txt" "$_R_TMP/transfer_${_R_WS}_${_TID}/remote_delta_param.txt" > "$_ADL_TRACE_DIR/0trace_put_delta_param_$$.txt" 2>&1
+	[ $? -ne 0 ] && Out 5 "Could not send remote_delta_param.txt to host $_R_HOST into directory $_R_TMP/transfer_${_R_WS}_${_TID}"
+	if [ ! -z "$_FW_LIST_FILENAME" ]
+	then
+		send_to_rhost "$_FW_LIST_FILENAME" "$_R_TMP/transfer_${_R_WS}_${_TID}/remote_fw_param.txt" >> "$_ADL_TRACE_DIR/0trace_put_delta_param_$$.txt" 2>&1
+		[ $? -ne 0 ] && Out 5 "Could not send the file of the frameworks to host $_R_HOST into directory $_R_TMP/transfer_${_R_WS}_${_TID}"
+	fi
+	update_tracking_html put_delta_param end "$TraceDirName/0trace_put_delta_param_$$.txt" >$NULL 2>&1
+
+	# Extraction proprement dite
+	update_tracking_html delta_so_remote start "$TraceDirName/0trace_delta_so_remote_$$.txt" >$NULL 2>&1
+	echo "Extracting changes in remote workspace $_R_WS..."| "$_CLIENT" $_RUN_COMMON -log_input -echo
+	if [ -z "$_FW_LIST_FILENAME" ]
+	then
+		"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/admin/adl_delta_so_chg'"' \
+			-with_merge -tree $_R_WS_TREE \
+			-ref '"'$_R_TMP/transfer_${_R_WS}_${_TID}/remote_delta_param.txt'"' \
+			-out '"'$_R_TMP/transfer_${_R_WS}_${_TID}/new_remote_delta_param.txt'"' \
+			-so_chg_file '"'$_R_TMP/transfer_${_R_WS}_${_TID}/remote_last_so_chg.txt'"' \
+			-f_cont_file '"'$_R_TMP/transfer_${_R_WS}_${_TID}/remote_last_content.txt'"' \
+			-moved_out_so_file '"'$_R_TMP/transfer_${_R_WS}_${_TID}/remote_moved_out_so.txt'"' \
+			-ini_so_chg_file '"'$_R_TMP/transfer_${_R_WS}_${_TID}/remote_ini_so_chg.txt'"' \
+			-all_fw > "$_ADL_TRACE_DIR/0trace_delta_so_remote_$$.txt" 2>&1		
+	else
+		"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/admin/adl_delta_so_chg'"' \
+			-with_merge -tree $_R_WS_TREE \
+			-ref '"'$_R_TMP/transfer_${_R_WS}_${_TID}/remote_delta_param.txt'"' \
+			-out '"'$_R_TMP/transfer_${_R_WS}_${_TID}/new_remote_delta_param.txt'"' \
+			-so_chg_file '"'$_R_TMP/transfer_${_R_WS}_${_TID}/remote_last_so_chg.txt'"' \
+			-f_cont_file '"'$_R_TMP/transfer_${_R_WS}_${_TID}/remote_last_content.txt'"' \
+			-moved_out_so_file '"'$_R_TMP/transfer_${_R_WS}_${_TID}/remote_moved_out_so.txt'"' \
+			-ini_so_chg_file '"'$_R_TMP/transfer_${_R_WS}_${_TID}/remote_ini_so_chg.txt'"' \
+			-fw_file '"'$_R_TMP/transfer_${_R_WS}_${_TID}/remote_fw_param.txt'"' > "$_ADL_TRACE_DIR/0trace_delta_so_remote_$$.txt" 2>&1		
+	fi
+	[ $? -ne 0 ] && Out 5 "Could not extract changes from remote workspace $_R_WS."
+	update_tracking_html delta_so_remote end "$TraceDirName/0trace_delta_so_remote_$$.txt" >$NULL 2>&1
+
+	# REMARQUE : on ne considère pas les objets déplacés hors des composants traités. Il faudrait peut-être avertir l'utilisateur.
+
+	# Récupération du nouveau fichier paramètre
+	update_tracking_html get_param_remote start "$TraceDirName/0trace_get_param_remote_$$.txt" >$NULL 2>&1
+	[ -z "$_SHORT_TRACES" ] && echo "Getting list of new parameter file from remote workspace $_R_WS..."
+	get_from_rhost "$_R_TMP/transfer_${_R_WS}_${_TID}/new_remote_delta_param.txt" "$_ADL_WORKING_DIR/new_remote_delta_param.txt" >"$_ADL_TRACE_DIR/0trace_get_param_remote_$$.txt" 2>&1
+	[ $? -ne 0 ] && Out 5 "Could not get list of new parameter file in remote workspace $_R_HOST"
+	update_tracking_html get_param_remote end "$TraceDirName/0trace_get_param_remote_$$.txt" >$NULL 2>&1
+
+	#------------------------------------------------------------------------
+	# Calcul des modifications apparues depuis le dernier transfert
+	#------------------------------------------------------------------------
+	update_tracking_html ls_anc_remote start "$TraceDirName/0trace_ls_anc_remote_$$.txt" >$NULL 2>&1
+	echo "Computing new changes in remote workspace $_R_WS since last transfer..."| "$_CLIENT" $_RUN_COMMON -log_input -echo
+	"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/admin/adl_ls_so_chg_anc_to_last'"' -last '"'$_R_TMP/transfer_${_R_WS}_${_TID}/remote_last_so_chg.txt'"' -out '"'$_R_TMP/transfer_${_R_WS}_${_TID}/remote_graph_so_chg.txt'"' -ref '"'$_R_TMP/transfer_${_R_WS}_${_TID}/remote_ini_so_chg.txt'"' -tree $_R_WS_TREE > "$_ADL_TRACE_DIR/0trace_ls_anc_remote_$$.txt" 2>&1
+	[ $? -ne 0 ] && Out 5 "Could not compute new modifications in remote workspace $_R_WS."
+	update_tracking_html ls_anc_remote end "$TraceDirName/0trace_ls_anc_remote_$$.txt" >$NULL 2>&1
+
+	#------------------------------------------------------------------------
+	# On rapatrie ces modifications pour calculer celles qui sont effectivement manquantes localement
+	#------------------------------------------------------------------------
+	update_tracking_html get_anc_remote start "$TraceDirName/0trace_get_anc_remote_$$.txt" >$NULL 2>&1
+	echo "Getting list of new changes from $_R_HOST..."| "$_CLIENT" $_RUN_COMMON -log_input -echo
+	get_from_rhost "$_R_TMP/transfer_${_R_WS}_${_TID}/remote_graph_so_chg.txt" "$_ADL_WORKING_DIR/remote_graph_so_chg.txt" > "$_ADL_TRACE_DIR/0trace_get_anc_remote_$$.txt" 2>&1
+	[ $? -ne 0 ] && Out 5 "Could not get graph of new modifications from remote host $_R_HOST."
+	get_from_rhost "$_R_TMP/transfer_${_R_WS}_${_TID}/remote_last_so_chg.txt" "$_ADL_WORKING_DIR/remote_last_so_chg.txt" >> "$_ADL_TRACE_DIR/0trace_get_anc_remote_$$.txt" 2>&1
+	[ $? -ne 0 ] && Out 5 "Could not get list of new modifications from remote host $_R_HOST."
+	get_from_rhost "$_R_TMP/transfer_${_R_WS}_${_TID}/remote_last_content.txt" "$_ADL_WORKING_DIR/remote_last_content.txt" >> "$_ADL_TRACE_DIR/0trace_get_anc_remote_$$.txt" 2>&1
+	[ $? -ne 0 ] && Out 5 "Could not get list of new file contents from remote host $_R_HOST."
+	update_tracking_html get_anc_remote end "$TraceDirName/0trace_get_anc_remote_$$.txt" >$NULL 2>&1
+
+	if [ -z "$_NO_OPT_DELTA" ]
+	then
+		#------------------------------------------------------------------------
+		# On calcule ce qui est nouveau par rapport à la BD du site local
+		#------------------------------------------------------------------------
+		update_tracking_html diff_local start "$TraceDirName/0trace_diff_local_$$.txt" >$NULL 2>&1
+		echo "Computing differences against local database..."| "$_CLIENT" $_RUN_COMMON -log_input -echo
+		OPTIONS="-tree $_L_WS_TREE"
+		"$ADL_USER_PATH"/admin/adl_ls_missing_so_chg -file "$_ADL_WORKING_DIR/remote_graph_so_chg.txt" -out "$_ADL_WORKING_DIR/remote_so_chg_to_export.txt" $OPTIONS >"$_ADL_TRACE_DIR/0trace_diff_local_$$.txt" 2>&1
+		[ $? -ne 0 ] && Out 5 "Failed to get local modifications that are missing against what changed on remote site"
+		update_tracking_html diff_local end "$TraceDirName/0trace_diff_local_$$.txt" >$NULL 2>&1
+
+		#------------------------------------------------------------------------
+		# On transfere sur le site distant la liste des modifications qui sont
+		# effectivement manquantes localement
+		#------------------------------------------------------------------------
+		update_tracking_html put_diff_local start "$TraceDirName/0trace_put_diff_local_$$.txt" >$NULL 2>&1
+		echo "Transfering onto remote host $_R_HOST the changes not already present locally..."| "$_CLIENT" $_RUN_COMMON -log_input -echo
+		send_to_rhost "$_ADL_WORKING_DIR/remote_so_chg_to_export.txt" "$_R_TMP/transfer_${_R_WS}_${_TID}/remote_so_chg_to_export.txt" >"$_ADL_TRACE_DIR/0trace_put_diff_local_$$.txt" 2>&1
+		[ $? -ne 0 ] && Out 5 "Failed to transfer list of modifications to remote host $_R_HOST"
+		update_tracking_html put_diff_local end "$TraceDirName/0trace_put_diff_local_$$.txt" >$NULL 2>&1
+	fi
+
+	# =====================================================================
+	#	etape 2
+	#		slave  -> import des donnees du site master au niveau BD locale
+	#			  puis apparition de ces donnees dans le ws de report
+	# =====================================================================
+
+	#------------------------------------------------------------------------
+	# On extrait les donnees effectives sur le site remote (modifications + objets references)
+	#------------------------------------------------------------------------
+	update_tracking_html export_remote_1 start "$TraceDirName/0trace_extract_remote_1_$$.txt" >$NULL 2>&1
+	echo "Extracting data on remote host $_R_HOST..."| "$_CLIENT" $_RUN_COMMON -log_input -echo
+	OPTIONS="-tree $_R_WS_TREE"
+	if [ -z "$_NO_OPT_DELTA" ]
+	then
+		"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/admin/adl_export_so_chg_db'"' -file '"'$_R_TMP/transfer_${_R_WS}_${_TID}/remote_so_chg_to_export.txt'"' -dir '"'$_R_TMP/transfer_${_R_WS}_${_TID}/export_so_chg_dir'"' $OPTIONS > "$_ADL_TRACE_DIR/0trace_extract_remote_1_$$.txt" 2>&1
+		[ $? -ne 0 ] && Out 5 "Failed to extract data on remote host $_R_HOST"
+	else
+		"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/admin/adl_export_so_chg_db'"' -file '"'$_R_TMP/transfer_${_R_WS}_${_TID}/remote_graph_so_chg.txt'"' -dir '"'$_R_TMP/transfer_${_R_WS}_${_TID}/export_so_chg_dir'"' $OPTIONS > "$_ADL_TRACE_DIR/0trace_extract_remote_1_$$.txt" 2>&1
+		[ $? -ne 0 ] && Out 5 "Failed to extract data on remote host $_R_HOST"
+	fi
+	update_tracking_html export_remote_1 end "$TraceDirName/0trace_extract_remote_1_$$.txt" >$NULL 2>&1
+
+	#------------------------------------------------------------------------
+	# On rapatrie localement les donnees venant d'etre extraites sur le site master
+	#------------------------------------------------------------------------
+	update_tracking_html send_data_1 start "$TraceDirName/0trace_send_data_1_$$.txt" >$NULL 2>&1
+	echo "Transfering data from remote host $_R_HOST..."| "$_CLIENT" $_RUN_COMMON -log_input -echo
+	sizetotransfer=$("$_CLIENT" $_RUN_COMMON -cmd du -k -s '"'$_R_TMP/transfer_${_R_WS}_${_TID}/export_so_chg_dir'"')
+	if [ $? -ne 0 ]
+	then 
+		echo "Cannot compute size of data to transfer. du failed on remote directory $_R_TMP/transfer_${_R_WS}_${_TID}/export_so_chg_dir" >> "$_ADL_TRACE_DIR/0trace_send_data_1_$$.txt"
+		echo "Is 'du' command allowed on remote site?" >> "$_ADL_TRACE_DIR/0trace_send_data_1_$$.txt"
+	else
+		echo "Number of Kbytes to transfer = $(echo $sizetotransfer | $_AWK '{print $1}')" | "$_CLIENT" $_RUN_COMMON -log_input -echo | tee -a  "$_ADL_TRACE_DIR/0trace_send_data_1_$$.txt"
+	fi
+	if [ -z "$_TarAvailable" ]
+	then
+		_SAVE_ADL_DEBUG=$ADL_DEBUG
+		unset ADL_DEBUG
+
+		"$_CLIENT" $_RUN_COMMON -cmd find '"'$_R_TMP/transfer_${_R_WS}_${_TID}/export_so_chg_dir'"' -type d -print >"$DefaultTmpDir"/Find1_$$
+		if [ $? -ne 0 ]
+		then
+			\cat "$DefaultTmpDir"/Find1_$$
+			Out 5 "Failed to search directories for transfering data from remote host $_R_HOST"
+		fi
+		typeset -i NbChar
+		NbChar=$(echo "$_R_TMP/transfer_${_R_WS}_${_TID}/export_so_chg_dir" | wc -c)
+		while read _f
+		do
+			_f=$(echo "$_f" | cut -c $NbChar-)
+			[ -z "$_f" ] && continue
+			if [ -z "$_SHORT_TRACES" ]
+			then
+				echo ".\c"
+				echo "<- $_f" >>"$_ADL_TRACE_DIR/0trace_send_data_1_$$.txt" 2>&1
+			fi
+			\mkdir -p "$_L_TMP/transfer_${_L_WS}_${_TID}/import_so_dir/$_f" >> "$_ADL_TRACE_DIR/0trace_send_data_1_$$.txt" 2>&1
+			[ $? -ne 0 ] && Out 5 "Error when creating temporary directory $_L_TMP/transfer_${_L_WS}_${_TID}/import_so_dir/$_f"
+		done < "$DefaultTmpDir"/Find1_$$
+
+		"$_CLIENT" $_RUN_COMMON -cmd find '"'$_R_TMP/transfer_${_R_WS}_${_TID}/export_so_chg_dir'"' -type f -print >"$DefaultTmpDir"/Find1_$$
+		if [ $? -ne 0 ]
+		then
+			\cat "$DefaultTmpDir"/Find1_$$
+			Out 5 "Failed to search files for transfering data from remote host $_R_HOST"
+		fi
+		while read _f
+		do
+			_f=$(echo "$_f" | cut -c $NbChar-)
+			[ -z "$_f" ] && continue
+			if [ -z "$_SHORT_TRACES" ]
+			then
+				echo ".\c"
+				echo "<- $_f" >>"$_ADL_TRACE_DIR/0trace_send_data_1_$$.txt" 2>&1
+			fi
+			get_from_rhost "$_R_TMP/transfer_${_R_WS}_${_TID}/export_so_chg_dir/$_f" "$_L_TMP/transfer_${_L_WS}_${_TID}/import_so_dir/$_f" >> "$_ADL_TRACE_DIR/0trace_send_data_1_$$.txt" 2>&1
+			[ $? -ne 0 ] && Out 5 "Error when transfering file $_R_TMP/transfer_${_R_WS}_${_TID}/export_so_chg_dir/$_f into $_L_TMP/transfer_${_L_WS}_${_TID}/import_so_dir/$_f"
+		done < "$DefaultTmpDir"/Find1_$$
+
+		[ -z "$_SHORT_TRACES" ] && echo ""
+		[ ! -z "$_SAVE_ADL_DEBUG" ] && export ADL_DEBUG=$_SAVE_ADL_DEBUG
+	else
+		"$_CLIENT" $_RUN_COMMON -cmd $_REM_CALL_SH '"'$_RemoteADLUserPath/admin/adl_transfer_tar.sh'"' -c -f '"'$_R_TMP/transfer_${_R_WS}_${_TID}/ftar'"' -d '"'$_R_TMP/transfer_${_R_WS}_${_TID}/export_so_chg_dir'"' $_CompressionMode >> "$_ADL_TRACE_DIR/0trace_send_data_1_$$.txt" 2>&1
+		[ $? -ne 0 ] && Out 5 "Failed to create tar file for importing data from $_R_HOST"
+		"$_CLIENT" $_RUN_COMMON -get "$_R_TMP/transfer_${_R_WS}_${_TID}/ftar" "$_L_TMP/transfer_${_L_WS}_${_TID}/import_so_dir/ftar" -binary >> "$_ADL_TRACE_DIR/0trace_send_data_1_$$.txt" 2>&1
+		[ $? -ne 0 ] && Out 5 "Failed to get tar file from remote host $_R_HOST"
+		$_CALL_SH "$ShellDir"/admin/adl_transfer_tar.sh -x -f "$_L_TMP/transfer_${_L_WS}_${_TID}/import_so_dir/ftar" -d "$_L_TMP/transfer_${_L_WS}_${_TID}/import_so_dir" $_CompressionMode >> "$_ADL_TRACE_DIR/0trace_send_data_1_$$.txt" 2>&1
+		[ $? -ne 0 ] && Out 5 "Error when extracting data in $_L_TMP/transfer_${_L_WS}_${_TID}/import_so_dir"
+		# on fait du nettoyage
+		\rm "$_L_TMP/transfer_${_L_WS}_${_TID}/import_so_dir/ftar"
+	fi
+	update_tracking_html send_data_1 end "$TraceDirName/0trace_send_data_1_$$.txt" >$NULL 2>&1
+
+	#------------------------------------------------------------------------
+	# On importe les attributs des ensembles de modifications dans la BD locale
+	#------------------------------------------------------------------------
+	update_tracking_html import_cs_attr_local start "$TraceDirName/0trace_import_cs_attr_local_$$.txt" >$NULL 2>&1
+	echo "Importing change sets attributes into local database..."| "$_CLIENT" $_RUN_COMMON -log_input -echo
+	OPTIONS="-tree $_L_WS_TREE"
+	"$ADL_USER_PATH"/admin/adl_import_cs_attr -dir "$_L_TMP/transfer_${_L_WS}_${_TID}/import_so_dir" -r_site "$_R_SITE_ID" $OPTIONS >"$_ADL_TRACE_DIR/0trace_import_cs_attr_local_$$.txt" 2>&1
+	[ $? -ne 0 ] && Out 5 "Error when importing change sets attributes into local database"
+	update_tracking_html import_cs_attr_local end "$TraceDirName/0trace_import_cs_attr_local_$$.txt" >$NULL 2>&1
+
+	#------------------------------------------------------------------------
+	# On importe les modifications dans la BD locale
+	#------------------------------------------------------------------------
+	update_tracking_html import_local start "$TraceDirName/0trace_import_local_$$.txt" >$NULL 2>&1
+	echo "Importing transferred data into local database..."| "$_CLIENT" $_RUN_COMMON -log_input -echo
+	OPTIONS="-tree $_L_WS_TREE"
+	"$ADL_USER_PATH"/admin/adl_import_so_chg_db -dir "$_L_TMP/transfer_${_L_WS}_${_TID}/import_so_dir" $OPTIONS >"$_ADL_TRACE_DIR/0trace_import_local_$$.txt" 2>&1
+	[ $? -ne 0 ] && Out 5 "Error when importing transferred data into local database"
+	update_tracking_html import_local end "$TraceDirName/0trace_import_local_$$.txt" >$NULL 2>&1
+
+	#------------------------------------------------------------------------
+	# A partir de maintenant il faudra que le transfert continue correctement
+	# jusqu'a l'import effectif des contenus de fichiers associes aux modifications
+	#------------------------------------------------------------------------
+	\touch "$_ADL_WORKING_DIR/0RECOVER_import_f_local"
+	import_f_content_local
+
+	# =====================================================================
+	#	etape 3
+	#		slave  -> apparition de ces donnees dans le ws de report
+	#			  et resolution des fusions induites
+	# =====================================================================
+
+	update_tracking_html force_ws_local start "$TraceDirName/0trace_force_ws_local_$$.txt" >$NULL 2>&1
+	echo "Forcing new modifications in local workspace $_L_WS..."| "$_CLIENT" $_RUN_COMMON -log_input -echo
+	\touch "$_ADL_WORKING_DIR/local_ref_so_chg.txt" # Pour la première fois
+
+	OPTIONS="-tree $_L_WS_TREE $_SIMUL"
+	"$ADL_USER_PATH"/admin/adl_force_so_chg \
+		-previous "$_ADL_WORKING_DIR/local_ref_so_chg.txt" \
+		-file "$_ADL_WORKING_DIR/remote_last_so_chg.txt" \
+		-complete $OPTIONS \
+		-imported "$_ADL_WORKING_DIR/local_imported_so_chg.txt" > "$_ADL_TRACE_DIR/0trace_force_ws_local_$$.txt" 2>&1
+	rc=$?
+
+	# 
+	# CGA the 2002/09/26: fix for missing changes
+	#
+	if [ $rc -ne 0 ]
+	then
+		grep '#ERR# ADLCMD \- 6326' "$_ADL_TRACE_DIR/0trace_force_ws_local_$$.txt" >$NULL 2>&1
+		rc1=$?
+		grep '#ERR# ADLCMD \- 6330' "$_ADL_TRACE_DIR/0trace_force_ws_local_$$.txt" >$NULL 2>&1
+		rc2=$?
+		if [ $rc1 -eq 0 -o $rc2 -eq 0 ]
+		then
+			echo "Find out unexpected missing changes in local workspace: trying to get them from remote mirror workspace..."
+			if [ $rc1 -eq 0 ]
+			then
+				$_CALL_SH "$ShellDir"/admin/adl_fix_missing_chg.sh "$_ADL_TRACE_DIR/0trace_force_ws_local_$$.txt" local self > "$_ADL_TRACE_DIR/0trace_force2_ws_local_$$.txt" 2>&1
+			else
+				$_CALL_SH "$ShellDir"/admin/adl_fix_missing_chg.sh "$_ADL_TRACE_DIR/0trace_force_ws_local_$$.txt" local container > "$_ADL_TRACE_DIR/0trace_force2_ws_local_$$.txt" 2>&1
+			fi
+			echo "Forcing again new modifications in local workspace $_L_WS..."
+			OPTIONS="-tree $_L_WS_TREE $_SIMUL"
+			"$ADL_USER_PATH"/admin/adl_force_so_chg \
+				-previous "$_ADL_WORKING_DIR/local_ref_so_chg.txt" \
+				-file "$_ADL_WORKING_DIR/remote_last_so_chg.txt" \
+				-complete $OPTIONS \
+				-imported "$_ADL_WORKING_DIR/local_imported_so_chg.txt" >> "$_ADL_TRACE_DIR/0trace_force2_ws_local_$$.txt" 2>&1
+			rc=$?
+			\cp "$_ADL_TRACE_DIR/0trace_force2_ws_local_$$.txt" "$_ADL_TRACE_DIR/0trace_force_ws_local_$$.txt"
+		fi
+	fi
+
+	if [ $rc -eq 0 ]
+	then
+		\cat "$_ADL_TRACE_DIR/0trace_force_ws_local_$$.txt" |"$_CLIENT" $_RUN_COMMON -log_input -echo 
+	else
+		Out 5 "Error when importing new modifications in local workspace $_L_WS"
+	fi
+	update_tracking_html force_ws_local end "$TraceDirName/0trace_force_ws_local_$$.txt" >$NULL 2>&1
+	
+	# adl_sync_is
+	#--------------------------------------------------------------
+	# Traitement des objets ensembles de modifications (change set)
+	#--------------------------------------------------------------
+	typeset -i SHORT_R_VERSION		
+	SHORT_R_VERSION=$(echo $_R_VERSION | sed "s/_//g")
+
+	typeset -i SHORT_DATE		
+	SHORT_DATE=$(echo "2004_11_30" | sed "s/_//g")
+
+	if [ "$SHORT_R_VERSION" -ge "$SHORT_DATE" ]
+	then 
+		
+		\mkdir "$_L_TMP/transfer_${_L_WS}_${_TID}/change_set_dir" 2>$NULL
+		[ ! -d "$_L_TMP/transfer_${_L_WS}_${_TID}/change_set_dir" ] && Out 5 "Failed to create directory $_L_TMP/transfer_${_L_WS}_${_TID}/change_set_dir for importing data from remote host"
+	
+		# On récupère les objets ensembles de modifications de l'arborescence sur le site local
+		update_tracking_html ls_cs_tree_local start "$TraceDirName/0trace_ls_cs_tree_local_$$.txt" >$NULL 2>&1
+		echo "Extracting change sets of current workspace tree into local database..."| "$_CLIENT" $_RUN_COMMON -log_input -echo
+		OPTIONS="-tree $_L_WS_TREE"
+		"$ADL_USER_PATH"/admin/adl_ls_cs_tree -out "$_L_TMP/transfer_${_L_WS}_${_TID}/change_set_dir/local_ls_cs_tree.txt" -out_cs_is "$_L_TMP/transfer_${_L_WS}_${_TID}/change_set_dir/local_ls_cs_is_tree.txt" -r_site "$_R_SITE_ID" $OPTIONS >"$_ADL_TRACE_DIR/0trace_ls_cs_tree_local_$$.txt" 2>&1
+		[ $? -ne 0 ] && Out 5 "Error when extracting change sets into local database"
+		update_tracking_html ls_cs_tree_local end "$TraceDirName/0trace_ls_cs_tree_local_$$.txt" >$NULL 2>&1
+
+		"$_CLIENT" $_RUN_COMMON -cmd mkdir "$_R_TMP/transfer_${_R_WS}_${_TID}/change_set_dir" >$NULL
+		[ $? -ne 0 ] && Out 5 "Failed to create directory $_R_TMP/transfer_${_R_WS}_${_TID}/change_set_dir on $_R_HOST for importing data from local host"
+
+		send_to_rhost "$_L_TMP/transfer_${_L_WS}_${_TID}/change_set_dir/local_ls_cs_tree.txt" "$_R_TMP/transfer_${_R_WS}_${_TID}/change_set_dir/local_ls_cs_tree.txt" >>"$_ADL_TRACE_DIR/0trace_send_ls_cs_tree_$$.txt" 2>&1
+		[ $? -ne 0 ] && Out 5 "Could not send to $_R_HOST the list of the change sets of local site: $_L_TMP/transfer_${_L_WS}_${_TID}/change_set_dir/local_ls_cs_tree.txt"
+
+		send_to_rhost "$_L_TMP/transfer_${_L_WS}_${_TID}/change_set_dir/local_ls_cs_is_tree.txt" "$_R_TMP/transfer_${_R_WS}_${_TID}/change_set_dir/local_ls_cs_is_tree.txt" >>"$_ADL_TRACE_DIR/0trace_send_ls_cs_is_tree_$$.txt" 2>&1
+		[ $? -ne 0 ] && Out 5 "Could not send to $_R_HOST the list of the change sets to treat of local site: $_L_TMP/transfer_${_L_WS}_${_TID}/change_set_dir/local_ls_cs_is_tree.txt"
+
+		# Le site distant recherche les objets ensembles de modifications en avance
+		update_tracking_html ls_cs_modified_remote start "$TraceDirName/0trace_ls_cs_modified_remote_$$.txt" >$NULL 2>&1
+		echo "Extracting modified change sets into remote database..."| "$_CLIENT" $_RUN_COMMON -log_input -echo
+		OPTIONS="-tree $_R_WS_TREE"
+		"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/admin/adl_ls_cs_modified'"' -ref '"'$_R_TMP/transfer_${_R_WS}_${_TID}/change_set_dir/local_ls_cs_tree.txt'"' -ref_cs_is '"'$_R_TMP/transfer_${_R_WS}_${_TID}/change_set_dir/local_ls_cs_is_tree.txt'"' -out_attr '"'$_R_TMP/transfer_${_R_WS}_${_TID}/change_set_dir/remote_cs_attr.txt'"' -out_so_chg '"'$_R_TMP/transfer_${_R_WS}_${_TID}/change_set_dir/remote_cs_so_chg.txt'"' $OPTIONS >"$_ADL_TRACE_DIR/0trace_ls_cs_modified_remote_$$.txt" 2>&1
+		[ $? -ne 0 ] && Out 5 "Error when extracting modified change sets into remote database"
+		update_tracking_html ls_cs_modified_remote end "$TraceDirName/0trace_ls_cs_modified_remote_$$.txt" >$NULL 2>&1
+
+		typeset -i FIRST_LOOP
+		FIRST_LOOP=1
+		while [ $FIRST_LOOP -eq 1 -o -s "$_R_TMP/transfer_${_R_WS}_${_TID}/change_set_dir/remote_cs_so_chg.txt" ]
+		do
+			FIRST_LOOP=0 # Ce n'est plus la première boucle
+			# Le site distant exporte les objets ensembles de modifications en avance
+			update_tracking_html export_cs_modified_remote start "$TraceDirName/0trace_export_cs_modified_remote_$$.txt" >$NULL 2>&1
+			echo "Exporting modified change sets into remote database..."| "$_CLIENT" $_RUN_COMMON -log_input -echo
+			"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/admin/adl_export_cs'"' -ref_attr '"'$_R_TMP/transfer_${_R_WS}_${_TID}/change_set_dir/remote_cs_attr.txt'"' -ref_so_chg '"'$_R_TMP/transfer_${_R_WS}_${_TID}/change_set_dir/remote_cs_so_chg.txt'"' -dir '"'$_R_TMP/transfer_${_R_WS}_${_TID}/export_cs_dir'"' >"$_ADL_TRACE_DIR/0trace_export_cs_modified_remote_$$.txt" 2>&1
+			[ $? -ne 0 ] && Out 5 "Error when Exporting modified change sets into remote database"
+			update_tracking_html export_cs_modified_remote end "$TraceDirName/0trace_export_cs_modified_remote_$$.txt" >$NULL 2>&1
+
+			\rm -rf "$_L_TMP/transfer_${_L_WS}_${_TID}/import_cs_dir" 2>$NULL
+			\mkdir "$_L_TMP/transfer_${_L_WS}_${_TID}/import_cs_dir" 2>$NULL
+			[ ! -d "$_L_TMP/transfer_${_L_WS}_${_TID}/import_cs_dir" ] && Out 5 "Failed to create directory $_L_TMP/transfer_${_L_WS}_${_TID}/import_cs_dir for importing data from remote host"
+
+			# Envoi de tous les fichiers du répertoire export_cs_dir
+			if [ -z "$_TarAvailable" ]
+			then
+				_SAVE_ADL_DEBUG=$ADL_DEBUG
+				unset ADL_DEBUG
+				typeset -i NbChars
+				NbChars=$(echo "$_R_TMP/transfer_${_R_WS}_${_TID}/export_cs_dir" | wc -c)
+				"$_CLIENT" $_RUN_COMMON -cmd find '"'$_R_TMP/transfer_${_R_WS}_${_TID}/export_cs_dir'"' -type f -print >"$DefaultTmpDir"/Find2_$$
+				if [ $? -ne 0 ]
+				then
+					\cat "$DefaultTmpDir"/Find2_$$
+					Out 5 "Failed to search files for transfering data from remote host $_R_HOST"
+				fi
+				while read _f
+				do
+					_f=$(echo "$_f" | cut -c $NbChars-)
+					[ -z "$_f" ] && continue
+					if [ -z "$_SHORT_TRACES" ]
+					then
+						echo ".\c"
+						echo "<- $_f" >>"$_ADL_TRACE_DIR/0trace_send_data_1_$$.txt" 2>&1
+					fi
+					get_from_rhost "$_R_TMP/transfer_${_R_WS}_${_TID}/export_cs_dir/$_f" "$_L_TMP/transfer_${_L_WS}_${_TID}/import_cs_dir/$_f" >> "$_ADL_TRACE_DIR/0trace_send_data_1_$$.txt" 2>&1
+					[ $? -ne 0 ] && Out 5 "Error when transfering file $_R_TMP/transfer_${_R_WS}_${_TID}/export_cs_dir/$_f into $_L_TMP/transfer_${_L_WS}_${_TID}/import_cs_dir/$_f"
+				done < "$DefaultTmpDir"/Find2_$$
+
+				[ -z "$_SHORT_TRACES" ] && echo ""
+				[ ! -z "$_SAVE_ADL_DEBUG" ] && export ADL_DEBUG=$_SAVE_ADL_DEBUG
+			else
+				"$_CLIENT" $_RUN_COMMON -cmd $_REM_CALL_SH '"'$_RemoteADLUserPath/admin/adl_transfer_tar.sh'"' -c -f '"'$_R_TMP/transfer_${_R_WS}_${_TID}/ftar'"' -d '"'$_R_TMP/transfer_${_R_WS}_${_TID}/export_cs_dir'"' $_CompressionMode >> "$_ADL_TRACE_DIR/0trace_send_data_1_$$.txt" 2>&1
+				[ $? -ne 0 ] && Out 5 "Failed to create tar file for importing data from $_R_HOST"
+				"$_CLIENT" $_RUN_COMMON -get "$_R_TMP/transfer_${_R_WS}_${_TID}/ftar" "$_L_TMP/transfer_${_L_WS}_${_TID}/import_cs_dir/ftar" -binary >> "$_ADL_TRACE_DIR/0trace_send_data_1_$$.txt" 2>&1
+				[ $? -ne 0 ] && Out 5 "Failed to get tar file from remote host $_R_HOST"
+				$_CALL_SH "$ShellDir"/admin/adl_transfer_tar.sh -x -f "$_L_TMP/transfer_${_L_WS}_${_TID}/import_cs_dir/ftar" -d "$_L_TMP/transfer_${_L_WS}_${_TID}/import_cs_dir" $_CompressionMode >> "$_ADL_TRACE_DIR/0trace_send_data_1_$$.txt" 2>&1
+				[ $? -ne 0 ] && Out 5 "Error when extracting data in $_L_TMP/transfer_${_L_WS}_${_TID}/import_cs_dir"
+				# on fait du nettoyage
+				\rm "$_L_TMP/transfer_${_L_WS}_${_TID}/import_cs_dir/ftar"
+			fi
+
+			# A nouveau, sur le site local, import des attributs objets ensembles de modifications (au cas où un objet a été modifié sans qu'il y ait de nouvelles modifications)
+			# En effet, le premier import de change sets se base sur les modifications importées. 
+			# Il n'a donc pas pu récupérer des change sets qui n'ont modifié qu'un de leurs attributs
+			# Par exemple, pour un renommage ou un changement de description
+			update_tracking_html import_cs_attr_local2 start "$TraceDirName/0trace_import_cs_attr_local_$$.txt" >$NULL 2>&1
+			echo "Importing change sets attributes into local database..."| "$_CLIENT" $_RUN_COMMON -log_input -echo
+			OPTIONS="-tree $_L_WS_TREE"
+			"$ADL_USER_PATH"/admin/adl_import_cs_attr -dir "$_L_TMP/transfer_${_L_WS}_${_TID}/import_cs_dir" -r_site "$_R_SITE_ID" $OPTIONS >"$_ADL_TRACE_DIR/0trace_import_cs_attr_local_$$.txt" 2>&1
+			[ $? -ne 0 ] && Out 5 "Error when importing change sets attributes into local database"
+			update_tracking_html import_cs_attr_local2 end "$TraceDirName/0trace_import_cs_attr_local_$$.txt" >$NULL 2>&1
+			
+			# Sur le site local, import des modifications des objets ensembles de modifications
+			update_tracking_html import_cs_so_chg_local start "$TraceDirName/0trace_import_cs_so_chg_local_$$.txt" >$NULL 2>&1
+			echo "Importing changes associates to change sets into local database..."| "$_CLIENT" $_RUN_COMMON -log_input -echo
+			"$ADL_USER_PATH"/admin/adl_import_cs_so_chg -dir "$_L_TMP/transfer_${_L_WS}_${_TID}/import_cs_dir" -r_site "$_R_SITE_ID" -out "$_L_TMP/transfer_${_L_WS}_${_TID}/so_chg_id.txt" >"$_ADL_TRACE_DIR/0trace_import_cs_so_chg_local_$$.txt" 2>&1
+			[ $? -ne 0 ] && Out 5 "Error when importing change sets attributes into local database"
+			update_tracking_html import_cs_so_chg_local end "$TraceDirName/0trace_import_cs_so_chg_local_$$.txt" >$NULL 2>&1
+
+			send_to_rhost "$_L_TMP/transfer_${_L_WS}_${_TID}/so_chg_id.txt" "$_R_TMP/transfer_${_R_WS}_${_TID}/so_chg_id.txt" >>"$_ADL_TRACE_DIR/0trace_send_ls_cs_so_chg_$$.txt" 2>&1
+			[ $? -ne 0 ] && Out 5 "Could not send to $_R_HOST the list of the changes of local site: $_L_TMP/transfer_${_L_WS}_${_TID}/so_chg_id.txt"
+
+			# Le site distant recherche les nouveaux objets ensembles de modifications des modifications passées en paramètre
+			update_tracking_html ls_cs_so_chg_remote start "$TraceDirName/0trace_ls_cs_so_chg_remote_$$.txt" >$NULL 2>&1
+			echo "Extracting new change sets of changes into remote database..."| "$_CLIENT" $_RUN_COMMON -log_input -echo
+			"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/admin/adl_ls_cs_so_chg'"' -ref '"'$_R_TMP/transfer_${_R_WS}_${_TID}/so_chg_id.txt'"' -out '"'$_R_TMP/transfer_${_R_WS}_${_TID}/change_set_dir/remote_cs_so_chg.txt'"' >"$_ADL_TRACE_DIR/0trace_ls_cs_so_chg_remote_$$.txt" 2>&1
+			[ $? -ne 0 ] && Out 5 "Error when extracting new change sets into remote database"
+			update_tracking_html ls_cs_modified_remote end "$TraceDirName/0trace_ls_cs_so_chg_remote_$$.txt" >$NULL 2>&1
+
+			"$_CLIENT" $_RUN_COMMON -rm '"'$_R_TMP/transfer_${_R_WS}_${_TID}/export_cs_dir'"' >>"$_ADL_TRACE_DIR/0trace_rm_data_$$.txt" 2>&1
+		done
+	fi
+}
+
+
+# 
+# Fonction pour faire le transfert du site local vers le site distant
+# par calcul des nouveautes et l'import/export des modifs et des fichiers associes
+# 
+
+compute_delta_and_send_from_local_to_remote()
+{
+	#------------------------------------------------------------------------
+	# Calcul des modifications visibles dans l'espace courant/local
+	#------------------------------------------------------------------------
+	update_tracking_html delta_so_local start "$TraceDirName/0trace_delta_so_local_$$.txt" >$NULL 2>&1
+	echo "Extracting changes in current workspace $_L_WS..."| "$_CLIENT" $_RUN_COMMON -log_input -echo
+	if [ -z "$_FW_LIST_FILENAME" ]
+	then
+		"$ADL_USER_PATH"/admin/adl_delta_so_chg \
+			-all_fw \
+			-with_merge -tree $_L_WS_TREE \
+			-ref "$_ADL_WORKING_DIR/local_delta_param.txt" \
+			-out "$_ADL_WORKING_DIR/new_local_delta_param.txt" \
+			-so_chg_file "$_ADL_WORKING_DIR/local_last_so_chg.txt" \
+			-f_cont_file "$_ADL_WORKING_DIR/local_last_content.txt" \
+			-moved_out_so_file "$_ADL_WORKING_DIR/local_moved_out_so.txt" \
+			-ini_so_chg_file "$_ADL_WORKING_DIR/local_ini_so_chg.txt" >"$_ADL_TRACE_DIR/0trace_delta_so_local_$$.txt" 2>&1
+	elif [ -z "$EXPORT_ONLY" ]
+	then
+		"$ADL_USER_PATH"/admin/adl_delta_so_chg \
+			-fw_file "$_FW_LIST_FILENAME" \
+			-with_merge -tree $_L_WS_TREE \
+			-ref "$_ADL_WORKING_DIR/local_delta_param.txt" \
+			-out "$_ADL_WORKING_DIR/new_local_delta_param.txt" \
+			-so_chg_file "$_ADL_WORKING_DIR/local_last_so_chg.txt" \
+			-f_cont_file "$_ADL_WORKING_DIR/local_last_content.txt" \
+			-moved_out_so_file "$_ADL_WORKING_DIR/local_moved_out_so.txt" \
+			-ini_so_chg_file "$_ADL_WORKING_DIR/local_ini_so_chg.txt" >"$_ADL_TRACE_DIR/0trace_delta_so_local_$$.txt" 2>&1
+	else
+		[ -f "$_L_TMP/transfer_${_L_WS}_${_TID}/remote_ls_fw_id.txt" ] && Out 5 "Unable to find the remote ls fw id file"
+		$_AWK '{ print "soid:" $0; }' "$_L_TMP/transfer_${_L_WS}_${_TID}/remote_ls_fw_id.txt" >"$_L_TMP/transfer_${_L_WS}_${_TID}/local_fw.txt"
+		"$ADL_USER_PATH"/admin/adl_delta_so_chg \
+			-fw_file "$_L_TMP/transfer_${_L_WS}_${_TID}/local_fw.txt" \
+			-with_merge -tree $_L_WS_TREE \
+			-ref "$_ADL_WORKING_DIR/local_delta_param.txt" \
+			-out "$_ADL_WORKING_DIR/new_local_delta_param.txt" \
+			-so_chg_file "$_ADL_WORKING_DIR/local_last_so_chg.txt" \
+			-f_cont_file "$_ADL_WORKING_DIR/local_last_content.txt" \
+			-moved_out_so_file "$_ADL_WORKING_DIR/local_moved_out_so.txt" \
+			-ini_so_chg_file "$_ADL_WORKING_DIR/local_ini_so_chg.txt" >"$_ADL_TRACE_DIR/0trace_delta_so_local_$$.txt" 2>&1
+	fi
+
+	[ $? -ne 0 ] && Out 5 "Could not extract changes from local workspace $_L_WS."
+	update_tracking_html delta_so_local end "$TraceDirName/0trace_delta_so_local_$$.txt" >$NULL 2>&1
+
+	# REMARQUE : on ne considère pas les objets déplacés hors des composants traités. Il faudrait peut-être avertir l'utilisateur.
+
+	#------------------------------------------------------------------------
+	# Calcul des modifications apparues depuis le dernier transfert
+	#------------------------------------------------------------------------
+	update_tracking_html ls_anc_local start "$TraceDirName/0trace_ls_anc_local_$$.txt" >$NULL 2>&1
+	echo "Computing new changes in local workspace $_L_WS since last transfer..."| "$_CLIENT" $_RUN_COMMON -log_input -echo
+	OPTIONS="-tree $_L_WS_TREE"
+	"$ADL_USER_PATH"/admin/adl_ls_so_chg_anc_to_last -ref "$_ADL_WORKING_DIR/local_ini_so_chg.txt" -last "$_ADL_WORKING_DIR/local_last_so_chg.txt" -out "$_ADL_WORKING_DIR/local_graph_so_chg.txt" $OPTIONS >"$_ADL_TRACE_DIR/0trace_ls_anc_local_$$.txt" 2>&1
+	[ $? -ne 0 ] && Out 5 "Could not compute new modifications in local workspace $_L_WS."
+	update_tracking_html ls_anc_local end "$TraceDirName/0trace_ls_anc_local_$$.txt" >$NULL 2>&1
+
+	#------------------------------------------------------------------------
+	# On transfère ces modifications sur le site distant
+	# pour calculer celles qui sont effectivement manquantes la-bas
+	#------------------------------------------------------------------------
+	update_tracking_html put_anc_local start "$TraceDirName/0trace_put_anc_local_$$.txt" >$NULL 2>&1
+	echo "Sending list of new changes from $_L_HOST to $_R_HOST..."| "$_CLIENT" $_RUN_COMMON -log_input -echo
+	send_to_rhost "$_ADL_WORKING_DIR/local_graph_so_chg.txt" "$_R_TMP/transfer_${_R_WS}_${_TID}/local_graph_so_chg.txt" > "$_ADL_TRACE_DIR/0trace_put_anc_local_$$.txt" 2>&1
+	[ $? -ne 0 ] && Out 5 "Could not send graph of new modifications to remote host $_R_HOST."
+	send_to_rhost "$_ADL_WORKING_DIR/local_last_so_chg.txt" "$_R_TMP/transfer_${_R_WS}_${_TID}/local_last_so_chg.txt" >> "$_ADL_TRACE_DIR/0trace_put_anc_local_$$.txt" 2>&1
+	[ $? -ne 0 ] && Out 5 "Could not send list of new modifications to remote host $_R_HOST."
+	send_to_rhost "$_ADL_WORKING_DIR/local_last_content.txt" "$_R_TMP/transfer_${_R_WS}_${_TID}/local_last_content.txt" >> "$_ADL_TRACE_DIR/0trace_put_anc_local_$$.txt" 2>&1
+	[ $? -ne 0 ] && Out 5 "Could not send list of new file contents to remote host $_R_HOST."
+
+	touch "$_ADL_WORKING_DIR/remote_ref_so_chg.txt" # Pour la première fois
+	send_to_rhost "$_ADL_WORKING_DIR/remote_ref_so_chg.txt" "$_R_TMP/transfer_${_R_WS}_${_TID}/remote_ref_so_chg.txt" >> "$_ADL_TRACE_DIR/0trace_put_anc_local_$$.txt" 2>&1
+	[ $? -ne 0 ] && Out 5 "Could not send the remote reference changes to remote host $_R_HOST."
+
+	update_tracking_html put_anc_local end "$TraceDirName/0trace_put_anc_local_$$.txt" >$NULL 2>&1
+
+	if [ -z "$_NO_OPT_DELTA" ]
+	then
+		#------------------------------------------------------------------------
+		# On calcule ce qui est nouveau par rapport à la BD du site distant
+		#------------------------------------------------------------------------
+		update_tracking_html diff_remote start "$TraceDirName/0trace_diff_remote_$$.txt" >$NULL 2>&1
+		echo "Computing differences against distant database on $_R_HOST..."| "$_CLIENT" $_RUN_COMMON -log_input -echo
+		OPTIONS="-tree $_R_WS_TREE"
+		"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/admin/adl_ls_missing_so_chg'"' -file '"'$_R_TMP/transfer_${_R_WS}_${_TID}/local_graph_so_chg.txt'"' -out '"'$_R_TMP/transfer_${_R_WS}_${_TID}/local_so_chg_to_export.txt'"' $OPTIONS > "$_ADL_TRACE_DIR/0trace_diff_remote_$$.txt" 2>&1
+		[ $? -ne 0 ] && Out 5 "Failed to get remote modifications that are missing against what changed on local host $_L_HOST"
+		update_tracking_html diff_remote end "$TraceDirName/0trace_diff_remote_$$.txt" >$NULL 2>&1
+
+		#------------------------------------------------------------------------
+		# On transfere localement la liste des modifications qui sont
+		# effectivement manquantes sur le site distant
+		#------------------------------------------------------------------------
+		update_tracking_html get_diff_local start "$TraceDirName/0trace_get_diff_local_$$.txt" >$NULL 2>&1
+		echo "Getting the list of changes that are missing on remote host $_R_HOST..."| "$_CLIENT" $_RUN_COMMON -log_input -echo
+		get_from_rhost "$_R_TMP/transfer_${_R_WS}_${_TID}/local_so_chg_to_export.txt" "$_ADL_WORKING_DIR/local_so_chg_to_export.txt" > "$_ADL_TRACE_DIR/0trace_get_diff_local_$$.txt" 2>&1
+		[ $? -ne 0 ] && Out 5 "Failed to get list of missing modifications from remote host $_R_HOST"
+		update_tracking_html get_diff_local end "$TraceDirName/0trace_get_diff_local_$$.txt" >$NULL 2>&1
+	fi
+	
+	#------------------------------------------------------------------------
+	# On extrait les donnees effectives localement pour les envoyer sur le site distant
+	#------------------------------------------------------------------------
+	update_tracking_html export_local_1 start "$TraceDirName/0trace_export_local_1_$$.txt" >$NULL 2>&1
+	echo "Extracting data from local workspace $_L_WS..."| "$_CLIENT" $_RUN_COMMON -log_input -echo
+	OPTIONS="-tree $_L_WS_TREE"
+	if [ -z "$_NO_OPT_DELTA" ]
+	then
+		"$ADL_USER_PATH"/admin/adl_export_so_chg_db -file "$_ADL_WORKING_DIR/local_so_chg_to_export.txt" -dir "$_L_TMP/transfer_${_L_WS}_${_TID}/export_so_chg_dir" $OPTIONS > "$_ADL_TRACE_DIR/0trace_export_local_1_$$.txt" 2>&1
+		[ $? -ne 0 ] && Out 5 "Failed to extract data on local host $_L_HOST"
+	else
+		"$ADL_USER_PATH"/admin/adl_export_so_chg_db -file "$_ADL_WORKING_DIR/local_graph_so_chg.txt" -dir "$_L_TMP/transfer_${_L_WS}_${_TID}/export_so_chg_dir" $OPTIONS > "$_ADL_TRACE_DIR/0trace_export_local_1_$$.txt" 2>&1
+		[ $? -ne 0 ] && Out 5 "Failed to extract data on local host $_L_HOST"
+	fi
+	update_tracking_html export_local_1 end "$TraceDirName/0trace_export_local_1_$$.txt" >$NULL 2>&1
+
+	#------------------------------------------------------------------------
+	# On transfere sur le site distant les donnees venant d'etre extraites localement
+	#------------------------------------------------------------------------
+	"$_CLIENT" $_RUN_COMMON -cmd mkdir "$_R_TMP/transfer_${_R_WS}_${_TID}/import_so_dir" >$NULL
+	[ $? -ne 0 ] && Out 5 "Failed to create directory $_R_TMP/transfer_${_R_WS}_${_TID}/import_so_dir on $_R_HOST for importing data from local host"
+	update_tracking_html send_data_2 start "$TraceDirName/0trace_send_data_2_$$.txt" >$NULL 2>&1
+	echo "Sending data to remote host $_R_HOST..."| "$_CLIENT" $_RUN_COMMON -log_input -echo
+	sizetotransfer=$(\du -k -s "$_L_TMP/transfer_${_L_WS}_${_TID}/export_so_chg_dir")
+	if [ $? -ne 0 ]
+	then 
+		echo "Cannot compute size of data to transfer. du failed on directory $_L_TMP/transfer_${_L_WS}_${_TID}/export_so_chg_dir" >> "$_ADL_TRACE_DIR/0trace_send_data_2_$$.txt"
+	else
+		echo "Number of Kbytes to transfer = $(echo $sizetotransfer | $_AWK '{print $1}')" | "$_CLIENT" $_RUN_COMMON -log_input -echo | tee -a  "$_ADL_TRACE_DIR/0trace_send_data_2_$$.txt"
+	fi
+	if [ -z "$_TarAvailable" ]
+	then
+		_SAVE_ADL_DEBUG=$ADL_DEBUG
+		unset ADL_DEBUG
+
+		cd "$_L_TMP/transfer_${_L_WS}_${_TID}/export_so_chg_dir"
+		"$_FIND" . -type d -print | \
+		while read _f
+		do
+			[ -z "$_f" -o "$_f" = "." ] && continue
+			if [ -z "$_SHORT_TRACES" ]
+			then
+				echo ".\c"
+				echo "-> $_f" >>"$_ADL_TRACE_DIR/0trace_send_data_2_$$.txt"
+			fi
+			"$_CLIENT" $_RUN_COMMON -cmd "mkdir $_R_TMP/transfer_${_R_WS}_${_TID}/import_so_dir/$_f" >> "$_ADL_TRACE_DIR/0trace_send_data_2_$$.txt" 2>&1
+			[ $? -ne 0 ] && Out 5 "Error when creating temporary directory $_R_TMP/transfer_${_R_WS}_${_TID}/import_so_dir/$_f"
+		done
+
+		"$_FIND" . -type f -print | \
+		while read _f
+		do
+			[ -z "$_f" -o "$_f" = "." ] && continue
+			if [ -z "$_SHORT_TRACES" ]
+			then
+				echo ".\c"
+				echo "-> $_f" >>"$_ADL_TRACE_DIR/0trace_send_data_2_$$.txt"
+			fi
+			send_to_rhost "$_L_TMP/transfer_${_L_WS}_${_TID}/export_so_chg_dir/$_f" "$_R_TMP/transfer_${_R_WS}_${_TID}/import_so_dir/$_f" >> "$_ADL_TRACE_DIR/0trace_send_data_2_$$.txt" 2>&1
+			[ $? -ne 0 ] && Out 5 "Error when sending file $_L_TMP/transfer_${_L_WS}_${_TID}/export_so_chg_dir/$_f into $_R_TMP/transfer_${_R_WS}_${_TID}/import_so_dir/$_f"
+		done
+		cd - >$NULL 2>&1
+
+		[ -z "$_SHORT_TRACES" ] && echo ""
+		[ ! -z "$_SAVE_ADL_DEBUG" ] && export ADL_DEBUG=$_SAVE_ADL_DEBUG
+	else
+		$_CALL_SH "$ShellDir"/admin/adl_transfer_tar.sh -c -f "$_L_TMP/transfer_${_L_WS}_${_TID}/ftar" -d "$_L_TMP/transfer_${_L_WS}_${_TID}/export_so_chg_dir" $_CompressionMode >>"$_ADL_TRACE_DIR/0trace_send_data_2_$$.txt" 2>&1
+		[ $? -ne 0 ] && Out 5 "Failed to create tar file for sending data to $_R_HOST"
+		"$_CLIENT" $_RUN_COMMON -put "$_L_TMP/transfer_${_L_WS}_${_TID}/ftar" "$_R_TMP/transfer_${_R_WS}_${_TID}/import_so_dir/ftar" -binary >> "$_ADL_TRACE_DIR/0trace_send_data_2_$$.txt" 2>&1
+		[ $? -ne 0 ] && Out 5 "Failed to send tar file to remote host $_R_HOST"
+		"$_CLIENT" $_RUN_COMMON -cmd $_REM_CALL_SH '"'$_RemoteADLUserPath/admin/adl_transfer_tar.sh'"' -x -f '"'$_R_TMP/transfer_${_R_WS}_${_TID}/import_so_dir/ftar'"' -d '"'$_R_TMP/transfer_${_R_WS}_${_TID}/import_so_dir'"' $_CompressionMode >>"$_ADL_TRACE_DIR/0trace_send_data_2_$$.txt" 2>&1
+		[ $? -ne 0 ] && Out 5 "Failed to extract data from tar file on remote host $_R_HOST"
+		# on fait le menage
+		"$_CLIENT" $_RUN_COMMON -rm '"'$_R_TMP/transfer_${_R_WS}_${_TID}/import_so_dir/ftar'"' >>"$_ADL_TRACE_DIR/0trace_send_data_2_$$.txt" 2>&1
+	fi
+	update_tracking_html send_data_2 end "$TraceDirName/0trace_send_data_2_$$.txt" >$NULL 2>&1
+
+	#------------------------------------------------------------------------
+	# On importe les attributs des ensembles de modifications dans la BD distante
+	#------------------------------------------------------------------------
+
+	typeset -i SHORT_R_VERSION		
+	SHORT_R_VERSION=$(echo $_R_VERSION | sed "s/_//g")
+
+	typeset -i SHORT_DATE		
+	SHORT_DATE=$(echo "2004_11_30" | sed "s/_//g")
+
+	if [ "$SHORT_R_VERSION" -ge "$SHORT_DATE" ]
+	then 
+		update_tracking_html import_cs_attr_remote start "$TraceDirName/0trace_import_cs_attr_remote_$$.txt" >$NULL 2>&1
+		echo "Importing change sets attributes into remote database..."| "$_CLIENT" $_RUN_COMMON -log_input -echo
+		OPTIONS="-tree $_R_WS_TREE"
+		"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/admin/adl_import_cs_attr'"' -dir '"'$_R_TMP/transfer_${_R_WS}_${_TID}/import_so_dir'"' -r_site '"'$_L_SITE'"' $OPTIONS >"$_ADL_TRACE_DIR/0trace_import_cs_attr_remote_$$.txt" 2>&1
+		[ $? -ne 0 ] && Out 5 "Error when importing change sets attributes into remote database"
+		update_tracking_html import_cs_attr_remote end "$TraceDirName/0trace_import_cs_attr_remote_$$.txt" >$NULL 2>&1
+	fi
+
+	#------------------------------------------------------------------------
+	# On importe les modifications dans la BD distante
+	#------------------------------------------------------------------------
+	update_tracking_html import_remote start "$TraceDirName/0trace_import_remote_$$.txt" >$NULL 2>&1
+	echo "Importing transferred data into remote database..."| "$_CLIENT" $_RUN_COMMON -log_input -echo
+	OPTIONS="-tree $_R_WS_TREE"
+	"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/admin/adl_import_so_chg_db'"' -dir '"'$_R_TMP/transfer_${_R_WS}_${_TID}/import_so_dir'"' $OPTIONS >"$_ADL_TRACE_DIR/0trace_import_remote_$$.txt" 2>&1
+	[ $? -ne 0 ] && Out 5 "Error when importing transferred data into remote database"
+	update_tracking_html import_remote end "$TraceDirName/0trace_import_remote_$$.txt" >$NULL 2>&1
+
+	#------------------------------------------------------------------------
+	# A partir de maintenant il est important d'aller sans erreur
+	# jusqu'a l'import effectif des contenus de fichiers
+	#------------------------------------------------------------------------
+	touch "$_ADL_WORKING_DIR/0RECOVER_import_f_remote"
+	import_f_content_remote
+
+	# =====================================================================
+	#	etape 5
+	#		master -> import des modifications venant du site slave
+	#			  puis apparition de ces donnees dans le ws de report
+	# =====================================================================
+
+	update_tracking_html force_ws_remote start "$TraceDirName/0trace_force_ws_remote_$$.txt" >$NULL 2>&1
+	echo "Forcing new modifications in remote workspace $_R_WS..."| "$_CLIENT" $_RUN_COMMON -log_input -echo
+	OPTIONS="-tree $_R_WS_TREE $_SIMUL"
+	"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/admin/adl_force_so_chg'"' \
+		-previous '"'$_R_TMP/transfer_${_R_WS}_${_TID}/remote_ref_so_chg.txt'"' \
+		-file '"'$_R_TMP/transfer_${_R_WS}_${_TID}/local_last_so_chg.txt'"' \
+		-complete $OPTIONS \
+		-imported '"'$_R_TMP/transfer_${_R_WS}_${_TID}/remote_imported_so_chg.txt'"' > "$_ADL_TRACE_DIR/0trace_force_ws_remote_$$.txt" 2>&1
+	rc=$?
+	[ -z "$_SHORT_TRACES" -a $rc -eq 0 ] && \cat "$_ADL_TRACE_DIR/0trace_force_ws_remote_$$.txt"
+
+	# 
+	# CGA the 2002/09/26: fix for missing changes
+	#
+	if [ $rc -ne 0 ]
+	then
+		grep '#ERR# ADLCMD \- 6326' "$_ADL_TRACE_DIR/0trace_force_ws_remote_$$.txt" >$NULL 2>&1
+		rc1=$?
+		grep '#ERR# ADLCMD \- 6330' "$_ADL_TRACE_DIR/0trace_force_ws_remote_$$.txt" >$NULL 2>&1
+		rc2=$?
+		if [ $rc1 -eq 0 -o $rc2 -eq 0 ]
+		then
+			echo "Find out unexpected missing changes in remote workspace: trying to get them from local workspace..."
+			if [ $rc1 -eq 0 ]
+			then
+				$_CALL_SH "$ShellDir"/admin/adl_fix_missing_chg.sh "$_ADL_TRACE_DIR/0trace_force_ws_remote_$$.txt" remote self > "$_ADL_TRACE_DIR/0trace_force2_ws_remote_$$.txt" 2>&1
+			else
+				$_CALL_SH "$ShellDir"/admin/adl_fix_missing_chg.sh "$_ADL_TRACE_DIR/0trace_force_ws_remote_$$.txt" remote container > "$_ADL_TRACE_DIR/0trace_force2_ws_remote_$$.txt" 2>&1
+			fi
+			echo "Forcing again new modifications in remote workspace $_R_WS..."
+			OPTIONS="-tree $_R_WS_TREE $_SIMUL"
+			"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/admin/adl_force_so_chg'"' \
+				-previous '"'$_R_TMP/transfer_${_R_WS}_${_TID}/remote_ref_so_chg.txt'"' \
+				-file '"'$_R_TMP/transfer_${_R_WS}_${_TID}/local_last_so_chg.txt'"' \
+				-complete $OPTIONS \
+				-imported '"'$_R_TMP/transfer_${_R_WS}_${_TID}/remote_imported_so_chg.txt'"' >> "$_ADL_TRACE_DIR/0trace_force2_ws_remote_$$.txt" 2>&1
+			rc=$?
+			\cp "$_ADL_TRACE_DIR/0trace_force2_ws_remote_$$.txt" "$_ADL_TRACE_DIR/0trace_force_ws_remote_$$.txt"
+		fi
+		[ -z "$_SHORT_TRACES" -a $rc -eq 0 ] && \cat "$_ADL_TRACE_DIR/0trace_force_ws_remote_$$.txt"
+	fi
+
+	[ $rc -ne 0 ] && Out 5 "Error when importing new modifications in remote workspace $_R_WS"
+	update_tracking_html force_ws_remote end "$TraceDirName/0trace_force_ws_remote_$$.txt" >$NULL 2>&1
+
+	if [ -z "$_R_NO_IMAGE" ]
+	then
+		update_tracking_html refresh_remote start "$TraceDirName/0trace_refresh_remote_$$.txt" >$NULL 2>&1
+		echo "Refreshing image of remote workspace..."| "$_CLIENT" $_RUN_COMMON -log_input -echo
+		"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/adl_refresh'"' >"$_ADL_TRACE_DIR/0trace_refresh_remote_$$.txt" 2>&1
+		rc=$?
+		[ -z "$_SHORT_TRACES" -a $rc -eq 0 ] && \cat "$_ADL_TRACE_DIR/0trace_refresh_remote_$$.txt"
+		[ $rc -ne 0 ] && Out 5 "Could not refresh image of remote workspace"
+		update_tracking_html refresh_remote end "$TraceDirName/0trace_refresh_remote_$$.txt" >$NULL 2>&1
+	fi
+
+	# adl_promote_is
+	#--------------------------------------------------------------
+	# Traitement des objets ensembles de modifications (change set)
+	#--------------------------------------------------------------
+
+	if [ "$SHORT_R_VERSION" -ge "$SHORT_DATE" ]
+	then 
+
+		"$_CLIENT" $_RUN_COMMON -cmd mkdir "$_R_TMP/transfer_${_R_WS}_${_TID}/change_set_dir" >$NULL
+		[ $? -ne 0 ] && Out 5 "Failed to create directory $_R_TMP/transfer_${_R_WS}_${_TID}/change_set_dir on $_R_HOST for importing data from local host"
+
+		# On récupère les objets ensembles de modifications de l'arborescence sur le site distant
+		update_tracking_html ls_cs_tree_remote start "$TraceDirName/0trace_ls_cs_tree_remote_$$.txt" >$NULL 2>&1
+		echo "Extracting change sets of current workspace tree into remote database..."| "$_CLIENT" $_RUN_COMMON -log_input -echo
+		OPTIONS="-tree $_R_WS_TREE"
+		"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/admin/adl_ls_cs_tree'"' -out '"'$_R_TMP/transfer_${_R_WS}_${_TID}/change_set_dir/remote_ls_cs_tree.txt'"' -out_cs_is '"'$_R_TMP/transfer_${_R_WS}_${_TID}/change_set_dir/remote_ls_cs_is_tree.txt'"' -r_site '"'$_L_SITE'"' $OPTIONS >"$_ADL_TRACE_DIR/0trace_ls_cs_tree_remote_$$.txt" 2>&1
+		[ $? -ne 0 ] && Out 5 "Error when extracting change sets into remote database"
+		update_tracking_html ls_cs_tree_remote end "$TraceDirName/0trace_ls_cs_tree_remote_$$.txt" >$NULL 2>&1
+
+		\mkdir "$_L_TMP/transfer_${_L_WS}_${_TID}/change_set_dir" 2>$NULL
+		[ ! -d "$_L_TMP/transfer_${_L_WS}_${_TID}/change_set_dir" ] && Out 5 "Failed to create directory $_L_TMP/transfer_${_L_WS}_${_TID}/change_set_dir for importing data from remote host"
+
+		get_from_rhost "$_R_TMP/transfer_${_R_WS}_${_TID}/change_set_dir/remote_ls_cs_tree.txt" "$_L_TMP/transfer_${_L_WS}_${_TID}/change_set_dir/remote_ls_cs_tree.txt" >>"$_ADL_TRACE_DIR/0trace_get_ls_cs_tree_$$.txt" 2>&1
+		[ $? -ne 0 ] && Out 5 "Could not get from $_R_HOST the list of the change sets of remote site: $_R_TMP/transfer_${_R_WS}_${_TID}/change_set_dir/remote_ls_cs_tree.txt"
+
+		get_from_rhost "$_R_TMP/transfer_${_R_WS}_${_TID}/change_set_dir/remote_ls_cs_is_tree.txt" "$_L_TMP/transfer_${_L_WS}_${_TID}/change_set_dir/remote_ls_cs_is_tree.txt" >>"$_ADL_TRACE_DIR/0trace_get_ls_cs_is_tree_$$.txt" 2>&1
+		[ $? -ne 0 ] && Out 5 "Could not get from $_R_HOST the list of the change sets to treat of remote site: $_R_TMP/transfer_${_R_WS}_${_TID}/change_set_dir/remote_ls_cs_is_tree.txt"
+
+		# Le site local recherche les objets ensembles de modifications en avance
+		update_tracking_html ls_cs_modified_local start "$TraceDirName/0trace_ls_cs_modified_local_$$.txt" >$NULL 2>&1
+		echo "Extracting modified change sets into local database..."| "$_CLIENT" $_RUN_COMMON -log_input -echo
+		OPTIONS="-tree $_L_WS_TREE"
+		"$ADL_USER_PATH"/admin/adl_ls_cs_modified -ref "$_L_TMP/transfer_${_L_WS}_${_TID}/change_set_dir/remote_ls_cs_tree.txt" -ref_cs_is "$_L_TMP/transfer_${_L_WS}_${_TID}/change_set_dir/remote_ls_cs_is_tree.txt" -out_attr "$_L_TMP/transfer_${_L_WS}_${_TID}/change_set_dir/local_cs_attr.txt" -out_so_chg "$_L_TMP/transfer_${_L_WS}_${_TID}/change_set_dir/local_cs_so_chg.txt" $OPTIONS >"$_ADL_TRACE_DIR/0trace_ls_cs_modified_local_$$.txt" 2>&1
+		[ $? -ne 0 ] && Out 5 "Error when extracting modified change sets into local database"
+		update_tracking_html ls_cs_modified_local end "$TraceDirName/0trace_ls_cs_modified_local_$$.txt" >$NULL 2>&1
+
+		typeset -i FIRST_LOOP
+		FIRST_LOOP=1
+		while [ $FIRST_LOOP -eq 1 -o -s "$_L_TMP/transfer_${_L_WS}_${_TID}/change_set_dir/local_cs_so_chg.txt" ]
+		do
+			
+			# Le site local exporte les objets ensembles de modifications en avance
+			update_tracking_html export_cs_modified_local start "$TraceDirName/0trace_export_cs_modified_local_$$.txt" >$NULL 2>&1
+			echo "Exporting modified change sets into local database..."| "$_CLIENT" $_RUN_COMMON -log_input -echo
+			"$ADL_USER_PATH"/admin/adl_export_cs -ref_attr "$_L_TMP/transfer_${_L_WS}_${_TID}/change_set_dir/local_cs_attr.txt" -ref_so_chg "$_L_TMP/transfer_${_L_WS}_${_TID}/change_set_dir/local_cs_so_chg.txt" -dir "$_L_TMP/transfer_${_L_WS}_${_TID}/export_cs_dir" >"$_ADL_TRACE_DIR/0trace_export_cs_modified_local_$$.txt" 2>&1
+			[ $? -ne 0 ] && Out 5 "Error when Exporting modified change sets into local database"
+			update_tracking_html export_cs_modified_local end "$TraceDirName/0trace_export_cs_modified_local_$$.txt" >$NULL 2>&1
+
+			"$_CLIENT" $_RUN_COMMON -rm "$_R_TMP/transfer_${_R_WS}_${_TID}/import_cs_dir" >$NULL
+			"$_CLIENT" $_RUN_COMMON -cmd mkdir "$_R_TMP/transfer_${_R_WS}_${_TID}/import_cs_dir" >$NULL
+			[ $? -ne 0 ] && Out 5 "Failed to create directory $_R_TMP/transfer_${_R_WS}_${_TID}/import_cs_dir on $_R_HOST for importing data from local host"
+
+			# Envoi de tous les fichiers du répertoire export_cs_dir
+			if [ -z "$_TarAvailable" ]
+			then
+				_SAVE_ADL_DEBUG=$ADL_DEBUG
+				unset ADL_DEBUG
+
+				typeset -i NbChars
+				NbChars=$(echo "$_L_TMP/transfer_${_L_WS}_${_TID}/export_cs_dir" | wc -c)
+				\find "$_L_TMP/transfer_${_L_WS}_${_TID}/export_cs_dir" -type f -print >"$DefaultTmpDir"/Find2_$$
+				if [ $? -ne 0 ]
+				then
+					\cat "$DefaultTmpDir"/Find2_$$
+					Out 5 "Failed to search files for transfering data from local host $_L_HOST"
+				fi
+				while read _f
+				do
+					_f=$(echo "$_f" | cut -c $NbChars-)
+					[ -z "$_f" ] && continue
+					if [ -z "$_SHORT_TRACES" ]
+					then
+						echo ".\c"
+						echo "<- $_f" >>"$_ADL_TRACE_DIR/0trace_send_data_1_$$.txt" 2>&1
+					fi
+					send_to_rhost "$_L_TMP/transfer_${_L_WS}_${_TID}/export_cs_dir/$_f" "$_R_TMP/transfer_${_R_WS}_${_TID}/import_cs_dir/$_f" > "$_ADL_TRACE_DIR/0trace_send_export_cs_dir_$$.txt" 2>&1
+					[ $? -ne 0 ] && Out 5 "Error when transfering file $_L_TMP/transfer_${_L_WS}_${_TID}/export_cs_dir/$_f into $_R_TMP/transfer_${_R_WS}_${_TID}/import_cs_dir/$_f"
+				done < "$DefaultTmpDir"/Find2_$$
+
+				[ -z "$_SHORT_TRACES" ] && echo ""
+				[ ! -z "$_SAVE_ADL_DEBUG" ] && export ADL_DEBUG=$_SAVE_ADL_DEBUG
+			else
+				$_CALL_SH "$ShellDir"/admin/adl_transfer_tar.sh -c -f "$_L_TMP/transfer_${_L_WS}_${_TID}/ftar" -d "$_L_TMP/transfer_${_L_WS}_${_TID}/export_cs_dir" $_CompressionMode >>"$_ADL_TRACE_DIR/0trace_send_data_2_$$.txt" 2>&1
+				[ $? -ne 0 ] && Out 5 "Failed to create tar file for sending data to $_R_HOST"
+				"$_CLIENT" $_RUN_COMMON -put "$_L_TMP/transfer_${_L_WS}_${_TID}/ftar" "$_R_TMP/transfer_${_R_WS}_${_TID}/import_cs_dir/ftar" -binary >> "$_ADL_TRACE_DIR/0trace_send_data_2_$$.txt" 2>&1
+				[ $? -ne 0 ] && Out 5 "Failed to send tar file to remote host $_R_HOST"
+				"$_CLIENT" $_RUN_COMMON -cmd $_REM_CALL_SH '"'$_RemoteADLUserPath/admin/adl_transfer_tar.sh'"' -x -f '"'$_R_TMP/transfer_${_R_WS}_${_TID}/import_cs_dir/ftar'"' -d '"'$_R_TMP/transfer_${_R_WS}_${_TID}/import_cs_dir'"' $_CompressionMode >>"$_ADL_TRACE_DIR/0trace_send_data_2_$$.txt" 2>&1
+				[ $? -ne 0 ] && Out 5 "Failed to extract data from tar file on remote host $_R_HOST"
+				# on fait le menage
+				"$_CLIENT" $_RUN_COMMON -rm '"'$_R_TMP/transfer_${_R_WS}_${_TID}/import_cs_dir/ftar'"' >>"$_ADL_TRACE_DIR/0trace_send_data_2_$$.txt" 2>&1
+			fi
+
+			# A nouveau, sur le site distant, import des attributs objets ensembles de modifications (au cas où un objet a été modifié sans qu'il y ait de nouvelles modifications)
+			# Par exemple, pour un renommage ou un changement de dscription
+			update_tracking_html import_cs_attr_remote2 start "$TraceDirName/0trace_import_cs_attr_remote_$$.txt" >$NULL 2>&1
+			echo "Importing change sets attributes into remote database..."| "$_CLIENT" $_RUN_COMMON -log_input -echo
+			OPTIONS="-tree $_R_WS_TREE"
+			"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/admin/adl_import_cs_attr'"' -dir '"'$_R_TMP/transfer_${_R_WS}_${_TID}/import_cs_dir'"' -r_site '"'$_L_SITE'"' $OPTIONS >"$_ADL_TRACE_DIR/0trace_import_cs_attr_remote_$$.txt" 2>&1
+			[ $? -ne 0 ] && Out 5 "Error when importing change sets attributes into remote database"
+			update_tracking_html import_cs_attr_remote2 end "$TraceDirName/0trace_import_cs_attr_remote_$$.txt" >$NULL 2>&1
+		
+			# Sur le site distant, import des modifications des objets ensembles de modifications
+			update_tracking_html import_cs_so_chg_remote start "$TraceDirName/0trace_import_cs_so_chg_remote_$$.txt" >$NULL 2>&1
+			echo "Importing changes associates to change sets into remote database..."| "$_CLIENT" $_RUN_COMMON -log_input -echo
+			"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/admin/adl_import_cs_so_chg'"' -dir '"'$_R_TMP/transfer_${_R_WS}_${_TID}/import_cs_dir'"' -r_site '"'$_L_SITE'"' -out '"'$_R_TMP/transfer_${_R_WS}_${_TID}/so_chg_id.txt'"' >"$_ADL_TRACE_DIR/0trace_import_cs_so_chg_remote_$$.txt" 2>&1
+			[ $? -ne 0 ] && Out 5 "Error when importing change sets attributes into remote database"
+			update_tracking_html import_cs_so_chg_remote end "$TraceDirName/0trace_import_cs_so_chg_remote_$$.txt" >$NULL 2>&1
+
+			get_from_rhost "$_R_TMP/transfer_${_R_WS}_${_TID}/so_chg_id.txt" "$_L_TMP/transfer_${_L_WS}_${_TID}/so_chg_id.txt" >>"$_ADL_TRACE_DIR/0trace_get_ls_cs_so_chg_$$.txt" 2>&1
+			[ $? -ne 0 ] && Out 5 "Could not get from $_R_HOST the list of the changes of remote site: $_R_TMP/transfer_${_R_WS}_${_TID}/so_chg_id.txt"
+
+			# Le site local recherche les nouveaux objets ensembles de modifications des modifications passées en paramètre
+			update_tracking_html ls_cs_so_chg_local start "$TraceDirName/0trace_ls_cs_so_chg_local_$$.txt" >$NULL 2>&1
+			echo "Extracting new change sets into local database..."| "$_CLIENT" $_RUN_COMMON -log_input -echo
+			"$ADL_USER_PATH"/admin/adl_ls_cs_so_chg -ref "$_L_TMP/transfer_${_L_WS}_${_TID}/so_chg_id.txt" -out "$_L_TMP/transfer_${_L_WS}_${_TID}/change_set_dir/local_cs_so_chg.txt" >"$_ADL_TRACE_DIR/0trace_ls_cs_modified_local_$$.txt" 2>&1
+			[ $? -ne 0 ] && Out 5 "Error when extracting new change sets into local database"
+			update_tracking_html ls_cs_so_chg_local end "$TraceDirName/0trace_ls_cs_so_chg_local_$$.txt" >$NULL 2>&1
+
+			\rm -rf "$_L_TMP/transfer_${_L_WS}_${_TID}/export_cs_dir"
+
+			FIRST_LOOP=0 # Ce n'est plus la première boucle
+		done
+	fi
+
+	#------------------------------------------------------------------------
+	# Traitement des RIs: on extrait localement les infos et on les transfere
+	# sur le site distant pour les y importer.
+	#------------------------------------------------------------------------
+	if [ -z "$_SIMUL" -a "$_L_CR_IN_TREE" != "NONE" -a "$_R_CR_IN_TREE" != "NONE" ]
+	then
+		echo "Extracting information for local CR..."| "$_CLIENT" $_RUN_COMMON -log_input -echo
+
+		if [ -z "$_FW_LIST_FILENAME" ]
+		then
+			adl_transfer_cr -all_fw -export -tree $_L_WS_TREE -so_file "$_L_TMP/transfer_${_L_WS}_${_TID}/sofile.txt">"$_ADL_TRACE_DIR/0trace_transfer_cr_local_$$.txt" 2>&1
+		else
+			adl_transfer_cr -fw_file "$_FW_LIST_FILENAME" -export -tree $_L_WS_TREE -so_file "$_L_TMP/transfer_${_L_WS}_${_TID}/sofile.txt">"$_ADL_TRACE_DIR/0trace_transfer_cr_local_$$.txt" 2>&1
+		fi
+		rc=$?
+		[ -z "$_SHORT_TRACES" ] && \cat "$_ADL_TRACE_DIR/0trace_transfer_cr_local_$$.txt" 2>&1
+		if [ $rc -ne 0 ]
+		then
+			echo "Extraction of CR information from local workspace has failed."| "$_CLIENT" $_RUN_COMMON -log_input -echo
+			echo "Consult the traces above to know the problem, fix it and restart the transfer."| "$_CLIENT" $_RUN_COMMON -log_input -echo
+			Out 5 "Transfer aborted"
+		fi
+
+		echo "Sending CR information to remote host..."| "$_CLIENT" $_RUN_COMMON -log_input -echo
+		"$_CLIENT" $_RUN_COMMON -put "$_L_TMP/transfer_${_L_WS}_${_TID}/sofile.txt" "$_R_TMP/transfer_${_R_WS}_${_TID}/sofile.txt" -binary >> "$_ADL_TRACE_DIR/0trace_send_data_cr_$$.txt" 2>&1
+		[ $? -ne 0 ] && Out 5 "Failed to send CR information to remote host $_R_HOST"
+
+		echo "Importing CR information into remote workspace..."| "$_CLIENT" $_RUN_COMMON -log_input -echo
+
+		"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/adl_transfer_cr'"' -import -tree $_R_WS_TREE -from_ws $_L_WS -from_tree $_L_WS_TREE -from_site $_L_SITE -so_file '"'$_R_TMP/transfer_${_R_WS}_${_TID}/sofile.txt'"' >"$_ADL_TRACE_DIR/0trace_transfer_cr_remote_$$.txt" 2>&1
+		rc=$?
+		\cat "$_ADL_TRACE_DIR/0trace_transfer_cr_remote_$$.txt"|"$_CLIENT" $_RUN_COMMON -log_input -echo 
+		[ $rc -ne 0 ] && Out 5 "Could not import CR information into remote workspace"
+	fi
+
+}
+
+
+# =====================================================================
+# Analyse des parametres d'appel
+# =====================================================================
+
+typeset -L1 OneChar
+CheckOptArg()
+{
+	# Usage : CheckOptArg opt arg
+	OneChar="$2"
+	if [ "$2" = "" -o "$OneChar" = "-" ]
+	then
+		Out 3 "Option $1: one argument is required"
+	fi
+}
+
+unset _TID
+unset _TUUID
+
+# Note: _R_HOST & _R_PORT sont obsoletes -> utiliser _R_SERVER
+unset _R_HOST
+unset _R_PORT
+unset _R_SERVER
+unset _R_SITE
+unset _R_WS
+unset _R_IMAGE
+unset _R_NO_IMAGE
+unset _R_WS_TREE
+unset _R_CR_IN_TREE
+unset _R_TMP
+unset _R_COLLECT
+unset _R_SYNC
+unset _R_SYNC_LABEL
+unset _R_PUBLISH
+unset _R_PROMOTE
+unset _R_PROMOTE_LIST
+unset _R_CR_LIST
+
+unset _L_WS
+unset _L_IMAGE
+unset _L_NO_IMAGE
+unset _L_WS_TREE
+unset _L_CR_IN_TREE
+unset _L_COLLECT
+unset _L_SYNC
+
+unset _IMPORT_ONLY
+unset _EXPORT_ONLY
+unset _SIMUL
+unset _NO_COMPRESS
+unset _FORCE_START
+unset _RUN_NO_CHECK
+unset _NO_OPT_DELTA
+unset _SHORT_TRACES
+unset _R_NO_ATTACH
+unset _L_NO_ATTACH
+unset _ALLOW_MERGES
+
+unset _OPTIM_SYNC
+unset _OPTIM_PROMOTE
+
+# Recuperation nom du site local
+"$ADL_USER_PATH"/admin/adl_ls_site -program -out "$DefaultTmpDir"/info_$$.txt 2>&1
+[ $? -ne 0 ] && \cat "$DefaultTmpDir"/info_$$.txt && Out 5 "Could not get name of SCM local site"
+export _L_SITE="$($_AWK '{print $1}' "$DefaultTmpDir"/info_$$.txt)"
+
+# Recuperation formats de donnees pour les echanges
+adl_version -program -sep '|' -out "$DefaultTmpDir"/info_$$.txt 2>&1
+[ $? -ne 0 ] && \cat "$DefaultTmpDir"/info_$$.txt && Out 5 "Could not get local data format version"
+export _L_EIDFV=$($_AWK -F\| '{print $6}' "$DefaultTmpDir"/info_$$.txt)
+export _L_EIFFV=$($_AWK -F\| '{print $7}' "$DefaultTmpDir"/info_$$.txt) 
+export _L_TMP="$DefaultTmpDir"
+
+unset _FW_OPTION
+unset _LFW_OPTION
+unset _ALL_FW_OPTION
+_FW_LIST_FILENAME1="$_L_TMP/FW_LIST_1_$$"
+\rm -f "$_FW_LIST_FILENAME1"
+
+export _NB_TRACE_DIR=10
+
+while [ $# -ge 1 ]
+do
+	case "$1" in
+		-h ) #-------------------> HELP NEEDED
+			echo "$Usage"
+			exit 0
+			;;
+		-import_only) #-------------------> IMPORT ONLY FROM REMOTE TO LOCAL
+			export _IMPORT_ONLY=true
+			shift
+			;;
+		-export_only) #-------------------> EXPORT ONLY FROM LOCAL TO REMOTE
+			export _EXPORT_ONLY=true
+			shift
+			;;
+		-simul) #-------------------> SIMULATION OF IMPORT
+			export _SIMUL="-simul"
+			shift
+			;;
+		-no_compress) #-------------------> NO COMPRESSION FOR DATA TO TRANSFER
+			export _NO_COMPRESS=true
+			shift
+			;;
+		-force_start) #-------------------> UNREGISTER PREVIOUS TRANSFER
+			export _FORCE_START=true
+			shift
+			;;
+		-lwd) #-------------------> LOCAL WORKING DIRECTORY
+			CheckOptArg "$1" "$2"
+			# Sera complete une fois tous les parametres lus
+			export _ADL_WORKING_DIR="$2"
+			shift 2
+			;;
+		-rhost ) #-------------------> REMOTE NODE
+			CheckOptArg "$1" "$2"
+			export _R_SERVER=$2
+			shift 2
+			;;
+		-rport ) #-------------------> REMOTE PORT (obsolete)
+			CheckOptArg "$1" "$2"
+			export _R_PORT=$2
+			shift 2
+			;;
+		-rsite ) #-------------------> REMOTE SITE IDENTIFIER
+			CheckOptArg "$1" "$2"
+			export _R_SITE="$2"
+			shift 2
+			;;
+		-rw ) #-------------------> REMOTE WORKSPACE
+			CheckOptArg "$1" "$2"
+			export _R_WS="$2"
+			shift 2
+			;;
+		-rtree ) #-------------------> REMOTE WORKSPACE TREE
+			CheckOptArg "$1" "$2"
+			export _R_WS_TREE=$2
+			shift 2
+			;;
+		-rimage ) #-------------------> REMOTE IMAGE (OPTIONAL)
+			CheckOptArg "$1" "$2"
+			export _R_IMAGE="$2"
+			typeset -u _R_IMAGE
+			shift 2
+			;;
+		-rno_image ) #-------------------> NO IMAGE FOR REMOTE WORKSPACE (OPTIONAL)
+			export _R_NO_IMAGE=true
+			shift
+			;;
+		-r_collect ) #-------------------> COLLECT FOR REMOTE WORKSPACE (OPTIONAL)
+			_R_COLLECT=true
+			shift
+			;;
+		-r_sync ) #-------------------> SYNC FOR REMOTE WORKSPACE (OPTIONAL)
+			_R_SYNC=true
+			shift
+			OneChar=$1
+			if [ "$OneChar" != "-" ]
+			then
+				_R_SYNC_LABEL="$1"
+				shift
+			fi
+			;;
+		-r_publish ) #-------------------> PUBLICATION FOR REMOTE WORKSPACE (OPTIONAL)
+			_R_PUBLISH=true
+			shift
+			;;
+		-r_promote ) #-------------------> PROMOTION FOR REMOTE WORKSPACE (OPTIONAL)
+			_R_PROMOTE=true
+			shift
+			while [ $# -ne 0 ]
+			do
+				OneChar=$1
+				if [ "$OneChar" != "-" ]
+				then
+					_R_PROMOTE_LIST="$_R_PROMOTE_LIST $1"
+					shift
+				else
+					break
+				fi
+			done
+			;;
+		-rtmp ) #-------------------> REMOTE TEMPORARY DIRECTORY
+			CheckOptArg "$1" "$2"
+			export _R_TMP="$2"
+			shift 2
+			;;
+		-cr ) #-------------------> promotion with CR 
+			shift
+			while [ $# -ne 0 ]
+			do
+				OneChar="$1"
+				if [ "$OneChar" != "-" ]
+				then
+					_R_CR_LIST="$1 $_R_CR_LIST"
+					shift
+				else
+					break
+				fi
+			done
+			[ -z "$_R_CR_LIST" ] && Out 3 "$Usage\n-cr option has been requested without parameter"
+			;;
+		-lw ) #-------------------> LOCAL WORKSPACE
+			CheckOptArg "$1" "$2"
+			export _L_WS="$2"
+			shift 2
+			;;
+		-limage ) #-------------------> LOCAL IMAGE (OPTIONAL)
+			CheckOptArg "$1" "$2"
+			export _L_IMAGE="$2"
+			typeset -u _L_IMAGE
+			shift 2
+			;;
+		-lno_image ) #-------------------> NO LOCAL IMAGE (OPTIONAL)
+			export _L_NO_IMAGE=true
+			shift
+			;;
+		-ltree ) #-------------------> LOCAL WORKSPACE TREE for adl_mk_fw
+			CheckOptArg "$1" "$2"
+			export _L_WS_TREE="$2"
+			shift 2
+			;;
+		-l_collect ) #-------------------> COLLECT FOR LOCAL WORKSPACE (OPTIONAL)
+			_L_COLLECT=true
+			shift
+			;;
+		-l_sync ) #-------------------> SYNC FOR LOCAL WORKSPACE (OPTIONAL)
+			_L_SYNC=true
+			shift
+			;;
+		-ltmp ) #-------------------> LOCAL TEMPORARY DIRECTORY (OPTIONAL)
+			CheckOptArg "$1" "$2"
+			export _L_TMP="$2"
+			[ ! -d "$_L_TMP" ] && Out 3 "Unknown local temporary directory: $_L_TMP"
+			shift 2
+			;;
+		-all_fw ) #-------------------> all framework to import (OPTIONAL)
+			export _ALL_FW_OPTION=Y
+			shift
+			if [ ! -z "$_LFW_OPTION" -o ! -z "$_FW_OPTION" ]
+			then
+				Out 3 "$Usage\n-all_fw and -fw_file or -fw options cannot be precised together"
+			fi
+			;;
+		-fw ) #----------------> OPTIONAL: Framework list
+			_FW_OPTION=Y
+			shift
+			if [ ! -z "$_LFW_OPTION" -o ! -z "$_ALL_FW_OPTION" ]
+			then
+				Out 3 "$Usage\n-fw and -fw_file or -all_fw options cannot be precised together"
+			fi
+			while [ $# -ne 0 ]
+			do
+				OneChar="$1"
+				if [ "$OneChar" != "-" ]
+				then
+					echo "$1" >> $_FW_LIST_FILENAME1
+					shift
+				else
+					break
+				fi
+			done
+			if [ ! -s "$_FW_LIST_FILENAME1" ]
+			then
+				Out 3 "$Usage\n-fw option has been requested without parameters"
+			fi
+			;;
+		-fw_file ) #----------------> OPTIONAL: filename of objects list
+			_LFW_OPTION=Y
+			if [ ! -z "$_FW_OPTION" -o ! -z "$_ALL_FW_OPTION" ]
+			then
+				Out 3 "$Usage\n-fw_file and -fw or -all_fw options cannot be precised together"
+			fi
+			CheckOptArg "$1" "$2"
+			INPUT_FW_LIST_FILENAME="$(printf "%s\n" "$2" | \sed 's+\\+/+g')"
+			shift 2
+			[ ! -f "$INPUT_FW_LIST_FILENAME" ] && Out 5 "Cannot find file containing frameworks list: $INPUT_FW_LIST_FILENAME"
+			\cp -f "$INPUT_FW_LIST_FILENAME" "$_FW_LIST_FILENAME1"
+			echo >>"$_FW_LIST_FILENAME1" # Histoire de palier a l'absence éventuelle de fin de ligne
+			\sed 's+\\+/+g' "$_FW_LIST_FILENAME1" > "${_FW_LIST_FILENAME1}.2"
+			rc1=$?
+			\sed 's/#.*$//g' "${_FW_LIST_FILENAME1}.2" > "${_FW_LIST_FILENAME1}"
+			rc2=$?
+			[ $rc1 -ne 0 -o $rc2 -ne 0 ] && Out 5 "Cannot remove comments from file: $INPUT_FW_LIST_FILENAME"
+			;;
+		-keep_trace ) #-------------------> NB OF LOCAL TRACE DIRECTORIES
+			CheckOptArg "$1" "$2"
+			let "_NB_TRACE_DIR = $2 - 1"
+			if [ $? -ne 0 -o $_NB_TRACE_DIR -le 0 ]
+			then
+				Out 3 "The -keep_trace parameter must be a number greater than 0"
+			fi
+			shift 2
+			;;
+		-transfer ) #-------------------> TRANSFER NAME
+			CheckOptArg "$1" "$2"
+			export _T_NAME="$2"
+			shift 2
+			;;
+		-run_no_check ) #-------------------> SKIP SOME PARTS OF THE PROGRAM (OPTIONAL)
+			_RUN_NO_CHECK=true
+			shift
+			;;
+		-rno_attach ) #-------------------> SKIP SEARCH OF MISSING REMOTE COMPONENTS (OPTIONAL)
+			_R_NO_ATTACH=true
+			shift
+			;;
+		-lno_attach ) #-------------------> SKIP SEARCH OF MISSING LOCAL COMPONENTS (OPTIONAL)
+			_L_NO_ATTACH=true
+			shift
+			;;
+		-tuuid ) #-------------------> UUID FOR CURRENT TRANSFER (OPTIONAL)
+			CheckOptArg "$1" "$2"
+			_TUUID=$2
+			shift 2
+			;;
+		-no_opt_delta ) #-------------------> NO OPTIMIZED DELTA (OPTIONAL)
+			_NO_OPT_DELTA=true
+			shift
+			;;
+		-short_traces ) #-------------------> MINIMUM TRACES (OPTIONAL)
+			_SHORT_TRACES=true
+			shift
+			;;
+		-allow_merges ) #-------------------> ALLOW REMOTE PHOTO TO FAIL DUE TO MERGES (OPTIONAL)
+			_ALLOW_MERGES=true
+			shift
+			;;
+		* ) Out 3 "$Usage\nUnknown option: $1"
+			;;
+	esac
+done
+
+if [ -z "$_RUN_NO_CHECK" ]
+then
+	CheckArgIsDefined()
+	{
+		if [ -z "$1" ]
+		then
+			echo "$Usage"
+			Out 3 "$ShellName: Missing mandatory remote parameter: -$2."
+		fi
+	}
+
+
+	CheckArgIsDefined "$_R_SERVER"  "-rhost" 
+	CheckArgIsDefined "$_R_SITE"    "-rsite"
+	CheckArgIsDefined "$_R_WS"      "-rw"
+	CheckArgIsDefined "$_R_WS_TREE" "-rtree"
+	CheckArgIsDefined "$_R_TMP"     "-rtmp"
+	CheckArgIsDefined "$_L_WS"      "-lw"
+	CheckArgIsDefined "$_L_WS_TREE" "-ltree"
+
+	if [ ! -z "$_IMPORT_ONLY" -a ! -z "$_EXPORT_ONLY" ]
+	then
+		echo "$Usage"
+		Out 3 "$ShellName: only one of these options can be set on the command line: -import_only, -export_only."
+	fi
+
+fi
+
+# host et port sont maintenant dans une seule variable _R_SERVER
+# _R_HOST contient maintenant le nom de la machine cible quelque soit le nombre de machines intermediaire
+# en cas de routage
+[ ! -z "$_R_PORT" ] && export _R_SERVER="$_R_SERVER:$_R_PORT"
+export _R_HOST=$(echo "$_R_SERVER" | $_AWK -F\# '{print $(NF)}' | $_AWK -F: '{print $1}')
+unset _R_PORT
+
+_R_TMP=$(printf "%s\n" "$_R_TMP" | \sed 's+\\+/+g')
+
+if [ -z "$_TUUID" ]
+then
+	# UUID pour le transfert, le TID est la concatenation de plusieurs des parametres de lancement
+	"$ADL_USER_PATH"/admin/adl_get_uuid >"$DefaultTmpDir"/info_$$.txt 2>&1
+	[ $? -ne 0 ] && \cat "$DefaultTmpDir"/info_$$.txt && Out 5 "Failed to compute current transfer's identifier."
+	_TUUID=$(\cat "$DefaultTmpDir"/info_$$.txt)
+	echo "Exec id = $_TUUID"
+fi
+
+
+_FW_LIST_FILENAME="$_L_TMP/FW_LIST_$$"
+\rm -f "$_FW_LIST_FILENAME"
+
+if [ -f "$_FW_LIST_FILENAME1" ]
+then
+	# "Déplacement" du fichier des frameworks dans le nouveau répertoire temporaire local (-ltmp -> $_L_TMP)
+	mv -f "$_FW_LIST_FILENAME1" "$_FW_LIST_FILENAME"
+else
+	unset _FW_LIST_FILENAME
+fi
+
+# =====================================================================
+# Positionnement dans l'espace de depart
+# =====================================================================
+
+if [ "$ADL_WS" != "$_L_WS" -o "$ADL_IMAGE" != "$_L_IMAGE" ]
+then
+	CH_WS_CALLED="TRUE"
+	if [ ! -z "$_L_IMAGE" ]
+	then
+		adl_ch_ws_i $_L_WS -image "$_L_IMAGE" -env_file "$DefaultTmpDir"/ch_ws_$$.sh -env_file_type ksh 2>&1 >"$DefaultTmpDir"/traces_ch_ws_$$.sh
+	elif [ ! -z "$_L_NO_IMAGE" ]
+	then
+		adl_ch_ws_i $_L_WS -no_image -env_file "$DefaultTmpDir"/ch_ws_$$.sh -env_file_type ksh 2>&1 >"$DefaultTmpDir"/traces_ch_ws_$$.sh
+	elif [ "$ADL_WS" != "$_L_WS" ]
+	then
+		adl_ch_ws_i $_L_WS -env_file "$DefaultTmpDir"/ch_ws_$$.sh -env_file_type ksh 2>&1 >"$DefaultTmpDir"/traces_ch_ws_$$.sh
+	else
+		CH_WS_CALLED="FALSE"
+	fi
+	if [ "$CH_WS_CALLED" = "TRUE" ]
+	then
+		[ $? -ne 0 ] && \cat "$DefaultTmpDir"/traces_ch_ws_$$.sh && Out 5 "Failed to change current workspace to $_L_WS"
+		. "$DefaultTmpDir"/ch_ws_$$.sh 2>&1 >"$DefaultTmpDir"/traces_ch_ws_$$.sh
+		[ $? -ne 0 ] && Out 5 "Failed to change current workspace to $_L_WS. Profile execution failed."
+		\rm -f "$DefaultTmpDir"/ch_ws_$$.sh
+	fi
+
+	[ -z "$_L_NO_IMAGE" ] && [ -z "$ADL_IMAGE_DOS_DIR" -o ! -d "$ADL_IMAGE_DOS_DIR" ] && Out 5 "Cannot access image of local workspace"
+	[ -z "$_SHORT_TRACES" -a "$CH_WS_CALLED" = "TRUE" ] && \cat "$DefaultTmpDir"/traces_ch_ws_$$.sh
+fi
+
+# =====================================================================
+# On cree si besoin, le repertoire de travail des transferts
+# =====================================================================
+
+if [ -z "$_T_NAME" ]
+then
+
+	########################################
+	# Ancienne nomenclature
+
+	export _TID="${_L_WS_TREE}_${_R_SITE}_${_R_WS}_${_R_WS_TREE}"
+
+	# Si un repertoire de stockage est precise, il doit exister et on y creera des sous-repertoires
+	if [ ! -z "$_ADL_WORKING_DIR" ]
+	then
+		[ ! -d "$_ADL_WORKING_DIR" ] && Out 3 "The directory $_ADL_WORKING_DIR must exist. Create it and restart the command."
+		if [ -z "$_L_NO_IMAGE" ]
+		then
+			export _ADL_WORKING_DIR="${_ADL_WORKING_DIR}/MultiSite/${_L_WS}/${ADL_IMAGE}/$_TID"
+		else
+			export _ADL_WORKING_DIR="${_ADL_WORKING_DIR}/MultiSite/${_L_WS}/_NO_IMAGE_/$_TID"
+		fi
+	elif [ -z "$_L_NO_IMAGE" ]
+	then
+		export _ADL_WORKING_DIR="$ADL_IMAGE_DOS_DIR/ToolsData/MultiSite/$_TID"
+	else
+		Out 5 "You must specify a working directory with -lwd option when the local workspace has no image."
+	fi
+else
+	########################################
+	# Nouvelle nomenclature
+
+	export _TID="${_L_WS}_${_T_NAME}_${_L_WS_TREE}"
+
+	if [ ! -z "$_ADL_WORKING_DIR" ]
+	then
+		[ ! -d "$_ADL_WORKING_DIR" ] && Out 3 "The directory $_ADL_WORKING_DIR must exist. Create it and restart the command."
+		export _ADL_WORKING_DIR="${_ADL_WORKING_DIR}/MultiSite/${_L_WS}/${_T_NAME}/${_L_WS_TREE}"
+		
+	elif [ -z "$_L_NO_IMAGE" ]
+	then
+		export _ADL_WORKING_DIR="$ADL_IMAGE_DOS_DIR/ToolsData/MultiSite/${_T_NAME}/${_L_WS_TREE}"
+	else
+		Out 5 "You must specify a working directory with -lwd option when the local workspace has no image."
+	fi
+fi
+
+if [ ! -d "$_ADL_WORKING_DIR" ]
+then
+	\mkdir -p "$_ADL_WORKING_DIR"
+	rc=$?
+	if [ $rc -ne 0 ]
+	then
+		Out 5 "Cannot create working directory: $_ADL_WORKING_DIR"
+	fi
+fi
+
+# On se positionne dans le repertoire de travail des transferts
+\cd "$_ADL_WORKING_DIR"
+
+# =====================================================================
+# Copie de la trame de suivi html depuis l'installation vers le repertoire de travail
+# =====================================================================
+unset _last_transfer_step
+\rm -f "$_ADL_WORKING_DIR/trame_suivi_import.txt" 2>$NULL
+if [ -f "$ShellDir"/admin/trame_suivi_import.txt ] 
+then	
+	\cp -p "$ShellDir"/admin/trame_suivi_import.txt trame_suivi_import.txt
+	\chmod 777 trame_suivi_import.txt 2>$NULL
+fi
+
+# =====================================================================
+# Avant de commencer un report on ecrit dans la log des reports qu'on demarre
+# =====================================================================
+if [ ! -z "$ADL_MULTISITE_LOG_DIR" ]
+then
+	if [ ! -f "$ADL_MULTISITE_LOG_DIR/_log_transfer" ]
+	then
+		\touch "$ADL_MULTISITE_LOG_DIR/_log_transfer"
+		\chmod 777 "$ADL_MULTISITE_LOG_DIR/_log_transfer"
+	fi
+	if [ ! -w "$ADL_MULTISITE_LOG_DIR/_log_transfer" ]
+	then
+		\chmod 777 "$ADL_MULTISITE_LOG_DIR/_log_transfer"
+	fi
+	echo "$BeginTransferDate B $($WHOAMI) $_TID $_L_HOST $$ -" >> "$ADL_MULTISITE_LOG_DIR/_log_transfer"
+fi
+
+# =====================================================================
+# On nettoie les repertoires de trace
+# =====================================================================
+if [ ! -z "$_NB_TRACE_DIR" -a "$_NB_TRACE_DIR" -ge 1 ]
+then
+	\ls -d1 trace_* >""$DefaultTmpDir"/ls_trace_$$" 2>$NULL
+	nb=$(wc -l ""$DefaultTmpDir"/ls_trace_$$" | $_AWK '{print $1}')
+	let "nb = $nb - $_NB_TRACE_DIR"
+	if [ $nb -gt 0 ]
+	then
+		head -$nb ""$DefaultTmpDir"/ls_trace_$$" | while read dir
+		do
+			if [ -d "$dir" ]
+			then
+				\rm -fr "$_ADL_WORKING_DIR/$dir"
+			fi
+		done
+	fi
+fi
+
+# =====================================================================
+# On cree le repertoire des traces du transfert
+# =====================================================================
+TraceDirName=trace_$(date +"%Y_%m_%d_%H_%M")
+export _ADL_TRACE_DIR="$_ADL_WORKING_DIR/$TraceDirName"
+
+if [ ! -d "$_ADL_TRACE_DIR" ]
+then
+	\mkdir -p "$_ADL_TRACE_DIR"
+	rc=$?
+	if [ $rc -ne 0 ]
+	then
+		Out 3 "Cannot create transfer trace directory on local ws: $_ADL_TRACE_DIR"
+	fi
+fi
+
+# On trace le debut du transfert
+update_tracking_html STATUS start "$_ADL_TRACE_DIR/follow_up.htm" >$NULL 2>&1
+
+# =====================================================================
+# La premiere requete que l'on soumet vers le site master a plusieurs buts:
+#	- le site est accessible et adl_transfer_mngr distant a ete demarre
+#	- il n'interdit pas les transferts au moment ou on l'interroge
+#	- il n'y a pas deja d'occurence du transfert courant en fonctionnement
+# =====================================================================
+update_tracking_html ch_ws_remote start "$TraceDirName/0trace_connect_remote_$$.txt" >$NULL 2>&1
+[ -z "$_RUN_NO_CHECK" ] && echo "Connecting to remote host $_R_HOST and workspace $_R_WS..." 
+
+# Pour etre compatible : dans le cas ou il n'y a pas de routage
+# on conserve l'utilisation de -port
+export _RUN_COMMON="$(echo $_R_SERVER | $_AWK -F: '
+(NF==2){print " -id '$_TUUID' -server "$1" -port "$2 }
+(NF!=2){print " -id '$_TUUID' -server "$0}')"
+
+
+# On a demande a desenregistrer le precedent transfert
+if [ ! -z "$_FORCE_START" ]
+then
+	"$_CLIENT" $_RUN_COMMON -abort $_L_SITE $_L_WS $_L_WS_TREE $_R_WS
+	[ $? -ne 0 ] && Out 5 "Failed to unregister previous transfer"
+fi
+
+# On enregistre le demarrage du transfert courant
+"$_CLIENT" $_RUN_COMMON -start $_L_SITE $_L_WS $_L_WS_TREE $_R_WS >>"$_ADL_TRACE_DIR/0trace_connect_remote_$$.txt"
+_lock_code=$?
+if [ $_lock_code -ne 0 ]
+then
+	grep 'A session already exists with this identifier' "$_ADL_TRACE_DIR/0trace_connect_remote_$$.txt" >$NULL
+	if [ $? -eq 0 ]
+	then
+		echo "A previous transfer between $_L_WS and $_R_WS is still registered on the remote host $_R_HOST." >> "$_ADL_TRACE_DIR/0trace_connect_remote_$$.txt"
+		echo "If there is no other transfer that is really running, you can restart the current transfer by adding the -force_start option." >> "$_ADL_TRACE_DIR/0trace_connect_remote_$$.txt"
+		Out 5 "Transfer aborted"
+	else
+		echo "The remote transfer manager does not respond from $_R_SERVER." >>"$_ADL_TRACE_DIR/0trace_connect_remote_$$.txt"
+		Out 5 "Transfer aborted"
+	fi
+fi
+
+if [ -z "$_RUN_NO_CHECK" ]
+then
+	# On se place dans l'espace cible du transfert
+	[ ! -z "$_R_NO_IMAGE" ] && export _R_IMAGE=-no_image
+	"$_CLIENT" $_RUN_COMMON -setenv $_R_WS "$_R_IMAGE" >>"$_ADL_TRACE_DIR/0trace_connect_remote_$$.txt" 2>&1
+	rtcode=$?
+	if [ $rtcode -ne 0 ]
+	then
+		echo "The remote transfer manager does not respond from $_R_SERVER or the target workspace does not exist" >>"$_ADL_TRACE_DIR/0trace_connect_remote_$$.txt"
+		\cat "$_ADL_TRACE_DIR/0trace_connect_remote_$$.txt"
+		Out 5 "Transfer aborted"
+	fi
+fi
+
+update_tracking_html ch_ws_remote end "$TraceDirName/0trace_connect_remote_$$.txt" >$NULL 2>&1
+
+_ConnectionWithRemote=true
+
+# =====================================================================
+# Analyse des environnements courant et distant pour savoir quels outils
+# sont disponibles
+# =====================================================================
+update_tracking_html check_env start "$TraceDirName/0trace_check_env_$$.txt" >$NULL 2>&1
+[ -z "$_SHORT_TRACES" ] && echo "Analyzing local and remote environments..."
+
+if [ -z "$_RUN_NO_CHECK" ]
+then
+	#
+	# OS de la machine distante	
+	#
+	export _RemoteADLUserPath='$ADL_USER_PATH'
+	"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/adl_co'"' -h >$NULL 2>&1
+	if [ $? -eq 0 ]
+	then
+		echo "Info: the remote host OS is UNIX." >>"$_ADL_TRACE_DIR/0trace_check_env_$$.txt"
+		RemoteOS=UNIX
+		_REM_CALL_SH=""
+	else
+		export _RemoteADLUserPath='%ADL_USER_PATH%'
+		"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/adl_co'"' -h >$NULL 2>&1
+		if [ $? -eq 0 ]
+		then
+			echo "Info: the remote host OS is NT." >> "$_ADL_TRACE_DIR/0trace_check_env_$$.txt"
+			RemoteOS=Windows_NT
+			_REM_CALL_SH="sh +C -K "
+		else
+			Out 3 "Cannot find what the remote host OS is."
+		fi
+	fi
+fi
+
+#
+# On recherche l'outil adl_tar
+# S'il n'est pas disponible, on travaillera par copies simples
+# Remarque : il n'est pas accede directement mais a travers adl_transfer_tar.sh
+if [ ! -z "$ADL_TAR_DIR" ]
+then
+	if [ ! -d "$ADL_TAR_DIR" ]
+	then
+		Out 3 "Cannot find $ADL_TAR_DIR directory"
+	fi
+	export _ADL_TAR="$ADL_TAR_DIR/adl_tar"
+	if [ -f "$_ADL_TAR" ]
+	then
+		"$_CLIENT" $_RUN_COMMON -cmd test -f '"$ADL_TAR_DIR/adl_tar"' >$NULL 2>&1
+		if [ $? -eq 0 ]
+		then
+			printf "Info: %s/adl_tar will be used for transfers.\n" "$ADL_TAR_DIR" >> "$_ADL_TRACE_DIR/0trace_check_env_$$.txt"
+			export _TarAvailable=true
+		else
+			echo "Info: No tar tool is available on remote host: files will be transferred one by one." >> "$_ADL_TRACE_DIR/0trace_check_env_$$.txt" | "$_CLIENT" $_RUN_COMMON -log_input -echo
+		fi
+	else
+		echo "Info: No tar tool is available locally: files will be transferred one by one." >> "$_ADL_TRACE_DIR/0trace_check_env_$$.txt"| "$_CLIENT" $_RUN_COMMON -log_input -echo
+	fi
+else
+	echo "Info: No tar tool is available locally: files will be transferred one by one." >> "$_ADL_TRACE_DIR/0trace_check_env_$$.txt"| "$_CLIENT" $_RUN_COMMON -log_input -echo
+fi
+
+#
+# On recherche un outil de compression
+#
+if [ -z "$_NO_COMPRESS" ]
+then
+	whence gzip >$NULL 2>&1
+	if [ $? -eq 0 ]
+	then
+		"$_CLIENT" $_RUN_COMMON -cmd gzip -h >$NULL 2>&1
+		if [ $? -eq 0 ]
+		then
+			echo "Info: 'gzip' will be used for compressing files." >> "$_ADL_TRACE_DIR/0trace_check_env_$$.txt"| "$_CLIENT" $_RUN_COMMON -log_input -echo
+			export _CompressionMode="-z"
+		fi
+	fi
+
+	# Si on ne peut pas utiliser gzip, alors on essaye avec compress...mais pas sur NT...
+	if [ -z "$_CompressionMode" -a "$OS" != "Windows_NT" -a "$RemoteOS" != "Windows_NT" ]
+	then
+		whence compress >$NULL 2>&1
+		if [ $? -eq 0 ]
+		then
+			"$_CLIENT" $_RUN_COMMON -cmd which compress >$NULL 2>&1
+			if [ $? -eq 0 ]
+			then
+				echo "Info: 'compress' will be used for compressing files." >> "$_ADL_TRACE_DIR/0trace_check_env_$$.txt"| "$_CLIENT" $_RUN_COMMON -log_input -echo
+				export _CompressionMode="-Z"
+			fi
+		else
+			echo "Info: No compression tool is available. Files won't be compressed before transfer." >> "$_ADL_TRACE_DIR/0trace_check_env_$$.txt"| "$_CLIENT" $_RUN_COMMON -log_input -echo
+		fi
+	fi
+else
+	echo "Info: No compression tool will be used since option -no_compress is set" >> "$_ADL_TRACE_DIR/0trace_check_env_$$.txt"| "$_CLIENT" $_RUN_COMMON -log_input -echo
+fi
+
+#
+# On recupere les versions des formats d'echanges de donnees sur le site distant pour etre sur 
+# d'avoir les memes que localement
+#
+"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/adl_version'"' -program '-sep "|"' -out '"'$_R_TMP/format_$$.txt'"' >$NULL 2>&1
+rc=$?
+if [ $rc -ne 0 ] 
+then
+	"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/adl_version'"' -program '-sep "|"' >"$DefaultTmpDir"/format_$$.txt
+	rc=$?
+else
+	"$_CLIENT" $_RUN_COMMON -get "$_R_TMP/format_$$.txt" "$DefaultTmpDir"/format_$$.txt
+	rc=$?
+fi
+
+if [ $rc -eq 0 ]
+then
+	_R_VERSION=$($_AWK -F\| '{print $5}' "$DefaultTmpDir"/format_$$.txt)
+	_R_EIDFV=$($_AWK -F\| '{print $6}' "$DefaultTmpDir"/format_$$.txt)
+	_R_EIFFV=$($_AWK -F\| '{print $7}' "$DefaultTmpDir"/format_$$.txt)
+	if [ "$_L_EIDFV" = "$_R_EIDFV" -a "$_L_EIFFV" = "$_R_EIFFV" ]
+	then
+		echo "Info: both sites share the same format for data exchanges." >> "$_ADL_TRACE_DIR/0trace_check_env_$$.txt"| "$_CLIENT" $_RUN_COMMON -log_input -echo
+	else
+		echo "Local and remote SCM installation do not share the same format of data exchanges:"| "$_CLIENT" $_RUN_COMMON -log_input -echo
+		echo "Local = ${_L_EIDFV} / ${_L_EIFFV} ; Remote = ${_R_EIDFV} / ${_R_EIFFV}"| "$_CLIENT" $_RUN_COMMON -log_input -echo
+		Out 5 "Transfer aborted"
+	fi
+else
+	echo "#ERR# Unable to get remote format for data exchanges."| "$_CLIENT" $_RUN_COMMON -log_input -echo
+	Out 5 "Transfer aborted"
+fi
+
+# Recuperation id du site distant
+"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/admin/adl_ls_site'"' -program -out '"'$_R_TMP/info_$$.txt'"'
+
+if [ $? -eq 0 ]
+then
+	"$_CLIENT" $_RUN_COMMON -get "$_R_TMP/info_$$.txt" "$DefaultTmpDir"/info_$$.txt || Out 3 "$ShellName: failed to retrieve status of remote site"
+	export _R_SITE_ID="$($_AWK '{print $1}' "$DefaultTmpDir"/info_$$.txt)"
+else
+	\cat "$DefaultTmpDir"/info_$$.txt 
+	Out 5 "Could not get name of SCM remote site"
+fi
+
+#
+# On regarde si les sites local et distant gere les RIs au niveau l'espace de travail puis de l'arborescence concernee
+#
+"$ADL_USER_PATH"/adl_ds_ws -tree "$_L_WS_TREE" -program -sep \| -out "$DefaultTmpDir"/ds_l_ws_$$.txt
+[ $? -ne 0 ] && Out 5 0106 # "Failed to extract information about local workspace"
+export _L_CR_IN_TREE=$($_AWK -F\| '{if ($1=="_WS") print $23}' "$DefaultTmpDir"/ds_l_ws_$$.txt)
+if [ "$_L_CR_IN_TREE" = "<NULL>" ]
+then
+	"$ADL_USER_PATH"/adl_ls_tree "$_L_WS_TREE" -program -sep '|' -out "$DefaultTmpDir"/lstree_$$
+	if [ $? -eq 0 ] 
+	then
+		export _L_CR_IN_TREE=$($_AWK -F\| '{print $6}' "$DefaultTmpDir"/lstree_$$)
+	else
+		Out 3 "$ShellName: failed to retrieve status of local workspace tree $_L_WS_TREE"
+	fi
+fi
+
+if [ "$_L_CR_IN_TREE" != "NONE" ]
+then
+	export _R_CR_IN_TREE=$($_AWK -F\| '{if ($1=="_WS" && $4=="'$_R_WS_TREE'") print $23}' "$_MIRROR_INFO_FILE")
+	if [ "$_R_CR_IN_TREE" = "<NULL>" ]
+	then
+		"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/adl_ls_tree'"' "$_R_WS_TREE" -program '-sep "|"' -out '"'$_R_TMP/lstree_$$.txt'"'
+		if [ $? -eq 0 ]
+		then
+			"$_CLIENT" $_RUN_COMMON -get "$_R_TMP/lstree_$$.txt" "$DefaultTmpDir"/lstree_$$ || Out 3 "$ShellName: failed to retrieve status of remote workspace tree $_R_WS_TREE"
+			export _R_CR_IN_TREE=$($_AWK -F\| '{print $6}' "$DefaultTmpDir"/lstree_$$)
+		else
+			Out 3 "$ShellName: failed to retrieve status of remote workspace tree $_R_WS_TREE"
+		fi
+	fi
+fi
+
+[ -z "$_SHORT_TRACES" ] && \cat "$TraceDirName/0trace_check_env_$$.txt"
+update_tracking_html check_env end "$TraceDirName/0trace_check_env_$$.txt" >$NULL 2>&1
+
+# On cree un repertoire temporaire pour isoler les donnees a extraire,
+# ce repertoire est cree dans le repertoire precise par l'option -ltmp,
+# ce qui permet d'utiliser un file system plus grand que le /tmp habituel
+# en cas de gros transferts...
+\rm -rf "$_L_TMP/transfer_${_L_WS}_${_TID}" 2>$NULL
+\mkdir "$_L_TMP/transfer_${_L_WS}_${_TID}" 2>$NULL
+\mkdir "$_L_TMP/transfer_${_L_WS}_${_TID}/import_so_dir" 2>$NULL
+[ ! -d "$_L_TMP/transfer_${_L_WS}_${_TID}/import_so_dir" ] && Out 5 "Failed to create directory $_L_TMP/transfer_${_L_WS}_${_TID}/import_so_dir for importing data from remote host"
+
+
+# Creation d'un repertoire temporaire sur le site distant et dedie au report courant
+"$_CLIENT" $_RUN_COMMON -rm '"'$_R_TMP/transfer_${_R_WS}_${_TID}'"' -rec >$NULL
+"$_CLIENT" $_RUN_COMMON -cmd mkdir "$_R_TMP/transfer_${_R_WS}_${_TID}" >$NULL
+
+# =====================================================================
+# Gestion des "reprises sur panne"
+# On commence par rechercher des fichiers particuliers indiquant
+# que le precedent transfert a echouer dans un etat qui necessite
+# qu'on le termine avant d'en commencer un autre
+# =====================================================================
+
+if [ -f "$_ADL_WORKING_DIR/0RECOVER_import_f_local" ]
+then
+	_RecoveryMode=local
+	update_tracking_html recover_local start "$TraceDirName/0trace_recover_local_ws_$$.txt" >$NULL 2>&1
+	echo "Info: The previous transfer failed while importing user files in local database." >"$_ADL_TRACE_DIR/0trace_recover_local_ws_$$.txt"
+	echo "Info: This previous transfer must be completed before being able to start another one." >> "$_ADL_TRACE_DIR/0trace_recover_local_ws_$$.txt"
+	echo "Recovering from previous transfer..." >> "$_ADL_TRACE_DIR/0trace_recover_local_ws_$$.txt"
+	\cat "$_ADL_TRACE_DIR/0trace_recover_local_ws_$$.txt"| "$_CLIENT" $_RUN_COMMON -log_input -echo
+
+	import_f_content_local
+
+	# Nettoyage sinon plantage lors du fonctionnement normal
+	"$_CLIENT" $_RUN_COMMON -rm '"'$_R_TMP/transfer_${_R_WS}_${_TID}/export_f_dir'"' -rec >> "$_ADL_TRACE_DIR/0trace_recover_local_ws_$$.txt"
+
+	echo "Info: Recovery completed."| "$_CLIENT" $_RUN_COMMON -log_input -echo >> "$_ADL_TRACE_DIR/0trace_recover_local_ws_$$.txt"
+	
+	update_tracking_html recover_local end "$TraceDirName/0trace_recover_local_ws_$$.txt" >$NULL 2>&1
+fi
+
+if [ -f "$_ADL_WORKING_DIR/0RECOVER_import_f_remote" ]
+then
+	_RecoveryMode=remote
+	update_tracking_html recover_remote start "$TraceDirName/0trace_recover_remote_ws_$$.txt" >$NULL 2>&1
+	echo "Info: The previous transfer failed while importing user files in remote database." > "$_ADL_TRACE_DIR/0trace_recover_remote_ws_$$.txt"
+	echo "Info: This previous transfer must be completed before being able to start another one." >> "$_ADL_TRACE_DIR/0trace_recover_remote_ws_$$.txt"
+	echo "Recovering from previous transfer..." >> "$_ADL_TRACE_DIR/0trace_recover_remote_ws_$$.txt"
+	\cat "$_ADL_TRACE_DIR/0trace_recover_remote_ws_$$.txt"| "$_CLIENT" $_RUN_COMMON -log_input -echo
+
+	import_f_content_remote
+
+	# Nettoyage sinon plantage lors du fonctionnement normal
+	\rm -rf "$_L_TMP/transfer_${_L_WS}_${_TID}/export_f_dir" >> "$_ADL_TRACE_DIR/0trace_recover_remote_ws_$$.txt"
+
+	echo "Info: Recovery completed."| "$_CLIENT" $_RUN_COMMON -log_input -echo >> "$_ADL_TRACE_DIR/0trace_recover_remote_ws_$$.txt"
+
+	update_tracking_html recover_remote end "$TraceDirName/0trace_recover_remote_ws_$$.txt" >$NULL 2>&1
+fi
+
+# =====================================================================
+# Etape 0: photographie de l'espace de depart pour eviter de perdre
+# 	   des modifications locales
+# =====================================================================
+if [ -z "$_L_COLLECT" -a -z "$_L_SYNC" ]
+then
+	update_tracking_html photo_local start "$TraceDirName/0trace_photo_local_ws_$$.txt" >$NULL 2>&1
+	[ -z "$_SHORT_TRACES" ] && echo "Making a photo of local workspace..."
+	adl_photo -tree $_L_WS_TREE >"$_ADL_TRACE_DIR/0trace_photo_local_ws_$$.txt" 2>&1
+	rc=$?
+	if [ $rc -ne 0 ]
+	then
+		adl_ls_merge -program -sep "|" -tree $_L_WS_TREE -out "$DefaultTmpDir"/lsmerge_$$.txt
+		if [ $? -eq 0 ]
+		then
+			nbmerge=$($_AWK -F"|" '{if ($1 == "MERGE") print $4}' "$DefaultTmpDir"/lsmerge_$$.txt | wc -l)
+			if [ "$nbmerge" -ne 0 -a -z "$_ALLOW_MERGES" ]
+			then
+				echo "There are $nbmerge merge(s) in current workspace." >> "$_ADL_TRACE_DIR/0trace_photo_local_ws_$$.txt"
+				echo "Use the adl_solve_merge command to solve them before starting a new transfer." >> "$_ADL_TRACE_DIR/0trace_photo_local_ws_$$.txt"
+				Out 5 "Freeze of local workspace has failed."
+			fi
+		else
+			[ $rc -ne 0 ] && Out 5 "Freeze of local workspace has failed."
+		fi
+	else
+		[ -z "$_SHORT_TRACES" ] && \cat "$_ADL_TRACE_DIR/0trace_photo_local_ws_$$.txt" 2>&1
+	fi
+	update_tracking_html photo_local end "$TraceDirName/0trace_photo_local_ws_$$.txt" >$NULL 2>&1
+fi
+
+# =====================================================================
+#	Etape 1
+#		master -> synchro du ws servant au report pour recuperer
+#			  les derniers changements
+#			  transfert de ces donnees vers le site local
+# =====================================================================
+
+# Si on n'a pas demande l'export seul, on recupere les donnes du site distant
+if [ -z "$_EXPORT_ONLY" ]
+then
+	#------------------------------------------------------------------------
+	# Photographie de l'espace distant (cas où l'espace est déjà synchrone -> la synchro ne fait rien)
+	#------------------------------------------------------------------------
+	if [ -z "$_R_COLLECT" -a -z "$_R_SYNC" -a -z "$_R_NO_IMAGE" ]
+	then
+		update_tracking_html photo_remote start "$TraceDirName/0trace_photo_remote_ws_$$.txt" >$NULL 2>&1
+		echo "Freezing the remote workspace $_R_WS..."| "$_CLIENT" $_RUN_COMMON -log_input -echo 
+		OPTIONS="-tree $_R_WS_TREE"
+		"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/adl_photo'"' $OPTIONS > "$_ADL_TRACE_DIR/0trace_photo_remote_ws_$$.txt" 2>&1
+		rc=$?
+		if [ $rc -ne 0 ]
+		then
+			"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/adl_ls_merge'"' -program -sep '"|"' -tree $_R_WS_TREE -out '"'$_R_TMP/lsmerge_$$.txt'"'
+			if [ $? -eq 0 ]
+			then
+				# Recuperation de la liste
+				"$_CLIENT" $_RUN_COMMON -get "$_R_TMP/lsmerge_$$.txt" "$DefaultTmpDir"/lsmerge_$$.txt
+				nbmerge=$($_AWK -F"|" '{if ($1 == "MERGE") print $4}' "$DefaultTmpDir"/lsmerge_$$.txt | wc -l)
+				if [ "$nbmerge" -ne 0 -a -z "$_ALLOW_MERGES" ]
+				then
+					echo "There are $nbmerge merge(s) in remote workspace $_R_WS." >> "$_ADL_TRACE_DIR/0trace_photo_remote_ws_$$.txt"
+					echo "Use the adl_solve_merge_is command to solve them before starting a new transfer." >> "$_ADL_TRACE_DIR/0trace_photo_remote_ws_$$.txt"
+					Out 5 "Freeze of remote workspace $_R_WS has failed."
+				fi
+			else
+				[ $rc -ne 0 ] && Out 5 "Freeze of remote workspace $_R_WS has failed."
+			fi
+		else
+			[ -z "$_SHORT_TRACES" ] && \cat "$_ADL_TRACE_DIR/0trace_photo_remote_ws_$$.txt"|"$_CLIENT" $_RUN_COMMON -log_input -echo 
+			
+		fi
+		update_tracking_html photo_remote end "$TraceDirName/0trace_photo_remote_ws_$$.txt" >$NULL 2>&1
+	fi
+
+	#------------------------------------------------------------------------
+	# Collecte dans l'espace distant
+	#------------------------------------------------------------------------
+	if [ ! -z "$_R_COLLECT" ]
+	then
+		update_tracking_html collect_remote start "$TraceDirName/0trace_collect_remote_ws_$$.txt" >$NULL 2>&1
+		echo "Collecting remote workspace's child workspaces..."| "$_CLIENT" $_RUN_COMMON -log_input -echo 
+		OPTIONS="-no_manual_merge -tree $_R_WS_TREE"
+		$_CLIENT -id $_TUUID -server "$_R_SERVER" -cmd $_RemoteADLUserPath/adl_collect $OPTIONS > "$_ADL_TRACE_DIR/0trace_collect_remote_ws_$$.txt" 2>&1
+		rc=$?
+		if [ $rc -ne 0 ]
+		then
+			"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/adl_ls_merge'"' -program '-sep "|"' -tree $_R_WS_TREE -out '"'$_R_TMP/lsmerge_$$.txt'"'
+			if [ $? -eq 0 ]
+			then
+				# Recuperation de la liste
+				"$_CLIENT" $_RUN_COMMON -get "$_R_TMP/lsmerge_$$.txt" "$DefaultTmpDir"/lsmerge_$$.txt
+				nbmerge=$($_AWK -F"|" '{if ($1 == "MERGE") print $4}' "$DefaultTmpDir"/lsmerge_$$.txt | wc -l)
+				if [ "$nbmerge" -ne 0 ]
+				then
+					echo "There are $nbmerge merge(s) in remote workspace $_R_WS." >> "$_ADL_TRACE_DIR/0trace_collect_remote_ws_$$.txt"
+					echo "Use the adl_solve_merge_is command to solve them before starting a new transfer." >>  "$_ADL_TRACE_DIR/0trace_collect_remote_ws_$$.txt"
+					Out 5 "Collect in remote workspace $_R_WS has failed."
+				fi
+			else
+				[ $rc -ne 0 ] && Out 5 "Collect in remote workspace $_R_WS has failed."
+			fi
+		else
+			[ -z "$_SHORT_TRACES" ] && \cat "$_ADL_TRACE_DIR/0trace_collect_remote_ws_$$.txt"|"$_CLIENT" $_RUN_COMMON -log_input -echo 
+		fi
+		update_tracking_html collect_remote end "$TraceDirName/0trace_collect_remote_ws_$$.txt" >$NULL 2>&1
+	fi
+
+	#------------------------------------------------------------------------
+	# Synchronisation de l'espace distant
+	#------------------------------------------------------------------------
+	if [ ! -z "$_R_SYNC" ]
+	then
+		update_tracking_html sync_remote start "$TraceDirName/0trace_sync_remote_ws_$$.txt" >$NULL 2>&1
+		echo "Synchronizing remote workspace $_R_WS..."| "$_CLIENT" $_RUN_COMMON -log_input -echo 
+		[ ! -z "$_R_SYNC_LABEL" ] && LABEL_OPTION="-from $_R_SYNC_LABEL"
+		OPTIONS="-no_manual_merge -tree $_R_WS_TREE"
+		"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/adl_sync'"' $OPTIONS $LABEL_OPTION> "$_ADL_TRACE_DIR/0trace_sync_remote_ws_$$.txt" 2>&1
+		rc=$?
+		if [ $rc -ne 0 ]
+		then
+			"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/adl_ls_merge'"' -program '-sep "|"' -tree $_R_WS_TREE -out '"'$_R_TMP/lsmerge_$$.txt'"'
+			if [ $? -eq 0 ]
+			then
+				# Recuperation de la liste
+				"$_CLIENT" $_RUN_COMMON -get "$_R_TMP/lsmerge_$$.txt" "$DefaultTmpDir"/lsmerge_$$.txt
+				nbmerge=$($_AWK -F"|" '{if ($1 == "MERGE") print $4}' "$DefaultTmpDir"/lsmerge_$$.txt | wc -l)
+				if [ "$nbmerge" -ne 0 ]
+				then
+					echo "There are $nbmerge merge(s) in remote workspace $_R_WS." >> "$_ADL_TRACE_DIR/0trace_sync_remote_ws_$$.txt"
+					echo "Use the adl_solve_merge_is command to solve them before starting a new transfer." >> "$_ADL_TRACE_DIR/0trace_sync_remote_ws_$$.txt"
+					Out 5 "Synchronization of remote workspace $_R_WS has failed."
+				fi
+			fi
+			Out 5 "Synchronization of remote workspace $_R_WS has failed."
+		else
+			\cat "$_ADL_TRACE_DIR/0trace_sync_remote_ws_$$.txt"|"$_CLIENT" $_RUN_COMMON -log_input -echo 
+		fi
+		update_tracking_html sync_remote end "$TraceDirName/0trace_sync_remote_ws_$$.txt" >$NULL 2>&1
+	fi
+
+	if [ -z "$_R_NO_ATTACH" ]
+	then
+		update_tracking_html attach_remote start "$TraceDirName/0trace_attach_$$.txt" >$NULL 2>&1
+		echo "Attaching missing component(s) in remote workspace $_R_WS..."| "$_CLIENT" $_RUN_COMMON -log_input -echo 
+		OPTIONS="-attached_fw_mod -tree $_R_WS_TREE"
+		"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/adl_attach'"' $OPTIONS > "$_ADL_TRACE_DIR/0trace_attach_$$.txt" 2>&1
+		if [ $? -ne 0 ]
+		then
+			# Si l'erreur est due a l'apparition de fusions a resoudre
+			# on poursuit et l'attachement sera fait au prochain transfert
+			# car la resolution des fusions se passe sur le site local
+			# Remarque : on n'avertit l'utilisateur que s'il y avait effectivement
+			# de nouveaux composants a attacher
+			OPTIONS="-mod -all -program -tree $_R_WS_TREE"
+			"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/adl_ls_fw'"' '-sep "|"' $OPTIONS -out '"'$_R_TMP/ls_fw_$$.txt'"'
+			rc=$?
+			[ $rc -eq 0 ] && "$_CLIENT" $_RUN_COMMON -get "$_R_TMP/ls_fw_$$.txt" "$_ADL_TRACE_DIR/0trace_ls_fw0_$$.txt" && rc=$?
+			if [ $rc -ne 0 ]
+			then
+				echo "Warning: failed to list new component(s) to be attached" >> "$_ADL_TRACE_DIR/0trace_attach_$$.txt"
+				\cat "$_ADL_TRACE_DIR/0trace_ls_fw0_$$.txt">>"$_ADL_TRACE_DIR/0trace_attach_$$.txt"
+				update_tracking_html attach_remote fail "$TraceDirName/0trace_attach_$$.txt" >$NULL 2>&1
+			fi
+	
+			$_AWK -F\| '{if ($3==0) print $1}' "$_ADL_TRACE_DIR/0trace_ls_fw0_$$.txt" >"$_ADL_TRACE_DIR/0trace_ls_fw_$$.txt" 2>&1
+
+			if [ -s "$_ADL_TRACE_DIR/0trace_ls_fw_$$.txt" ]
+			then
+				OPTIONS="-program -tree $_R_WS_TREE"
+				"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/adl_ls_merge'"' '-sep "|"' -out '"'$_R_TMP/lsmerge_$$.txt'"' $OPTIONS
+				rc=$?
+				[ $rc -eq 0 ] && "$_CLIENT" $_RUN_COMMON -get "$_R_TMP/lsmerge_$$.txt" "$_ADL_TRACE_DIR/0trace_ls_merge_$$.txt" && rc=$?
+				nbmerge=$($_AWK -F"|" '{if ($1 == "MERGE") print $4}' "$_ADL_TRACE_DIR/0trace_ls_merge_$$.txt" | wc -l)
+				if [ $rc -ne 0 -o "$nbmerge" -ne 0 ]
+				then
+					echo "There are some merges to be solved before being able to attach new component(s)." >>"$_ADL_TRACE_DIR/0trace_attach_$$.txt"
+					echo "The transfer will go ahead and the new component(s) will be attached by the next transfer." >>"$_ADL_TRACE_DIR/0trace_attach_$$.txt"
+					echo "List of NOT attached component(s):" >>"$_ADL_TRACE_DIR/0trace_attach_$$.txt"
+					\cat "$_ADL_TRACE_DIR/0trace_ls_fw_$$.txt" >>"$_ADL_TRACE_DIR/0trace_attach_$$.txt"
+					update_tracking_html attach_remote fail "$TraceDirName/0trace_attach_$$.txt" >$NULL 2>&1
+				else
+					Out 5 "New component attachment failed"
+				fi
+			else
+				echo " " >> "$_ADL_TRACE_DIR/0trace_attach_$$.txt"
+				echo "Info: the adl_attach command failed but there was no new component to attach." | "$_CLIENT" $_RUN_COMMON -log_input -echo >> "$_ADL_TRACE_DIR/0trace_attach_$$.txt"
+				update_tracking_html attach_remote end "$TraceDirName/0trace_attach_$$.txt" >$NULL 2>&1
+			fi
+		else
+			update_tracking_html attach_remote end "$TraceDirName/0trace_attach_$$.txt" >$NULL 2>&1
+		fi
+	fi
+
+	#------------------------------------------------------------------------
+	# Optimisation evitant des etapes de transfert dans le cas 
+	# ou on ne filtre pas par une liste de frameworks
+	#------------------------------------------------------------------------
+	update_tracking_html optim_sync start "$TraceDirName/0trace_optim_sync_remote_$$.txt" >$NULL 2>&1
+	if [ -z "$_FW_LIST_FILENAME" ]
+	then
+		"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/adl_ds_ws'"' -program '-sep "|"' -tree $_R_WS_TREE -out '"'$_R_TMP/dsws_$$.txt'"'
+		[ $? -ne 0 ] && Out 5 "Could not get information about remote workspace ${_R_WS} in workspace tree $_R_WS_TREE"
+		# Recuperation des informations
+		"$_CLIENT" $_RUN_COMMON -get "$_R_TMP/dsws_$$.txt" "$DefaultTmpDir"/0rstate_$$.txt
+		if [ $? -eq 0 ]
+		then
+			\touch "$_ADL_WORKING_DIR/0rstate.txt"
+			_currrev=$($_AWK -F\| '{if ($1 == "_WS") print $7}' "$DefaultTmpDir"/0rstate_$$.txt)
+			_currrank=$($_AWK -F\| '{if ($1 == "_WS") print $8}' "$DefaultTmpDir"/0rstate_$$.txt)
+			_prevrev=$($_AWK -F\| '{if ($1 == "_WS") print $7}' "$_ADL_WORKING_DIR/0rstate.txt")
+			_prevrank=$($_AWK -F\| '{if ($1 == "_WS") print $8}' "$_ADL_WORKING_DIR/0rstate.txt")
+			if [ "$_currrank" = "$_prevrank" -a "$_currrev" = "$_prevrev" ]
+			then
+				echo "The current state of the workspace ${_R_WS} in the workspace tree $_R_WS_TREE has been already transferred to the local workspace ${_L_WS}." >"$TraceDirName/0trace_optim_sync_remote_$$.txt"
+				echo "Therefore it is not needed to perform a new transfer in the local workspace tree $_L_WS_TREE" >>"$TraceDirName/0trace_optim_sync_remote_$$.txt"
+				export _OPTIM_SYNC=true
+				\cat "$TraceDirName/0trace_optim_sync_remote_$$.txt" | "$_CLIENT" $_RUN_COMMON -log_input -echo 
+			fi
+		else
+			echo "Warning: an error occurred when getting information from remote site. No optimization can be performed." >"$TraceDirName/0trace_optim_sync_remote_$$.txt"
+		fi
+	else
+		echo "No optimization can be performed when filtering on frameworks." >"$TraceDirName/0trace_optim_sync_remote_$$.txt"
+	fi
+	update_tracking_html optim_sync end "$TraceDirName/0trace_optim_sync_remote_$$.txt" >$NULL 2>&1
+
+
+	if [ -z "$_OPTIM_SYNC" ]
+	then
+		compute_delta_and_send_from_remote_to_local	
+
+		#------------------------------------------------------------------------
+		# On peut valider la premiere partie du transfert consistant
+		# a importer dans la base locale toutes les nouveautes issues
+		# de la base distante
+		#------------------------------------------------------------------------
+		update_tracking_html valid_local start >$NULL 2>&1
+		# On sauvegarde au cas ou...
+
+		\mv -f "$_ADL_WORKING_DIR/local_ref_so_chg.txt" "$_ADL_WORKING_DIR/local_ref_so_chg.prev"
+		if [ $? -ne 0 ]
+		then
+			echo "Failed to rename $_ADL_WORKING_DIR/local_ref_so_chg.txt $_ADL_WORKING_DIR/local_ref_so_chg.prev"
+			Out 5 "Transfer aborted"
+		fi	
+
+		\mv -f "$_ADL_WORKING_DIR/local_imported_so_chg.txt" "$_ADL_WORKING_DIR/local_ref_so_chg.txt"
+
+		if [ -z "$_SIMUL" ]
+		then
+			\mv -f "$_ADL_WORKING_DIR/remote_delta_param.txt" "$_ADL_WORKING_DIR/remote_delta_param.prev"
+			if [ $? -ne 0 ]
+			then
+				echo "Failed to rename $_ADL_WORKING_DIR/remote_delta_param.txt $_ADL_WORKING_DIR/remote_delta_param.prev"
+				Out 5 "Transfer aborted"
+			fi
+	
+			\mv -f "$_ADL_WORKING_DIR/new_remote_delta_param.txt" "$_ADL_WORKING_DIR/remote_delta_param.txt"
+			if [ $? -ne 0 ]
+			then
+				echo "Failed to update the last remote delta parameter file."| "$_CLIENT" $_RUN_COMMON -log_input -echo 
+				echo "Check the space left on the file system $_ADL_WORKING_DIR"| "$_CLIENT" $_RUN_COMMON -log_input -echo 
+				Out 5 "Transfer aborted"
+			fi
+
+			if [ -z "$_FW_LIST_FILENAME" ]
+			then
+				\cp -f "$DefaultTmpDir"/0rstate_$$.txt "$_ADL_WORKING_DIR/0rstate.txt"
+				if [ $? -ne 0 ]
+				then
+					echo "Failed to update file $_ADL_WORKING_DIR/0rstate.txt"| "$_CLIENT" $_RUN_COMMON -log_input -echo 
+					Out 5 "Transfer aborted"
+				fi
+			fi
+		
+		fi
+		update_tracking_html valid_local end >$NULL 2>&1
+
+	else
+		# Pour la première fois
+		\touch "$_ADL_WORKING_DIR/local_ref_so_chg.txt"
+		\touch "$_ADL_WORKING_DIR/remote_delta_param.txt"
+	fi
+
+	#------------------------------------------------------------------------
+	# On rafraichit l'image de l'espace local pour projeter les nouvelles modifications
+	#------------------------------------------------------------------------
+	if [ -z "$_L_NO_IMAGE" -a ! -z "$ADL_IMAGE" ]
+	then
+		update_tracking_html refresh_local start "$TraceDirName/0trace_refresh_local_$$.txt" >$NULL 2>&1
+		if [ -z "$_SIMUL" ]
+		then
+			echo "Refreshing current image of local workspace $_L_WS..."| "$_CLIENT" $_RUN_COMMON -log_input -echo 
+			adl_refresh >"$_ADL_TRACE_DIR/0trace_refresh_local_$$.txt" 2>&1
+			rc=$?
+			[ -z "$_SHORT_TRACES" -a $rc -eq 0 ] && \cat "$_ADL_TRACE_DIR/0trace_refresh_local_$$.txt"
+			[ $rc -ne 0 ] && Out 5 "Error when refreshing current workspace's image"
+		else
+			echo "Simulation mode is on: no refresh performed." >"$_ADL_TRACE_DIR/0trace_refresh_local_$$.txt"
+			[ -z "$_SHORT_TRACES" ] && \cat "$_ADL_TRACE_DIR/0trace_refresh_local_$$.txt"
+		fi
+		update_tracking_html refresh_local end "$TraceDirName/0trace_refresh_local_$$.txt" >$NULL 2>&1
+	fi
+
+	#------------------------------------------------------------------------
+	# S'il y a des fusions, elles doivent etre resolues avant de continuer
+	#------------------------------------------------------------------------
+	update_tracking_html solve_merge start "$TraceDirName/0trace_solve_merge_local_ws" >$NULL 2>&1
+	echo "Checking for merge(s) to solve..."| "$_CLIENT" $_RUN_COMMON -log_input -echo 
+	adl_ls_merge -tree $_L_WS_TREE -program -sep "|" -out "$DefaultTmpDir"/lsmerge_$$.txt
+	[ $? -ne 0 ] && Out 5 "Error when listing merges in current workspace"
+	nbmerge=$($_AWK -F"|" '{if ($1 == "MERGE") print $4}' "$DefaultTmpDir"/lsmerge_$$.txt | wc -l)
+	if [ "$nbmerge" -ne 0 ]
+	then
+		# Résolution des fusions implicites et automatiques
+		adl_solve_merge -no_manual >"$_ADL_TRACE_DIR/0trace_solve_merge_local_ws$$.txt" 2>&1
+		rc=$?
+		\cat "$_ADL_TRACE_DIR/0trace_solve_merge_local_ws$$.txt"
+		[ $rc -ne 0 ] && Out 5 "Error when solving implicit and automatic merges in current workspace"
+		adl_ls_merge -tree $_L_WS_TREE -program -sep "|" -out "$DefaultTmpDir"/lsmerge_$$.txt
+		[ $? -ne 0 ] && Out 5 "Error when listing merges in current workspace"
+		nbmerge=$($_AWK -F"|" '{if ($1 == "MERGE") print $4}' "$DefaultTmpDir"/lsmerge_$$.txt | wc -l)
+		if [ "$nbmerge" -ne 0 ]
+		then
+			echo "There are $nbmerge merge(s) in current workspace."| "$_CLIENT" $_RUN_COMMON -log_input -echo 
+			echo "Use the adl_solve_merge command to solve them before starting a new transfer."| "$_CLIENT" $_RUN_COMMON -log_input -echo
+			Out 5 "Transfer aborted"
+		fi
+	fi
+	update_tracking_html solve_merge end "$TraceDirName/0trace_solve_merge_local_ws" >$NULL 2>&1
+
+	# -----------------------------------------------------------------------
+	# Frameworks/modules attachés dans l'espace distant
+	# On profite de la commande pour récupérer aussi les responsables des composants
+	# -----------------------------------------------------------------------
+	update_tracking_html get_remote_ls_fw start "$TraceDirName/0trace_get_remote_ls_fw_$$.txt" >$NULL 2>&1
+	"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/adl_ls_fw'"' -mod -tree $_R_WS_TREE -program '-sep "|"' -out '"'$_R_TMP/transfer_${_R_WS}_${_TID}/remote_ls_fw.txt'"' > "$_ADL_TRACE_DIR/0trace_get_remote_ls_fw_$$.txt" 2>&1
+	[ $? -ne 0 ] && Out 5 "Could not extract the list of the frameworks from remote workspace $_R_WS."
+	get_from_rhost "$_R_TMP/transfer_${_R_WS}_${_TID}/remote_ls_fw.txt" "$_L_TMP/transfer_${_L_WS}_${_TID}/remote_ls_fw.txt" >>"$_ADL_TRACE_DIR/0trace_get_remote_ls_fw_$$.txt" 2>&1
+	[ $? -ne 0 ] && Out 5 "Could not get from $_R_HOST the list of the frameworks: $_R_TMP/transfer_${_R_WS}_${_TID}/remote_ls_fw.txt"
+
+	if [ -z "$_FW_LIST_FILENAME" ]
+	then
+		# Pas de filtre
+		$_AWK -F"|" '{ if ($2=="FRAMEWORK") print $7 }' "$_L_TMP/transfer_${_L_WS}_${_TID}/remote_ls_fw.txt" >"$_L_TMP/transfer_${_L_WS}_${_TID}/remote_ls_fw_id.txt"
+	else
+		# Filtre avec le fichier des frameworks
+		output_fw_id "$_FW_LIST_FILENAME" "$_L_TMP/transfer_${_L_WS}_${_TID}/remote_ls_fw.txt" >"$_L_TMP/transfer_${_L_WS}_${_TID}/remote_ls_fw_id.txt"
+	fi
+
+	update_tracking_html get_remote_ls_fw end "$TraceDirName/0trace_get_remote_ls_fw_$$.txt" >$NULL 2>&1
+
+	#------------------------------------------------------------------------
+	# Attachement des frameworks et des composants contenus
+	#------------------------------------------------------------------------
+	if [ -z "$_L_NO_ATTACH" ]
+	then
+		update_tracking_html local_attach_fw start "$TraceDirName/0trace_attach_fw_local_ws" >$NULL 2>&1
+		adl_ls_fw -all -tree $_L_WS_TREE -program -sep "|" -out "$_L_TMP/transfer_${_L_WS}_${_TID}/local_ls_fw.txt" >"$_ADL_TRACE_DIR/0trace_attach_fw_local_ws"
+		[ $? -ne 0 ] && Out 5 "Could not extract the list of the frameworks from local workspace $_L_WS."
+
+		output_fw_to_attach "$_L_TMP/transfer_${_L_WS}_${_TID}/remote_ls_fw_id.txt" "$_L_TMP/transfer_${_L_WS}_${_TID}/local_ls_fw.txt" >"$_L_TMP/transfer_${_L_WS}_${_TID}/fw_to_attach.txt"
+		echo "Checking for missing framework(s) in the local workspace..."| "$_CLIENT" $_RUN_COMMON -log_input -echo 
+		[ ! -z "$ADL_IMAGE_DOS_DIR" ] && cd "$ADL_IMAGE_DOS_DIR" 2>&1 >>"$_ADL_TRACE_DIR/0trace_attach_fw_local_ws"
+		rc=0
+		while read fw_line
+		do
+			\touch "$_ADL_TRACE_DIR/0trace_attach_fw_local_ws"
+			adl_attach $fw_line -tree $_L_WS_TREE -mod 2>&1 >>"$_ADL_TRACE_DIR/0trace_attach_fw_local_ws"
+			[ $? -ne 0 ] && rc=1
+		done <"$_L_TMP/transfer_${_L_WS}_${_TID}/fw_to_attach.txt"
+
+		[ $rc -ne 0 ] && Out 5 "Could not attach the frameworks in the local workspace $_L_WS."
+		update_tracking_html local_attach_fw end "$TraceDirName/0trace_attach_fw_local_ws" >$NULL 2>&1
+	fi
+
+	# Attention 2 bugs possibles :
+	#      - cas n°1 : pas de fichier de référence
+	#               on se synchronise, on récupère un responsable, on le modifie et on se synchronise à nouveau. 
+	#               Résultat: on récupère encore le responsable du site distant.
+	#      - cas n°2 : avec un fichier de référence
+	#               on se synchronise, le fichier de référence de responsable a un objet qui a pour responsable Resp1
+	#               sur le site local, on change le responsable par Resp2, on fait adl_promote_is
+	#               sur le site distant, le responsable est Resp2. On change à nouveau le responsable en Resp1.
+	#               sur le site local, on se synchronise. On s'attend à avoir le responsable Resp1 mais il n'est pas modifié 
+	#               car le fichier de référence du site distant a pour responsable Resp1, il n'y a donc pas de différences et donc on estime 
+	#               à tort qu'il n'y a pas de changement à faire.
+	# Remarque : ces bugs peuvent aussi se produire sur un adl_promote_is.
+
+	
+	echo "Checking for changes on responsibles of SCM objects..."| "$_CLIENT" $_RUN_COMMON -log_input -echo 
+	update_tracking_html local_ch_resp start "$TraceDirName/0trace_ch_resp_local_ws" >$NULL 2>&1
+		
+	if [ "$_R_VERSION" \> "2003_06_16" ]
+	then 
+		#--------------------------------------
+		# Fichier de référence des responsables
+		# -------------------------------------
+		# adl_attach_is, adl_sync_is
+
+		# Si le fichier remote_ref_ls_fw.txt existe , copie dans le fichier remote_ref_ls_resp.txt avec les informations qui vont bien
+		# puis suppression du fichier remote_ref_ls_fw.txt
+		# Sinon le fichier de référence de responsables du site distant n'existe pas, on l'initialise aux responsables du site local
+
+		rc=0
+		if [ -f "$_ADL_WORKING_DIR/remote_ref_ls_fw.txt" ]
+		then
+			$_AWK -F\| '{print $7 "|" $4}' "$_ADL_WORKING_DIR/remote_ref_ls_fw.txt" >"$_ADL_WORKING_DIR/remote_ref_ls_resp.txt" 2>&1
+			[ $? -ne 0 ] && Out 5 "Could not copy in $_ADL_WORKING_DIR/remote_ref_ls_resp.txt"
+
+			\rm "$_ADL_WORKING_DIR/remote_ref_ls_fw.txt"
+			[ $? -ne 0 ] && Out 5 "Could not remove $_ADL_WORKING_DIR/remote_ref_ls_fw.txt"
+		
+		elif [ ! -f "$_ADL_WORKING_DIR/remote_ref_ls_resp.txt" ] 
+		then
+			adl_ls_resp -tree $_L_WS_TREE -program -sep '|' -out "$_L_TMP/transfer_${_L_WS}_${_TID}/local_ls_resp.txt" >> "$_ADL_TRACE_DIR/0trace_ch_resp_local_ws"
+			[ $? -ne 0 ] && Out 5 "Could not extract the list of the responsibles from local workspace tree $_L_WS_TREE."
+
+			# Création du fichier de référence de responsables pour le site local à partir des responsables du site distant
+			$_AWK -F\| '{print $1 "|" $3}' "$_L_TMP/transfer_${_L_WS}_${_TID}/local_ls_resp.txt" >"$_ADL_WORKING_DIR/remote_ref_ls_resp.txt" 2>&1
+			[ $? -ne 0 ] && Out 5 "Could not copy in $_ADL_WORKING_DIR/remote_ref_ls_resp.txt"
+		fi
+		
+		#-------------------------------------------
+		# Recherche des responsables du site distant
+		# ------------------------------------------
+		"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/adl_ls_resp'"' -tree $_R_WS_TREE -program '-sep "|"' -out '"'$_R_TMP/transfer_${_R_WS}_${_TID}/temp_remote_ls_resp.txt'"' >"$_ADL_TRACE_DIR/0trace_ch_resp_local_ws" 2>&1
+		[ $? -ne 0 ] && Out 5 "Could not extract the list of the responsibles from remote workspace tree $_R_WS_TREE."
+
+		get_from_rhost "$_R_TMP/transfer_${_R_WS}_${_TID}/temp_remote_ls_resp.txt" "$_L_TMP/transfer_${_L_WS}_${_TID}/temp_remote_ls_resp.txt" >>"$_ADL_TRACE_DIR/0trace_get_remote_ls_resp_$$.txt" 2>&1
+		[ $? -ne 0 ] && Out 5 "Could not get from $_R_HOST the list of the responsibles of remote site: $_R_TMP/transfer_${_R_WS}_${_TID}/temp_remote_ls_resp.txt"
+
+		$_AWK -F\| '{print $1 "|" $3}' "$_L_TMP/transfer_${_L_WS}_${_TID}/temp_remote_ls_resp.txt" >"$_ADL_WORKING_DIR/remote_ls_resp.txt" 2>&1
+		[ $? -ne 0 ] && Out 5 "Could not copy in $_ADL_WORKING_DIR/remote_ls_resp.txt"
+
+		#------------------------------------------
+		# Changement des responsables du site local
+		# -----------------------------------------
+		adl_ch_resp -file "$_ADL_WORKING_DIR/remote_ref_ls_resp.txt" "$_ADL_WORKING_DIR/remote_ls_resp.txt" -tree $_L_WS_TREE -out "$_ADL_WORKING_DIR/remote_ref_ls_resp.txt" 2>&1 >> "$_ADL_TRACE_DIR/0trace_ch_resp_local_ws"
+		[ $? -ne 0 ] && Out 5 "Failed to change responsibles"
+	
+	else
+		touch "$_ADL_WORKING_DIR/remote_ref_ls_fw.txt"
+
+		# Le nouveau fichier de reference des responsables est construit a partir de l'ancien 
+		# avec des mises a jour des lignes correspondant aux composants aue que l'on traite dans le transfert courant
+		\cp -f "$_ADL_WORKING_DIR/remote_ref_ls_fw.txt" "$_L_TMP/transfer_${_L_WS}_${_TID}/new_remote_ref_ls_fw.txt"
+
+		\cp -f "$_L_TMP/transfer_${_L_WS}_${_TID}/remote_ls_fw.txt" "$_ADL_WORKING_DIR/remote_ls_fw.txt"
+		rc=0
+		IFS=\|
+		while read component type attached resp tree treeid componentid
+		do
+			currentresp=$($_AWK -F"|" '{if ($7=="'$componentid'") print $4}' "$_ADL_WORKING_DIR/remote_ref_ls_fw.txt")
+
+			if [ "$resp" != "$currentresp" ]
+			then
+				# On regarde si un filtre est mis en oeuvre lors du transfert
+				if [ -z "$_FW_LIST_FILENAME" ]
+				then
+					nbl=1
+				else
+					_assocfwname=$(echo "$component" | $_AWK -F/ '{print $1}')
+					_assocfwid=$($_AWK -F\| '{if ($1=="'$_assocfwname'") print $7}' "$_L_TMP/transfer_${_L_WS}_${_TID}/remote_ls_fw.txt")
+					nbl=$($_AWK -F\| '{if ($1=="'$_assocfwid'") print $0}' "$_L_TMP/transfer_${_L_WS}_${_TID}/remote_ls_fw_id.txt" | wc -l)
+				fi
+
+				if [ $nbl -ne 0 ]
+				then
+					\touch "$_ADL_TRACE_DIR/0trace_ch_resp_local_ws"
+					if [ -z "$currentresp" ] 
+					then
+						echo "   Responsible for $component is to be set to $resp" >> "$_ADL_TRACE_DIR/0trace_ch_resp_local_ws_short"
+					else
+						echo "   Responsible for $component is to be changed from $currentresp to $resp" >>  "$_ADL_TRACE_DIR/0trace_ch_resp_local_ws_short"
+					fi
+					adl_ch_resp soid:${componentid} -resp $resp -tree $_L_WS_TREE 2>&1 >> "$_ADL_TRACE_DIR/0trace_ch_resp_local_ws"
+					rc=$?
+					[ $rc -ne 0 ] && break
+
+					# Mise a jour de la prochaine liste de reference des responsables de composants
+					\grep -v $componentid "$_L_TMP/transfer_${_L_WS}_${_TID}/new_remote_ref_ls_fw.txt" > "$_L_TMP/transfer_${_L_WS}_${_TID}/new_remote_ref_ls_fw2.txt"
+					echo "$component|$type|$attached|$resp|$tree|$treeid|$componentid">>"$_L_TMP/transfer_${_L_WS}_${_TID}/new_remote_ref_ls_fw2.txt"
+					\mv -f "$_L_TMP/transfer_${_L_WS}_${_TID}/new_remote_ref_ls_fw2.txt" "$_L_TMP/transfer_${_L_WS}_${_TID}/new_remote_ref_ls_fw.txt"
+				fi
+			fi
+		done < "$_ADL_WORKING_DIR/remote_ls_fw.txt"
+		unset IFS
+		cd - >$NULL 2>&1
+
+		if [ $rc -ne 0 ]
+		then
+			Out 5 "Failed to change responsible of $component"
+		else
+			# La nouvelle liste de responsables devient la liste de reference
+			\mv -f "$_L_TMP/transfer_${_L_WS}_${_TID}/new_remote_ref_ls_fw.txt" "$_ADL_WORKING_DIR/remote_ref_ls_fw.txt"
+		fi	
+	fi
+
+	[ -z "$_SHORT_TRACES" ] && \cat "$_ADL_TRACE_DIR/0trace_ch_resp_local_ws_short" 2>$NULL
+	update_tracking_html local_ch_resp end "$TraceDirName/0trace_ch_resp_local_ws" >$NULL 2>&1
+
+fi # fin du test sur [ -z "$_EXPORT_ONLY" ]
+
+# =====================================================================
+#	etape 4
+#		slave  -> calcul des differences depuis le dernier report
+#			  envoi de ces donnees sur le site master
+# =====================================================================
+
+# Si on n'a pas demande l'import seul, on envoie les donnees locales vers le site distant
+if [ -z "$_IMPORT_ONLY" ]
+then
+
+	#------------------------------------------------------------------------
+	# Collecte des espace fils
+	#------------------------------------------------------------------------
+	if [ ! -z "$_L_COLLECT" ]
+	then
+		update_tracking_html collect_local start "$TraceDirName/0trace_collect_local_ws_$$.txt" >$NULL 2>&1
+		echo "Making a collect in local workspace..."| "$_CLIENT" $_RUN_COMMON -log_input -echo 
+		OPTIONS="-tree $_L_WS_TREE"
+		adl_collect $OPTIONS >"$_ADL_TRACE_DIR/0trace_collect_local_ws_$$.txt" 2>&1
+		rc=$?
+		[ -z "$_SHORT_TRACES" -a $rc -eq 0 ] && \cat "$_ADL_TRACE_DIR/0trace_collect_local_ws_$$.txt" 2>&1
+		if [ $rc -ne 0 ]
+		then
+			echo "Collect failed in local workspace."| "$_CLIENT" $_RUN_COMMON -log_input -echo 
+			echo "Consult the traces below to know the problem, fix it and restart the transfer."| "$_CLIENT" $_RUN_COMMON -log_input -echo 
+			Out 5 "Transfer aborted"
+		fi
+		update_tracking_html collect_local end "$TraceDirName/0trace_collect_local_ws_$$.txt" >$NULL 2>&1
+	fi
+
+	#------------------------------------------------------------------------
+	# Synchronisation de l'espace
+	#------------------------------------------------------------------------
+	if [ ! -z "$_L_SYNC" ]
+	then
+		update_tracking_html sync_local start "$TraceDirName/0trace_sync_local_ws_$$.txt" >$NULL 2>&1
+		echo "Synchronizing local workspace..."| "$_CLIENT" $_RUN_COMMON -log_input -echo 
+		OPTIONS="-tree $_L_WS_TREE"
+		adl_sync $OPTIONS >"$_ADL_TRACE_DIR/0trace_sync_local_ws_$$.txt" 2>&1
+		rc=$?
+		[ -z "$_SHORT_TRACES" -a $rc -eq 0 ] && \cat "$_ADL_TRACE_DIR/0trace_sync_local_ws_$$.txt" 2>&1
+		if [ $rc -ne 0 ]
+		then
+			echo "Synchronization failed in local workspace."| "$_CLIENT" $_RUN_COMMON -log_input -echo 
+			echo "Consult the traces below to know the problem, fix it and restart the transfer."| "$_CLIENT" $_RUN_COMMON -log_input -echo 
+			Out 5 "Transfer aborted"
+		fi
+		update_tracking_html sync_local end "$TraceDirName/0trace_sync_local_ws_$$.txt" >$NULL 2>&1
+	fi
+
+	#------------------------------------------------------------------------
+	# S'il y a des fusions, elles doivent etre resolues avant de continuer
+	#------------------------------------------------------------------------
+	if [ ! -z "$_L_COLLECT" -o ! -z "$_L_SYNC" ]
+	then
+		adl_ls_merge -program -sep "|" -out "$DefaultTmpDir"/lsmerge_$$.txt
+		rc=$?
+		[ $rc -ne 0 ] && Out 5 "Error when listing merges in current workspace"
+		nbmerge=$($_AWK -F"|" '{if ($1 == "MERGE") print $4}' "$DefaultTmpDir"/lsmerge_$$.txt | wc -l)
+		if [ "$nbmerge" -ne 0 ]
+		then
+			echo "There are $nbmerge merge(s) in current workspace." | "$_CLIENT" $_RUN_COMMON -log_input -echo 
+			echo "Use adl_solve_merge to solve remaining merges in $_L_WS and restart a transfer." | "$_CLIENT" $_RUN_COMMON -log_input -echo 
+			Out 5 "Transfer aborted"
+		fi
+		update_tracking_html solve_merge2 end "$TraceDirName/0trace_solve_merge2_local_ws" >$NULL 2>&1
+	fi
+
+	# On cree la reference si elle n'existe pas deja
+	\touch "$_ADL_WORKING_DIR/local_delta_param.txt"
+	\touch "$_ADL_WORKING_DIR/0lstate.txt"
+
+	#------------------------------------------------------------------------
+	# Optimisation evitant des etapes de transfert dans le cas
+	# ou on ne filtre pas par une liste de frameworks
+	#------------------------------------------------------------------------
+	update_tracking_html optim_promote start "$TraceDirName/0trace_optim_promote_local_$$.txt" >$NULL 2>&1
+	if [ -z "$_FW_LIST_FILENAME" ]
+	then
+		"$ADL_USER_PATH"/adl_ds_ws -tree $_L_WS_TREE -program -sep \| -out "$DefaultTmpDir"/0lstate_$$.txt
+		if [ $? -eq 0 ]
+		then
+			_currrev=$($_AWK -F\| '{if ($1 == "_WS") print $7}' "$DefaultTmpDir"/0lstate_$$.txt)
+			_currrank=$($_AWK -F\| '{if ($1 == "_WS") print $8}' "$DefaultTmpDir"/0lstate_$$.txt)
+			_prevrev=$($_AWK -F\| '{if ($1 == "_WS") print $7}' "$_ADL_WORKING_DIR/0lstate.txt")
+			_prevrank=$($_AWK -F\| '{if ($1 == "_WS") print $8}' "$_ADL_WORKING_DIR/0lstate.txt")
+			if [ "$_currrank" = "$_prevrank" -a "$_currrev" = "$_prevrev" ]
+			then
+				echo "The current state of the local workspace ${_L_WS} in the workspace tree $_L_WS_TREE has been already transferred to the remote workspace ${_R_WS}." >"$TraceDirName/0trace_optim_promote_local_$$.txt"
+				echo "Therefore it is not needed to perform a new transfer in the local workspace tree $_L_WS_TREE" >>"$TraceDirName/0trace_optim_promote_local_$$.txt"
+				export _OPTIM_PROMOTE=true
+				\cat "$TraceDirName/0trace_optim_promote_local_$$.txt"| "$_CLIENT" $_RUN_COMMON -log_input -echo 
+			fi
+		else
+			echo "Warning: an error occurred when getting information for local workspace. No optimization can be performed." >"$TraceDirName/0trace_optim_promote_local_$$.txt"
+		fi
+	else
+		echo "No optimization can be performed when filtering on frameworks." >"$TraceDirName/0trace_optim_promote_local_$$.txt"
+	fi
+	update_tracking_html optim_promote end "$TraceDirName/0trace_optim_promote_local_$$.txt" >$NULL 2>&1
+
+
+	if [ -z "$_OPTIM_PROMOTE" ]
+	then
+		compute_delta_and_send_from_local_to_remote
+
+		#------------------------------------------------------------------------
+		# On peut valider la seconde partie du transfert consistant
+		# a exporter vers le site distant toutes les nouveautes issues de l'espace courant
+		#------------------------------------------------------------------------
+		update_tracking_html valid_remote start "$TraceDirName/0trace_valid_remote_$$.txt" >$NULL 2>&1
+		\mv -f "$_ADL_WORKING_DIR/remote_ref_so_chg.txt" "$_ADL_WORKING_DIR/remote_ref_so_chg.prev" >"$_ADL_TRACE_DIR/0trace_valid_remote_$$.txt"
+		if [ $? -ne 0 ]
+		then
+			echo "Failed to rename $_ADL_WORKING_DIR/remote_ref_so_chg.txt $_ADL_WORKING_DIR/remote_ref_so_chg.prev"| "$_CLIENT" $_RUN_COMMON -log_input -echo 
+			Out 5 "Transfer aborted"
+		fi
+
+		get_from_rhost "$_R_TMP/transfer_${_R_WS}_${_TID}/remote_imported_so_chg.txt" "$_ADL_WORKING_DIR/remote_ref_so_chg.txt" >>"$_ADL_TRACE_DIR/0trace_valid_remote_$$.txt" 2>&1
+		[ $? -ne 0 ] && Out 5 "Could not get from $_R_HOST the whole imported changes: $_R_TMP/transfer_${_R_WS}_${_TID}/remote_imported_so_chg.txt"
+
+		if [ -z "$_SIMUL" ]
+		then
+			# On sauvegarde au cas ou...
+			\mv -f "$_ADL_WORKING_DIR/local_delta_param.txt" "$_ADL_WORKING_DIR/local_delta_param.prev" >>"$_ADL_TRACE_DIR/0trace_valid_remote_$$.txt" 2>&1
+			if [ $? -ne 0 ]
+			then
+				echo "Failed to rename $_ADL_WORKING_DIR/local_delta_param.txt $_ADL_WORKING_DIR/local_delta_param.prev"| "$_CLIENT" $_RUN_COMMON -log_input -echo 
+				Out 5 "Transfer aborted"
+			fi
+
+			\mv -f "$_ADL_WORKING_DIR/new_local_delta_param.txt" "$_ADL_WORKING_DIR/local_delta_param.txt" >>"$_ADL_TRACE_DIR/0trace_valid_remote_$$.txt" 2>&1
+			if [ $? -ne 0 ]
+			then
+				echo "Failed to update the last local delta parameter file."| "$_CLIENT" $_RUN_COMMON -log_input -echo 
+				echo "Check the space left on the file system $_ADL_WORKING_DIR"| "$_CLIENT" $_RUN_COMMON -log_input -echo 
+				Out 5 "Transfer aborted"
+			fi
+
+			if [ -z "$_FW_LIST_FILENAME" ]
+			then
+				\cp -f "$DefaultTmpDir"/0lstate_$$.txt "$_ADL_WORKING_DIR/0lstate.txt"
+				if [ $? -ne 0 ]
+				then
+					echo "Failed to update file $_ADL_WORKING_DIR/0lstate.txt"| "$_CLIENT" $_RUN_COMMON -log_input -echo 
+					Out 5 "Transfer aborted"
+				fi
+			fi
+		fi
+		update_tracking_html valid_remote end "$TraceDirName/0trace_valid_remote_$$.txt" >$NULL 2>&1
+
+	else
+		# Pour la premiere fois
+		\touch "$_ADL_WORKING_DIR/remote_ref_so_chg.txt"
+	fi
+
+	# -----------------------------------------------------------------------
+	# Frameworks attachés dans l'espace local
+	# -----------------------------------------------------------------------
+	update_tracking_html get_local_ls_fw start "$TraceDirName/0trace_get_local_ls_fw_$$.txt" >$NULL 2>&1
+	adl_ls_fw -mod -tree $_L_WS_TREE -program -sep "|" -out "$_L_TMP/transfer_${_L_WS}_${_TID}/local_ls_fw.txt" > "$_ADL_TRACE_DIR/0trace_get_local_ls_fw_$$.txt" 2>&1
+	[ $? -ne 0 ] && Out 5 "Could not extract the list of the frameworks from local workspace $_L_WS."
+
+	if [ -z "$_FW_LIST_FILENAME" ]
+	then
+		# Pas de filtre
+		$_AWK -F"|" '{ if ($2=="FRAMEWORK") print $7 }' "$_L_TMP/transfer_${_L_WS}_${_TID}/local_ls_fw.txt" >"$_L_TMP/transfer_${_L_WS}_${_TID}/local_ls_fw_id.txt"
+	else
+		# Filtre avec le fichier des frameworks
+		output_fw_id "$_FW_LIST_FILENAME" "$_L_TMP/transfer_${_L_WS}_${_TID}/local_ls_fw.txt" >"$_L_TMP/transfer_${_L_WS}_${_TID}/local_ls_fw_id.txt"
+	fi
+
+	update_tracking_html get_local_ls_fw end "$TraceDirName/0trace_get_local_ls_fw_$$.txt" >$NULL 2>&1
+
+	if [ ! -z "$_EXPORT_ONLY" ]
+	then
+		# Recuperation de la liste des composants dans l'espace distant
+		# Cette liste servira a l'attachement et au changement de responsable
+		update_tracking_html get_remote_ls_fw_2 start "$TraceDirName/0trace_get_remote_ls_fw_2_$$.txt" >$NULL 2>&1
+		"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/adl_ls_fw'"' -mod -all -tree $_R_WS_TREE -program '-sep "|"' -out '"'$_R_TMP/transfer_${_R_WS}_${_TID}/remote_ls_fw.txt'"' >"$_ADL_TRACE_DIR/0trace_get_remote_ls_fw_2_$$.txt"
+		[ $? -ne 0 ] && Out 5 "Could not extract the list of the frameworks from remote workspace $_R_WS."
+		get_from_rhost "$_R_TMP/transfer_${_R_WS}_${_TID}/remote_ls_fw.txt" "$_L_TMP/transfer_${_L_WS}_${_TID}/remote_ls_fw.txt" >>"$_ADL_TRACE_DIR/0trace_get_remote_ls_fw_2_$$.txt" 2>&1
+		[ $? -ne 0 ] && Out 5 "Could not get from $_R_HOST the list of the frameworks: $_R_TMP/transfer_${_R_WS}_${_TID}/remote_ls_fw.txt"
+
+		update_tracking_html get_remote_ls_fw_2 end "$TraceDirName/0trace_get_remote_ls_fw_2_$$.txt" >$NULL 2>&1
+
+		if [ -z "$_R_NO_ATTACH" ]
+		then
+			#------------------------------------------------------------------------
+			# Attachement des frameworks et des composants contenus
+			#------------------------------------------------------------------------
+
+			update_tracking_html remote_attach_fw start "$TraceDirName/0trace_attach_fw_remote_ws" >$NULL 2>&1
+			output_fw_to_attach "$_L_TMP/transfer_${_L_WS}_${_TID}/local_ls_fw_id.txt" "$_L_TMP/transfer_${_L_WS}_${_TID}/remote_ls_fw.txt" >"$_L_TMP/transfer_${_L_WS}_${_TID}/fw_to_attach.txt"
+			echo "Checking for missing framework(s) in the remote workspace..."| "$_CLIENT" $_RUN_COMMON -log_input -echo 
+			rc=0
+			while read fw_line
+			do
+				"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/adl_attach'"' $fw_line -tree $_R_WS_TREE -mod  2>&1 >>"$_ADL_TRACE_DIR/0trace_attach_fw_remote_ws"
+				[ $? -ne 0 ] && rc=1
+			done <"$_L_TMP/transfer_${_L_WS}_${_TID}/fw_to_attach.txt"
+
+			[ $rc -ne 0 ] && Out 5 "Could not attach the frameworks in the remote workspace $_R_WS."
+			update_tracking_html remote_attach_fw end "$TraceDirName/0trace_attach_fw_remote_ws" >$NULL 2>&1
+		fi
+	fi
+
+	# Attention 2 bugs possibles :
+	#      - cas n°1 : pas de fichier de référence
+	#               on se synchronise, on récupère un responsable, on le modifie et on se synchronise à nouveau. 
+	#               Résultat: on récupère encore le responsable du site distant.
+	#      - cas n°2 : avec un fichier de référence
+	#               on se synchronise, le fichier de référence de responsable a un objet qui a pour responsable Resp1
+	#               sur le site local, on change le responsable par Resp2, on fait adl_promote_is
+	#               sur le site distant, le responsable est Resp2. On change à nouveau le responsable en Resp1.
+	#               sur le site local, on se synchronise. On s'attend à avoir le responsable Resp1 mais il n'est pas modifié 
+	#               car le fichier de référence du site distant a pour responsable Resp1, il n'y a donc pas de différences et donc on estime 
+	#               à tort qu'il n'y a pas de changement à faire.
+	# Remarque : ces bugs peuvent aussi se produire sur un adl_promote_is.
+
+	echo >"$_ADL_TRACE_DIR/0trace_remote_ch_resp.txt"
+	update_tracking_html remote_ch_resp start "$TraceDirName/0trace_remote_ch_resp.txt" >$NULL 2>&1
+	echo "Checking for changes on responsibles of SCM objects..."| "$_CLIENT" $_RUN_COMMON -log_input -echo 
+
+	if [ "$_R_VERSION" \> "2003_06_16" ]
+	then 
+		#--------------------------------------
+		# Fichier de référence des responsables
+		# -------------------------------------
+		# Si le fichier local_ref_ls_fw.txt existe , copie dans le fichier local_ref_ls_resp.txt avec les informations qui vont bien
+		# puis suppression du fichier local_ref_ls_fw.txt
+		# Sinon, si le fichier de référence de responsables du site local n'existe pas alors création à partir des responsables du site distant
+
+		rc=0
+		if [ -f "$_ADL_WORKING_DIR/local_ref_ls_fw.txt" ]
+		then
+			$_AWK -F\| '{print $7 "|" $4}' "$_ADL_WORKING_DIR/local_ref_ls_fw.txt" >"$_ADL_WORKING_DIR/local_ref_ls_resp.txt" 2>&1
+			[ $? -ne 0 ] && Out 5 "Could not copy in $_ADL_WORKING_DIR/local_ref_ls_resp.txt"
+
+			\rm "$_ADL_WORKING_DIR/local_ref_ls_fw.txt"
+			[ $? -ne 0 ] && Out 5 "Could not remove $_ADL_WORKING_DIR/local_ref_ls_fw.txt"
+
+		elif [ ! -f "$_ADL_WORKING_DIR/local_ref_ls_resp.txt" ] 
+		then
+			"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/adl_ls_resp'"' -tree $_R_WS_TREE -program '-sep "|"' -out '"'$_R_TMP/transfer_${_R_WS}_${_TID}/remote_ls_resp.txt'"' 
+			[ $? -ne 0 ] && Out 5 "Could not extract the list of the responsibles from remote workspace tree $_R_WS_TREE."
+
+			get_from_rhost "$_R_TMP/transfer_${_R_WS}_${_TID}/remote_ls_resp.txt" "$_L_TMP/transfer_${_L_WS}_${_TID}/remote_ls_resp.txt" >>"$_ADL_TRACE_DIR/0trace_get_remote_ls_resp_$$.txt" 2>&1
+			[ $? -ne 0 ] && Out 5 "Could not get from $_R_HOST the list of the responsibles of remote site: $_R_TMP/transfer_${_R_WS}_${_TID}/remote_ls_resp.txt.txt"
+
+			# Création du fichier de référence de responsables pour le site local à partir des responsables du site distant
+			$_AWK -F\| '{print $1 "|" $3}' "$_L_TMP/transfer_${_L_WS}_${_TID}/remote_ls_resp.txt" >"$_ADL_WORKING_DIR/local_ref_ls_resp.txt" 2>&1
+			[ $? -ne 0 ] && Out 5 "Could not copy in $_ADL_WORKING_DIR/local_ref_ls_resp.txt"
+		fi
+		
+		send_to_rhost "$_ADL_WORKING_DIR/local_ref_ls_resp.txt" "$_R_TMP/transfer_${_R_WS}_${_TID}/local_ref_ls_resp.txt" > "$_ADL_TRACE_DIR/0trace_send_ls_resp_$$.txt" 2>&1
+		[ $? -ne 0 ] && Out 5 "Could not send to $_R_HOST the list of files to import: $_R_TMP/transfer_${_R_WS}_${_TID}/local_ref_ls_resp.txt"
+		
+		#---------------------------------------------
+		# Recherche des responsables sur le site local
+		# --------------------------------------------
+		# adl_promote_is
+
+		adl_ls_resp -tree $_L_WS_TREE -program -sep '|' -out "$_L_TMP/transfer_${_L_WS}_${_TID}/temp_local_ls_resp.txt" >> "$_ADL_TRACE_DIR/0trace_remote_ch_resp.txt"
+		[ $? -ne 0 ] && Out 5 "Could not extract the list of the responsibles from local workspace tree $_L_WS_TREE."
+
+		$_AWK -F\| '{print $1 "|" $3}' "$_L_TMP/transfer_${_L_WS}_${_TID}/temp_local_ls_resp.txt" >"$_ADL_WORKING_DIR/local_ls_resp.txt" 2>&1
+		[ $? -ne 0 ] && Out 5 "Could not copy in $_ADL_WORKING_DIR/local_ls_resp.txt"
+
+		send_to_rhost "$_ADL_WORKING_DIR/local_ls_resp.txt" "$_R_TMP/transfer_${_R_WS}_${_TID}/local_ls_resp.txt" > "$_ADL_TRACE_DIR/0trace_send_ls_resp_$$.txt" 2>&1
+		[ $? -ne 0 ] && Out 5 "Could not send to $_R_HOST the list of files to import: $_R_TMP/transfer_${_R_WS}_${_TID}/local_ls_resp.txt"
+
+		#------------------------------------------
+		# Changement des responsables du site local
+		# -----------------------------------------
+		# echo "++++++++++++++++++ Changement des responsables du site local ++++++++++++++++."
+		# '"'$_R_TMP/transfer_${_R_WS}_${_TID}/temp_remote_ls_resp.txt'"'
+		"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/adl_ch_resp'"' -file '"'$_R_TMP/transfer_${_R_WS}_${_TID}/local_ref_ls_resp.txt'"' '"'$_R_TMP/transfer_${_R_WS}_${_TID}/local_ls_resp.txt'"' -tree $_R_WS_TREE -out '"'$_R_TMP/transfer_${_R_WS}_${_TID}/local_ref_ls_resp.txt'"' 2>&1 >> "$_ADL_TRACE_DIR/0trace_remote_ch_resp.txt"
+		[ $? -ne 0 ] && Out 5 "Failed to change responsibles"
+
+		get_from_rhost "$_R_TMP/transfer_${_R_WS}_${_TID}/local_ref_ls_resp.txt" "$_ADL_WORKING_DIR/local_ref_ls_resp.txt" >>"$_ADL_TRACE_DIR/0trace_get_remote_ls_resp_$$.txt" 2>&1
+		[ $? -ne 0 ] && Out 5 "Could not get from $_R_HOST the list of the responsibles of local site: $_R_TMP/transfer_${_R_WS}_${_TID}/local_ref_ls_resp.txt"
+
+	else
+		\touch "$_ADL_WORKING_DIR/local_ref_ls_fw.txt"
+
+		# Le nouveau fichier de reference des responsables est construit a partir de l'ancien 
+		# avec des mises a jour des lignes correspondant aux composants aue que l'on traite dans le transfert courant
+		\cp -f "$_ADL_WORKING_DIR/local_ref_ls_fw.txt" "$_L_TMP/transfer_${_L_WS}_${_TID}/new_local_ref_ls_fw.txt"
+
+		\cp -f "$_L_TMP/transfer_${_L_WS}_${_TID}/local_ls_fw.txt" "$_ADL_WORKING_DIR/local_ls_fw.txt"
+		rc=0
+		IFS=\|
+		while read component type attached resp tree treeid componentid
+		do
+			currentresp=$($_AWK -F"|" '{if ($7=="'$componentid'") print $4}' "$_ADL_WORKING_DIR/local_ref_ls_fw.txt")
+
+			if [ "$resp" != "$currentresp" ]
+			then
+				# On regarde si un filtre est mis en oeuvre lors du transfert
+				if [ -z "$_FW_LIST_FILENAME" ]
+				then
+					nbl=1
+				else
+					_assocfwname=$(echo "$component" | $_AWK -F/ '{print $1}')
+					_assocfwid=$($_AWK -F\| '{if ($1=="'$_assocfwname'") print $7}' "$_L_TMP/transfer_${_L_WS}_${_TID}/local_ls_fw.txt")
+					nbl=$($_AWK -F\| '{if ($1=="'$_assocfwid'") print $0}' "$_L_TMP/transfer_${_L_WS}_${_TID}/local_ls_fw_id.txt" | wc -l)
+				fi
+
+				if [ $nbl -ne 0 ]
+				then
+					\touch "$_ADL_TRACE_DIR/0trace_remote_ch_resp.txt"
+					if [ -z "$currentresp" ] 
+					then
+						echo "   Responsible for $component is to be set to $resp" >>"$_ADL_TRACE_DIR/0trace_remote_ch_resp_short.txt"
+					else
+						echo "   Responsible for $component is to be changed from $currentresp to $resp" >> "$_ADL_TRACE_DIR/0trace_remote_ch_resp_short.txt"
+					fi
+
+					unset IFS
+					# on essaye de travailler d'abord avec des Ids et si on tombe sur une vieille version
+					# on essaye avec des noms mais c'est un peu plus risque...
+					"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/adl_ch_resp'"' soid:${componentid} -resp $resp -tree $_R_WS_TREE >>"$_ADL_TRACE_DIR/0trace_remote_ch_resp.txt"
+					rc=$?
+					if [ $rc -ne 0 ]
+					then
+						"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/adl_ch_resp'"' $component -resp $resp  2>&1 >> "$_ADL_TRACE_DIR/0trace_remote_ch_resp.txt"
+						rc=$?
+					fi
+					IFS=\|
+					[ $rc -ne 0 ] && break 
+
+					# Mise a jour de la prochaine liste de reference des responsables de composants
+					\grep -v $componentid "$_L_TMP/transfer_${_L_WS}_${_TID}/new_local_ref_ls_fw.txt" > "$_L_TMP/transfer_${_L_WS}_${_TID}/new_local_ref_ls_fw2.txt"
+					echo "$component|$type|$attached|$resp|$tree|$treeid|$componentid">>"$_L_TMP/transfer_${_L_WS}_${_TID}/new_local_ref_ls_fw2.txt"
+					\mv -f "$_L_TMP/transfer_${_L_WS}_${_TID}/new_local_ref_ls_fw2.txt" "$_L_TMP/transfer_${_L_WS}_${_TID}/new_local_ref_ls_fw.txt"
+				fi
+			fi
+		done < "$_ADL_WORKING_DIR/local_ls_fw.txt"
+		unset IFS
+		[ -z "$_SHORT_TRACES" -a $rc -eq 0 ] && \cat "$_ADL_TRACE_DIR/0trace_remote_ch_resp_short.txt" 2>$NULL
+		if [ $rc -ne 0 ]
+		then
+			# Compatibilite ascendante : on ne s'arrete que s'il y a une image courante
+			if [ -z "$_R_NO_IMAGE" ]
+			then
+				Out 5 "Failed to change responsible of $component in remote workspace"
+			else
+				echo "   Unable to change responsible. Check if remote SCM version allows to change responsible without remote workspace image"
+			fi
+		else
+			# La nouvelle liste de responsables devient la liste de reference
+			\mv -f "$_L_TMP/transfer_${_L_WS}_${_TID}/new_local_ref_ls_fw.txt" "$_ADL_WORKING_DIR/local_ref_ls_fw.txt"
+		fi
+	fi
+	
+	update_tracking_html remote_ch_resp end "$TraceDirName/0trace_remote_ch_resp.txt" >$NULL 2>&1
+
+	# =====================================================================
+	#	etape 6
+	#		master -> promotion du ws de report
+	#			  cette promotion devrait etre acceptee puisque les fusions
+	#                         ont du etre resolues a l'etape 3
+	# =====================================================================
+	if [ ! -z "$_R_PUBLISH" -a -z "$_SIMUL" ]
+	then
+		update_tracking_html publish_remote start "$TraceDirName/0trace_publish_remote_$$.txt" >$NULL 2>&1
+		echo "Publishing remote workspace $_R_WS..."| "$_CLIENT" $_RUN_COMMON -log_input -echo 
+		OPTIONS="-tree $_R_WS_TREE"
+		"$_CLIENT"  $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/adl_publish'"' $OPTIONS >"$_ADL_TRACE_DIR/0trace_publish_remote_$$.txt" 2>&1
+		rc=$?
+		[ -z "$_SHORT_TRACES" -a $rc -eq 0 ] && \cat "$_ADL_TRACE_DIR/0trace_publish_remote_$$.txt"|"$_CLIENT" $_RUN_COMMON -log_input -echo 
+		[ $rc -ne 0 ] && Out 5 "Failed to publish remote workspace $_R_WS"
+		update_tracking_html publish_remote end "$TraceDirName/0trace_publish_remote_$$.txt" >$NULL 2>&1
+	fi
+
+	if [ ! -z "$_R_PROMOTE" ]
+	then
+		update_tracking_html promote_remote start "$TraceDirName/0trace_promote_remote_$$.txt" >$NULL 2>&1
+		echo "Promoting remote workspace $_R_WS to its parent workspace..."| "$_CLIENT" $_RUN_COMMON -log_input -echo 
+		if [ -z "$_R_CR_LIST" ]
+		then
+			OPTIONS="-cr_transfer"
+		else
+			OPTIONS="-cr $_R_CR_LIST"
+		fi
+		OPTIONS="$OPTIONS -tree $_R_WS_TREE $_SIMUL -adm_no_check_caa_rules"
+		[ ! -z "$_R_PROMOTE_LIST" ] && OPTIONS="$OPTIONS -to $_R_PROMOTE_LIST"
+		"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/adl_promote'"' $OPTIONS >"$_ADL_TRACE_DIR/0trace_promote_remote_$$.txt" 2>&1
+		rc=$?
+		if [ $rc -eq 0 ]
+		then
+			\cat "$_ADL_TRACE_DIR/0trace_promote_remote_$$.txt"|"$_CLIENT" $_RUN_COMMON -log_input -echo 
+		else
+			Out 5 "Failed to promote remote workspace $_R_WS"
+		fi
+		update_tracking_html promote_remote end "$TraceDirName/0trace_promote_remote_$$.txt" >$NULL 2>&1
+	fi
+
+fi # fin du test sur [ -z "$_IMPORT_ONLY" ]
+
+# On trace la fin globale du transfert
+update_tracking_html STATUS end "$_ADL_TRACE_DIR/follow_up.htm" >$NULL 2>&1
+
+if [ -z "$_SHORT_TRACES" ]
+then
+	echo " "| "$_CLIENT" $_RUN_COMMON -log_input -echo 
+	Out 0 "Transfer successful"
+else
+	Out 0
+fi
+

@@ -1,0 +1,26 @@
+
+# Acces aux modules C++
+
+CATICPath=$MkmkIC_PATH
+CATMsgCatalogPath=$MkmkMsgCatalog_PATH
+export CATICPath
+export CATMsgCatalogPath
+# Licensing 
+unset CATReferenceSettingPath
+
+if [ "$mkcsOS_NAME" = "Windows_NT" ]; then
+	PATH="$PATH;$mkcsSHLIB_PATH"
+else
+	eval export $mkcsSHLIB_NAME=$mkcsSHLIB_PATH
+
+	if [ "$mkcsOS_NAME" = "AIX" ]; then
+		\ulimit -d unlimited
+	fi
+	
+	PATH="$PATH:$mkcsSHLIB_PATH"
+fi
+
+
+# Lancement
+mkCheckSourceM $*
+exit $?

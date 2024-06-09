@@ -1,0 +1,230 @@
+#!/bin/ksh 
+
+# =====================================================================
+# Copyright 2002 (C) Dassault-Systemes
+# 
+# adl_ls_fw_is: list frameworks in remote mirror workspace
+# This commands works like adl_ls_fw but runs on the remote site.
+#
+# =====================================================================
+unset _lock_code
+[ ! -z "$ADL_DEBUG" ] && set -x
+[ "$(uname -s)" = "Windows_NT" ] && export ADL_USER_PATH="$(printf "%s" "$ADL_USER_PATH" | sed 's+\\+/+g')"
+. "$ADL_USER_PATH"/admin/ADLMultiSiteCommon.sh
+
+# =====================================================================
+# Out function
+# Syntax: $1 = exit code; $2 = message code; $3... = message parameter(s)
+# =====================================================================
+Out()
+{
+	ExitCode=$1
+	shift
+	trap 'Out 5 0100 ' HUP INT QUIT TERM
+
+	# Send 'finish' event to the remote transfer manager
+	[ $ExitCode -eq 0 -a $_lock_code -eq 0 ] && "$_CLIENT" $_RUN_COMMON -finish "$_T_NAME" "$ADL_WS" "$_L_SITE" "#CMD=adl_ls_fw_is"
+
+	if [ $ExitCode -ge 1 ]
+	then
+		# Send 'abort' event to the remote transfer manager
+		[ $_lock_code -eq 0 ] && "$_CLIENT" $_RUN_COMMON -abort "$_T_NAME" "$ADL_WS" "$_L_SITE" "#CMD=adl_ls_fw_is"
+
+		[ ! -z "$1" ] && _printerr $* >&2
+		echo ""
+		_printerr 0030 >&2
+	elif [ $# -gt 0 ]
+	then
+		echo ""
+		 _printmsg $* 
+	fi
+
+	# Clean possibly dedicated environment in the transfer manager daemon
+	"$_CLIENT" $_RUN_COMMON -finish > $NULL 2>&1
+	# Remove dedicated temporary directory (its name contains an UUID)
+	if [ ! -z "$_R_TMP" ]
+	then
+		"$_CLIENT" $_RUN_COMMON -rm '"'$_R_TMP'"' -rec || _printerr 0516 "$_R_TMP"
+	fi
+
+	\rm -rf "$DefaultTmpDir"/*_$$
+	\rm -rf "$DefaultTmpDir"/*_$$.sh
+	\rm -rf "$DefaultTmpDir"/*_$$.txt 
+
+	exit $ExitCode
+}
+trap 'Out 5 0100 ' HUP INT QUIT TERM
+
+# =====================================================================
+# Analyse des parametres d'appel
+# =====================================================================
+
+typeset -L1 OneChar
+CheckOptArg()
+{
+	# Usage : CheckOptArg opt arg
+	OneChar="$2"
+	if [ "$2" = "" -o "$OneChar" = "-" ]
+	then
+		_printerr 0103 "$1" # "Option /p1: one argument is required"
+		Out 5 0210
+	fi
+}
+
+unset _T_NAME
+
+# Note: _R_HOST & _R_PORT sont obsoletes -> utiliser _R_SERVER
+unset _R_HOST
+unset _R_PORT
+unset _R_SERVER
+unset _R_WS
+
+unset _TREE_OPTION
+export _TREE_LIST_FILE="$DefaultTmpDir"/ls_tree_$$.txt
+export _FW_LIST_FILE="$DefaultTmpDir"/ls_fw_$$.txt
+unset _ALL_OPTION
+unset _MOD_OPTION
+unset _FORCE_START_OPTION
+
+while [ $# -ge 1 ]
+do
+	case "$1" in
+		-h | -help | -\? ) #-------------------> HELP NEEDED
+			_printmsg 0210 # usage ...
+			_printmsg 0200
+			exit 0
+			;;
+		-all ) #-------------------> ALL COMPONENTS THAT CAN BE ATTACHED
+			_ALL_OPTION=true
+			shift
+			;;
+		-mod ) #-------------------> LIST MODULES AND DATA TOO
+			_MOD_OPTION=true
+			shift
+			;;
+		-tree ) #-------------------> LOCAL WORKSPACE TREE(s)
+			_TREE_OPTION=true
+			shift
+			touch "$_TREE_LIST_FILE"
+			while [ $# -ne 0 ]
+			do
+				OneChar="$1"
+				if [ "$OneChar" != "-" ]
+				then
+					echo "$1" >> "$_TREE_LIST_FILE"
+					shift
+				else
+					break
+				fi
+			done
+			if [ ! -s "$_TREE_LIST_FILE" ]
+			then
+				_printerr 0103 "-tree" # "Option /p1: one argument is required"
+				Out 5 0210
+			fi
+			;;
+		-force_start ) #-------------------> FORCE TRANSFER TO START
+			export _FORCE_START_OPTION="-force_start"
+			shift
+			;;
+		-transfer ) #-------------------> TRANSFER NAME
+			CheckOptArg "$1" "$2"
+			export _T_NAME="$2"
+			shift 2
+			;;
+		-* ) _printerr 0104 $1 # "Unknown option: /p1"
+			Out 5 0210 
+			;;
+		*) [ ! -f "$_FW_LIST_FILE" ] && \touch "$_FW_LIST_FILE"
+			printf "%s\n" "$1" | sed 's+\\+/+g' >> "$_FW_LIST_FILE" || Out 5 0228 "$_FW_LIST_FILE" # "Failed to write in file /p1..."
+			shift
+			;;
+	esac
+done
+
+# Check there is a current workspace
+if [ -z "$ADL_WS" ]
+then
+	Out 5 0108 "adl_ch_ws" # "No current workspace. Use /p1 to set the current workspace to the local transfer workspace.";
+fi
+
+######################################################################
+#
+# Check or compute name of transfer + check remote workspace
+#
+######################################################################
+check_transfer
+
+######################################################################
+#
+# Connection to the remote Multisite transfer manager
+#
+######################################################################
+init_connection_with_remote_site "$_R_SERVER"
+
+######################################################################
+#
+# Check information registered locally against current state
+# of remote site
+#
+######################################################################
+check_remote_transfer
+
+######################################################################
+#
+# Prevent for concurrent accesses
+#
+######################################################################
+[ ! -z "$_FORCE_START_OPTION" ] && "$_CLIENT" $_RUN_COMMON -abort "$_T_NAME" "$ADL_WS" "$_L_SITE"
+"$_CLIENT" $_RUN_COMMON -start "$_T_NAME" "$ADL_WS" "$_L_SITE" "#CMD=adl_ls_fw_is" >"$DefaultTmpDir"/start_is_$$.txt
+_lock_code=$?
+if [ $_lock_code -ne 0 ]
+then
+	grep 'A session already exists with this identifier' "$DefaultTmpDir"/start_is_$$.txt >$NULL
+	if [ $? -eq 0 ]
+	then
+		# There is already another command that is registered on the remote host /p3 ...
+		Out 5 0335 "$_T_NAME" "$ADL_WS" "$_R_HOST"
+	else
+		Out 5 0334 "$_R_SERVER" # "The remote transfer manager does not respond from /p1."
+	fi
+fi
+
+######################################################################
+#
+# Execute the command
+#
+######################################################################
+
+unset _OPTIONS
+[ ! -z "$_ALL_OPTION" ] && _OPTIONS="-all"
+[ ! -z "$_MOD_OPTION" ] && _OPTIONS="$_OPTIONS -mod"
+[ ! -z "$_R_WS_TREE_LIST" ] && _OPTIONS="$_OPTIONS -tree $_R_WS_TREE_LIST"
+# To cope with space in component's names, we loop on reading from a file
+# instead of having all names on the command line
+if [ -s "$_FW_LIST_FILE" ]
+then
+	\rm -f "$DefaultTmpDir"/r_ls_comp_$$.txt || Out 5 0221 "$DefaultTmpDir"/r_ls_comp_$$.txt # "Failed to create temporary file /p1. Please restart the command."
+	\touch "$DefaultTmpDir"/r_ls_comp_$$.txt || Out 5 0221 "$DefaultTmpDir"/r_ls_comp_$$.txt # "Failed to create temporary file /p1. Please restart the command."
+	while read _one_component
+	do
+		"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/adl_ls_fw'"' '"'$_one_component'"' -ws "$_R_WS" $_OPTIONS >>"$DefaultTmpDir"/r_ls_comp_$$.txt
+		rc=$?
+	done < "$_FW_LIST_FILE"
+else
+	"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/adl_ls_fw'"' -ws "$_R_WS" $_OPTIONS >"$DefaultTmpDir"/r_ls_comp_$$.txt
+	rc=$?
+fi
+if [ $rc -ne 0 ]
+then
+	\cat "$DefaultTmpDir"/r_ls_comp_$$.txt # print the result file since it contains error messages too
+	Out 5 0226 # "Failed to list components on remote site."
+else
+	\cat "$DefaultTmpDir"/r_ls_comp_$$.txt
+fi
+
+Out 0
+
+
+
+

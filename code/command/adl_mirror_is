@@ -1,0 +1,539 @@
+#!/bin/ksh 
+
+# =====================================================================
+# Copyright 2002 (C) Dassault-Systemes
+# 
+# adl_mirror_is: solve merges existing in both local 
+# and remote mirror workspace.
+#
+# =====================================================================
+unset _lock_code
+[ ! -z "$ADL_DEBUG" ] && set -x
+[ "$(uname -s)" = "Windows_NT" ] && export ADL_USER_PATH="$(printf "%s" "$ADL_USER_PATH" | sed 's+\\+/+g')"
+. "$ADL_USER_PATH"/admin/ADLMultiSiteCommon.sh
+
+# =====================================================================
+# Out function
+# Syntax: $1 = exit code; $2 = message code; $3... = message parameter(s)
+# CAUTION: only the first for message parameters can have spaces
+# =====================================================================
+Out()
+{
+	ExitCode=$1
+	shift
+	trap 'Out 5 0100' HUP INT QUIT TERM
+
+	# Send 'finish' event to the remote transfer manager
+	[ $ExitCode -eq 0 -a $_lock_code -eq 0 ] && "$_CLIENT" $_RUN_COMMON -finish "$_T_NAME" "$ADL_WS" "$_L_SITE" "#CMD=adl_mirror_is"
+
+
+	if [ $ExitCode -ge 1 ]
+	then
+		# Send 'abort' event to the remote transfer manager
+		[ $_lock_code -eq 0 ] && "$_CLIENT" $_RUN_COMMON -abort "$_T_NAME" "$ADL_WS" "$_L_SITE" "#CMD=adl_mirror_is"
+
+		if [ $# -eq 1 ]
+		then
+			_printerr "$1" >&2
+		elif [ $# -eq 2 ]
+		then
+			_printerr "$1" "$2" >&2
+		elif [ $# -eq 3 ]
+		then
+			_printerr "$1" "$2" "$3" >&2
+		elif [ $# -eq 4 ]
+		then
+			_printerr "$1" "$2" "$3" "$4" >&2
+		elif [ $# -gt 4 ]
+		then
+			_printerr $* >&2
+		fi
+
+		echo ""
+		_printerr 0030 >&2
+
+	elif [ $# -ge 1 ]
+	then
+		echo ""
+		if [ $# -eq 1 ]
+		then
+			_printmsg "$1" >&2
+		elif [ $# -eq 2 ]
+		then
+			_printmsg "$1" "$2" >&2
+		elif [ $# -eq 3 ]
+		then
+			_printmsg "$1" "$2" "$3" >&2
+		elif [ $# -eq 4 ]
+		then
+			_printmsg "$1" "$2" "$3" "$4" >&2
+		elif [ $# -gt 4 ]
+		then
+			_printmsg $* >&2
+		fi
+	fi
+	unset IFS
+
+	# Clean possibly dedicated environment in the transfer manager daemon
+	"$_CLIENT" $_RUN_COMMON -finish > $NULL 2>&1
+	# Remove dedicated temporary directory (its name contains an UUID)
+	if [ ! -z "$_R_TMP" ]
+	then
+		"$_CLIENT" $_RUN_COMMON -rm '"'$_R_TMP'"' -rec || _printerr 0516 "$_R_TMP"
+	fi
+
+	\rm -rf "$DefaultTmpDir"/*_$$
+	\rm -rf "$DefaultTmpDir"/*_$$.sh
+	\rm -rf "$DefaultTmpDir"/*_$$.txt
+
+	exit $ExitCode
+}
+trap 'Out 5 0100 ' HUP INT QUIT TERM
+
+# =====================================================================
+# Analyse des parametres d'appel
+# =====================================================================
+
+typeset -L1 OneChar
+CheckOptArg()
+{
+	# Usage : CheckOptArg opt arg
+	OneChar="$2"
+	if [ "$2" = "" -o "$OneChar" = "-" ]
+	then
+		_printerr 0103 "$1" # "Option /p1: one argument is required"
+		Out 5 1010
+	fi
+}
+
+unset _T_NAME
+
+# Note: _R_HOST & _R_PORT sont obsoletes -> utiliser _R_SERVER
+unset _R_HOST
+unset _R_PORT
+unset _R_SERVER
+unset _R_WS
+unset _TREE_OPTION
+unset _TO_REMOTE_WS_OPTION
+unset _FROM_REMOTE_WS_OPTION
+export _TREE_LIST_FILE="$DefaultTmpDir"/ls_tree_$$.txt
+unset _FORCE_START_OPTION
+
+while [ $# -ge 1 ]
+do
+	case "$1" in
+		-h | -help | -\? ) #-------------------> HELP NEEDED
+			_printmsg 1010 # usage ...
+			_printmsg 1000
+			exit 0
+			;;
+		-to_remote_ws ) #-------------------> TRANSFER FROM CURRENT WORKSPACE TO REMOTE WORKSPACE
+			_TO_REMOTE_WS_OPTION=true
+			shift
+			;;
+		-from_remote_ws ) #-------------------> TRANSFER FROM REMOTE WORKSPACE TO CURRENT WORKSPACE
+			_FROM_REMOTE_WS_OPTION=true
+			shift
+			;;
+		-tree ) #-------------------> LOCAL WORKSPACE TREE(s)
+			_TREE_OPTION=true
+			shift
+			touch "$_TREE_LIST_FILE"
+			while [ $# -ne 0 ]
+			do
+				OneChar="$1"
+				if [ "$OneChar" != "-" ]
+				then
+					echo "$1" >> "$_TREE_LIST_FILE"
+					shift
+				else
+					break
+				fi
+			done
+			if [ ! -s "$_TREE_LIST_FILE" ]
+			then
+				_printerr 0103 "-tree" # "Option /p1: one argument is required"
+				Out 5 1010 
+			fi
+			;;
+		-transfer ) #-------------------> TRANSFER NAME
+			CheckOptArg "$1" "$2"
+			export _T_NAME="$2"
+			shift 2
+			;;
+		-force_start ) #-------------------> FORCE TRANSFER TO START
+			export _FORCE_START_OPTION="-force_start"
+			shift
+			;;
+		-* ) _printerr 0104 "$1" # "Unknown option: /p1"
+			Out 5 1010
+			;;
+		*) _printerr 0411 "$1" # "Argument /p1 is not expected."
+			Out 5 1010
+			;;
+	esac
+done
+
+if [ -z "$_TO_REMOTE_WS_OPTION" ]
+then
+	if [ -z "$_FROM_REMOTE_WS_OPTION" ]
+	then
+		_printerr 1020 "-to_remote_ws" "-from_remote_ws"  # "/p1 or /p2 option must be defined"
+		Out 5 1010 
+	fi
+else
+	if [ ! -z "$_FROM_REMOTE_WS_OPTION" ]
+	then
+		_printerr 1021 "-to_remote_ws" "-from_remote_ws"  # "The options /p1 and /p2 can't be defined together"
+		Out 5 1010 
+	fi
+fi
+
+# Check there is a current workspace
+if [ -z "$ADL_WS" ]
+then
+	Out 5 0108 "adl_ch_ws" # "No current workspace. Use /p1 to set the current workspace to the local transfer workspace.";
+fi
+
+######################################################################
+#
+# Check or compute name of transfer + check remote workspace
+#
+######################################################################
+check_transfer # will generate "$DefaultTmpDir"/ls_transfer_$$.txt
+
+# Check a mirror workspace exists
+[ "$_R_MIRROR_WS" = "MIRROR_WS" ] && Out 5 1030 # "This command cannot be used because the transfer has been created with remote mirror workspace."
+
+######################################################################
+#
+# Connection to the remote Multisite transfer manager
+#
+######################################################################
+init_connection_with_remote_site "$_R_SERVER"
+
+######################################################################
+#
+# Check information registered locally against current state
+# of remote site
+#
+######################################################################
+check_remote_transfer
+
+# If no tree is specified, use the adl_ls_transfer command to know the list of trees to take in account
+if [ ! -s "$_TREE_LIST_FILE" ]
+then
+	$_AWK -F\| '{print $5}' "$DefaultTmpDir"/ls_transfer_$$.txt >"$_TREE_LIST_FILE"
+	[ $? -ne 0 ] && Out 5 0221 "$_TREE_LIST_FILE" # "Failed to create temporary file /p1..."
+fi
+
+######################################################################
+#
+# Prevent for concurrent accesses
+#
+######################################################################
+[ ! -z "$_FORCE_START_OPTION" ] && "$_CLIENT" $_RUN_COMMON -abort "$_T_NAME" "$ADL_WS" "$_L_SITE"
+"$_CLIENT" $_RUN_COMMON -start "$_T_NAME" "$ADL_WS" "$_L_SITE" "#CMD=adl_mirror_is" >"$DefaultTmpDir"/start_is_$$.txt
+_lock_code=$?
+if [ $_lock_code -ne 0 ]
+then
+	grep 'A session already exists with this identifier' "$DefaultTmpDir"/start_is_$$.txt >$NULL
+	if [ $? -eq 0 ]
+	then
+		 # "The same transfer \"/p1\" from workspace \"/p2\" is already registered on the remote host /p3..."
+		Out 5 0333 "$_T_NAME" "$ADL_WS" "$_R_HOST"
+	else
+		Out 5 0334 "$_R_SERVER" # "The remote transfer manager does not respond from /p1."
+	fi
+fi
+
+
+######################################################################
+#
+# Execute the command
+#
+######################################################################
+
+# Change current workspace and remote host
+_printmsg 0320 "$_R_WS" # "Changing current remote working workspace to /p1..."
+"$_CLIENT" $_RUN_COMMON -setenv "$_R_WS" -no_image > "$DefaultTmpDir"/r_traces_$$.txt 2>&1
+[ $? -ne 0 ] && \cat "$DefaultTmpDir"/r_traces_$$.txt && Out 5 0314 # "Failed to set current remote workspace for attaching components."
+
+# One transfer is launched per tree and all are run one by one
+rc=0
+while read _one_tree
+do
+	echo " " | "$_CLIENT" $_RUN_COMMON -log_input -echo
+	# Translate the local workspace tree using proper upper/lower case
+	_L_WS_TREE=$($_AWK -F\| '{if (tolower($5)==tolower("'$_one_tree'")) print $5}' "$DefaultTmpDir"/ls_transfer_$$.txt)
+
+	_R_WS_TREE=$($_AWK -F\| '{if (tolower($5)==tolower("'$_L_WS_TREE'")) print $9}' "$DefaultTmpDir"/ls_transfer_$$.txt)
+	[ -z "$_R_WS_TREE" ] && Out 5 413 "$_L_WS_TREE" # "Failed to extract name of remote workspace tree..."
+
+	if [ -z "$_TO_REMOTE_WS_OPTION" ]
+	then
+		_printmsg 1024 "$ADL_WS" "$_L_WS_TREE" # "Transfering the content of the remote workspace to workspace \"/p1\" in the workspace tree \"/p2\" to the remote workspace..."
+	else
+		_printmsg 1023 "$ADL_WS" "$_L_WS_TREE" # "Transfering the content of workspace \"/p1\" in the workspace tree \"/p2\" to the remote workspace..."
+	fi
+
+	# Generate information to help reporting
+	if [ ! -z "$_L_IMAGE" ]
+	then
+		_ADL_WORKING_DIR="$ADL_IMAGE_DOS_DIR/ToolsData/MultiSite/${_T_NAME}/${_L_WS_TREE}"
+	else
+		_ADL_WORKING_DIR="$_L_DIR/MultiSite/${ADL_WS}/${_T_NAME}/${_L_WS_TREE}"
+	fi
+	if [ ! -d "$_ADL_WORKING_DIR" ]
+	then
+		\mkdir -p "$_ADL_WORKING_DIR" || Out 5 0031 "$_ADL_WORKING_DIR"
+	fi
+
+	unset _loop_on_fw
+	if [ -z "$_TO_REMOTE_WS_OPTION" ]
+	then
+		# Transfer from remote workspace to current workspace
+		# Look if it is the first time a transfer is made in this tree
+		if [ ! -z "$_L_IMAGE" ]
+		then
+			[ ! -s "$ADL_IMAGE_DOS_DIR/ToolsData/MultiSite/${_T_NAME}/${_L_WS_TREE}/remote_delta_param.txt" ] && _loop_on_fw=true
+		else
+			[ ! -s "$_L_DIR/MultiSite/${ADL_WS}/${_T_NAME}/${_L_WS_TREE}/remote_delta_param.txt" ] && _loop_on_fw=true
+		fi
+
+		if [ -z "$_loop_on_fw" ]
+		then
+			echo "Command = adl_mirror_is / Local tree = $_L_WS_TREE / FROM_REMOTE_WS / Framework = all" > "$_ADL_WORKING_DIR/0Information.txt" || Out 5 0032 "$_ADL_WORKING_DIR/0Information.txt"
+
+			if [ ! -z "$_L_IMAGE" ]
+			then
+				$_CALL_SH adl_site_transfer -rhost "$_R_SERVER" -rsite "$_R_SITE" -rw "$_R_WS" -rno_image -rtree $_R_WS_TREE -rtmp "$_R_TMP" \
+				-lw "$ADL_WS" -ltree "$_L_WS_TREE" -ltmp "$DefaultTmpDir" -limage "$_L_IMAGE" -import_only -allow_merges\
+				$_FORCE_START_OPTION -transfer "$_T_NAME" -run_no_check -tuuid $_TUUID -short_traces -rno_attach -lno_attach 2>&1 | tee -a "$DefaultTmpDir"/r_mirror_${_L_WS_TREE}_$$.txt
+				rc2=$?
+				nbl=$(\grep '#ERR# transfer failed.' "$DefaultTmpDir"/r_mirror_${_L_WS_TREE}_$$.txt | wc -l)
+				if [ $rc2 -ne 0  -o $nbl -ge 1 ]
+				then
+					\cp "$DefaultTmpDir"/r_mirror_${_L_WS_TREE}_$$.txt "$_ADL_WORKING_DIR"/0LastError.txt
+					\chmod 777 "$_ADL_WORKING_DIR"/0LastError.txt
+					_printerr 1022 "$_L_WS_TREE" "$_ADL_WORKING_DIR"/0LastError.txt # "The mirroring in workspace tree \"/p1\" has failed..."
+					rc=5
+				else
+					_printmsg 0099 "$_L_WS_TREE" # "Intersite command successful in tree /p1"
+				fi
+			else
+				# Transfer from remote workspace to current workspace
+				$_CALL_SH adl_site_transfer -rhost "$_R_SERVER" -rsite "$_R_SITE" -rw "$_R_WS" -rno_image -rtree $_R_WS_TREE -rtmp "$_R_TMP" \
+				-lw "$ADL_WS" -ltree "$_L_WS_TREE" -ltmp "$DefaultTmpDir" -lwd "$_L_DIR" -import_only -allow_merges\
+				$_FORCE_START_OPTION -transfer "$_T_NAME" -run_no_check -tuuid $_TUUID -short_traces -rno_attach -lno_attach 2>&1 | tee -a "$DefaultTmpDir"/r_mirror_${_L_WS_TREE}_$$.txt
+				rc2=$?
+				nbl=$(\grep '#ERR# transfer failed.' "$DefaultTmpDir"/r_mirror_${_L_WS_TREE}_$$.txt | wc -l)
+				if [ $rc2 -ne 0  -o $nbl -ge 1 ]
+				then
+					\cp "$DefaultTmpDir"/r_mirror_${_L_WS_TREE}_$$.txt "$_ADL_WORKING_DIR"/0LastError.txt
+					\chmod 777 "$_ADL_WORKING_DIR"/0LastError.txt
+					_printerr 1022 "$_L_WS_TREE" "$_ADL_WORKING_DIR"/0LastError.txt # "The mirroring in workspace tree \"/p1\" has failed..."
+					rc=5
+				else
+					_printmsg 0099 "$_L_WS_TREE" # "Intersite command successful in tree /p1"
+				fi
+			fi
+		else
+			##################################################################
+			# Run the transfer by looping on frameworks
+			_printmsg 1025 "$_R_SITE" "$ADL_WS" "$_L_WS_TREE" # "Information: this is the first transfer...
+
+			"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/adl_ls_fw'"' -tree '"'$_R_WS_TREE'"' -program '-sep "|"' -out '"'$_R_TMP/r_ls_fw_$$.txt'"'
+			rc=$?
+			if [ $rc -ne 0 ]
+			then
+				_printerr 0226  # "Failed to list components on remote site."
+				continue
+			else
+				"$_CLIENT" $_RUN_COMMON -get "$_R_TMP/r_ls_fw_$$.txt" "$DefaultTmpDir"/r_ls_fw_$$.txt || Out 5 0025 "$_R_TMP/r_ls_fw_$$.txt" "$DefaultTmpDir"/r_ls_fw_$$.txt || Out 5 0025 "$_R_TMP/r_ls_fw_$$.txt" "$DefaultTmpDir"/r_ls_fw_$$.txt
+				$_AWK -F\| '{print $1}' "$DefaultTmpDir"/r_ls_fw_$$.txt > "$DefaultTmpDir"/r_ls_fw2_$$.txt
+				if [ $? -ne 0 ]
+				then
+					_printerr 0226  # "Failed to list components on remote site."
+					rc=5
+					continue
+				elif [ ! -s "$DefaultTmpDir"/r_ls_fw2_$$.txt ]
+				then
+					_printmsg 0230 "$_R_WS" "$_R_WS_TREE" # "There is no component in workspace \"/p1\" for workspace tree \"/p2\"."
+				fi
+			fi	
+
+			# Count number of components to attach in order to adapt the garbage of trace files
+			_nb_to_keep=$(\cat "$DefaultTmpDir"/r_ls_fw2_$$.txt | wc -l)
+			[ $_nb_to_keep -gt 10 ] && _nb_to_keep=$(expr $_nb_to_keep + 2)
+			[ $_nb_to_keep -lt 10 ] && _nb_to_keep=10
+
+			while read _one_fw
+			do
+				_printmsg 1027 "$_one_fw" # "Transfering component \"/p1\"...";
+	
+				# Generate information to help reporting
+				echo "Command = adl_mirror_is / Local tree = $_L_WS_TREE / FROM_REMOTE_WS / Framework = $_one_fw" > "$_ADL_WORKING_DIR/0Information.txt" || Out 5 0032 "$_ADL_WORKING_DIR/0Information.txt"
+
+				if [ ! -z "$_L_IMAGE" ]
+				then
+					$_CALL_SH "$ADL_USER_PATH"/adl_site_transfer -rhost "$_R_SERVER" -rsite "$_R_SITE" -rw "$_R_WS" -rno_image -rtree "$_R_WS_TREE" -rtmp "$_R_TMP" \
+						-lw "$ADL_WS" -ltree "$_L_WS_TREE" -ltmp "$DefaultTmpDir" -limage "$_L_IMAGE" -import_only -keep_trace $_nb_to_keep -allow_merges\
+						-fw "$_one_fw" $_FORCE_START_OPTION -transfer "$_T_NAME" -run_no_check -tuuid $_TUUID -short_traces -rno_attach -lno_attach 2>&1 | tee -a "$DefaultTmpDir"/r_mirror_${_L_WS_TREE}_${_one_fw}_$$.txt
+					rc2=$?
+					nbl=$(\grep '#ERR# transfer failed.' "$DefaultTmpDir"/r_mirror_${_L_WS_TREE}_${_one_fw}_$$.txt | wc -l)
+					if [ $rc2 -ne 0 -o $nbl -ge 1 ]
+					then
+						\cp "$DefaultTmpDir"/r_mirror_${_L_WS_TREE}_${_one_fw}_$$.txt "$_ADL_WORKING_DIR"/0LastError.txt
+						\chmod 777 "$_ADL_WORKING_DIR"/0LastError.txt
+						_printerr 1022 "$_L_WS_TREE" "$_ADL_WORKING_DIR"/0LastError.txt # "The mirroring in workspace tree \"/p1\" has failed..."
+						rc=5
+					else
+						_printmsg 0098 "$_L_WS_TREE" "$_one_fw" # "Command successful"
+					fi
+				else
+					$_CALL_SH "$ADL_USER_PATH"/adl_site_transfer -rhost "$_R_SERVER" -rsite "$_R_SITE" -rw "$_R_WS" -rno_image -rtree "$_R_WS_TREE" -rtmp "$_R_TMP" \
+						-lw "$ADL_WS" -ltree "$_L_WS_TREE" -ltmp "$DefaultTmpDir" -lwd "$_L_DIR" -import_only -keep_trace $_nb_to_keep -allow_merges\
+						-fw "$_one_fw" $_FORCE_START_OPTION -transfer "$_T_NAME" -run_no_check -tuuid $_TUUID -short_traces -rno_attach -lno_attach 2>&1 |tee -a "$DefaultTmpDir"/r_mirror_${_L_WS_TREE}_${_one_fw}_$$.txt
+					rc2=$?
+					nbl=$(\grep '#ERR# transfer failed.' "$DefaultTmpDir"/r_mirror_${_L_WS_TREE}_${_one_fw}_$$.txt | wc -l)
+					if [ $rc2 -ne 0  -o $nbl -ge 1 ]
+					then
+						\cp "$DefaultTmpDir"/r_mirror_${_L_WS_TREE}_${_one_fw}_$$.txt "$_ADL_WORKING_DIR"/0LastError.txt
+						\chmod 777 "$_ADL_WORKING_DIR"/0LastError.txt
+						_printerr 1022 "$_L_WS_TREE" "$_ADL_WORKING_DIR"/0LastError.txt # "The mirroring in workspace tree \"/p1\" has failed..."
+						rc=5
+					else
+						_printmsg 0098 "$_L_WS_TREE" "$_one_fw" # "Command successful"
+					fi
+				fi
+			
+			done < "$DefaultTmpDir"/r_ls_fw2_$$.txt
+		
+		fi
+	else
+		# Transfer from current workspace to remote workspace
+		# Look if it is the first time a transfer is made in this tree
+		if [ ! -z "$_L_IMAGE" ]
+		then
+			[ ! -s "$ADL_IMAGE_DOS_DIR/ToolsData/MultiSite/${_T_NAME}/${_L_WS_TREE}/local_delta_param.txt" ] && _loop_on_fw=true
+		else
+			[ ! -s "$_L_DIR/MultiSite/${ADL_WS}/${_T_NAME}/${_L_WS_TREE}/local_delta_param.txt" ] && _loop_on_fw=true
+		fi
+
+		if [ -z "$_loop_on_fw" ]
+		then
+			echo "Command = adl_mirror_is / Local tree = $_L_WS_TREE / TO_REMOTE_WS / Framework = all" > "$_ADL_WORKING_DIR/0Information.txt" || Out 5 0032 "$_ADL_WORKING_DIR/0Information.txt"
+
+			if [ ! -z "$_L_IMAGE" ]
+			then
+				$_CALL_SH adl_site_transfer -rhost "$_R_SERVER" -rsite "$_R_SITE" -rw "$_R_WS" -rno_image -rtree $_R_WS_TREE -rtmp "$_R_TMP" \
+				-lw "$ADL_WS" -ltree "$_L_WS_TREE" -ltmp "$DefaultTmpDir" -limage "$_L_IMAGE" -export_only -allow_merges\
+				$_FORCE_START_OPTION -transfer "$_T_NAME" -run_no_check -tuuid $_TUUID -rno_attach -lno_attach 2>&1 | tee -a "$DefaultTmpDir"/r_mirror_${_L_WS_TREE}_$$.txt
+				rc2=$?
+				nbl=$(\grep '#ERR# transfer failed.' "$DefaultTmpDir"/r_mirror_${_L_WS_TREE}_$$.txt | wc -l)
+				if [ $rc2 -ne 0  -o $nbl -ge 1 ]
+				then
+					\cp "$DefaultTmpDir"/r_mirror_${_L_WS_TREE}_$$.txt "$_ADL_WORKING_DIR"/0LastError.txt
+					\chmod 777 "$_ADL_WORKING_DIR"/0LastError.txt
+					_printerr 1022 "$_L_WS_TREE" "$_ADL_WORKING_DIR"/0LastError.txt # "The mirroring in workspace tree \"/p1\" has failed..."
+					rc=5
+				else
+					_printmsg 0099 "$_L_WS_TREE" # "Intersite command successful in tree /p1"
+				fi
+			else
+				$_CALL_SH adl_site_transfer -rhost "$_R_SERVER" -rsite "$_R_SITE" -rw "$_R_WS" -rno_image -rtree $_R_WS_TREE -rtmp "$_R_TMP" \
+				-lw "$ADL_WS" -ltree "$_L_WS_TREE" -ltmp "$DefaultTmpDir" -lwd "$_L_DIR" -export_only -allow_merges\
+				$_FORCE_START_OPTION -transfer "$_T_NAME" -run_no_check -tuuid $_TUUID -rno_attach -lno_attach 2>&1 | tee -a "$DefaultTmpDir"/r_mirror_${_L_WS_TREE}_$$.txt
+				rc2=$?
+				nbl=$(\grep '#ERR# transfer failed.' "$DefaultTmpDir"/r_mirror_${_L_WS_TREE}_$$.txt | wc -l)
+				if [ $rc2 -ne 0  -o $nbl -ge 1 ]
+				then
+					\cp "$DefaultTmpDir"/r_mirror_${_L_WS_TREE}_$$.txt "$_ADL_WORKING_DIR"/0LastError.txt
+					\chmod 777 "$_ADL_WORKING_DIR"/0LastError.txt
+					_printerr 1022 "$_L_WS_TREE" "$_ADL_WORKING_DIR"/0LastError.txt # "The mirroring in workspace tree \"/p1\" has failed..."
+					rc=5
+				else
+					_printmsg 0099 "$_L_WS_TREE" # "Intersite command successful in tree /p1"
+				fi
+			fi
+		else
+			##################################################################
+			# Run the transfer by looping on frameworks
+
+			_printmsg 1026 "$ADL_WS" "$_R_SITE" "$_L_WS_TREE" # "Information: this is the first transfer...
+
+			"$ADL_USER_PATH"/adl_ls_fw -tree "$_L_WS_TREE" -program -sep "|" -out "$DefaultTmpDir"/ls_fw_$$.txt
+			if [ $? -ne 0 ]
+			then
+				_printerr 0229 # "Failed to list components in current workspace."
+				rc=5
+				continue
+			else
+				$_AWK -F\| '{print $1}' "$DefaultTmpDir"/ls_fw_$$.txt > "$DefaultTmpDir"/ls_fw2_$$.txt
+				if [ $? -ne 0 ]
+				then
+					_printerr 0229 # "Failed to list components in current workspace."
+					rc=5
+					continue
+				elif [ ! -s "$DefaultTmpDir"/ls_fw2_$$.txt ]
+				then
+					_printmsg 0230 "$ADL_WS" "$_L_WS_TREE" # "There is no component in workspace \"/p1\" for workspace tree \"/p2\"."
+				fi
+			fi	
+
+			# Count number of components to attach in order to adapt the garbage of trace files
+			_nb_to_keep=$(\cat "$DefaultTmpDir"/ls_fw2_$$.txt | wc -l)
+			[ $_nb_to_keep -gt 10 ] && _nb_to_keep=$(expr $_nb_to_keep + 2)
+			[ $_nb_to_keep -lt 10 ] && _nb_to_keep=10
+
+			while read _one_fw
+			do
+				_printmsg 1027 "$_one_fw" # "Transfering component \"/p1\"...";
+	
+				# Generate information to help reporting
+				echo "Command = adl_mirror_is / Local tree = $_L_WS_TREE / TO_REMOTE_WS / Framework = $_one_fw" > "$_ADL_WORKING_DIR/0Information.txt" || Out 5 0032 "$_ADL_WORKING_DIR/0Information.txt"
+
+				if [ ! -z "$_L_IMAGE" ]
+				then
+					$_CALL_SH "$ADL_USER_PATH"/adl_site_transfer -rhost "$_R_SERVER" -rsite "$_R_SITE" -rw "$_R_WS" -rno_image -rtree "$_R_WS_TREE" -rtmp "$_R_TMP" \
+						-lw "$ADL_WS" -ltree "$_L_WS_TREE" -ltmp "$DefaultTmpDir" -limage "$_L_IMAGE" -export_only -keep_trace $_nb_to_keep -allow_merges\
+						-fw "$_one_fw" $_FORCE_START_OPTION -transfer "$_T_NAME" -run_no_check -tuuid $_TUUID -rno_attach -lno_attach 2>&1 | tee -a "$DefaultTmpDir"/r_mirror_${_L_WS_TREE}_${_one_fw}_$$.txt
+					rc2=$?
+					nbl=$(\grep '#ERR# transfer failed.' "$DefaultTmpDir"/r_mirror_${_L_WS_TREE}_${_one_fw}_$$.txt | wc -l)
+					if [ $rc2 -ne 0 -o $nbl -ge 1 ]
+					then
+						\cp "$DefaultTmpDir"/r_mirror_${_L_WS_TREE}_${_one_fw}_$$.txt "$_ADL_WORKING_DIR"/0LastError.txt
+						\chmod 777 "$_ADL_WORKING_DIR"/0LastError.txt
+						_printerr 1022 "$_L_WS_TREE" "$_ADL_WORKING_DIR"/0LastError.txt # "The mirroring in workspace tree \"/p1\" has failed..."
+						rc=5
+					else
+						_printmsg 0098 "$_L_WS_TREE" "$_one_fw" # "Command successful"
+					fi
+				else
+					$_CALL_SH "$ADL_USER_PATH"/adl_site_transfer -rhost "$_R_SERVER" -rsite "$_R_SITE" -rw "$_R_WS" -rno_image -rtree "$_R_WS_TREE" -rtmp "$_R_TMP" \
+						-lw "$ADL_WS" -ltree "$_L_WS_TREE" -ltmp "$DefaultTmpDir" -lwd "$_L_DIR" -export_only -keep_trace $_nb_to_keep -allow_merges\
+						-fw "$_one_fw" $_FORCE_START_OPTION -transfer "$_T_NAME" -run_no_check -tuuid $_TUUID -rno_attach -lno_attach 2>&1 |tee -a "$DefaultTmpDir"/r_mirror_${_L_WS_TREE}_${_one_fw}_$$.txt
+					rc2=$?
+					nbl=$(\grep '#ERR# transfer failed.' "$DefaultTmpDir"/r_mirror_${_L_WS_TREE}_${_one_fw}_$$.txt | wc -l)
+					if [ $rc2 -ne 0  -o $nbl -ge 1 ]
+					then
+						\cp "$DefaultTmpDir"/r_mirror_${_L_WS_TREE}_${_one_fw}_$$.txt "$_ADL_WORKING_DIR"/0LastError.txt
+						\chmod 777 "$_ADL_WORKING_DIR"/0LastError.txt
+						_printerr 1022 "$_L_WS_TREE" "$_ADL_WORKING_DIR"/0LastError.txt # "The mirroring in workspace tree \"/p1\" has failed..."
+						rc=5
+					else
+						_printmsg 0098 "$_L_WS_TREE" "$_one_fw" # "Command successful"
+					fi
+				fi
+			done < "$DefaultTmpDir"/ls_fw2_$$.txt		
+		fi
+	fi
+done < "$_TREE_LIST_FILE"
+
+if [ $rc -eq 0 ]
+then
+	Out 0
+else
+	Out 5 # "##### THE COMMAND ENTIRELY OR PARTIALLY FAILED #####"
+fi

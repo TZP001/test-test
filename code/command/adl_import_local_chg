@@ -1,0 +1,243 @@
+#!/bin/ksh
+[ ! -z "$ADL_DEBUG" ] && set -x
+
+# =====================================================================
+# Variable Initialization
+# =====================================================================
+OS=$(uname -s)
+case $OS in
+	AIX)
+		_AWK=/bin/awk
+		;;
+	HP-UX)
+		_AWK=/bin/awk
+		;;
+	IRIX*)
+		_AWK=/bin/nawk
+		;;
+	SunOS)
+		_AWK=/bin/nawk
+		;;
+	Windows_NT)
+		_AWK=awk
+		;;
+esac
+
+if [ $OS = Windows_NT ]
+then
+	FullShellName="$(whence "$0" | \sed 's+\\+/+g')"
+	ShellName="${FullShellName##*/}"
+	\cd "${FullShellName%/*}"
+	ShellDir="$(pwd)"
+	\cd -
+
+	TMP="$(printf "%s\n" "$ADL_TMP" | \sed 's+\\+/+g')"
+	NULL=nul
+else
+	FullShellName="$(whence "$0" | \sed 's+\\+/+g')"
+	ShellName="${FullShellName##*/}"
+	ShellDir="${FullShellName%/*}"
+
+	TMP=$ADL_TMP
+	NULL=/dev/null
+fi
+
+CmdLine="$@"
+
+# =====================================================================
+# Out function
+# =====================================================================
+Out()
+{
+	[ ! -z "$ADL_DEBUG" ] && set -x
+	trap ' ' HUP INT QUIT TERM
+	ExitCode=$1
+	shift
+	if [ $# -ge 1 ]
+	then
+		adl_build_nls_msg ADLCMD "$1"
+		echo
+	fi
+	if [ $ExitCode -ne 0 ]
+	then
+		echo
+		adl_build_nls_msg ADLCMD 0005
+	fi
+
+	[ -z "$ADL_DEBUG" ] && \rm -fr "$TMP"/*_$$ "$TMP"/*_$$.*
+
+	exit $ExitCode
+}
+
+trap 'Out 9999 B205 ' HUP INT QUIT TERM
+
+# =====================================================================
+# Options treatment
+# =====================================================================
+typeset -L1 OneChar
+CheckOptArg()
+{
+	# Usage : CheckOptArg opt arg
+	OneChar="$2"
+	if [ "$2" = "" -o "$OneChar" = "-" ]
+	then
+		adl_build_nls_msg ADLBC 0004 $1
+		Out 5 B200
+	fi
+}
+
+unset _ORIGIN_WS
+unset _ORIGIN_WS_TREE
+unset _TARGET_WS_PROMOTE
+unset _SIMUL
+unset _SIMUL_DIR
+
+while [ $# -ge 1 ]
+do
+	case "$1" in
+		-h | -help | -\? ) #-------------------> HELP NEEDED
+			adl_build_nls_msg ADLCMD B200  
+			adl_build_nls_msg ADLCMD B201  
+			exit 0
+			;;
+		-from ) #-------------------> ORIGIN WORKSPACE
+			CheckOptArg "$1" "$2"
+			_ORIGIN_WS=$2
+			shift 2
+			;;
+		-from_tree ) #-------------------> ORIGIN WORKSPACE TREE
+			CheckOptArg "$1" "$2"
+			_ORIGIN_WS_TREE=$2
+			shift 2
+			;;
+		-to ) #-------------------> TARGET WORKSPACE FOR PROMOTION
+			CheckOptArg "$1" "$2"
+			_TARGET_WS_PROMOTE=$2
+			shift 2
+			;;
+		-simul ) #-------------------> SIMULATION
+			_SIMUL=Y
+			shift
+			;;
+		-simul_dir ) #-------------------> DIRECTORY TO PROJECT
+			CheckOptArg "$1" "$2"
+			_SIMUL_DIR=$2
+			shift 2
+			;;
+		-* ) adl_build_nls_msg ADLCMD B206 "$1" # "Unknown option: /p1"
+			Out 5 B200
+			;;
+		*) adl_build_nls_msg ADLCMD B207 "$1" # "Argument /p1 is not expected."
+			Out 5 B200
+			;;
+	esac
+done
+
+if [ -z "$_ORIGIN_WS" ]
+then
+	adl_build_nls_msg ADLBC 0002 -from
+	Out 5 B200
+fi
+
+if [ -z "$_SIMUL" -a  ! -z "$_SIMUL_DIR" ]
+then
+	adl_build_nls_msg ADLBC 0031 -simul_dir -simul
+	Out 5 B200
+fi
+
+if [ -z "$ADL_WS" ]
+then
+	adl_build_nls_msg ADLCMD 0073 adl_ch_ws
+	Out 5
+fi
+[ ! -z "$_ORIGIN_WS_TREE" ] && _TREE_OPTION="-tree $_ORIGIN_WS_TREE"
+[ ! -z "$_TARGET_WS_PROMOTE" ] && _TARGET_OPTION="-target $_TARGET_WS_PROMOTE"
+
+# Search changes promoted but not collected
+# =========================================
+echo
+echo "adl_ds_promo $_ORIGIN_WS $_TREE_OPTION $_TARGET_OPTION"
+_DS_PROMO_FILE="$TMP"/ds_promo_$$.txt
+echo > "$_DS_PROMO_FILE"
+adl_ds_promo "$_ORIGIN_WS" $_TREE_OPTION $_TARGET_OPTION -program -sep "|" -out "$_DS_PROMO_FILE"
+rc=$?
+[ $rc -ne 0 ] && Out 5
+
+# Change current workspace = origin workspace sans exécution de la tck
+# ====================================================================
+echo
+echo adl_ch_ws "$_ORIGIN_WS"
+echo
+export _DEST_WS="$ADL_WS"
+export _DEST_IMAGE="$ADL_IMAGE"
+adl_ch_ws_i "$_ORIGIN_WS" -no_ds -no_image -env_file "$TMP"/ch_ws_$$.sh -env_file_type ksh -no_tck
+rc=$?
+[ $rc -ne 0 ] && Out 5
+. "$TMP"/ch_ws_$$.sh
+if [ $? -ne 0 ]
+then
+	adl_build_nls_msg ADLCMD B209 "$_ORIGIN_WS"
+	Out 5
+fi
+\rm -f "$TMP"/ch_ws_$$.sh
+
+# Search changes to promote
+# =========================
+echo
+echo "adl_promote -simul $_TREE_OPTION $_TARGET_OPTION"
+echo
+_PROMOTE_FILE="$TMP"/promote_$$.txt
+echo > "$_PROMOTE_FILE"
+adl_promote $_TREE_OPTION $_TARGET_OPTION -simul -program -sep "|" -no_check_caa_rules -out "$_PROMOTE_FILE"
+rc_promote=$?
+
+# Change current workspace = destination workspace sans exécution de la tck
+# =========================================================================
+echo
+echo adl_ch_ws "$_DEST_WS"
+echo
+if [ -z "$_DEST_IMAGE" ]
+then
+	_IMAGE_OPTION="-no_image"
+else
+	_IMAGE_OPTION="-image $_DEST_IMAGE"
+fi
+adl_ch_ws_i "$_DEST_WS" $_IMAGE_OPTION -no_ds -env_file "$TMP"/ch_ws_$$.sh -env_file_type ksh -no_tck
+rc=$?
+[ $rc -ne 0 ] && Out 5
+. "$TMP"/ch_ws_$$.sh
+if [ $? -ne 0 ]
+then
+	adl_build_nls_msg ADLCMD B209 "$_DEST_WS"
+	Out 5
+fi
+\rm -f "$TMP"/ch_ws_$$.sh
+[ $rc_promote -ne 0 ] && Out 5
+
+# Build software object list and import
+# =====================================
+_IMPORT_FILE="$TMP"/to_import_$$.txt
+"$_AWK" -F"|" 'BEGIN { rc_out = 1; } ($1 == "_SOFT_OBJ") { print $2; rc_out = 0; } END { exit rc_out; }' "$_DS_PROMO_FILE" "$_PROMOTE_FILE" > "$_IMPORT_FILE"
+rc=$?
+if [ $rc -ne 0 ] 
+then
+	# Nothing to import in the current workspace
+	adl_build_nls_msg ADLCMD B210 "$_DEST_WS"
+else
+	[ ! -z "$_SIMUL" ] && OPTIONS="-simul"
+	[ ! -z "$_SIMUL_DIR" ] && OPTIONS="-simul -simul_dir $_SIMUL_DIR"
+	echo
+	echo adl_import "$OPTIONS"
+	echo
+	sort -o "$_IMPORT_FILE" -u "$_IMPORT_FILE"
+	rc=$?
+	[ $rc -ne 0 ] && Out 5 B208
+	adl_import -file "$_IMPORT_FILE" -from "$_ORIGIN_WS" $OPTIONS
+	rc=$?
+	[ $rc -ne 0 ] && Out 5
+fi
+
+echo
+adl_build_nls_msg ADLCMD 0004
+
+Out 0

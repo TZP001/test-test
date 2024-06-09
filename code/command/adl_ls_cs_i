@@ -1,0 +1,465 @@
+#!/bin/ksh
+[ ! -z "$ADL_DEBUG" ] && set -x
+
+# =====================================================================
+# Variable Initialization
+# =====================================================================
+OS=$(uname -s)
+case $OS in
+	AIX)
+		_AWK=/bin/awk
+		;;
+	HP-UX)
+		_AWK=/bin/awk
+		;;
+	IRIX*)
+		_AWK=/bin/nawk
+		;;
+	SunOS)
+		_AWK=/bin/nawk
+		;;
+	Windows_NT)
+		_AWK=awk
+		;;
+esac
+
+if [ $OS = Windows_NT ]
+then
+	FullShellName="$(whence "$0" | \sed 's+\\+/+g')"
+	ShellName="${FullShellName##*/}"
+	\cd "${FullShellName%/*}"
+	ShellDir="$(pwd)"
+	\cd -
+
+	TMP="$(printf "%s\n" "$ADL_TMP" | \sed 's+\\+/+g')"
+	NULL=nul
+else
+	FullShellName="$(whence "$0" | \sed 's+\\+/+g')"
+	ShellName="${FullShellName##*/}"
+	ShellDir="${FullShellName%/*}"
+
+	TMP=$ADL_TMP
+	NULL=/dev/null
+fi
+
+CmdLine="$@"
+
+# =====================================================================
+# Out function
+# =====================================================================
+Out()
+{
+	[ ! -z "$ADL_DEBUG" ] && set -x
+	trap ' ' HUP INT QUIT TERM
+	ExitCode=$1
+	shift
+	if [ $# -ge 1 ]
+	then
+		adl_build_nls_msg ADLCMD "$1"
+		echo
+	fi
+
+	[ -z "$ADL_DEBUG" ] && \rm -fr "$TMP"/*_$$ "$TMP"/*_$$.*
+
+	exit $ExitCode
+}
+
+trap 'Out 9999 B605 ' HUP INT QUIT TERM
+
+# =====================================================================
+# Options treatment
+# =====================================================================
+typeset -L1 OneChar
+CheckOptArg()
+{
+	# Usage : CheckOptArg opt arg
+	OneChar="$2"
+	if [ "$2" = "" -o "$OneChar" = "-" ]
+	then
+		adl_build_nls_msg ADLBC 0004 $1
+		Out 5 C900
+	fi
+}
+
+displayBeginMessage()
+{
+	if [ -z "$_VERBOSE" ]
+	then
+		if [ -z "$_WORKSPACE_REV" ]
+		then
+			adl_build_nls_msg ADLCMD C917 $_WORKSPACE
+		else
+			adl_build_nls_msg ADLCMD C918 $_WORKSPACE_REV
+		fi
+	else
+		if [ -z "$_WORKSPACE_REV" ]
+		then
+			adl_build_nls_msg ADLCMD C912 $_WORKSPACE
+		else
+			adl_build_nls_msg ADLCMD C914 $_WORKSPACE_REV
+		fi
+	fi
+}
+displayClosingMessage()
+{
+	if [ ! -z "$_VERBOSE" ]
+	then
+		if [ -z "$_WORKSPACE_REV" ]
+		then
+			adl_build_nls_msg ADLCMD C913 $_WORKSPACE 
+		else
+			adl_build_nls_msg ADLCMD C915 $_WORKSPACE_REV
+		fi
+	fi
+}
+
+unset _WORKSPACE
+unset _WORKSPACE_REV
+unset _PROGRAM
+unset _SEP
+unset _PATH_FILE
+unset _RESULT_FILE
+unset _VERBOSE
+unset _TRASH
+unset _SITE
+
+while [ $# -ge 1 ]
+do
+	case "$1" in
+		-h | -help | -\? ) #-------------------> HELP NEEDED
+			adl_build_nls_msg ADLCMD C900  
+			adl_build_nls_msg ADLCMD C901  
+			exit 0
+			;;
+		-ws ) #-------------------> WORKSPACE
+			CheckOptArg "$1" "$2"
+			_WORKSPACE=$2
+			shift 2
+			_DS_PROMO_OPT=$_WORKSPACE
+			;;
+		-ws_rev ) #-------------------> WORKSPACE_REV
+			CheckOptArg "$1" "$2"
+			_WORKSPACE_REV=$2
+			shift 2
+			_DS_PROMO_OPT="-ws_rev $_WORKSPACE_REV"
+			;;
+		-out ) #-------------------> OUT FILE PATH
+			CheckOptArg "$1" "$2"
+			_PATH_FILE=$2
+			shift 2
+			;;
+		-program ) #-------------------> PROGRAM DISPLAY
+			_PROGRAM=Y
+			shift
+			;;
+		-sep|-separator ) #-------------------> SEPARATOR
+			CheckOptArg "$1" "$2"
+			_SEP=$2
+			shift 2
+			;;
+		-verbose ) #-------------------> VERBOSE
+			_VERBOSE=Y
+			shift
+			;;
+		-site ) #-------------------> SITE
+			_SITE=Y
+			shift
+			;;
+		-* ) adl_build_nls_msg ADLCMD C906 "$1" # "Unknown option: /p1"
+			Out 5 C900
+			;;
+		* ) adl_build_nls_msg ADLCMD C906 "$1" # "Unknown option: /p1"
+		    Out 5 C900
+			;;
+	esac
+done
+
+if [ -z "$_PROGRAM" -a  ! -z "$_SEP" ]
+then
+	adl_build_nls_msg ADLBC 0031 -sep -program
+	Out 5 C900
+fi
+
+if [ ! -z "$_WORKSPACE" -a  ! -z "$_WORKSPACE_REV" ]
+then
+	adl_build_nls_msg ADLBC 0030 -ws -ws_rev
+	Out 5 C900
+fi
+
+if [ -z "$ADL_WS" -a -z "$_WORKSPACE" -a -z "$_WORKSPACE_REV" ]
+then
+	adl_build_nls_msg ADLCMD C920 adl_ch_ws -ws -ws_rev
+	Out 5
+fi
+
+if [ -z "$_WORKSPACE" -a -z "$_WORKSPACE_REV" ]
+then
+	_WORKSPACE=$ADL_WS
+	_DS_PROMO_OPT="$_WORKSPACE"	
+fi
+
+[ ! -z "$_PATH_FILE" ] && _PATH_FILE_OPTION="-out $_PATH_FILE"
+[ -z "$_SEP" ] && _SEP="|"
+
+_LS_CS_FILE="$TMP"/adl_ls_cs_$$.txt
+_RESULT_FILE="$TMP"/adl_ls_cs_result_$$.txt
+[ -z "$_VERBOSE" ] && _TRASH="> /dev/null 2>&1"
+
+# Beginning of the computing part
+# ===============================
+displayBeginMessage
+
+# Search changes promoted but not collected
+# =========================================
+[ ! -z "$_VERBOSE" ] && adl_build_nls_msg ADLCMD C916 "adl_ds_promo $_DS_PROMO_OPT"
+_DS_PROMO_FILE="$TMP"/ds_promo_$$.txt
+echo > "$_DS_PROMO_FILE"
+if [ -z "$_VERBOSE" ]
+then 
+	adl_ds_promo $_DS_PROMO_OPT -program -sep "$_SEP" -out "$_DS_PROMO_FILE" > /dev/null 2>&1
+else
+	adl_ds_promo $_DS_PROMO_OPT -program -sep "$_SEP" -out "$_DS_PROMO_FILE"
+fi
+rc=$?
+if [ $rc -ne 0 ] 
+then
+	displayClosingMessage
+	Out 5
+fi
+
+if [ -z "$_WORKSPACE_REV" ]
+then
+
+	# Change current workspace = origin workspace sans exécution de la tck
+	# ====================================================================
+	adl_ch_ws_i "$_WORKSPACE" -no_ds -no_image -env_file "$TMP"/ch_ws_$$.sh -env_file_type ksh -no_tck > "$TMP"/ch_ws_traces_$$.txt 2>&1 
+	rc=$?
+	if [ $rc -ne 0 ] 
+	then
+		cat "$TMP"/ch_ws_traces_$$.txt 
+		displayClosingMessage
+		Out 5
+	fi
+	. "$TMP"/ch_ws_$$.sh
+	if [ $? -ne 0 ]
+	then
+		adl_build_nls_msg ADLCMD B609 "$_WORKSPACE"
+		displayClosingMessage
+		Out 5
+	fi
+	\rm -f "$TMP"/ch_ws_$$.sh
+	\rm -f "$TMP"/ch_ws_traces_$$.txt
+
+	# Search changes to promote
+	# =========================
+	[ ! -z "$_VERBOSE" ] && adl_build_nls_msg ADLCMD C916 "adl_promote -simul $_WORKSPACE"
+	_PROMOTE_FILE="$TMP"/promote_$$.txt
+	echo > "$_PROMOTE_FILE"
+	if [ -z "$_VERBOSE" ]
+	then 
+		adl_promote -simul -program -sep "$_SEP" -no_check_caa_rules -out "$_PROMOTE_FILE" > /dev/null 2>&1
+	else
+		adl_promote -simul -program -sep "$_SEP" -no_check_caa_rules -out "$_PROMOTE_FILE" 
+	fi
+	rc_promote=$?
+	if [ $rc_promote -ne 0 ]
+	then
+		displayClosingMessage
+		Out 5
+	fi
+	
+	# Search opened change sets (to find out empty 'current' change sets)
+	# =========================
+	[ ! -z "$_VERBOSE" ] && echo ""
+	[ ! -z "$_VERBOSE" ] && adl_build_nls_msg ADLCMD C916 "adl_search_cs -ws $_WORKSPACE -opened -not_del"
+	_SEARCH_CS_FILE="$TMP"/search_cs_$$.txt
+	echo > "$_SEARCH_CS_FILE"
+	if [ -z "$_VERBOSE" ]
+	then 
+		adl_search_cs -ws $_WORKSPACE -program -sep "$_SEP" -opened -not_del -out "$_SEARCH_CS_FILE" > /dev/null 2>&1
+	else
+		adl_search_cs -ws $_WORKSPACE -program -sep "$_SEP" -opened -not_del -out "$_SEARCH_CS_FILE"
+	fi
+	rc_search=$?
+	if [ $rc_search -ne 0 ]
+	then
+		displayClosingMessage
+		Out 5
+	fi
+fi
+
+# Ending of the computing part
+# ============================
+displayClosingMessage
+
+# Extracting information
+# ======================
+"$_AWK" -F "$_SEP" '
+	BEGIN \
+	{ 
+		rc_out = 1; 
+	} 
+	($1 == "WS_CONTEXT") { wstree = $2; }
+	($1 == "____CHANGE_SET") { changesetname = $2; changesetid = $3; changesetDel = $4; changesetOpen = $5; changesetDescription = $6; changesetWs= $7; changesetWsId = $8; changesetCurrent = $9; 
+		printf "\n" "CHANGE_SET" "'"$_SEP"'" changesetname "'"$_SEP"'" changesetid "'"$_SEP"'" changesetDel "'"$_SEP"'" changesetOpen "'"$_SEP"'" changesetDescription; 
+		rc_out = 0;}	
+	($1 == "CHANGE_SET") { changesetname = $2; changesetid = $3; changesetDel = $4; changesetOpen = $5; changesetDescription = $6; changesetWs= $7; changesetWsId = $8; changesetCurrent = $9; 
+		printf "\n" "CHANGE_SET" "'"$_SEP"'" changesetname "'"$_SEP"'" changesetid "'"$_SEP"'" changesetDel "'"$_SEP"'" changesetOpen "'"$_SEP"'" changesetDescription; 
+		rc_out = 0;}	
+	($1 == "_____CHANGE_REQUEST") { crtype = $2; crid = $3; 
+		printf "'"$_SEP"'" "_CHANGE_REQUEST" "'"$_SEP"'" crtype "'"$_SEP"'" crid; 
+		rc_out = 0; } 
+	($1 == "_CHANGE_REQUEST") { crtype = $2; crid = $3; 
+		printf "'"$_SEP"'" "_CHANGE_REQUEST" "'"$_SEP"'" crtype "'"$_SEP"'" crid; 
+		rc_out = 0; } 
+	END \
+	{ 
+		print;
+		exit rc_out; 
+	}' "$_DS_PROMO_FILE" "$_PROMOTE_FILE" "$_SEARCH_CS_FILE" >> "$_LS_CS_FILE"
+
+rc=$?
+if [ $rc -ne 0 ] 
+then
+	if [ -z "$_WORKSPACE_REV" ]
+	then
+		# No change set associated to local changes in workspace \"/p1\".
+		adl_build_nls_msg ADLCMD C905 "$_WORKSPACE" > "$_LS_CS_FILE"_3
+		echo > "$_LS_CS_FILE"_2
+	else
+		# No change set associated to local changes in workspace revision \"/p1\".
+		adl_build_nls_msg ADLCMD C907 "$_WORKSPACE" > "$_LS_CS_FILE"_3	
+		echo > "$_LS_CS_FILE"_2
+	fi
+else
+	# Deleting doublons + sort
+	sort -o "$_LS_CS_FILE" -u "$_LS_CS_FILE"
+	rc=$?
+	if [ $? -ne 0 ]
+	then
+		adl_build_nls_msg ADLCMD B608
+		Out 5
+	fi
+
+	# Deleting empty lines
+	sed '/./,$!d' "$_LS_CS_FILE" > "$_LS_CS_FILE"_1
+	
+	# For debug purpose
+	#echo ----
+	#cat "$_LS_CS_FILE"_1
+	#echo ----
+	
+	# Arranging for -program mode
+	sed 's+_CHANGE_REQUEST+\
+_CHANGE_REQUEST+g' "$_LS_CS_FILE"_1 > "$_LS_CS_FILE"_2
+		
+	# Preparing normal output display
+	if [ -z "$_PROGRAM" ] 
+	then
+		# Les traces sont redirigées vers un fichier pour pouvoir les afficher que si on est en mode sans l option -out
+		adl_build_nls_msg ADLCMD C910 > "$_LS_CS_FILE"_3
+		# echo "Nom                    Identifiant            Etat       Demandes de modifications   Description                        ";
+		adl_build_nls_msg ADLCMD C911 >> "$_LS_CS_FILE"_3
+		# echo "------------------------------------------------------------------------------------------------------------------------";
+		
+		# Converstion du champs description en mode user ( \\->\, \_->SEP, \0->"")			
+		"$_AWK" \
+			-F "$_SEP" \
+			-v Deleted=$(adl_build_nls_msg ADLCMD C662) \
+			-v Opened=$(adl_build_nls_msg ADLCMD C660) \
+			-v Closed=$(adl_build_nls_msg ADLCMD C661) \
+			-v Sep=$_SEP '
+			function printConvertedString(a)
+			{		
+				if (a != "\0" && a!= "\n")
+				{
+					backslshFound=0;
+					for (i = 1; i <= length(a);i++)
+					{
+						currentChar=substr(a,i,1);					
+						if (backslshFound == 1)
+						{
+							if (currentChar == "_")
+								printf Sep;
+							else 
+							{ 
+								if (currentChar == "\\")
+									printf "\\";
+								else 
+									printf "\\" currentChar;							
+							}								
+							backslshFound = 0; 
+						}
+						else
+						{					
+							if (currentChar == "\\")
+								backslshFound = 1;
+							else
+								printf currentChar;
+						}
+					}
+				}
+			}
+		{		
+			# Affichage du nom de l ensemble de modifications
+			printf $2;
+			NB=(20 - length($2));
+			for (i=0;i<NB;i++)
+				printf(" ");
+			# Affichage de l état 
+			printf "   " ;
+		}
+			($4 == "DEL") { printf Deleted; NB=(8 - length(Deleted)); }
+			($4 != "DEL" && $5 == "OPENED") { printf Opened; NB=(8 - length(Opened)); }
+			($4 != "DEL" && $5 == "NOT_OPENED"){ printf Closed; NB=(8 - length(Closed)); }
+		{			
+			for (i=0;i<NB;i++)
+				printf(" ");
+			# Affichage du nom de la demande de modifications
+			CRList="";
+			for (i=7;i<=NF;i++) {
+				i++; i++; CRList = CRList$i" "; }
+			printf "   " substr(CRList,0,25) ;
+			NB=(25 - length(CRList));
+			for (i=0;i<NB;i++)
+				printf(" ")	;
+			# Affichage de la description
+			printf "   ";
+			printConvertedString($6);
+			printf "\n";
+		 }
+		' "$_LS_CS_FILE"_1 >> "$_LS_CS_FILE"_3 2>&1				
+	fi
+fi
+
+# Output
+# Display -program mode
+if [ ! -z "$_PROGRAM" ] 
+then
+	# option -out
+	if [ -f "$_LS_CS_FILE"_2 ]
+	then
+		if [ ! -z "$_PATH_FILE" ] 
+		then
+			cp "$_LS_CS_FILE"_2 "$_PATH_FILE" # Copying -program format output 
+		else
+			cat "$_LS_CS_FILE"_2			  # Displaying -program format output 
+		fi
+	fi
+else
+	# option -out
+	if [ ! -z "$_PATH_FILE" ] 
+	then
+		cp "$_LS_CS_FILE"_3 "$_PATH_FILE" # Copying normal format output 
+	else
+		cat "$_LS_CS_FILE"_3			  # Displaying normal format output 
+	fi
+fi
+
+# Clean
+\rm -f "$_LS_CS_FILE"
+\rm -f "$_LS_CS_FILE"_1
+\rm -f "$_LS_CS_FILE"_2
+\rm -f "$_LS_CS_FILE"_3
+
+Out 0

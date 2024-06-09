@@ -1,0 +1,745 @@
+#!/bin/ksh
+[ ! -z "$ADL_DEBUG" ] && set -x
+
+# =====================================================================
+# Variable Initialization
+# =====================================================================
+OS=$(uname -s)
+case $OS in
+	AIX)
+		_AWK=/bin/awk
+		;;
+	HP-UX)
+		_AWK=/bin/awk
+		;;
+	IRIX*)
+		_AWK=/bin/nawk
+		;;
+	SunOS)
+		_AWK=/bin/nawk
+		;;
+	Windows_NT)
+		_AWK=awk
+		;;
+esac
+
+if [ $OS = Windows_NT ]
+then
+	FullShellName="$(whence "$0" | \sed 's+\\+/+g')"
+	ShellName="${FullShellName##*/}"
+	\cd "${FullShellName%/*}"
+	ShellDir="$(pwd)"
+	\cd -
+
+	TMP="$(printf "%s\n" "$ADL_TMP" | \sed 's+\\+/+g')"
+	NULL=nul
+else
+	FullShellName="$(whence "$0" | \sed 's+\\+/+g')"
+	ShellName="${FullShellName##*/}"
+	ShellDir="${FullShellName%/*}"
+
+	TMP=$ADL_TMP
+	NULL=/dev/null
+fi
+
+CmdLine="$@"
+
+# =====================================================================
+Usage="adl_import_ws -from OriginWs [-nb_days NbDays|-at Date] {-all_fw|-fw Framework...|-fw_file FrameworkListFilePath} [-fw_by_fw] [-simul] [-dir directory] [-h]
+
+	This command imports all frameworks or a specified list of frameworks from an origin workspace as it was NbDays ago into the current workspace.
+
+Rules:
+	All frameworks to import must be attached in the origin and the current workspace.
+
+Option description:
+	-from OriginWs                 : Name of the origin workspace
+	-nb_days NbDays                : Number of days the origin workspace is to consider with
+	-at Date                       : The date the origin workspace is to consider with (date format: YYYY/MM/DD-hh:mm:ss, time is optional)
+	-all_fw                        : All attached frameworks in origin workspace to import into current one
+	-fw Framework...               : List of attached frameworks in origin workspace to import into current one
+	-fw_file FrameworkListFilePath : Path of file containing the framework list to import. One framework per line
+	-fw_by_fw                      : Extract the changes and import them one framework by framework in order to avoid memory crash. Default is to treat all frameworks together.
+	-simul                         : Simulate the import. No import will be committed.
+	-dir                           : Working directory to store persistent data.
+
+	-h	: this usage."
+# =====================================================================
+
+# =====================================================================
+# Out function
+# =====================================================================
+Out()
+{
+	[ ! -z "$ADL_DEBUG" ] && set -x
+	trap ' ' HUP INT QUIT TERM
+	ExitCode=$1
+	shift
+	if [ $# -ge 1 ]
+	then
+		echo "$*"
+		echo
+	fi
+	[ $ExitCode -ne 0 ] && echo "##### THE COMMAND ENTIRELY OR PARTIALLY FAILED #####"
+
+	[ -z "$ADL_DEBUG" ] && \rm -fr "$TMP"/*_$$ "$TMP"/*_$$.*
+
+	exit $ExitCode
+}
+
+trap 'Out 9999 "Command interrupted" ' HUP INT QUIT TERM
+
+# =====================================================================
+# Options treatment
+# =====================================================================
+typeset -x _ADL_WORKING_DIR
+typeset -x _ADL_TRACE_DIR
+typeset -L1 OneChar
+CheckOptArg()
+{
+	# Usage : CheckOptArg opt arg
+	OneChar="$2"
+	if [ "$2" = "" -o "$OneChar" = "-" ]
+	then
+		Out 3 "Option $1: one argument is required"
+	fi
+}
+
+unset _TCK_PROFILE
+unset _TCK
+
+unset _ORIGIN_WS
+unset _ORIGIN_NB_DAYS
+unset _ORIGIN_DATE
+unset _DEST_WS
+
+unset _FW_OPTION
+unset _LFW_OPTION
+unset _ALL_FW_OPTION
+
+unset _SPECIFIED_WORKING_DIR
+
+_FW_BY_FW="FALSE"
+_SIMUL_IMPORT="FALSE"
+
+_FW_LIST_FILENAME="$TMP"/FW_LIST_$$
+\rm -f "$_FW_LIST_FILENAME"
+touch "$_FW_LIST_FILENAME"
+
+while [ $# -ge 1 ]
+do
+	case "$1" in
+		-h ) #-------------------> HELP NEEDED
+			echo "$Usage"
+			exit 0
+			;;
+		-from ) #-------------------> ORIGIN WORKSPACE
+			CheckOptArg "$1" "$2"
+			_ORIGIN_WS=$2
+			shift 2
+			;;
+		-nb_days ) #-------------------> NUMBER OF DAYS
+			CheckOptArg "$1" "$2"
+			_ORIGIN_NB_DAYS=$2
+			shift 2
+			;;
+		-at ) #-------------------> DATE
+			CheckOptArg "$1" "$2"
+			_ORIGIN_DATE=$2
+			shift 2
+			;;
+		-all_fw ) #-------------------> all framework to import
+			_ALL_FW_OPTION=Y
+			shift
+			if [ ! -z "$_LFW_OPTION" -o ! -z "$_FW_OPTION" ]
+			then
+				echo 1>&2 "#ERR# : -all_fw and -fw_file or -fw options cannot be precised together"
+				Out 5 "$Usage"
+			fi
+			;;
+		-fw ) #----------------> OPTIONAL: Framework list
+			_FW_OPTION=Y
+			shift
+			if [ ! -z "$_LFW_OPTION" -o ! -z "$_ALL_FW_OPTION" ]
+			then
+				echo 1>&2 "#ERR# : -fw and -fw_file or -all_fw options cannot be precised together"
+				Out 5 "$Usage"
+			fi
+			while [ $# -ne 0 ]
+			do
+				OneChar=$1
+				if [ "$OneChar" != "-" ]
+				then
+					echo "$1" >> "$_FW_LIST_FILENAME"
+					shift
+				else
+					break
+				fi
+			done
+			if [ ! -s "$_FW_LIST_FILENAME" ]
+			then
+				echo 1>&2 "#ERR# : -fw option has been requested without parameters"
+				Out 5 "$Usage"
+			fi
+			;;
+		-fw_file ) #----------------> OPTIONAL: filename of objects list
+			_LFW_OPTION=Y
+			if [ ! -z "$_FW_OPTION" -o ! -z "$_ALL_FW_OPTION" ]
+			then
+				echo 1>&2 "#ERR# : -fw_file and -fw or -all_fw options cannot be precised together"
+				Out 5 "$Usage"
+			fi
+			CheckOptArg "$1" "$2"
+			INPUT_FW_LIST_FILENAME="$(printf "%s\n" "$2" | \sed 's+\\+/+g')"
+			shift 2
+			[ ! -f "$INPUT_FW_LIST_FILENAME" ] && Out 5 "Cannot find file containing frameworks list: $INPUT_FW_LIST_FILENAME"
+			[ ! -s "$INPUT_FW_LIST_FILENAME" ] && Out 5 "File $INPUT_FW_LIST_FILENAME containing frameworks list is empty"
+
+			\cp -f "$INPUT_FW_LIST_FILENAME" "$_FW_LIST_FILENAME"
+			echo >>"$_FW_LIST_FILENAME" # Histoire de palier l'absence éventuelle de fin de ligne
+			\sed 's+\\+/+g' "$_FW_LIST_FILENAME" > "${_FW_LIST_FILENAME}.2"
+			rc1=$?
+			\sed 's/#.*$//g' "${_FW_LIST_FILENAME}.2" > "${_FW_LIST_FILENAME}"
+			rc2=$?
+			[ $rc1 -ne 0 -o $rc2 -ne 0 ] && Out 5 "Cannot remove comments from file: $INPUT_FW_LIST_FILENAME"
+			;;
+		-fw_by_fw ) #-------------------> One framework by one framework
+			_FW_BY_FW=TRUE
+			shift
+			;;
+		-simul ) #-------------------> Simulation mode
+			_SIMUL_IMPORT=TRUE
+			shift
+			;;
+		-dir ) #-------------------> Working directory
+			CheckOptArg "$1" "$2"
+			_SPECIFIED_WORKING_DIR=$2
+			shift 2
+			;;
+		* ) # --------------------- Argument ou option erronée
+			OneChar="$1"
+			if [ "$OneChar" = "-" ]
+			then
+				echo "#ERR# : Unknown option: $1" 1>&2
+				Out 5 "$Usage"
+			fi
+
+			echo "$1">>"$_OBJ_LIST_FILENAME"
+			shift
+			;;
+	esac
+done
+
+if [ -z "$ADL_WS" ]
+then
+	echo "#ERR# : No current workspace. You have to select the current workspace using adl_ch_ws command before."
+	Out 5 "$Usage"
+fi
+export _DEST_WS=$ADL_WS
+
+if [ -z "$_ORIGIN_WS" ]
+then
+	echo "#ERR# : Option -from is mandatory" 1>&2
+	Out 5 "$Usage"
+fi
+
+if [ ! -z "$_ORIGIN_NB_DAYS" -a ! -z "$_ORIGIN_DATE" ]
+then
+	echo "#ERR# : The options -nb_days and -at can't be defined together." 1>&2
+	Out 5 "$Usage"
+fi
+
+if [ -z "$_FW_OPTION" -a -z "$_LFW_OPTION" -a -z "$_ALL_FW_OPTION" ]
+then
+	echo "#ERR# : One of the options: -all_fw, -fw, -fw_file must be defined" 1>&2
+	Out 5 "$Usage"
+fi
+
+if [ -z "$ADL_IMAGE" -a -z "$_SPECIFIED_WORKING_DIR" ]
+then
+	echo "#ERR# : An image (adl_ch_ws -image) or the -dir option must be defined" 1>&2
+	Out 5 "$Usage"
+fi
+
+# =====================================================================
+# Calculate attached framework framework list in a specified workspace
+#
+#
+# The returned information are stored in a file
+# for all attached framework or for specified frameworks only
+# =====================================================================
+CalculateAttachedFwListInWs()
+{
+	[ ! -z "$ADL_DEBUG" ] && set -x
+
+	[ $# -ne 3 ] && Out 5 "Internal fatal error. CalculateLsoutInWs procedure takes 4 arguments"
+
+	WS=$1
+	FWLIST="$2" # if no framework list, give '-'
+	ATTACHED_FW_LIST="$3"
+
+	# Determine the attached framework list
+	\rm -f "$ATTACHED_FW_LIST"
+	touch "$ATTACHED_FW_LIST"
+
+	FWS=""
+	# If a list of framework is specified, only these framework are considered
+	if [ "$FWLIST" != "-" ]
+	then
+		while read framework remainder
+		do
+			if [ ! -z "$framework" ]
+			then
+				FWS="$FWS $framework"
+			fi
+		done < "$FWLIST"
+
+		if [ "$FWS" = "" ]
+		then
+			Out 5 "File containing frameworks list is empty";
+		fi
+	fi
+
+	CMD="adl_ls_fw $FWS -ws $WS -program -sep \"|\" -out \"$ATTACHED_FW_LIST\""
+	echo  $CMD  > "$TMP"/adl_ls_fw_$$.out
+	eval $CMD 2>&1  >> "$TMP"/adl_ls_fw_$$.out
+	rc=$?
+	if [ $rc -ne 0 ]
+	then
+		cat "$TMP"/adl_ls_fw_$$.out
+		Out 5
+	fi
+}
+
+# =====================================================================
+# Import of one framework from the origin workspace into the current one
+# or all the frameworks of the workspace tree.
+# =====================================================================
+ImportFramework()
+{
+	[ ! -z "$ADL_DEBUG" ] && set -x
+
+	[ $# -ne 10 ] && Out 5 "Incorrect parameter number in procedure: ImportFramework"
+
+	_ORIGIN_WS=$1
+	shift
+	_ORIGIN_TREE=$1
+	shift
+	_ORIGIN_WS_REV_NAME=$1
+	shift
+	_DEST_WS=$1
+	shift
+	_DEST_TREE=$1
+	shift
+	_ONE_FW=$1
+	shift
+	_FW_PARAM="$1"
+	shift
+	_ADL_WORKING_DIR="$1"
+	shift
+	_ADL_TRACE_DIR="$1"
+	shift
+	_SIMUL_IMPORT=$1
+
+	_ORIGIN_WS_REV="$_ORIGIN_WS.$_ORIGIN_TREE.$_ORIGIN_WS_REV_NAME"
+
+	# _ONE_FW = TRUE  -> _FW_PARAM = le framework à considérer
+	# _ONE_FW = FALSE -> _FW_PARAM = le fichier contenant les frameworks
+
+	# ----------------------------------------------------------------------
+	# Extract changes from origin workspace
+	# ----------------------------------------------------------------------
+	echo "========================================================"
+	if [ "$_ONE_FW" = "TRUE" ]
+	then
+		echo "Treating the framework $_FW_PARAM"
+		_FW_FILE_SUFFIX=".${_FW_PARAM}" # -> On conserve les fichiers correspondant à chaque framework
+		_FW_OPTION="-fw $_FW_PARAM"
+	else
+		echo "Treating the frameworks from the tree $_ORIGIN_TREE"
+		_FW_FILE_SUFFIX=""
+		_FW_OPTION="-fw_file $_FW_PARAM"
+
+		# Nettoyage des fichiers par framework généré par un report précédent
+		for Fw in $(<$_FW_PARAM)
+		do
+			rm -f "$_ADL_WORKING_DIR"/*.$Fw.txt
+		done
+	fi
+
+	export _REF_DELTA_PARAM_FILE="$_ADL_WORKING_DIR/delta_param.Ref.txt"
+	if [ ! -s "$_REF_DELTA_PARAM_FILE" ]
+	then
+		# Pas de fichier référence
+		touch "$_REF_DELTA_PARAM_FILE"
+	fi
+	export _NEW_DELTA_PARAM_FILE="$_ADL_WORKING_DIR/delta_param.New.txt"
+
+	export _SO_CHG_ID_FILE="$_ADL_WORKING_DIR/so_chg_id${_FW_FILE_SUFFIX}.txt"
+	export _MOVED_OUT_SO_FILE="$_ADL_WORKING_DIR/moved_out_soft_obj_id${_FW_FILE_SUFFIX}.txt"
+
+	_TRACE_DELTA_SO_CHG="$_ADL_TRACE_DIR/0trace_adl_delta_so_chg${_FW_FILE_SUFFIX}.txt"
+
+	"$ADL_USER_PATH/admin/adl_delta_so_chg" \
+		-ws_rev $_ORIGIN_WS_REV -ref "$_REF_DELTA_PARAM_FILE" \
+		$_FW_OPTION -out "$_NEW_DELTA_PARAM_FILE" -so_chg_file "$_SO_CHG_ID_FILE" \
+		-moved_out_so_file "$_MOVED_OUT_SO_FILE" >"$_TRACE_DELTA_SO_CHG" 2>&1
+	rc=$?
+	cat "$_TRACE_DELTA_SO_CHG"
+	[ $rc -ne 0 ] && Out 5 "adl_delta_so_chg is KO"
+
+	# ----------------------------------------------------------------------
+	# Import changes into DESTINATION WORKSPACE
+	# ----------------------------------------------------------------------
+	export _REF_SO_CHG_ID_FILE="$_ADL_WORKING_DIR/so_chg_id.Ref.txt"
+	export _IMPORTED_SO_CHG_ID_FILE="$_ADL_WORKING_DIR/imported_so_chg_id.txt" # Fichier de toutes les modifications importées, notamment pour accélérer les simulations
+	# Boucle par framework ou non, on gère un fichier par arborescence.
+
+	if [ ! -s "$_REF_SO_CHG_ID_FILE" ]
+	then
+		# Pas de fichier référence
+		touch "$_REF_SO_CHG_ID_FILE"
+	fi
+
+	count=1
+	ForceToDo=1
+	while [ $ForceToDo -eq 1 ]
+	do
+		_TRACE_FORCE_SO_CHG="$_ADL_TRACE_DIR/0trace_adl_force_so_chg.txt"
+
+		if [ "$_SIMUL_IMPORT" = "TRUE" ] 
+		then
+			"$ADL_USER_PATH/admin/adl_force_so_chg" \
+				-previous "$_REF_SO_CHG_ID_FILE" -file "$_SO_CHG_ID_FILE" \
+				-tree $_DEST_TREE -from_tree $_ORIGIN_TREE -complete \
+				-imported "$_IMPORTED_SO_CHG_ID_FILE" \
+				-simul >"$_TRACE_FORCE_SO_CHG" 2>&1
+			rc=$?
+		else
+			"$ADL_USER_PATH/admin/adl_force_so_chg" \
+				-previous "$_REF_SO_CHG_ID_FILE" -file "$_SO_CHG_ID_FILE" \
+				-tree $_DEST_TREE -from_tree $_ORIGIN_TREE -complete \
+				-imported "$_IMPORTED_SO_CHG_ID_FILE" >"$_TRACE_FORCE_SO_CHG" 2>&1
+			rc=$?
+		fi
+		ForceToDo=0
+
+		# Fix for missing changes due to cleaner
+		# --------------------------------------
+		if [ $rc -ne 0 ]
+		then
+			grep '#ERR# ADLCMD \- 6326' "$_TRACE_FORCE_SO_CHG" >$NULL 2>&1
+			rc1=$?
+			grep '#ERR# ADLCMD \- 6330' "$_TRACE_FORCE_SO_CHG" >$NULL 2>&1
+			rc2=$?
+			_SO_ID_FILENAME="$TMP"/SO_ID_LIST_$$
+			_SO_CHG_ID_FILENAME="$TMP"/SO_CHG_ID_LIST_$$
+			while [ $rc1 -eq 0 -o $rc2 -eq 0 ]
+			do
+				ForceToDo=1
+				\rm -f "$_SO_ID_FILENAME"
+				if [ $rc1 -eq 0 ]
+				then
+					# -> if install in english
+					grep 'Soft obj id' "$_TRACE_FORCE_SO_CHG" | $_AWK '{print $4}' | $_AWK -F: '{print $1}' >> "$_SO_ID_FILENAME"
+					[ $? -ne 0 ] && Out 5 "Cannot generate IDs file"
+					# -> if install in french
+					grep 'Id obj' "$_TRACE_FORCE_SO_CHG" | $_AWK '{print $3}' >> "$_SO_ID_FILENAME"
+					[ $? -ne 0 ] && Out 5 "Cannot generate IDs file"
+				fi
+
+				if [ $rc2 -eq 0 ]
+				then
+					$_AWK '{if (NF==1 && length($1)==20) print $1}' "$_TRACE_FORCE_SO_CHG" >> "$_SO_ID_FILENAME"
+					[ $? -ne 0 ] && Out 5 "Cannot generate IDs file"
+				fi
+
+				# Recherche des modifications associées à ces objets dans l'espace origine
+				cat "$_SO_ID_FILENAME" | while read SoftObjId
+				do
+					adl_ds_chg soid:${SoftObjId} -ws_rev $_ORIGIN_WS_REV -all_chg -program -sep "|" -out "$TMP"/DsChg_$$
+					[ $? -ne 0 ] && Out 5 "adl_ds_chg is KO"
+					$_AWK -F\| '{if ($1=="___SO_CHG") print $2}' "$TMP"/DsChg_$$ >> "$_SO_CHG_ID_FILENAME"
+					[ $? -ne 0 ] && Out 5 "Cannot extract software object change"
+				done
+
+				# Import des modifications dans l'espace destination
+				count=$(expr $count + 1)
+				_TRACE_FORCE_SO_CHG="$_ADL_TRACE_DIR/0trace_adl_force_so_chg_${count}.txt"
+				"$ADL_USER_PATH/admin/adl_force_so_chg" -file "$_SO_CHG_ID_FILENAME" -tree $_DEST_TREE -complete >"$_TRACE_FORCE_SO_CHG" 2>&1
+				rc=$?
+				if [ $rc -eq 0 ]
+				then
+					rc1=1
+					rc2=1
+				else
+					grep '#ERR# ADLCMD \- 6326' "$_TRACE_FORCE_SO_CHG" >$NULL 2>&1
+					rc1=$?
+					grep '#ERR# ADLCMD \- 6330' "$_TRACE_FORCE_SO_CHG" >$NULL 2>&1
+					rc2=$?
+					[ $rc1 -ne 0 -a $rc2 -ne 0 ] && Out 5 "adl_force_so_chg is KO"
+				fi
+			done
+		fi
+	done
+
+	cat "$_TRACE_FORCE_SO_CHG"
+	[ $rc -ne 0 ] && Out 5 "adl_force_so_chg is KO"
+
+	# ----------------------------------------------------------------------
+	# Fichier paramètre -> référence
+	# ----------------------------------------------------------------------
+	mv -f "$_IMPORTED_SO_CHG_ID_FILE" "$_REF_SO_CHG_ID_FILE"
+
+	if [ "$_SIMUL_IMPORT" != "TRUE" ]
+	then
+		\mv -f "$_NEW_DELTA_PARAM_FILE" "$_REF_DELTA_PARAM_FILE"
+		rc=$?
+		[ $rc -ne 0 ] && Out 5 "mv -f $_NEW_DELTA_PARAM_FILE $_REF_DELTA_PARAM_FILE is KO"
+	fi
+
+	return 0
+}
+
+echo "Checking parameters and rules compliance"
+
+# =====================================================================
+# Calculate all information of attached framework in the origin workspace
+# =====================================================================
+FWLIST="-"
+[ "$_ALL_FW_OPTION" != "Y" ] && FWLIST="$_FW_LIST_FILENAME"
+ORIGIN_ATTACHED_FW_LIST="$TMP"/OriginWsAttachedFwList_$$.txt
+\rm -f "$ORIGIN_ATTACHED_FW_LIST"
+
+CalculateAttachedFwListInWs $_ORIGIN_WS "$FWLIST" "$ORIGIN_ATTACHED_FW_LIST"
+
+### _ORIGIN_NB_DAYS can't be taken into account until adl_ls_fw handles the option -ws_rev
+
+if [ ! -z "$ADL_DEBUG" ]
+then
+	echo "ORIGIN_ATTACHED_FW_LIST"
+	cat "$ORIGIN_ATTACHED_FW_LIST"
+	echo
+fi
+# =====================================================================
+# Calculate all information of attached framework in the destination workspace
+# =====================================================================
+FWLIST="-"
+DEST_ATTACHED_FW_LIST="$TMP"/DestWsAttachedFwList_$$.txt
+\rm -f "$DEST_ATTACHED_FW_LIST"
+
+CalculateAttachedFwListInWs $_DEST_WS "$FWLIST" "$DEST_ATTACHED_FW_LIST"
+
+if [ ! -z "$ADL_DEBUG" ]
+then
+	echo "DEST_ATTACHED_FW_LIST"
+	cat "$DEST_ATTACHED_FW_LIST"
+	echo
+fi
+# =====================================================================
+# Check that all specified framework in the origin workspace
+# are also attached in the destination workspace
+# =====================================================================
+ORIGIN_FWID_LIST="$TMP"/OriginFwIdList_$$.txt
+$_AWK -F"|" '{print $7}' "$ORIGIN_ATTACHED_FW_LIST" > "$ORIGIN_FWID_LIST"
+[ $? -ne 0 ] && Out 5 "Cannot filter file: "$ORIGIN_FWID_LIST""
+if [ ! -z "$ADL_DEBUG" ]
+then
+	echo "ORIGIN_FWID_LIST"
+	cat "$ORIGIN_FWID_LIST"
+	echo
+fi
+
+DEST_FWID_LIST="$TMP"/DestFwIdList_$$.txt
+$_AWK -F"|" '{print $7}' "$DEST_ATTACHED_FW_LIST" > "$DEST_FWID_LIST"
+[ $? -ne 0 ] && Out 5 "Cannot filter file: "$DEST_FWID_LIST""
+if [ ! -z "$ADL_DEBUG" ]
+then
+	echo "DEST_FWID_LIST"
+	cat "$DEST_FWID_LIST"
+	echo
+fi
+
+FW_NOT_IN_DEST="$TMP"/FwNotInDest_$$.txt
+adl_comm "$ORIGIN_FWID_LIST" "$DEST_FWID_LIST" -only1 "$FW_NOT_IN_DEST"
+[ $? -ne 0 ] && Out 5 "Cannot comm files: $ORIGIN_FWID_LIST and $DEST_FWID_LIST"
+
+if [ -s "$FW_NOT_IN_DEST" ]
+then
+	echo "#ERR# The following frameworks are attached in workspace $_ORIGIN_WS but not attached in the workspace $_DEST_WS."
+	echo "Attach these frameworks using adl_attach or import these frameworks using the adl_import command."
+	echo "Warning: Do not use the adl_mk_fw command."
+	while read fwid
+	do
+		grep $fwid "$ORIGIN_ATTACHED_FW_LIST" | $_AWK -F"|" '{print $1}'
+	done < "$FW_NOT_IN_DEST"
+	Out 5 "These frameworks must be attached in the current workspace: $_DEST_WS"
+fi
+
+# =====================================================================
+# Read the origin workspace revision _ORIGIN_NB_DAYS ago
+# =====================================================================
+ORIGIN_WS_REV_LIST=""
+if [ ! -z "$_ORIGIN_NB_DAYS" ]
+then
+	_ORIGIN_DATE=$(adl_calc_date -minus $_ORIGIN_NB_DAYS)
+	_ORIGIN_DATE=${_ORIGIN_DATE%-*} # The hour is removed
+fi
+if [ ! -z "$_ORIGIN_DATE" ]
+then
+	echo "The origin workspace is considered as it was on $_ORIGIN_DATE"
+
+	ORIGIN_WS_REV_LIST="$TMP"/OriginWsRev_$$.txt
+	adl_ls_ws_rev $_ORIGIN_WS -at $_ORIGIN_DATE -program -sep "|" >"$ORIGIN_WS_REV_LIST"
+	if [ $? -ne 0 ]
+	then
+		Out 5 "Unable to get the list of the origin workspace revisions at $_ORIGIN_DATE"
+	fi
+fi
+
+# =====================================================================
+# Create the working directories workspace tree by workspace tree
+# =====================================================================
+WORKING_DIR_LIST="$TMP"/WorkingDirList_$$.txt
+\rm -f "$WORKING_DIR_LIST"
+oldIFS=$IFS
+IFS="|"
+while read FwName ObjType IsAttached Resp OriginTree OriginTreeId FwId Remainder
+do
+	IFS=$oldIFS
+
+	# On recherche l'arborescence dans laquelle se trouve le framework dans l'espace courant
+	Line=$(grep "$FwId" "$DEST_ATTACHED_FW_LIST")
+	[ $? -ne 0 ] && Out 5 "Cannot find framework Id: $FwId in the current framework list: $DEST_FWID_LIST"
+	DestTree=$(echo $Line | $_AWK -F"|" '{print $5}')
+	[ $? -ne 0 ] && Out 5 "Cannot find tree for framework id: $FwId in the current workspace"
+
+	_TID="${_ORIGIN_WS}_${OriginTree}_${_DEST_WS}_${DestTree}"
+	if [ -z "$ADL_IMAGE" ]
+	then
+		_ADL_WORKING_DIR="$_SPECIFIED_WORKING_DIR/$_TID"
+	else
+		_ADL_WORKING_DIR="$ADL_IMAGE_DOS_DIR/ToolsData/MultiSite/$_TID"
+	fi
+	_ADL_WORKING_DIR="$(printf "%s\n" "$_ADL_WORKING_DIR" | \sed 's+\\+/+g')"
+
+	_SIMUL_WS_PARAM="$_ADL_WORKING_DIR/ImportWsParam.txt"
+	_FW_LIST="$_ADL_WORKING_DIR/FwList.txt"
+
+	fgrep "|$_ADL_WORKING_DIR|" "$WORKING_DIR_LIST" >$NULL 2>&1
+	if [ $? -ne 0 ]
+	then
+		# Premier couple OriginTree - DestTree pour ce report
+		FwByFw="$_FW_BY_FW"
+
+		if [ ! -d "$_ADL_WORKING_DIR" -o ! -f "$_SIMUL_WS_PARAM" ]
+		then
+			# On cree si besoin, le repertoire de travail des transferts
+			if [ ! -d "$_ADL_WORKING_DIR" ]
+			then
+				mkdir -p "$_ADL_WORKING_DIR"
+				[ $? -ne 0 ] && Out 5 "Cannot create working directory on local ws: $_ADL_WORKING_DIR"
+			fi
+
+			FwByFw="TRUE" # -> On passe en mode framework par framework de toutes façons
+		fi
+
+		if [ -z "$ORIGIN_WS_REV_LIST" ]
+		then
+			OriginWsRevName="last" ### TO DO: public ???
+		else
+			OriginWsRevName=$($_AWK -F"|" '($2 == "'"$OriginTree"'") { print $1; }' "$ORIGIN_WS_REV_LIST")
+		fi
+
+		echo "$OriginTree|$OriginWsRevName|$DestTree|$FwByFw" >"$_SIMUL_WS_PARAM"
+		rc=$?
+		[ $rc -ne 0 ] && Out 5 "Cannot write the param file $_SIMUL_WS_PARAM"
+
+		\rm -f "$_FW_LIST"
+		touch "$_FW_LIST"
+		rc=$?
+		[ $rc -ne 0 ] && Out 5 "Cannot create the fw file $_FW_LIST"
+
+		echo "|$_ADL_WORKING_DIR|" >>"$WORKING_DIR_LIST"
+	fi
+
+	echo "$FwName" >>"$_FW_LIST"
+	[ $rc -ne 0 ] && Out 5 "Cannot complete the fw file $_FW_LIST"
+
+	IFS="|"
+done < "$ORIGIN_ATTACHED_FW_LIST"
+IFS=$oldIFS
+
+# =======================================================================================================
+# Import framework by framework or all frameworks together from origin workspace to destination workspace
+# =======================================================================================================
+for _ADL_WORKING_DIR in $(<"$WORKING_DIR_LIST")
+do
+	_ADL_WORKING_DIR="${_ADL_WORKING_DIR#\|}"
+	_ADL_WORKING_DIR="${_ADL_WORKING_DIR%\|}"
+
+	_SIMUL_WS_PARAM="$_ADL_WORKING_DIR/ImportWsParam.txt"
+	_FW_LIST="$_ADL_WORKING_DIR/FwList.txt"
+
+	oldIFS=$IFS
+	IFS="|"
+	read OriginTree OriginWsRevName DestTree FwByFw <"$_SIMUL_WS_PARAM"
+	IFS=$oldIFS
+
+	# On se positionne dans le repertoire de travail des transferts
+	\cd "$_ADL_WORKING_DIR"
+	_ADL_TRACE_DIR="$_ADL_WORKING_DIR"
+
+	if [ "$FwByFw" = "TRUE" ]
+	then
+		# Boucle framework par framework
+		for FwName in $(<"$_FW_LIST")
+		do
+			ImportFramework $_ORIGIN_WS $OriginTree $OriginWsRevName $_DEST_WS $DestTree TRUE $FwName "$_ADL_WORKING_DIR" "$_ADL_TRACE_DIR" $_SIMUL_IMPORT # TRUE -> un framework
+			rc=$?
+			[ $rc -ne 0 ] && Out 5 "Cannot import $FwName from $_ORIGIN_WS in the current workspace: $_DEST_WS"
+		done
+	else
+		# Tous les frameworks d'un coup
+		ImportFramework $_ORIGIN_WS $OriginTree $OriginWsRevName $_DEST_WS $DestTree FALSE "$_FW_LIST" "$_ADL_WORKING_DIR" "$_ADL_TRACE_DIR" $_SIMUL_IMPORT # FALSE -> un fichier de frameworks
+		rc=$?
+		[ $rc -ne 0 ] && Out 5 "Cannot import frameworks from $_ORIGIN_WS, tree $OriginTree, in the current workspace: $_DEST_WS"
+	fi
+done
+
+# =====================================================================
+# Refresh the current image
+# =====================================================================
+if [ ! -z "$ADL_IMAGE" ]
+then
+	echo "========================================================"
+	#echo "Refreshing workspace $_DEST_WS"
+	adl_refresh
+	rc=$?
+	[ $rc -ne 0 ] && Out 5
+fi
+
+# =====================================================================
+# Merges to solve
+# =====================================================================
+_TRACE_LS_MERGE="$TMP"/trace_adl_ls_merge_$$.txt
+_MERGE_TO_SOLVE_FILE="$TMP"/trace_merge_to_solve_$$.txt
+
+echo "========================================================" >"$_TRACE_LS_MERGE" 2>&1
+
+adl_ls_merge -program -out "$_MERGE_TO_SOLVE_FILE" >>"$_TRACE_LS_MERGE" 2>&1
+rc=$?
+if [ $rc -ne 0 ]
+then
+	cat "$_TRACE_LS_MERGE"
+	Out 5 "adl_ls_merge is KO"
+fi
+if [ -s "$_MERGE_TO_SOLVE_FILE" ]
+then
+	adl_ls_merge
+	echo "-------------------------------------------------------"
+	echo "---      MERGES TO SOLVE : RUN adl_solve_merge      ---"
+	echo "-------------------------------------------------------"
+fi
+
+Out 0

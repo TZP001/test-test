@@ -1,0 +1,312 @@
+#!/bin/ksh
+
+# =====================================================================
+# Copyright 2002 (C) Dassault-Systemes
+# 
+# adl_ds_ws_is: looks like adl_ds_ws on the current workspace but
+# dedicated to displaying intersite characteristics.
+#
+# =====================================================================
+unset _lock_code
+[ ! -z "$ADL_DEBUG" ] && set -x
+[ "$(uname -s)" = "Windows_NT" ] && export ADL_USER_PATH="$(printf "%s" "$ADL_USER_PATH" | sed 's+\\+/+g')"
+. "$ADL_USER_PATH"/admin/ADLMultiSiteCommon.sh
+
+# =====================================================================
+# Out function
+# Syntax: $1 = exit code; $2 = message code; $3... = message parameter(s)
+# CAUTION: only the first for message parameters can have spaces
+# =====================================================================
+Out()
+{
+	ExitCode=$1
+	shift
+	trap 'Out 5 0100' HUP INT QUIT TERM
+
+	# Send event 'finish' to the remote transfer manager
+	[ $ExitCode -eq 0 -a $_lock_code -eq 0 ] && "$_CLIENT" $_RUN_COMMON -finish "$_T_NAME" "$ADL_WS" "$_L_SITE" "#CMD=adl_ds_ws_is"
+
+	if [ $ExitCode -ge 1 ]
+	then
+		# Send 'abort' event to the remote transfer manager
+		[ $_lock_code -eq 0 ] && "$_CLIENT" $_RUN_COMMON -abort "$_T_NAME" "$ADL_WS" "$_L_SITE" "#CMD=adl_ds_ws_is"
+
+		echo ""
+		if [ $# -eq 1 ]
+		then
+			_printerr "$1" >&2
+		elif [ $# -eq 2 ]
+		then
+			_printerr "$1" "$2" >&2
+		elif [ $# -eq 3 ]
+		then
+			_printerr "$1" "$2" "$3" >&2
+		elif [ $# -eq 4 ]
+		then
+			_printerr "$1" "$2" "$3" "$4" >&2
+		elif [ $# -gt 4 ]
+		then
+			_printerr $* >&2
+		fi
+
+		echo ""
+		_printerr 0030 >&2
+
+	elif [ $# -ge 1 ]
+	then
+		echo ""
+		if [ $# -eq 1 ]
+		then
+			_printmsg "$1" >&2
+		elif [ $# -eq 2 ]
+		then
+			_printmsg "$1" "$2" >&2
+		elif [ $# -eq 3 ]
+		then
+			_printmsg "$1" "$2" "$3" >&2
+		elif [ $# -eq 4 ]
+		then
+			_printmsg "$1" "$2" "$3" "$4" >&2
+		elif [ $# -gt 4 ]
+		then
+			_printmsg $* >&2
+		fi
+	fi
+	unset IFS
+
+	# Clean possibly dedicated environment in the transfer manager daemon
+	"$_CLIENT" $_RUN_COMMON -finish > $NULL 2>&1
+	# Remove dedicated temporary directory (its name contains an UUID)
+	if [ ! -z "$_R_TMP" ]
+	then
+		"$_CLIENT" $_RUN_COMMON -rm '"'$_R_TMP'"' -rec || _printerr 0516 "$_R_TMP"
+	fi
+
+	\rm -rf "$DefaultTmpDir"/*_$$
+	\rm -rf "$DefaultTmpDir"/*_$$.sh
+	\rm -rf "$DefaultTmpDir"/*_$$.txt
+
+	exit $ExitCode
+}
+trap 'Out 5 0100 ' HUP INT QUIT TERM
+
+# =====================================================================
+# Analyse des parametres d'appel
+# =====================================================================
+
+typeset -L1 OneChar
+CheckOptArg()
+{
+	# Usage : CheckOptArg opt arg
+	OneChar="$2"
+	if [ "$2" = "" -o "$OneChar" = "-" ]
+	then
+		_printerr 0103 "$1" # "Option /p1: one argument is required"
+		Out 5 0510
+	fi
+}
+
+unset _T_NAME
+
+# Note: _R_HOST & _R_PORT sont obsoletes -> utiliser _R_SERVER
+unset _R_HOST
+unset _R_PORT
+unset _R_SERVER
+unset _R_WS
+unset _TREE_OPTION
+unset _L_WS_TREE_LIST
+export _WS_TREE_LIST_FILE="$DefaultTmpDir"/ls_tree_$$.txt
+
+while [ $# -ge 1 ]
+do
+	case "$1" in
+		-h | -help | -\? ) #-------------------> HELP NEEDED
+			_printmsg 0910 # usage ...
+			_printmsg 0900
+			exit 0
+			;;
+		-tree ) #-------------------> LOCAL WORKSPACE TREE(s)
+			_TREE_OPTION=true
+			shift
+			touch "$_WS_TREE_LIST_FILE"
+			while [ $# -ne 0 ]
+			do
+				OneChar="$1"
+				if [ "$OneChar" != "-" ]
+				then
+					echo "$1" >> "$_WS_TREE_LIST_FILE"
+					_L_WS_TREE_LIST="$1 $_L_WS_TREE_LIST"
+					shift
+				else
+					break
+				fi
+			done
+			if [ ! -s "$_WS_TREE_LIST_FILE" ]
+			then
+				_printerr 0103 "$1" # "Option /p1: one argument is required"
+				Out 5 0910
+			fi
+			;;
+		-transfer ) #-------------------> TRANSFER NAME
+			CheckOptArg "$1" "$2"
+			export _T_NAME="$2"
+			shift 2
+			;;
+		-* ) _printerr 0104 "$1" # "Unknown option: /p1"
+			Out 5 0510
+			;;
+		*) _printerr 0411 "$1" # "Argument /p1 is not expected."
+			Out 5 0510
+			;;
+	esac
+done
+
+# Check there is a current workspace
+if [ -z "$ADL_WS" ]
+then
+	Out 5 0108 "adl_ch_ws" # "No current workspace. Use /p1 to set the current workspace to the local transfer workspace.";
+fi
+
+######################################################################
+#
+# Check or compute name of transfer + check remote workspace
+#
+######################################################################
+check_transfer
+######################################################################
+#
+# Connection to the remote Multisite transfer manager
+#
+######################################################################
+init_connection_with_remote_site "$_R_SERVER"
+
+######################################################################
+#
+# Check information registered locally against current state
+# of remote site -> information can be then retrieved in the 
+# $_MIRROR_INFO_FILE file that is transferred locally
+#
+######################################################################
+check_remote_transfer
+
+# If no tree is specified, use the adl_ls_transfer command to know the list of trees to take in account
+if [ ! -s "$_WS_TREE_LIST_FILE" ]
+then
+	$_AWK -F\| '{print $5}' "$DefaultTmpDir"/ls_transfer_$$.txt >"$_WS_TREE_LIST_FILE"
+	[ $? -ne 0 ] && Out 5 0221 "$_WS_TREE_LIST_FILE" # "Failed to create temporary file /p1..."
+fi
+
+_printmsg 0911 "$ADL_WS" "$_T_NAME" "$_R_SITE" # "Current workspace: /p1..."
+
+# Get information about local workspace
+unset _OPTIONS
+[ ! -z "$_L_WS_TREE_LIST" ] && _OPTIONS="-tree $_L_WS_TREE_LIST"
+"$ADL_USER_PATH"/adl_ds_ws $_OPTIONS -program -sep \| -out "$DefaultTmpDir"/ds_l_ws_$$.txt
+[ $? -ne 0 ] && Out 5 0106 # "Failed to extract information about local workspace"
+
+rc=0
+while read _one_tree
+do
+
+	echo " " | "$_CLIENT" $_RUN_COMMON -log_input -echo
+
+	# Translate the local workspace tree using proper upper/lower case
+	_L_WS_TREE=$($_AWK -F\| '{if (tolower($5)==tolower("'$_one_tree'")) print $5}' "$DefaultTmpDir"/ls_transfer_$$.txt)
+	# Get associated remote workspace tree
+	_R_WS_TREE=$($_AWK -F\| '{if (tolower($5)==tolower("'$_L_WS_TREE'")) print $9}' "$DefaultTmpDir"/ls_transfer_$$.txt)
+	[ -z "$_R_WS_TREE" ] && Out 5 413 "$_L_WS_TREE" # "Failed to extract name of remote workspace tree..."
+
+	if [ ! -z "$_L_IMAGE" ]
+	then
+		_ADL_WORKING_DIR="$ADL_IMAGE_DOS_DIR/ToolsData/MultiSite/${_T_NAME}/${_L_WS_TREE}"
+	else
+		_ADL_WORKING_DIR="$_L_DIR/MultiSite/${ADL_WS}/${_T_NAME}/${_L_WS_TREE}"
+	fi
+	if [ ! -d "$_ADL_WORKING_DIR" ]
+	then
+		\mkdir -p "$_ADL_WORKING_DIR" || Out 5 0031 "$_ADL_WORKING_DIR"
+	fi
+
+	_mirror_sync_status_in_tree=$($_AWK -F\| ' \
+		BEGIN {printit=0}\
+		      {if ($1=="_WS" && $4=="'$_R_WS_TREE'") printit=1}\
+		      {if (printit==1 && $1=="__WS_STATUS") {print $2; printit=0}} ' "$_MIRROR_INFO_FILE")
+	_mirror_promoted_status_in_tree=$($_AWK -F\| ' \
+		BEGIN {printit=0}\
+		      {if ($1=="_WS" && $4=="'$_R_WS_TREE'") printit=1}\
+		      {if (printit==1 && $1=="__WS_STATUS") {print $4; printit=0}} ' "$_MIRROR_INFO_FILE")
+
+	_parent_ws=$($_AWK -F\| '{if ($1=="_WS" && $4=="'$_R_WS_TREE'") print $9}' "$_MIRROR_INFO_FILE")
+	"$_CLIENT" $_RUN_COMMON -cmd '"'$_RemoteADLUserPath/adl_ds_ws'"' "${_parent_ws}" -tree "$_R_WS_TREE" -program '-sep "|"' -out '"'$_R_TMP/r_ds_ws_parent.txt'"'
+	[ $? -ne 0 ] && Out 5 0514 "${_parent_ws}" "$_R_WS" # "Failed to retrieve information on parent workspace..."
+	"$_CLIENT" $_RUN_COMMON -get "$_R_TMP/r_ds_ws_parent.txt" "$DefaultTmpDir"/r_ds_ws_parent_$$.txt || Out 5 0025 "$_R_TMP/r_ds_ws_parent.txt" "$DefaultTmpDir"/r_ds_ws_parent_$$.txt 
+	_parent_ws_published=$($_AWK -F\| '{if ($1=="__WS_STATUS") print $3}' "$DefaultTmpDir"/r_ds_ws_parent_$$.txt)
+
+	# Compute intersite synchronization status
+	\touch "$_ADL_WORKING_DIR/0rstate.txt"
+	_currrev=$($_AWK -F\| '{if ($1 == "_WS" && $4=="'$_R_WS_TREE'") print $7}' "$_MIRROR_INFO_FILE")
+	_currrank=$($_AWK -F\| '{if ($1 == "_WS" && $4=="'$_R_WS_TREE'") print $8}' "$_MIRROR_INFO_FILE")
+	_prevrev=$($_AWK -F\| '{if ($1 == "_WS") print $7}' "$_ADL_WORKING_DIR/0rstate.txt")
+	_prevrank=$($_AWK -F\| '{if ($1 == "_WS") print $8}' "$_ADL_WORKING_DIR/0rstate.txt")
+	if [ "$_currrank" = "$_prevrank" -a "$_currrev" = "$_prevrev" ]
+	then
+		_intersite_sync=Yes
+	else
+		_intersite_sync=No
+	fi
+
+	# Compute intersite promotion status
+	\touch "$_ADL_WORKING_DIR/0lstate.txt"
+	_currrev=$($_AWK -F\| '{if ($1 == "_WS" && $4=="'$_L_WS_TREE'") print $7}' "$DefaultTmpDir"/ds_l_ws_$$.txt)
+	_currrank=$($_AWK -F\| '{if ($1 == "_WS" && $4=="'$_L_WS_TREE'") print $8}' "$DefaultTmpDir"/ds_l_ws_$$.txt)
+	_prevrev=$($_AWK -F\| '{if ($1 == "_WS") print $7}' "$_ADL_WORKING_DIR/0lstate.txt")
+	_prevrank=$($_AWK -F\| '{if ($1 == "_WS") print $8}' "$_ADL_WORKING_DIR/0lstate.txt")
+	if [ "$_currrank" = "$_prevrank" -a "$_currrev" = "$_prevrev" ]
+	then
+		_intersite_promotion=Yes
+	else
+		_intersite_promotion=No
+	fi
+
+	_printmsg 0914 "$_L_WS_TREE" "$_R_WS_TREE" "$_parent_ws" # "For local workspace tree: /p1..."
+	if [ "$_parent_ws_published" = "PUBLISHED" ]
+	then
+		_printmsg 0917 # "    Published: Yes"
+	else
+		_printmsg 0918 # "    Published: No"
+	fi
+	_printmsg 0919 "$_R_WS" # "  Remote mirror workspace: /p1"
+	if [ "$_mirror_sync_status_in_tree" = "SYNCHRONIZED" ]
+	then
+		_printmsg 0920 # "    Synchronized: Yes"
+	else
+		_printmsg 0921 # "    Synchronized: No"
+	fi
+	if [ "$_mirror_promoted_status_in_tree" = "PROMOTED" ]
+	then
+		_printmsg 0922 # "    Promoted: Yes"
+	else
+		_printmsg 0923 # "    Promoted: No"
+	fi
+	if [ "$_intersite_sync" = "Yes" -a "$_mirror_sync_status_in_tree" = "SYNCHRONIZED" ]
+	then
+		_printmsg 0924 # "  Synchronized with remote site: Yes"
+	else
+		_printmsg 0925 # "  Synchronized with remote site: No"
+	fi
+	if [ "$_intersite_promotion" = "Yes" -a "$_mirror_promoted_status_in_tree" = "PROMOTED" ]
+	then
+		_printmsg 0926 # "  Promoted to remote site: Yes"
+	else
+		_printmsg 0927 # "  Promoted to remote site: No"
+	fi
+
+
+done < "$_WS_TREE_LIST_FILE"
+
+if [ $rc -eq 0 ]
+then
+	Out 0
+else
+	Out 5 # "##### THE INTERSITE COMMAND ENTIRELY OR PARTIALLY FAILED #####"
+fi
