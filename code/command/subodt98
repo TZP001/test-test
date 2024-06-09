@@ -1,0 +1,234 @@
+#set -x
+
+OutputFile=""
+pathshell=""
+PARAM=""
+while [ "$1" != "" ]
+do
+  if [ "$1" = "s" ];then
+    pathshell=$2
+    shift 2
+  elif [ "$1" = "o" ];then
+    OutputFile=$2
+    shift 2
+  elif [ "$1" = "p" ];then
+    shift 
+    PARAM="$*"
+    break
+  else
+    echo error 
+    exit 17
+  fi
+done 
+
+if [ "$OutputFile" != "" ]; then
+  echo $0 s $pathshell p $PARAM 
+  $0 s $pathshell p $PARAM > $OutputFile 2>&1
+  exit $?
+fi
+
+nameshell="$(basename $pathshell)"
+dirshell="$(dirname $pathshell)"
+traceshell="${nameshell%.*}"
+oldpathshell="$pathshell"
+
+if [ "${pathshell}" != "D" ]; then
+if [ ! -a "${pathshell}.sh" ]; then
+  if [ "$PERTINENCE" = "Yes" ]; then exit 1; fi
+  pathshell="$(WhichDir ${dirshell#$WSROOT/})/$nameshell"
+  if [ ! -a "${pathshell}.sh" ]; then
+   echo "## ++ (ERROR) ${nameshell}.sh: Shell script execution failed  code 999"
+   echo "## ++         ${oldpathshell#$WSROOT/}.sh: not found"
+   echo "## ----------------------------------------------------------"
+   exit 1
+  else
+    dirshell="$(dirname $pathshell)"
+    traceshell="${nameshell%.*}"
+    CDDTTERM="$dirshell"
+    dirFW="$(dirname $dirshell)"
+    export ADL_ODT_IN="${dirFW}/InputData"
+    export ADL_ODT_REF="${dirFW}/OutputRef"
+    export ADL_ODT_REC=$ADL_ODT_IN/${ODT_FILE}.rec
+  fi
+fi
+
+if [ $flag_p -eq 1 ]; then
+  dirFW="$(dirname $dirshell)"
+  dirFW="$(dirname $dirFW)"
+  if [ ! -f "$dirFW/IdentityCard/IdentityCard.h" ]; then
+    echo "## Framework: $(basename $dirFW) has no IdentityCard.h file"
+    echo "## ++ (ERROR) ${nameshell}.sh: Shell script execution failed  code 999"
+    echo "## ----------------------------------------------------------"
+    exit 0
+  fi
+fi
+fi
+
+cd $CDDTTERM
+
+# Modifications du PATH et LIBPATH
+# --------------------------------
+
+# Pour couverture
+
+if [ $flag_c -eq 1 ]
+then
+  export PATH_NO_COV="$PATH"
+  export DBG_CNEXT="OUI"
+  PATH="$(printf "%s\n" "$PATH"|sed -e 's+/code/bin:+/code/bin_inst:+g' | sed -e 's+\\code\\bin;+\\code\\bin_inst;+g')"
+  if [ "$OS_NAME" = "SunOS" ]; then
+    export PURIFYOPTIONS=" -view-file=$ADL_ODT_COV/$ODT_FILE.pv%p -chain-length=12 $PURIFYOPTIONSINIT"
+  fi
+fi
+
+if [ $flag_I -eq 1 ]
+then
+  PATH="$(printf "%s\n" "$PATH"|sed -e 's+/code/bin+dbg/code/bin+g')"
+  LD_LIBRARY_PATH="$(printf "%s\n" "$LD_LIBRARY_PATH"|sed -e 's+/code/bin+dbg/code/bin+g')"
+fi
+
+if [ "$ODT_COVERAGE" != "" ]
+then
+  export DBG_FILE=$ADL_ODT_TMP/cov$$
+  export DBG_OUT=$ADL_ODT_COV/$traceshell.CatdbgOut
+  >$DBG_OUT
+  >$DBG_FILE
+  if [ "$ODT_MODLIST" != "" ]
+  then
+    export DBG_MODLIST=$ADL_ODT_TMP/modlist$$
+    >$DBG_MODLIST
+  fi
+fi
+
+# Pour PATH_TEST (debug mkodt...)
+
+if [ "$PATH_TEST" != "" ]
+then
+  PATH="$PATH_TEST$MK_SEPARATOR$PATH"
+  LIBPATH="$PATH_TEST$MK_SEPARATOR$LIBPATH"
+  SHLIB_PATH="$PATH_TEST$MK_SEPARATOR$SHLIB_PATH"
+  LD_LIBRARY_PATH="$PATH_TEST$MK_SEPARATOR$LD_LIBRARY_PATH"
+fi
+
+# Pour LOCAL_PATH (optimisation avec steplib locale...)
+
+if [ "$LOCAL_PATH" != "" -a "$PERTINENCE" != "Yes" ]
+then
+  PATH="$LOCAL_PATH$MK_SEPARATOR$PATH"
+  LIBPATH="$LOCAL_PATH$MK_SEPARATOR$LIBPATH"
+  SHLIB_PATH="$LOCAL_PATH$MK_SEPARATOR$SHLIB_PATH"
+  LD_LIBRARY_PATH="$LOCAL_PATH$MK_SEPARATOR$LD_LIBRARY_PATH"
+fi
+
+# Mode debugger, creer stubs pour loads a debugger
+
+if [ $flag_b -eq 1 ]; then
+  export debuggerLoadPath="$(whence $debuggerLoad 2> $MK_DEVNULL)"
+  if [ -f "$debuggerLoadPath" ]; then
+    stub="$debuggerStub"
+    if [ -f "$stub" ]; then
+      mkdir $ADL_ODT_TMP/mkodtDebugStubs 2> $MK_DEVNULL
+      rm $ADL_ODT_TMP/mkodtDebugStubs/*  2> $MK_DEVNULL
+      cp $stub $ADL_ODT_TMP/mkodtDebugStubs/$debuggerLoad
+      chmod +x $ADL_ODT_TMP/mkodtDebugStubs/$debuggerLoad
+      PATH="$ADL_ODT_TMP/mkodtDebugStubs${MK_SEPARATOR}$PATH"
+    else
+      echo "## ERROR : Debugger mode [$debuggerMode] not found"
+    fi
+  else
+    echo "## ERROR : Load to debug [$debuggerLoad] not found"
+  fi
+fi
+
+# Execution de l'ODT
+# ------------------
+
+# Passage des chemins au format NT
+
+if [ "$OS_PREM_MIN" = "w" ]
+then
+  export ADL_ODT_OUT=`printf "%s\n" $ADL_ODT_OUT| sed -e 's+/+\\\+g'` 
+  export ADL_ODT_IN=`printf "%s\n" $ADL_ODT_IN| sed -e 's+/+\\\+g'` 
+  export ADL_ODT_TMP=`printf "%s\n" $ADL_ODT_TMP| sed -e 's+/+\\\+g'` 
+  export ADL_ODT_REF=`printf "%s\n" $ADL_ODT_REF| sed -e 's+/+\\\+g'` 
+fi
+
+if [ "$PARAM" = OK ]; then
+ TIME=time
+else
+ TIME=""
+fi
+
+if [ "$PERTINENCE" != "Yes" ]; then
+  if [ "$MKODT_SUPENV" != "" ]; then
+    echo "## Using environment extension [$MKODT_SUPENV]"
+    . $MKODT_SUPENV
+  fi
+fi
+
+export ENV=$ENV_mkodt
+. $ENV
+
+if [ "${pathshell}" = "D" ]; then
+  \export PATH=".$MK_SEPARATOR$PATH"
+  case "$OS_NAME" in
+  AIX)   export LIBPATHSAVE=$LIBPATH
+         /usr/dt/bin/dtterm -title "Interactive mkodt Environment. Ctrl-D To Exit" ;;
+  SunOS) /usr/dt/bin/dtterm -title "Interactive mkodt Environment. Ctrl-D To Exit" ;;
+  HP-UX) /usr/vue/bin/dtterm -title "Interactive mkodt Environment. Ctrl-D To Exit" -fn 8x16 ;;
+  IRIX)  /usr/sbin/xwsh -title "Interactive mkodt Environment. Ctrl-D To Exit" -fn "-*-courier-medium-r-normal--17-*-*-*-m-100-iso8859-1 " -e /bin/ksh ;;
+  Windows_NT) start -t "Interactive mkodt Environment" -w cmd /c sh ;; 
+  *)     Trace "Unknown -D parameter for $OS_NAME System" ;;
+  esac
+  exit 0
+
+fi
+
+# Test de l'existence de l'ODT
+
+if [ ! -x ${pathshell}.sh ]; then
+   echo "## ++ (ERROR) ${nameshell}.sh: Shell script execution failed  code 999"
+   echo "## ++         ${nameshell}.sh: Shell script not executable "
+   echo "## pathsell =  ${pathshell}.sh"
+   echo "## ----------------------------------------------------------"
+   exit 1
+fi
+
+# Execution de l'ODT
+
+export SUBODT_PROGNAME=" ${pathshell}.sh"
+$TIME ${pathshell}.sh > $ADL_ODT_OUT/$traceshell.traces 2>&1
+rc=$?
+
+# Affichage du resultat
+
+if [ "$ODT_DISPLAY" != "" ]
+then
+  cat $ADL_ODT_OUT/$traceshell.traces
+fi
+
+if [ "$rc" = 0 ]
+then
+  echo "## ++ ${nameshell}.sh : Shell script execution successful  code $rc" 
+  [ "$TIME" = time ] && tail -3 $ADL_ODT_OUT/$traceshell.traces 2>$MK_DEVNULL
+  echo "## ----------------------------------------------------------"
+else
+  echo   "## ++ (ERROR) ${nameshell}.sh: Shell script execution failed  code $rc"
+  printf "## ++ see Output file in %s \n" $ADL_ODT_OUT/$traceshell.traces
+  [ "$TIME" = time ] && tail -3 $ADL_ODT_OUT/$traceshell.traces 2>$MK_DEVNULL
+  echo "## ----------------------------------------------------------"
+fi
+
+# Traitement pour couverture
+
+if [ "$ODT_COVERAGE" != "" ]
+then
+  cat $DBG_FILE | /usr/lpp/xlC/bin/c++filt | grep -v "^\_" |sed -e 's/unsigned int\*/unsigned*/g'| sort -u > $DBG_OUT
+  if [ "$ODT_MODLIST" != "" ]
+  then
+    for ligne in `grep "$WSROOT" $DBG_MODLIST | sort -u `
+    do
+      basename $ligne 
+    done > $ODT_MODLIST
+  fi
+fi
