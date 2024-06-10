@@ -1,0 +1,629 @@
+TPSRuleBaseName="ﾄﾚﾗﾝｼﾝｸﾞ ﾙｰﾙの基本";
+
+// Attention le .Name est utilise par le reporting comme nom
+// du fichier HTML g駭駻・ Il faut donc 騅iter les caract鑽es incompatibles
+// avec la syntaxe des noms de fichiers
+
+//------------------------------------------------------------------------ TTRS
+
+TPSRuleTTRSNotBuild.Name="未更新の公差ﾌｨｰﾁｬｰ｡";
+TPSRuleTTRSNotBuild.Help="ﾕｰｻﾞｰ ｻｰﾌｪｽまたはｻｰﾌｪｽのｸﾞﾙｰﾌﾟが最新ではありません｡";
+TPSRuleTTRSNotBuild.CorrectFunction="ﾊﾟｰﾂまたはﾌﾟﾛﾀﾞｸﾄを更新します｡";
+
+TPSRuleTTRSVisuMode.Name="表示ﾓｰﾄﾞの形状ｴﾚﾒﾝﾄ｡";
+TPSRuleTTRSVisuMode.Help="3D注釈が適用されるﾕｰｻﾞｰ ｻｰﾌｪｽまたはｻｰﾌｪｽのｸﾞﾙｰﾌﾟに､表示ﾓｰﾄﾞである構成要素が少なくとも1つ存在しています｡注釈が妥当な状況かをﾁｪｯｸできるのは､適用先の形状が設計ﾓｰﾄﾞの場合だけです｡";
+TPSRuleTTRSVisuMode.CorrectFunction="関連ﾊﾟｰﾂまたはﾌﾟﾛﾀﾞｸﾄを設計ﾓｰﾄﾞにします｡";
+
+TPSRuleTTRSUnresolved.Name="ﾛｰﾄﾞされていない形状ｴﾚﾒﾝﾄ｡";
+TPSRuleTTRSUnresolved.Help="3D注釈が適用されるﾕｰｻﾞｰ ｻｰﾌｪｽまたはｻｰﾌｪｽのｸﾞﾙｰﾌﾟで､少なくともその構成要素の1つがｾｯｼｮﾝにﾛｰﾄﾞされていません｡注釈が妥当な状況かをﾁｪｯｸできるのは､適用先の形状がｾｯｼｮﾝにﾛｰﾄﾞされている場合だけです｡";
+TPSRuleTTRSUnresolved.CorrectFunction="関連ﾊﾟｰﾂをｾｯｼｮﾝにﾛｰﾄﾞします｡";
+
+TPSRuleTTRSInvalidComp.Name="無効な構成要素｡";
+TPSRuleTTRSInvalidComp.Help="3D注釈を適用するｻｰﾌｪｽのｸﾞﾙｰﾌﾟの少なくとも1つの構成要素が無効です｡";
+TPSRuleTTRSInvalidComp.CorrectFunction="[形状への接続を管理]を使用して､無効な構成要素を修正､置換または除去します｡";
+
+TPSRuleTTRSDestroyedComp.Name="削除された形状構成要素｡";
+TPSRuleTTRSDestroyedComp.Help="3D注釈を適用するﾕｰｻﾞｰ ｻｰﾌｪｽの少なくとも1つの構成要素が削除されています｡";
+TPSRuleTTRSDestroyedComp.CorrectFunction="[形状への接続を管理]を使用して､削除された構成要素を置換または除去します｡";
+
+TPSRuleTTRSModifClass.Name="数式規準の変更｡";
+TPSRuleTTRSModifClass.Help="ﾕｰｻﾞｰ ｻｰﾌｪｽまたはｻｰﾌｪｽのｸﾞﾙｰﾌﾟの数式規準が同じではありません(例､平面規準のｻｰﾌｪｽがｼﾘﾝﾀﾞ状になった､または平行であったｼﾘﾝﾀﾞ ｸﾞﾙｰﾌﾟが平行でなくなった､など)｡この変更は自動的には検証されず､あってはならない変更です｡";
+TPSRuleTTRSModifClass.CorrectFunction="ｻﾎﾟｰﾄ担当員に連絡して内容をお伝えください｡";
+
+TPSRuleTTRSModifAssocCase.Name="相対位置ｹｰｽの変更｡";
+TPSRuleTTRSModifAssocCase.Help="3D注釈を適用する2ﾕｰｻﾞｰ ｻｰﾌｪｽまたはｻｰﾌｪｽ ｸﾞﾙｰﾌﾟの相対位置ｹｰｽが変更されました｡この変更は自動的には検証されず､あってはならない変更です｡";
+TPSRuleTTRSModifAssocCase.CorrectFunction="ｻﾎﾟｰﾄ担当員に連絡して内容をお伝えください｡";
+
+TPSRuleTTRSModifAdmissibleType.Name="ｻｰﾌｪｽ ｸﾞﾙｰﾌﾟ ﾀｲﾌﾟの変更｡";
+TPSRuleTTRSModifAdmissibleType.Help="ｻｰﾌｪｽ ｸﾞﾙｰﾌﾟのﾀｲﾌﾟが変更されました (例､穴のｸﾞﾙｰﾌﾟが穴のｸﾞﾙｰﾌﾟでなくなった､またはｽﾛｯﾄのｸﾞﾙｰﾌﾟがｽﾛｯﾄのｸﾞﾙｰﾌﾟでなくなった､など)｡";
+TPSRuleTTRSModifAdmissibleType.CorrectFunction="[形状への接続を管理]を使用して､ｻｰﾌｪｽ ｸﾞﾙｰﾌﾟの無効な構成要素を修正､置換または除去します｡";
+
+TPSRuleTTRSModifSurfCanonicity.Name="ｻｰﾌｪｽ規準の変更｡";
+TPSRuleTTRSModifSurfCanonicity.Help="ﾕｰｻﾞｰ ｻｰﾌｪｽまたはｻｰﾌｪｽのｸﾞﾙｰﾌﾟのｻｰﾌｪｽ規準が同じではありません(例､平面構成要素が同一平面でなくなった､ｼﾘﾝﾀﾞ構成要素が同軸でなくなったかｻｲｽﾞが変わった､または穴が角形または長円でなくなった､など)｡この変更は自動的には検証されず､あってはならない変更です｡";
+TPSRuleTTRSModifSurfCanonicity.CorrectFunction="ｻﾎﾟｰﾄ担当員に連絡して内容をお伝えください｡";
+
+TPSRuleTTRSModifFoS.Name="ｻｲｽﾞ ﾌｨｰﾁｬｰ特性の変更";
+TPSRuleTTRSModifFoS.Help="ﾕｰｻﾞｰ ｻｰﾌｪｽまたはｻｰﾌｪｽのｸﾞﾙｰﾌﾟがｻｲｽﾞ ﾌｨｰﾁｬｰでなくなりました(例､ｼﾘﾝﾀﾞ ｸﾞﾙｰﾌﾟの構成要素のｻｲｽﾞが同じでなくなった､ｽﾛｯﾄ ｸﾞﾙｰﾌﾟの構成要素のｻｲｽﾞが同じでなくなった､など)｡この変更は自動的には検証されず､あってはならない変更です｡";
+TPSRuleTTRSModifFoS.CorrectFunction="ｻﾎﾟｰﾄ担当員に連絡して内容をお伝えください｡";
+
+TPSRuleTTRSInvalidRepresented.Name="ﾌｨｰﾁｬｰを表す形状が無効｡";
+TPSRuleTTRSInvalidRepresented.Help="ﾕｰｻﾞｰ ｻｰﾌｪｽまたはｻｰﾌｪｽのｸﾞﾙｰﾌﾟを表す形状ｴﾚﾒﾝﾄに整合性がなくなりました(そのいずれの自由度もﾛｯｸしてはならない)｡";
+TPSRuleTTRSInvalidRepresented.CorrectFunction="仕様を編集してﾌｨｰﾁｬｰを表す形状を変更するか位置を修正して､その表す形状と整合性を持たせます｡";
+
+TPSRuleTTRSNotPresent.Name="無効な形状";
+TPSRuleTTRSNotPresent.Help="注釈に関連した形状はありません｡";
+TPSRuleTTRSNotPresent.CorrectFunction="この注釈を破棄し､新しい注釈を作成します｡";
+
+//IFB IR:- 0666366 09:06:04 START
+TPSRuleTTRSIgnored.Name="形状の変更が無効です｡";
+TPSRuleTTRSIgnored.Help="3D注釈の形状の新規変更は無効です｡";
+TPSRuleTTRSIgnored.CorrectFunction="形状の変更は無視されます｡";
+//IFB IR:- 0666366 09:06:04 END
+
+TPSRuleLeaderAssocNotConnected.Name="関連引出線の切断";
+TPSRuleLeaderAssocNotConnected.Help="関連引出線が､参照形状を指していません";
+TPSRuleLeaderAssocNotConnected.CorrectFunction="注釈位置を変更して引出線を再接続します";
+
+TPSRuleTypeNotAllowedRegardingTTRS.Name="公差ﾀｲﾌﾟと形状の互換性";
+TPSRuleTypeNotAllowedRegardingTTRS.Help="公差ﾀｲﾌﾟは､公差付け形状では使用できません";
+TPSRuleTypeNotAllowedRegardingTTRS.CorrectFunction="公差または形状を編集してください";
+
+TPSRuleTypeKORegardingTTRSOrPlane.Name="公差ﾀｲﾌﾟと形状の互換性";
+TPSRuleTypeKORegardingTTRSOrPlane.Help="公差ﾀｲﾌﾟは､公差付け形状と注釈平面では使用できません";
+TPSRuleTypeKORegardingTTRSOrPlane.CorrectFunction="公差または形状を編集するか､注釈を他の図に移動してください｡";
+
+//----------------------------------------------------------------------- Datum
+
+TPSRuleDatumLabelUnicity.Name="固有のﾃﾞｰﾀﾑ ﾗﾍﾞﾙ";
+TPSRuleDatumLabelUnicity.Help="公差ｾｯﾄの中ではﾃﾞｰﾀﾑ ﾗﾍﾞﾙは固有である必要があります｡";
+TPSRuleDatumLabelUnicity.CorrectFunction="ﾃﾞｰﾀﾑ ﾗﾍﾞﾙを編集し未使用のﾗﾍﾞﾙで置き換えてください";
+
+TPSRuleDatumUpperCase.Name="ﾃﾞｰﾀﾑ ﾗﾍﾞﾙの大文字";
+TPSRuleDatumUpperCase.Help="ﾃﾞｰﾀﾑ ﾗﾍﾞﾙは大文字のみです ";
+TPSRuleDatumUpperCase.CorrectFunction="編集して､ﾃﾞｰﾀﾑ ﾗﾍﾞﾙを小文字から大文字に変換します ";
+
+TPSRuleDatumAuthorizedCharacter.Name="許可または提案されたﾃﾞｰﾀﾑ ﾗﾍﾞﾙの文字";
+TPSRuleDatumAuthorizedCharacter.Help="ASME Y14.5M-1994 規格によれば､ \nﾃﾞｰﾀﾑ ﾗﾍﾞﾙには大文字I,OまたはQを含むことはできません｡";
+TPSRuleDatumAuthorizedCharacter.CorrectFunction="ﾃﾞｰﾀﾑ ﾗﾍﾞﾙを編集して置き換えます";
+//En fait, cette r鑒le correspond plus ・un conseil informatif qu'・une interdiction
+//Il faudra donc pr騅oir diff駻ents niveaux de r鑒les
+
+TPSRuleDatumIdenticalCharacter.Name="同一のﾃﾞｰﾀﾑ ﾗﾍﾞﾙの文字";
+TPSRuleDatumIdenticalCharacter.Help="ﾃﾞｰﾀﾑ ﾗﾍﾞﾙは､必要な場合(ISO標準)同一文字の繰り返しで構成される必要があります ";
+TPSRuleDatumIdenticalCharacter.CorrectFunction="ﾃﾞｰﾀﾑ ﾗﾍﾞﾙを編集して､文字の繰り返しをﾁｪｯｸします";
+
+TPSRuleDatumLabelLength.Name="ﾃﾞｰﾀﾑ ﾗﾍﾞﾙの長さ";
+TPSRuleDatumLabelLength.Help="ﾃﾞｰﾀﾑ ﾗﾍﾞﾙは3文字以上で構成されてはなりません(ASME標準) ";
+TPSRuleDatumLabelLength.CorrectFunction="編集してﾃﾞｰﾀﾑ ﾗﾍﾞﾙ長をﾁｪｯｸします";
+
+TPSRuleTargetsOfDatumStatus.Name="ﾃﾞｰﾀﾑ ﾀｰｹﾞｯﾄの状況";
+TPSRuleTargetsOfDatumStatus.Help="ﾃﾞｰﾀﾑは､ﾀｰｹﾞｯﾄがすべて有効な場合にのみ有効です";
+TPSRuleTargetsOfDatumStatus.CorrectFunction="ﾃﾞｰﾀﾑ ﾀｰｹﾞｯﾄを編集または修正して有効にしてください";
+
+TPSRuleDatumPlane.Name="ﾌﾟﾘｽﾞﾏﾃｨｯｸまたは複雑なﾃﾞｰﾀﾑ";
+TPSRuleDatumPlane.Help="複雑なまたはﾌﾟﾘｽﾞﾏﾃｨｯｸ ｻｰﾌｪｽ ﾃﾞｰﾀﾑ ﾌｨｰﾁｬｰに対しては､ﾃﾞｰﾀﾑ平面を定義する必要があります｡";
+TPSRuleDatumPlane.CorrectFunction="ﾃﾞｰﾀﾑ平面を編集および設定します";
+
+//---------------------------------------------------------------------- Target
+
+TPSRuleTargetLabelUnicity.Name="ﾀｰｹﾞｯﾄ ﾗﾍﾞﾙの固有性";
+TPSRuleTargetLabelUnicity.Help="公差ｾｯﾄでﾀｰｹﾞｯﾄ ﾗﾍﾞﾙは固有である必要があります";
+TPSRuleTargetLabelUnicity.CorrectFunction="ﾀｰｹﾞｯﾄ ﾗﾍﾞﾙを編集し未使用のﾗﾍﾞﾙで置き換えてください";
+
+TPSRuleTargetReference.Name="既存のﾃﾞｰﾀﾑ ﾗﾍﾞﾙを参照したﾃﾞｰﾀﾑ ﾀｰｹﾞｯﾄ ﾗﾍﾞﾙ";
+TPSRuleTargetReference.Help="ﾃﾞｰﾀﾑ ﾀｰｹﾞｯﾄ ﾗﾍﾞﾙは既存のﾃﾞｰﾀﾑ ﾗﾍﾞﾙを参照する必要があります";
+TPSRuleTargetReference.CorrectFunction="ﾃﾞｰﾀﾑ ﾀｰｹﾞｯﾄ ﾗﾍﾞﾙを編集して､ﾃﾞｰﾀﾑ ﾗﾍﾞﾙ参照をﾁｪｯｸします";
+
+TPSRuleTargetReferenceNonUnique.Name="固有のﾃﾞｰﾀﾑ ﾗﾍﾞﾙを参照するﾃﾞｰﾀﾑ ﾀｰｹﾞｯﾄ ﾗﾍﾞﾙ";
+TPSRuleTargetReferenceNonUnique.Help="ﾃﾞｰﾀﾑ ﾀｰｹﾞｯﾄ ﾗﾍﾞﾙは固有のﾃﾞｰﾀﾑ ﾗﾍﾞﾙを参照する必要があります";
+TPSRuleTargetReferenceNonUnique.CorrectFunction="ﾃﾞｰﾀﾑ ﾀｰｹﾞｯﾄ ﾗﾍﾞﾙを編集して､ﾃﾞｰﾀﾑ ﾗﾍﾞﾙ参照をﾁｪｯｸします";
+
+TPSRuleTargetNumber.Name="ﾃﾞｰﾀﾑ ﾀｰｹﾞｯﾄ ﾗﾍﾞﾙは正の数で終了";
+TPSRuleTargetNumber.Help="ﾃﾞｰﾀﾑ ﾀｰｹﾞｯﾄ ﾗﾍﾞﾙは正の数で終了しなければなりません ";
+TPSRuleTargetNumber.CorrectFunction="編集してﾃﾞｰﾀﾑ ﾀｰｹﾞｯﾄ ﾗﾍﾞﾙの番号付けをﾁｪｯｸします ";
+
+TPSRuleTargetSequentialNumbers.Name="順次ﾃﾞｰﾀﾑ ﾀｰｹﾞｯﾄ番号 ";
+TPSRuleTargetSequentialNumbers.Help="ﾃﾞｰﾀﾑ ﾀｰｹﾞｯﾄを識別する数字は1から順次付ける必要があります";
+TPSRuleTargetSequentialNumbers.CorrectFunction="ﾃﾞｰﾀﾑ ﾀｰｹﾞｯﾄ ﾗﾍﾞﾙの順序が1で始まっているかをﾁｪｯｸします";
+
+TPSRuleTargetTolValue.Name="ﾃﾞｰﾀﾑ ﾀｰｹﾞｯﾄ ｻｲｽﾞ";
+TPSRuleTargetTolValue.Help="ﾃﾞｰﾀﾑ ﾀｰｹﾞｯﾄ ｻｲｽﾞは厳密に正でなければなりません｡";
+TPSRuleTargetTolValue.CorrectFunction="ﾃﾞｰﾀﾑ ﾀｰｹﾞｯﾄを編集して､ ｻｲｽﾞを正しく設定します｡";
+
+TPSRuleTargetGeomIncludedInDatum.Name="ﾃﾞｰﾀﾑに含まれるﾃﾞｰﾀﾑ ﾀｰｹﾞｯﾄ";
+TPSRuleTargetGeomIncludedInDatum.Help="ﾃﾞｰﾀﾑ ﾀｰｹﾞｯﾄ形状はﾃﾞｰﾀﾑ形状に完全に含まれている必要があります｡";
+TPSRuleTargetGeomIncludedInDatum.CorrectFunction="ﾃﾞｰﾀﾑ ﾀｰｹﾞｯﾄまたはﾃﾞｰﾀﾑ形状を編集または移動します｡";
+
+TPSRuleTargetForm.Name="ﾃﾞｰﾀﾑ ﾀｰｹﾞｯﾄ形状";
+TPSRuleTargetForm.Help="ﾀｰｹﾞｯﾄ形状(曲線またはｻｰﾌｪｽ)自体が､ﾃﾞｰﾀﾑ ﾀｰｹﾞｯﾄの境界ｿﾞｰﾝの形状とｻｲｽﾞを定義する必要があります｡";
+TPSRuleTargetForm.CorrectFunction="ﾃﾞｰﾀﾑ ﾀｰｹﾞｯﾄを編集または再作成してください";
+
+//------------------------------------------------------------- Reference Frame
+
+TPSRuleRefFrameLabelUnicity.Name="ﾃﾞｰﾀﾑ基準枠ﾗﾍﾞﾙの固有性";
+TPSRuleRefFrameLabelUnicity.Help="公差ｾｯﾄでﾃﾞｰﾀﾑ基準枠ﾗﾍﾞﾙは固有である必要があります";
+TPSRuleRefFrameLabelUnicity.CorrectFunction="基準枠を編集してください";
+
+TPSRuleDatumsOfRefFrameExist.Name="既存のﾃﾞｰﾀﾑを参照するﾃﾞｰﾀﾑ基準枠";
+TPSRuleDatumsOfRefFrameExist.Help="ﾃﾞｰﾀﾑ基準枠は､既存のﾃﾞｰﾀﾑを参照する必要があります";
+TPSRuleDatumsOfRefFrameExist.CorrectFunction="ﾃﾞｰﾀﾑ基準枠を編集して除去してください ";
+
+TPSRuleDatumsOfRefFrameStatus.Name="ﾃﾞｰﾀﾑの状況";
+TPSRuleDatumsOfRefFrameStatus.Help="ﾃﾞｰﾀﾑ基準枠は､ﾃﾞｰﾀﾑがすべて有効な場合にのみ有効です";
+TPSRuleDatumsOfRefFrameStatus.CorrectFunction="ﾃﾞｰﾀﾑを編集または修正して有効にしてください";
+
+//------------------------------------------------------ Geometrical Tolerances
+
+TPSRuleGDTPlnConsist.Name="平面度仕様と指定形状との間の整合性";
+TPSRuleGDTPlnConsist.Help="平面度仕様が平面ｸﾗｽのｻｰﾌｪｽに適用される必要があります";
+TPSRuleGDTPlnConsist.CorrectFunction="正しい形状公差を指定します";
+
+TPSRuleGDTTolValue.Name="正の公差値";
+TPSRuleGDTTolValue.Help="公差値は厳密に正数でなければなりません｡ただしMMCとLMC修飾子が指定されている場合は例外で､公差値はNULLも可能です｡";
+TPSRuleGDTTolValue.CorrectFunction="GDTを編集し､公差値を正しく設定します";
+
+//Trois points sont v駻ifi駸 dans la TPSRuleGDTTolValue . Pour la granularit・pr騅oir 3 entit駸 diff駻entes :
+//TPSRuleGDTTolValue pour la v駻ification de positive value
+
+TPSRuleGDTTolValueNull.Name="NULL公差値の使用";
+TPSRuleGDTTolValueNull.Help=" MMCまたはLMC 修飾子が指定されている場合にのみ公差値はNULLとなることができます｡ ";
+TPSRuleGDTTolValueNull.CorrectFunction="NULL公差値に MMC または LMC 修飾子を指定するか､修飾子が不要の場合は公差値を修正してください｡ ";
+
+TPSRuleGDTTolValueRestrict.Name="公差値の範囲";
+TPSRuleGDTTolValueRestrict.Help="複合仕様の場合は､2番目の公差値は最初の公差値よりも下位でなければなりません ";
+TPSRuleGDTTolValueRestrict.CorrectFunction="複合 GDTで2番目の公差を最初の公差値よりも小さく設定してください ";
+
+TPSRuleGDTTolElemModifiers.Name="公差付けｴﾚﾒﾝﾄに関する修飾子";
+TPSRuleGDTTolElemModifiers.Help="- どのﾌｫｰﾑ仕様に対しても､ﾌﾘｰ ｽﾃｰﾄ ｼﾝﾎﾞﾙが単独で適用そして指定できます｡
+- どのﾌｫｰﾑ仕様に対しても､例えばﾘﾆｱ ﾌﾟﾛﾌｧｲﾙ､平面や位置仕様のような､最大/最小実体状態 (M/LMC) が単独で適用そして指定できます｡
+- どの方向､位置およびﾗﾝｱｳﾄ仕様に対しても､次の制限下で公差ｿﾞｰﾝにいくつかの修飾ができます:
+      * 1番目､MMCまたはLMCまたはS (ASME標準のみ) 条件
+      * 2番目､ﾌﾘｰ ｽﾃｰﾄ ｼﾝﾎﾞﾙ､必要な場合
+      * 3番目､投影された公差ｿﾞｰﾝ ｼﾝﾎﾞﾙ､必要な場合
+      * 4番目､統計上の公差ｼﾝﾎﾞﾙ､必要な場合
+- ﾃﾞｰﾀﾑ ｴﾚﾒﾝﾄ上では MMCまたはLMCまたはS (ASME標準のみ) 条件のみ指定可能です";
+TPSRuleGDTTolElemModifiers.CorrectFunction="GDTを編集し､修飾子仕様を調整します";
+
+//Sept points sont v駻ifi駸 dans la TPSRuleGDTTolElemModifiers. Pour la granularit・ pr騅oir 6 r馮les supl駑entaires
+//TPSRuleGDTTolElemModifiers pour any form specification, the Free State Symbol may be applied and specified alone
+
+//TPSRuleGDTTolElemFormModifier.Name = "maximum//least material condition application on form specification. ";
+//TPSRuleGDTTolElemFormModifier.Help = " For any Form specification, such as linear profile, planar and position specifications, the Maximum Material Condition (MMC) may be applied and specified alone. ";
+//TPSRuleGDTTolElemFormModifier.CorrectFunction = " Apply and specify alone the Maximum/Least Material Condition (MMC). ";
+
+//TPSRuleGDTTolElemFirstModifierOnOLR.Name = "MMC or LMC or S condition application for orientation, location and runout specifications";
+//TPSRuleGDTTolElemFirstModifierOnOLR.Help = " For any Orientation, Location and Runout specification, the first condition shall be MMC or LMC or S (ASME standard only). ";
+//TPSRuleGDTTolElemFirstModifierOnOLR.CorrectFunction = " Set first MMC or LMC or S (ASME only) condition for orientation, location and runout specifications. ";
+
+//TPSRuleGDTTolElemSecondModifierOnOLR.Name = "free state symbol application for orientation, location and runout specifications";
+//TPSRuleGDTTolElemSecondModifierOnOLR.Help = " For any Orientation, Location and Runout specification, the second condition shall be the free state symbol, if necessary. ";
+//TPSRuleGDTTolElemSecondModifierOnOLR.CorrectFunction = " Set second the free state symbol, if necessary, for orientation, location and runout specifications. ";
+
+//TPSRuleGDTTolElemThirdModifierOnOLR.Name = "projected tolerance zone symbol application for orientation, location and runout specifications";
+//TPSRuleGDTTolElemThirdModifierOnOLR.Help = " For any Orientation, Location and Runout specification, the third option shall be the projected tolerance zone symbol, if necessary. ";
+//TPSRuleGDTTolElemThirdModifierOnOLR.CorrectFunction = " Set third the projected tolerance zone symbol, if necessary, for orientation, location and runout specifications. ";
+
+//TPSRuleGDTTolElemFourthModifierOnOLR.Name = "statistical tolerancing symbol application for orientation, location and runout specifications";
+//TPSRuleGDTTolElemFourthModifierOnOLR.Help = " For any Orientation, Location and Runout specification, the fourth option shall be the statistical tolerancing symbol, if necessary. ";
+//TPSRuleGDTTolElemFourthModifierOnOLR.CorrectFunction = " Set fourth the statistical tolerancing symbol, if necessary, for orientation, location and runout specifications. ";
+
+//TPSRuleDatumElemModifiers.Name = "modifier specification on datum elements";
+//TPSRuleDatumElemModifiers.Help = " Only MMC (M symbol) or LMC (L symbol) or S (ASME standard only) conditions shall be specified on datum elements. ";
+//TPSRuleDatumElemModifiers.CorrectFunction = "Specify only MMC or LMC or S modifiers on datum elements";
+
+TPSRuleGDTRefExist.Name="GDTで指定するﾃﾞｰﾀﾑの統一性とﾃﾞｰﾀﾑの独自性";
+TPSRuleGDTRefExist.Help="- 参照ﾌﾚｰﾑ//GDT内で指定するﾃﾞｰﾀﾑは注釈設定で定義する必要があります｡
+- ﾃﾞｰﾀﾑは同一参照ﾌﾚｰﾑ//GDT内で何度も指定するべきではありません";
+TPSRuleGDTRefExist.CorrectFunction="注釈を編集して既存のﾃﾞｰﾀﾑを指定するか､欠けているﾃﾞｰﾀﾑを作成します";
+
+//Deux points sont v駻ifi駸 dans la TPSRuleGDTRefExist . Pour la granularit・ pr騅oir 1 r馮le supl駑entaire
+//TPSRuleGDTRefExist pour l'existence des datums sp馗ifi駸 dans le GDT (1 seule fois chacun)
+
+TPSRuleGDTDatUnicity.Name="指定されたGDTにおける固有のﾃﾞｰﾀﾑ仕様 ";
+TPSRuleGDTDatUnicity.Help=" ﾃﾞｰﾀﾑは同一参照ﾌﾚｰﾑ/GDT内で何度も指定してはなりません";
+TPSRuleGDTDatUnicity.CorrectFunction="指定されたGDT内で一度だけﾃﾞｰﾀﾑを指定してください｡ ";
+
+TPSRuleGDTDoubleRow.Name="複合GDTの構文";
+TPSRuleGDTDoubleRow.Help="- どの方向､位置､ﾗﾝｱｳﾄ仕様およびﾃﾞｰﾀﾑで指定するﾌﾟﾛﾌｧｲﾙも複合仕様の中にｸﾞﾙｰﾌﾟ化できます｡
+- 2番目の公差ﾌﾚｰﾑ//GDTは最初のGDTで指定する必要があります｡
+- 公差付けｴﾚﾒﾝﾄの修飾子は複合GDTの両仕様の中で同一である必要があります｡
+- ﾃﾞｰﾀﾑの修飾子は複合GDTの両仕様の中で同一である必要があります ";
+TPSRuleGDTDoubleRow.CorrectFunction="複合公差付けにおいてGDTの統一性をﾁｪｯｸします";
+
+//Quatre points sont v駻ifi駸 dans la TPSRuleGDTTolElemModifiers. Pour la granularit・ pr騅oir 3 r馮les supl駑entaires
+//TPSRuleGDTDoubleRow : For Any orientation, location, runout specification and profile specified with datum can be grouped into composite specifications.
+
+//TPSRuleGDTDoubleRowDatCorresp.Name = "composite GDT datum correspondance ";
+//TPSRuleGDTDoubleRowDatCorresp.Help = " For composite specifications, the datums specified in the second GDT shall be specified in the first GDT";
+//TPSRuleGDTDoubleRowDatCorresp.CorrectFunction = " Check the datum correspondance in the composite GDT ";
+
+//TPSRuleGDTDoubleRowZTModCorresp.Name= " toleranced-element modifier correspondance in composite GDT";
+//TPSRuleGDTDoubleRowZTModCorresp.Help = " For composite specifications, the modifiers on the toleranced element shall be the same in both specifications. ";
+//TPSRuleGDTDoubleRowZTModCorresp.CorrectFunction = " Check the toleranced-element modifier correspondance in composite GDT ";
+
+//TPSRuleGDTDoubleRowZTModCorresp.Name= " datum-element modifier correspondance in composite GDT";
+//TPSRuleGDTDoubleRowDatModCorresp.Help = " For composite specifications, the modifiers on datums shall be the same in both specifications ";
+//TPSRuleGDTDoubleRowDatModCorresp.CorrectFunction = " Check the datum modifier correspondance in composite GDT ";
+
+//TPSRuleGDTDoubleRowFormMod.Name = " ??? ";
+//TPSRuleGDTDoubleRowFormMod.Help = " For composite form specifications (no datum specified), the modifiers on the toleranced element may be different ";
+//TPSRuleGDTDoubleRowFormMod.CorrectFunction = " the toleranced-element modifiers may be different in composite form GDT ";
+//En fait, cette r鑒le correspond plus ・un conseil informatif qu'・une interdiction
+//Il faudra donc pr騅oir diff駻ents niveaux de r鑒les
+
+TPSRuleGDTRestrictValue.Name="公差値制限の適用";
+TPSRuleGDTRestrictValue.Help=" -公差値制限として厳密に正数である必要があります｡
+- 円形公差値制限として度数で定義できます｡
+- 円形角度公差値制限として0から360度の値である必要があります｡";
+TPSRuleGDTRestrictValue.CorrectFunction="注釈を編集し､公差値制限を修正します";
+
+//Trois points sont v駻ifi駸 dans la TPSRuleGDTRestrictValue. Pour la granularit・ pr騅oir 2 r馮les supl駑entaires
+//TPSRuleGDTRestrictValue.Help  pour : The tolerance value restriction shall be strictly positive.
+
+//TPSRuleGDTRestrictAngularValue.Name = " ??? ";
+//TPSRuleGDTRestrictAngularValue.Help = " The circularity tolerance value restriction may be defined in degree. ";
+//TPSRuleGDTRestrictAngularValue.CorrectFunction = " Set the circularity tolerance value restriction in degree, if necessary. ";
+//En fait, cette r鑒le correspond plus ・un conseil informatif qu'・une interdiction
+//Il faudra donc pr騅oir diff駻ents niveaux de r鑒les
+
+//TPSRuleGDTRestrictRangeValue.Name = "Circularity angular tolerance value range ";
+//TPSRuleGDTRestrictRangeValue.Help = " The circularity tolerance value restriction shall be a 0-to-360 degree value. ";
+//TPSRuleGDTRestrictRangeValue.CorrectFunction = " Set the circularity angular tolerance value between 0ｰ and 360ｰ. ";
+
+//------------------------------ Geometrical Tolerances Without Reference Frame
+
+TPSRulePlaneDirection.Name="公差域の方向";
+TPSRulePlaneDirection.Help="公差域の方向が無効です";
+TPSRulePlaneDirection.CorrectFunction="別の注釈平面または別の方向を選択してください";
+
+//--------------------------------- Geometrical Tolerances With Reference Frame
+
+TPSRuleRefFrameOfTolExist.Name="既存のﾃﾞｰﾀﾑ基準枠を参照する幾何公差";
+TPSRuleRefFrameOfTolExist.Help="幾何公差は､既存のﾃﾞｰﾀﾑ基準枠を参照する必要があります";
+TPSRuleRefFrameOfTolExist.CorrectFunction="他のﾃﾞｰﾀﾑ基準枠を幾何公差に関連付けます";
+
+TPSRuleRefFrameOfTolStatus.Name="ﾃﾞｰﾀﾑ基準枠の状況";
+TPSRuleRefFrameOfTolStatus.Help="幾何公差は､ﾃﾞｰﾀﾑ基準枠が有効な場合にのみ有効です";
+TPSRuleRefFrameOfTolStatus.CorrectFunction="ﾃﾞｰﾀﾑ基準枠を訂正してください";
+
+//--------------------------------------------------------- Annotation Drafting
+
+TPSRuleDraftingAnnotation.Name="注釈を定義";
+TPSRuleDraftingAnnotation.Help="指定した注釈が壊れています";
+TPSRuleDraftingAnnotation.CorrectFunction="注釈を削除し､再作成してください｡ ";
+
+//------------------------------------------------------------------- Dimension
+
+TPSRuleLimitsOfSize.Name="ｻｲｽﾞ ﾃﾞｨﾒﾝｼｮﾝの公差限界";
+TPSRuleLimitsOfSize.Help="公差上限値は公差下限値より大である必要があります";
+TPSRuleLimitsOfSize.CorrectFunction="公差限界を調整します";
+
+TPSRuleSingleLimitSpecifiedValue.Name="単独限界指定値";
+TPSRuleSingleLimitSpecifiedValue.Help="単独限界指定値は正の数でなければなりません｡";
+TPSRuleSingleLimitSpecifiedValue.CorrectFunction="単独限界指定値を修正してください｡";
+
+TPSRuleDimensionValue.Name="結果の寸法値";
+TPSRuleDimensionValue.Help="結果の値は寸法値内でなければなりません。";
+TPSRuleDimensionValue.CorrectFunction="公差限界を調整します";
+
+TPSRuleStringUExist.Name="文字列U ﾊﾟﾗﾒｰﾀの定義";
+TPSRuleStringUExist.Help="文字列U ﾊﾟﾗﾒｰﾀが存在していなければなりません｡";
+TPSRuleStringUExist.CorrectFunction="文字列U ﾊﾟﾗﾒｰﾀを定義してください｡";
+
+TPSRuleStringLExist.Name="文字列L ﾊﾟﾗﾒｰﾀの定義";
+TPSRuleStringLExist.Help="文字列L ﾊﾟﾗﾒｰﾀが存在していなければなりません｡";
+TPSRuleStringLExist.CorrectFunction="文字列L ﾊﾟﾗﾒｰﾀを定義してください｡";
+
+TPSRuleStringULengthType.Name="文字列U ﾊﾟﾗﾒｰﾀのﾀｲﾌﾟ";
+TPSRuleStringULengthType.Help="文字列U ﾊﾟﾗﾒｰﾀのﾀｲﾌﾟは長さでなければなりません｡";
+TPSRuleStringULengthType.CorrectFunction="文字列U ﾊﾟﾗﾒｰﾀを修正してください｡";
+
+TPSRuleStringLLengthType.Name="文字列L ﾊﾟﾗﾒｰﾀのﾀｲﾌﾟ";
+TPSRuleStringLLengthType.Help="文字列L ﾊﾟﾗﾒｰﾀのﾀｲﾌﾟは長さでなければなりません｡";
+TPSRuleStringLLengthType.CorrectFunction="文字列L ﾊﾟﾗﾒｰﾀを修正してください｡";
+
+TPSRuleAlphaTolerance.Name="公差の定義";
+TPSRuleAlphaTolerance.Help="指定済みの公差をﾉﾙﾑ内で定義する必要があります｡";
+TPSRuleAlphaTolerance.CorrectFunction="別の公差を選択してください｡";
+
+//------------------------------------------------------------- Basic Dimension
+
+TPSRuleFeatureLink.Name="ﾌｨｰﾁｬｰ ｺﾝﾃｷｽﾄの妥当性";
+TPSRuleFeatureLink.Help="現行の枠付き寸法を使用したﾌｨｰﾁｬｰは不適切であるか存在しません｡";
+TPSRuleFeatureLink.CorrectFunction="ｺﾝﾃｷｽﾄ ｴﾚﾒﾝﾄを修正または再作成します｡";
+
+TPSRuleResAreaDatumTarget.Name="無効な枠付き(基本)寸法ｴﾚﾒﾝﾄ";
+TPSRuleResAreaDatumTarget.Help="少なくとも1つの枠付き(基本)寸法ｴﾚﾒﾝﾄが制限付き/ﾀｰｹﾞｯﾄ形状に含まれる必要があります｡";
+TPSRuleResAreaDatumTarget.CorrectFunction="[形状への接続を管理]ｺﾏﾝﾄﾞを使用して､枠付き(基本)寸法を適用する形状を変更するか削除します｡";
+
+TPSRuleDRFInSupport.Name="無効な枠付き(基本)寸法ｴﾚﾒﾝﾄ";
+TPSRuleDRFInSupport.Help="枠付き(基本)寸法ｴﾚﾒﾝﾄはﾃﾞｰﾀﾑ基準枠を定義するﾃﾞｰﾀﾑ ﾌｨｰﾁｬｰに所属する必要があります｡";
+TPSRuleDRFInSupport.CorrectFunction="[形状への接続を管理]ｺﾏﾝﾄﾞを使用して､枠付き(基本)寸法を適用する形状を変更するか削除します｡";
+
+TPSRuleDRFAutoInSupport.Name="無効な枠付き(基本)寸法ｴﾚﾒﾝﾄ";
+TPSRuleDRFAutoInSupport.Help="ｻｲｽﾞのﾌｨｰﾁｬｰの内部寸法を枠付き(基本)寸法として使用できません｡";
+TPSRuleDRFAutoInSupport.CorrectFunction="枠付き(基本)寸法を削除します｡";
+
+TPSRuleTolGeomType.Name="幾何公差に不要な枠付き(基本)寸法｡";
+TPSRuleTolGeomType.Help="同軸度/同心度､対称度､垂直度､平行度､円周振れ､全振れ､平面度､真直度､真円度(丸め)
+および円筒形状の公差は枠付き(基本)寸法を必要としません｡";
+TPSRuleTolGeomType.CorrectFunction="枠付き(基本)寸法を削除します｡";
+
+TPSRuleTolGeomInSupport.Name="無効な枠付き(基本)寸法ｴﾚﾒﾝﾄ";
+TPSRuleTolGeomInSupport.Help="枠付き(基本)寸法ｴﾚﾒﾝﾄが公差付けﾌｨｰﾁｬｰまたは最終的に使用するﾃﾞｰﾀﾑ基準枠を定義するﾃﾞｰﾀﾑ ﾌｨｰﾁｬｰに含まれる必要があります｡
+これはﾃﾞｰﾀﾑ ﾌｨｰﾁｬｰにのみ含めることはできません｡";
+TPSRuleTolGeomInSupport.CorrectFunction="[形状への接続を管理]ｺﾏﾝﾄﾞを使用して､枠付き(基本)寸法を適用する形状を変更するか削除します｡";
+
+TPSRuleTolGeomAutoInSupport.Name="無効な枠付き(基本)寸法ｴﾚﾒﾝﾄ";
+TPSRuleTolGeomAutoInSupport.Help="ｻｲｽﾞのﾌｨｰﾁｬｰの内部寸法を枠付き(基本)寸法として使用できません｡";
+TPSRuleTolGeomAutoInSupport.CorrectFunction="枠付き(基本)寸法を削除します｡";
+
+TPSRuleTolGeomAngularity.Name="無効ﾀｲﾌﾟの角度公差の枠付き(基本)寸法｡";
+TPSRuleTolGeomAngularity.Help="公差付けﾌｨｰﾁｬｰ ｴﾚﾒﾝﾄとﾃﾞｰﾀﾑ ﾌｨｰﾁｬｰ ｴﾚﾒﾝﾄ間の枠付き(基本)寸法は､角度公差の角度ﾀｲﾌﾟのみ可能です｡";
+TPSRuleTolGeomAngularity.CorrectFunction="枠付き(基本)寸法を削除します｡";
+
+TPSRuleFeatureUnicity.Name="無効な枠付き(基本)寸法ｴﾚﾒﾝﾄ";
+TPSRuleFeatureUnicity.Help="枠付き(基本)寸法はﾌｨｰﾁｬｰ ｺﾝﾃｷｽﾄで固有でなければなりません｡";
+TPSRuleFeatureUnicity.CorrectFunction="枠付き(基本)寸法を削除します｡";
+
+//------------------------------------------------------ Constructed Geometries
+
+// Basic rules
+
+TPSRuleCGAssocCaseTTRS.Name="形状の表示しているﾌｨｰﾁｬｰと表示されているﾌｨｰﾁｬｰ間の関連ｹｰｽが無効です｡";
+TPSRuleCGAssocCaseTTRS.Help="ﾕｰｻﾞｰ ｻｰﾌｪｽまたはｻｰﾌｪｽのｸﾞﾙｰﾌﾟを表す形状ｴﾚﾒﾝﾄに \n
+整合性がなくなりました \n
+(そのいずれの自由度もﾛｯｸしてはならない)｡";
+TPSRuleCGAssocCaseTTRS.CorrectFunction="表示された形状またはその位置を修正するか､ \n
+形状接続管理を使用して､表示されたﾕｰｻﾞｰ ｻｰﾌｪｽを修正するか､ \n
+[補助形状を管理]ｺﾏﾝﾄﾞを使用して､表示されたﾘﾝｸを修正してください｡";
+
+TPSRuleCGRepTTRS.Name="表示されたﾕｰｻﾞｰ ｻｰﾌｪｽが無効です｡";
+TPSRuleCGRepTTRS.Help="ﾕｰｻﾞｰ ｻｰﾌｪｽまたはｻｰﾌｪｽのｸﾞﾙｰﾌﾟを表す形状ｴﾚﾒﾝﾄは､ \n
+有効なｴﾚﾒﾝﾄである必要があります｡";
+TPSRuleCGRepTTRS.CorrectFunction="表示された形状を修正するか､ \n
+形状接続管理を使用して､表示されたﾕｰｻﾞｰ ｻｰﾌｪｽを修正するか､ \n
+[補助形状を管理]ｺﾏﾝﾄﾞを使用して､表示されたﾘﾝｸを修正してください｡";
+
+// Point rules
+
+TPSRuleCGPointCanonicity.Name="点形状定義のｺﾝﾃｷｽﾄ ﾕｰｻﾞｰ ｻｰﾌｪｽ基準が無効です｡";
+TPSRuleCGPointCanonicity.Help="ｺﾝﾃｷｽﾄ ﾕｰｻﾞｰ ｻｰﾌｪｽ基準を変更することはできません｡";
+TPSRuleCGPointCanonicity.CorrectFunction="表示された形状を修正するか､ \n
+形状接続管理を使用して､表示されたｺﾝﾃｷｽﾄ ﾕｰｻﾞｰ ｻｰﾌｪｽを修正するか､ \n
+[補助形状を管理]ｺﾏﾝﾄﾞを使用して､表示されたﾘﾝｸを修正してください｡";
+
+TPSRuleCGInterPoint.Name="交差する点形状定義のｺﾝﾃｷｽﾄ ﾕｰｻﾞｰ ｻｰﾌｪｽが無効です｡";
+TPSRuleCGInterPoint.Help="ｺﾝﾃｷｽﾄ ﾕｰｻﾞｰ ｻｰﾌｪｰｽは､構成要素を(正確に)2つ含むﾉｰﾄﾞである必要があります｡ \n
+1つの構成要素は平面ｸﾗｽと平面基準を持ち､もう1つは回転ｸﾗｽまたはｼﾘﾝﾀﾞ ｸﾗｽを持っている必要があります｡ \n
+また､交差が存在する必要があります｡";
+TPSRuleCGInterPoint.CorrectFunction="表示された形状を修正するか､ \n
+形状接続管理を使用して､表示されたﾕｰｻﾞｰ ｻｰﾌｪｽを修正するか､ \n
+[補助形状を管理]ｺﾏﾝﾄﾞを使用して､表示されたﾘﾝｸを修正してください｡";
+
+// Axis rules
+
+TPSRuleCGAxisClass.Name="軸形状定義のｺﾝﾃｷｽﾄ ﾕｰｻﾞｰ ｻｰﾌｪｽ基準が無効です｡";
+TPSRuleCGAxisClass.Help="ｺﾝﾃｷｽﾄ ﾕｰｻﾞｰ ｻｰﾌｪｽ基準を変更することはできません｡";
+TPSRuleCGAxisClass.CorrectFunction="表示された形状を修正するか､ \n
+形状接続管理を使用して､表示されたｺﾝﾃｷｽﾄ ﾕｰｻﾞｰ ｻｰﾌｪｽを修正するか､ \n
+[補助形状を管理]ｺﾏﾝﾄﾞを使用して､表示されたﾘﾝｸを修正してください｡";
+
+TPSRuleCGInterAxis.Name="交差する軸形状定義のｺﾝﾃｷｽﾄ ﾕｰｻﾞｰ ｻｰﾌｪｽが無効です｡";
+TPSRuleCGInterAxis.Help="ｺﾝﾃｷｽﾄ ﾕｰｻﾞｰ ｻｰﾌｪｰｽは､構成要素を(正確に)2つ含むﾉｰﾄﾞである必要があります｡ \n
+各構成要素は平面ｸﾗｽと平面基準を持っている必要があります｡ \n
+また､交差が存在する必要があります｡";
+TPSRuleCGInterAxis.CorrectFunction="表示された形状を修正するか､ \n
+形状接続管理を使用して､表示されたﾕｰｻﾞｰ ｻｰﾌｪｽを修正するか､ \n
+[補助形状を管理]ｺﾏﾝﾄﾞを使用して､表示されたﾘﾝｸを修正してください｡";
+
+// Circle rules
+
+TPSRuleCGCircleCanonicity.Name="円形状定義のｺﾝﾃｷｽﾄ ﾕｰｻﾞｰ ｻｰﾌｪｽ基準が無効です｡";
+TPSRuleCGCircleCanonicity.Help="ｺﾝﾃｷｽﾄ ﾕｰｻﾞｰ ｻｰﾌｪｽ基準を変更することはできません｡";
+TPSRuleCGCircleCanonicity.CorrectFunction="表示された形状を修正するか､ \n
+形状接続管理を使用して､表示されたｺﾝﾃｷｽﾄ ﾕｰｻﾞｰ ｻｰﾌｪｽを修正するか､ \n
+[補助形状を管理]ｺﾏﾝﾄﾞを使用して､表示されたﾘﾝｸを修正してください｡";
+
+TPSRuleCGCircleSupport.Name="円形状定義のｺﾝﾃｷｽﾄ平面が無効です｡";
+TPSRuleCGCircleSupport.Help="ｺﾝﾃｷｽﾄ平面が有効である必要があります｡";
+TPSRuleCGCircleSupport.CorrectFunction="ｺﾝﾃｷｽﾄ平面の妥当性をﾁｪｯｸして､適切な状態が得られるようにしてください｡";
+
+// Curve rules
+
+TPSRuleCGCurveDistinct.Name="曲線形状定義のｺﾝﾃｷｽﾄ点の位置が無効です｡";
+TPSRuleCGCurveDistinct.Help="曲線定義点は同じ位置であってはなりません｡";
+TPSRuleCGCurveDistinct.CorrectFunction="表示された形状を修正するか､ \n
+形状接続管理を使用して､表示されたﾕｰｻﾞｰ ｻｰﾌｪｽを修正するか､ \n
+[補助形状を管理]ｺﾏﾝﾄﾞを使用して､表示されたﾘﾝｸを修正してください｡";
+
+TPSRuleCGCurveElements.Name="曲線形状定義のｺﾝﾃｷｽﾄ点の数が無効です｡";
+TPSRuleCGCurveElements.Help="曲線の定義には少なくとも2つの点が必要です｡";
+TPSRuleCGCurveElements.CorrectFunction="表示された形状を修正するか､ \n
+形状接続管理を使用して､表示されたﾕｰｻﾞｰ ｻｰﾌｪｽを修正するか､ \n
+[補助形状を管理]ｺﾏﾝﾄﾞを使用して､表示されたﾘﾝｸを修正してください｡";
+
+// Plane rules
+
+TPSRuleCGPlaneCanonicity.Name="平面形状定義のｺﾝﾃｷｽﾄ ﾕｰｻﾞｰ ｻｰﾌｪｽ基準が無効です｡";
+TPSRuleCGPlaneCanonicity.Help="ｺﾝﾃｷｽﾄ ﾕｰｻﾞｰ ｻｰﾌｪｽ基準を変更することはできません｡";
+TPSRuleCGPlaneCanonicity.CorrectFunction="表示された形状を修正するか､ \n
+形状接続管理を使用して､表示されたｺﾝﾃｷｽﾄ ﾕｰｻﾞｰ ｻｰﾌｪｽを修正するか､ \n
+[補助形状を管理]ｺﾏﾝﾄﾞを使用して､表示されたﾘﾝｸを修正してください｡";
+
+TPSRuleCGAnglePlane.Name="角度付き平面形状定義のｺﾝﾃｷｽﾄ ﾕｰｻﾞｰ ｻｰﾌｪｽが無効です｡";
+TPSRuleCGAnglePlane.Help="ｺﾝﾃｷｽﾄ ﾕｰｻﾞｰ ｻｰﾌｪｰｽは､構成要素を(正確に)2つ含むﾉｰﾄﾞである必要があります｡ \n
+1つの構成要素は平面ｸﾗｽを持ち､もう1つは回転/ｼﾘﾝﾀﾞ ｸﾗｽを持っている必要があります｡ \n
+また､平面と直線が平行である必要があります｡";
+TPSRuleCGAnglePlane.CorrectFunction="表示された形状を修正するか､ \n
+形状接続管理を使用して､表示されたﾕｰｻﾞｰ ｻｰﾌｪｽを修正するか､ \n
+[補助形状を管理]ｺﾏﾝﾄﾞを使用して､表示されたﾘﾝｸを修正してください｡";
+
+TPSRuleCGMedianPlane.Name="中央の平面形状定義のｺﾝﾃｷｽﾄ ﾕｰｻﾞｰ ｻｰﾌｪｽが無効です｡";
+TPSRuleCGMedianPlane.Help="ｺﾝﾃｷｽﾄ ﾕｰｻﾞｰ ｻｰﾌｪｰｽは､構成要素を(正確に)2つ含むﾉｰﾄﾞである必要があります｡ \n
+各構成要素は平面ｸﾗｽと平面基準を持っている必要があります｡ \n
+また､上位ﾚﾍﾞﾙのTTRSにﾌﾟﾘｽﾞﾑ ｸﾗｽまたは平面ｸﾗｽが必要です｡";
+TPSRuleCGMedianPlane.CorrectFunction="表示された形状を修正するか､ \n
+形状接続管理を使用して､表示されたﾕｰｻﾞｰ ｻｰﾌｪｽを修正するか､ \n
+[補助形状を管理]ｺﾏﾝﾄﾞを使用して､表示されたﾘﾝｸを修正してください｡";
+
+TPSRuleCGPassingPlane.Name="通過平面形状定義のｺﾝﾃｷｽﾄ ﾕｰｻﾞｰ ｻｰﾌｪｽが無効です｡";
+TPSRuleCGPassingPlane.Help="
+ｺﾝﾃｷｽﾄ ﾕｰｻﾞｰ ｻｰﾌｪｽのすべての形状構成要素について､以下が必要とされます｡ \n
+1.同一平面上の2つの平面 \n
+2.または1つの平面と同一平面上の直線 \n
+3.または1つの平面と同一平面上の点 \n
+4.または2つの平行直線または交差直線 \n
+5.または1つの直線と､この直線上にない点 \n
+6.または3つの点 \n
+この選択の結果として､通過平面が作成されます｡ \n
+また､ｺﾝﾃｷｽﾄ形状の選択に関連する他のすべての平面､直線､および点が同一平面にあり､この結果の通過平面内にある必要があります｡";
+TPSRuleCGPassingPlane.CorrectFunction="表示された形状を修正するか､ \n
+形状接続管理を使用して､表示されたﾕｰｻﾞｰ ｻｰﾌｪｽを修正するか､ \n
+[補助形状を管理]ｺﾏﾝﾄﾞを使用して､表示されたﾘﾝｸを修正してください｡";
+
+// Thread rules
+
+TPSRuleCGThread.Name="ねじ切り形状定義のｺﾝﾃｷｽﾄ ﾕｰｻﾞｰ ｻｰﾌｪｽが無効です｡";
+TPSRuleCGThread.Help="ｺﾝﾃｷｽﾄ ﾕｰｻﾞｰ ｻｰﾌｪｽはｻﾎﾟｰﾄである必要があります｡ \n
+これは､ﾊﾟｰﾂのねじ切りﾌｨｰﾁｬｰである1つの形状ｴﾚﾒﾝﾄのみに基づくｼﾘﾝﾀﾞ ｸﾗｽを持つ必要があります｡";
+TPSRuleCGThread.CorrectFunction="表示された形状を修正するか､ \n
+形状接続管理を使用して､表示されたﾕｰｻﾞｰ ｻｰﾌｪｽを修正するか､ \n
+[補助形状を管理]ｺﾏﾝﾄﾞを使用して､表示されたﾘﾝｸを修正してください｡";
+
+TPSRuleCGThreadHole.Name="ねじ切り形状定義のｺﾝﾃｷｽﾄﾊﾟｰﾂ穴が無効です｡";
+TPSRuleCGThreadHole.Help="ﾊﾟｰﾂ穴ﾌｨｰﾁｬｰがねじ切り穴として定義されている必要があります｡";
+TPSRuleCGThreadHole.CorrectFunction="ﾊﾟｰﾂ穴ﾌｨｰﾁｬｰを編集し､ねじ切り穴の動作を設定してください｡";
+
+TPSRuleCGThreadFeatValidity.Name="ねじ切り形状定義のｺﾝﾃｷｽﾄ ﾕｰｻﾞｰ ｻｰﾌｪｽが無効です｡";
+TPSRuleCGThreadFeatValidity.Help="ｺﾝﾃｷｽﾄ ﾕｰｻﾞｰ ｻｰﾌｪｽが有効である必要があります｡";
+TPSRuleCGThreadFeatValidity.CorrectFunction="ｺﾝﾃｷｽﾄ ﾕｰｻﾞｰ ｻｰﾌｪｽの妥当性をﾁｪｯｸして､適切な状態が得られるようにしてください｡";
+
+// Cylinder rules
+
+TPSRuleCGCylinder.Name="円形ｼﾘﾝﾀﾞ形状定義のｺﾝﾃｷｽﾄ ﾕｰｻﾞｰ ｻｰﾌｪｽが無効です｡";
+TPSRuleCGCylinder.Help="ｺﾝﾃｷｽﾄ ﾕｰｻﾞｰ ｻｰﾌｪｽのすべての形状構成要素について､ \n
+最初の3つの直線がｸﾞﾛｰﾊﾞﾙ ﾌﾟﾘｽﾞﾑ ｸﾗｽ(共通の円形ｼﾘﾝﾀﾞに配置された平行直線)に含まれる必要があります｡ \n
+また､ｺﾝﾃｷｽﾄ形状選択の他のすべての直線が､共通の円形ｼﾘﾝﾀﾞに配置された平行直線である必要があります｡";
+TPSRuleCGCylinder.CorrectFunction="表示された形状を修正するか､ \n
+形状接続管理を使用して､表示されたﾕｰｻﾞｰ ｻｰﾌｪｽを修正するか､ \n
+[補助形状を管理]ｺﾏﾝﾄﾞを使用して､表示されたﾘﾝｸを修正してください｡";
+
+TPSRuleCGRefCylinder.Name="基準円形ｼﾘﾝﾀﾞ形状定義のｺﾝﾃｷｽﾄ ﾕｰｻﾞｰ ｻｰﾌｪｽが無効です｡";
+TPSRuleCGRefCylinder.Help="ｺﾝﾃｷｽﾄ ﾕｰｻﾞｰ ｻｰﾌｪｽのすべての形状構成要素について､ \n
+最初の直線が基準とみなされる場合､ \n
+ｺﾝﾃｷｽﾄ形状選択の他のすべての直線が､共通の基準円形ｼﾘﾝﾀﾞに配置された平行直線である必要があります｡";
+TPSRuleCGRefCylinder.CorrectFunction="表示された形状を修正するか､ \n
+形状接続管理を使用して､表示されたﾕｰｻﾞｰ ｻｰﾌｪｽを修正するか､ \n
+[補助形状を管理]ｺﾏﾝﾄﾞを使用して､表示されたﾘﾝｸを修正してください｡";
+
+// ------------------------------------------------------------ Tabulated Value
+
+TPSTabulatedValue.Name="はめあい公差";
+TPSTabulatedValue.Help="文字列ﾊﾟﾗﾒｰﾀが存在していません｡";
+TPSTabulatedValue.CorrectFunction="文字列ﾊﾟﾗﾒｰﾀを作成してください｡";
+
+TPSBadTabulatedValue.Name="正しくないはめあい公差";
+TPSBadTabulatedValue.Help="文字列ﾊﾟﾗﾒｰﾀのﾀｲﾌﾟが長さ以外です｡";
+TPSBadTabulatedValue.CorrectFunction="長さﾀｲﾌﾟのﾊﾟﾗﾒｰﾀを作成してください｡";
+
+TPSUBRefinementValue.Name="改良公差値";
+TPSUBRefinementValue.Help="改良公差値は正の数でなければなりません｡
+ 実体状態が指定されている場合にのみ､NULLを使用できます｡";
+TPSUBRefinementValue.CorrectFunction="NULL公差値に MMCまたはLMC修飾子を指定するか､
+修飾子が不要の場合は公差値を修正してください｡";
+
+TPSUBRefinementValueLow.Name="改良公差値";
+TPSUBRefinementValueLow.Help="改良公差値はﾒｲﾝの公差値より小さくなければなりません｡";
+TPSUBRefinementValueLow.CorrectFunction="GDTを編集し､公差値を正しく設定します";
+
+TPSUBLengthApplicationValue.Name="ｱﾌﾟﾘｹｰｼｮﾝの長さ";
+TPSUBLengthApplicationValue.Help="公差に関して適用される長さは厳密に正の数であり､
+ﾓﾃﾞﾙの無限より小さくなければなりません｡
+あるいは､円形公差の場合､公差に適用される円弧角度は
+厳密に正の数で360度より小さくなければなりません｡";
+TPSUBLengthApplicationValue.CorrectFunction="GDTを編集し､ｱﾌﾟﾘｹｰｼｮﾝの長さを正しく設定します｡";
+
+// -------------------------------------------------------- Projected Tolerance
+
+TPSProjectedTolerance.Name="投影公差ｿﾞｰﾝ";
+TPSProjectedTolerance.Help="投影公差域ｵﾌﾟｼｮﾝが､適用先のﾌｨｰﾁｬｰに適用できないか､
+これ以上適用できません｡ ﾌｨｰﾁｬｰを平行ｼﾘﾝﾀﾞから作成する必要があります｡";
+TPSProjectedTolerance.CorrectFunction="公差または形状を編集してください｡";
+
+TPSProjectedToleranceReference.Name="投影公差ｿﾞｰﾝ";
+TPSProjectedToleranceReference.Help="投影公差ｿﾞｰﾝ基準が定義されていません｡";
+TPSProjectedToleranceReference.CorrectFunction="公差を編集するかまたは投影公差ｿﾞｰﾝ基準を設定してください｡";
+
+TPSProjectedTolLength.Name="投影公差ｿﾞｰﾝ";
+TPSProjectedTolLength.Help="公差に使用するｱﾌﾟﾘｹｰｼｮﾝの長さは厳密に正の数であり､
+ﾓﾃﾞﾙのｲﾝﾌｨﾆﾃｨより小さくなければなりません｡";
+TPSProjectedTolLength.CorrectFunction="GDTを編集し､長さ値を正しく設定します｡";
+// ---------------------------------------------------------- Shifted Tolerance
+
+TPSShiftedTolerance.Name="ｼﾌﾄされたﾌﾟﾛﾌｧｲﾙの公差";
+TPSShiftedTolerance.Help="ｼﾌﾄ値は､公差値の半分に等しくならないようにしてください｡
+等しいと､公差域がｼﾌﾄされないので標準の公差域を使用することに
+なります｡";
+TPSShiftedTolerance.CorrectFunction="ｼﾌﾄ値を編集してください｡";
+
+// --------------------------------------------------------------- TangentPlane
+
+TPSTangentPlane.Name="接平面";
+TPSTangentPlane.Help="接平面修飾子は､非平面ｻｰﾌｪｽに使用できません｡";
+TPSTangentPlane.CorrectFunction="形状を編集してください｡";
+
+// ---------------------------------------------------------------- LMC and MMC
+
+TPSReferenceFrameLMCMMC.Name="ﾃﾞｰﾀﾑ ﾌｨｰﾁｬｰ上のLMC または MMC";
+TPSReferenceFrameLMCMMC.Help="ｻｲｽﾞ公差は､ LMCまたはMMC修飾子ｱﾌﾟﾘｹｰｼｮﾝのﾃﾞｰﾀﾑ ﾌｨｰﾁｬｰ ｴﾚﾒﾝﾄごとに指定
+する必要があります｡";
+TPSReferenceFrameLMCMMC.CorrectFunction="GDTを編集し､修飾子ｱﾌﾟﾘｹｰｼｮﾝを正しく設定するか､ｻｲｽﾞ公差
+を作成してください｡";
+
+TPSTOLLMCMMC.Name="公差ﾌｨｰﾁｬｰ上のLMC または MMC";
+TPSTOLLMCMMC.Help="ｻｲｽﾞ公差は､ LMCまたはMMC修飾子ｱﾌﾟﾘｹｰｼｮﾝの公差ﾌｨｰﾁｬｰ ｴﾚﾒﾝﾄごとに指定
+する必要があります｡";
+TPSTOLLMCMMC.CorrectFunction="GDTを編集し､修飾子ｱﾌﾟﾘｹｰｼｮﾝを正しく設定するか､ｻｲｽﾞ公差
+を作成してください｡";
+
+// --------------------------------------------------------------- AnnotationPlane
+
+TPSRuleAnnotationPlane.Name="注釈平面の妥当性";
+TPSRuleAnnotationPlane.Help="注釈平面が適切ではありません｡";
+TPSRuleAnnotationPlane.CorrectFunction="注釈を他の図に移動してください｡";
+
+// ------------------------------------------------------------- RestrictedArea
+
+TPSRuleRestrictedAreaUndefined.Name="制限付き領域の妥当性";
+TPSRuleRestrictedAreaUndefined.Help="制限を加える領域が制限付き領域に含まれていません｡";
+TPSRuleRestrictedAreaUndefined.CorrectFunction="制限を加える領域のｻｲｽﾞを小さくするか､これを制限付き領域に投影します｡";
+
+TPSRuleRestrictedAreaDisjoined.Name="制限付き領域の妥当性";
+TPSRuleRestrictedAreaDisjoined.Help="制限を加える領域が制限付き領域に含まれていません｡";
+TPSRuleRestrictedAreaDisjoined.CorrectFunction="制限を加える領域のｻｲｽﾞを小さくするか､これを制限付き領域に投影します｡";
+
+TPSRuleRestrictedAreaInContact.Name="制限付き領域の妥当性";
+TPSRuleRestrictedAreaInContact.Help="制限を加える領域が制限付き領域に含まれていません｡";
+TPSRuleRestrictedAreaInContact.CorrectFunction="制限を加える領域のｻｲｽﾞを小さくするか､これを制限付き領域に投影します｡";
+
+// ------------------------------------------------------------- StandardSwitch
+
+TPSRuleStandardSwAsmeToIso.Name="標準切り替えの妥当性";
+TPSRuleStandardSwAsmeToIso.Help="ｾﾏﾝﾃｨｯｸ ﾃﾞｰﾀはASME/ANSIからISO/JISに変換できません｡";
+TPSRuleStandardSwAsmeToIso.CorrectFunction="要求された標準で新しい注釈を作成します｡";
+
+TPSRuleStandardSwIsoToAsme.Name="標準切り替えの妥当性";
+TPSRuleStandardSwIsoToAsme.Help="ｾﾏﾝﾃｨｯｸ ﾃﾞｰﾀはISO/JISからASME/ANSIに変換できません｡";
+TPSRuleStandardSwIsoToAsme.CorrectFunction="要求された標準で新しい注釈を作成します｡";
+
+// ------------------------------------------------------------- Teometrical Tolerance Display
+
+TPSRuleGeomTolDisplay.Name="不適切な幾何公差の表示";
+TPSRuleGeomTolDisplay.Help="幾何公差の3D表示がｾﾏﾝﾃｨｯｸ属性と一致していません｡ \n
+公差域はｾﾏﾝﾃｨｯｸ属性どおりにｼﾘﾝﾀﾞになっていますが､ \n
+直径ｼﾝﾎﾞﾙが切断記号に表示されていません｡";
+TPSRuleGeomTolDisplay.CorrectFunction="幾何公差を編集するか(直径ｼﾝﾎﾞﾙが自動的に追加されます)､以下のいずれかを行なってください｡ \n
+1. 設計意図がｼﾘﾝﾀﾞ公差域の定義であるなら[OK]ﾎﾞﾀﾝを押す \n
+2. 設計意図が2つの平行な平面の公差域定義であるなら､公差域方向を選択してから\n
+[OK]ﾎﾞﾀﾝを押す｡";

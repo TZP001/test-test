@@ -1,0 +1,103 @@
+#!/usr/bin/perl
+
+# ReadData - Vault sharing cgi-bin
+# ---------------------------------
+
+# Part to be fulfilled in order to put parameter to VaultSharing
+#
+#  VaultHome must be set to the home of the vault server admin
+#  VaultSharingCache must be set to a writable place this manages the cache
+#                    for Vault Sharing
+#  v5installpath must be set to the CATIAV5 installation path
+#  OSDS must be set to solaris_a, aix_a or hpux_a depending on the OS
+#  CATENVName is the name of environment file is placed (sample : CATIA_P3.V5R16.B16)
+#  DIRENV is the repertory where the environment file is placed (/CATEnv)
+#  serverVPM is the alias of the VPM server defined in the interoperability settings in CATIAV5
+#
+$VaultHome="";
+$VaultSharingCache="";
+$v5installpath="";
+$OSDS="";
+$CATENVNAME="";
+$DIRENV="";
+$serverVPM="";
+
+
+#
+#
+# Code for vault sharing
+# this has not to be modified 
+#
+#
+@pairs = split(/&/, $ENV{"QUERY_STRING"});
+
+foreach $pair (@pairs)
+{
+($name, $value) = split (/=/, $pair);
+$value =~ tr/+/ /;
+$value =~ s/%([a-fA-F0-9])/pack("C", hex($1))/eg;
+$query{$name} = $value;
+}
+
+if (($query{'File'} eq "") && ($query{'coid'} eq ""))
+{
+   exit;
+}
+
+if ($query{'coid'} ne "")
+{
+   &getfromvpm;
+   exit;
+}
+
+if ($query{'File'} ne "")
+{
+   &getfile;
+   exit;
+}
+
+sub getfile
+{
+    print "Location: $query{'File'}\n\n";
+}
+
+sub getfromvpm
+{
+    # create the file name for the generated file
+    $filename="$VaultSharingCache/$query{'coid'}$query{'compid'}$query{'caenv'}$query{'catab'}.vscache";
+
+    # Look in the cache to find the object
+    if ( -e $filename )
+    {
+	print "Location: $filename\n\n";
+    }
+    else
+    {
+	# Create temporary shell
+        $shellString  = "#!/usr/bin/ksh\n\n";
+	$shellString .= "export HOME=$VaultHome\n\n";
+	$shellString .= ". $DIRENV/$CATENVNAME.sh\n\n";
+	$shellString .= "VPMMIGLF -server $serverVPM -coid $query{'coid'} -compid $query{'compid'} -caenv $query{'caenv'} -catab $query{'catab'} -o  $filename > /dev/null 2>&1 \n\n";
+
+        @command=("echo \"$shellString\" > /tmp/$query{'coid'}$query{'compid'}$query{'caenv'}$query{'catab'}.sh");
+
+        system(@command);
+
+        @command2=("chmod 755 /tmp/$query{'coid'}$query{'compid'}$query{'caenv'}$query{'catab'}.sh");
+
+        system(@command2);
+
+        # not in the cache extract in from VPM
+	@commandargs = ("/tmp/$query{'coid'}$query{'compid'}$query{'caenv'}$query{'catab'}.sh");
+
+	system(@commandargs);
+	
+	
+        @command3=("rm /tmp/$query{'coid'}$query{'compid'}$query{'caenv'}$query{'catab'}.sh");
+
+        system(@command3);
+
+	print "Location: $filename\n\n";
+    }
+    
+}

@@ -1,0 +1,74 @@
+//=====================================================================================
+//                                     CNEXT - CXRn
+//                          COPYRIGHT DASSAULT SYSTEMES 2001 
+//-------------------------------------------------------------------------------------
+// FILENAME    :    CATDrwDimThreadCmd
+// LOCATION    :    DraftingIntCommands
+// AUTHOR      :    fgx
+// BUT         :    Commande de creation de cotes sur threads (top and/or side views)
+// DATE        :    07.03.2001
+//-------------------------------------------------------------------------------------
+// DESCRIPTION :    
+//-------------------------------------------------------------------------------------
+// COMMENTS    :    
+//-------------------------------------------------------------------------------------
+// MODIFICATIONS     user  date        purpose
+//    HISTORY        ----  ----        -------
+//=====================================================================================
+
+//******************************************************************************
+// Command
+//******************************************************************************
+CATDrwDimThreadCmd.Title = "Filettatura quota";
+CATDrwDimThreadCmd.UndoTitle = "Creazione di filettature quota";
+
+//******************************************************************************
+// States
+//******************************************************************************
+CATDrwDimThreadCmd.waitForSelState.Message = "Selezionare la rappresentazione della filettatura di cui creare la quota";
+CATDrwDimThreadCmd.waitFor2sdLineState.Message = "Selezionare una seconda linea 2D parallela alla prima";
+
+//******************************************************************************
+// Agents
+//******************************************************************************
+CATDrwDimThreadCmd._agentSet._elemAgent.UndoTitle = "Selezione della rappresentazione della filettatura";
+CATDrwDimThreadCmd._agentSet._lineAgent1.UndoTitle = "Selezione della seconda linea 2D";
+CATDrwDimThreadCmd._agentSet.2DPointIndication.UndoTitle = "Selezione";
+
+CATDrwDimThreadCmd.OrientBarRessource.Bar.Title="Orientamento";
+
+//******************************************************************************
+// Force dimension on element Button
+//******************************************************************************
+CATDrwDimThreadCmd.OrientBarRessource._refElem.Title = "Forza la quota sull'elemento";
+CATDrwDimThreadCmd.OrientBarRessource._refElem.ShortHelp="Forza la quota sull'elemento";
+CATDrwDimThreadCmd.OrientBarRessource._refElem.Help=
+"Forza la linea di quota in modo che sia parallela all'elemento quotato";
+CATDrwDimThreadCmd.OrientBarRessource._refElem.LongHelp=
+"Forza la quota sull'elemento
+Forza la linea di quota in modo che sia parallela all'elemento quotato.";
+
+//******************************************************************************
+// Force horizontal dimension Button
+//******************************************************************************
+CATDrwDimThreadCmd.OrientBarRessource._refHori.Title = "Forza la quota orizzontale";
+CATDrwDimThreadCmd.OrientBarRessource._refHori.ShortHelp="Forza la quota orizzontale";
+CATDrwDimThreadCmd.OrientBarRessource._refHori.Help=
+"Forza la linea di quota in modo che sia orizzontale";
+CATDrwDimThreadCmd.OrientBarRessource._refHori.LongHelp=
+"Forza la quota orizzontale
+Forza la linea di quota in modo che sia orizzontale";
+
+//******************************************************************************
+// Force vertical dimension Button
+//******************************************************************************
+CATDrwDimThreadCmd.OrientBarRessource._refVert.Title = "Forza la quota verticale";
+CATDrwDimThreadCmd.OrientBarRessource._refVert.ShortHelp="Forza la quota verticale";
+CATDrwDimThreadCmd.OrientBarRessource._refVert.Help=
+"Forza la linea di quota in modo che sia verticale";
+CATDrwDimThreadCmd.OrientBarRessource._refVert.LongHelp=
+"Forza la quota verticale
+Forza la linea di quota in modo che sia verticale.";
+
+FakeThreadDim="E' stata creata la filettatura quota non associativa.";
+

@@ -1,0 +1,138 @@
+
+#******************************************************************* mip_metallic_paint
+
+declare phenomenon
+  "mip_metallic_paint" (    
+    color  "ambient"           default 0 0 0 1,
+    color  "base_color"        default 0.8 0.1 0.0 1,
+    color  "edge_color"        default 0.0 0.0 0.0,
+    color  "lit_color"         default 0.6 0.0 0.2,
+    scalar "spec_weight"       default 0.2,      
+    scalar "spec_exp"          default 60.0,         
+    shader  "bump",
+    array light "lights"
+  )
+  version 1
+    
+  shader "bump_shader" "cat_passthrough_color" (
+    "bump"                    = interface "bump"
+  )
+
+  shader "main_shader" "mi_metallic_paint" (
+    "ambient"                 = interface "ambient",
+    "base_color"              = interface "base_color",
+    "edge_color"              = interface "edge_color",
+    "edge_color_bias"         1.0,
+    "lit_color"               = interface "lit_color",
+    "lit_color_bias"          8.0,
+
+    "diffuse_weight"          1.0,
+    "diffuse_bias"            1.5,
+    "irradiance_weight"       1.0,
+
+    "spec"                    1 1 1,
+    "spec_weight"             = interface "spec_weight",
+    "spec_exp"                = interface "spec_exp",
+    "spec_sec"                1 1 1 1,
+    "spec_sec_weight"         0.3,
+    "spec_sec_exp"            25.0,
+    "spec_glazing"            on,
+
+    "flake_color"             1.0 1.0 1.0 1,
+    "flake_weight"            1.0,
+    "flake_reflect"           0.0,
+    "flake_exp"               45.0,
+    "flake_decay"             0.0,
+
+    "global_weight"           1.0,
+
+    "mode"                    3,
+    "lights"                  = interface "lights"
+  )
+    
+  root 
+  = "bump_shader"
+  = "main_shader"
+
+  apply material, photon, shadow    
+
+end declare
+
+#******************************************************************* mip_car_paint
+
+declare phenomenon
+  "mip_car_paint" (
+    color   "ambient"                 default 0 0 0,
+    color   "base_color"              default 0.8 0.1 0,
+    color   "edge_color"              default 0 0 0,
+    color   "lit_color"               default 0.6 0 0.2,
+    scalar  "spec_weight"             default 0.2,      
+    scalar  "spec_exp"                default 60.0,         
+    scalar  "reflection_base_weight"  default 0.2,
+    scalar  "reflection_edge_weight"  default 1.0,
+    color   "flake_color"             default 1 1 1,
+    scalar  "flake_exp"               default 45.0,
+    scalar  "flake_density"           default 0.5,
+    scalar  "flake_scale"             default 0.04,
+    shader  "bump",
+    array light "lights"
+  )
+  version 1
+
+  shader "bump_shader" "cat_passthrough_color" (
+    "bump"                    = interface "bump"
+  )
+
+  shader "main_shader" "mi_car_paint_phen" (
+    "ambient"                 = interface "ambient",
+    "base_color"              = interface "base_color",
+    "edge_color"              = interface "edge_color",
+    "edge_color_bias"         1.0,
+    "lit_color"               = interface "lit_color",
+    "lit_color_bias"          8.0,
+    "diffuse_weight"          1.0,
+    "diffuse_bias"            1.5,
+
+    "flake_color"             = interface "flake_color",
+    "flake_weight"            1.0,
+    "flake_reflect"           0,
+    "flake_exp"               = interface "flake_exp",
+    "flake_density"           = interface "flake_density",
+    "flake_decay"             0,
+    "flake_strength"          0.8,
+    "flake_scale"             = interface "flake_scale",
+
+    "spec"                    1 1 1,
+    "spec_weight"             = interface "spec_weight",
+    "spec_exp"                = interface "spec_exp",
+    "spec_sec"                1 1 1,
+    "spec_sec_weight"         0.3,
+    "spec_sec_exp"            25,
+    "spec_glazing"            on,
+
+    "reflection_color"        1 1 1,
+    "edge_factor"             7.0,
+    "reflection_edge_weight"  = interface "reflection_edge_weight",
+    "reflection_base_weight"  = interface "reflection_base_weight",
+    "samples"                 0,
+    "glossy_spread"           0.0,
+    "max_distance"            0.0,
+    "single_env_sample"       off,
+
+    "dirt_color"              .3 .3 .3,
+    "dirt_weight"             0,
+
+    "irradiance_weight"       1.0,
+    "global_weight"           1.0,
+
+    "mode"                    3,
+    "lights"                  = interface "lights"
+  )
+   
+  root 
+  = "bump_shader"
+  = "main_shader"
+  
+  apply material, photon, shadow    
+  
+end declare

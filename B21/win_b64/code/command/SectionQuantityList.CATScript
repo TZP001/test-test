@@ -1,0 +1,279 @@
+'// COPYRIGHT DASSAULT SYSTEMES  1999
+'//============================================================================
+'//
+'// Language="VBSCRIPT"
+'// Sample of macro to extract the Bill Of Material for Structure Design
+'//
+'//============================================================================
+'// This CATScript assumes that the user has selected Structural objects
+'// from the CATIA Specification Viewer or the 3D Window.
+'//
+'// It is advised that the user understand the VBScript and VBA concepts before
+'// attempting to modify the code to suit their needs. Microsoft Excel 97
+'// provides excellent documentation on the use of VBScript and VBA.
+'//============================================================================
+
+dim excel as AnyObject
+dim workbooks as AnyObject
+dim workbook as AnyObject
+dim sheets as AnyObject
+dim sheet as AnyObject
+dim excelTemplate as String
+dim excelTemplatePath as String
+dim strWB as Workbench
+dim strServ as AnyObject
+dim currentRow as integer
+
+'//---------------------------------------------------------------------------
+'// Default path of the excel file template 
+'//---------------------------------------------------------------------------
+strCATCommandPath = CATIA.SystemService.Environ("CATCommandPath")
+excelTemplate = "SectionQuantityListTemplate.xls"
+excelTemplatePath = InputBox("Path of the template:", _
+                             "Input path for the EXCEL Template", _
+                              strCATCommandPath + "\" + excelTemplate)
+
+'//---------------------------------------------------------------------------
+'// User customization of the attributes which will be extracted
+'//---------------------------------------------------------------------------
+dim nbColumns as integer
+nbColumns = 17
+dim column(17)
+column(1)  = "MemberType"
+column(2)  = "SectionName"
+column(3)  = "FamilyName"
+column(4)  = "CatalogName"
+column(5)  = "Length"
+column(6)  = "PlateType"
+column(7)  = "Thickness"
+column(8)  = "Surface"
+column(9)  = "Wet area"
+column(10) = "Volume"
+column(11) = "Material"
+column(12) = "Mass"
+column(13) = "CdgX"
+column(14) = "CdgY"
+column(15) = "CdgZ"
+column(16) = "StartAngleCut"
+column(17) = "EndAngleCut"
+
+
+'//---------------------------------------------------------------------------
+'// Start Excel
+'//---------------------------------------------------------------------------
+Sub StartEXCEL()
+   Err.Clear
+   On Error Resume Next
+   Set excel = GetObject (,"EXCEL.Application")
+   If Err.Number <> 0 Then
+	   Err.Clear 
+           Set excel = CreateObject ("EXCEL.Application") 
+   End If 
+
+   excel.Application.Visible = TRUE
+   set workbooks = excel.Application.WorkBooks
+   set workbook  = workbooks.Add(excelTemplatePath)
+   If Err.Number <> 0 Then 
+   	Dim strMessage 
+        strMessage  = "Error Loading Template File:" + excelTemplatePath + Chr(13) 
+        strMessage  = strMessage + Chr(13) + "Check the following...." + Chr(13)
+        strMessage  = strMessage + "(1)Template File has read-write capability" + Chr(13) 
+        strMessage  = strMessage + "(2)Template File path is valid" 
+        msgbox (strMessage)
+        Err.Clear
+   End If  
+   set sheets = workbook.Worksheets
+   set sheet = sheets("Parameters list")
+   sheet.Select
+End Sub 
+
+'//---------------------------------------------------------------------------
+'// Exit Excel
+'//---------------------------------------------------------------------------
+Sub EndEXCEL()
+   workbook.Close
+   excel.Quit
+End Sub 
+
+'//---------------------------------------------------------------------------
+'// Write in Excel
+'//---------------------------------------------------------------------------
+Sub WriteInExcel(iRow, iColumn, iString)
+
+   On Error Resume Next
+
+   if (Len(iString) > 0) then
+      dim whichColumn as integer
+      whichColumn = 0
+
+      Select Case iColumn
+         Case "PartNumber"
+	        whichColumn = 1
+	 Case "Name"
+	        whichColumn = 2
+      End Select
+
+      if (whichColumn = 0) then
+         dim NotTheSame as Integer
+         dim i as Integer
+         NotTheSame = 0
+       
+	 for i = 1 to nbColumns
+           NotTheSame = StrComp(column(i), iColumn, 0)
+           
+           if (NotTheSame = 0) then
+  	      whichColumn = 2 + i
+              Exit for
+           end if
+         Next 
+      end if
+
+      sheet.Cells(iRow, whichColumn) = iString
+      sheet.Cells(iRow, whichColumn).Select
+   end if
+End Sub
+
+'//---------------------------------------------------------------------------
+'// Find parameters value
+'//---------------------------------------------------------------------------
+Sub PrintParameters(iProduct)
+   dim parameters as Parameters
+   dim param as Parameter
+   dim nbParam as integer
+
+   On Error Resume Next
+   WriteInExcel currentRow, "PartNumber", iProduct.PartNumber
+   WriteInExcel currentRow, "Name", iProduct.Name
+
+   dim RefProduct as Product
+   set RefProduct = iProduct.ReferenceProduct
+   set parameters = iProduct.ReferenceProduct.Parameters
+   nameProd = iProduct.Name
+
+   Dim plate As StrPlate
+   Dim plates as StrPlates
+   Set plates = iProduct.Parent.Parent.GetTechnologicalObject("StructurePlates")
+   if (not(plates is nothing)) then
+	set plate = plates.Item(nameProd)
+   end if
+
+   Dim member as StrMember
+   Dim members as StrMembers
+   Dim section as StrSection
+   Set members = iProduct.Parent.Parent.GetTechnologicalObject("StructureMembers")
+   if (not(members is nothing)) then
+	set member = members.Item(nameProd)
+   end if
+
+   nbParameters = parameters.Count
+ 
+   dim i as Integer
+   dim parm as Parameter
+   dim cdgx, cdgy, cdgz as double
+
+   if (nbParameters > 0) then
+	  for i = 1 to nbColumns
+             Err.Clear
+	     	 if (column(i) = "Length") then
+		 	dim length as double
+		      length = strWB.StrComputeServices.GetLength(iProduct)
+                  if (length > 0) then
+		     		WriteInExcel currentRow, column(i), length
+                	end if
+	     	 Elseif (column(i) = "Thickness") then
+		      dim thickness as double
+		      if (Not(plate Is Nothing)) then
+                        thickness = plate.StandardThickness
+   				WriteInExcel currentRow, column(i), thickness
+                  end if
+	       Elseif (column(i) = "Surface") then
+		      dim surface as double
+		      surface = strWB.StrComputeServices.GetSurface(iProduct)
+                  if (surface > 0) then
+		        	WriteInExcel currentRow, column(i), surface
+                  end if
+	       Elseif (column(i) = "Wet area") then
+		      dim wetarea as double
+		      wetarea = strWB.StrComputeServices.GetWetArea(iProduct)
+                  if (wetarea > 0) then
+		       	WriteInExcel currentRow, column(i), wetarea
+                  end if
+	       Elseif (column(i) = "Volume") then
+		      dim volume as double
+		      volume = strWB.StrComputeServices.GetVolume(iProduct)
+                  if (volume > 0) then
+		      	WriteInExcel currentRow, column(i), volume
+                  end if
+	       Elseif (column(i) = "Mass") then
+		      dim mass as double
+		      mass = strWB.StrComputeServices.GetMass(iProduct)
+                  if (mass > 0) then
+    		      	WriteInExcel currentRow, column(i), mass
+                  end if
+	       Elseif (column(i) = "CdgX") then
+		      strWB.StrComputeServices.GetCenterOfGravity(iProduct),cdgx,cdgy,cdgz
+                  WriteInExcel currentRow, column(i), cdgx
+             Elseif (column(i) = "CdgY") then
+		      strWB.StrComputeServices.GetCenterOfGravity(iProduct),cdgx,cdgy,cdgz
+	            WriteInExcel currentRow, column(i), cdgy
+	       Elseif (column(i) = "CdgZ") then
+		      strWB.StrComputeServices.GetCenterOfGravity(iProduct),cdgx,cdgy,cdgz
+                  WriteInExcel currentRow, column(i), cdgz
+             Elseif (column(i) = "Material") then
+		      dim mat as string
+                      mat = strWB.StrComputeServices.GetMaterialName(iProduct)
+                      WriteInExcel currentRow, column(i), mat
+	       Elseif (column(i) = "StartAngleCut") then
+		      dim angles as double
+		      angles = member.StartExtremity.AngleCut
+                  angles = angles * 57.29577951
+    		      WriteInExcel currentRow, column(i), angles
+	       Elseif (column(i) = "EndAngleCut") then
+		      dim anglee as double
+		      anglee = member.EndExtremity.AngleCut
+                  anglee = anglee * 57.29577951
+    		      WriteInExcel currentRow, column(i), anglee
+             Else
+                  set param = parameters.GetItem(column(i))
+                  if (Err.Number <> 0) Then Set param = Nothing
+	            if (Not(param Is Nothing)) then
+                        WriteInExcel currentRow, column(i), param.ValueasString
+                  end if
+             end if      
+         Next
+   end if
+End Sub
+
+'//---------------------------------------------------------------------------
+'// Main
+'//---------------------------------------------------------------------------
+Sub CATMain()
+   On Error Resume Next
+
+   StartExcel
+
+   dim product as Product
+   dim nbProduct  as integer
+   nbProduct = 0
+   currentRow = 2
+
+   dim doc as Document
+   dim sel as Selection
+
+   set doc = CATIA.ActiveDocument
+   set strWB = doc.GetWorkbench("StrWorkbench")
+   set strServ = strWB.StrComputeServices 
+
+   set sel = doc.Selection
+   set product = sel.FindObject("CATIAProduct")
+
+   Do Until(product Is Nothing)
+      nbProduct = nbProduct + 1
+      PrintParameters(product)
+      set product = sel.FindObject("CATIAProduct") 
+      if (Err.Number <> 0)  then set product = Nothing
+      currentRow = currentRow + 1
+   Loop 
+
+   ' EndExcel
+End Sub 

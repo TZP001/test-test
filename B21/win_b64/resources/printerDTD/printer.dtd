@@ -1,0 +1,432 @@
+<!--
+
+    This is the DTD for printer definition.
+
+-->
+
+<!--================== Imported Names ====================================-->
+
+<!ENTITY % Number "CDATA">
+    <!-- one or more digits -->
+
+<!ENTITY % Text "CDATA">
+    <!-- used for titles etc. -->
+
+
+<!--=================== Printer Element ====================================-->
+<!-- the element XXXProperties should correspond to the selected export
+     except for HPGL2 export that support the HPGL2 properties and the HPGL properties -->
+
+<!ELEMENT printer (defaultFormat?, maxFormat?, defaultMargins?,
+                   execUnix?, execWindows?, rtimeUnix?, rtimeWindows?,
+                   (CGMSOFTProperties|CGMProperties|RASTERProperties|EPSProperties|
+                    HPGL2Properties|HP1000GL2Properties|HPGLProperties|PLUGINProperties|V4Properties)?)>
+<!ATTLIST printer
+  name %Text; #REQUIRED
+  export (CGMSOFT|CGM|RASTER|EMF|EPS|PDF|HPGL2|HP1000GL2|HPGL|SVG|PLUGIN|GBR|OCE) #IMPLIED "EPS">
+
+
+<!--=================== Printer Properties Elements ====================================-->
+<!-- the element defaultFormat will not take into account the attributs width and height if the attribut name is not set to USER -->
+
+
+<!ELEMENT defaultFormat>
+<!ATTLIST defaultFormat 
+  name (A0_ISO|A1_ISO|A2_ISO|A3_ISO|A4_ISO|
+        A0_ROLL|A1_ROLL|
+        A_ANSI|B_ANSI|C_ANSI|D_ANSI|E_ANSI|F_ANSI|
+        J_U.S.Standard|
+        Letter|Legal|
+        B4|B5|C5|
+        USER)#IMPLIED "A4_ISO"
+  orientation (portrait|landscape) #IMPLIED "portrait"
+  width %Number; #IMPLIED
+  height %Number; #IMPLIED>
+
+<!ELEMENT maxFormat>
+<!ATTLIST maxFormat
+  name (A0_ISO|A1_ISO|A2_ISO|A3_ISO|A4_ISO|
+        A0_ROLL|A1_ROLL|
+        A_ANSI|B_ANSI|C_ANSI|D_ANSI|E_ANSI|F_ANSI|
+        J_U.S.Standard|
+        Letter|Legal|
+        B4|B5|C5|
+        USER)#IMPLIED "A4_ISO"
+  width %Number; #IMPLIED
+  height %Number; #IMPLIED>
+
+<!ELEMENT defaultMargins>
+<!ATTLIST defaultMargins
+  left %Number; #IMPLIED
+  right %Number; #IMPLIED
+  top %Number; #IMPLIED
+  bottom %Number; #IMPLIED>
+
+
+<!--=================== Printer Scripts Elements ====================================-->
+
+<!ELEMENT execUnix (#PCDATA)>
+
+<!ELEMENT execWindows (#PCDATA)>
+
+<!ELEMENT rtimeUnix (#PCDATA)>
+
+<!ELEMENT rtimeWindows (#PCDATA)>
+
+<!ELEMENT rtimeWindows (#PCDATA)>
+
+
+<!--=================== Printer Language Properties Elements ====================================-->
+
+
+<!--=================== CGMSOFT Properties Element ====================================-->
+<!-- about the fontList element, if the discretization attribut is set to YES, the whole fonts will be tesselated
+     without taking into account the font lement attributs -->
+
+
+<!ELEMENT CGMSOFTProperties(version?,profile?,
+                            beginMetafile?,beginPicture?,metafileDescription?,
+                            VDCType?,scalingMode?,scale?,lineWidthSpecification?,
+                            compressionType?,fontList?)>
+
+<!ELEMENT version>
+<!ATTLIST version
+  value (1|2|3|4) #IMPLIED "3">
+
+<!ELEMENT profile>
+<!ATTLIST profile
+  value (ISO|ATA|CALS|WEB CGM) #IMPLIED "ISO">
+
+<!ELEMENT beginMetafile>
+<!ATTLIST beginMetafile
+  value %Text; #IMPLIED>
+
+<!ELEMENT beginPicture>
+<!ATTLIST beginPicture
+  value %Text; #IMPLIED>
+
+<!ELEMENT metafileDescription>
+<!ATTLIST metafileDescription
+  value %Text; #IMPLIED>
+
+<!ELEMENT VDCType>
+<!ATTLIST VDCType
+  value (INT|REAL) #IMPLIED "REAL">
+
+<!ELEMENT scalingMode>
+<!ATTLIST scalingMode
+  value (ABSTRACT|METRIC) #IMPLIED "METRIC">
+
+<!ELEMENT scale>
+<!ATTLIST scale
+  value %Number; #IMPLIED>
+
+<!ELEMENT lineWidthSpecification>
+<!ATTLIST lineWidthSpecification
+  value (ABSOLUTE|SCALED) #IMPLIED "ABSOLUTE">
+
+<!ELEMENT compressionType>
+<!ATTLIST compressionType
+  value (CCITT Group 4|CCITT Group 3|Uncompressed) #IMPLIED "Uncompressed">
+
+<!ELEMENT fontList (font*)>
+<!ATTLIST fontList 
+  discretization (YES|NO) #IMPLIED "NO">
+
+<!ELEMENT font>
+<!ATTLIST font
+  name %Text; #IMPLIED
+  action (Discretized|Not Substituted|Substituted) #IMPLIED
+  substitution (Courier|Helvetica|Times|Symbol) #IMPLIED "Courier">
+
+
+<!--=================== CGM Properties Element ====================================-->
+<!-- about the fontList element, if the discretization attribut is set to YES, the whole fonts will be tesselated
+     without taking into account the font lement attributs -->
+
+
+<!ELEMENT CGMProperties (version?,profile?,
+                         beginMetafile?,beginPicture?,metafileDescription?,
+                         VDCType?,scalingMode?,scale?,lineWidthSpecification?,
+                         compressionType?,fontList?)>
+
+<!ELEMENT version>
+<!ATTLIST version
+  value (1|2|3|4) #IMPLIED "3">
+
+<!ELEMENT profile>
+<!ATTLIST profile
+  value (ISO|ATA|CALS|WEB CGM) #IMPLIED "ISO">
+
+<!ELEMENT beginMetafile>
+<!ATTLIST beginMetafile
+  value %Text; #IMPLIED>
+
+<!ELEMENT beginPicture>
+<!ATTLIST beginPicture
+  value %Text; #IMPLIED>
+
+<!ELEMENT metafileDescription>
+<!ATTLIST metafileDescription
+  value %Text; #IMPLIED>
+
+<!ELEMENT VDCType>
+<!ATTLIST VDCType
+  value (INT|REAL) #IMPLIED "REAL">
+
+<!ELEMENT scalingMode>
+<!ATTLIST scalingMode
+  value (ABSTRACT|METRIC) #IMPLIED "METRIC">
+
+<!ELEMENT scale>
+<!ATTLIST scale
+  value %Number; #IMPLIED>
+
+<!ELEMENT lineWidthSpecification>
+<!ATTLIST lineWidthSpecification
+  value (ABSOLUTE|SCALED) #IMPLIED "ABSOLUTE">
+
+<!ELEMENT compressionType>
+<!ATTLIST compressionType
+  value (CCITT Group 4|CCITT Group 3|Uncompressed) #IMPLIED "Uncompressed">
+
+<!ELEMENT fontList (font*)>
+<!ATTLIST fontList 
+  discretization (YES|NO) #IMPLIED "NO">
+
+<!ELEMENT font>
+<!ATTLIST font
+  name %Text; #IMPLIED
+  action (Discretized|Not Substituted|Substituted) #IMPLIED
+  substitution (Courier|Helvetica|Times|Symbol) #IMPLIED "Courier">
+
+
+<!--=================== SVG Properties Element ====================================-->
+<!-- about the fontList element, if the discretization attribut is set to YES, the whole fonts will be tesselated
+     without taking into account the font lement attributs -->
+
+
+<!ELEMENT SVGProperties (imageStorage?,fontList?)>
+
+<!ELEMENT version>
+<!ATTLIST version
+  value (EXTERNAL|EMBED) #IMPLIED "EXTERNAL">
+
+<!ELEMENT fontList (font*)>
+<!ATTLIST fontList 
+  discretization (YES|NO) #IMPLIED "YES">
+
+<!ELEMENT font>
+<!ATTLIST font
+  name %Text; #IMPLIED
+  action (Discretized|Not Substituted|Substituted) #IMPLIED
+  substitution (Times New Roman|Arial|Courier New) #IMPLIED "Times New Roman">
+
+
+<!--=================== Raster Properties Element ====================================-->
+<!-- the TIFFProperties element will not take into account the quality attribut if the compression attribut is set to JPEG -->
+
+<!ELEMENT RASTERProperties ((TIFFProperties|BMPProperties|PCXProperties|TGAProperties|
+                             WPGProperties|WMFProperties|DCXProperties|JPEGProperties|
+                             PICTProperties|CALSProperties|LASER DATAProperties|XBMProperties|
+                             MACProperties|KOFAXProperties|IOCAProperties|ICONProperties|
+                             ILBMProperties|CLIPProperties|MSPProperties|XPMProperties|
+                             XWDProperties|RASTProperties|PHOTOSHOPProperties|IMNETProperties|
+                             PNGProperties)?)>
+
+<!ELEMENT TIFFProperties>
+<!ATTLIST TIFFProperties
+  dpi %Number; #IMPLIED
+  compression (No compression|Packbits|JPEG|HUFFMAN|Fax Group 4) #IMPLIED
+  quality %Number; #IMPLIED>
+
+<!ELEMENT BMPProperties>
+<!ATTLIST BMPProperties
+  dpi %Number; #IMPLIED
+  compression (No compression|RLE compression) #IMPLIED>
+
+<!ELEMENT PCXProperties>
+<!ATTLIST PCXProperties
+  dpi %Number; #IMPLIED>
+
+<!ELEMENT TGAProperties>
+<!ATTLIST TGAProperties
+  dpi %Number; #IMPLIED>
+
+<!ELEMENT WPGProperties>
+<!ATTLIST WPGProperties
+  dpi %Number; #IMPLIED>
+
+<!ELEMENT WMFProperties>
+<!ATTLIST WMFProperties
+  dpi %Number; #IMPLIED>
+
+<!ELEMENT DCXProperties>
+<!ATTLIST DCXProperties
+  dpi %Number; #IMPLIED>
+
+<!ELEMENT JPEGProperties>
+<!ATTLIST JPEGProperties
+  dpi %Number; #IMPLIED
+  quality %Number; #IMPLIED>
+
+<!ELEMENT PICTProperties>
+<!ATTLIST PICTProperties
+  dpi %Number; #IMPLIED>
+
+<!ELEMENT CALSProperties>
+<!ATTLIST CALSProperties
+  dpi %Number; #IMPLIED>
+
+<!ELEMENT LASER DATAProperties>
+<!ATTLIST LASER DATAProperties
+  dpi %Number; #IMPLIED>
+
+<!ELEMENT XBMProperties>
+<!ATTLIST XBMProperties
+  dpi %Number; #IMPLIED>
+
+<!ELEMENT MACProperties>
+<!ATTLIST MACProperties
+  dpi %Number; #IMPLIED>
+
+<!ELEMENT KOFAXProperties>
+<!ATTLIST KOFAXProperties
+  dpi %Number; #IMPLIED>
+
+<!ELEMENT IOCAProperties>
+<!ATTLIST IOCAProperties
+  dpi %Number; #IMPLIED>
+
+<!ELEMENT ICONProperties>
+<!ATTLIST ICONProperties
+  dpi %Number; #IMPLIED>
+
+<!ELEMENT ILBMProperties>
+<!ATTLIST ILBMProperties
+  dpi %Number; #IMPLIED>
+
+<!ELEMENT CLIPProperties>
+<!ATTLIST CLIPProperties
+  dpi %Number; #IMPLIED>
+
+<!ELEMENT MSPProperties>
+<!ATTLIST MSPProperties
+  dpi %Number; #IMPLIED>
+
+<!ELEMENT XPMProperties>
+<!ATTLIST XPMProperties
+  dpi %Number; #IMPLIED>
+
+<!ELEMENT XWDProperties>
+<!ATTLIST XWDProperties
+  dpi %Number; #IMPLIED>
+
+<!ELEMENT RASTProperties>
+<!ATTLIST RASTProperties
+  dpi %Number; #IMPLIED>
+
+<!ELEMENT PHOTOSHOPProperties>
+<!ATTLIST PHOTOSHOPProperties
+  dpi %Number; #IMPLIED>
+
+<!ELEMENT IMNETProperties>
+<!ATTLIST IMNETProperties
+  dpi %Number; #IMPLIED>
+
+<!ELEMENT PNGProperties>
+<!ATTLIST PNGProperties
+  dpi %Number; #IMPLIED>
+
+
+<!--=================== EPS Properties Element ====================================-->
+
+<!ELEMENT EPSProperties>
+<!ATTLIST EPSProperties
+  level (1|2) #IMPLIED "2"
+  encapsulated (YES|NO) #IMPLIED "NO">
+
+
+<!--=================== HPGL2 Properties Element ====================================-->
+
+<!ELEMENT HPGL2Properties>
+<!ATTLIST HPGL2Properties
+  mediaType (Default|Paper|Transparency film|Vellum|
+             Polyester film|Translucent paper|
+             Special paper|Glossy paper) #IMPLIED "Default"
+  cutterState (YES|NO) #IMPLIED "YES"
+  quality %Number; #IMPLIED "100">
+
+
+<!--=================== HP1000GL2 Properties Element ====================================-->
+
+<!ELEMENT HP1000GL2Properties ((monoRollFeeder|multiRollFeeder)?)>
+<!ATTLIST HP1000GL2Properties
+  mediaType (Default|Paper|Transparency film|Vellum|
+             Polyester film|Translucent paper|
+             Special paper|Glossy paper) #IMPLIED "Default"
+  cutterState (YES|NO) #IMPLIED "YES"
+  quality (Fast|Normal|Best) #IMPLIED "Best"
+  autoRotate (YES|NO) #IMPLIED "YES"
+  inkedArea (YES|NO) #IMPLIED "YES"
+  ret (YES|NO) #IMPLIED "YES">
+ 
+<!ELEMENT monoRollFeeder>
+<!ATTLIST monoRollFeeder
+  mediaSource (Roll|ManualFeed) #IMPLIED "Roll">
+
+<!ELEMENT multiRollFeeder>
+<!ATTLIST multiRollFeeder
+  mediaSource (Roll1|Roll2|Roll3) #IMPLIED "Roll1">
+
+
+!--=================== HP4000GL2 Properties Element ====================================-->
+
+<!ELEMENT HP4000GL2Properties ((monoRollFeeder|multiRollFeeder)?)>
+<!ATTLIST HP4000GL2Properties
+  mediaType (Default|Paper|Transparency film|Vellum|
+             Polyester film|Translucent paper|
+             Special paper|Glossy paper) #IMPLIED "Default"
+  cutterState (YES|NO) #IMPLIED "YES"
+  printQuality (DRAFT|NORMAL|HIGH) #IMPLIED "NORMAL"
+  autoRotate (YES|NO) #IMPLIED "YES"
+  inkedArea (YES|NO) #IMPLIED "YES"
+  ret (YES|NO) #IMPLIED "YES"
+  resolution (300|600|1200) #IMPLIED "600"
+  maxDetail (YES|NO) #IMPLIED "YES"
+  mediaSource (Roll|ManualFeed) #IMPLIED "Roll">
+ 
+
+<!--=================== HPGL Properties Element ====================================-->
+
+<!ELEMENT HPGLProperties (pens?)>
+<!ATTLIST HPGLProperties
+  origin (Center|Lower Left Corner|Upper Left Corner|Lower Right Corner|
+             Upper Right Corner) #IMPLIED "Lower Left Corner"
+  relativeMovePen (YES|NO) #IMPLIED "YES">
+ 
+<!ELEMENT pens (pen+)>
+
+<!ELEMENT pen>
+<!ATTLIST pen
+  number %Number; #REQUIRED
+  red %Number; #IMPLIED
+  green %Number; #IMPLIED
+  blue %Number; #IMPLIED
+  width %Number; #IMPLIED
+  enable (YES|NO) #IMPLIED>
+
+
+<!--=================== PLUGIN Properties Element ====================================-->
+
+<!ELEMENT PLUGINProperties>
+<!ATTLIST PLUGINProperties
+  pluginLibrary %Text; #REQUIRED>
+
+
+<!--=================== V4 Properties Element ====================================-->
+
+<!ELEMENT V4Properties>
+<!ATTLIST V4Properties
+  customLibrary %Text; #REQUIRED>
+

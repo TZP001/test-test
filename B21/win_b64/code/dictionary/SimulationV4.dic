@@ -1,0 +1,141 @@
+# ! deport des NNDE en fin de dico
+# ===========================================================================
+# entites adherant a CATISiLink
+# NB: les preconditions permettent de considerer comme link
+#  - les sets d'un modele avec un ou des sets KIN
+#  - le master d'un modele sans set KIN
+# ===========================================================================
+
+CAT_1000_1		CATISiLink		libCATSiqSimulationV4C CATSiMasterPreCondV4
+CAT_1001_1		CATISiLink		libCATSiqSimulationV4C CATSiSetPreCondV4
+ASMPRODUCT		CATISiLink		libCATSiqSimulationV4C 
+
+# ===========================================================================
+# adhesion des entites pour KinematicsInterfaces
+# NB: les preconditions sur les joints V4 sont dues a l'existence d'objets
+# des memes types qui ne sont pas des liaisons dans l'ECC de type 0-11
+# ===========================================================================
+
+CAT_1001_3             CATISiMechanism               libCATSiqSimulationV4C
+CAT_1001_4             CATISiMechanism               libCATSiqSimulationV4C
+CAT_1001_5             CATISiMechanism               libCATSiqSimulationV4C
+
+CAT_210_1              CATISiJoint                   libCATSiqSimulationV4C CATSiKiJointPreCondV4 
+CAT_210_2              CATISiJoint                   libCATSiqSimulationV4C CATSiKiJointPreCondV4 
+CAT_210_3              CATISiJoint                   libCATSiqSimulationV4C CATSiKiJointPreCondV4 
+CAT_210_4              CATISiJoint                   libCATSiqSimulationV4C CATSiKiJointPreCondV4 
+CAT_210_10             CATISiJoint                   libCATSiqSimulationV4C CATSiKiJointPreCondV4
+CAT_210_11             CATISiJoint                   libCATSiqSimulationV4C CATSiKiJointPreCondV4 
+CAT_210_12             CATISiJoint                   libCATSiqSimulationV4C CATSiKiJointPreCondV4 
+CAT_210_13             CATISiJoint                   libCATSiqSimulationV4C CATSiKiJointPreCondV4 
+CAT_210_14             CATISiJoint                   libCATSiqSimulationV4C CATSiKiJointPreCondV4
+CAT_210_15             CATISiJoint                   libCATSiqSimulationV4C CATSiKiJointPreCondV4
+CAT_210_16             CATISiJoint                   libCATSiqSimulationV4C CATSiKiJointPreCondV4
+CAT_210_17             CATISiJoint                   libCATSiqSimulationV4C CATSiKiJointPreCondV4
+CAT_210_18             CATISiJoint                   libCATSiqSimulationV4C CATSiKiJointPreCondV4
+CAT_210_19             CATISiJoint                   libCATSiqSimulationV4C CATSiKiJointPreCondV4
+CAT_210_20             CATISiJoint                   libCATSiqSimulationV4C CATSiKiJointPreCondV4
+CAT_210_21             CATISiJoint                   libCATSiqSimulationV4C CATSiKiJointPreCondV4
+CAT_210_22             CATISiJoint                   libCATSiqSimulationV4C CATSiKiJointPreCondV4
+CAT_210_23             CATISiJoint                   libCATSiqSimulationV4C CATSiKiJointPreCondV4
+CAT_209_1              CATISiJoint                   libCATSiqSimulationV4C 
+CAT_209_10             CATISiJoint                   libCATSiqSimulationV4C 
+CAT_209_11             CATISiJoint                   libCATSiqSimulationV4C 
+CAT_209_12             CATISiJoint                   libCATSiqSimulationV4C 
+CAT_209_13             CATISiJoint                   libCATSiqSimulationV4C 
+CAT_209_14             CATISiJoint                   libCATSiqSimulationV4C 
+CAT_209_18             CATISiJoint                   libCATSiqSimulationV4C 
+CAT_209_19             CATISiJoint                   libCATSiqSimulationV4C 
+CAT_209_20             CATISiJoint                   libCATSiqSimulationV4C 
+
+CAT_1_1       CATISiGeom                    libCATSiqSimulationV4C 
+CAT_2_1       CATISiGeom                    libCATSiqSimulationV4C
+CAT_3_1       CATISiGeom                    libCATSiqSimulationV4C
+CAT_3_2       CATISiGeom                    libCATSiqSimulationV4C
+CAT_4_1       CATISiGeom                    libCATSiqSimulationV4C
+CAT_5_1       CATISiGeom                    libCATSiqSimulationV4C
+CAT_5_2       CATISiGeom                    libCATSiqSimulationV4C
+CAT_20_1      CATISiGeom                    libCATSiqSimulationV4C
+CAT_21_1      CATISiGeom                    libCATSiqSimulationV4C
+CAT_22_1      CATISiGeom                    libCATSiqSimulationV4C
+CAT_23_1      CATISiGeom                    libCATSiqSimulationV4C
+
+#
+# ===========================================================================
+# adhesion des lois V4 aux interfaces les manipulant
+# ===========================================================================
+
+CAT_233_1                CATISiLaw             libCATSiqSimulationV4C
+CAT_233_1                CATIXYCurve           libCATSiqSimulationV4C
+CAT_233_1                CATIXYPtPtCurve       libCATSiqSimulationV4C
+CAT_233_1                CATISiKiGetMechanism  libCATSiqSimulationV4C
+
+CAT_*KINMODEL_UAE_233    CATISiLaw             libCATSiqSimulationV4C
+CAT_*KINMODEL_UAE_233    CATIXYCurve           libCATSiqSimulationV4C
+CAT_*KINMODEL_UAE_233    CATIXYPtPtCurve       libCATSiqSimulationV4C
+CAT_*KINMODEL_UAE_233    CATISiKiGetMechanism  libCATSiqSimulationV4C
+
+CAT_1001_3    CATISiKinematics              libCATSiqSimulationV4C
+CAT_1001_4    CATISiKinematics              libCATSiqSimulationV4C
+CAT_1001_5    CATISiKinematics              libCATSiqSimulationV4C
+
+CAT_210_1     CATI3DGeoVisu                 libCATSiqSimulationV4C
+CAT_210_2     CATI3DGeoVisu                 libCATSiqSimulationV4C
+CAT_210_10    CATI3DGeoVisu                 libCATSiqSimulationV4C
+CAT_210_11    CATI3DGeoVisu                 libCATSiqSimulationV4C
+CAT_210_12    CATI3DGeoVisu                 libCATSiqSimulationV4C
+CAT_210_13    CATI3DGeoVisu                 libCATSiqSimulationV4C
+CAT_210_14    CATI3DGeoVisu                 libCATSiqSimulationV4C
+CAT_210_15    CATI3DGeoVisu                 libCATSiqSimulationV4C
+CAT_210_16    CATI3DGeoVisu                 libCATSiqSimulationV4C
+CAT_210_17    CATI3DGeoVisu                 libCATSiqSimulationV4C
+CAT_210_18    CATI3DGeoVisu                 libCATSiqSimulationV4C
+CAT_210_19    CATI3DGeoVisu                 libCATSiqSimulationV4C
+CAT_210_20    CATI3DGeoVisu                 libCATSiqSimulationV4C
+CAT_210_21    CATI3DGeoVisu                 libCATSiqSimulationV4C
+CAT_210_22    CATI3DGeoVisu                 libCATSiqSimulationV4C
+CAT_210_23    CATI3DGeoVisu                 libCATSiqSimulationV4C
+CAT_209_1     CATI3DGeoVisu                 libCATSiqSimulationV4C
+CAT_209_10    CATI3DGeoVisu                 libCATSiqSimulationV4C
+CAT_209_11    CATI3DGeoVisu                 libCATSiqSimulationV4C
+CAT_209_12    CATI3DGeoVisu                 libCATSiqSimulationV4C
+CAT_209_13    CATI3DGeoVisu                 libCATSiqSimulationV4C
+CAT_209_14    CATI3DGeoVisu                 libCATSiqSimulationV4C
+CAT_209_18    CATI3DGeoVisu                 libCATSiqSimulationV4C
+CAT_209_19    CATI3DGeoVisu                 libCATSiqSimulationV4C
+CAT_209_20    CATI3DGeoVisu                 libCATSiqSimulationV4C
+CAT_1001_3    CATI3DGeoVisu                 libCATSiqSimulationV4C
+CAT_1001_4    CATI3DGeoVisu                 libCATSiqSimulationV4C
+CAT_1001_5    CATI3DGeoVisu                 libCATSiqSimulationV4C
+
+
+CAT_1001_3    CATIAlias                     libCATSiqSimulationV4C
+CAT_1001_4    CATIAlias                     libCATSiqSimulationV4C
+CAT_1001_5    CATIAlias	                    libCATSiqSimulationV4C
+
+MechanismFeat CATISiMechPrecisionMng        libCATSiqSimulationV4C
+
+
+# ===========================================================================
+# donnes comme MDE - JCS 08-08-2000  -  suppression des MDE pour V5R5
+# ===========================================================================
+CAT_1001_3		CATIASiSiDrivableObject		libCATSiqSimulationV4C
+CAT_1001_4		CATIASiSiDrivableObject		libCATSiqSimulationV4C
+CAT_1001_5		CATIASiSiDrivableObject		libCATSiqSimulationV4C
+CAT_233_1		CATIASiSiLaw      		libCATSiqSimulationV4C
+CAT_*KINMODEL_UAE_233   CATIASiSiLaw      		libCATSiqSimulationV4C
+
+# ===========================================================================
+# donne comme MDE - JCS 04-09-2000  -  suppression des MDE pour V5R5
+# ===========================================================================
+CAT_233_1		CATISiCPPLawV4      		libCATSiqSimulationV4C
+
+# ===========================================================================
+# donnes comme NNDE
+# ===========================================================================
+
+#JCS 27-06-2000 - nettoyage des NNDE 
+# CAT_233_1             CATIXYPolyCurve            libCATSiqSimulationV4C
+# CATSimDrivableObject	CATIASiSiDrivableObject	   libCATSiqSimulationV4C
+# CAT_Model             CATISiFactory              libCATSiqSimulationV4C
+

@@ -1,0 +1,881 @@
+
+DocLocator = "ENOVIA V5 VPM";
+
+ProgressTaskUI.Title   = "Save in ENOVIA V5 VPM";
+ProgressTaskUI.Comment = "Save running...";
+
+ConnectNotify.Title = "ENOVIA V5 VPM Portal not ready";
+ConnectNotify.Question = "Start a separate ENOVIA V5 VPM server?";
+
+//NFO IR-A0618732
+StdSave.Overwrite="Standard Save (Overwrite)";
+StdSave.Create="Standard Save (Create)";
+NotToBeSaved="(Not To Be Saved) not Mapped or Kept As External";
+NewRevision="Save as New Revision";
+DiscardSave="Discarded Save";
+NewSave="Save As New";
+UnknownSave="Unknown Save Mode ???!!!";
+
+//QAR - IR 9374, replcae "InWork" with "In Work" for DV
+InWork="In Work";
+
+// Error messages : ERR_, WRN_ or INF_ + identifier, /p1, /p2 ... for parameters.
+WRN_PbToAccessObjectInServer           ="Problem to access to an object in ENOVIA V5 VPM server";
+WRN_PbToAccessObjectInServe.Generic	   ="Problem to access to an object in ENOVIA V5 VPM server";
+	
+WRN_Unlock_System_Pb	        ="Server system problem during unlock";
+WRN_Unlock_System_Pb.Generic	="Server system problem during unlock";
+
+WRN_Lock_Pb_OtherOwners                  ="Problem during lock : some documents have been already locked by other users  \n";
+WRN_Lock_Pb_OtherOwners.Generic          ="Problem during lock : some documents have been already locked by other users  \n";
+
+WRN_Lock_Pb_Server_mail             ="EV5 server problem during lock : \n/p1";
+WRN_Lock_Pb_Server_mail.Generic   	="EV5 server problem during lock";
+WRN_Lock_Pb_Server_mail.Detail 	= "/p1";
+
+WRN_Unlock_Pb_Server_mail               ="EV5 server problem during unlock : \n/p1";
+WRN_Unlock_Pb_Server_mail.Generic   	="EV5 server problem during unlock";
+WRN_Unlock_Pb_Server_mail.Detail    	= "/p1";
+
+WRN_Lock_Pb_System                           	="System problem during lock.";
+WRN_Lock_Pb_System.Generic                    	="System problem during lock.";
+
+WRN_Lock_Pb_SystemOrOwner                ="Problem during lock. May be some documents are locked by another user";
+WRN_Lock_Pb_SystemOrOwner.Generic        ="Problem during Lock Operation for some objects.";
+WRN_Lock_Pb_SystemOrOwner.Suggestion     ="Check if some documents are locked by another user.";
+
+WRN_Unlock_Pb_SystemOrOwner              ="Problem during unlock.";
+WRN_Unlock_Pb_SystemOrOwner.Generic      ="Problem during unlock Operation for some objects.";
+
+
+WRN_PSVpmLockOnRef		     = "Lock not set by current user on reference /p1.\nThis forbids insertion of a new instance under it \nin ENOVIA V5 VPM server.";
+WRN_PSVpmLockOnRef.Generic   = "Lock not set by the current user on some references. \n This forbids insertion of a new instance under it in ENOVIA V5 VPM server.";
+WRN_PSVpmLockOnRef.Detail 	 = "/p1";
+
+WRN_PSVpmConnection		     = "Cannot connect to ENOVIA V5 VPM Server.\nOperation ignored.";
+WRN_PSVpmConnection.Generic		 = "Cannot connect to ENOVIA V5 VPM Server.\nOperation ignored.";
+WRN_PSVpmConnection.Suggestion   =" Please check the connection parameters.";
+
+//##########
+
+WRN_PSVpmCreation		     = "Cannot create object /p1 in ENOVIA V5 VPM Server.\nOperation ignored.";
+WRN_PSVpmCreation.Generic    = "Cannot create objects in ENOVIA V5 VPM Server.\nOperation ignored.";
+WRN_PSVpmCreation.Detail	 = "/p1";
+
+WRN_PSVpmMove			     = "Cannot update position matrix for object /p1 in ENOVIA V5 VPM Server.\nOperation ignored.";
+WRN_PSVpmMove.Generic        ="Cannot update position matrix for some objects in ENOVIA V5 VPM.";
+WRN_PSVpmMove.Detail 	     = "/p1";
+
+WRN_PSVpmMove_II_NOT_LOCKED	      = "Cannot move object /p1.\n At least one child instance is not locked or locked by another user.";
+WRN_PSVpmMove_II_NOT_LOCKED.Generic    ="Move operation failed for some objects. \n At least one child instance is not locked or locked by another user.";
+WRN_PSVpmMove_II_NOT_LOCKED.Detail 		   = "/p1";
+WRN_PSVpmMove_II_NOT_LOCKED.Suggestion    ="Check for the lock status for the child instances.";
+
+//WRN_PSVpmMove_PV_NOT_LOCKED		  = "Cannot move object /p1.\n At least one child reference is not locked or locked by another user.";
+//WRN_PSVpmMove_PV_NOT_LOCKED.Generic    	="Move operation failed for some objects. \n At least one child reference is not locked or locked by another user.";
+//WRN_PSVpmMove_PV_NOT_LOCKED.Detail 		   = "/p1";
+//WRN_PSVpmMove_PV_NOT_LOCKED.Suggestion    ="Check for the lock status for the child references.";
+//QAR - IR A0622003
+WRN_PSVpmMove_PV_NOT_LOCKED		  = "Cannot move object /p1.\nThe parent reference is not locked or locked by another user.";
+WRN_PSVpmMove_PV_NOT_LOCKED.Generic    	= "Move operation failed for some objects. \nThe parent reference is not locked or locked by another user.";
+WRN_PSVpmMove_PV_NOT_LOCKED.Detail 		   = "/p1";
+WRN_PSVpmMove_PV_NOT_LOCKED.Suggestion    ="Check for the lock status of the parent reference.";
+
+WRN_PSVpmMove_II_RELEASED	      = "Cannot move object /p1.\n At least one instance has reached final status.";
+WRN_PSVpmMove_II_RELEASED.Generic    ="Move operation failed for some objects. \nAt least one instance has reached final status.";
+WRN_PSVpmMove_II_RELEASED.Detail 		   = "/p1";
+WRN_PSVpmMove_II_RELEASED.Suggestion    ="Check maturity status for the instances.";
+		  
+
+WRN_PSVpmLock		             = "Lock not set by current user on object /p1.\nThis forbids modifications in ENOVIA V5 VPM Server.";
+WRN_PSVpmLock.Generic	             ="Lock not set by current user on some objects.\nThis forbids modifications in ENOVIA V5 VPM Server.";
+WRN_PSVpmLock.Detail 	             = "/p1";	             
+WRN_PSVpmLock.Suggestion             =	"Check for the lock status of the affected object.";	
+
+WRN_PSVpmCheckOut            		= "Document /p1 non checked-out by current user.\nThis forbids modifications in ENOVIA V5 VPM Server.";
+WRN_PSVpmCheckOut.Generic		="Document non checked-out by current user.\nThis forbids modifications in ENOVIA V5 VPM Server.";
+WRN_PSVpmCheckOut.Detail 		= "/p1";
+WRN_PSVpmCheckOut.Suggestion		="Please check out the affected documents.";
+
+WRN_PSVpmDelete		   = "Cannot delete object /p1 in ENOVIA V5 VPM Server.\nOperation ignored.";
+WRN_PSVpmDelete.Generic	="Delete operation failed for some objects in ENOVIA V5 VPM server. \nOperation ignored.";
+WRN_PSVpmDelete.Detail 	  = "/p1";	   
+
+WRN_PSVpmAssociateDoc	        = "Cannot associate document to object /p1 in ENOVIA V5 VPM Server.\nOperation ignored.";
+WRN_PSVpmAssociateDoc.Generic	="Cannot associate documents to some objects in ENOVIA V5 VPM server.\nOperation ignored.";
+WRN_PSVpmAssociateDoc.Detail 	= "/p1";	   
+
+        
+WRN_PSVpmNoAssociationDoc	        	= "Cannot associate document to Part in ENOVIA V5 VPM Server.\nOperation ignored.";
+WRN_PSVpmNoAssociationDoc.Generic	        = "Cannot associate document to Part in ENOVIA V5 VPM Server.\nOperation ignored.";
+
+WRN_PSVpmUpdateDoc	    	 = "Cannot update document /p1 data in ENOVIA V5 VPM Server.\nOperation ignored.";
+WRN_PSVpmUpdateDoc.Generic	     = "Cannot update document's data in ENOVIA V5 VPM Server.\nOperation ignored.";
+WRN_PSVpmUpdateDoc.Detail = "/p1";
+
+WRN_PSVpmRemoveDoc	            	= "Cannot remove document /p1 in ENOVIA V5 VPM Server.\nOperation ignored.";
+WRN_PSVpmRemoveDoc.Generic	= "Remove operation failed for some documents in the ENOVIA V5 VPM server. \nOperation ignored.";
+WRN_PSVpmRemoveDoc.Detail 	  	= "/p1";	   
+	            
+WRN_PSVpmGetName		 = "Cannot get object name in ENOVIA V5 VPM Server.\nOperation ignored.";
+WRN_PSVpmGetName.Generic = "Cannot get object name in ENOVIA V5 VPM Server.\nOperation ignored.";
+
+WRN_PSVpmGetType			   = "Cannot get object type in ENOVIA V5 VPM Server.\nOperation ignored.";
+WRN_PSVpmGetType.Generic		   = "Cannot get object type in ENOVIA V5 VPM Server.\nOperation ignored.";
+
+WRN_PSVpmGetRef			    = "Cannot get reference for object /p1 in ENOVIA V5 VPM Server.\nOperation ignored.";
+WRN_PSVpmGetRef.Generic		    = "Cannot get reference for  some objects in ENOVIA V5 VPM Server.\nOperation ignored.";
+WRN_PSVpmGetRef.Detail 	  	    = "/p1";	   			    
+
+WRN_PSVpmFindInst			   = "Cannot find instance in ENOVIA V5 VPM Server.\nOperation ignored.";
+WRN_PSVpmFindInst.Generic	   = "Cannot find instance in ENOVIA V5 VPM Server.\nOperation ignored.";
+
+WRN_PSVpmCheckRef		   = "Cannot check reference existence in ENOVIA V5 VPM Server.\nOperation ignored.";
+WRN_PSVpmCheckRef.Generic		   = "Cannot check reference existence in ENOVIA V5 VPM Server.\nOperation ignored.";
+
+WRN_PSVpmCheckGroup		   = "Cannot check group existence in ENOVIA V5 VPM Server.\nOperation ignored.";
+WRN_PSVpmCheckGroup.Generic	   = "Cannot check group existence in ENOVIA V5 VPM Server.\nOperation ignored.";
+
+WRN_PSVpmGetAssDoc	                      = "Cannot get documents associated to object /p1 in ENOVIA V5 VPM Server.\nOperation ignored.";
+WRN_PSVpmGetAssDoc.Generic                     = "The documents associated to some objects cannot be retrieved. \Operation ignored.";
+WRN_PSVpmGetAssDoc.Detail 	  	    = "/p1";
+	                      
+WRN_PSVpmGetDocCont		    = "Cannot get data from document /p1 in ENOVIA V5 VPM Server.\nOperation ignored.";
+WRN_PSVpmGetDocCont.Generic     	    = "Cannot get data for some documents in the ENOVIA V5 VPM server.\nOperation ignored.";
+WRN_PSVpmGetDocCont.Detail 	  	    = "/p1";
+		    
+WRN_PSVpmGetDocExt                                      = "Cannot get extension for document /p1 in ENOVIA V5 VPM Server.\nOperation ignored.";
+WRN_PSVpmGetDocExt.Generic                        = "Cannot get extension for document in ENOVIA V5 VPM Server.\nOperation ignored.";
+WRN_PSVpmGetDocExt.Detail 	  	    = " /p1";   
+
+                                  
+WRN_PSVpmGetFather		            = "Cannot get parent for object /p1 in ENOVIA V5 VPM Server.\nOperation ignored.";
+WRN_PSVpmGetFather.Generic 		    = "GetParent operation failed for some objects in ENOVIA V5 VPM server.\nOperation ignored.";
+WRN_PSVpmGetFather.Detail 	  	    = "/p1";   
+      
+WRN_PSVpmGetChildren		            = "Cannot get children for object /p1 in ENOVIA V5 VPM Server.\nOperation ignored.";
+WRN_PSVpmGetChildren.Generic 	            = "GetChildren operation failed for some objects in ENOVIA V5 VPM server. \nOperation ignored";
+WRN_PSVpmGetChildren.Detail 	  	           = "/p1";   
+      		            
+WRN_PSVpmRename		            = "Cannot rename object /p1 in ENOVIA V5 VPM Server.\nOperation ignored.";
+WRN_PSVpmRename.Generic 		= "Rename operation failed for some objects in the ENOVIA V5 VPM server.\nOperation ignored.";
+WRN_PSVpmRename.Detail 	  	    = "/p1";  
+// QAR added advice - IR 26111 
+WRN_PSVpmRename.Suggestion				= "Make sure that the object you are trying to update has 'Write' Mask permissions";
+      		            		              
+WRN_PSVpmRenameGreaterThan40	              = "Cannot rename object /p1. The name's length must be lower than 40 Characters. \nOperation ignored.";
+WRN_PSVpmRenameGreaterThan40.Generic	="Cannot rename some objects since the name length more (or equal to) than 40 Characters. \nOperation ignored.";
+WRN_PSVpmRenameGreaterThan40.Detail 	= "/p1";  	              
+WRN_PSVpmRenameGreaterThan40.Suggestion	="Please ensure that the name length is less than 40 characters.";	              
+
+WRN_PSVpmRenameGreaterThan  	              = "Cannot rename object /p1. The name's length must be lower than /p2 Characters. \nOperation ignored.";
+WRN_PSVpmRenameGreaterThan.Generic  	  = "Cannot rename some objects since their name length is more than the specified length.";
+WRN_PSVpmRenameGreaterThan.Detail 		= "Object : /p1 Specified length : /p2";  	
+WRN_PSVpmRenameGreaterThan.Suggestion	="Please ensure that the name length is lower than the specified value.";	
+
+WRN_PSVpmRenameReleasedObject        	        = "This operation is not allowed since one of the versions is already released.";
+WRN_PSVpmRenameReleasedObject.Generic          	= "This operation is not allowed since one of the versions is already released.";
+WRN_PSVpmRenameReleasedObject.Suggestion        = "Please change the status of the existing version and try the operation again..";
+
+WRN_PSVpmPutAttribute			        = "Cannot store attribute /p1 of /p2 in ENOVIA V5 VPM Server.\nOperation ignored.";
+WRN_PSVpmPutAttribute.Generic   		= "Cannot store some attributes for some objects in the ENOVIA V5 VPM server.\nOperation ignored.";
+WRN_PSVpmPutAttribute.Suggestion		= "AttributeName: /p1 ObjectName: /p2";
+
+WRN_PSVpmGetPRC				              = "Cannot get object root product in ENOVIA V5 VPM Server.\nOperation ignored.";
+WRN_PSVpmGetPRC.Generic   			      = "Cannot get object root product in ENOVIA V5 VPM Server.\nOperation ignored.";
+
+WRN_PSVpmGetPos				          = "Cannot get position matrix for object /p1 in ENOVIA V5 VPM Server.\nOperation ignored.";
+WRN_PSVpmGetPos.Generic   			  = "Cannot get position matrix for some objects in ENOVIA V5 VPM Server.\nOperation ignored.";
+WRN_PSVpmGetPos.Detail 				  = "/p1";  	      
+
+WRN_PSVpmConf			                = "No action associated to the /p1 configurable view in ENOVIA V5 VPM.\nSave impossible.";
+WRN_PSVpmConf			                = "No action associated to the object's configurable view in ENOVIA V5 VPM.";
+WRN_PSVpmConf.Detail 		            = "/p1";  	      			                
+
+WRN_EnoviaV5DocEnvUnavailable	        = "ENOVIA5 Document Environment is not Active.\nUse Tools/Options menu (General/Documents) to make it active";
+WRN_EnoviaV5DocEnvUnavailable.Generic   = "ENOVIA5 Document Environment is not Active.";
+WRN_EnoviaV5DocEnvUnavailable.Suggestion	= "Use Tools/Options menu (General/Documents) activate it.";
+
+WRN_AlreadyConnectedToVPMV4					= "Your existing CATIA session has been connected to VPM V4.\nOpen a new CATIA session to connect to ENOVIA V5 VPM Server.";
+WRN_AlreadyConnectedToVPMV4.Generic     			= "Your existing CATIA session has been connected to VPM V4.";
+WRN_AlreadyConnectedToVPMV4.Suggestion				= "Please open a new CATIA session to connect to ENOVIA V5 VPM Server.";
+
+
+WRN_EnoviaV5PlugInInitFailed		        	= "Cannot access to EnoviaPlugIn Library.\nPlease check your Installation.";
+WRN_EnoviaV5PlugInInitFailed.Generic   		        = "Cannot access to EnoviaPlugIn Library.";
+WRN_EnoviaV5PlugInInitFailed.Suggestion		        = "Please check your Installation.";
+
+WRN_EnoviaV5PlugInInitFailedNew		      = "Cannot access EnoviaPlugIn.";
+WRN_EnoviaV5PlugInInitFailedNew.Generic  	      = "Cannot access EnoviaPlugIn.";
+
+WRN_EnoviaV5PlugInStartServerFailed		    = "Cannot start ENOVIA V5 VPM Server.\nPlease set the CATIAV5_ENOVIAV5_ServerName variable.\nOrbix required on this Server.";
+WRN_EnoviaV5PlugInStartServerFailed.Generic   	    = "Cannot start ENOVIA V5 VPM Server.";
+WRN_EnoviaV5PlugInStartServerFailed.Suggestion	    = "Please set the CATIAV5_ENOVIAV5_ServerName variable.\nOrbix required on this Server.";
+
+WRN_PSVpmRefAlreadyExists			= "Create a new ENOVIA V5 VPM Reference /p1. This Reference already exists in ENOVIA V5 VPM. \nOperation ignored. Rename the Reference and try again.";
+WRN_PSVpmRefAlreadyExists.Generic		="Create new ENOVIA V5 VPM References for the impacted objects. These References already exist in ENOVIA V5 VPM.\nOperation ignored";
+WRN_PSVpmRefAlreadyExists.Detail 		= "/p1"; 			          
+WRN_PSVpmRefAlreadyExists.Suggestion		="Rename the Reference and try again";		          
+
+
+WRN_PSVpmGroupAlreadyExists	        = "Create a new ENOVIA V5 VPM Group /p1. This Group already exists in ENOVIA V5 VPM. \nOperation ignored. Rename the Group and try again.";
+WRN_PSVpmGroupAlreadyExists.Generic	        ="Create new ENOVIA V5 VPM Groups for the impacted objects, since these Groups already exist in ENOVIA V5 VPM.\nOperation ignored.";
+WRN_PSVpmGroupAlreadyExists.Detail 		= "/p1"; 		        
+WRN_PSVpmGroupAlreadyExists.Suggestion	="Please create new ENOVIA V5 VPM Reference with names ess than 40 characters length.";	        
+
+WRN_PSVpmRefNameGreaterThan40		        = "Create a new ENOVIA V5 VPM Reference /p1. The name's length must be lower than 40 Characters. \nOperation ignored. Rename the Reference and try again.";
+WRN_PSVpmRefNameGreaterThan40.Generic	        = "The References have names with more than 40 characters.\nOperation ignored.";
+WRN_PSVpmRefNameGreaterThan40.Detail 		= "/p1"; 
+WRN_PSVpmRefNameGreaterThan40.Suggestion	        = "Please create new ENOVIA V5 VPM Reference with names ess than 40 characters length..";
+
+WRN_PSVpmRefNameGreaterThan  		        = "Create a new ENOVIA V5 VPM Reference /p1. The name's length must be lower than /p2 Characters. \nOperation ignored. Rename the Reference and try again.";
+WRN_PSVpmRefNameGreaterThan.Generic	        = "There are ENOVIA V5 VPM References with name's length more than the specified length.\nOperation ignored.";
+WRN_PSVpmRefNameGreaterThan.Detail   		        = "new ENOVIA V5 VPM Reference Name: /p1  Specific name length: /p2";
+WRN_PSVpmRefNameGreaterThan.Suggestion         = "Rename the Reference and try again.";
+
+
+
+WRN_PSVpmSaveCnxStreamSubObjRefNotInDoc	       = " The object /p1 (or one of its instances) is implied in an exploded connexion. \nIt must be part of a document stored in ENOVIA V5 VPM.";
+WRN_PSVpmSaveCnxStreamSubObjRefNotInDoc.Generic 	       =  " The objects (or one of their instances) are implied in an exploded connexion.";
+WRN_PSVpmSaveCnxStreamSubObjRefNotInDoc.Detail 		= "/p1"; 	     
+WRN_PSVpmSaveCnxStreamSubObjRefNotInDoc.Suggestion  	       = " The objects must be part of a document stored in ENOVIA V5 VPM.";
+
+WRN_PSVpmCatInEnoviaAndFileCatMod		      = "The catalog /p1 used by the present design is a file-based one, modified since it has been stored in ENOVIA V5 VPM";
+WRN_PSVpmCatInEnoviaAndFileCatMod.Generic		      = "The catalogs used by the present design are file-based ones, modified since they have been stored in ENOVIA V5 VPM.";
+WRN_PSVpmCatInEnoviaAndFileCatMod.Detail      		= "Catalog Name: /p1";
+
+WRN_PSVpmFileCatUsedToBeSavedInEnovia	    = "Prior to save your present design referring to file-based catalog(s), your catalog administrator has to store this(these) catalog(s) in ENOVIA V5 VPM first.";
+WRN_PSVpmFileCatUsedToBeSavedInEnovia.Generic	    = "Prior to save your present design referring to file-based catalog(s), your catalog administrator has to store this(these) catalog(s) in ENOVIA V5 VPM first.";
+
+WRN_PSVpmFileCatUsedAndSeveralEnoCatsToRec  = "The file-based catalog /p1 used by the present design has several ENOVIA V5 VPM corresponding catalogs : incoherent data";
+WRN_PSVpmFileCatUsedAndSeveralEnoCatsToRec.Generic     = "These file-based catalogs used by the present design have several ENOVIA V5 VPM corresponding catalogs : incoherent data.";
+WRN_PSVpmFileCatUsedAndSeveralEnoCatsToRec.Detail   = "Catalog Name: /p1";
+
+WRN_PSVpmPartialLoadKO		          	= "Document correctly extracted from ENOVIA Vault, but cannot be read in CATIA. \nPlease, check the document integrity. The document is kept in: \n/p1";
+WRN_PSVpmPartialLoadKO.Generic		          = "Document correctly extracted from ENOVIA Vault, but cannot be read in CATIA";
+WRN_PSVpmPartialLoadKO.Detail 		          = "The document is kept in: \n/p1";
+WRN_PSVpmPartialLoadKO.Suggestion  		          = "Please, check the document integrity";
+
+WRN_PSVpmPartialLoadOK		         	= "Document correctly extracted from ENOVIA Vault. \nIt has been PARTIALLY read in CATIA. \nPlease, check the document integrity. The document is kept in: \n/p1";
+WRN_PSVpmPartialLoadOK.Generic		          = "Document correctly extracted from ENOVIA Vault. \nIt has been PARTIALLY read in CATIA.";
+WRN_PSVpmPartialLoadOK.Detail 		          = "The document is kept in: \n/p1";
+WRN_PSVpmPartialLoadOK.Suggestion  		          = "Please, check the document integrity.";
+
+WRN_PSVpmSaveAsDoc		            = "CATIA cannot generate stream data for document: /p1.\nCheck your environment and data.";
+WRN_PSVpmSaveAsDoc.Generic		            = "CATIA cannot generate stream data for these documents.";
+WRN_PSVpmSaveAsDoc.Detail 		           = "/p1"; 	   
+WRN_PSVpmSaveAsDoc.Suggestion  		            = "Check your environment and data.";
+
+WRN_PSVpmSaveInEV5NotStarted	            = "The Save to ENOVIA V5 VPM operation can not be started";
+WRN_PSVpmSaveInEV5NotStarted.Generic	            = " The Save to ENOVIA V5 VPM operation cannot be started";
+
+WRN_PSVpmSaveInEV5Partial		            	= "An error occured during save sequence. Save partially done.";
+WRN_PSVpmSaveInEV5Partial.Generic		            = "An error occured during save sequence. Save partially done.";
+
+ERR_PSVpmSaveInEV5Undo		            = "Save aborted: an error occured during the save sequence.";
+ERR_PSVpmSaveInEV5Undo.Generic		            = "Save aborted: an error occured during the save sequence.";
+
+WRN_PSVpmCommitInEV5Failed	            = "Save aborted: unable to commit data in the ENOVIA V5 VPM database.";
+WRN_PSVpmCommitInEV5Failed.Generic	            = "Save aborted: unable to commit data in the ENOVIA V5 VPM database.";
+
+WRN_PSVpmNoEditor		              = "No editor associated to document type: /p1\nTry to display it as a shape in a product context.";
+WRN_PSVpmNoEditor.Generic		              = "No editor associated to document of these types.";
+WRN_PSVpmNoEditor.Detail 		              = "/p1";
+WRN_PSVpmNoEditor.Suggestion  		              = "Try to display it as a shape in a product context..";
+
+WRN_PSVpmOldDocument		            = "Document /p1\nhas probably been extracted from database. To use a such document,\n please use the File/New From command.";
+WRN_PSVpmOldDocument.Generic		            = "These documents have probably been extracted from Database.";
+WRN_PSVpmOldDocument.Detail 		            = "/p1";
+WRN_PSVpmOldDocument.Suggestion  		            = "To use a such document,\n please use the File/New From command.";
+
+
+WRN_PSVpmExtensionError		          = "Cannot create in ENOVIA V5 VPM applicative extension /p1.\nCheck that database has correctly been installed.";
+WRN_PSVpmExtensionError.Generic		          = "Cannot create the mentioned applicative extensions in ENOVIA V5 VPM. ";
+WRN_PSVpmExtensionError.Detail 		          = "/p1";
+WRN_PSVpmExtensionError.Suggestion  		  = "Check that database has correctly been installed..";
+
+
+WRN_PSVpmSaveFailed		           	= "Failure when saving object /p1 in ENOVIA V5 VPM Data Base";
+WRN_PSVpmSaveFailed.Generic		           	 = "Failure when saving the objects in ENOVIA V5 VPM DataBase.";
+WRN_PSVpmSaveFailed.Detail 		           	 = "/p1";
+
+
+WRN_PSVpmStreamFailed		         	 = "Failure when streaming document /p1 in vault";
+WRN_PSVpmStreamFailed.Generic		          ="Failure when streaming documents in vault";
+WRN_PSVpmStreamFailed.Detail 		          = "/p1";
+WRN_PSVpmStreamFailed.Suggestion  		      = "Check Vault properties file name and path.";
+
+INF_PSVpmDocHBRenamed		         	= "Document /p1 already exists in ENOVIA V5 VPM Data Base.\n It has been automatically saved as /p2";
+INF_PSVpmDocHBRenamed.Generic		    = "Documents already exist in DataBase. Hence they have been renamed automatically and saved";
+INF_PSVpmDocHBRenamed.Detail 		    = "Document Name: /p1 Renamed as: /p2";
+
+
+INF_PSVpmDocHBTruncated		          	= "The name of document /p1 is more than 40 characters.\n It has been automatically saved as /p2";
+INF_PSVpmDocHBTruncated.Generic		    =  "The name of document is more than 40 characters.\n It has been automatically saved as with a rename";
+INF_PSVpmDocHBTruncated.Detail 		    = "Document Name: /p1, Specified length: /p2 characters, Renamed as:/p3";
+
+INF_PSVpmDocHBTruncatedTo		         	 = "The name of document /p1 is more than /p2 characters.\n It has been automatically saved as /p3";
+INF_PSVpmDocHBTruncatedTo.Generic		     = "The name of the document is more that the specified length. Hence it has been automatically saved with a rename.";
+INF_PSVpmDocHBTruncatedTo.Detail 		     = "/p1";
+
+INF_PSVpmInsNameTruncatedMessage            	=  "The instance name's length must be lower than 80 Characters.\n/p1 has been automatically truncated to follow ENOVIA V5 VPM requirements.";
+INF_PSVpmInsNameTruncatedMessage.Generic        =  "The instance name's length must be lower than 80 Characters. Hence the instance names have been truncated to ENOVIA V5 VPM requirements.";
+INF_PSVpmInsNameTruncatedMessage.Detail        	=  "/p1";
+INF_PSVpmInsNameTruncatedMessage.Suggestion   	="Please keep instance names lower that 80 characters.";
+
+WRN_PSVpmReplaceRefMessage                 		 = " Replace Reference operation on Instance /p1 has failed in ENOVIA V5 VPM.";
+WRN_PSVpmReplaceRefMessage.Generic                  ="Replace Reference has failed in ENOVIA V5 VPM for some instances.";
+WRN_PSVpmReplaceRefMessage.Detail                   =  "/p1";
+
+
+WRN_PSVpmNonLockedSkipped		 = "Entity /p1 is not saved in ENOVIA V5 VPM\nBecause this entity is not locked";
+WRN_PSVpmNonLockedSkipped.Generic	 	= "Entities not saved in ENOVIA V5 VPM since they are not locked.";
+WRN_PSVpmNonLockedSkipped.Detail 	 	= "/p1";
+
+WRN_PSVpmNonSavedSkipped			 = "Entity /p1 is not saved in ENOVIA V5 VPM";
+WRN_PSVpmNonSavedSkipped.Generic		 = "Entities not saved in ENOVIA V5 VPM.";
+//VPW:IR A0587479 - Entity Type added
+WRN_PSVpmNonSavedSkipped.Detail 		 = "Entities not saved: /p1 , Entity Type: /P2";
+
+WRN_PSVpmConnectedNonSavedSkipped		 = "Entity /p1 is not saved in ENOVIA V5 VPM\nBecause this entity is in relation with the modified entity /p2 that cannot be saved";
+WRN_PSVpmConnectedNonSavedSkipped.Generic	 = "Entity not saved in ENOVIA V5 VPM\nBecause they are in relation with some other modified entities that cannot be saved";
+//QAR : IR A0586095 - Entity Type added
+//WRN_PSVpmConnectedNonSavedSkipped.Detail 	 = "Entities not saved: /p1 , Modified entity: /p2";
+WRN_PSVpmConnectedNonSavedSkipped.Detail 	 = "Entities not saved: /p1 , Modified entity: /p2 , Entity Type: /p3";
+//QAR : IR A0587481
+WRN_PSVpmConnectedNonSavedSkipped.Suggestion = "Please check if the Modified Entities listed in the “Impacted Objects” field are savable (Locked,Right maturity status,...) or not.";
+
+
+WRN_PSVpmSaveDMUModeSkipped		 = "Entity /p1 is not saved in ENOVIA V5 VPM\nBecause View ProductStructure only option is swiched on";
+WRN_PSVpmSaveDMUModeSkipped.Generic	 = "Entities is not saved in ENOVIA V5 VPM\nBecause View ProductStructure only option is swiched on";
+WRN_PSVpmSaveDMUModeSkipped.Detail 	 	= "/p1";
+
+WRN_PSVpmDeleteDMUModeSkipped	 	= "In View ProductStructure only mode the delete of entities is not authorized, the deleted entities contained in /p1 will not be deleted ENOVIA V5 VPM ";
+WRN_PSVpmDeleteDMUModeSkipped.Generic	 = "In View ProductStructure only mode the delete of entities is not authorized, the deleted entities contained in specified objects will not be deleted ENOVIA V5 VPM ";
+WRN_PSVpmDeleteDMUModeSkipped.Detail 	 = "/p1";
+
+WRN_PSVpmConnectedNonSavedContinued	 = "Entity /p1 is saved in ENOVIA V5 VPM, although in relationship with the modified and not savable entity /p2";
+WRN_PSVpmConnectedNonSavedContinued.Generic  = "Entities saved in ENOVIA V5 VPM, although they are in relationship with the modified and not savable entities";
+//VPW:IR A0587479 - Entity Type added
+WRN_PSVpmConnectedNonSavedContinued.Detail     = "Entities saved: /p1 , Modified & not savable entity: /p2 , Entity Type: /p3";
+//QAR : IR A0587481
+WRN_PSVpmConnectedNonSavedContinued.Suggestion = "Please check if the Modified Entities listed in the “Impacted Objects” field are savable (Locked,Rigth maturity status,...) or not.";
+
+
+ERR_PSVpmFatalSave       		 	= "Fatal error when saving /p1 in ENOVIA V5 VPM.\n Please leave the ENOVIA V5 VPM session and close the CATIA documents without saving the data";
+ERR_PSVpmFatalSave.Generic       		 = "Fatal error when saving entities.";
+ERR_PSVpmFatalSave.Detail        		 ="/p1";
+ERR_PSVpmFatalSave.Suggestion         		 = "Please leave the ENOVIA V5 VPM session and close the CATIA documents without saving the data";
+
+WRN_PSVpmLastServerError    			 = "Message received while importing /p1 => /p2";
+WRN_PSVpmLastServerError.Generic     		= "Message received while importing entities.";
+WRN_PSVpmLastServerError.Detail      		= "/p1 => /p2";
+
+WRN_PSVpmUpdatePRCFailed	  		 = "Update PRC from reference in ENOVIA V5 VPM failed.";
+WRN_PSVpmUpdatePRCFailed.Generic	   	= "Update PRC from reference in ENOVIA V5 VPM failed.";
+
+ERR_UESaveStopSave			= "The user exit to customize the save process has stoped the save operation";
+ERR_UESaveStopSave.Generic 			= "The user exit to customize the save process has stoped the save operation";
+
+//ZPL for "BeforeCommit" API
+ERR_UESaveStopCommit			= "The user-exit BeforeCommit has failed! It will stop the Commit operation and perform a Rollback of the ENOVIA session.";
+ERR_UESaveStopCommit.Generic			= "The user-exit BeforeCommit has failed! It will stop the Commit operation and perform a Rollback of the ENOVIA session.";
+
+ERR_UESaveProcessControl 			= "/p1";
+ERR_UESaveProcessControl.Generic 		= "UE Save Process Control error.";
+ERR_UESaveProcessControl.Detail  		= "/p1";
+
+
+WRN_UESaveProcessControl			= "/p1";
+WRN_UESaveProcessControl.Generic 		= "UE Save Process Control error.";
+WRN_UESaveProcessControl.Detail  		= "/p1";
+
+
+INF_InformationCatalogExploded		 = "Some limitations exist when you save a catalog in the exploded mode.\n See the documentation (...).";
+INF_InformationCatalogExploded.Generic 	= "Some limitations exist when you save a catalog in the exploded mode.";
+INF_InformationCatalogExploded.Suggestion  	 = "See the documentation (...)";
+
+ERR_EFFileNeedToBeRenamed       		 = "A defined file is conflicting with a pre-existing ENOVIA V5 VPM document. \n Check or change file reference /p1 to get an accurate processing.";
+ERR_EFFileNeedToBeRenamed.Generic        	= "A defined file is conflicting with a pre-existing ENOVIA V5 VPM document.";
+ERR_EFFileNeedToBeRenamed.Detail        	= "File reference: /p1";
+ERR_EFFileNeedToBeRenamed.Suggestion        = "Check or change file reference to get an accurate processing.";
+
+
+ERR_EFInvalidDocumentName        		= "The ENOVIA V5 VPM document /p1 cannot be created, \n Check on ENOVIA V5 VPM server availability and the file naming rules.";
+ERR_EFInvalidDocumentName.Generic       		= "The ENOVIA V5 VPM documents cannot be created.";
+ERR_EFInvalidDocumentName.Detail         		= "/p1";
+ERR_EFInvalidDocumentName.Suggestion         	= "Check on ENOVIA V5 VPM server availability and the file naming rules.";
+
+
+ERR_EFInvalidDocumentRevision   		= "The ENOVIA V5 VPM document /p1, revision /p2 induced by a file connot be located in ENOVIA V5 VPM, \n Check on ENOVIA V5 VPM server availability and the file naming rules.";
+ERR_EFInvalidDocumentRevision.Generic    	= "The ENOVIA V5 VPM documents & revisions induced by a file cannot be located in ENOVIA V5 VPM.";
+ERR_EFInvalidDocumentRevision.Detail   		 = "Document: /p1 , Revision: /p2";
+ERR_EFInvalidDocumentRevision.Suggestion     	= "Check on ENOVIA V5 VPM server availability and the file naming rules.";
+
+
+ERR_EFInvalidDocumentTSProjection		= "Your document cannot be saved.\nThere is a mismatch between the local copy of ENOVIA V5 VPM document /p1, revision /p2 and the contents of the ENOVIA V5 VPM database.\nCheck to make sure that the file is compatible with the timestamp /p3.";
+ERR_EFInvalidDocumentTSProjection.Generic = "Your documents cannot be saved. There is a mismatch between the file-based ENOVIA V5 VPM document and the contents of the ENOVIA V5 VPM database.";
+ERR_EFInvalidDocumentTSProjection.Detail = "Document: /p1 , Revision: /p2 , Time:/p3";
+ERR_EFInvalidDocumentTSProjection.Suggestion = "Check that the file is compatible with the timestamp specified in the impacted objects.";
+
+ERR_EFInvalidDocTSorToBeRenamed 		 = "The ENOVIA V5 VPM document /p1 (.txt or .xls) has same name as a pre-existing ENOVIA V5 VPM document, \n rename it or the revision /p2 induced by a file is mismatching ENOVIA V5 VPM content, \n Check on a compatible file version having time /p3 ";
+ERR_EFInvalidDocTSorToBeRenamed.Generic	  = "The ENOVIA V5 VPM documents (.txt or .xls) have same name as a pre-existing ENOVIA V5 VPM document. Rename it, or the revision induced by a file is mismatching ENOVIA V5 VPM content. ";
+ERR_EFInvalidDocTSorToBeRenamed.Detail 	 = "Document name: /p1, Revision: /p2, Time: /p3 ";
+ERR_EFInvalidDocTSorToBeRenamed.Suggestion    	= "Check on a compatible file version having  specified time. ";
+
+
+ERR_EFInvalidDocumentProjection 		 = "An ENOVIA V5 VPM document has been already projected to file /p1. \n Another file /p2 cannot be used to refer to that document. \n Reuse provided file projection or change your definition accordingly.";
+ERR_EFInvalidDocumentProjection.Generic 	 = "ENOVIA V5 VPM documents have been already projected to specified files.\n Another file cannot be used to refer to that document.";
+ERR_EFInvalidDocumentProjection.Detail   	= "Document Name:/p1, FileName1: /p2, FileName2: /p2";
+ERR_EFInvalidDocumentProjection.Suggestion    	= "Reuse provided file projection or change your definition accordingly.";
+
+
+ERR_EFInvalidFileToDocument      		= "/p1 File cannot be attached to an ENOVIA V5 VPM document. \n The ENOVIA V5 VPM document /p2 is of expected type /p3.";
+ERR_EFInvalidFileToDocument.Generic      		= "Files cannot be attached to ENOVIA V5 VPM document. There is a type mismatch..";
+ERR_EFInvalidFileToDocument.Detail      		 = "File Name:/p1, Document Name: /p2, Expected Type:/p3";
+
+WRN_EFCannotSaveProjection      		= "File /p1 cannot be saved to the ENOVIA Vault. \n Check on ENOVIA V5 VPM server availability.";
+WRN_EFCannotSaveProjection.Generic       	= "Files cannot be saved to the ENOVIA vault.";
+WRN_EFCannotSaveProjection.Detail        		= "/p1";
+WRN_EFCannotSaveProjection.Suggestion       	= "Check on ENOVIA V5 VPM server availability.";
+
+WRN_EFOneAtATime                			= "Only one single file projection can be acheived at a time. Other demands are not processed and will need to be asked further.";
+WRN_EFOneAtATime.Generic                   		= "Only one single file projection can be acheived at a time. Other demands are not processed and will need to be asked further.";
+
+ERR_EFCannotOverloadProjection  		= "File located at /p1 is not (anymore) compatible with ENOVIA V5 VPM server version. \n Remove this file or use another file.";
+ERR_EFCannotOverloadProjection.Generic     	= "The files located at specifed locations are not (anymore) compatible with ENOVIA V5 VPM server.";
+ERR_EFCannotOverloadProjection.Detail  		= "File location: /p1";
+
+
+ERR_EFCannotAccessVault         		= "ENOVIA V5 VPM file document /p1 cannot be extracted from the ENOVIA Vault.";
+ERR_EFCannotAccessVault.Generic            		= "ENOVIA V5 VPM file documents cannot be extracted from the ENOVIA Vault.";
+ERR_EFCannotAccessVault.Detail          		= "/p1";
+
+ERR_EFCannotCopyFile           			 = "ENOVIA V5 VPM file document /p1 cannot be copied there. \n Check on Network availability and File System protection.";
+ERR_EFCannotCopyFile.Generic              		= " ENOVIA V5 VPM file documents cannot be copied there.";
+ERR_EFCannotCopyFile.Detail               		= "/p1";
+ERR_EFCannotCopyFile.Suggestion       		= "Check on Network availability and File System protection..";
+
+//ZPL IR-595821 should be ERR instead of WRN
+ERR_EFMissingFileDefinition     		= "A file definition was expected on a CATIA Object. \n Check on definition in using 'Edit Links'";
+ERR_EFMissingFileDefinition.Generic        		= "A file definition was expected on a CATIA Object.";
+ERR_EFMissingFileDefinition.Suggestion       	="Check on definition in using 'Edit Links";
+
+ERR_EFInvalidFileDefinition    			 = "A file definition cannot be processed. \n Missing File extension on /p1";
+ERR_EFInvalidFileDefinition.Generic        		= "A file definition cannot be processed.\n Missing File extensions on specified objects";
+ERR_EFInvalidFileDefinition.Detail     		 = "/p1";
+
+ERR_EFMissingFile              			= "A file definition cannot be accessed. \n Check on File System protections or change file location.";
+ERR_EFMissingFile.Generic                 		= "A file definition cannot be accessed.";
+ERR_EFMissingFile.Suggestion                		= "Check on File System protections or change file location.";
+
+ERR_STEditedControlFALSE        		= "/p1 definition is not currently marked as edited, but might be so. \n Check on Object Locking";   
+ERR_STEditedControlFALSE.Generic           		= "Object definition is not currently marked as edited, but might be so.";  
+ERR_STEditedControlFALSE.Detail        		= "/p1";  
+ERR_STEditedControlFALSE.Suggestion          	= "Check on Object Locking.";  
+
+ERR_STEditableControlFAIL       			= "/p1 definiton is not ENOVIA V5 VPM edit-able and therefore cannot be currently edited.\n Lock or object status or some other business rules forbid any edition of it";
+ERR_STEditableControlFAIL.Generic          		= "Object definition is not ENOVIA V5 VPM edit-able and therefore cannot be currently edited.\n Lock or object status or some other business rules forbid any edition of it";
+ERR_STEditableControlFAIL.Detail        		= "/p1";
+
+
+ERR_STReleasedControlFALSE      		= "/p1 definition is not currently an ENOVIA V5 VPM frozen item.\n check on status"; 
+ERR_STReleasedControlFALSE.Generic        	 = "Object definition is not currently an ENOVIA V5 VPM frozen item."; 
+ERR_STReleasedControlFALSE.Detail      		= "/p1"; 
+ERR_STReleasedControlFALSE.Suggestion       	 = "Check on status"; 
+
+ERR_STReleasableControlFAIL     		= "/p1 definition is not ENOVIA V5 VPM freeze-able item in that state.\n Check on object is not currently edited or considered as such by a lock for instance"; 
+ERR_STReleasableControlFAIL.Generic     = "Object definition is not ENOVIA V5 VPM freeze-able item in that state.";
+ERR_STReleasableControlFAIL.Detail     	= "/p1";
+ERR_STReleasableControlFAIL.Suggestion  = "Check on object is not currently edited or considered as such by a lock for instance";
+
+INF_ENOVIACommit         			= "Committing the Transaction in the Database";
+INF_ENOVIACommit.Generic            		= "Committing the Transaction in the Database";
+
+INF_ENOVIARollback              			= "Database recovery";
+INF_ENOVIARollback.Generic                	= "Database recovery";
+
+WRN_ENOVIACommitKO              		= "Database commit failed";
+WRN_ENOVIACommitKO.Generic                 	= "Database commit failed";
+
+WRN_ENOVIARollbackKO            		= "Database recovery canceled: reconnect to the ENOVIA V5 VPM server before you try to save again \nReason: unable to rollback data in the ENOVIA V5 VPM database.";		
+WRN_ENOVIARollbackKO.Generic              		= "Database recovery canceled: reconnect to the ENOVIA V5 VPM server before you try to save again \nReason: unable to rollback data in the ENOVIA V5 VPM database.";
+
+INF_ENOVIARollbackOK            			= "Database recovery succeeded.  You can save again.";
+INF_ENOVIARollbackOK.Generic               		= "Database recovery succeeded.  You can save again.";
+
+ERR_CATIARollbackKO             			= "Unable to restore CATIA session data.";
+ERR_CATIARollbackKO.Generic	                		= "Unable to restore CATIA session data.";
+
+INF_CATIARollbackOK             			= "CATIA session data restored successfully."; 
+INF_CATIARollbackOK.Generic                		= "CATIA session data restored successfully."; 
+
+
+INF_Save_Succeeded              			= "Save succeeded";
+INF_Save_Succeeded.Generic                		 = "Save succeeded";
+
+INF_Save_Failed                 			= "Save failed";
+INF_Save_Failed.Generic                    		= "Save failed";
+
+ERR_Save_Failed                 			= "An error occured during save sequence. Save aborted.";
+ERR_Save_Failed.Generic                    		= "An error occured during save sequence. Save aborted.";
+
+ERR_OpenFromVaultKO            			= "Cannot retrieve /p1 from the Vault. Contact your local administrator.\nVaultClient_PropertiesFilePath =/p2 \nVaultClient_PropertiesFileName =/p3";
+ERR_OpenFromVaultKO.Generic                		= "Cannot retrieve the object from the Vault.";
+ERR_OpenFromVaultKO.Detail              		= "Object Name : /p1, \n VaultClient_PropertiesFilePath: /p2, \nVaultClient_PropertiesFileName: /p3";
+ERR_OpenFromVaultKO.Suggestion              	= "Contact your local administrator.";
+
+// SDM/27-Jan-04
+// Error messages related to business rules checking (security, lifecycle, etc...)
+
+WRN_PSBRNoPrivelege			= "Operation not granted.\nYou are not granted permission to process /p1 on object /p2";
+WRN_PSBRNoPrivelege.Generic            	= "Operation not granted due to missing priviledges.";
+WRN_PSBRNoPrivelege.Detail              = "Process Name: /p1 Object Name: /p2";
+WRN_PSBRNoPrivelege.Suggestion          = "Check priviledges authorised to the current user.";
+
+WRN_PSBRNoPrivelegeUnk             		= "Operation not granted for object /p1";
+WRN_PSBRNoPrivelegeUnk.Generic			= "Operation not granted for object";
+WRN_PSBRNoPrivelegeUnk.Detail			= "Object Name: /p1";
+WRN_PSBRNoPrivelegeUnk.Suggestion		= "Check priviledges authorised to the current user.";
+
+WRN_PSBRNotLocked               		= "Operation not authorized! /p1 is not locked.";
+WRN_PSBRNotLocked.Generic                  	= "Operation not authorized as object is not locked.";
+WRN_PSBRNotLocked.Detail                	= "Object Name: /p1";
+WRN_PSBRNotLocked.Suggestion               = "Check for the Lock status.";
+
+WRN_PSBRLockedByAnother         	= "Operation not authorized! /p1 is locked by another user.";
+WRN_PSBRLockedByAnother.Generic            = "Operation not authorized as object is locked by another user.";
+WRN_PSBRLockedByAnother.Detail         	 = "Object Name: /p1";
+WRN_PSBRLockedByAnother.Suggestion          = "Check the lock owner on the selected object.";
+
+//ZPL for "Lock by User" HL
+WRN_PSBRLockedByAnotherUserHL         	= "Operation not authorized! /p1 is locked by another user: /p2.";
+WRN_PSBRLockedByAnotherUserHL.Generic            = "Operation not authorized as object is locked by another user.";
+WRN_PSBRLockedByAnotherUserHL.Detail         	 = "Object Name: /p1 Locked by: /p2";
+WRN_PSBRLockedByAnotherUserHL.Suggestion          = "Please Lock the object as current user.";
+
+WRN_PSBRStatusNoUpdate          	= "Operation not authorized! Current status of /p1 is not updateable.";
+WRN_PSBRStatusNoUpdate.Generic            = "Operation not authorized as the current status of object is not updateable.";
+WRN_PSBRStatusNoUpdate.Detail          	= "Object Name: /p1";
+WRN_PSBRStatusNoUpdate.Suggestion           = "Ensure the object is in correct state.";
+
+WRN_PSBRStatusReleased          		= "Operation not authorized! Object /p1 has reached a final status.";
+WRN_PSBRStatusReleased.Generic             = "Operation not authorized as the object has reached a final status.";
+WRN_PSBRStatusReleased.Detail           	= "Object Name: /p1";
+WRN_PSBRStatusReleased.Suggestion           = "Ensure the object is in correct state.";
+
+WRN_PSBRParentNotLocked        	 = "Operation not authorized! Parent of /p1 is not locked.";
+WRN_PSBRParentNotLocked.Generic            = "Operation not authorized as the parent of object is not locked.";
+WRN_PSBRParentNotLocked.Detail          	= "Object Name: /p1";
+WRN_PSBRParentNotLocked.Suggestion          = "Check the lock state of parent object.";
+
+WRN_PSBRParentLockedByAnother  	 	 ="Operation not authorized! Parent of /p1 is locked by another user.";
+WRN_PSBRParentLockedByAnother.Generic      	= "Operation not authorized as parent of object is locked by another user.";
+WRN_PSBRParentLockedByAnother.Detail  		= "Object Name: /p1";
+WRN_PSBRParentLockedByAnother.Suggestion    = "Check the lock ownership on the parent object.";
+
+WRN_PSBRParentStatusNoUpdate    	= "Operation not authorized! Parent of /p1 has status not updateable.";
+WRN_PSBRParentStatusNoUpdate.Generic       = "Operation not authorized as the parent of object is not updateable.";
+WRN_PSBRParentStatusNoUpdate.Detail			= "Object Name: /p1";
+WRN_PSBRParentStatusNoUpdate.Suggestion    = "Ensure the parent of object is in correct state.";
+
+WRN_PSBRParentStatusReleased    	= "Operation not authorized! Parent of /p1 has reached a final status.";
+WRN_PSBRParentStatusReleased.Generic       = "Operation not authorized as the parent of object has reached a final status.";
+WRN_PSBRParentStatusReleased.Detail     = "Object Name: /p1";
+WRN_PSBRParentStatusReleased.Suggestion     = "Ensure the parent of object is in correct state.";
+
+WRN_PSBRStatusNoDelete          		= "Operation not authorized! Current status of /p1 is not deleteable.";
+WRN_PSBRStatusNoDelete.Generic             = "Operation not authorized as the object status is not deleteable.";
+WRN_PSBRStatusNoDelete.Detail              = "Object Name: /p1";
+WRN_PSBRStatusNoDelete.Suggestion          = "Ensure the object is in correct state.";
+
+WRN_PSBRParentNotConfigured     		   = "Operation not authorized! Parent of /p1 is not configured.";
+WRN_PSBRParentNotConfigured.Generic        = "Operation not authorized as parent of object is not configured..";
+WRN_PSBRParentNotConfigured.Detail         = "Object Name: /p1";
+WRN_PSBRParentNotConfigured.Suggestion     = "Configure the parent to be able to perform the selected operation.";
+
+WRN_PSBRChildLockedByAnother		= "Operation not authorized! Children of object /p1 are not locked by the current user.";
+WRN_PSBRChildLockedByAnother.Generic   	= "Operation not authorized as children of object are not locked by the current user.";
+WRN_PSBRChildLockedByAnother.Detail 		= "Object Name: /p1";
+WRN_PSBRChildLockedByAnother.Suggestion	= "Check lock owner on children.";
+
+WRN_PSBRUnknownError            	= "Operation not authorized on /p1 and for unknown reason!";
+WRN_PSBRUnknownError.Generic               = "Operation not authorized on object for unknown reason!";
+WRN_PSBRUnknownError.Detail           	 = "Object Name: /p1";
+
+
+// SDM/16-Apr-04
+// Error messages related to DB errors
+
+ERR_DBInsertFailed              		= "DB error occured on inserting a row into table. \nIt may be due to a unicity constraint violated or a not-null column not valuated.";
+ERR_DBInsertFailed.Generic                 = "DB error occured on inserting a row into table. \nIt may be due to a unicity constraint violated or a not-null column not valuated.";
+
+//MUT 09 April 2004
+//Error and Warning messages related to the Technological Package
+
+ERR_TECHPACK_ClusterOwnerNotLoaded          		= "TechPack Context not in session. The TechPack Context must be loaded before the TechPack";
+ERR_TECHPACK_ClusterOwnerNotLoaded.Generic             	= " TechPack Context not in session.";
+ERR_TECHPACK_ClusterOwnerNotLoaded.Suggestion         	 = "The TechPack Context must be loaded before the TechPack.";
+
+ERR_TECHPACK_VaultAccessDenied              	= "Cannot access the vault.";
+ERR_TECHPACK_VaultAccessDenied.Generic                 = "Cannot access the vault.";
+
+ERR_TECHPACK_DatabaseCreationFailure        	= "Failure when creating the TechPack /p1 in the database.";
+ERR_TECHPACK_DatabaseCreationFailure.Generic           = "Failure when creating the TechPacks in the database..";
+ERR_TECHPACK_DatabaseCreationFailure.Detail         = "/p1";
+
+ERR_TECHPACK_DatabaseUpdateFailure         	 = "Failure when updating the TechPack /p1 in database.";
+ERR_TECHPACK_DatabaseUpdateFailure.Generic             = "Failure when updating the TechPacks in database.";
+ERR_TECHPACK_DatabaseUpdateFailure.Detail            = "/p1";
+
+ERR_TECHPACK_ClusterMandatoryAttribute      		= "Failure when checking the TechPack attribute /p1.";
+ERR_TECHPACK_ClusterMandatoryAttribute.Generic         = "Failure when checking the TechPack attributes.";
+ERR_TECHPACK_ClusterMandatoryAttribute.Detail       = "/p1";
+
+WRN_TECHPACK_ClusterAttributeWillBeTrunc   		 = "TechPack attribute /p1 ( /p2 )too long( /p3 ), attribute will be truncated. the max size is /p4";
+WRN_TECHPACK_ClusterAttributeWillBeTrunc.Generic       = "TechPack attribute will be truncated because it is too long";
+WRN_TECHPACK_ClusterAttributeWillBeTrunc.Detail     = "Attribute /p1 ( /p2 )too long( /p3 )";
+
+WRN_VERSINON_CREATION_FAILED   		= "Could not create new version because version date is not included in the current effectivity";
+WRN_VERSINON_CREATION_FAILED.Generic      = "Could not create new version because version date is not included in the current effectivity";
+
+WRN_NEW_VERSION_CREATION_FAILED	= "Only Parts whose effectivity is made of date or specifications can be versioned";
+WRN_NEW_VERSION_CREATION_FAILED.Generic    = "Only Parts whose effectivity is made of date or specifications can be versioned";
+
+//XPN 13 January 2005
+
+WRN_FailureToSetPersistency               		  = "You must set the Persistency of your Document by SetPDMProperties.";
+WRN_FailureToSetPersistency.Generic                    = "You must set the Persistency of your Document.";
+WRN_FailureToSetPersistency.Suggestion                 = "Please use  by SetPDMProperties to set the persistency.";
+
+WRN_DocNameUserExitFailed     	= "User Exit program to compute display name for document /p1 failed.";
+WRN_DocNameUserExitFailed.Generic        = "User Exit program to compute display name for documents failed.";
+WRN_DocNameUserExitFailed.Detail      = "/p1";
+
+
+//AVM - 24 Jan05
+
+WRN_Operation_Denied			= "Lock/Unlock operation denied! /p1";
+WRN_Operation_Denied.Generic   	= "Lock/Unlock operation denied on object";
+WRN_Operation_Denied.Detail 	= "/p1. Operation denied on object /p2";
+WRN_Operation_Denied.Suggestion	= "Check the priviledges granted to the current user";
+
+
+//TSN - 17 Mar05 - Highlight R16
+//QAR - IR 626303 - Message modified to make it clearer + BBX A0656796  to make it more generic!
+WRN_NEW_VERSION_OBJECT_MAPPING 		        = "Due to synchronization performed during versioning of object (/p1) under a configured Product Structure,\n newly created instances in EV5 may not be mapped in CV5 session.\n You may have to reload your session for further modifications.";
+WRN_NEW_VERSION_OBJECT_MAPPING.Generic    	= "Due to synchronization performed during versioning of object/s under a configured Product Structure,\n newly created instances in EV5 may not be mapped in CV5 session.";
+WRN_NEW_VERSION_OBJECT_MAPPING.Detail  	        = "Object Name: /p1";
+WRN_NEW_VERSION_OBJECT_MAPPING.Suggestion 	= "You may have to reload your session for further modifications";
+
+//TSN - 19 Jan06 - Highlight R17
+
+WRN_MOVE_REPLACE_OBJECT_MAPPING 		= "Due to configured Move performed during Save (on /p1),\n newly created instances in EV5 may not be mapped in CV5 session.\n You may have to reload your session for further modifications.";
+WRN_MOVE_REPLACE_OBJECT_MAPPING.Generic   	= "Due to configured Move performed during Save,\n newly created instances in EV5 may not be mapped in CV5 session.\n ";
+WRN_MOVE_REPLACE_OBJECT_MAPPING.Detail 	 = "Object Name: /p1";
+WRN_MOVE_REPLACE_OBJECT_MAPPING.Suggestion 	= "You may have to reload your session for further modifications.";
+
+
+//AVM IR 503864
+WRN_SYNCHRO_FAILED_DUE_TO_CA_NO_SUCH_PROCESS		= "Operation denied ! The user is not granted permission for this operation";
+WRN_SYNCHRO_FAILED_DUE_TO_CA_NO_SUCH_PROCESS.Generic = "Operation denied ! The user is not granted permission for this operation";
+//WRN_SYNCHRO_FAILED_DUE_TO_CA_NO_SUCH_PROCESS 	= "   ";?
+WRN_SYNCHRO_FAILED_DUE_TO_CA_NO_SUCH_PROCESS.Suggestion 	= "Check the priviledges granted to the current user";
+
+
+// CUO - 11 Oct 05: Error message related to DB errors
+
+ERR_DBErrObjNotUpToDate              	= "Database commit failed. \n Object is newer in database than in memory.";
+ERR_DBErrObjNotUpToDate.Generic         = "Database commit failed. \n Object is newer in database than in memory.";
+
+// CUO - 18 Oct05 - IR 512007 -- Add error message related to DB 
+
+ERR_DBErrObjIsLock            		 = "Database commit failed. \n Trying to modify a locked instance";
+ERR_DBErrObjIsLock.Generic           = "Database commit failed. \n Trying to modify a locked instance";
+
+//CUO-SDM - 06:01:16 - IR D0521730
+
+WRN_AbruptServerDownWhileSaving 		= "ENOVIA V5 VPM connection was lost! If this happened during Load or Save operation,\nsome involved entities might not be processed correctly.";
+WRN_AbruptServerDownWhileSaving.Generic    	= "ENOVIA V5 VPM connection was lost! If this happened during Load or Save operation,\nsome involved entities might not be processed correctly.";
+
+// CUO - 06:04:28 - IR 533975 -- Add error message related to New Version 
+
+ERR_NEW_VERSION_CREATION_FAILED_DBErrObjIsLock             	 = "Could not create new version. Trying to modify a locked instance";
+ERR_NEW_VERSION_CREATION_FAILED_DBErrObjIsLock.Generic                 = "Could not create new version. Trying to modify a locked instance";
+
+//ZUF starts for IR : 32915
+WRN_SYNCHRO_PB_DUE_TO_CHILD_INSTANCE_LOCKED_BY_ANOTHER_USER    = "Could not create new version for /p1. Problem while synchronizing instances locked by another User.";
+WRN_SYNCHRO_PB_DUE_TO_CHILD_INSTANCE_LOCKED_BY_ANOTHER_USER.Generic   = "Could not create new version for some objects. Problem while synchronizing instances locked by another User.";
+WRN_SYNCHRO_PB_DUE_TO_CHILD_INSTANCE_LOCKED_BY_ANOTHER_USER.Detail               = "/p1";
+WRN_SYNCHRO_PB_DUE_TO_CHILD_INSTANCE_LOCKED_BY_ANOTHER_USER.Suggestion = "Check lock status on instances for selected object and its children.";
+
+//ZUF ends for IR : 32915
+
+//NFO - 06:06:01 - IR 532315 -- Add error message related to TP
+ERR_SR_SemanticRelationDBExposureFailed             		 = "Semantic Relation (/p1) can not be saved in ENOVIA V5 VPM as it is in relation with an Entity which can not be saved in ENOVIA V5 VPM.";
+ERR_SR_SemanticRelationDBExposureFailed.Generic              = " Semantic Relation can not be saved in ENOVIA V5 VPM as it is in relation with an Entity which can not be saved in ENOVIA V5 VPM.";
+ERR_SR_SemanticRelationDBExposureFailed.Detail               = "/p1";
+
+ERR_SR_SemanticRelationDescriptionFailed              	= "Could not describe Semantic Relation exported by (/p1).";
+ERR_SR_SemanticRelationDescriptionFailed.Generic        = "Could not describe Semantic Relation exported by the specified objects.";
+ERR_SR_SemanticRelationDescriptionFailed.Detail         = "/p1";
+
+
+WRN_PSVpmEV5ReleaseServerLevel            		= "ENOVIA V5 VPM Server release level must be at least R17SP4 in order to handle PVR documents.";
+WRN_PSVpmEV5ReleaseServerLevel.Generic          = "ENOVIA V5 VPM Server release level must be at least R17SP4 in order to handle PVR documents.";
+
+
+//RID 06:11:09 IR IRB0558237 -- Add error message to forbid save of extensionless files to LCA
+
+WRN_PSVpmDocNoExtension                   		= "Cannot save document /p1 in ENOVIA V5 VPM.\nSave of documents without extension is forbidden.";
+WRN_PSVpmDocNoExtension.Generic                  = "Cannot save document in ENOVIA V5 VPM.\nSave of documents without extension is forbidden.";
+WRN_PSVpmDocNoExtension.Detail                    	= "/p1";
+WRN_PSVpmDocNoExtension.Suggestion                        = "Please check for the extension.";
+
+// PPN : missing key !
+WRN_GetListOfTimeStamp = "Error on ENOVIA V5 VPM server while getting TimeStamps on exposed entities";
+WRN_GetListOfTimeStamp.Generic = "Error on ENOVIA V5 VPM server while getting TimeStamps on exposed entities";
+
+// PPN Highlight R18 Refresh Document In Session
+WRN_PSVpmRefreshFailed         = "An error occured while refreshing the doc /p1 in Session !";
+WRN_PSVpmRefreshFailed.Generic = "An error occured while refreshing the doc /p1 in Session !";
+
+// CUO Highlight R18 Open PV 
+WRN_PSVpmImportPVFailed			= "Cannot open document /p1 in CATIA.";
+WRN_PSVpmImportPVFailed.Generic	= "Cannot open document /p1 in CATIA.";
+
+// XPN +: Development ForceRerouting 
+ERR_VPMForceRerouteEV5SendTo.GenError = "Failed to perform Reroute Links operation after extraction.";
+ERR_VPMForceRerouteEV5SendTo.SpecErr1 = "Failed to reroute links from /p1 to any pointed documents.";
+ERR_VPMForceRerouteEV5SendTo.SpecErr2 = "A problem occured during search operation for /p1 pointed documents.";
+ERR_VPMForceRerouteEV5SendTo.SpecErr3 = "A link from /p1 to a pointed document has not been rerouted.";
+ERR_VPMForceRerouteEV5SendTo.SpecErr4 = "An error occured during FileBase identification of /p1.\nLink from /p1 to /p2 will not be rerouted.";
+ERR_VPMForceRerouteEV5SendTo.SpecErr5 = "Failed to reroute the link between /p1 and /p2.";
+ERR_VPMForceRerouteEV5SendTo.SpecErr6 = "Failed to save rerouted links on /p1.";
+ERR_VPMForceRerouteEV5SendTo.DocNameForbiddenChar= "/p1 contains a forbidden character and cannot be extracted!";
+// XPN -
+
+WRN_OpenSeveralExtensionKO = "Requested document is already opened as /p1. So it can not be opened as /p2 in CATIA.\n";
+
+WRN_DirtyDocAlreadyInSessionAtOpen =  "/p1 was already loaded and modified in current session.\nThe document already loaded will be edited." ;
+WRN_DocIsInSessionNewTSNotOpened = "/p1 was already loaded in current session.\nThe document already loaded will be edited." ;
+
+//SK4+IR-036289V5R20 - Handling DOC in session
+WRN_InsertExisting_AlreadyInSession = "The object /p1 you are trying to insert, already existed in CATIA V5 session; hence the same has been inserted. You may not benefit of any last changes in the database.";
+WRN_InsertExisting_AlreadyInSession.Generic = "The object you are trying to insert, already existed in CATIA V5 session; hence the same has been inserted. You may not benefit of any last changes in the database.";
+WRN_InsertExisting_AlreadyInSession.Detail = "Entity Name : /p1.";
+WRN_InsertExisting_AlreadyInSession.Suggestion = "Check if object has been concurrently modified in database and use Refresh Document In Session functionality to get latest modifications.";
+
+// BZQ - 07.11.22 - IR 599253 -- onPrepareSave UE made the commit failed on server-side 
+ERR_UEonPrepareSaveErr = "Database commit failed. \nAn error occured while runing the onPrepareSave User Exit (CATIVpmLongTransaction).";
+ERR_UEonPrepareSaveErr.Generic = "Database commit failed. \nAn error occured while runing the onPrepareSave User Exit (CATIVpmLongTransaction).";
+
+// CUO - 21 Nov 2007 - HL Memory management warning at open
+ERR_LowMemoryDetectedAtOpen = "Load operation is aborted because the memory limitation is exceeded.";
+ERR_LowMemoryDetectedAtOpen.Generic = "Load operation is aborted because the memory limitation is exceeded.";
+ERR_LowMemoryDetectedAtOpen.Suggestion = "Close other applications, switch to visualization mode, then open parts and subassemblies again";
+ 
+// CUO - 21 Nov 2007 - HL Memory management warning at save
+ERR_LowMemoryDetected = "Save in ENOVIA V5 VPM is aborted: Low Memory has been detected.";
+ERR_LowMemoryDetected.Generic = "Save in ENOVIA V5 VPM is aborted: Low Memory has been detected.";
+ERR_LowMemoryDetected.Suggestion = "Close other applications, switch to visualization mode, then save parts and subassemblies in ENOVIA V5 VPM bit by bit ";
+
+// BZQ - 08.03.18 - IR 618594
+WRN_PSVpmRegisterLink = "/p2 link(s) of document /p1 has(ve) not been exposed in ENOVIA V5 VPM data base.";
+WRN_PSVpmRegisterLink.Generic = "At least one link hasn't been exposed in ENOVIA V5 VPM data base.";
+WRN_PSVpmRegisterLink.Detail = "/p2 link(s) of document /p1 has(ve) not been exposed in ENOVIA V5 VPM data base.";
+
+// VVD - May 08,2008 - IR A0619899
+WRN_PSVpmNoFileExtension            	= "Document /p1 cannot be associated to an unrecognised file format.\nThis file will not be openable.";
+WRN_PSVpmNoFileExtension.Generic		= "Documents cannot be associated to files without extensions or unrecognised file formats. Such files cannot be opened.";
+WRN_PSVpmNoFileExtension.Detail 		= "Document Name: /p1";
+WRN_PSVpmNoFileExtension.Suggestion		= "Please browse for files with known file extensions.";
+
+//VPW IR 625558
+WRN_PSVpmAssociateDocToPV	        = "Cannot associate document to object /p1 in ENOVIA V5 VPM Server.\nBecause either Reference is not locked or locked by other user.";
+WRN_PSVpmAssociateDocToPV.Generic	="Cannot associate documents to Reference in ENOVIA V5 VPM server.\nBecause either Reference is not locked or locked by other user.";
+WRN_PSVpmAssociateDocToPV.Detail 	= "/p2:/p1"; 
+
+
+// <<VVD 02/03/2009>> IR 655703 - These NLS tags were removed by mistake during a file comparision. Readding these tags wrt to this IR opened
+
+//QAR - LaodChildren Instances HL - 01Sept08
+WRN_RetrieveChildrenPartialFailure            	= "Insert child under parent operation failed for some objects.";
+WRN_RetrieveChildrenPartialFailure.Generic		= "Insert child under parent operation failed for some objects.";
+WRN_RetrieveChildrenPartialFailure.Detail 		= "Entity Name: /p1";
+
+//QAR - LaodChildren Instances HL - 01Sept08
+ERR_RetrieveChildrenFailure            	= "Insert child under parent operation failed.";
+ERR_RetrieveChildrenFailure.Generic		= "Insert child under parent operation failed.";
+ERR_RetrieveChildrenFailure.Detail 		= "Insert child under parent operation failed.";
+
+//QAR - IR A0639593
+ERR_LOCK_FAILED.Title	= "Operation Failed";	
+ERR_LOCK_FAILED	= "Lock/Unlock operation failed.";
+
+// <<VVD 02/03/2009>> IR 655703 ENDS
+
+//QAR - Partial Save Messages HL
+INF_PartialSaveInfo_Doc				= "Partial Save Information : Documents are successfully Saved in ENOVIA V5 VPM";
+INF_PartialSaveInfo_Doc.Generic		= "Partial Save Information : Documents are successfully Saved in ENOVIA V5 VPM";
+INF_PartialSaveInfo_Doc.Detail		= "/p1";
+INF_PartialSaveInfo_Doc.Suggestion  = "Partial Save Information";
+
+INF_PartialSaveInfo_Inst			 = "Partial Save Information : Part Instances are successfully Saved in ENOVIA V5 VPM";
+INF_PartialSaveInfo_Inst.Generic	 = "Partial Save Information : Part Instances are successfully Saved in ENOVIA V5 VPM";
+INF_PartialSaveInfo_Inst.Detail		 = "/p1";
+INF_PartialSaveInfo_Inst.Suggestion	 = "Partial Save Information";
+
+INF_PartialSaveInfo_Ref			     = "Partial Save Information : Part References are successfully Saved in ENOVIA V5 VPM";
+INF_PartialSaveInfo_Ref.Generic		 = "Partial Save Information : Part References are successfully Saved in ENOVIA V5 VPM";
+INF_PartialSaveInfo_Ref.Detail		 = "/p1";
+INF_PartialSaveInfo_Ref.Suggestion	 = "Partial Save Information";
+
+//QAR - IR 666930
+ERR_NO_SELECTED_ACTION				  = "No Action is selected. Saving without an Action is not authorized.Select an Action and then try saving again or contact the administrator for authorization.";
+ERR_NO_SELECTED_ACTION.Generic		  = "No Action is selected. Saving without an Action is not authorized.Select an Action and then try saving again or contact the administrator for authorization.";
+ERR_NO_SELECTED_ACTION.Suggestion	  = "Select an Action and then try saving again or contact the administrator for authorization.";
+
+//QAR - IR 646373
+WRN_InsertExisting_Compo			     = "Save operation may not succeed if the component you are trying to instanciate \nunder the current PRC has already been instantiated under a different PRC";
+WRN_InsertExisting_Compo.Generic		 = "Save operation may not succeed if the component you are trying to instanciate \nunder the current PRC has already been instantiated under a different PRC";
+WRN_InsertExisting_Compo.Detail		 = "/p1";
+WRN_InsertExisting_Compo.Suggestion	 = "Make sure that the inserted component is not already instantiated directly under any other PRC";
+
+// VPW IR 602437
+WRN_PSVpmReplaceRefCfgMessage                 		 = " Replace Reference operation on Instance /p1 has failed in ENOVIA V5 VPM.";
+WRN_PSVpmReplaceRefCfgMessage.Generic                  ="Replace Reference has failed in ENOVIA V5 VPM for some instances because of configuration problem.";
+WRN_PSVpmReplaceRefCfgMessage.Detail                   =  "/p1";
+WRN_PSVpmReplaceRefCfgMessage.Suggestion               =  "Please check the configurable status of Reference and Its Parent";
+
+//VVD IR 015896
+WRN_PSVpmAttachToPVDenied	        = "Cannot associate document /p2 to object /p1 in ENOVIA V5 VPM Server.\nBecause PV /p1 has reached its Final State.";
+WRN_PSVpmAttachToPVDenied.Generic	= "Cannot associate documents having secondary role to Part Version in ENOVIA V5 VPM server.\nBecause the Part Version has reached its Final State.";
+WRN_PSVpmAttachToPVDenied.Detail 	= "Document trying to be Associated with the PV is /p2 ;\nPart Version which has reached its final State = /p1";
+
+//QAR - IR 26111
+WRN_AMFailedDueToMask			 = "Attributes Mapping operation failed due to missing previleges for the current user";
+WRN_AMFailedDueToMask.Generic	 = "Attributes Mapping operation failed for some attributes on the objects \nlisted below.";
+WRN_AMFailedDueToMask.Detail	 = "/p1";
+WRN_AMFailedDueToMask.Suggestion = "Make sure that the current user has the 'Write' Mask permissions";
+
+//QAR - Progress bar IR
+INF_DocStreaming				= "Doc Streaming in Progress...";
+INF_DocStreaming.Generic		= "Doc Streaming in Progress...";
+
+INF_BeforeSave					= "Preparing for Save...";
+INF_BeforeSave.Generic			= "Preparing for Save...";
+
+INF_DriverSave					= "Save in Progress...";
+INF_DriverSave.Generic			= "Save in Progress...";
+
+
+//VVD - IR031620
+WRN_InsertExisting_StrctExp			     = "Cannot Insert a structure exposed PV under a publication exposed PV.";
+WRN_InsertExisting_StrctExp.Generic		 = "It is not allowed to insert a product with a Structure Exposed persistency mode under a target with a Publication Exposed persistency mode.";
+WRN_InsertExisting_StrctExp.Detail		 = "/p1";
+WRN_InsertExisting_StrctExp.Suggestion	 = "Structure Exposed PV cannot be instanciated under a Publication exposed PV.\nCheck the persistency of the PV selected for Insert Existing... option";
+
+WRN_NoEV5Connection = "No connection to ENOVIAV5.";
+WRN_NoEV5Connection.Generic = "No connection to ENOVIAV5.";
+WRN_NoEV5Connection.Suggestion = "Reconnect to ENOVIA before retrying the operation";

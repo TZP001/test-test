@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="windows-1252"?>
+
+<!ELEMENT ReferencePlanesSystem (FileVersion,PlaneType+,GeometricData)>
+<!ELEMENT FileVersion EMPTY>
+<!ATTLIST FileVersion
+     VersionNumber  CDATA    #REQUIRED     
+>
+<!ELEMENT PlaneType EMPTY>
+
+<!ELEMENT GeometricData (PlaneSystem+)> 
+
+<!ELEMENT PlaneSystem (Origin,Direction,Definition)> 
+
+<!ELEMENT Origin EMPTY>
+
+<!ELEMENT Direction EMPTY> 
+
+<!ELEMENT Definition (Plane+)>
+
+<!ELEMENT Plane EMPTY>
+
+<!ATTLIST GeometricData
+     LengthUnit  CDATA    #REQUIRED     
+>
+
+<!ATTLIST PlaneSystem
+     Name  CDATA    #REQUIRED     
+>
+
+<!ATTLIST Origin
+     X CDATA    #REQUIRED
+	 Y CDATA    #REQUIRED
+	 Z CDATA    #REQUIRED
+>
+
+<!ATTLIST Direction
+     X   CDATA    #REQUIRED
+	 Y   CDATA    #REQUIRED
+	 Z   CDATA    #REQUIRED
+>
+
+<!ATTLIST Plane
+     Name     CDATA    #REQUIRED
+	 Type     CDATA    #REQUIRED
+	 Offset   CDATA    #REQUIRED
+	 ShortName   CDATA    #REQUIRED
+	 Category   CDATA    #IMPLIED
+>
+<!ATTLIST PlaneType
+    Name   CDATA    #REQUIRED
+    Red  CDATA    #REQUIRED  
+    Green  CDATA    #REQUIRED 
+    Blue   CDATA    #REQUIRED  
+    Thk    CDATA    #REQUIRED
+
+>
+

@@ -1,0 +1,289 @@
+#========================================================================================================================
+#========================================================================================================================
+#==========   Debut du Dictionnaire 
+#========================================================================================================================
+#========================================================================================================================
+#
+# Les adhesions du Standard de Valuation
+#===================================================================
+
+# Les adhesions du Container
+#===================================================================
+CATBfmCont              CATInit                   libCATBfmFactory
+CATBfmCont_DMU_EnoviaV5 CATInit                   libCATBfmFactory
+CATBfmCont              CATICutAndPastable        libCATBfmBase
+
+BfmDMUENOVIA_Feat		CATIConnector				libCATBfmFactory
+BfmDMUENOVIA_Feat		CATIEnoviaV5Driver			libCATBfmFactory
+BfmDMUENOVIA_Feat		CATIEnoviaV5Driver1			libCATBfmFactory
+BfmDMUENOVIA_Feat		CATIBfmDMUEnoviaFeature		libCATBfmFactory
+
+CATGBFEnoviaV5Adapter	      CATIEnoviaV5Adapter			libCATBfmFactory
+
+CATBfmParmPublisherProvider	CATIParmProvider		   	libCATBfmExposedView
+
+
+# Les adhesions de la Factory
+#==================================================================
+CATProduct              CATIBfmFactory            libCATBfmFactory
+
+# Les adhesions du Gestionnaire BfmMngr
+#===================================================================
+BfmMngr_Rep             CATIVisProperties         libCATBfmBase
+BfmMngr_Rep             CATIModelEvents           libCATBfmBase
+BfmMngr_Rep         	   CATIAlias    	          libCATBfmBase
+BfmMngr_Rep             CATIProperty              libCATBfmBase
+BfmMngr_Rep             CATIInstance              libCATBfmExposedView
+BfmMngr_Rep             CATIBuildPath             libCATBfmBase 
+BfmMngr_Rep             CATIPathAccess            libCATBfmBase 
+BfmMngr 	        	      CATIBfmMngr 	          libCATBfmBase
+BfmMngr                 LifeCycleObject           libCATBfmBase
+BfmMngr                 CATIProperty              libCATBfmBase
+BfmMngr                 CATINavigateObject        libCATBfmBase
+CATBfmMngrNavProvider   CATINavigateProvider      libCATBfmBase
+BfmMngr                 CATIBfmKnowledge          libCATBfmBase
+BfmMngr                 CATIBfmKnowledgeRuntime   libCATBfmBase
+BfmMngr                 CATIBfmStructural         libCATBfmBase
+BfmMngr                 CATIInstance              libCATBfmExposedView
+BfmMngr_FixMultiExtension                 CATIOsmFixMultiExtension	libCATClnGBF
+BfmMngr		            CATICheckObject           libCATClnGBF
+BfmMngr		            CATICleanObject           libCATClnGBF
+
+
+# Les adhesions du RuleSet
+#===================================================================
+BfmRuleSet              CATINavigateObject        libCATBfmBase
+BfmRuleSet		         CATICheckObject           libCATClnGBF
+BfmRuleSet		         CATICleanObject           libCATClnGBF
+BfmRule                 CATIParmPublisher         libCATBfmBase
+BfmRule                 CATIAlias                 libCATBfmBase
+BfmRule                 CATINavigateObject        libCATBfmBase
+BfmRule                 CATIMechanicalProperties  libCATBfmBase
+
+# Les adhesions du Standard de Valuation
+#===================================================================
+BfmStdSettings          CATIBfmStdSettings        libCATBfmBase
+BfmStdSettings          CATIParmPublisher         libCATBfmBase
+BfmStdSettings          CATIAlias                 libCATBfmBase
+BfmStdSettings          CATIBfmStructural         libCATBfmBase
+
+
+# Les adhesions de la liaison Carrosserie
+#===================================================================
+BfmJoint_Rep            CATIVisProperties         libCATBfmBase
+BfmJoint_Rep            CATIProperty              libCATBfmBase
+BfmJoint_Rep            CATIModelEvents           libCATBfmBase
+BfmJoint_Rep            CATIInstance              libCATBfmExposedView    
+BfmJoint_Rep            CATIRootProperties        libCATBfmBase
+BfmJoint_Rep            CATIAlias                 libCATBfmBase
+BfmJoint                CATIProperty              libCATBfmBase
+BfmJoint                CATIAsmUpdateBehaviour    libCATBfmBase
+BfmJoint                CATINavigateObject        libCATBfmJoints
+BfmJoint   	            CATIBfmJoint              libCATBfmJoints
+BfmJoint                LifeCycleObject           libCATBfmBase
+BfmJoint                CATIInstance              libCATBfmExposedView 
+BfmJoint                CATIBfmStructural         libCATBfmJoints
+BfmJoint_Rep            CATIBuildPath             libCATBfmJoints 
+BfmJoint_Rep            CATIPathAccess            libCATBfmJoints 
+BfmJoint                CATIIsolate               libCATBfmJoints
+BfmJoint                CATIParmPublisher         libCATBfmExposedView
+BfmJoint_Rep            CATIParmPublisher         libCATBfmExposedView 
+
+# Les adhesions du Corps de liaison Carrosserie
+#===================================================================
+BfmJointBody_Rep        CATIVisProperties         libCATBfmBase
+BfmJointBody_Rep        CATIProperty              libCATBfmBase
+BfmJointBody_Rep        CATIModelEvents           libCATBfmBase
+BfmJointBody_Rep        CATIInstance              libCATBfmExposedView  
+BfmJointBody_Rep        CATIRootProperties        libCATBfmBase
+BfmJointBody_Rep        CATIAlias                 libCATBfmBase
+BfmJointBody            CATIProperty              libCATBfmBase
+BfmJointBody            CATIAsmUpdateBehaviour    libCATBfmBase
+BfmJointBody            CATINavigateObject        libCATBfmJoints
+BfmJointBody            CATIBfmJointBody          libCATBfmJoints
+BfmJointBody            LifeCycleObject           libCATBfmBase
+BfmJointBody            CATIInstance              libCATBfmExposedView    
+BfmJointBody  	         CATIUpdateError           libCATBfmUtilities
+BfmJointBody            CATIBfmStructural         libCATBfmJoints
+BfmJointBody_Rep        CATIBuildPath             libCATBfmJoints 
+BfmJointBody_Rep        CATIPathAccess            libCATBfmJoints 
+BfmJointBody            CATIIsolate               libCATBfmJoints
+BfmJointBody            CATIAsdJointEvtListener   libCATBfmJoints
+BfmJointBody            CATIParmPublisher         libCATBfmExposedView
+BfmJointBody_Rep        CATIParmPublisher         libCATBfmExposedView 
+
+
+# Les adhesions du Type d'Assemblage
+#==================================================================
+BfmAsmType 		        CATIBfmAsmType            libCATBfmJoints
+BfmAsmType		        CATIBuild                 libCATBfmJoints
+BfmAsmType		        CATICheckObject           libCATClnGBF
+BfmAsmType		        CATICleanObject           libCATClnGBF
+
+# Les adhesions de l'Element de liaison Carrosserie
+#==================================================================
+BfmJointElement         CATINavigateObject        libCATBfmJointElement
+BfmJointElement 		CATIBfmJointElement       libCATBfmJointElement
+BfmJointElement 		CATIBuild                 libCATBfmJointElement
+BfmJointElement 		CATIUpdateError           libCATBfmUtilities
+BfmJointElement         CATIModelEvents           libCATBfmJointElement
+BfmJointElement         CATIVisProperties         libCATBfmJointElement
+BfmJointElement         CATIMechanicalProperties  libCATBfmJointElement
+BfmJointElement         CATIAsdTechnoElmt         libCATBfmJointElement
+BfmJointElement         CATIAsdEditability        libCATBfmJointElement
+BfmJointElement         CATIAsmUpdateBehaviour    libCATBfmBase
+BfmJointElement         CATISPPItem               libCATBfmJointElement  
+PcsType_BfmJointElement CATINavigateItem          libCATBfmJointElement
+BfmJointElement         CATIBfmStructural         libCATBfmJointElement  
+BfmJointElement         CATIAlias                 libCATBfmJointElement
+BfmJointElement         CATIAsdJointEvtListener   libCATBfmJointElement
+
+# Les adhesions de l'Element de liaison Carrosserie de type Spot
+#==================================================================
+BfmSpot					CATIBfmSpot		          libCATBfmSpot
+BfmSpot                 CATIIsolate               libCATBfmSpot
+BfmSpot                 CATIDftGenRequest         libCATBfmSpot
+BfmSpot                 CATIDftGenParamAccess     libCATBfmSpot
+BfmSpot                 CATPoint                  libCATBfmSpot  
+BfmSpot                 CATITTRSGeometry          libCATBfmSpot 
+BfmSpot                 CATITTRSGeometryUpdate    libCATBfmSpot       
+BfmSpot                 CATIDftExtractInfoForTPS  libCATBfmSpot
+BfmSpot                 CATIBfmShape              libCATBfmSpot
+
+# Les adhesions de l'Element de liaison Carrosserie de type SpotPoint
+#==================================================================
+BfmSpotPoint_Rep        CATIVisProperties         libCATBfmBase
+BfmSpotPoint_Rep        CATIMechanicalProperties  libCATBfmJointElement
+BfmSpotPoint_Rep        CATIRootProperties        libCATBfmJointElement
+BfmSpotPoint_Rep        CATIProperty              libCATBfmBase
+BfmSpotPoint_Rep        CATIModelEvents           libCATBfmBase
+BfmSpotPoint_Rep        CATIAlias                 libCATBfmBase
+BfmSpotPoint_Rep        CATIInstance              libCATBfmExposedView  
+BfmSpotPoint_Rep        CATI3DGeoVisu             libCATBfmSpot  
+BfmSpotPoint_Rep        CATIBuildPath             libCATBfmJointElement  
+BfmSpotPoint_Rep        CATIPathAccess            libCATBfmJointElement  
+BfmSpotPoint_Rep        CATITTRSGeometry          libCATBfmJointElement 
+BfmSpotPoint_Rep        CATITTRSGeometryUpdate    libCATBfmJointElement
+BfmSpotPoint_Rep        CATI3DCompassSnap         libCATBfmJointElement 
+BfmSpotPoint            CATIBfmSpotPoint          libCATBfmSpot
+BfmSpotPoint            CATIInstance              libCATBfmExposedView    
+BfmSpotPoint            CATIBuild   			     libCATBfmSpot
+BfmSpotPoint            CATICkeFeature   	  libCATBfmExposedView
+BfmSpotPoint_Rep        CATICkeFeature            libCATBfmExposedView 
+BfmSpotPoint            CATIParmPublisher         libCATBfmExposedView
+BfmSpotPoint_Rep        CATIParmPublisher         libCATBfmExposedView 
+BfmSpotPoint            CATICheckObject           libCATClnGBF
+BfmSpotPoint            CATICleanObject           libCATClnGBF
+
+# Les adhesions de l'Element de liaison Carrosserie de type SpotProjection
+#==================================================================
+BfmSpotProjection_Rep        CATIVisProperties          libCATBfmBase
+BfmSpotProjection_Rep        CATIMechanicalProperties   libCATBfmJointElement
+BfmSpotProjection_Rep        CATIRootProperties         libCATBfmJointElement
+BfmSpotProjection_Rep        CATIProperty               libCATBfmBase
+BfmSpotProjection_Rep        CATIModelEvents            libCATBfmBase
+BfmSpotProjection_Rep        CATIAlias                  libCATBfmBase
+BfmSpotProjection_Rep        CATIInstance               libCATBfmExposedView 
+BfmSpotProjection_Rep        CATI3DGeoVisu              libCATBfmSpot
+BfmSpotProjection_Rep        CATIBuildPath              libCATBfmUtilities  
+BfmSpotProjection_Rep        CATIPathAccess             libCATBfmUtilities  
+BfmSpotProjection_Rep        CATITTRSGeometry           libCATBfmJointElement 
+BfmSpotProjection_Rep        CATITTRSGeometryUpdate     libCATBfmJointElement
+BfmSpotProjection_Rep        CATI3DCompassSnap          libCATBfmJointElement 
+BfmSpotProjection	           CATIBfmProjectionAssembly  libCATBfmSpot
+BfmSpotProjection            CATIInstance               libCATBfmExposedView    
+BfmSpotProjection            CATIBuild   			        libCATBfmSpot
+	     
+# Les adhesions de l'Element de liaison Carrosserie de type Curve
+#==================================================================
+BfmCurve			          CATIBfmCurve	            libCATBfmCurve
+BfmCurve                 CATIIsolate               libCATBfmCurve
+BfmCurve                 CATITTRSGeometry          libCATBfmCurve 
+BfmCurve                 CATITTRSGeometryUpdate    libCATBfmCurve        
+
+# Les adhesions de l'Element de liaison Carrosserie de type CurveBead
+#==================================================================
+BfmCurveBead_Rep        CATIVisProperties         libCATBfmBase
+BfmCurveBead_Rep        CATIMechanicalProperties  libCATBfmJointElement
+BfmCurveBead_Rep        CATIRootProperties        libCATBfmJointElement
+BfmCurveBead_Rep        CATIProperty              libCATBfmBase
+BfmCurveBead_Rep        CATIModelEvents           libCATBfmBase
+BfmCurveBead_Rep        CATIAlias                 libCATBfmBase
+BfmCurveBead_Rep        CATIInstance              libCATBfmExposedView 
+BfmCurveBead_Rep        CATI3DGeoVisu             libCATBfmCurve   
+BfmCurveBead_Rep        CATITTRSGeometry          libCATBfmJointElement 
+BfmCurveBead_Rep        CATITTRSGeometryUpdate    libCATBfmJointElement 
+BfmCurveBead_Rep        CATIBuildPath             libCATBfmJointElement  
+BfmCurveBead_Rep        CATIPathAccess            libCATBfmJointElement  
+BfmCurveBead_Rep        CATI3DCompassSnap         libCATBfmJointElement
+BfmCurveBead            CATIBfmCurveBead          libCATBfmCurve
+BfmCurveBead            CATIInstance              libCATBfmExposedView    
+BfmCurveBead            CATIBfmShape              libCATBfmCurve
+BfmCurveBead            CATIParmPublisher         libCATBfmExposedView
+BfmCurveBead_Rep        CATIParmPublisher         libCATBfmExposedView 
+
+# Divers
+#==================================================================
+CATBfmSearch            CATISearchInformation     libCATBfmExposedView
+CATBfmAddLibrary        CATICreateInstance        libCATBfmExposedView    
+CATBfmAddLibrary        CATIAddTypeLibrary        libCATBfmExposedView    
+
+# Les adhesions de l'Export / Import
+#==================================================================
+ASMPRODUCT              CATIBfmExportable         libCATBfmDataExchange
+CATBfmSubProductExport  CATIBfmExportable         libCATBfmDataExchange
+CATBfmSubProductExport  CATIAlias                 libCATBfmDataExchange
+BfmJoint                CATIBfmExportable         libCATBfmDataExchange
+BfmJointBody            CATIBfmExportable         libCATBfmDataExchange
+BfmJointElement         CATIBfmExportable         libCATBfmDataExchange
+ASMPRODUCT              CATIBfmImportable         libCATBfmDataExchange
+ASMPRODUCT				CATIABFImport			  libCATBfmDataExchange
+
+# Les adhesions de l'Element de liaison Carrosserie de type Area
+#==================================================================
+BfmArea					CATIBfmArea				  libCATBfmArea
+BfmArea                 CATIIsolate               libCATBfmArea
+BfmArea                 CATITTRSGeometry          libCATBfmArea 
+BfmArea                 CATITTRSGeometryUpdate    libCATBfmArea          
+
+
+# Les adhesions de l'Element de liaison Carrosserie de type Surface
+#==================================================================
+BfmSurface_Rep          CATIVisProperties         libCATBfmBase
+BfmSurface_Rep          CATIMechanicalProperties  libCATBfmJointElement
+BfmSurface_Rep          CATIRootProperties        libCATBfmJointElement
+BfmSurface_Rep          CATIProperty              libCATBfmBase
+BfmSurface_Rep          CATIModelEvents           libCATBfmBase
+BfmSurface_Rep          CATIAlias                 libCATBfmBase
+BfmSurface_Rep          CATIInstance              libCATBfmExposedView 
+BfmSurface_Rep          CATI3DGeoVisu             libCATBfmArea 
+
+BfmSurface_Rep          CATIBuildPath             libCATBfmJointElement  
+BfmSurface_Rep          CATIPathAccess            libCATBfmJointElement  
+BfmSurface_Rep          CATITTRSGeometry          libCATBfmJointElement 
+BfmSurface_Rep          CATITTRSGeometryUpdate    libCATBfmJointElement 
+BfmSurface_Rep          CATI3DCompassSnap         libCATBfmJointElement
+
+BfmSurface		    CATIBfmSurface            libCATBfmArea
+BfmSurface              CATIInstance              libCATBfmExposedView  
+BfmSurface              CATIBfmShape              libCATBfmArea
+BfmSurface              CATIBuild   			        libCATBfmArea
+
+# Les adhesions des regles de clean 
+#==================================================================
+BfmMngr					CATISpecExtensionToClean		libCATClnGBF
+BfmJoint				CATISpecExtensionToClean		libCATClnGBF
+BfmJointBody			CATISpecExtensionToClean		libCATClnGBF
+BfmJointElement			CATISpecExtensionToClean		libCATClnGBF
+BfmSpot					CATISpecExtensionToClean		libCATClnGBF
+BfmSpotPoint			CATISpecExtensionToClean		libCATClnGBF
+BfmSpotProjection		CATISpecExtensionToClean		libCATClnGBF
+BfmCurve				CATISpecExtensionToClean		libCATClnGBF
+BfmCurveBead			CATISpecExtensionToClean		libCATClnGBF
+BfmArea					CATISpecExtensionToClean		libCATClnGBF
+BfmSurface				CATISpecExtensionToClean		libCATClnGBF
+BfmAsmType				CATISpecExtensionToClean		libCATClnGBF
+CATBfmCont              CATIOsmDuplicateContainerToClean libCATClnGBF
+
+
+

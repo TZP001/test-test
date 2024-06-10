@@ -1,0 +1,55 @@
+// -------------------------
+// General NLS Output Format 
+// -------------------------
+// * Comment before each entity is generated *
+// Arguments are: Name 
+//CATIAManufacturingGenerateComment_Start = "# Start generation of : %s";    // Arguments are: Name
+CATIAManufacturingGenerateComment_Start = "# %s";    // Arguments are: Name
+
+// * Comment after each entity has been generated *
+CATIAManufacturingGenerateComment_End = "# Fin de generation de: %s";    // Arguments are: Name 
+
+CATIAManufacturingGenerateComment_SeparatorLine = "# -------------------------------------------------------------------";
+
+// -------------------------
+// Information on the File 
+// -------------------------
+CATIAManufacturingDocumentGenerateComment_Date = "# Généré le %s";   // Arguments are: Date
+
+// ---------------------------------------
+// Format of Output Generation
+// ---------------------------------------
+
+//Message format like : CATMfgGenerationToolMotion    = "GOTO/ /P6,/P2,/P3";   // Doesn't work   
+
+// * Tool Definition *
+// Arguments are : Name, Cutter diameter, Corner radius, distance, center corner to tool axis, corner radius, 0.0, beta angle, heigt
+MfgToolBase = "#TOOL = %s\nTOOLAPT %10.6f,%10.6f,%10.6f,%10.6f,%10.6f,%10.6f,%10.6f # %s\n";
+
+// * Tool Motion *
+CATMfgGenerationToolMotion    = "%s \n";	// 
+
+// * TableHeadRotation *
+TableHeadRotation    = "ROTATESTOCK %11.5f,%11.5f,%11.5f,%11.5f,%11.5f,%11.5f,%11.5f\n";	// Arguments are :  X, Y, Z, U, V, W, A (center,axis,angle) 
+
+// * MfgToolPathConstantToolAxis *
+MfgToolPathConstantToolAxis     = "ROTATESTOCK %11.5f,%11.5f,%11.5f,%11.5f,%11.5f,%11.5f,%11.5f\n";	// Arguments are :  X, Y, Z, U, V, W, A (center,axis,angle) 
+
+// ---------------------------------------
+// PP Instructions
+// ---------------------------------------
+
+// Warning this doesn't work on each OS
+// * Tool Change : Arguments are : Order in list, Tool changement point.
+ToolChange = "%s %d # %s\n";
+ToolChangeLathe = "%s %d # %s\n";
+
+
+// ---------------------------------------
+// TURNING Definition
+// ---------------------------------------
+// * Circular motion for lathe : center, angle (+/-)
+CATMfgGenerationCircularMotion = "TURNARC    %11.5f,%11.5f,%11.5f,%11.5f\n";
+
+// * Circular motion for lathe : Number of points in Profile, CGR File name, Profile definition
+MfgLatheToolAssembly = "%s\n";

@@ -1,0 +1,395 @@
+Language="VBSCRIPT"
+
+Sub CATMain()
+
+'---  Input a list of components
+'---  This macro is intended to transform a list of CATPart components given as input into Components ready for Tooling.
+'---  Some directories must be defined in the first lines of the macro
+'---  This macro only handles the 3D positionning requirements 
+'---  ( the manufacturing bodies are not indispensible and may be created separately )
+
+'**********************************************************************
+'------------------------------------------------------------------------------------
+' ------------------------------------------------------------------------------
+' ------------------------------------------------------------------------------
+' ------------------------------------------------------------------------------
+
+' Sample of commands to launch in a command prompt to get the path and name of components in a txt file 
+'find E:\dev\TLGlchCXR16\intel_a\startup\components\MoldCatalog\Sleeve\Dme\ -name "*.CATPart" |sed -e "s/\//\\/g">ListOfCmp.txt
+'
+' or else ( this works only if compoennts are on the same computer) :
+' in run : cmd  ( to get a command window )
+' in this window :        E: ( to be positionned in appropriate drive )
+' in this window :        cd downloadOfCXR19Rel\intel_a\startup\components\MoldCatalog  ( to be positionned in right directory )
+' in this window :        dir /s /B  *.CATPart > outputfile.txt
+'------------------------------------------------------------------------------------
+' ------------------------------------------------------------------------------
+' ------------------------------------------------------------------------------
+' ------------------------------------------------------------------------------
+'**********************************************************************
+
+'**********************************************************************
+'------------------------------------------------------------------------------------
+' ------------------------------------------------------------------------------
+' ------------------------------------------------------------------------------
+' ------------------------------------------------------------------------------
+' Please, the following path of files can be modified to meet your requirements.
+
+
+' this is the directory where the list of components will be found
+    FromDir = "E:\MyFolder\Input\"
+' this is the directory where the output files will be created
+    WhereDir =  "E:\MyFolder\Output\"
+' this is the name of the list of components ( a txt file containing all the component path, one per line )
+    ListOfComponents = "MyListofComponents"
+' this is the name of the report file
+    ReportFileName = "MyReportFile"        '   ( no suffix )
+
+
+
+'------------------------------------------------------------------------------------
+' ------------------------------------------------------------------------------
+' ------------------------------------------------------------------------------
+' ------------------------------------------------------------------------------
+'**********************************************************************
+err.clear
+On Error Resume Next
+	Dim COLORBGHTML As String, COLORTXTHTML As String
+	Dim LANCEMENT_EN_BATCH As String
+	LANCEMENT_EN_BATCH  = CATIA.SystemService.Environ("RUN_BATCH")
+
+	COLORBGHTML=WHITE
+	COLORTXTHTML=BLACK
+
+'**********************************************************************
+	ListOfCmpFile = FromDir&ListOfComponents&".txt"	' for the input file
+	ReportFile = WhereDir&ReportFileName&".txt"   '  for report file
+
+' ListOfCmp.txt = file that contains the path of all components (CATPart) to test
+' -------------------------------------------------------------------------------
+Dim filesys, MyCmp
+Set filesys = CreateObject("Scripting.FileSystemObject") 
+Set MyCmp = filesys.OpenTextFile(ListOfCmpFile)
+If (Err <> 0) Then
+	Msg = "The file: " &ListOfCmpFile  & " of components to test does not exist"
+	MsgBox Msg
+	On Error Goto 0
+Else
+
+' ReportFileName.txt = file that contains the report
+' -------------------------------------------------------------------------------------------------------------------
+	Dim filesysRP, textRP
+	Set filesysRP = CreateObject("Scripting.FileSystemObject") 
+
+'------------------------------------------------------------------------------------------------------------------------------------------------
+	Dim encore, wego
+	encore = true
+	wego = true
+    tstrp = false
+'-----------------------------------------------------------------------------------------------------------------------------------------------
+'Dialog to specify which option is requested
+
+
+dim oneline as string
+dim blankLine as string
+dim doubleLine as string
+dim title1 as string
+
+IconeInterdit = 16
+IconeQuestion = 32
+IconeExclamation = 48
+IconeInfo = 64
+
+oneline = chr(13)
+blankline = chr(13)&chr(13)
+doubleline = chr(13)&chr(13)&chr(13)
+title1 = "Preparing a list of Parts as future Tooling Component"
+'----
+
+IKEEP = 1
+
+	msg1 = "Do you want to create position info in this component? See below the recommandations - they are  not mandatory "
+	msg3 = "          Component axial direction  // its Z axis"
+	msg4 = "          Component axial direction oriented toward the Die element on which it will be set ( Z intrusive convention ) "
+	msg5 = "          Component ""head"" in its XY plane, and centered on its origin" 
+	msg2 = "Confirm : OK - Give up : CANCEL "
+	myreturn = msgbox (msg1 & BlankLine & msg3& BlankLine & msg4& BlankLine & msg5& BlankLine & msg2, IconeQUESTION+1 ,Title1 )
+	if ( Myreturn =1 ) then
+		IKeep = 1
+	else
+		IKeep = 0
+	end if
+
+
+if ( IKeep = 1 ) then
+
+
+	msg1 = "Do you want to create POINT POSITION or AXIS POSITION ? "
+    msg3 = "POINT POSITION is enough to constrain the point & the axial direction of the component, once inserted" 
+	msg2 = "POINT POSITION : YES - AXIS POSITION : NO - Give up : CANCEL "
+	myreturn = msgbox (msg1 & BlankLine & msg3 & BlankLine & msg2, IconeQUESTION+3 ,Title1 )
+
+	if ( Myreturn =6 ) then
+		IKeep = 1
+        IPOINT=1
+        tstrp ="true"
+        XX = 0.0
+        YY = 0.0
+        ZZ = 0.0
+
+	elseif ( Myreturn = 7) then
+		IKeep = 1
+        IPOINT=2
+        tstrp ="true"
+                title2 = "Preparing  guided mode"
+	            msg1 = "First Direction ? "
+                msg2 = "DIRECTION (X) : YES - DIRECTION (Y) : NO -  DIRECTION (Z): CANCEL "
+	            myreturnN = msgbox (msg1 & BlankLine & msg2, IconeQUESTION+3 ,Title2 )
+	            if ( MyreturnN =6 ) then
+		              IDIR = 1
+	            elseif ( MyreturnN = 7) then
+		              IDIR = 2
+                else
+		              IDIR = 3
+	            end if
+            if (IDIR=1) then
+               msg5 = "DIRECTION (Y) : YES - DIRECTION (Z) : NO -  Give up : CANCEL "
+            elseif (IDIR=2) then
+               msg5 = "DIRECTION (X) : YES - DIRECTION (Z) : NO -  Give up : CANCEL "
+            elseif (IDIR=3) then
+               msg5 = "DIRECTION (X) : YES - DIRECTION (Y) : NO -  Give up : CANCEL "
+            end if
+	        msg1 = "Second Direction ? "
+  	        myreturnNN = msgbox (msg1 & BlankLine & msg5, IconeQUESTION+3 ,Title2 )
+
+	            if ( MyreturnNN =6 ) then
+		              if ( IDIR=1) then JDIR = 2
+		              if ( IDIR=2) then JDIR = 1
+		              if ( IDIR=3) then JDIR = 1
+	            elseif ( MyreturnNN = 7) then
+		              if ( IDIR=1) then JDIR = 3
+		              if ( IDIR=2) then JDIR = 3
+		              if ( IDIR=3) then JDIR = 2
+                else
+		              JDIR=0
+	            end if
+    else
+        IPOINT=0
+		IKeep = 0
+        tstrp ="false"
+	end if
+end if
+
+
+
+
+
+	if ( tstrp ) then  Set textRP = filesys.CreateTextFile(ReportFile , True)
+
+
+'--------------end of dialog -------------------------------------------
+
+
+' The process starts !!!
+     if ( Ikeep=1 ) then
+        NBcmp=0
+		do while (encore)
+			CmpRead = MyCmp.AtEndOfStream
+			if (CmpRead) then
+'				MsgBox "End"
+				encore = false
+			else
+'				MsgBox "Go on"
+				CmpRead = MyCmp.ReadLine
+                Nbcmp=Nbcmp+1
+'				MsgBox "Current line = " &CmpRead
+				if (tstRP) then
+					textRP.WriteLine Nbcmp &" Component: " & CmpRead
+					ProcessComponents IPOINT , XX, YY , ZZ, IDIR, JDIR, textRP, CmpRead
+				end if
+			end if
+		loop
+	end if
+
+	MyCmp.Close
+	if (tstRP) then textRP.Close
+	        msg1 = "These components can now be inserted as a Tooling Components "
+	        myreturn = msgbox (msg1, IconeINFO ,"End preparation" )
+
+
+end if
+
+
+End Sub
+
+'----------------------------------------------------------------------------------------
+' Sub to add dimension info
+'----------------------------------------------------------------------------------------
+Sub ProcessComponents ( IPOINT,XX, YY, ZZ,IDIR,JDIR, text, CmpFile )
+
+err.clear
+On Error Resume Next
+
+
+
+
+Set documents1 = CATIA.Documents
+Set partDocument1 = documents1.Open(CmpFile)
+If (Err <> 0) Then
+'	Msg = "The File: " &CmpFile  & " does not exist"
+'	MsgBox Msg
+	text.writeline "ERROR: the file: " &CmpFile  & " does not exist"
+	NbPbEncountered = NbPbEncountered + 1
+	On Error Goto 0
+Else
+
+
+
+	Set part1 = partDocument1.Part
+    PartName= Part1.name
+
+    Set product1 = partDocument1.Product
+    Set parameters1 = part1.Parameters
+
+
+    Set product1 = partDocument1.GetItem(PartName)
+    Set publications1 = product1.Publications
+    Set selection1 = partDocument1.Selection
+    Set visPropertySet1 = selection1.VisProperties
+
+
+
+    if ( IPOINT=1 ) then
+
+                 Set hybridBodies1 = part1.HybridBodies
+                 Set hybridBody1 = hybridBodies1.Add()
+                 part1.Update 
+                 hybridBody1.name = "BaseBody"
+				Set hybridShapeFactory1 = part1.HybridShapeFactory
+				Set hybridShapePointCoord1 = hybridShapeFactory1.AddNewPointCoord(XX, YY, ZZ)
+				hybridBody1.AppendHybridShape hybridShapePointCoord1
+				part1.InWorkObject = hybridShapePointCoord1
+				hybridShapePointCoord1.name = "Base"
+				part1.Update 
+				Set publication1 = publications1.Add("Base")
+                part1.update
+                Set reference1 = product1.CreateReferenceFromName(PartName&"/!Base")
+				publications1.SetDirect "Base", reference1
+                Set reference1 = product1.CreateReferenceFromName(PartName&"/!Base")
+                Set visPropertySet1 = selection1.VisProperties
+                selection1.Add hybridbody1
+                Set visPropertySet1 = visPropertySet1.Parent
+                visPropertySet1.SetShow 1
+                selection1.Clear 
+
+      end if
+   if ( IPOINT=2 ) then
+
+
+             Dim arrayOfVariantOfDouble1(2)
+             Dim arrayOfVariantOfDouble2(2)
+             Dim arrayOfVariantOfDouble3(2)
+   			 Dim arrayOfVariantOfDouble4(2)
+
+
+			Set axisSystems1 = part1.AxisSystems
+			Set axisSystem1 = axisSystems1.Add()
+			axisSystem1.OriginType = catAxisSystemOriginByCoordinates
+			arrayOfVariantOfDouble1(0) = 0.000000
+			arrayOfVariantOfDouble1(1) = 0.000000
+			arrayOfVariantOfDouble1(2) = 0.000000
+			axisSystem1.PutOrigin arrayOfVariantOfDouble1
+			axisSystem1.XAxisType = catAxisSystemAxisByCoordinates
+			arrayOfVariantOfDouble2(0) = 1.000000
+			arrayOfVariantOfDouble2(1) = 0.000000
+			arrayOfVariantOfDouble2(2) = 0.000000
+			axisSystem1.PutXAxis arrayOfVariantOfDouble2
+			axisSystem1.YAxisType = catAxisSystemAxisByCoordinates
+			arrayOfVariantOfDouble3(0) = 0.000000
+			arrayOfVariantOfDouble3(1) = 1.000000
+			arrayOfVariantOfDouble3(2) = 0.000000
+			axisSystem1.PutYAxis arrayOfVariantOfDouble3
+			axisSystem1.ZAxisType = catAxisSystemAxisByCoordinates
+			arrayOfVariantOfDouble4(0) = 0.000000
+			arrayOfVariantOfDouble4(1) = 0.000000
+			arrayOfVariantOfDouble4(2) = 1.000000
+			axisSystem1.PutZAxis arrayOfVariantOfDouble4
+
+			part1.UpdateObject axisSystem1
+
+			axisSystem1.IsCurrent = True
+			axisSystem1.Name = "BaseAxisSystem"
+			
+			part1.Update 
+            on error goto 0
+            Set axisSystem1 = axisSystems1.Item("BaseAxisSystem")
+            if (IDIR=1) then
+			   Set reference1 = product1.CreateReferenceFromName(PartName&"/!Selection_REdge:(Edge:(Face:(Brp:(BaseAxisSystem;1);None:();Cf11:());Face:(Brp:(BaseAxisSystem;3);None:();Cf11:());None:(Limits1:();Limits2:());Cf11:());BaseAxisSystem;InSameTool;Z0;G3338)")
+			   Set publication1 = publications1.Add("X Axis")
+               publications1.SetDirect "X Axis", reference1
+               Set boolParam1 = parameters1.CreateBoolean("", True)
+               boolParam1.Rename "BaseAxisSystem_X_Select"
+               boolParam1.Hidden = True
+
+            elseif (IDIR=2) then
+		   	   Set reference1 = product1.CreateReferenceFromName(PartName&"/!Selection_REdge:(Edge:(Face:(Brp:(BaseAxisSystem;2);None:();Cf11:());Face:(Brp:(BaseAxisSystem;1);None:();Cf11:());None:(Limits1:();Limits2:());Cf11:());BaseAxisSystem;InSameTool;Z0;G3338)")
+			   Set publication1 = publications1.Add("Y Axis")
+               publications1.SetDirect "Y Axis", reference1
+               Set boolParam1 = parameters1.CreateBoolean("", True)
+               boolParam1.Rename "BaseAxisSystem_Y_Select"
+               boolParam1.Hidden = True
+
+            elseif (IDIR=3) then
+		   	   Set reference1 = product1.CreateReferenceFromName(PartName&"/!Selection_REdge:(Edge:(Face:(Brp:(BaseAxisSystem;3);None:();Cf11:());Face:(Brp:(BaseAxisSystem;2);None:();Cf11:());None:(Limits1:();Limits2:());Cf11:());BaseAxisSystem;InSameTool;Z0;G3338)")
+			   Set publication1 = publications1.Add("Z Axis")
+               publications1.SetDirect "Z Axis", reference1
+               Set boolParam1 = parameters1.CreateBoolean("", True)
+               boolParam1.Rename "BaseAxisSystem_Z_Select"
+               boolParam1.Hidden = True
+
+            end if
+
+            if (JDIR=1) then
+			   Set reference1 = product1.CreateReferenceFromName(PartName&"/!Selection_REdge:(Edge:(Face:(Brp:(BaseAxisSystem;1);None:();Cf11:());Face:(Brp:(BaseAxisSystem;3);None:();Cf11:());None:(Limits1:();Limits2:());Cf11:());BaseAxisSystem;InSameTool;Z0;G3338)")
+			   Set publication1 = publications1.Add("X Axis")
+               publications1.SetDirect "X Axis", reference1
+               Set boolParam1 = parameters1.CreateBoolean("", True)
+               boolParam1.Rename "BaseAxisSystem_X_Select"
+               boolParam1.Hidden = True
+            elseif (JDIR=2) then
+		   	   Set reference1 = product1.CreateReferenceFromName(PartName&"/!Selection_REdge:(Edge:(Face:(Brp:(BaseAxisSystem;2);None:();Cf11:());Face:(Brp:(BaseAxisSystem;1);None:();Cf11:());None:(Limits1:();Limits2:());Cf11:());BaseAxisSystem;InSameTool;Z0;G3338)")
+			   Set publication1 = publications1.Add("Y Axis")
+               publications1.SetDirect "Y Axis", reference1
+               Set boolParam1 = parameters1.CreateBoolean("", True)
+               boolParam1.Rename "BaseAxisSystem_Y_Select"
+               boolParam1.Hidden = True
+            elseif (JDIR=3) then
+		   	   Set reference1 = product1.CreateReferenceFromName(PartName&"/!Selection_REdge:(Edge:(Face:(Brp:(BaseAxisSystem;3);None:();Cf11:());Face:(Brp:(BaseAxisSystem;2);None:();Cf11:());None:(Limits1:();Limits2:());Cf11:());BaseAxisSystem;InSameTool;Z0;G3338)")
+			   Set publication1 = publications1.Add("Z Axis")
+               publications1.SetDirect "Z Axis", reference1
+               Set boolParam1 = parameters1.CreateBoolean("", True)
+               boolParam1.Rename "BaseAxisSystem_Z_Select"
+               boolParam1.Hidden = True
+            end if
+
+            Set reference3 = product1.CreateReferenceFromName(PartName&"/!Selection_FVertex:(Vertex:(Neighbours:(Face:(Brp:(BaseAxisSystem;2);None:();Cf11:());Face:(Brp:(BaseAxisSystem;3);None:();Cf11:());Face:(Brp:(BaseAxisSystem;1);None:();Cf11:()));Cf11:());BaseAxisSystem;InSameTool;Z0;G3338)")
+            Set publication3 = publications1.Add("Origin")
+            publications1.SetDirect "Origin", reference3
+End if
+End If
+partDocument1.Save 
+
+partDocument1.Close 
+
+
+End Sub
+
+
+
+
+
+
+
+
+
+

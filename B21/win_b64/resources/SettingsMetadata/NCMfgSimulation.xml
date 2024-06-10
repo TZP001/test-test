@@ -1,0 +1,978 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- XML for Machining/Simulation Tabpage Settings Description TRZ 02/07 R1.X+2 -->
+<st:repository xsi:schemaLocation="urn:com:dassault_systemes:settings settings.xsd" xmlns:st="urn:com:dassault_systemes:settings" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<st:Description name="NCMfgSimulation" PrimaryTabpage="/Machining/Simulation">
+		<st:role>Lists the settings of the resources used in the Machining applications</st:role>
+		<st:detailedRole>The resources machining settings are useful to manages options on tools and ressources catalogs</st:detailedRole>
+		<st:RepositoryFile>NCMfgSimulation</st:RepositoryFile>
+		<st:version>1</st:version>
+		<st:compatibility>
+			<st:FullCompatibilityfromLevel>1</st:FullCompatibilityfromLevel>
+			<st:UpwardCompatibilityfromLevel>1</st:UpwardCompatibilityfromLevel>
+		</st:compatibility>
+	</st:Description>
+	<st:attributes>
+		<st:attribute Name="SimulationLevel">
+			<st:role>Simulates the operation</st:role>
+			<st:detailedRole>The level at which the operation will be simulated</st:detailedRole>
+			<st:int>
+				<st:enum>
+					<st:role>Simulates the operation at program level</st:role>
+					<st:value>0</st:value>
+					<st:role>Simulates the operation at part level</st:role>
+					<st:value>1</st:value>
+				</st:enum>
+				<st:default>
+					<st:role>By default only the operation at program level will be simulated</st:role>
+					<st:value>0</st:value>
+				</st:default>
+			</st:int>
+		</st:attribute>
+		<st:attribute Name="StopAtToolChange">
+			<st:role>Video simulation will stop at every tool change</st:role>
+			<st:detailedRole>Video simulation will stop at every tool change</st:detailedRole>
+			<st:boolean size="1">
+				<st:default size="1">
+					<st:value>false</st:value>
+				</st:default>
+			</st:boolean>
+		</st:attribute>
+		<st:attribute Name="CollisionVideo">
+			<st:role>Collision detection</st:role>
+			<st:detailedRole>Action to be taken when collision is detected</st:detailedRole>
+			<st:int>
+				<st:enum>
+					<st:role>Ignores the collision</st:role>
+					<st:value>0</st:value>
+					<st:role>Stop when collision</st:role>
+					<st:value>1</st:value>
+					<st:role>Continue when collision</st:role>
+					<st:value>2</st:value>
+				</st:enum>
+				<st:default>
+					<st:role>By default collision will be Ignored</st:role>
+					<st:value>0</st:value>
+				</st:default>
+			</st:int>
+		</st:attribute>
+		<st:attribute Name="TouchIsCollision">
+			<st:role>Touch in collision</st:role>
+			<st:detailedRole>Detect a touch in collision</st:detailedRole>
+			<st:boolean size="1">
+				<st:default size="1">
+					<st:value>true</st:value>
+				</st:default>
+			</st:boolean>
+		</st:attribute>
+		<st:attribute Name="MultipleVideoResult">
+			<st:role>Multiple video result on program</st:role>
+			<st:detailedRole>Multiple video result is allowed on program</st:detailedRole>
+			<st:boolean size="1">
+				<st:default size="1">
+					<st:value>false</st:value>
+				</st:default>
+			</st:boolean>
+		</st:attribute>
+		<st:attribute Name="FullAnalysisData">
+			<st:role>Save video result with all information</st:role>
+			<st:detailedRole>Save video result with all information</st:detailedRole>
+			<st:int size="1">
+				<st:default size="1">
+					<st:value>1</st:value>
+				</st:default>
+			</st:int>
+		</st:attribute>
+		<st:attribute Name="BoxType">
+			<st:role>Fault box</st:role>
+			<st:detailedRole>Display of bounding box</st:detailedRole>
+			<st:int>
+				<st:enum>
+					<st:role>Wireframe</st:role>
+					<st:value>0</st:value>
+					<st:role>Transparent</st:role>
+					<st:value>1</st:value>
+					<st:role>None</st:role>
+					<st:value>2</st:value>
+				</st:enum>
+				<st:default>
+					<st:role>By default the fault will be displayed as wireframe</st:role>
+					<st:value>0</st:value>
+				</st:default>
+			</st:int>
+		</st:attribute>
+		<st:attribute Name="ComputeAllInformationAtPickedPoint">
+			<st:role>Compute all information at picked point</st:role>
+			<st:detailedRole>Compute all information at picked point</st:detailedRole>
+			<st:boolean size="1">
+				<st:default size="1">
+					<st:value>false</st:value>
+				</st:default>
+			</st:boolean>
+		</st:attribute>
+		<st:attribute Name="FacetType">
+			<st:role>Tool and faceting</st:role>
+			<st:detailedRole>Tool and Faceting</st:detailedRole>
+			<st:int>
+				<st:enum>
+					<st:role>Smaller</st:role>
+					<st:value>0</st:value>
+					<st:role>Larger</st:role>
+					<st:value>1</st:value>
+					<st:role>Standard</st:role>
+					<st:value>2</st:value>
+				</st:enum>
+				<st:default>
+					<st:role>By default computes a good default solution</st:role>
+					<st:value>2</st:value>
+				</st:default>
+			</st:int>
+		</st:attribute>
+		<st:attribute Name="Resolution">
+			<st:role>Photo Resolution parameter</st:role>
+			<st:detailedRole>Photo Resolution parameter</st:detailedRole>
+			<st:float size="1">
+				<st:min>0.0</st:min>
+				<st:max>100.0</st:max>
+				<st:default size="1">
+					<st:role>By default, the photo resolution is set to 0.0</st:role>
+					<st:value>0.0</st:value>
+				</st:default>
+			</st:float>
+		</st:attribute>
+		<st:attribute Name="InterpolAngle">
+			<st:role>Maximum tool axis interpolation angle (5 axis only)</st:role>
+			<st:detailedRole>Maximum tool axis interpolation angle (5 axis only)</st:detailedRole>
+			<st:float size="1">
+				<st:min>1.0</st:min>
+				<st:max>180.0</st:max>
+				<st:default size="1">
+					<st:role>By default, the maximum tool axis interpolation angle is set to 1.0</st:role>
+					<st:value>1.0</st:value>
+				</st:default>
+			</st:float>
+		</st:attribute>
+		<st:attribute Name="LatheDeviation">
+			<st:role>Lathe deviation</st:role>
+			<st:detailedRole>Defines the accuracy of the lathe video</st:detailedRole>
+			<st:float size="1">
+				<st:min>0.001</st:min>
+				<st:max>100.0</st:max>
+				<st:default size="1">
+					<st:role>By default, the accuracy of the lathe video is set to 0.2</st:role>
+					<st:value>0.2</st:value>
+				</st:default>
+			</st:float>
+		</st:attribute>
+		<st:attribute Name="OptimizedVideo">
+			<st:role>Optimized rendering of video</st:role>
+			<st:detailedRole>Optimized rendering of video</st:detailedRole>
+			<st:boolean size="1">
+				<st:default size="1">
+					<st:value>true</st:value>
+				</st:default>
+			</st:boolean>
+		</st:attribute>
+		<st:attribute Name="DisconnectToolCoreDiameter">
+			<st:role>Disconnect tool core diameter</st:role>
+			<st:detailedRole>Disconnect tool core diameter</st:detailedRole>
+			<st:boolean size="1">
+				<st:default size="1">
+					<st:value>false</st:value>
+				</st:default>
+			</st:boolean>
+		</st:attribute>
+		<st:attribute Name="ToolColor">
+			<st:role>Tool and machined area</st:role>
+			<st:detailedRole>Tool and machined area</st:detailedRole>
+			<st:int>
+				<st:enum>
+					<st:role>Same</st:role>
+					<st:value>0</st:value>
+					<st:role>Last tool different</st:role>
+					<st:value>1</st:value>
+					<st:role>All different</st:role>
+					<st:value>2</st:value>
+				</st:enum>
+				<st:default>
+					<st:role>By default displays all the tool in different color</st:role>
+					<st:value>2</st:value>
+				</st:default>
+			</st:int>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue1">
+			<st:role>Color of the tool 1</st:role>
+			<st:detailedRole>Color of the tool 1</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>Green</st:role>
+					<st:value>30</st:value>
+					<st:value>230</st:value>
+					<st:value>30</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue2">
+			<st:role>Color of the tool 2</st:role>
+			<st:detailedRole>Color of the tool 2</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>Blue</st:role>
+					<st:value>0</st:value>
+					<st:value>130</st:value>
+					<st:value>255</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue3">
+			<st:role>Color of the tool 3</st:role>
+			<st:detailedRole>Color of the tool 3</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>Yellow</st:role>
+					<st:value>255</st:value>
+					<st:value>255</st:value>
+					<st:value>0</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue4">
+			<st:role>Color of the tool 4</st:role>
+			<st:detailedRole>Color of the tool 4</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>Purple</st:role>
+					<st:value>255</st:value>
+					<st:value>0</st:value>
+					<st:value>255</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue5">
+			<st:role>Color of the tool 5</st:role>
+			<st:detailedRole>Color of the tool 5</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>Light red</st:role>
+					<st:value>205</st:value>
+					<st:value>30</st:value>
+					<st:value>30</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue6">
+			<st:role>Color of the tool 6</st:role>
+			<st:detailedRole>Color of the tool 6</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>Orange</st:role>
+					<st:value>255</st:value>
+					<st:value>115</st:value>
+					<st:value>0</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue7">
+			<st:role>Color of the tool 7</st:role>
+			<st:detailedRole>Color of the tool 7</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>Cyan</st:role>
+					<st:value>0</st:value>
+					<st:value>255</st:value>
+					<st:value>255</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue8">
+			<st:role>Color of the tool 8</st:role>
+			<st:detailedRole>Color of the tool 8</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>Light blue</st:role>
+					<st:value>50</st:value>
+					<st:value>150</st:value>
+					<st:value>255</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue9">
+			<st:role>Color of the tool 9</st:role>
+			<st:detailedRole>Color of the tool 9</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>Dark olive</st:role>
+					<st:value>85</st:value>
+					<st:value>110</st:value>
+					<st:value>45</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue10">
+			<st:role>Color of the tool 10</st:role>
+			<st:detailedRole>Color of the tool 10</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>Dark violet</st:role>
+					<st:value>148</st:value>
+					<st:value>0</st:value>
+					<st:value>210</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue11">
+			<st:role>Color of the tool 11</st:role>
+			<st:detailedRole>Color of the tool 11</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>Firebrick</st:role>
+					<st:value>180</st:value>
+					<st:value>35</st:value>
+					<st:value>35</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue12">
+			<st:role>Color of the tool 12</st:role>
+			<st:detailedRole>Color of the tool 12</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>Green yellow</st:role>
+					<st:value>175</st:value>
+					<st:value>255</st:value>
+					<st:value>45</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue13">
+			<st:role>Color of the tool 13</st:role>
+			<st:detailedRole>Color of the tool 13</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>Cadet blue</st:role>
+					<st:value>95</st:value>
+					<st:value>160</st:value>
+					<st:value>155</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue14">
+			<st:role>Color of the tool 14</st:role>
+			<st:detailedRole>Color of the tool 14</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>Dark orange</st:role>
+					<st:value>255</st:value>
+					<st:value>140</st:value>
+					<st:value>0</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue15">
+			<st:role>Color of the tool 15</st:role>
+			<st:detailedRole>Color of the tool 15</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>Orchid</st:role>
+					<st:value>220</st:value>
+					<st:value>110</st:value>
+					<st:value>215</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue16">
+			<st:role>Color of the tool 16</st:role>
+			<st:detailedRole>Color of the tool 16</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>Saddle brown</st:role>
+					<st:value>140</st:value>
+					<st:value>70</st:value>
+					<st:value>20</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue17">
+			<st:role>Color of the tool 17</st:role>
+			<st:detailedRole>Color of the tool 17</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>Steel blue</st:role>
+					<st:value>70</st:value>
+					<st:value>130</st:value>
+					<st:value>180</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue18">
+			<st:role>Color of the tool 18</st:role>
+			<st:detailedRole>Color of the tool 18</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>Wheat</st:role>
+					<st:value>245</st:value>
+					<st:value>220</st:value>
+					<st:value>180</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue19">
+			<st:role>Color of the tool 19</st:role>
+			<st:detailedRole>Color of the tool 19</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>Slate grey</st:role>
+					<st:value>110</st:value>
+					<st:value>130</st:value>
+					<st:value>140</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue20">
+			<st:role>Color of the tool 20</st:role>
+			<st:detailedRole>Color of the tool 20</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>Dark red</st:role>
+					<st:value>100</st:value>
+					<st:value>0</st:value>
+					<st:value>0</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue21">
+			<st:role>Color of the tool 21</st:role>
+			<st:detailedRole>Color of the tool 21</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>Mid blue</st:role>
+					<st:value>0</st:value>
+					<st:value>75</st:value>
+					<st:value>205</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue22">
+			<st:role>Color of the tool 22</st:role>
+			<st:detailedRole>Color of the tool 22</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>Gold</st:role>
+					<st:value>215</st:value>
+					<st:value>155</st:value>
+					<st:value>90</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue23">
+			<st:role>Color of the tool 23</st:role>
+			<st:detailedRole>Color of the tool 23</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>White</st:role>
+					<st:value>255</st:value>
+					<st:value>255</st:value>
+					<st:value>255</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue24">
+			<st:role>Color of the tool 24</st:role>
+			<st:detailedRole>Color of the tool 24</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>Dark blue</st:role>
+					<st:value>0</st:value>
+					<st:value>0</st:value>
+					<st:value>255</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue25">
+			<st:role>Color of the tool 25</st:role>
+			<st:detailedRole>Color of the tool 25</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>Bright red</st:role>
+					<st:value>255</st:value>
+					<st:value>25</st:value>
+					<st:value>24</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue26">
+			<st:role>Color of the tool 26</st:role>
+			<st:detailedRole>Color of the tool 26</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>et on recommence Green</st:role>
+					<st:value>30</st:value>
+					<st:value>230</st:value>
+					<st:value>30</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue27">
+			<st:role>Color of the tool 27</st:role>
+			<st:detailedRole>Color of the tool 27</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>Blue</st:role>
+					<st:value>0</st:value>
+					<st:value>130</st:value>
+					<st:value>255</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue28">
+			<st:role>Color of the tool 28</st:role>
+			<st:detailedRole>Color of the tool 28</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>Yellow</st:role>
+					<st:value>255</st:value>
+					<st:value>255</st:value>
+					<st:value>0</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue29">
+			<st:role>Color of the tool 29</st:role>
+			<st:detailedRole>Color of the tool 29</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>Purple</st:role>
+					<st:value>255</st:value>
+					<st:value>0</st:value>
+					<st:value>255</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue30">
+			<st:role>Color of the tool 30</st:role>
+			<st:detailedRole>Color of the tool 30</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>Light red</st:role>
+					<st:value>205</st:value>
+					<st:value>30</st:value>
+					<st:value>30</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue31">
+			<st:role>Color of the tool 31</st:role>
+			<st:detailedRole>Color of the tool 31</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>Orange</st:role>
+					<st:value>255</st:value>
+					<st:value>115</st:value>
+					<st:value>0</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue32">
+			<st:role>Color of the tool 32</st:role>
+			<st:detailedRole>Color of the tool 32</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>Cyan</st:role>
+					<st:value>0</st:value>
+					<st:value>255</st:value>
+					<st:value>255</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue33">
+			<st:role>Color of the tool 33</st:role>
+			<st:detailedRole>Color of the tool 33</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>Light blue</st:role>
+					<st:value>50</st:value>
+					<st:value>150</st:value>
+					<st:value>255</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue34">
+			<st:role>Color of the tool 34</st:role>
+			<st:detailedRole>Color of the tool 34</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>Dark olive</st:role>
+					<st:value>85</st:value>
+					<st:value>110</st:value>
+					<st:value>45</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue35">
+			<st:role>Color of the tool 35</st:role>
+			<st:detailedRole>Color of the tool 35</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>Dark violet</st:role>
+					<st:value>148</st:value>
+					<st:value>0</st:value>
+					<st:value>210</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue36">
+			<st:role>Color of the tool 36</st:role>
+			<st:detailedRole>Color of the tool 36</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>Firebrick</st:role>
+					<st:value>180</st:value>
+					<st:value>35</st:value>
+					<st:value>35</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue37">
+			<st:role>Color of the tool 37</st:role>
+			<st:detailedRole>Color of the tool 37</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>Green yellow</st:role>
+					<st:value>175</st:value>
+					<st:value>255</st:value>
+					<st:value>45</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue38">
+			<st:role>Color of the tool 38</st:role>
+			<st:detailedRole>Color of the tool 38</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>Cadet blue</st:role>
+					<st:value>95</st:value>
+					<st:value>160</st:value>
+					<st:value>155</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue39">
+			<st:role>Color of the tool 39</st:role>
+			<st:detailedRole>Color of the tool 39</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>Dark orange</st:role>
+					<st:value>255</st:value>
+					<st:value>140</st:value>
+					<st:value>0</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue40">
+			<st:role>Color of the tool 40</st:role>
+			<st:detailedRole>Color of the tool 40</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>Orchid</st:role>
+					<st:value>220</st:value>
+					<st:value>110</st:value>
+					<st:value>215</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue41">
+			<st:role>Color of the tool 41</st:role>
+			<st:detailedRole>Color of the tool 41</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>Saddle brown</st:role>
+					<st:value>140</st:value>
+					<st:value>70</st:value>
+					<st:value>20</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue42">
+			<st:role>Color of the tool 42</st:role>
+			<st:detailedRole>Color of the tool 42</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>Steel blue</st:role>
+					<st:value>70</st:value>
+					<st:value>130</st:value>
+					<st:value>180</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue43">
+			<st:role>Color of the tool 43</st:role>
+			<st:detailedRole>Color of the tool 43</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>Wheat</st:role>
+					<st:value>245</st:value>
+					<st:value>220</st:value>
+					<st:value>180</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue44">
+			<st:role>Color of the tool 44</st:role>
+			<st:detailedRole>Color of the tool 44</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>Slate grey</st:role>
+					<st:value>110</st:value>
+					<st:value>130</st:value>
+					<st:value>140</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue45">
+			<st:role>Color of the tool 45</st:role>
+			<st:detailedRole>Color of the tool 45</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>Dark red</st:role>
+					<st:value>100</st:value>
+					<st:value>0</st:value>
+					<st:value>0</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue46">
+			<st:role>Color of the tool 46</st:role>
+			<st:detailedRole>Color of the tool 46</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>Mid blue</st:role>
+					<st:value>0</st:value>
+					<st:value>75</st:value>
+					<st:value>205</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue47">
+			<st:role>Color of the tool 47</st:role>
+			<st:detailedRole>Color of the tool 47</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>Gold</st:role>
+					<st:value>215</st:value>
+					<st:value>155</st:value>
+					<st:value>90</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue48">
+			<st:role>Color of the tool 48</st:role>
+			<st:detailedRole>Color of the tool 48</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>White</st:role>
+					<st:value>255</st:value>
+					<st:value>255</st:value>
+					<st:value>255</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue49">
+			<st:role>Color of the tool 49</st:role>
+			<st:detailedRole>Color of the tool 49</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>Dark blue</st:role>
+					<st:value>0</st:value>
+					<st:value>0</st:value>
+					<st:value>255</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolColorValue50">
+			<st:role>Color of the tool 50</st:role>
+			<st:detailedRole>Color of the tool 50</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>Bright red</st:role>
+					<st:value>255</st:value>
+					<st:value>25</st:value>
+					<st:value>24</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="ToolHolderColor">
+			<st:role>Color of the tool holder</st:role>
+			<st:detailedRole>Color of the tool holder</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>White</st:role>
+					<st:value>255</st:value>
+					<st:value>255</st:value>
+					<st:value>255</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="VideoPartColor">
+			<st:role>Parts color definition</st:role>
+			<st:detailedRole>Parts color definition</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>White</st:role>
+					<st:value>255</st:value>
+					<st:value>255</st:value>
+					<st:value>255</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="VideoFixturesColor">
+			<st:role>Fixtures color definition</st:role>
+			<st:detailedRole>Fixtures color definition</st:detailedRole>
+			<st:uint size="3">
+				<st:min>0</st:min>
+				<st:max>255</st:max>
+				<st:default size="3">
+					<st:role>Bright red</st:role>
+					<st:value>76</st:value>
+					<st:value>178</st:value>
+					<st:value>153</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+		<st:attribute Name="TransitionMaxAngle">
+			<st:role>Maximum tool axis variation</st:role>
+			<st:detailedRole>Maximum tool axis variation</st:detailedRole>
+			<st:float size="1">
+				<st:min>1.0</st:min>
+				<st:max>180.0</st:max>
+				<st:default size="1">
+					<st:role>By default, the maximum tool axis variation angle is set to 1.0</st:role>
+					<st:value>1.0</st:value>
+				</st:default>
+			</st:float>
+		</st:attribute>
+		<st:attribute Name="QuickVideo">
+			<st:role>QuickVideo</st:role>
+			<st:detailedRole>QuickVideo</st:detailedRole>
+			<st:int size="1">
+				<st:default size="1">
+					<st:value>1</st:value>
+				</st:default>
+			</st:int>
+		</st:attribute>
+		<st:attribute Name="ToolNumber">
+			<st:role>Number of the tool to set the colot on</st:role>
+			<st:detailedRole>Number of the tool to set the colot on</st:detailedRole>
+			<st:uint size="1">
+				<st:min>1</st:min>
+				<st:max>50</st:max>
+				<st:default size="1">
+					<st:role>By default, the first tool's color is displayed</st:role>
+					<st:value>1</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+	</st:attributes>
+</st:repository>

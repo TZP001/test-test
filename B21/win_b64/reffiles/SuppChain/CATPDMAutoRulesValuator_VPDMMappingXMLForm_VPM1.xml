@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ParametersList>
+	<Parameter Name="queryNameForPRC" Type="String" Alias="%CATPDMReconcileAutoRules:queryNameForPRC%" Mandatory="Yes">
+		<DefaultValuesList>
+			<DefaultValue>%VPM1PDMCriterion:VPM1.SimpleName%</DefaultValue>
+			<DefaultValue>%VPM1PDMCriterion:VPM1.Intermediate.Name%</DefaultValue>
+         <DefaultValue>%VPM1PDMCriterion:VPM1.EasyQuery.Name%</DefaultValue>
+      </DefaultValuesList>
+		<CurrentValue>%VPM1PDMCriterion:VPM1.SimpleName%</CurrentValue>
+	</Parameter>	
+	<Parameter Name="forceMapping" Type="Boolean" Alias="%CATPDMReconcileAutoRules:forceMappingForVPDMMapping%" Mandatory="Yes">
+		<DefaultValue>Yes</DefaultValue>
+	</Parameter>
+	<Parameter Name="implicitRule" Type="Boolean" Alias="%CATPDMReconcileAutoRules:implicitRuleForVPDMMapping%" Mandatory="Yes">
+		<DefaultValue>Yes</DefaultValue>
+	</Parameter>
+<RenderingForm>
+
+<MainFrame>
+	<Label ref="Parameter[@Name='queryNameForPRC']/@Alias" Name="FrmElemLabel1"/>
+	<GC A="L" W="1" H="1" X="0" Y="0" Name="FrmElemLabel1"/>
+	
+	<DefaultFormSelect1 ref="Parameter[@Name='queryNameForPRC']/CurrentValue" Name="FrmElemInput1"/>
+	<GC A="L" W="2" H="1" X="1" Y="0" Name="FrmElemInput1"/>
+	
+	<Label ref="Parameter[@Name='forceMapping']/@Alias" Name="FrmElemLabel2"/>
+	<GC A="L" W="1" H="1" X="1" Y="1" Name="FrmElemLabel2"/>
+	
+	<DefaultFormInput ref="Parameter[@Name='forceMapping']/CurrentValue" Name="FrmElemInput2"/>
+	<GC A="L" W="1" H="1" X="0" Y="1" Name="FrmElemInput2"/>
+	
+	<Label ref="Parameter[@Name='implicitRule']/@Alias" Name="FrmElemLabel3"/>
+	<GC A="L" W="1" H="1" X="1" Y="2" Name="FrmElemLabel3"/>
+	
+	<DefaultFormInput ref="Parameter[@Name='implicitRule']/CurrentValue" Name="FrmElemInput3"/>
+	<GC A="L" W="1" H="1" X="0" Y="2" Name="FrmElemInput3"/>
+	
+	<Label Name="FrmElemBlank"></Label>
+	<GC A="L" J="H" H="1" W="1" X="0" Y="3" Name="FrmElemBlank"/>
+	
+	<Label Name="FrmElemLongHelp">%CATPDMReconcileAutoRules:VPDMMapping.LongHelp%</Label>
+	<GC A="L" J="H" H="2" W="4" X="0" Y="4" Name="FrmElemLongHelp"/>
+	
+</MainFrame>
+</RenderingForm>
+
+</ParametersList>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--COPYRIGHT DASSAULT SYSTEMES 2005-->
+<ParametersList>
+	<Parameter Name="queryName" Type="String" Alias="%CATPDMReconcileAutoRules:queryName%" Mandatory="Yes">
+		<DefaultValuesList>
+			<DefaultValue>%VPM1PDMCriterion:VPM1.SimpleName%</DefaultValue>
+			<DefaultValue>%VPM1PDMCriterion:VPM1.Intermediate.Name%</DefaultValue>
+			<DefaultValue>%VPM1PDMCriterion:VPM1.EasyQuery.Name%</DefaultValue>
+		</DefaultValuesList>
+		<CurrentValue>%VPM1PDMCriterion:VPM1.Intermediate.Name%</CurrentValue>
+	</Parameter>	
+	<Parameter Name="forceMapping" Type="Boolean" Alias="forceMapping" Shown="No" Mandatory="Yes">
+		<CurrentValue>No</CurrentValue>
+	</Parameter>
+	<Parameter Name="implicitRule" Type="Boolean" Alias="%CATPDMReconcileAutoRules:implicitRule%" Mandatory="Yes">
+		<DefaultValue>Yes</DefaultValue>
+	</Parameter>
+	<Parameter Name="skipWhenMapped" Type="Boolean" Alias="%CATPDMReconcileAutoRules:skipWhenMapped%" Shown="Yes">
+		<CurrentValue>No</CurrentValue>
+	</Parameter>
+<RenderingForm>
+
+<MainFrame>
+	<Label ref="Parameter[@Name='queryName']/@Alias" Name="FrmElemLabel1"/>
+	<GC A="L" W="1" H="1" X="0" Y="0" Name="FrmElemLabel1"/>
+	
+	<DefaultFormSelect1 ref="Parameter[@Name='queryName']/CurrentValue" Name="FrmElemInput1"/>
+	<GC A="L" J="H" W="2" H="1" X="1" Y="0" Name="FrmElemInput1"/>
+	
+	<Label ref="Parameter[@Name='implicitRule']/@Alias" Name="FrmElemLabel2"/>
+	<GC A="L" W="1" H="1" X="1" Y="1" Name="FrmElemLabel2"/>
+	
+	<DefaultFormInput ref="Parameter[@Name='implicitRule']/CurrentValue" Name="FrmElemInput2"/>
+	<GC A="L" W="1" H="1" X="0" Y="1" Name="FrmElemInput2"/>
+	
+	<Label ref="Parameter[@Name='skipWhenMapped']/@Alias" Name="FrmElemLabel3"/>
+	<GC A="L" W="1" H="1" X="1" Y="2" Name="FrmElemLabel3"/>
+	
+	<DefaultFormInput ref="Parameter[@Name='skipWhenMapped']/CurrentValue" Name="FrmElemInput3"/>
+	<GC A="L" W="1" H="1" X="0" Y="2" Name="FrmElemInput3"/>
+	
+	<Label Name="FrmElemBlank"></Label>
+	<GC A="L" J="H" H="1" W="1" X="0" Y="3" Name="FrmElemBlank"/>
+	
+	<Label Name="FrmElemLongHelp">%CATPDMReconcileAutoRules:GlobalQuery.LongHelp%</Label>
+	<GC A="L" J="H" H="2" W="4" X="0" Y="4" Name="FrmElemLongHelp"/>
+	
+</MainFrame>
+</RenderingForm>
+
+</ParametersList>

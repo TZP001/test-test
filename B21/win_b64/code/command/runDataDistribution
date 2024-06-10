@@ -1,0 +1,439 @@
+#!/bin/ksh
+#set -x
+#############################################################################
+#                                                                           #
+#                                                                           #
+# COPYRIGHT DASSAULT SYSTEMES 1998                                          #
+# CATIA V5 for UNIX                                                         #
+# Licensed Material Program Property of IBM                                 #
+#                                                                           #
+#       Component Class : Shell Script command to start CATDMUDistribute    #
+#                                                                           #
+#       Component Name  : catstart                                          #
+#                                                                           #
+#       Input           : Transmit all                                      #
+#                                                                           #
+#       Output          : stdout                                            #
+#                                                                           #
+#                                                                           #
+#############################################################################
+ 
+
+Sys=`uname` || exit 1
+if [ "$(echo $Sys | cut -c1-4)" = "IRIX" ] ; then Sys="IRIX" ; fi
+export Sys
+
+if [[ $Sys = 'IRIX'  || $Sys = 'SunOS' ]]
+then
+    alias -x awk=nawk
+fi
+
+#-------------------------------------------------------------------------#
+# Shell Customization
+#-------------------------------------------------------------------------#
+
+# repository of data #
+data_distribution_repository=/usr/dataDistribution
+
+# distribution mode : Copy (0) or Extract (1) #
+distribution_mode=1
+
+# temporary repostiry if extract mode #
+temporary_dis_repository=/tmp
+export temporary_dis_repository
+
+# path of directory for directory VPMWsUser.sh #
+vpm_directory_start=/home/vpmadm/env
+export vpm_directory_start
+
+
+
+#-------------------------------------------------------------------------#
+# Initialization
+#-------------------------------------------------------------------------#
+
+get_environment_name=0
+get_environment_directory=0
+get_transfert_type=0
+get_transfert_user=0
+get_transfert_pwd=0
+get_process_number=0
+get_server_name=0
+get_remote=0
+silent_mode=0
+process_number=2
+transfert_type="ftp"
+server_name=""
+unset PANELV2ODOTOP
+
+#-------------------------------------------------------------------------#
+# Help shell
+#-------------------------------------------------------------------------#
+
+useshell()
+{
+     echo " +--------------------------------------------------------------+"
+     echo " | GOAL : - start Data Distribution application                 |" 
+     echo " +--------------------------------------------------------------+" 
+     echo " | SYNTAX :                                                     |" 
+     echo " |                                                              |"
+     echo " |  runDataDistribution [ -user user_name          ]            |" 
+     echo " |                      [ -pwd  pwd                ]            |"
+     echo " |                      [ -remote host_name        ]            |"
+     echo " |                      [ -t transfert_type        ]            |"
+     echo " |                      [ -server server_name      ]            |"
+     echo " |                      [ -env  environment_name   ]            |"
+     echo " |                      [ -d environment_directory ]            |"
+     echo " |                      [ -n number_activ_process  ]            |"
+     echo " |                      [ -s ]                                  |"
+     echo " |                      [ -h ]                                  |"
+     echo " |                                                              |"
+     echo " |    -> user: followed by the name of the user                 |"
+     echo " |             for data transfert or for remote                 |"
+     echo " |                                                              |"
+     echo " |    -> pwd : followed by password for data tansfert           |"
+     echo " |                                                              |"  
+     echo " |    -> t: followed by transfert type[ftp,rdist] default : ftp |"
+     echo " |                                                              |"
+     echo " |    -> remote: followed by the name of the remote machine     |"
+     echo " |               on which the program is run                    |"
+     echo " |                                                              |"
+     echo " |    -> server : followed by the vpm logical server name       |"
+     echo " |                                                              |"
+     echo " |    -> env: followed by environment name used by CATIA V5     |"
+     echo " |                                                              |"
+     echo " |    -> d: followed by environment directory used by CATIA V5  |"
+     echo " |                                                              |"
+     echo " |    -> n: followed by the number of activ process             |"
+     echo " |                                                              |"
+     echo " |    -> s: silent mode (no messages)                           |"
+     echo " |                                                              |"
+     echo " |    -> h:   get info on the shell                            |"
+     echo " |                                                              |"
+     echo " +--------------------------------------------------------------+"
+}
+
+#-------------------------------------------------------------------------#
+# analyse input parameters
+#-------------------------------------------------------------------------#
+
+for opt in "$@"
+ do
+  case "$opt" in
+    '-h' ) # option help #
+            useshell
+            exit 1;;
+
+    '-env' ) #environment name option #
+            get_environment_name=1;;
+
+    '-d' ) #environment directory option #
+            get_environment_directory=1;;
+
+    '-t' ) #transfert type option #
+            get_transfert_type=1;;
+
+    '-remote' ) #remote option #
+            get_remote=1;;
+
+    '-user' ) #transfert user option #
+            get_transfert_user=1;;
+
+    '-pwd' ) #transfert pwd option #
+            get_transfert_pwd=1;;
+
+    '-server' ) #server for VPM extraction #
+            get_server_name=1;;
+
+    '-n' )  #process_number option #	
+            get_process_number=1;;
+
+    '-s' ) #silent mode option #
+            silent_mode=1;;
+
+     * ) # other options #
+          if [ $get_environment_name = 1 ]
+          then
+            environment_name=$opt
+            get_environment_name=0
+
+          elif [ $get_environment_directory = 1 ]
+          then
+            environment_directory=$opt
+            get_environment_directory=0
+
+          elif [ $get_remote = 1 ]
+          then
+            remote_machine=$opt
+            get_remote=0
+          elif [ $get_transfert_type = 1 ]
+          then
+            transfert_type=$opt
+            get_transfert_type=0
+
+          elif [ $get_transfert_user = 1 ]
+          then
+            transfert_user=$opt
+            get_transfert_user=0
+
+          elif [ $get_transfert_pwd = 1 ]
+          then
+            transfert_pwd=$opt
+            get_transfert_pwd=0
+
+	 elif [ $get_process_number = 1 ]
+          then
+            process_number=$opt
+            get_process_number=0
+         
+	elif [ $get_server_name = 1 ]
+          then
+            server_name=$opt
+            get_server_name=0
+
+          fi;;
+
+  esac
+ done
+
+
+#-------------------------------------------------------------------------#
+# Remote running 
+#-------------------------------------------------------------------------#
+if [ -n "$remote_machine" ]
+then
+  if [ -z "$remote_user" ]
+  then
+    useshell
+    exit 1
+  fi
+
+  RemoteArg="catstart " 
+
+  if [ -n "$environment_name" ] 
+  then
+    RemoteArg=$RemoteArg" -env "$environment_name 
+  fi
+
+  if [ -n "$environment_directory" ]
+  then
+    RemoteArg=$RemoteArg" -d "$environment_directory
+  fi
+
+  if [ -n "$object" ]
+  then
+    RemoteArg=$RemoteArg" -object "$object
+  fi
+
+  if [ "$silent_mode" = 1 ]  
+  then
+    RemoteArg=$RemoteArg" -s "
+  fi
+
+fi
+
+
+#-------------------------------------------------------------------------#
+# set CATIA V5 environment variable
+#-------------------------------------------------------------------------#
+
+if [ -n "$environment_name" ]
+then
+
+  CATIAV5_environment_name=`basename ${environment_name%\.sh}`
+
+else
+
+  if [ `dirname $0` = "." ]
+  then
+    CATIAV5starter_path=`pwd`
+  else
+    CATIAV5starter_path=`dirname $0`
+  fi 
+
+  CATIAV5_root_directory=${CATIAV5starter_path%code/command*}
+
+  if [ -z "$CATIAV5_root_directory" ]
+  then
+    if [ $silent_mode = 0 ]
+    then
+      echo " Can not set CATIA V5 Environment Variables" >&2
+      echo " Fatal error ==> procedure is aborted   " >&2
+    fi
+    exit 1
+  fi
+
+  if [ -f $CATIAV5_root_directory/EnvName.txt ]
+  then
+    CATIAV5_environment_name=`cat $CATIAV5_root_directory/EnvName.txt` 
+
+    if [ -z "$CATIAV5_environment_name" ]
+    then
+      CATIAV5_environment_name=DefaultEnvironment
+    fi
+
+  else
+    CATIAV5_environment_name=DefaultEnvironment
+  fi
+fi
+
+#-------------------------------------------------------------------------#
+# set CATIA V5 environment directory
+#-------------------------------------------------------------------------#
+
+if [ -n "$environment_directory" ]
+then
+  CATIAV5_environment_directory=$environment_directory
+
+else
+
+  if [ `dirname $0` = "." ]
+  then
+    CATIAV5starter_path=`pwd`
+  else
+    CATIAV5starter_path=`dirname $0`
+  fi 
+
+  CATIAV5_root_directory=${CATIAV5starter_path%code/command*}
+
+  if [ -f $CATIAV5_root_directory/EnvDir.txt ]
+  then
+    CATIAV5_environment_directory=`cat $CATIAV5_root_directory/EnvDir.txt` 
+
+  else
+    if [ -n "$environment_name" ]
+    then
+      CATIAV5_environment_directory_depth=`echo $environment_name | awk '{ nbfields=split($0,fields,"/"); print nbfields }'`
+      if [ $CATIAV5_environment_directory_depth -gt 1 ]
+      then
+          CATIAV5_environment_directory=`dirname $environment_name`
+      fi
+    fi
+  fi
+
+  if [ -z "$CATIAV5_environment_directory" ]
+  then
+    CATIAV5_environment_directory=$HOME/CATEnv
+  fi
+fi
+
+#-------------------------------------------------------------------------#
+# set CATIA V5 environment and start CATIA V5
+#-------------------------------------------------------------------------#
+
+if [ -n "$CATIAV5_environment_name" ]
+then
+
+  if [ -f "$CATIAV5_environment_directory/$CATIAV5_environment_name.sh" ]
+  then
+    . $CATIAV5_environment_directory/$CATIAV5_environment_name.sh
+
+  else
+    if [ -f "/CATEnv/$CATIAV5_environment_name.sh" ]
+    then
+      . /CATEnv/$CATIAV5_environment_name.sh
+    else
+      if [ $silent_mode = 0 ]
+      then
+        echo " Can not set CATIA V5 Environment Variables" >&2
+        echo " Fatal error ==> procedure is aborted   " >&2
+      fi
+      exit 1
+    fi
+  fi
+fi
+
+#-------------------------------------------------------------------------#
+# test input Program
+#-------------------------------------------------------------------------#
+
+  if [ -n "$vpm_directory_start" ]
+    then
+     if [ ! -f "$vpm_directory_start/VPMWsUser.sh" ]
+      then	
+       echo "The VPM shell initialisation is not reachable"
+       exit 1 
+     fi
+  else
+    echo "The vpm_directory_start variable is not set"
+    exit 1
+  fi
+
+  if [ $distribution_mode = 1 ]
+    then
+      if [ -n "$server_name" ]
+        then	   	
+          if [ ! -n "$temporary_dis_repository" ]
+          then
+            echo "The temporary_dis_repository variable is not set"
+           exit 2
+          fi
+      else
+        echo "The -server option is mandatory in extract mode"
+        exit 2
+      fi  
+   fi
+#-------------------------------------------------------------------------#
+# Program 
+#-------------------------------------------------------------------------#
+program_name="CATDMUDistribute $data_distribution_repository $process_number $transfert_type $transfert_user $transfert_pwd"
+if [ $distribution_mode = 1 ]
+  then		
+    program_name="CATDMUDistribute $data_distribution_repository $process_number $transfert_type $transfert_user $transfert_pwd $server_name"
+fi 
+
+
+#-------------------------------------------------------------------------#
+# Start Remote Program
+#-------------------------------------------------------------------------#
+if [ -n "$remote_machine" ]
+then
+  RemoteArg=$RemoteArg" -run "$program_name
+  if [ "$silent_mode" = 1 ]  
+  then
+    RemoteArg=$RemoteArg" -s "
+  fi
+
+  rc =  CATRemoteRunner $remote_machine $remote_user \""$RemoteArg"\"
+  if [ $rc -ne 0 ]
+  then
+    if [ $silent_mode = 0 ]
+    then
+      echo "CATIA V5 Remote Program aborted" >&2
+    fi
+  fi
+  exit $rc
+fi
+
+
+#-------------------------------------------------------------------------#
+# start Program
+#-------------------------------------------------------------------------#
+  if [ $silent_mode = 0 ]
+  then
+    echo "Starting Data Distribution program. Please wait..."
+  fi
+
+  $program_name
+  rc=$?
+
+  if [ $rc -ne 0 ]
+  then
+    if [ $silent_mode = 0 ]
+    then
+      echo "$program_name Program aborted" >&2
+    fi
+  fi
+  
+
+#-------------------------------------------------------------------------#
+# That's all folks
+#-------------------------------------------------------------------------#
+
+exit $rc
+
+
+
+
+
+

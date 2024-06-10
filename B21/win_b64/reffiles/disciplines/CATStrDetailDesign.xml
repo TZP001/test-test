@@ -1,0 +1,115 @@
+<!DOCTYPE Application SYSTEM "Application.dtd">
+
+<Application Name="CATStrDetailDesign" Description="Light Structure Detail Design Application" Visible = "no">
+
+  <!-- ************** Structure Computed Attributes ************** -->
+	 <Resource Name="StructureComputedAttributes" Description="Structure Computed Attributes" Visible = "yes">
+		   <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\Structure\ProjectParameters\StructureComputedAttributes.txt"/>
+	 </Resource>
+	 
+  <!-- ************** ID SCHEMA RESOURCES ************** -->
+	 <Resource Name="StrFunctionalDesignIDSchema" Description="Structure Functional Design ID Schema Directory">
+		   <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\StrFunctionalDesign\DataDictionary"/>
+	 </Resource>
+
+  <!-- ************** Color SCHEMA RESOURCES ************** -->
+	 <Resource Name="StrFunctionalDesignColorSchema" Description="Structure Functional Design Color Schema Directory">
+		   <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\StrFunctionalDesign\DataDictionary"/>
+	 </Resource>
+
+  <!-- ************** USER DICTIONARY RESOURCES ************** -->
+	 <Resource Name="StrFuncDesignUserDictionary" Description="Structure Functional Design User Dictionary">
+     <ID  Type="Misc" Driver="File" Location="CATStrFunctionalDesignSample.CATfct"/>
+	 </Resource>
+
+  <!-- ************** Discrete List directory ************** -->
+	 <Resource Name="DiscreteValues" Description="Discrete Values Directory">
+		   <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\DiscreteValues"/>
+	 </Resource>
+
+  <!-- ID Sequence Number Definition Directory
+	 <Resource Name="IDSequenceNumber" Description="ID Sequence Number Definition Directory"> 
+		   <ID  Type="Path" Driver="File" Location="C:\CATTemp\IDSequenceNumbers"/>
+	 </Resource>  -->        
+	
+	<!-- ************** Material Catalog ************** -->
+	<Resource Name="StructureMaterialsCatalog" Description="Structure Materials Catalog"> 
+	         <ID  Type="Catia" Driver="File" Location="\startup\EquipmentAndSystems\Structure\StructuralCatalogs\Materials\StructureMaterials.CATMaterial"/>
+	</Resource>
+
+  <!-- ************** Drawing symbols ************** -->
+    <Resource Name="StructureDrawingSymbolsCatalog" Description="Structure Drawing Symbols Catalog"> 
+           <ID  Type="Catia" Driver="File" Location="\startup\EquipmentAndSystems\Structure\StructuralCatalogs\DrawingSymbols\Structure2DSymbolsCatalog.catalog"/>
+    </Resource> 
+    
+   <!-- ************** ATS symbols ************** -->
+  <Resource Name="AnnotationCatalog" Description="3D Annotation Catalog">
+           <ID  Type="Catia" Driver="File" Location="\startup\EquipmentAndSystems\Structure\StructuralCatalogs\DrawingSymbols\StructureAnnotationCatalog.catalog"/>
+  </Resource> 
+  
+  <!-- ************** Molded Conventions Project Parameters *********** -->
+  <Resource Name="ProjectParameters" Description="Contains setup parameters like ship positioning, ship caracteristic planes, etc...">
+     <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\Structure\ProjectParameters.xml"/>
+  </Resource>
+
+  <!-- ************** Molded Conventions *********** -->
+  <Resource Name="MoldedConventions" Description="Contains positioning conventions for structural elements">
+     <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\Structure\ShipStructureMoldedConventions.xml"/>
+  </Resource>
+
+  <!-- ************** Project Bounding Box RESOURCES ************** -->
+    <Resource Name="ProjectEnvelope" Description="Location of bounding box data" Visible = "yes"> 
+      <ID  Type="Catia" Driver="File" Location="\startup\EquipmentAndSystems\Structure\ProjectEnvelope.xml"/>
+    </Resource>
+
+  <!-- ************** Specification Catalog ************** -->
+    <Resource Name="StructureSpecificationsCatalog" Description="Structure Specifications Catalog" Visible="yes">
+       <ID  Type="Catia" Driver="File" Location="\startup\EquipmentAndSystems\Structure\StructuralCatalogs\Materials\StructureMaterialSpecifications.catalog"/>
+    </Resource> 
+
+  <!-- ************** Structure Standards ************** -->
+    <Resource Name="StructureStandards" Description="Possible Standards for structural objects" Visible="yes">
+       <ID  Type="Misc" Driver="File" Location="AISC"/>
+    </Resource>
+
+  <!--***** Slots\Endcuts*****-->
+    <Resource Name="StructureDetailDesignCatalog" Description="Structure Detail Design Catalog" Visible="yes">
+       <ID  Type="Catia" Driver="File" Location="\startup\EquipmentAndSystems\Structure\DetailingFeatures\StructureDetailingFeatures.catalog"/>
+    </Resource>
+
+  <!--***** Standard Openings Catalog *****-->
+  <Resource Name="StructureOpeningsCatalog" Description="Structure Openings Catalog" Visible="yes">
+    <ID  Type="Catia" Driver="File" Location="\startup\EquipmentAndSystems\Structure\StructuralCatalogs\OPENINGS\StructureOpenings.catalog"/>
+  </Resource>
+
+  <!-- ************** Project Reference Planes *********** -->
+    <Resource Name="ProjectReferencePlanes" Description="Defines the reference planes definition">
+       <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\Structure\ReferencePlanesSystem.xml"/>
+    </Resource>
+
+  <!-- ***** System Hull Model  ***** -->
+    <Resource Name="StructureHullModel" Description="The Hull model used for structure functional and detail design applications" Visible="yes">
+       <ID Type="Catia" Driver="File" Location="\startup\EquipmentAndSystems\Structure\Hull1234.CATPart" Access="R" /> 
+    </Resource>
+
+  <!-- ***** System Hull Feature Name  ***** -->
+    <Resource Name="StructureHullFeatureName" Visible="yes"> 
+       <ID  Type="Misc" Driver="File" Location="Hull1234"/>
+    </Resource>
+
+  <!-- ***** Material Grade Preferred List mode - None, ActiveUnSpec, ActiveSpec  ***** -->
+    <Resource Name="MaterialManagementMode" Visible="yes"> 
+       <ID  Type="Misc" Driver="File" Location="ActiveUnSpec"/>
+    </Resource>
+    
+  <!-- ***** Structure Confusion Rule for Planning Breaks - MoldedConvention, MaterialOrientation, InverseMoldedConvention, InverseMaterialOrientation ***** -->
+    <Resource Name="StructureConfusionRule" Visible="yes"> 
+       <ID  Type="Misc" Driver="File" Location="MoldedConvention"/>
+    </Resource>
+
+  <!-- ************** Structure Detailing Feature Bitmap Path ************** -->
+	<Resource Name="StructureDetailingFeatureBitmapPath" Description="Structure Detailing Feature Bitmap Path">
+	   <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\Structure\DetailingFeatures\Bitmaps"/>
+	</Resource>
+
+</Application>

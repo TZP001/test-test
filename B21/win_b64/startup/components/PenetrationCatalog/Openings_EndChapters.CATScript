@@ -1,0 +1,84 @@
+'// COPYRIGHT DASSAULT SYSTEMES  1999
+'//============================================================================
+'//
+'// Language="VBSCRIPT"
+'// To build catalog from a parametrized part
+'//
+'//============================================================================
+'// Major CATIA interface used:
+'//
+'// interface               VB Name         Remarks
+'// -----------            ------------    --------------
+'// CATIACatalogDocument   CatalogDocument create catalog
+'//
+'//============================================================================
+Option Explicit
+'******************************************************************************
+'  GLOBAL variable declarations section
+'******************************************************************************
+Dim strGInputPath
+Dim strGOutputPath
+'@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+'//                       User customizable sections              
+'@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Const NBEndChapter = 4
+Dim strArrayEndChapter (4)
+Dim strArrayModelFile (4)
+Dim strArrayCatalogFile (4)
+'------------------------------------------------------------------------------
+Sub InitEndChapterArray ()
+'------------------------------------------------------------------------------
+  strArrayEndChapter(1) = "Round openings"
+  strArrayEndChapter(2) = "Oblong openings"
+  strArrayEndChapter(3) = "Square openings"
+  strArrayEndChapter(4) = "Rectangular openings"
+'------------------------------------------------------------------------------
+  strArrayModelFile(1) = "ROUND_OPENING"
+  strArrayModelFile(2) = "OBLONG_OPENING"
+  strArrayModelFile(3) = "SQUARE_OPENING"
+  strArrayModelFile(4) = "RECTANGULAR_OPENING"
+'------------------------------------------------------------------------------
+  strArrayCatalogFile(1) = "Round_Openings"
+  strArrayCatalogFile(2) = "Oblong_Openings"
+  strArrayCatalogFile(3) = "Square_Openings"
+  strArrayCatalogFile(4) = "Rectangular_Openings"
+End Sub
+'------------------------------------------------------------------------------
+Sub GetPath ()
+'------------------------------------------------------------------------------
+  strGInputPath = InputBox("Path of the models directory:", _
+      "Input path for model files", _
+      "e:\users\jcm\adele\jcmcxr8\CATHullFunctionalUI\CNext\startup\components\HullfunctionalCatalogs\Sketches\")
+  strGOutputPath = InputBox("Path of the catalog output directory:", _
+      "Output path for Catalogs", _
+      "e:\users\jcm\adele\jcmcxr8\CATHullFunctionalUI\CNext\startup\components\HullfunctionalCatalogs\")
+End Sub '
+'------------------------------------------------------------------------------
+Sub CATMain()
+'------------------------------------------------------------------------------
+  Dim objCatalogDoc As Document
+  Dim intK As Integer
+  Dim strChapterName As String
+  Dim strModelName As String
+  Dim strCatalogName As String
+  '
+  InitEndChapterArray 
+  '
+  GetPath
+  '
+  On Error Resume Next
+  For intK = 1 to NBEndChapter
+     strModelName = strGInputPath & strArrayModelFile (intK) & ".CATPart"
+     strChapterName = strArrayEndChapter (intK) 
+     strCatalogName = strGOutputPath & strArrayCatalogFile (intK) & ".catalog"
+     Set objCatalogDoc = CATIA.Documents.Add("CatalogDocument")
+     ' Calls the method on Catalog to create inside the catalog document
+     ' a chapter from the Design Table
+     objCatalogDoc.CreateChapterFromDesignTable strChapterName , strModelName
+     ' Saves the catalog document
+     objCatalogDoc.SaveAs strCatalogName
+     ' Closes the catalog document
+     objCatalogDoc.Close
+  Next  'For intK
+  MsgBox "Press OK to quit", 0, "CATALOG CREATION COMPLETED"
+End Sub '/////////////////////////////////////////////// CATMain

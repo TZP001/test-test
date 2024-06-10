@@ -1,0 +1,188 @@
+//=====================================================================================
+//                                     CNEXT - CXR1
+//                          COPYRIGHT DASSAULT SYSTEMES 1999 
+//-------------------------------------------------------------------------------------
+// FILENAME    :    CATDrwOptGeo
+// LOCATION    :    DraftingUI
+// AUTHOR      :    fgx
+// BUT         :    
+// DATE        :    06.01.1999
+//-------------------------------------------------------------------------------------
+// DESCRIPTION :    Tools/Option du Drafting - Onglet Geometry
+//-------------------------------------------------------------------------------------
+// COMMENTS    :    
+//-------------------------------------------------------------------------------------
+// MODIFICATIONS     user  date        purpose
+//    HISTORY        ----  ----        -------
+//      00           fgx   06.01.1999  Creation 	
+//      01           fgx   08.01.1999  Passage sur CATDrwOptTitle et CATDrwOptIcon
+//      02           fgx   20.01.1999  Ajout des options de visu des cst
+//      03           fgx   20.01.1999  Deplacement des options de la grid de geo a gal
+//      04           fgx   20.01.1999  Ajout de CreateCenter
+//      05           fgx   22.02.1999  Ajout de CstCreation, retrait de CreateConstraint
+//      06           fgx   23.08.1999  Manipulation directe de la geometrie
+//      07           lgk   18.12.02    revision
+//=====================================================================================
+
+Title="Геометрия";
+
+frameCenter.HeaderFrame.Global.Title = "Геометрия";
+frameCenter.HeaderFrame.Global.LongHelp = "Обеспечение возможности создания \nдополнительных элементов в геометрии.";
+frameCenter.IconAndOptionsFrame.OptionsFrame.checkCenter.Title = "Создание центров окружностей и эллипсов";
+frameCenter.IconAndOptionsFrame.OptionsFrame.checkCenter.LongHelp = "Создание центров окружностей и эллипсов\nпри построении окружностей и эллипсов.";
+frameCenter.IconAndOptionsFrame.OptionsFrame._checkDragWithEndPts.Title = "Перетаскивание элементов с конечными точками";
+frameCenter.IconAndOptionsFrame.OptionsFrame._checkDragWithEndPts.LongHelp = "Перетаскивание элементов с конечными точками.";
+frameCenter.IconAndOptionsFrame.OptionsFrame.chkEndPtsDuplGenGeom.Title = "Создание конечных точек при дублировании сформированной геометрии";
+frameCenter.IconAndOptionsFrame.OptionsFrame.chkEndPtsDuplGenGeom.LongHelp = "Создание конечных точек при дублировании геометрии, сформированной из среды 3D.";
+frameCenter.IconAndOptionsFrame.OptionsFrame.chkShowHV.Title = "Показ полей Гор. и Вер. в Палитре инструментов";
+frameCenter.IconAndOptionsFrame.OptionsFrame.chkShowHV.LongHelp = "Показ полей Гор. и Вер. в Палитре инструментов\nпри создании геометрии 2D или смещении элементов.";
+
+//drag elements
+frameCenter.IconAndOptionsFrame.OptionsFrame.checkGeomDrag.Title="Разрешение прямого манипулирования ";
+frameCenter.IconAndOptionsFrame.OptionsFrame.checkGeomDrag.LongHelp="Возможность перемещения геометрии с помощью мыши.";
+frameCenter.IconAndOptionsFrame.OptionsFrame.dragOptionPushButton.Title="Режим решения...";
+frameCenter.IconAndOptionsFrame.OptionsFrame.dragOptionPushButton.LongHelp = "Определение режима решения для перемещения элементов.";
+
+frameCstCreation.HeaderFrame.Global.Title="Создание ограничений ";
+frameCstCreation.HeaderFrame.Global.LongHelp=
+"Создание обнаруживаемых ограничений и 
+ограничений на основе примитива.";
+frameCstCreation.IconAndOptionsFrame.OptionsFrame.checkCstCreation.Title="Создание обнаруживаемых ограничений и ограничений на основе примитива";
+frameCstCreation.IconAndOptionsFrame.OptionsFrame.checkCstCreation.LongHelp=
+"Создание обнаруживаемых ограничений и 
+ограничений на основе примитива.";
+frameCstCreation.IconAndOptionsFrame.OptionsFrame.framePushButton.smartPickPushButton.Title="SmartPick...";
+frameCstCreation.IconAndOptionsFrame.OptionsFrame.framePushButton.smartPickPushButton.LongHelp="Динамическое обнаружение логических ограничений.";
+
+frameCstVisu.HeaderFrame.Global.Title="Отображение ограничений";
+frameCstVisu.HeaderFrame.Global.LongHelp=
+"Определение параметров для отображения ограничений 2D ";
+frameCstVisu.IconAndOptionsFrame.OptionsFrame.LongHelp=
+"Определение параметров для отображения ограничений 2D";
+frameCstVisu.IconAndOptionsFrame.OptionsFrame.checkCstVisu.Title="Отображение ограничений";
+frameCstVisu.IconAndOptionsFrame.OptionsFrame.checkCstVisu.LongHelp=
+"Отображение следующих типов ограничений.";
+frameCstVisu.IconAndOptionsFrame.OptionsFrame.labelCstRefSize.Title="Опорный размер: ";
+frameCstVisu.IconAndOptionsFrame.OptionsFrame.labelCstRefSize.LongHelp="Определение размера, используемого в качестве опорного, для отображения
+символов ограничений. Его изменение влияет на
+размер всех представлений ограничений.";
+frameCstVisu.IconAndOptionsFrame.OptionsFrame.editorCstRefSize.LongHelp="Определение размера, используемого в качестве опорного, для отображения
+символов ограничений. Его изменение влияет на
+размер всех представлений ограничений.";
+frameCstVisu.IconAndOptionsFrame.OptionsFrame.labelCstColor.Title="Цвет ограничений: ";
+frameCstVisu.IconAndOptionsFrame.OptionsFrame.comboCstColor.LongHelp="Определение цвета, используемого для отображения символов ограничений. 
+Его изменение влияет на цвет всех представлений 
+ограничений.";
+frameCstVisu.IconAndOptionsFrame.OptionsFrame.labelCstColor.LongHelp="Определение цвета, используемого для отображения символов ограничений. 
+Его изменение влияет на цвет всех представлений 
+ограничений.";
+frameCstVisu.IconAndOptionsFrame.OptionsFrame.frameCTPushButton.cstTypesPushButton.Title="Типы ограничений...";
+frameCstVisu.IconAndOptionsFrame.OptionsFrame.frameCTPushButton.cstTypesPushButton.LongHelp="Определение различных типов\nограничений для отображения.";
+
+
+frameGeomManipDirect.HeaderFrame.Global.Title="Манипуляторы";
+frameGeomManipDirect.HeaderFrame.Global.LongHelp="Щелчком кнопки мыши определение того, должны ли быть активированы манипуляторы,
+перед перемещением геометрии.";
+
+frameGeomManipDirect.IconAndOptionsFrame.OptionsFrame.checkGeomManipDirect.Title="Разрешение прямого манипулирования ";
+frameGeomManipDirect.IconAndOptionsFrame.OptionsFrame.checkGeomManipDirect.LongHelp="Разрешение прямого манипулирования 
+Щелчком кнопки мыши определение того, должны ли быть активированы манипуляторы,
+перед перемещением геометрии.";
+
+
+frameDiagColors.HeaderFrame.Global.Title = "Цвета";
+frameDiagColors.HeaderFrame.Global.LongHelp = "Цвета\nОпределение цветов элементов.";
+frameDiagColors.IconAndOptionsFrame.OptionsFrame.checkVisualizationDiag.Title = "Отображение диагностической информации";
+frameDiagColors.IconAndOptionsFrame.OptionsFrame.checkVisualizationDiag.LongHelp = "Определение отображения диагностической информации\nдля ограниченных элементов.";
+frameDiagColors.IconAndOptionsFrame.OptionsFrame.diagColorsPushButton.Title = "Цвета...";
+frameDiagColors.IconAndOptionsFrame.OptionsFrame.diagColorsPushButton.LongHelp = "Определение цветов диагностической информации.";
+frameDiagColors.IconAndOptionsFrame.OptionsFrame.labelOtherColors.Title = "Другой цвет элементов";
+frameDiagColors.IconAndOptionsFrame.OptionsFrame.labelOtherColors.LongHelp = "Определение других цветов элементов.";
+frameDiagColors.IconAndOptionsFrame.OptionsFrame.otherColorsPushButton.Title = "Цвета...";
+frameDiagColors.IconAndOptionsFrame.OptionsFrame.otherColorsPushButton.LongHelp = "Определение других цветов элементов.";
+
+
+// NLS push button solving mode dans onglet geometry
+geoAllowGeomManip.Title="Перетаскивание элементов ";
+geoAllowGeomManip.frameButtonDragElts.HeaderFrame.Global.Title = "Перетаскивание элементов ";
+geoAllowGeomManip.frameButtonDragElts.HeaderFrame.Global.LongHelp = "Определение того, как перемещать элементы.";
+geoAllowGeomManip.frameButtonDragElts.IconAndOptionsFrame.OptionsFrame.checkDragWithEndPts.Title = "Перетаскивание элементов с конечными точками";
+geoAllowGeomManip.frameButtonDragElts.IconAndOptionsFrame.OptionsFrame.checkDragWithEndPts.LongHelp = "Перетаскивание элементов и их конечных точек.";
+geoAllowGeomManip.frameButtonDragElts.IconAndOptionsFrame.OptionsFrame.frameDragMode.Title = "Режим решения ";//for moving elements";
+geoAllowGeomManip.frameButtonDragElts.IconAndOptionsFrame.OptionsFrame.frameDragMode.frameDragModelocked.radioDragModeStd.Title = "Стандартный режим";
+geoAllowGeomManip.frameButtonDragElts.IconAndOptionsFrame.OptionsFrame.frameDragMode.frameDragModelocked.radioDragModeStd.LongHelp = "Использование стандартного режима при перемещении элементов.";
+geoAllowGeomManip.frameButtonDragElts.IconAndOptionsFrame.OptionsFrame.frameDragMode.frameDragModelocked.radioDragModeMin.Title = "Минимальное перемещение";
+geoAllowGeomManip.frameButtonDragElts.IconAndOptionsFrame.OptionsFrame.frameDragMode.frameDragModelocked.radioDragModeMin.LongHelp = "Выполнение минимального перемещения.";
+geoAllowGeomManip.frameButtonDragElts.IconAndOptionsFrame.OptionsFrame.frameDragMode.frameDragModelocked.radioDragModeRel.Title = "Релаксация";
+geoAllowGeomManip.frameButtonDragElts.IconAndOptionsFrame.OptionsFrame.frameDragMode.frameDragModelocked.radioDragModeRel.LongHelp = "Использование релаксации.";
+
+// Push Button SmartPick
+geoSmartPick.Title="SmartPick";
+geoSmartPick.frameSmartPick.HeaderFrame.Global.Title="SmartPick";
+geoSmartPick.frameSmartPick.HeaderFrame.Global.LongHelp=
+"SmartPick
+geoSmartPick. Автоматическое определение положения элементов в геометрии 2D.";
+geoSmartPick.frameSmartPick.IconAndOptionsFrame.OptionsFrame.checkSmartPickCoincid.Title="Поддерживающие линии и окружности";
+geoSmartPick.frameSmartPick.IconAndOptionsFrame.OptionsFrame.checkSmartPickCoincid.LongHelp=
+"Выявление поддерживающих линий и окружностей.";
+geoSmartPick.frameSmartPick.IconAndOptionsFrame.OptionsFrame.checkSmartPickAlign.Title="Выравнивание ";
+geoSmartPick.frameSmartPick.IconAndOptionsFrame.OptionsFrame.checkSmartPickAlign.LongHelp=
+"Определение выравнивания двух элементов друг относительно друга.";
+geoSmartPick.frameSmartPick.IconAndOptionsFrame.OptionsFrame.checkSmartPickParaPerpenTang.Title="Параллельность, перпендикулярность и касание ";
+geoSmartPick.frameSmartPick.IconAndOptionsFrame.OptionsFrame.checkSmartPickParaPerpenTang.LongHelp=
+"Определение параллельности,
+перпендикулярности или касания двух элементов.";
+geoSmartPick.frameSmartPick.IconAndOptionsFrame.OptionsFrame.checkSmartPickHoriVerti.Title="Горизонтальность и вертикальность";
+geoSmartPick.frameSmartPick.IconAndOptionsFrame.OptionsFrame.checkSmartPickHoriVerti.LongHelp=
+"Определение горизонтального или вертикального расположения двух элементов относительно друг друга.";
+
+// Constraints types
+geoTypeCst.Title="Типы ограничений";
+geoTypeCst.frameConstraintsTypes.HeaderFrame.Global.Title="Типы ограничений";
+geoTypeCst.frameConstraintsTypes.HeaderFrame.Global.LongHelp="Определение различных типов\nограничений для отображения.";
+geoTypeCst.frameConstraintsTypes.IconAndOptionsFrame.OptionsFrame.checkCstVisuHori.Title="Горизонтальное";
+geoTypeCst.frameConstraintsTypes.IconAndOptionsFrame.OptionsFrame.checkCstVisuHori.LongHelp="Горизонтальное
+Отображение ограничений горизонтального положения.";
+geoTypeCst.frameConstraintsTypes.IconAndOptionsFrame.OptionsFrame.checkCstVisuVerti.Title="Вертикальное";
+geoTypeCst.frameConstraintsTypes.IconAndOptionsFrame.OptionsFrame.checkCstVisuVerti.LongHelp="Вертикальное
+Отображение ограничений вертикального положения.";
+geoTypeCst.frameConstraintsTypes.IconAndOptionsFrame.OptionsFrame.checkCstVisuPara.Title="Параллельность";
+geoTypeCst.frameConstraintsTypes.IconAndOptionsFrame.OptionsFrame.checkCstVisuPara.LongHelp="Параллельность
+Отображение ограничений параллельности.";
+geoTypeCst.frameConstraintsTypes.IconAndOptionsFrame.OptionsFrame.checkCstVisuPerpen.Title="Перпендикулярность";
+geoTypeCst.frameConstraintsTypes.IconAndOptionsFrame.OptionsFrame.checkCstVisuPerpen.LongHelp="Перпендикулярность
+Отображение ограничений перпендикулярности.";
+geoTypeCst.frameConstraintsTypes.IconAndOptionsFrame.OptionsFrame.checkCstVisuConcen.Title="Концентричность";
+geoTypeCst.frameConstraintsTypes.IconAndOptionsFrame.OptionsFrame.checkCstVisuConcen.LongHelp="Концентричность
+Отображение ограничений концентричности.";
+geoTypeCst.frameConstraintsTypes.IconAndOptionsFrame.OptionsFrame.checkCstVisuCoinci.Title="Совпадение";
+geoTypeCst.frameConstraintsTypes.IconAndOptionsFrame.OptionsFrame.checkCstVisuCoinci.LongHelp="Совпадение
+Отображение ограничений совпадения.";
+geoTypeCst.frameConstraintsTypes.IconAndOptionsFrame.OptionsFrame.checkCstVisuTangen.Title="Касание";
+geoTypeCst.frameConstraintsTypes.IconAndOptionsFrame.OptionsFrame.checkCstVisuTangen.LongHelp="Касание
+Отображение ограничений касания.";
+geoTypeCst.frameConstraintsTypes.IconAndOptionsFrame.OptionsFrame.checkCstVisuSym.Title="Симметрия";
+geoTypeCst.frameConstraintsTypes.IconAndOptionsFrame.OptionsFrame.checkCstVisuSym.LongHelp="Симметрия
+Отображение ограничений симметрии.";
+
+// NLS de l'onglet Geometry pour le diagnostic des couleurs
+geoVisuDiagColor.Title="Цвета диагностики";
+geoVisuDiagColor.frameButtonDiagColors.HeaderFrame.Global.Title = "Цвета диагностики";
+geoVisuDiagColor.frameButtonDiagColors.HeaderFrame.Global.LongHelp = "Цвета диагностики\nОпределение цветов диагностики.";
+geoVisuDiagColor.frameButtonDiagColors.IconAndOptionsFrame.OptionsFrame.labelOverConsElts.Title = "Избыточно ограниченные элементы";
+geoVisuDiagColor.frameButtonDiagColors.IconAndOptionsFrame.OptionsFrame.labelOverConsElts.LongHelp = "Избыточно ограниченные элементы\nОпределение цвета элементов в избыточно ограниченных моделях.";
+geoVisuDiagColor.frameButtonDiagColors.IconAndOptionsFrame.OptionsFrame.labelIsoConsElts.Title = "Изометрически ограниченные элементы";
+geoVisuDiagColor.frameButtonDiagColors.IconAndOptionsFrame.OptionsFrame.labelIsoConsElts.LongHelp = "Изометрически ограниченные элементы\nОпределение цвета элементов в изометрически ограниченных моделях.";
+geoVisuDiagColor.frameButtonDiagColors.IconAndOptionsFrame.OptionsFrame.labelInconsElts.Title = "Несогласованные элементы";
+geoVisuDiagColor.frameButtonDiagColors.IconAndOptionsFrame.OptionsFrame.labelInconsElts.LongHelp = "Несогласованные элементы\nОпределение цвета элементов в несогласованных моделях.";
+geoVisuDiagColor.frameButtonDiagColors.IconAndOptionsFrame.OptionsFrame.labelNotChanElts.Title = "Неизмененные элементы";
+geoVisuDiagColor.frameButtonDiagColors.IconAndOptionsFrame.OptionsFrame.labelNotChanElts.LongHelp = "Неизмененные элементы\nОпределение цвета неизмененных элементов.";
+
+// NLS de l'onglet Geometry pour Other Colors
+geoOtherColor.Title="Цвета других элементов";
+geoOtherColor.frameButtonOtherColors.HeaderFrame.Global.Title = "Цвета";
+geoOtherColor.frameButtonOtherColors.HeaderFrame.Global.LongHelp = "Цвета\nОпределение цветов элементов.";
+geoOtherColor.frameButtonOtherColors.IconAndOptionsFrame.OptionsFrame.labelConstElts.Title = "Вспомогательные элементы (Для более ранних, чем V5R11, версий чертежей)";
+geoOtherColor.frameButtonOtherColors.IconAndOptionsFrame.OptionsFrame.labelConstElts.LongHelp = "Вспомогательные элементы\nОпределение цвета для вспомогательных элементов в чертежах более ранних версий, чем V5R11.";
+geoOtherColor.frameButtonOtherColors.IconAndOptionsFrame.OptionsFrame.labelSmartPick.Title = "SmartPick";
+geoOtherColor.frameButtonOtherColors.IconAndOptionsFrame.OptionsFrame.labelSmartPick.LongHelp = "Элементы SmartPick\nОпределение цвета для элементов SmartPick.";

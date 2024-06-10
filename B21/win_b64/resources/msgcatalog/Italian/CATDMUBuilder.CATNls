@@ -1,0 +1,99 @@
+INFO_HELP="
+CATDMUBuilder  crea i prodotti corrispondenti all'elenco di documenti e inserisce nella cache
+              i dati relativi.\n
+Uso: \n
+   Per richiamare la guida:
+      CATDMUBuilder -h\n
+   Crea il prodotto e inserisce i dati nella cache:
+      CATDMUBuilder inputlocation
+                    [-db dbx -user user -spwd cryppwd -role role -server srv]
+                    [-static][-selins]
+                    -product dirprod [-prefix prefix]
+                    [-replacebycgr dircgr][-activate|-deactivate][-onlyone]
+                    [-nocache][-force][-copycache]\n
+   Inserisce i dati nella cache:
+      CATDMUBuilder inputlocation
+                    [-db dbx -user user -spwd cryppwd -role role -server srv]
+                    [-static][-selins]\n
+Esempi Windows:\n
+   CATDMUBuilder -h
+   CATDMUBuilder c:\u\input.txt -product c:\proddir\n
+Esempi Unix:\n
+   CATDMUBuilder -h
+   CATDMUBuilder /u/input1
+   CATDMUBuilder /u/input2 -user user1 -spwd user1pwd -role user1role -server server2\n
+Argomenti:\n
+   -h                   : Guida.
+   inputlocation        : Per definire l'elenco dei documenti da elaborare.
+                          Può essere il percorso per:
+                          - un file contenente un elenco di documenti.
+                            Deve contenere un percorso di documento per riga (contenente
+                            un DLname preceduto da 'CATDLN://').
+                          - una directory contenente i documenti.
+                            Verranno elaborati tutti i documenti nella directory.
+                            Questa directory può essere un DLName preceduto da 'CATDLN://'.
+                          Gestisce diversi tipi di documenti: CATProduct, CATVpm,
+                          psn, Scene4D, xml o assiemi MultiCAD.
+   -db dbx              : per definire il database (VPM, VPMServer o ENOVIAV5).
+   -user user           : per definire l'utente.
+   -pwd  pwd            : per definire la password dell'utente (non può essere utilizzata con -spwd).
+   -spwd cryppwd        : per definire la password dell'utente.
+                          Viene decrittata prima dell'uso.
+   -role role           : per definire il ruolo dell'utente.
+   -server srv          : per definire il server.
+   -serverid id         : per la connessione ad un server esistente (solo con ENOVIAV5).
+   -host hostid         : per definire la macchina server (solo con VPMServer).
+   -static              : per aprire il file psn con l'opzione statica (valida solo per psn).
+                          Per impostazione predefinita viene aperto con l'opzione dinamica.
+   -selins              : per aprire il file psn con le istanze selezionate (valida solo per psn).
+                          Per impostazione predefinita viene aperto con tutte le istanze.
+   -product dirprod     : per memorizzare i prodotti nella directory dirprod.
+                          Tale directory può essere un DLName preceduto da 'CATDLN://'.
+   -prefix prefix       : per salvare tutti i prodotti con un prefisso nel nome name.
+   -replacebycgr dircgr : per sostituire tutti i componenti con un relativo cgr copiato nella
+                          directory dircgr.
+                          Tale directory può essere un DLName preceduto da 'CATDLN://'.
+   -activate            : per attivare tutte le shape e salvare lo stato di attivazione.
+   -deactivate          : per disattivare tutte le shape e salvare lo stato di attivazione.
+   -onlyone             : integra tutti i componenti nel prodotto principale.
+   -nocache             : per evitare la fase di preparazione della cache.
+   -force               : per forzare il nuovo calcolo dei dati memorizzati nella cache.
+   -copycache           : per copiare tutti i dati memorizzati nella cache nella directory della cache locale.
+   -noreplace           : per evitare la sostituzione del file durante la copia.
+   -mp                  : per abilitare l'elaborazione multipla.
+   -listcomp dircomp    : per elencare tutti i componenti di ogni prodotto. La directory
+                          conterrà un file di testo per prodotto (stesso nome). Ogni file
+                          dispone di un componente per riga.
+   -outputformat xx yy  : per esportare la struttura del prodotto in un elenco di determinati formati (xx, yy). Questa                           opzione richiede l'opzione -product. Ogni file è esportato nella directory  dirprod.
+   -savedata            : per salvare i dati collegati alla struttura del prodotto nella stessa directory.\n
+   NB: i parametri user, spwd, role e server sono richiesti se i documenti fanno riferimento a VPM.\n
+Diagnostica:\n
+I valori possibili per lo stato di uscita sono:\n
+      0   Operazione completata.\n
+      1   Errore causato da uno dei seguenti motivi:
+          - licenza non disponibile
+          - gestione della cache disattivata
+          - argomenti mancanti
+          - parametro non valido
+          - parametro mancante dopo un'opzione
+          - file di immissione mancante
+          - impossibile trovare un file
+          - impossibile aprire un file di immissione
+          - tipo di documento non corretto\n
+      2   Errore di elaborazione.\n
+      3   Elaborazione parziale.\n
+Risoluzione dei problemi:\n
+   Stato di uscita = 1:
+      Modifica la riga di comando o l'ambiente utilizzando le informazioni
+      contenute nel file degli errori standard.\n
+   Stato = 2:
+      Contattare il supporto locale.\n
+   Stato = 3:
+      Correggere i file che causano il problema: i nomi sono contenuti nel file
+      degli errori standard. Un uso interattivo dei file fornisce informazioni sul problema.
+";
+ERR_PROCESSING="ERRORE: Non è possibile elaborare CATDMUBuilder.";
+ERR_TREATMENT="ERRORE: Impossibile gestire il seguente documento/directory:";
+OK_TREATMENT="OK: Il seguente documento/directory è stato gestito:";
+START_BATCH="CATDMUBuilder avviato alle:";
+STOP_BATCH="CATDMUBuilder arrestato dopo una durata di:";

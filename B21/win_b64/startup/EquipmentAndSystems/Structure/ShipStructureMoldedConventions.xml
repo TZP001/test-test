@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<!DOCTYPE ShipStructureMoldedConventions SYSTEM "ShipStructureMoldedConventions.dtd">
+
+<!--Note: Please refer to the Structure Functional or Detail Design documentation for
+  The description of each notation(i.e. HP,HM,LI,...). The notations have been explained under the
+  "Customizing\Conventions&Parameters\Defining Molded Conventions" heading. -->
+
+<ShipStructureMoldedConventions Version="2">
+    
+   <!-- Functional Super Plate -->
+   <SuperPlateClass  Name="CATSfmPanelExt" ThicknessOrient="NR" Orient2D_U="NA" Orient2D_V="NA">
+     
+     <!-- Functional Stiffener-->
+     <StiffenerClass Name="CATSfmStiffenerExt" PlateSideOrient="NR"  SectionOrient="NR"  DefaultAnchorPoint="catStrWebSideLeft">
+       <AnchorPoint  Name="catStrWebSideLeft"/>
+       <AnchorPoint  Name="catStrWebCenter"/>
+       <AnchorPoint  Name="catStrWebSideRight"/>
+     </StiffenerClass> 
+
+   </SuperPlateClass>
+  
+   <!--Deck-->
+   <SuperPlateClass  Name="DeckPanel" ThicknessOrient="HP" Orient2D_U="XP" Orient2D_V="YP">
+
+     <StiffenerClass Name="DeckStiffener" PlateSideOrient="HM"  SectionOrient="NR"  DefaultAnchorPoint="catStrWebSideLeft">
+       <AnchorPoint  Name="catStrWebSideLeft"/>
+       <AnchorPoint  Name="catStrWebCenter"/>
+       <AnchorPoint  Name="catStrWebSideRight"/>
+     </StiffenerClass>
+     
+	   <StiffenerClass Name="DeckLongStiffener" PlateSideOrient="HM"  SectionOrient="LI"  DefaultAnchorPoint="catStrWebSideLeft">
+	     <AnchorPoint  Name="catStrWebSideLeft"/>
+       <AnchorPoint  Name="catStrWebCenter"/>
+       <AnchorPoint  Name="catStrWebSideRight"/>
+     </StiffenerClass>
+    
+	   <StiffenerClass Name="DeckTransStiffener" PlateSideOrient="HM"  SectionOrient="TI"  DefaultAnchorPoint="catStrWebSideLeft">
+	     <AnchorPoint  Name="catStrWebSideLeft"/>
+       <AnchorPoint  Name="catStrWebCenter"/>
+       <AnchorPoint  Name="catStrWebSideRight"/>
+     </StiffenerClass>
+
+   </SuperPlateClass>
+  
+   <!-- Longitudinal Bulkhead-->
+   <SuperPlateClass  Name="LongitudinalPanel" ThicknessOrient="LI"  Orient2D_U="XP" Orient2D_V="ZP">
+
+     <StiffenerClass Name="LongBulkhdStiffener" PlateSideOrient="LO"  SectionOrient="NR"   DefaultAnchorPoint="catStrWebSideLeft">
+       <AnchorPoint  Name="catStrWebSideLeft"/>
+       <AnchorPoint  Name="catStrWebCenter"/>
+       <AnchorPoint  Name="catStrWebSideRight"/>
+     </StiffenerClass>
+
+	   <StiffenerClass Name="LongBulkhdHorStiffener" PlateSideOrient="LO"  SectionOrient="HP"   DefaultAnchorPoint="catStrWebSideLeft">
+	     <AnchorPoint  Name="catStrWebSideLeft"/>
+       <AnchorPoint  Name="catStrWebCenter"/>
+       <AnchorPoint  Name="catStrWebSideRight"/>
+     </StiffenerClass>
+
+     <StiffenerClass Name="LongBulkhdVerStiffener" PlateSideOrient="LO"  SectionOrient="TI"   DefaultAnchorPoint="catStrWebSideLeft">
+       <AnchorPoint  Name="catStrWebSideLeft"/>
+       <AnchorPoint  Name="catStrWebCenter"/>
+       <AnchorPoint  Name="catStrWebSideRight"/>
+     </StiffenerClass>
+	    
+   </SuperPlateClass>
+
+   <!--Transverse Bulkhead-->
+   <SuperPlateClass  Name="TransversePanel" ThicknessOrient="TI" Orient2D_U="YP" Orient2D_V="ZP">
+
+     <StiffenerClass Name="TransBulkhdStiffener" PlateSideOrient="TO"  SectionOrient="NR"   DefaultAnchorPoint="catStrWebSideLeft">
+       <AnchorPoint  Name="catStrWebSideLeft"/>
+       <AnchorPoint  Name="catStrWebCenter"/>
+       <AnchorPoint  Name="catStrWebSideRight"/>
+     </StiffenerClass>
+
+     <StiffenerClass Name="TransBulkhdHorStiffener" PlateSideOrient="TO"  SectionOrient="HP"   DefaultAnchorPoint="catStrWebSideLeft">
+       <AnchorPoint  Name="catStrWebSideLeft"/>
+       <AnchorPoint  Name="catStrWebCenter"/>
+       <AnchorPoint  Name="catStrWebSideRight"/>
+     </StiffenerClass>
+	 
+	   <StiffenerClass Name="TransBulkhdVerStiffener" PlateSideOrient="TO"  SectionOrient="LI"   DefaultAnchorPoint="catStrWebSideLeft">
+	     <AnchorPoint  Name="catStrWebSideLeft"/>
+       <AnchorPoint  Name="catStrWebCenter"/>
+       <AnchorPoint  Name="catStrWebSideRight"/>
+     </StiffenerClass>
+  
+   </SuperPlateClass>
+
+   <!--Shell-->
+   <SuperPlateClass  Name="ShellPanel"  ThicknessOrient="OtherO" Orient2D_U="NA" Orient2D_V="NA">
+
+     <StiffenerClass  Name="ShellStiffener" PlateSideOrient="OtherI"  SectionOrient="NR"   DefaultAnchorPoint="catStrWebSideLeft">
+       <AnchorPoint  Name="catStrWebSideLeft"/>
+       <AnchorPoint  Name="catStrWebCenter"/>
+       <AnchorPoint  Name="catStrWebSideRight"/>
+     </StiffenerClass>
+
+     <StiffenerClass  Name="ShellLongStiffener" PlateSideOrient="OtherI"  SectionOrient="HP"   DefaultAnchorPoint="catStrWebSideLeft">
+       <AnchorPoint  Name="catStrWebSideLeft"/>
+       <AnchorPoint  Name="catStrWebCenter"/>
+       <AnchorPoint  Name="catStrWebSideRight"/>
+     </StiffenerClass>
+
+     <StiffenerClass  Name="ShellVerStiffener" PlateSideOrient="OtherI"  SectionOrient="TI"   DefaultAnchorPoint="catStrWebSideLeft">
+       <AnchorPoint  Name="catStrWebSideLeft"/>
+       <AnchorPoint  Name="catStrWebCenter"/>
+       <AnchorPoint  Name="catStrWebSideRight"/>
+     </StiffenerClass>
+
+     <StiffenerClass  Name="ShellBotLongStiffener" PlateSideOrient="OtherI"  SectionOrient="LI"   DefaultAnchorPoint="catStrWebSideLeft">
+       <AnchorPoint  Name="catStrWebSideLeft"/>
+       <AnchorPoint  Name="catStrWebCenter"/>
+       <AnchorPoint  Name="catStrWebSideRight"/>
+     </StiffenerClass>
+
+	   <StiffenerClass  Name="ShellBotTransStiffener" PlateSideOrient="OtherI"  SectionOrient="TI"   DefaultAnchorPoint="catStrWebSideLeft">
+	     <AnchorPoint  Name="catStrWebSideLeft"/>
+       <AnchorPoint  Name="catStrWebCenter"/>
+       <AnchorPoint  Name="catStrWebSideRight"/>
+     </StiffenerClass>
+	
+   </SuperPlateClass>
+
+    <StiffenerOnFreeEdgeClass  Name= "StiffenerOnFreeEdge"  DefaultAnchorPoint="catStrWebSideLeft">
+     <AnchorPoint  Name="catStrBottomLeft"/>
+     <AnchorPoint  Name="catStrBottomCenter"/>
+     <AnchorPoint  Name="catStrBottomRight"/>
+     <AnchorPoint  Name="catStrCenterLeft"/>
+     <AnchorPoint  Name="catStrCenterCenter"/>
+     <AnchorPoint  Name="catStrCenterRight"/>
+     <AnchorPoint  Name="catStrTopLeft"/>
+     <AnchorPoint  Name="catStrTopCenter"/>
+     <AnchorPoint  Name="catStrTopRight"/>
+     <AnchorPoint  Name="catStrWebSideLeft"/>
+     <AnchorPoint  Name="catStrWebSideRight"/>
+     <AnchorPoint  Name="catStrWebCenter"/>
+     <AnchorPoint  Name="catStrWebCenterLeft"/>
+     <AnchorPoint  Name="catStrWebCenterRight"/>
+   </StiffenerOnFreeEdgeClass>
+   
+   <StiffenerOnFreeEdgeClass  Name= "FacePlate"  DefaultAnchorPoint="catStrWebCenterRight">
+     <AnchorPoint  Name="catStrBottomLeft"/>
+     <AnchorPoint  Name="catStrBottomCenter"/>
+     <AnchorPoint  Name="catStrBottomRight"/>
+     <AnchorPoint  Name="catStrCenterLeft"/>
+     <AnchorPoint  Name="catStrCenterCenter"/>
+     <AnchorPoint  Name="catStrCenterRight"/>
+     <AnchorPoint  Name="catStrTopLeft"/>
+     <AnchorPoint  Name="catStrTopCenter"/>
+     <AnchorPoint  Name="catStrTopRight"/>
+     <AnchorPoint  Name="catStrWebSideLeft"/>
+     <AnchorPoint  Name="catStrWebSideRight"/>
+     <AnchorPoint  Name="catStrWebCenter"/>
+     <AnchorPoint  Name="catStrWebCenterLeft"/>
+     <AnchorPoint  Name="catStrWebCenterRight"/>
+   </StiffenerOnFreeEdgeClass>
+   
+
+   <Plane Name="NormalToX" Orient2D_U="YP" Orient2D_V="ZP"/>
+
+   <Plane Name="NormalToY" Orient2D_U="XP" Orient2D_V="ZP"/>
+   
+   <Plane Name="NormalToZ" Orient2D_U="XP" Orient2D_V="YP"/>
+
+
+</ShipStructureMoldedConventions>

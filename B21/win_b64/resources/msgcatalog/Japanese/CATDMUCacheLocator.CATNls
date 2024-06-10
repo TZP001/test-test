@@ -1,0 +1,63 @@
+INFO_HELP="
+CATDMUCacheLocatorはﾄﾞｷｭﾒﾝﾄのﾘｽﾄに対応するｷｬｯｼｭ ﾃﾞｰﾀを検索します｡ \n
+使用法: \n
+   ﾍﾙﾌﾟ情報を検索する:
+      CATDMUCacheLocator -h \n
+   ｷｬｯｼｭ ﾃﾞｰﾀを検索する:
+      CATDMUCacheLocator inputfile outputfile [-s char] [-t type] [-p dir] \n
+Windowsの例: \n
+   CATDMUCacheLocator -h
+   CATDMUCacheLocator c:\u\input.txt c:\u\output.txt
+   CATDMUCacheLocator c:\u\input.txt c:\u\output.txt -p c:\cache -t 3dmap \n
+UNIXの例: \n
+   CATDMUCacheLocator -h
+   CATDMUCacheLocator /u/input /u/output
+   CATDMUCacheLocator /u/input /u/output -p /u/cache -t 3dmap \n
+引数: \n
+   -h            : ﾍﾙﾌﾟ｡
+   inputfile     : ﾄﾞｷｭﾒﾝﾄのﾘｽﾄを含む入力ﾌｧｲﾙ｡
+                   ﾊﾟｽにはDLNameを含めません｡
+                   各行にはﾄﾞｷｭﾒﾝﾄの識別子､ｾﾊﾟﾚｰﾀ､およびﾄﾞｷｭﾒﾝﾄのﾀｲﾑ ｽﾀﾝﾌﾟを
+                   含む必要があります｡
+                   ﾌｧｲﾙに基づくﾄﾞｷｭﾒﾝﾄの場合､識別子はﾄﾞｷｭﾒﾝﾄのﾊﾟｽとなります
+                   (最終的には､'CATDLN://'で始まるDLNameを含む)｡
+                   VPMに基づくﾄﾞｷｭﾒﾝﾄの場合､識別子は'COID COMPID CAENV CATAB'です｡
+                   ﾀｲﾑ ｽﾀﾝﾌﾟはYYYY-mm-dd-HH.MM.SS形式で指定されます｡
+                   ﾄﾞｷｭﾒﾝﾄが存在する場合､ﾀｲﾑ ｽﾀﾝﾌﾟは省略可能です｡
+   outputfile    : ﾄﾞｷｭﾒﾝﾄのｷｬｯｼｭ位置のﾘｽﾄを含む出力ﾌｧｲﾙ｡
+                   ﾊﾟｽにはDLNameを入れることができません｡
+                   各行にはﾄﾞｷｭﾒﾝﾄの識別子､
+                   ｾﾊﾟﾚｰﾀ､およびﾄﾞｷｭﾒﾝﾄに対応するｷｬｯｼｭ ﾃﾞｰﾀ
+                   の位置が含まれます｡
+   -s char       : 入力または出力ﾌｧｲﾙ内の行にあるﾌｨｰﾙﾄﾞを区切るために使用される
+                   文字を定義する｡
+                   ﾃﾞﾌｫﾙﾄではﾌﾞﾗﾝｸ文字が使用されます｡
+   -t type       : ｷｬｯｼｭのﾀｲﾌﾟ(cgr､3dmapなど)を定義する｡
+                   ﾃﾞﾌｫﾙﾄではcgrが使用されます｡
+   -p dir        : 設定のﾃﾞｨﾚｸﾄﾘの代わりに､使用するｷｬｯｼｭ ﾃﾞｨﾚｸﾄﾘを定義します｡
+                   この場合､存在しないﾃﾞｨﾚｸﾄﾘやｱｸｾｽ不能なﾃﾞｨﾚｸﾄﾘでも可能で､
+                   ﾘｽﾄに指定されたﾌｧｲﾙとなります｡
+                   このﾃﾞｨﾚｸﾄﾘをDLNameにはできません｡ \n
+診断: \n
+   終了状況値は次のとおりです｡ \n
+      0   正常終了｡ \n
+      1   次のいずれかの理由による失敗｡
+          - ﾗｲｾﾝｽが利用できない
+          - ｷｬｯｼｭ管理が非活動化されている
+          - 引数が不足
+          - 無効なﾊﾟﾗﾒｰﾀ
+          - ｵﾌﾟｼｮﾝの後にﾊﾟﾗﾒｰﾀがない
+          - 入力ﾌｧｲﾙがない
+          - ﾌｧｲﾙが見つからない
+          - 入力ﾌｧｲﾙが開けない \n
+      2   処理ｴﾗｰ \n
+ﾄﾗﾌﾞﾙｼｭｰﾃｨﾝｸﾞ: \n
+   終了状況 = 1:
+      標準ｴﾗｰ ﾌｧｲﾙに含まれる情報を使用して
+      ｺﾏﾝﾄﾞ行または環境を修正する｡ \n
+   終了状況 = 2:
+      ｻﾎﾟｰﾄ担当員に連絡する｡
+";
+ERR_PROCESSING="ｴﾗｰ: CATDMUCacheLocatorが処理に失敗しました｡";
+START_BATCH="CATDMUCacheLocatorの開始日時:";
+STOP_BATCH="CATDMUCacheLocatorの停止までの持続時間:";

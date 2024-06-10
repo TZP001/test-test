@@ -1,0 +1,544 @@
+$$ Dassault Systems CATIA Interface Kit Version 17.0
+$$
+$$ This set of macros converts post-processor command syntax generated
+$$ using the ICAM standard CATIA PPTables to the syntax required by
+$$ CAM-POST GENER. The macros in this file must be compiled in QUEST
+$$ using the following command line:
+$$
+$$    quest /c=kit.mac
+$$
+$$ The compiled kit.obj file must be dynamically linked to each post
+$$ using the Macros-After (MADEF) option in the ICAM.DEF file.
+
+$$ NC_THREAD_MILLING cycle ---------------------------------------------
+$$
+$$ This macro makes use of the ORIGIN/LAST feature to set up a cldata
+$$ reference system at the thread control point. The CYCLE/THREAD command
+$$ must be followed by a GOTO specifying the control point of the thread
+$$ circle.
+$$
+CYCLE/THREAD,$
+[DEPTH,$P1],$    Depth of thread below control point (required)
+[PITCH,$P2],$    Thread pitch (threads/cl_units) (required)
+[DIAMET,$P3],$   Diameter of thread (required)
+[CLEAR,$P4],$    Start of thread above control point (zero default)
+[RAPTO,$P5],$    Additional rapid plunge at start (zero default)
+[OPTION,$P6],$   1:Left hand (default), 2:Right hand
+[$P7(MMPM,IPR,IPM,MMPR),$P8],$
+[$P9(INVERS)] $$ Cut from bottom to top
+$$
+$$ Check command parameters
+$$
+DECLAR/LOCAL,REAL,ITCDP,ITCCLR,ITCRAP,ITCPIT,ITCRAD,ITCDIR,ITCINV
+DECLAR/LOCAL,ITCFTY,ITCF
+$$ DEPTH,%MFG_TOTAL_DEPTH
+IF/$P1.EQ.$NULL
+  ERROR/8,'CYCLE/THREAD: DEPTH parameter is missing. CYCLE ignored.'
+  TERMAC
+ENDOF/IF
+ITCDP=$P1
+$$ PITCH,%MFG_PITCH
+IF/$P2.EQ.$NULL
+  ERROR/8,'CYCLE/THREAD: PITCH parameter is missing. CYCLE ignored.'
+  TERMAC
+ENDOF/IF
+ITCPIT=$P2
+IF/ITCPIT.LE.0
+  ERROR/8,'CYCLE/THREAD: "PITCH,!(*)" is invalid. The pitch must be '//$
+  'a positive value. CYCLE ignored.',ITCPIT
+  TERMAC
+ENDOF/IF
+$$ DIAMET,%MFG_DIAMETER
+IF/$P3.EQ.$NULL
+  ERROR/8,'CYCLE/THREAD: DIAMET parameter is missing. CYCLE ignored.'
+  TERMAC
+ENDOF/IF
+ITCRAD=($P3-$TD)/2
+IF/ITCRAD.LE.0
+  ERROR/8,'CYCLE/THREAD: "DIAMET,!(*)" too small for cutter '//$
+  'diameter !(*). CYCLE ignored.',$P3,$TD
+  TERMAC
+ENDOF/IF
+$$ CLEAR,%MFG_CLEAR_TIP+%MFG_JUMP_DIST
+IF/$P4.NE.$NULL
+  ITCCLR=$P4
+ELSE
+  ITCCLR=0
+ENDOF/IF
+IF/(ITCCLR+ITCDP).LE.0
+  ERROR/8,'CYCLE/THREAD: "DEPTH,!(*)" is above or at "CLEAR,!(*)" '//$
+  'position. CYCLE ignored.',ITCDP,ITCCLR
+  TERMAC
+ENDOF/IF
+$$ RAPTO,%MFG_JUMP_DIST
+IF/$P5.NE.$NULL
+  ITCRAP=$P5
+ELSE
+  ITCRAP=0
+ENDOF/IF
+IF/(ITCCLR-ITCRAP+ITCDP).LE.0
+  ERROR/8,'CYCLE/THREAD: "DEPTH,!(*)" is above or at "RAPTO,!(*)" '//$
+  'position. CYCLE ignored.',ITCDP,ITCRAP
+  TERMAC
+ENDOF/IF
+$$ OPTION,%MFG_PITCH_SENS
+IF/$P6.EQ.2
+  ITCDIR=-1
+ELSE
+  ITCDIR=1
+ENDOF/IF
+$$ &MFG_FEED_UNIT,%MFG_FEED_MACH
+ITCFTY=$P7
+ITCF=$P8
+$$ INVERS
+IF/$P9.NE.$NULL
+  ITCINV=-1
+ELSE
+  ITCINV=1
+ENDOF/IF
+$$
+$$ Repeat for each GOTO in cycle block, ending at a CYCLE or FINI
+$$
+DECLAR/LOCAL,REAL,ITCCLN,ITCX,ITCY,ITCZ,ITCZL,ITCANG
+DECLAR/LOCAL,REAL,V1,V1X,V1Y,V1Z,V2X,V2Y,V2Z,V3X,V3Y,V3Z
+DECLAR/LOCAL,LOGICAL,ITCSAV
+$$
+PPFUN/15,1006005,OFF $$ unnecessary 15000 class warning
+$$
+WHILE/.NOT.$FEOF()
+  TAPERD
+$$
+$$ GOTO/control_point
+$$
+  IF/$FCLASS().EQ.5000
+    ITCCLN=$FCLREC()
+    ITCX=$FCL(3)
+    ITCY=$FCL(4)
+    ITCZ=$FCL(5)
+$$  Rapid to start
+    RAPID
+    IF/$MULTAX
+      GOTO/TRANSL,$
+      ITCX+$FCL(6)*ITCCLR,$
+      ITCY+$FCL(7)*ITCCLR,$
+      ITCZ+$FCL(8)*ITCCLR,$
+      $FCL(6),$FCL(7),$FCL(8)
+    ELSE
+      GOTO/TRANSL,$
+      ITCX+$IC*ITCCLR,$
+      ITCY+$JC*ITCCLR,$
+      ITCZ+$KC*ITCCLR
+    ENDOF/IF
+    ITCSAV=$RAPLIN
+    $RAPLIN=.TRUE.
+$$  Compute coordinate system at control point
+    V1=$FSQRT($JC**2+$IC**2)
+$$  0.001 degree was selected as a typical resolution of a rotary axis.
+    IF/V1.LT.$FSIN(0.001) $$ Is tool axis parallel to Z axis ?
+      V1X=1
+      V1Y=0
+      V1Z=0
+      V2X=0
+      V2Y=$KC
+      V2Z=0
+      V3X=0
+      V3Y=0
+      V3Z=$KC
+    ELSE $$ Not parallel, it makes sens to compute corss-product
+$$    Local (Xx,Xy,Xz) = (0,0,1) x (I,J,K) / || (0,0,1) x (I,J,K) ||
+      V1X=$JC/V1
+      V1Y=-$IC/V1
+      V1Z=0
+$$    Local (Yx,Yy,Yz) = (I,J,K) x (Xx,Xy,Xz)
+$$    Cross-product of two perpendicular unit vectors is already normalized.
+      V2X=$JC*V1Z-$KC*V1Y
+      V2Y=$KC*V1X-$IC*V1Z
+      V2Z=$IC*V1Y-$JC*V1X
+$$    Local (Zx,Zy,Zz) = (I,J,K)
+      V3X=$IC
+      V3Y=$JC
+      V3Z=$KC
+    ENDOF/IF
+    ORIGIN/LAST,INVERS,V1X,V2X,V3X,ITCX,V1Y,V2Y,V3Y,ITCY,V1Z,V2Z,V3Z,ITCZ
+    ITCZL=ITCCLR
+    RAPID
+    GOTO/TRANSL,0,0,ITCZL,0,0,1 $$ set up local vector, no motion
+$$  Bottom to top
+    IF/ITCINV.LT.0
+      ITCZL=-ITCDP
+      RAPID
+      GOTO/TRANSL,0,0,ITCZL
+      %L01=ITCCLR-ITCRAP
+    ELSE
+$$  Additional RAPTO plunge
+      IF/ITCRAP.GT.0
+        ITCZL=ITCCLR-ITCRAP
+        RAPID
+        GOTO/TRANSL,0,0,ITCZL
+      ENDOF/IF
+      %L01=-ITCDP
+    ENDOF/IF
+$$  Set cycle feed
+    IF/ITCFTY.NE.$NULL
+      FEDRAT/ITCFTY,ITCF
+    ELSE
+      $RAPID=.FALSE.
+    ENDOF/IF
+$$  180 degree arc - approach arc wall
+    MOVARC/ITCRAD/2,0,ITCZL,0,0,ITCDIR*ITCINV,ITCRAD/2
+    GOTO/TRANSL,ITCRAD,0,ITCZL
+$$  Circular thread to depth
+    ITCANG=(ITCZL-%L01)/ITCPIT*360*ITCDIR
+    #15000:3/0,FUNOFY,NEGZ,' ',0,0,0,ITCZL,0,0,1,ITCRAD,ITCANG,$
+    $FCOS(ITCANG)*ITCRAD,$FSIN(ITCANG)*ITCRAD,%L01
+$$  180 degree arc - return to arc center
+    MOVARC/$FCOS(ITCANG)*ITCRAD/2,$FSIN(ITCANG)*ITCRAD/2,%L01,$
+    0,0,ITCDIR*ITCINV,ITCRAD/2
+    GOTO/TRANSL,0,0,%L01
+$$  Rapid retract to start
+    RAPID
+    GOTO/TRANSL,0,0,ITCCLR
+$$  Reset coordinate system
+    ORIGIN/LAST,OFF
+    $RAPLIN=ITCSAV
+    SEARCH/ITCCLN+1
+$$
+$$ Other records in CYCLE block
+$$
+  ELSE
+    IF/$FCLASS().EQ.2000
+$$    CYCLE/...
+      IF/$FSUBCL().EQ.$FSUBCL(CYCLE)
+        IF/$FCL(1).NE.OFF
+          SEARCH/$FCLREC()
+        ENDOF/IF
+        EXIT/1
+      ENDOF/IF
+    ENDOF/IF
+    TAPEWT
+  ENDOF/IF
+ENDOF/WHILE
+ENDMAC
+
+$$ NC_CIRCULAR_MILLING cycle ------------------------------------------
+$$
+$$ This macro makes use of the ORIGIN/LAST feature to set up a cldata
+$$ reference system at the circle control point. The CYCLE/CIRCUL command
+$$ must be followed by a GOTO specifying the control point of the circle.
+$$
+CYCLE/CIRCUL,$
+[DEPTH,$P1],$           Depth of thread below control point (required)
+[PITCH,$P2],$           Thread pitch (threads/cl_units) (required)
+[DIAMET,$P3],$          Diameter of thread (required)
+[CLEAR,$P4],$           Start of thread above control point (zero default)
+[RAPTO,$P5],$           Additional rapid plunge at start (zero default)
+[OPTION,$P6,$P7],$      P6=1:lh(def.),2:rh. P7=1:std(def.),2:helical
+[STEP,$P8,$P9,$P10],$   Radial strategy, cuts and amount, std only
+[CUTS,$P11,$P12,$P13],$ Axial strategy, cuts and amount, std only
+[$P14(MMPM,IPR,IPM,MMPR),$P15]
+$$
+$$ Check command parameters
+$$
+DECLAR/LOCAL,REAL,ITCDP,ITCCLR,ITCRAP,ITCPIT,ITCRAD,ITCDIR,ITCMOD
+DECLAR/LOCAL,REAL,ITCSSY,ITCSTP,ITCRDIS,ITCASY,ITCLVL,ITCADIS
+DECLAR/LOCAL,ITCFTY,ITCF
+$$ DEPTH,%MFG_TOTAL_DEPTH
+IF/$P1.EQ.$NULL
+  ERROR/8,'CYCLE/CIRCUL: DEPTH parameter is missing. CYCLE ignored.'
+  TERMAC
+ENDOF/IF
+ITCDP=$P1
+$$ PITCH,%MFG_PITCH
+IF/$P2.EQ.$NULL
+  ERROR/8,'CYCLE/CIRCUL: PITCH parameter is missing. CYCLE ignored.'
+  TERMAC
+ENDOF/IF
+ITCPIT=$P2
+IF/ITCPIT.LE.0
+  ERROR/8,'CYCLE/CIRCUL: "PITCH,!(*)" is invalid. The pitch must be '//$
+  'a positive value. CYCLE ignored.',ITCPIT
+  TERMAC
+ENDOF/IF
+$$ DIAMET,%MFG_DIAMETER
+IF/$P3.EQ.$NULL
+  ERROR/8,'CYCLE/CIRCUL: DIAMET parameter is missing. CYCLE ignored.'
+  TERMAC
+ENDOF/IF
+ITCRAD=($P3-$TD)/2
+IF/ITCRAD.LE.0
+  ERROR/8,'CYCLE/CIRCUL: "DIAMET,!(*)" too small for cutter '//$
+  'diameter !(*). CYCLE ignored.',$P3,$TD
+  TERMAC
+ENDOF/IF
+$$ CLEAR,%MFG_CLEAR_TIP+%MFG_JUMP_DIST
+IF/$P4.NE.$NULL
+  ITCCLR=$P4
+ELSE
+  ITCCLR=0
+ENDOF/IF
+IF/(ITCCLR+ITCDP).LE.0
+  ERROR/8,'CYCLE/CIRCUL: "DEPTH,!(*)" is above or at "CLEAR,!(*)" '//$
+  'position. CYCLE ignored.',ITCDP,ITCCLR
+  TERMAC
+ENDOF/IF
+$$ RAPTO,%MFG_JUMP_DIST
+IF/$P5.NE.$NULL
+  ITCRAP=$P5
+ELSE
+  ITCRAP=0
+ENDOF/IF
+IF/(ITCCLR-ITCRAP+ITCDP).LE.0
+  ERROR/8,'CYCLE/THREAD: "DEPTH,!(*)" is above or at "RAPTO,!(*)" '//$
+  'position. CYCLE ignored.',ITCDP,ITCRAP
+  TERMAC
+ENDOF/IF
+$$ OPTION,%MFG_DIR_CUT,%MFG_CIRCULAR_MODE
+IF/$P6.EQ.2
+  ITCDIR=-1
+ELSE
+  ITCDIR=1
+ENDOF/IF
+IF/$P7.EQ.2
+  ITCMOD=2
+ELSE
+  ITCMOD=1
+ENDOF/IF
+$$ STEP,%MFG_SEQUENCING_STRAT,%MFG_RADIAL_NB,%MFG_RADIAL_STEP
+IF/$P8.EQ.$NULL.OR.ITCMOD.EQ.2
+  ITCSSY=1
+  ITCSTP=1
+  ITCRDIS=0
+ELSE
+  IF/$P8.EQ.2
+    ITCSSY=2
+  ELSE
+    ITCSSY=1
+  ENDOF/IF
+  ITCSTP=$FNINT($P9)
+  IF/ITCSTP.LE.0
+    ERROR/8,'CYCLE/CIRCUL: "STEP,,!(*)," is invalid. The number of '//$
+    'radial cuts must be a positive value. STEP parameter ignored.',$P9
+    ITCSTP=1
+  ENDOF/IF
+  ITCRDIS=$P10
+  IF/ITCSTP.GT.1.AND.ITCRDIS.LE.0
+    ERROR/8,'CYCLE/CIRCUL: "STEP,,,!(*)" is invalid. The step '//$
+    'distance must be a positive value when multiple steps are '//$
+    'requested. STEP parameter ignored.',$P10
+    ITCSTP=1
+  ENDOF/IF
+  IF/ITCSTP.GT.1
+    IF/(ITCRAD-(ITCSTP-1)*ITCRDIS).LE.0
+      ITCRDIS=ITCRAD/ITCSTP
+      ERROR/4,'CYCLE/CIRCUL: "STEP,,!(*),!(*)" is too large for '//$
+      'cutting radius !(*). Step distance adjusted to !(*).',$
+      $P9,$P10,ITCRAD,ITCRDIS
+    ENDOF/IF
+  ENDOF/IF
+ENDOF/IF
+$$ CUTS,%MFG_AXIAL_STRAT,%MFG_AXIAL_NUMBER,%MFG_AXIAL_DEPTH
+IF/$P11.EQ.$NULL.OR.ITCMOD.EQ.2
+  ITCASY=2
+  ITCLVL=1
+  ITCADIS=0
+ELSE
+  IF/$P11.EQ.3
+    ITCASY=3
+  ELSEIF/$P11.EQ.1
+    ITCASY=1
+  ELSE
+    ITCASY=2
+  ENDOF/IF
+  ITCLVL=$FNINT($P12)
+  IF/ITCASY.NE.1.AND.ITCLVL.LE.0
+    ERROR/8,'CYCLE/CIRCUL: "CUTS,,!(*)," is invalid. The number of '//$
+    'axial cut levels must be a positive value. CUTS parameter '//$
+    'ignored.',$P12
+    ITCASY=2
+    ITCLVL=1
+  ENDOF/IF
+  ITCADIS=$P13
+  IF/ITCASY.NE.2.AND.ITCADIS.LE.0
+    ERROR/8,'CYCLE/CIRCUL: "CUTS,,,!(*)" is invalid. The axial step '//$
+    'distance must be a positive value when multiple cuts are '//$
+    'requested. CUTS parameter ignored.',$P13
+    ITCASY=2
+    ITCLVL=1
+  ENDOF/IF
+  IF/ITCASY.EQ.1
+    ITCLVL=$FMAX(1,$FINT(ITCDP/ITCADIS+0.99))
+  ENDOF/IF
+ENDOF/IF
+$$ &MFG_FEED_UNIT,%MFG_FEED_MACH
+ITCFTY=$P14
+ITCF=$P15
+$$
+$$ Repeat for each GOTO in cycle block, ending at a CYCLE or FINI
+$$
+DECLAR/LOCAL,REAL,I,J,ITCCLN,ITCX,ITCY,ITCZ,ITCZL,ITCR,ITCANG
+DECLAR/LOCAL,REAL,V1,V1X,V1Y,V1Z,V2X,V2Y,V2Z,V3X,V3Y,V3Z
+DECLAR/LOCAL,LOGICAL,ITCSAV
+$$
+PPFUN/15,1006005,OFF $$ unnecessary 15000 class warning
+$$
+WHILE/.NOT.$FEOF()
+  TAPERD
+$$
+$$ GOTO/control_point
+$$
+  IF/$FCLASS().EQ.5000
+    ITCCLN=$FCLREC()
+    ITCX=$FCL(3)
+    ITCY=$FCL(4)
+    ITCZ=$FCL(5)
+$$  Rapid to start
+    RAPID
+    IF/$MULTAX
+      GOTO/TRANSL,$
+      ITCX+$FCL(6)*ITCCLR,$
+      ITCY+$FCL(7)*ITCCLR,$
+      ITCZ+$FCL(8)*ITCCLR,$
+      $FCL(6),$FCL(7),$FCL(8)
+    ELSE
+      GOTO/TRANSL,$
+      ITCX+$IC*ITCCLR,$
+      ITCY+$JC*ITCCLR,$
+      ITCZ+$KC*ITCCLR
+    ENDOF/IF
+    ITCSAV=$RAPLIN
+    $RAPLIN=.TRUE.
+$$  Compute coordinate system at control point
+    V1=$FSQRT($JC**2+$IC**2)
+$$  0.001 degree was selected as a typical resolution of a rotary axis.
+    IF/V1.LT.$FSIN(0.001) $$ Is tool axis parallel to Z axis ?
+      V1X=1
+      V1Y=0
+      V1Z=0
+      V2X=0
+      V2Y=$KC
+      V2Z=0
+      V3X=0
+      V3Y=0
+      V3Z=$KC
+    ELSE $$ Not parallel, it makes sens to compute corss-product
+$$    Local (Xx,Xy,Xz) = (0,0,1) x (I,J,K) / || (0,0,1) x (I,J,K) ||
+      V1X=$JC/V1
+      V1Y=-$IC/V1
+      V1Z=0
+$$    Local (Yx,Yy,Yz) = (I,J,K) x (Xx,Xy,Xz)
+$$    Cross-product of two perpendicular unit vectors is already normalized.
+      V2X=$JC*V1Z-$KC*V1Y
+      V2Y=$KC*V1X-$IC*V1Z
+      V2Z=$IC*V1Y-$JC*V1X
+$$    Local (Zx,Zy,Zz) = (I,J,K)
+      V3X=$IC
+      V3Y=$JC
+      V3Z=$KC
+    ENDOF/IF
+    ORIGIN/LAST,INVERS,V1X,V2X,V3X,ITCX,V1Y,V2Y,V3Y,ITCY,V1Z,V2Z,V3Z,ITCZ
+    ITCZL=ITCCLR
+    RAPID
+    GOTO/TRANSL,0,0,ITCZL,0,0,1 $$ set up local vector, no motion
+$$  Additional RAPTO plunge
+    IF/ITCRAP.GT.0
+      ITCZL=ITCCLR-ITCRAP
+      RAPID
+      GOTO/TRANSL,0,0,ITCZL
+    ENDOF/IF
+$$  Set cycle feed
+    IF/ITCFTY.NE.$NULL
+      FEDRAT/ITCFTY,ITCF
+    ELSE
+      $RAPID=.FALSE.
+    ENDOF/IF
+$$
+$$  Helical milling, from clearance
+    IF/ITCMOD.EQ.2
+$$    180 degree arc - approach arc wall
+      MOVARC/ITCRAD/2,0,ITCZL,0,0,ITCDIR,ITCRAD/2
+      GOTO/TRANSL,ITCRAD,0,ITCZL
+$$    Circular thread to depth
+      DECLAR/LOCAL,REAL,ITCANG
+      ITCANG=(ITCDP+ITCCLR)/ITCPIT*360*ITCDIR
+      #15000:3/0,FUNOFY,NEGZ,' ',0,0,0,ITCZL,0,0,1,ITCRAD,ITCANG,$
+      $FCOS(ITCANG)*ITCRAD,$FSIN(ITCANG)*ITCRAD,-ITCDP
+$$    360 degree arc at depth
+      #15000:3/0,FUNOFY,NEGZ,' ',0,0,0,-ITCDP,0,0,ITCDIR,ITCRAD,360,$
+      $FCOS(ITCANG)*ITCRAD,$FSIN(ITCANG)*ITCRAD,-ITCDP
+$$    180 degree arc - return to arc center
+      MOVARC/$FCOS(ITCANG)*ITCRAD/2,$FSIN(ITCANG)*ITCRAD/2,-ITCDP,$
+      0,0,ITCDIR,ITCRAD/2
+      GOTO/TRANSL,0,0,-ITCDP
+$$$
+$$  Standard milling, from part surface
+    ELSE
+      IF/ITCSSY.EQ.2
+        %L01=ITCSTP
+      ELSE
+        %L01=1
+      ENDOF/IF
+      DO/I=%L01,1,-1 $$ radial steps (radial first method)
+        DO/J=1,ITCLVL $$ Axial steps
+          IF/ITCASY.EQ.3
+            ITCZL=(ITCLVL-J)*ITCADIS-ITCDP
+          ELSE
+            ITCZL=-(J*ITCDP/ITCLVL)
+          ENDOF/IF
+$$        feed plunge or rapid retract to depth
+          GOTO/TRANSL,0,0,ITCZL
+          $RAPID=.FALSE.
+          IF/ITCSSY.EQ.2
+            %L02=I
+            %L03=I
+          ELSE
+            %L02=ITCSTP
+            %L03=1
+          ENDOF/IF
+          DO/K=%L02,%L03,-1 $$ radial steps (axial first method)
+            ITCR=ITCRAD-((K-1)*ITCRDIS)
+$$          180 degree arc - approach arc wall
+            MOVARC/ITCR/2,0,ITCZL,0,0,ITCDIR,ITCR/2
+            GOTO/TRANSL,ITCR,0,ITCZL
+$$          360 degree arc at depth
+            #15000:3/0,FUNOFY,NEGZ,' ',0,0,0,ITCZL,0,0,ITCDIR,ITCR,360,$
+            ITCR,0,ITCZL
+$$          180 degree arc - return to arc center
+            MOVARC/ITCR/2,0,ITCZL,0,0,ITCDIR,ITCR/2
+            GOTO/TRANSL,0,0,ITCZL
+          ENDOF/DO
+        ENDOF/DO
+        RAPID
+      ENDOF/DO
+    ENDOF/IF
+$$  Rapid retract to start
+    RAPID
+    GOTO/TRANSL,0,0,ITCCLR
+$$  Reset coordinate system
+    ORIGIN/LAST,OFF
+    $RAPLIN=ITCSAV
+    SEARCH/ITCCLN+1
+$$
+$$ Other records in CYCLE block
+$$
+  ELSE
+    IF/$FCLASS().EQ.2000
+$$    CYCLE/...
+      IF/$FSUBCL().EQ.$FSUBCL(CYCLE)
+        IF/$FCL(1).NE.OFF
+          SEARCH/$FCLREC()
+        ENDOF/IF
+        EXIT/1
+      ENDOF/IF
+    ENDOF/IF
+    TAPEWT
+  ENDOF/IF
+ENDOF/WHILE
+ENDMAC
+
+$$ COOLANT --------------------------------------------------------------
+$$
+$$ This macro makes the post-processor ignore COOLNT syntax without any 
+$$ arguments
+$$
+COOLNT
+ENDMAC

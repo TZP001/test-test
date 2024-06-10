@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<st:repository xsi:schemaLocation="urn:com:dassault_systemes:settings settings.xsd" xmlns:st="urn:com:dassault_systemes:settings" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:com:dassault_systemes:settings">
+  <st:Description name="RenderingSettingsDisplay" PrimaryTabpage="/Infrastructure/Real Time Rendering/Display" >
+    <st:role>Real Time Rendering options</st:role>
+    <st:detailedRole>Full explanation of the Setting Role</st:detailedRole>
+    <st:RepositoryFile>RenderingOptionsSettings</st:RepositoryFile>
+    <st:version>1</st:version>
+    <st:compatibility>
+      <st:FullCompatibilityfromLevel>1</st:FullCompatibilityfromLevel>
+      <st:UpwardCompatibilityfromLevel>1</st:UpwardCompatibilityfromLevel>
+    </st:compatibility>
+  </st:Description>
+
+  <st:attributes>
+
+    <st:attribute Name="LightVisuMode">
+      <st:role>Type of light representation</st:role>
+      <st:int>
+        <st:enum>
+          <st:role>Wireframe</st:role>
+          <st:value>1</st:value>
+          <st:role>Shaded</st:role>
+          <st:value>2</st:value>
+        </st:enum>
+        <st:default>
+          <st:value>1</st:value>
+        </st:default>
+      </st:int>
+    </st:attribute>
+
+    <st:attribute Name="ActiveLightVisuMode">
+      <st:role>Set inactive lights display mode</st:role>
+      <st:int>
+        <st:enum>
+          <st:role>No display</st:role>
+          <st:value>1</st:value>
+          <st:role>Full Display</st:role>
+          <st:value>2</st:value>
+        </st:enum>
+        <st:default>
+          <st:value>1</st:value>
+        </st:default>
+      </st:int>
+    </st:attribute>
+
+    <st:attribute Name="EnvironmentVisuMode">
+      <st:role>Set inactive environments display mode</st:role>
+      <st:int>
+        <st:enum>
+          <st:role>No display</st:role>
+          <st:value>1</st:value>
+          <st:role>Simplified Display</st:role>
+          <st:value>2</st:value>
+          <st:role>Full Display</st:role>
+          <st:value>3</st:value>
+        </st:enum>
+        <st:default>
+          <st:value>1</st:value>
+        </st:default>
+      </st:int>
+    </st:attribute>
+
+    <st:attribute Name="LightManipMode">
+      <st:role>Show the surface normal when positioning lights</st:role>
+      <st:boolean StorageType="int">
+        <st:default>
+          <st:value>false</st:value>
+        </st:default>
+      </st:boolean>
+    </st:attribute>
+
+    <st:attribute Name="ReflectionMode">
+      <st:role>Enable reflection of the active environment on reflective geometries</st:role>
+      <st:boolean StorageType="int">
+        <st:default>
+          <st:value>false</st:value>
+        </st:default>
+      </st:boolean>
+    </st:attribute>
+
+    <st:attribute Name="ReflectionStaticSize">
+      <st:role>Set reflection quality when viewpoint is not moving</st:role>
+      <st:int>
+        <st:default>
+          <st:value>256</st:value>
+        </st:default>
+      </st:int>
+    </st:attribute>
+
+    <st:attribute Name="ReflectionDynamicMode">
+      <st:role>Enable update of reflection when viewpoint is changed</st:role>
+      <st:boolean StorageType="int">
+        <st:default>
+          <st:value>false</st:value>
+        </st:default>
+      </st:boolean>
+    </st:attribute>
+
+    <st:attribute Name="ReflectionDynamicSize">
+      <st:role>Set reflection quality when viewpoint is moving</st:role>
+      <st:int>
+        <st:default>
+          <st:value>128</st:value>
+        </st:default>
+      </st:int>
+    </st:attribute>
+
+    <st:attribute Name="ReflectionUpdateAngle">
+      <st:role>Set reflection update angle threshold</st:role>
+      <st:int>
+        <st:default>
+          <st:value>10</st:value>
+        </st:default>
+      </st:int>
+    </st:attribute>
+
+    <st:attribute Name="ReflectionPasses">
+      <st:role>Set reflection computation passes number</st:role>
+      <st:int>
+        <st:default>
+          <st:value>4</st:value>
+        </st:default>
+      </st:int>
+    </st:attribute>
+
+  </st:attributes>
+
+  <MultiCategoriesTabpages>
+
+    <Tabpage RootTabpage="/Infrastructure/Real Time Rendering/Display" ReusedAs="/Infrastructure/Photo Studio/Display" />
+    
+  </MultiCategoriesTabpages>
+  
+</st:repository>

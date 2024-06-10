@@ -1,0 +1,65 @@
+START_BATCH="CATDMUUtility2D 启动时间：";
+STOP_BATCH="CATDMUUtility2D 在此周期之后停止： ";
+ERR_PROCESSING="错误：CATDMUUtility2D 处理失败。";
+ERR_TREATMENT="错误：无法处理输入文档";
+OK_TREATMENT="确定：已成功处理输入文档";
+
+INFO_HELP="用法：\n
+检索帮助信息：
+ CATDMUUtility2D -h
+导出输入数据：
+ CATDMUUtility2D -id inputId -cgm outputlocation
+                [-sheet sheetName]
+                [-db VPM|ENOVIAV5 -user user -spwd cryppwd -role role
+                -server srv]
+
+Windows 示例：
+   CATDMUUtility2D -h
+   CATDMUUtility2D -id c:\u\input.model -cgm c:\tmp\model.cgm 
+Unix 示例：
+   CATDMUUtility2D -h
+   CATDMUUtility2D -id /u/input2/model.model -cgm c:\tmp\model.cgm -sheet Sheet.1
+
+参数：
+   -h                   ：帮助。
+   -id inputId          ：定义要处理的输入文档。
+                          可以是： 
+                          - 路径，末尾是前面为“CATDLN://”的 DLName）。
+                          - 数据库标识（VPM 或 LCA）
+                          处理不同类型的文档：模型、
+                          CATDrawing、dxf、cdd 和 dwg
+   -db DatabaseType     ：数据库类型： 
+                          VPM，表示 VPM 数据库
+                          ENOVIAV5，表示 LCA 数据库
+   -user user           ：定义数据库用户。
+   -spwd cryppwd        ：定义用户的数据库密码。
+                          使用前已解密。
+   -role role           ：定义用户的数据库角色。
+   -server srv          ：定义数据库服务器。
+   -sheet sheetName     ：从输入数据导出特定页
+
+   注意：若输入文档参考 VPM 或 LCA，则 user、spwd、role 和 server 参数为必需。
+
+诊断：
+   可能的退出状态值有：
+      0   成功完成。
+      1   由于以下某种原因而失败：
+          - 许可证不可用
+          - 缺少参数
+          - 参数无效
+          - 选项后缺少参数
+          - 缺少输入文件
+          - 无法找到文件
+          - 无法打开输入文件
+          - 文档类型错误
+      2   处理错误。
+      3   部分处理。
+
+排除故障：
+   退出状态 = 1：
+      使用标准错误文件中的信息
+      修改命令行或环境。
+   退出状态 = 2：
+      联系本地支持人员。
+   退出状态 = 3：
+      修复产生问题的文件。文件的交互使用可能会产生问题。";

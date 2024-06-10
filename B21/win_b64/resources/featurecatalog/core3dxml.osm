@@ -1,0 +1,87 @@
+/**
+* TODO in parser add basic properties
+*/
+class Matrix4x3 double {
+  var int min_card =12
+  var int max_card =12
+  #list = true
+  #array = true 
+}
+class Plane double {
+  var int min_card = 4
+  var int max_card = 4
+  #list = true
+  #array = true 
+}
+class Vector double {
+  var int min_card = 3
+  var int max_card = 3
+  #list = true
+  #array = true 
+}
+class Point3D double {
+  var int min_card = 3 
+  var int max_card = 3
+  #list = true
+  #array = true 
+}
+
+class Point2D double {
+  var int min_card = 3
+  var int max_card = 3
+  #list = true
+  #array = true 
+}
+
+class Composite any {
+  var string index_attr_keys #list
+  var string index_attr_type #list // ideally a kind
+  var int max_card
+}
+
+class Symbol Composite { 
+  #list = true
+  max_card = 2
+  index_attr_keys = [ 'Symbol', 'Color' ]
+  index_attr_type = [ 'string', 'int' ]
+}    
+
+class ViewPoint3D Composite {
+  #list = true
+  max_card = 7
+  index_attr_keys = [ 'Eye', 'Sight', 'ProjectionType'  ]
+  index_attr_type = [ 'Point3D@core3dxml', 'Vector@core3dxml', 'int' ]
+}
+
+class UrnList {
+  var any urns #list
+  def coerce(iUrns,foo) { // foo is used as local var
+     foo = new UrnList
+     foo->urns = iUrns
+     return foo
+  }
+  def __coerce__(iUrns) {
+     return coerce(iUrns,null)
+  }
+}
+class Urn {
+  var string urn 
+  var any item 
+}
+
+class AggregationRecovery  {
+  def repair3dxml(object, holder) {
+    if( ! object->get_owner() && holder) {
+      holder->SonsList = [object]
+    }
+  }
+}
+/** Note :  recovery code for RenderingFeature is disabled */
+class RenderingFeature  {
+  def repair3dxml(object, holder) {
+    if( ! object->get_owner() && holder) {
+      holder->FeatList = [object]
+      holder->SonsList = [object]
+    }
+  }
+}

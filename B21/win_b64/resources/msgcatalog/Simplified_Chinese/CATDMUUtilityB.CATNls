@@ -1,0 +1,161 @@
+BatchDescription.Title="从 CATIA 文件或 MULTICAD 文件生成 cgr、3dmap、hcg、wrl、vps 和 NCGM 格式";
+
+START_BATCH="CATDMUUtility 启动时间";
+STOP_BATCH="CATDMUUtility 在此周期之后停止";
+ERR_PROCESSING="错误：CATDMUUtility2D 处理失败。";
+ERR_TREATMENT="错误：无法处理输入文档";
+OK_TREATMENT="确定：已成功处理输入文档";
+ALL_TREATMENT_OK="CATDMUUtility 已成功结束。";
+
+ER_NONEINPUT="错误：未提供输入文件";
+WN_FANDLSWITCH="警告：-f 不能与 -l 一起使用，忽略 -f 选项";
+ER_FILEANDMP="错误：[3200] -f [path] 和 -mp 选项的组合无效。-l 选项必须与 -mp 一起使用 ";
+ER_DATABASECONN="错误：[2000] 无法连接数据库 ";
+ER_CORELISTEFILE="错误：[3100] 输入列表文件无效或已损坏 ";
+ER_NODB="错误：-db 选项必须与 -coid -compid -catenv -cattab 选项一起使用";
+
+ER_INVALIDSWITCH="错误：[3200] 开关无效 ";
+ER_WP_OUTPUT_FILE="错误：[6100] 输出文件已存在并处于写保护状态 ";
+ER_INVALIDOUTPUT="错误：[3200] 未提供输出选项 ";
+ER_INVALIDINPUT="错误：[3200] -f 和 -db 选项的组合无效 ";
+
+ER_INVALIDLISTEINPUT="错误：-l 与 -f 或 -db 选项的组合无效";
+ER_INVALIDFILEBASE="错误：-f 和 -id 选项的组合无效";
+ER_INVALIDDATABASE="错误：-id 或 -l 选项必须在 -db 选项之后";
+ER_NOSETTINGSVALUE="错误：未在环境中定义高速缓存设置";
+ER_INVALIDCACHEVALUE="错误：高速缓存目录无效";
+ER_INVALIDBASENAME="错误：数据库名称无效";
+ER_NOSERVERNAME="错误：无服务器名称";
+ER_FILEPROCESSING="错误：处理文件时出现问题： ";
+ER_DATAPROCESSING="错误：处理数据时出现问题： ";
+ER_LOGFILE="错误：CATDMUUtility 无法写入日志文件： ";
+ER_SPWD="错误：CATDMUUtility 无法解译密码";
+ER_BBCONTACT="无法联系主干";
+ER_BBDECLARE="无法声明主干总线";
+ER_BB_HANDLER="无法将处理程序与主干总线关联";
+ER_MAXSON="除了在 SGI 上，并行子进程数量限制为 1";
+ER_MAXSONP1="用 P1 许可证将并行子进程数量限制为 1";
+ER_NOTFOUND=" 此文件找不到或包含关于活动文档的错误信息";
+INFO_MAXSON="已启动并行子进程数量 = ";
+INFO_LOGFILE="CATDMUUtility 日志文件为： ";
+INFO_LICENCES_OK="找到许可证";
+INFO_LICENCES_KO="未找到许可证";
+INFO_SUCCESSFULL="CATDMUUtility 已成功结束";
+INFO_SUCCESSFULL_MP=" 已成功结束";
+INFO_CPULOOP_MP=" 失败。原因：CPULOOP。已终止进程";
+INFO_CD_MP=" 失败。原因：COREDUMP";
+INFO_RC_MP=" 失败。原因：RC = ";
+INFO_INTERRUPT_MP=" 被用户中断";
+INFO_PARTIALLY="CATDMUUtility 已部分处理";
+INFO_HELP="用法：\n
+          CATDMUUtility  -f inputfile -cgr outputfile1 [-nolod]
+                         [-sag value] [-3dmap outputfile2] [-vox value2] [-apps [com|lnf|all]]
+                         [-box outputfile3] [-unit value3]\n
+          CATDMUUtility  -l inputlist.txt -db name -user username -pwd | -spwd password 
+                         -server servername -cgr -cache [-mp]\n 
+          CATDMUUtility  -l inputlist.txt -cgr -outputdir outputdir\n 
+               -f        ：带有相应文件扩展名的输入模型
+                           或零件文件（末尾包含前面为 'CATDLN://' 的 DLName）。
+               -l        ：与 -f 一起使用的模型输入列表，或与 -db 选项
+                           一起使用的数据库标识。它的每一行必须包含一个文档路径
+                           （路径末尾包含前面为 'CATDLN://' 的 DLName）。
+               -db       ：用于处理数据库标识列表的
+                           输入数据库类型 { VPM | ENOVIAV5 }。不能与 -f 选项一起使用，
+                           并且必须与 -l 选项一起使用
+                           以下选项可由 -db 获得：
+                              -user        ：用于数据库连接的用户名标识。仅与 -db 选项一起使用
+                              -pwd         ：用于数据库连接的用户密码。仅与 -db 选项一起使用
+                              -server      ：数据库服务器的逻辑名（在设置中定义）。
+               -cgr      ：与输入文件对应的 cgr 输出文件
+                           若未提及文件名，则将在输入文件目录中生成输出文件
+                           以下选项可由 -cgr 获得：
+                              -sag         ：可选开关，可生成具有指定弦高值的 cgr
+                                             要求使用浮点值。
+                              -keepsag     ：激活此开关可重新网格化 cgr，同时保留其弦高值。
+                                             -force 必须与 -keepsag 一起使用
+                              -nolod       ：可选开关，可生成不带细节级别 (LOD) 或 DMU 高速缓存目录
+                                             中模型的 CGR
+                              -targetlevel：导出 cgr 为特定级别
+                                             需要级别（CXR17、CXR18 等）
+                                             -cache 选项不能与 -targetlevel 选项一起使用
+                           不要将 -sag 选项与 -keepsag 一起使用
+               -NavRep   ：与输入文件相对应的 Navigation Representations 输出文件。
+                           路径必须在选项后指示。若未提及输出文件名，
+                           则将在输入文件目录中生成输出文件 
+                           （NavReps 无法在高速缓存中生成）。
+                           来自文件和数据库的 CATProducts 和 CATParts 都可使用。           
+               -NCGM     ：与输入文件对应的 NCGM 输出文件
+                           若未提及文件名，则将在输入文件目录中生成输出文件
+               -3dmap    ：与输入文件对应的 3dmap 输出文件
+                           若未提及文件名，则将在输入文件目录中生成输出文件
+               -wrl      ：与输入文件对应的 vrml 输出文件
+                           若未提及文件名，则将在输入文件目录中生成输出文件
+               -hcg      ：与输入文件对应的 hcg 输出文件
+                           若未提及文件名，则将在输入文件目录中生成输出文件
+               -vps      ：与输入文件对应的 vps 输出文件
+                           若未提及文件名，则将在输入文件目录中生成输出文件
+               -product  ：CATIA 装配的输出文件：CATProduct
+                           （将考虑 MultiCAD 设置）
+               -part     ：与输入文件对应的 CATPart 输出文件
+                           若未提及文件名，则将在输入文件目录中生成输出文件
+               -jpg      ：与输入文件对应的 jpg 输出文件
+                           若未提及文件名，则将在输入文件目录中生成输出文件
+                           jpg 选项的限制：
+                              - 不要将 -mp、-cache 和 -db 选项与 -jpg 一起使用
+                           以下选项可由 -jpg 获得：
+                              -xsize       ：图片的横向大小。单位：像素
+                                             需要整数值
+                              -ysize       ：图片的纵向大小。单位：像素
+                                             需要整数值
+                              -camera      ：指定用于生成 jpg 文件的照相机（视点）
+                                             需要照相机名称
+                              -viewmode    ：选择视图模式
+                                             需要模式名称
+                                                着色：显示着色展示
+                                                着色边线：显示含边线展示的着色
+                                                线框：显示线框展示
+                                                材料：显示材料展示
+                              -bk          ：选择背景颜色
+                                             0 或 1 值为必需
+                                                0 表示在工具 + 选项中选定的默认背景颜色
+                                                1 表示白背景色
+               -box      ：开关，可生成与输入文件对应的边界框
+                           若输入文件不是 cgr，则 -cgr 选项为必需
+               -outputdir：未对开关选项指定参数时，
+                           指定输出目录而非使用输入目录创建
+               -cache    ：可选开关，可生成 DMU 高速缓存目录中的零件
+                           或模型的 CGR 文件
+                           以下选项可由 -cache 获得：
+                              -checksize   ：激活此选项可考虑高速缓存大小
+               -log      ：将所有错误信息存储在日志文件中
+                           若未指定日志文件，则 CATDMUUtility 将在临时目录中创建一个日志文件
+               -vox     ：开关，可生成具有指定三维像素值的 3map 或 vps 
+                           必须在 -3dmap 或 -vps 选项后使用它。要求使用浮点值
+                           以下选项可由 -vox 获得：
+                              -vpssag      ：可选开关，可生成具有三角精确度的 vps
+               -force    ：若激活此选项，则将重新构建输出文件
+               -unit     ：使用合适单位 { mm、cm、m、inch、foot} 进行计算的可选开关
+                           默认值为输入毫米：mm
+               -apps     从 V4 模型文件中提取注释页面和/或图层和过滤器的可选开关
+                           您可以精确指定这些选项中的任何选项或一个也不指定：
+                           com：表示注释页面
+                          lnf：表示图层和过滤器
+                           all：表示这两者
+               -coid     ：输入要转换的 VPM 数据的 coid 标识
+                           必须与 -db、-compid、-catenv 和 -cattab 选项一起使用
+               -compid   ：输入要转换的 VPM 数据的 compid 标识
+                           必须与 -db、-coid、-catenv 和 -cattab 选项一起使用
+               -catenv   输入要转换的 VPM 数据的 catenv 标识
+                           必须与 -db、-coid、-compid 和 -cattab 选项一起使用
+               -cattab   ：输入要转换的 VPM 数据的 cattab 标识
+                          必须与 -db、-coid、-compid 和 -catenv 选项一起使用
+             -mp       ：CATDMUUtility 批处理将以多进程模式启动
+                           多进程参数必须在以下位置设置：
+                           工具 + 选项 + 数字化装配 + 多进程设置。
+                           -l 和 -cache 选项是必需选项
+                           以下选项可由 -mp 获得：
+                              -process     ：设置子进程的数量。
+                              -timeout     ：设置超时。在此时间后，将终止子进程。
+";
+
+

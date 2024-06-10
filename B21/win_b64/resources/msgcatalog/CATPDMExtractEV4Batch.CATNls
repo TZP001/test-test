@@ -1,0 +1,44 @@
+// COPYRIGHT DASSAULT SYSTEMES 2005-2008
+// Error messages : ERR_, WRN_ or INF_ + identifier, /p1, /p2.. for parameters.
+
+Msg_HelpLine1    = " CATPDMExtractEV4Batch [-part Env.PART_LIST.PartListName[.Version]] [-adddoc Env.DocTable.DocName.DocType[.Revision]]";
+Msg_HelpLine2    = "                       [-separator string] -out ouputpath [-delete] [-epexml outputXmlFile] [-report xmlReportFile]";
+Msg_HelpLine2bis = "                       [-namingRules XMLNamingRulesPath] ";
+Msg_HelpLine2ter = "                       [-noDraftingUpdate] [-unlockViews]" ;
+Msg_HelpLine3    = "                       [-connect xxx] [-role xxx] [-user xxx] [-pwd xxx] [-spwd xxx]";
+Msg_HelpLine3_old= "                       [-connect xxx] [-role xxx] [-user xxx] [-pwd xxx]";
+Msg_HelpLine4    = "\n CATPDMExtractEV4Batch -help";
+
+Help_CommandLine = 
+"     -part         Environment and PartList's name of the root of the assembly to extract. 
+                   The version to keep can be specified.
+     -adddoc       Environment, document's table, document's name and type of document to load if not attached in an assembly.
+                   Can be used also to extract standalone documents.
+                   Several adddoc statements are possible. 
+                   The revision can be specified.
+     -out          Folder path where the session will be saved to.
+     -separator    Enable to replace . character by any string as delimiter for -part and -adddoc keyword.
+     -delete       Force deletion of files already existing in output folder before extraction.
+     -epexml       To generate an XML template file that can be used by reconciliation batch.
+     -report       To generate an XML report listing documents extracted.";
+
+Help_CommandLineBis = 
+"     -namingRules  Define the XML file in which file renaming rule are defined.
+                   Those rules use predicates on VPDM attributes of the Part or the document.
+                   Rules priority is mapped on rules order inside the XML files (Only the first rule encounter
+                   with predicates to true will be used).";
+
+Help_CommandLineTer = 
+"     -noDraftingUpdate  Enable to inhibit the update of CATDrawing before save.\n                    It is strongly recommended not to use this option in case of assembly drawing on top of storage mode set to structure exposed.
+     -unlockViews       Enable to unlock drafting views to update on drawings.\n                    It is strongly recommended to use this option otherwise on locked drafting views dimension could become isolated.\n" ;
+     
+Help_AdditionalCommandLineV5 = 
+"     -connect      Server name
+     -role         Role used for ENOVIA connection
+     -user         User for ENOVIA connection
+     -pwd          User password for database connection.";
+
+Help_AdditionalHelp                   = 
+"     -help         Describe command syntax";
+
+

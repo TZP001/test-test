@@ -1,0 +1,623 @@
+TPSRuleBaseName = "Base de règles du tolérancement :";
+
+// Attention le .Name est utilise par le reporting comme nom
+// du fichier HTML généré. Il faut donc éviter les caractères incompatibles
+// avec la syntaxe des noms de fichiers
+
+//------------------------------------------------------------------------ TTRS
+
+TPSRuleTTRSNotBuild.Name = "Entité de tolérancement non à jour.";
+TPSRuleTTRSNotBuild.Help = "La surface utilisateur ou le groupe de surfaces n'a pas été mis à jour.";
+TPSRuleTTRSNotBuild.CorrectFunction = "Mettre à jour la pièce ou le produit.";
+
+TPSRuleTTRSVisuMode.Name = "Elément géométrique en mode visualisation.";
+TPSRuleTTRSVisuMode.Help = "La surface utilisateur ou le groupe de surfaces auquel est associée l'annotation 3D a une ou plusieurs composantes (éléments géométriques) en mode visualisation. L'état de validité de l'annotation ne peut être réalisé que si la géométrie à laquelle elle est appliquée est en mode conception.";
+TPSRuleTTRSVisuMode.CorrectFunction = "Passer les pièces ou produits contenant la géométrie correspondante en mode conception.";
+
+TPSRuleTTRSUnresolved.Name = "Elément géométrique non chargé en session.";
+TPSRuleTTRSUnresolved.Help = "La surface utilisateur ou le groupe de surfaces auquel est associée l'annotation 3D a une ou plusieurs composantes (éléments géométriques) qui ne sont pas chargées en session. L'état de validité de l'annotation ne peut être réalisé que si la géométrie à laquelle elle est appliquée est chargée en session.";
+TPSRuleTTRSUnresolved.CorrectFunction = "Charger les pièces correspondantes en session.";
+
+TPSRuleTTRSInvalidComp.Name = "Composante incorrecte.";
+TPSRuleTTRSInvalidComp.Help = "Une au moins des composantes du groupe de surfaces auquel est appliquée l'annotation 3D est incorrect.";
+TPSRuleTTRSInvalidComp.CorrectFunction = "Utiliser la commande de Gestion des Connexions Géométriques pour modifier, remplacer ou supprimer la composante incorrecte.";
+
+TPSRuleTTRSDestroyedComp.Name = "Elément géométrique détruit.";
+TPSRuleTTRSDestroyedComp.Help = "Une au moins des composantes de la surface utilisateur a laquelle est associée l'annotation 3D a été détruite.";
+TPSRuleTTRSDestroyedComp.CorrectFunction = "Utiliser la commande de Gestion des connexions Géométriques pour remplacer ou supprimer la composante détruite.";
+
+TPSRuleTTRSModifClass.Name = "Changement de canonicité mathématique.";
+TPSRuleTTRSModifClass.Help = "La surface utilisateur ou le groupe de surfaces a changé de canonicité (exemples, passage de surface plane à surface cylindrique ou passage de groupe de cylindres parallèles à groupe de cylindres non parallèles, ...) et ce changement n'a pas été automatiquement validé, ce qui ne devrait pas se produire.";
+TPSRuleTTRSModifClass.CorrectFunction = "Contacter votre support local pour lui faire part de cet incident.";
+
+TPSRuleTTRSModifAssocCase.Name = "Changement de cas de positionnement relatif.";
+TPSRuleTTRSModifAssocCase.Help = "La nature du positionnement relatif des deux surfaces utilisateurs ou groupes de surfaces mis en relation a changé et ce changement n'a pas été automatiquement validé, ce qui ne devrait pas se produire.";
+TPSRuleTTRSModifAssocCase.CorrectFunction = "Contacter votre support local pour lui faire part de cet incident.";
+
+TPSRuleTTRSModifAdmissibleType.Name = "Changement de type de groupe de surfaces.";
+TPSRuleTTRSModifAdmissibleType.Help = "Le type de groupe de surfaces a changé (exemples, un groupe de trous n'en est plus un ou un groupe de rainures n'en est plus un, ...).";
+TPSRuleTTRSModifAdmissibleType.CorrectFunction = "Utiliser la commande de Gestion des Connexions Géométriques pour modifier, remplacer ou supprimer les composantes du groupe de surfaces.";
+
+TPSRuleTTRSModifSurfCanonicity.Name = "Changement de canonicité surfacique.";
+TPSRuleTTRSModifSurfCanonicity.Help = "La surface utilisateur ou le groupe de surfaces a changé de canonicité (exemples, les plans composantes ne sont plus coplanaires, les cylindres composantes ne sont plus coaxiaux ou n'ont plus le même diamètre, le trou n'est plus rectangulaire ou oblong, ...) et ce changement n'a pas été automatiquement validé, ce qui ne devrait pas se produire.";
+TPSRuleTTRSModifSurfCanonicity.CorrectFunction = "Contacter votre support local pour lui faire part de cet incident.";
+
+TPSRuleTTRSModifFoS.Name = "Changement des caractéristiques de l'entité à dimension interne.";
+TPSRuleTTRSModifFoS.Help = "La surface utilisateur ou le groupe de surfaces a changé de nature dimensionnelle (exemples, les éléments d'un groupe de cylindres n'ont plus la même dimension, les éléments d'un groupe de rainures n'ont plus la même dimension, ...) et ce changement n'a pas été automatiquement validé, ce qui ne devrait pas se produire.";
+TPSRuleTTRSModifFoS.CorrectFunction = "Contacter votre support local pour lui faire part de cet incident.";
+
+TPSRuleTTRSInvalidRepresented.Name = "Représentant géométrique incorrect.";
+TPSRuleTTRSInvalidRepresented.Help = "L'élément géométrique utilisé pour représenter la surface utilisateur ou le groupe de surfaces n'est pas compatible en nature ou en position avec la surface utilisateur ou le groupe de surfaces (il ne doit bloquer aucun de ses degrés de liberté).";
+TPSRuleTTRSInvalidRepresented.CorrectFunction = "Changer de représentant géométrique par édition de la spécification ou modifier la position du représentant géométrique pour qu'il soit en conformité avec la géométrie qu'il représente.";
+
+TPSRuleTTRSNotPresent.Name = "Géométrie incorrecte.";
+TPSRuleTTRSNotPresent.Help = "Il n'y a pas de géométrie associée à l'annotation.";
+TPSRuleTTRSNotPresent.CorrectFunction = "Supprimer l'annotation et créer une nouvelle.";
+
+//IFB IR:- 0666366 09:06:04 START
+TPSRuleTTRSIgnored.Name = "Modification non admise dans la géométrie.";
+TPSRuleTTRSIgnored.Help = "De nouvelles modifications de l'annotation 3D dans la géométrie ne sont pas correctes.";
+TPSRuleTTRSIgnored.CorrectFunction = "Les modifications apportées dans la géométrie seront ignorées.";
+//IFB IR:- 0666366 09:06:04 END
+
+TPSRuleLeaderAssocNotConnected.Name = "Ligne de rappel associative déconnectée";
+TPSRuleLeaderAssocNotConnected.Help  = "Une ligne de rappel associative ne pointe pas sur la géométrie référencée";
+TPSRuleLeaderAssocNotConnected.CorrectFunction  = "Changer la position de l'annotation ou manipuler l'extrémité de la ligne de rappel pour la reconnecter";
+
+TPSRuleTypeNotAllowedRegardingTTRS.Name = "Type de tolérance incompatible avec la géométrie";
+TPSRuleTypeNotAllowedRegardingTTRS.Help  = "Ce type de tolérance n'est pas autorisé pour cette géométrie";
+TPSRuleTypeNotAllowedRegardingTTRS.CorrectFunction  = "Modifier la tolérance ou la géométrie";
+
+TPSRuleTypeKORegardingTTRSOrPlane.Name = "Type de tolérance incompatible avec la géométrie";
+TPSRuleTypeKORegardingTTRSOrPlane.Help  = "Ce type de tolérance n'est pas autorisé pour cette géométrie et ce plan d'annotation";
+TPSRuleTypeKORegardingTTRSOrPlane.CorrectFunction  = "Modifiez la tolérance ou la géométrie, ou transférez l'annotation dans une autre vue.";
+
+//----------------------------------------------------------------------- Datum
+
+TPSRuleDatumLabelUnicity.Name = "Unicité du libellé de la référence";
+TPSRuleDatumLabelUnicity.Help = "Le libellé d'une référence doit être unique dans une entité de tolérancement";
+TPSRuleDatumLabelUnicity.CorrectFunction = "Editer le libellé de la référence\n et le remplacer par un libellé non utilisé";
+
+TPSRuleDatumUpperCase.Name = "Libellé de la référence en majuscules";
+TPSRuleDatumUpperCase.Help = "Le libellé d'une référence doit être en majuscules ";
+TPSRuleDatumUpperCase.CorrectFunction = "Editer le libellé de la référence et le composer par les lettres majuscules correspondantes ";
+
+TPSRuleDatumAuthorizedCharacter.Name = "Lettres majuscules autorisées/proposées pour les références";
+TPSRuleDatumAuthorizedCharacter.Help = "Les lettres I, O et Q ne doivent pas être utilisées\ndans les libellés de références spécifiées conformément aux normes ASME Y14.5M-1994.";
+TPSRuleDatumAuthorizedCharacter.CorrectFunction = "Editer la lettre de référence";
+//En fait, cette règle correspond plus à un conseil informatif qu'à une interdiction
+//Il faudra donc prévoir différents niveaux de règles
+
+TPSRuleDatumIdenticalCharacter.Name = "Identifiant de la référence identique";
+TPSRuleDatumIdenticalCharacter.Help = "Un identifiant de référence spécifiée peut être composé d'un libellé avec la même lettre répétée (Norme ISO) ";
+TPSRuleDatumIdenticalCharacter.CorrectFunction = "Editer le libellé de la référence et vérifier la répétition de caractère";
+
+TPSRuleDatumLabelLength.Name = "Longueur de l'identifiant de référence";
+TPSRuleDatumLabelLength.Help = "Un identifiant de référence ne doit pas être composé de plus de deux lettres (ASME) ";
+TPSRuleDatumLabelLength.CorrectFunction = "Editer l'identifiant de la référence";
+
+TPSRuleTargetsOfDatumStatus.Name ="Etat des références partielles";
+TPSRuleTargetsOfDatumStatus.Help ="Une référence est incorrecte si une de ses références partielles est incorrecte.";
+TPSRuleTargetsOfDatumStatus.CorrectFunction = "Editer ou modifier les références partielles pour les rendre valides";
+
+TPSRuleDatumPlane.Name = "Référence simple Prismatique ou Complexe";
+TPSRuleDatumPlane.Help = "Une référence plane doit être définie pour les éléments de référence complexes ou prismatiques.";
+TPSRuleDatumPlane.CorrectFunction = "Editer l'annotation et spécifier une référence plane.";
+
+//---------------------------------------------------------------------- Target
+
+TPSRuleTargetLabelUnicity.Name = "Unicité de l'identifiant d'une référence partielle";
+TPSRuleTargetLabelUnicity.Help = "L'identifiant d'une référence partielle doit être unique dans une entité de tolérancement";
+TPSRuleTargetLabelUnicity.CorrectFunction = "Editer l'identifiant de la référence partielle";
+
+TPSRuleTargetReference.Name = "identifiant de référence partielle se référant à un identifiant de référence existant";
+TPSRuleTargetReference.Help = "Un identifiant de référence partielle doit se référer à un identifiant ou à une lettre de référence";
+TPSRuleTargetReference.CorrectFunction = "Editer l'identifiant de la référence partielle et vérifier la référence";
+
+TPSRuleTargetReferenceNonUnique.Name = "Identifiant de référence partielle se référant à un identifiant de référence unique";
+TPSRuleTargetReferenceNonUnique.Help = "Un identifiant de référence partielle doit se référer à un identifiant de référence unique";
+TPSRuleTargetReferenceNonUnique.CorrectFunction = "Editer l'identifiant de la référence partielle et vérifier la référence";
+
+TPSRuleTargetNumber.Name = "identifiant de la référence partielle terminé par un nombre positif";
+TPSRuleTargetNumber.Help = "Un identifiant de référence partielle doit se terminer par un nombre positif ";
+TPSRuleTargetNumber.CorrectFunction = "Editer l'identifiant de la référence partielle ";
+
+TPSRuleTargetSequentialNumbers.Name = "Nombres séquentiels des identifiants de références partielles ";
+TPSRuleTargetSequentialNumbers.Help = "Les chiffres identifiant les références partielles doivent être séquentiels en commençant par 1";
+TPSRuleTargetSequentialNumbers.CorrectFunction = "Editer l'identifiant de la référence partielle";
+
+TPSRuleTargetTolValue.Name = "Dimensions des références partielles";
+TPSRuleTargetTolValue.Help = "Les dimensions des références partielles doivent être strictement positives.";
+TPSRuleTargetTolValue.CorrectFunction = "Modifier les dimensions des références partielles.";
+
+TPSRuleTargetGeomIncludedInDatum.Name = "Référence partielle incluse dans la référence";
+TPSRuleTargetGeomIncludedInDatum.Help = "La géométrie d'une référence partielle doit être complètement incluse dans celle de la référence.";
+TPSRuleTargetGeomIncludedInDatum.CorrectFunction = "Editer ou déplacer la géométrie de la référence partielle ou de la référence.";
+
+TPSRuleTargetForm.Name = "Forme de la zone de référence partielle";
+TPSRuleTargetForm.Help = "La géométrie cible (courbe OU surface) doit elle-même définir la forme et la taille de la zone limitée de la zone de référence partielle.";
+TPSRuleTargetForm.CorrectFunction = "Modifier OU recréer la zone de référence partielle";
+
+//------------------------------------------------------------- Reference Frame
+
+TPSRuleRefFrameLabelUnicity.Name = "Unicité du libellé du système de référence ";
+TPSRuleRefFrameLabelUnicity.Help = "Un libellé de système de référence doit être unique dans une entité de tolérancement";
+TPSRuleRefFrameLabelUnicity.CorrectFunction = "Editer le cadre de tolérance";
+
+TPSRuleDatumsOfRefFrameExist.Name = "Existence des références apparaissant dans un système de référence ";
+TPSRuleDatumsOfRefFrameExist.Help = "Un système de référence ne peut référencer que des références existantes";
+TPSRuleDatumsOfRefFrameExist.CorrectFunction = "Editer le système de référence et supprimer les références qui n'existent pas ";
+
+TPSRuleDatumsOfRefFrameStatus.Name = "Etat des références";
+TPSRuleDatumsOfRefFrameStatus.Help = "Un système de référence est incorrect si une de ses références est incorrecte.";
+TPSRuleDatumsOfRefFrameStatus.CorrectFunction = "Editer les référencer pour les rendre valides";
+
+//------------------------------------------------------ Geometrical Tolerances
+
+TPSRuleGDTPlnConsist.Name = "Vérification de la pertinence de la tolérance de planéité";
+TPSRuleGDTPlnConsist.Help = "La tolérance de planéité ne peut être appliquée qu'à une géométrie plane";
+TPSRuleGDTPlnConsist.CorrectFunction = "Créer une tolérance de forme plus adéquate";
+
+TPSRuleGDTTolValue.Name = "Les valeurs de tolérance";
+TPSRuleGDTTolValue.Help = "Les valeurs de tolérance doivent être des chiffres positifs qui ne peuvent être nuls que s'il y a présence de modificateurs. La deuxième valeur doit être toujours inférieure à la première valeur.";
+TPSRuleGDTTolValue.CorrectFunction = "Editer la tolérance et modifier la valeur";
+
+//Trois points sont vérifiés dans la TPSRuleGDTTolValue . Pour la granularité prévoir 3 entités différentes :
+//TPSRuleGDTTolValue pour la vérification de positive value
+
+TPSRuleGDTTolValueNull.Name = "Valeur de tolérance nulle";
+TPSRuleGDTTolValueNull.Help = " La valeur de la tolérance peut être nulle si des modificateurs de condition matière M ou L sont définis ";
+TPSRuleGDTTolValueNull.CorrectFunction = "Spécifier des modificateurs de condition matière M ou L pour conserver une valeur de tolérance nulle ou modifier la valeur de tolérance ";
+
+TPSRuleGDTTolValueRestrict.Name = "Valeur de tolérance composite";
+TPSRuleGDTTolValueRestrict.Help = "Pour les tolérances composites, la seconde valeur doit être inférieure ou égale à la première ";
+TPSRuleGDTTolValueRestrict.CorrectFunction = "Modifier les valeurs de tolérance pour que la première soit inférieure à la deuxième. ";
+
+TPSRuleGDTTolElemModifiers.Name = "Le(s) modificateur(s) défini(s) sur l'élément tolérancé d'une annotation";
+TPSRuleGDTTolElemModifiers.Help = "Dans le cas d'une tolérance de forme, le modificateur sur l'élément tolérancé doit être unique et ne peut avoir comme valeur que F (admissible sur toutes les tolérances de forme) ou M (seulement sur rectitude, planéité et forme).
+Pour les tolérances de position, tous les types de modificateurs sont admis et plusieurs peuvent être appliqués
+à la fois avec les contraintes suivantes :
+Seule une des valeurs S M ou L peut apparaître à la fois sur l'annotation et dans ce cas, elle doit précéder les
+éventuels autres modificateurs.
+F (si présent) doit toujours précéder le modificateur P (si présent).
+Dans le cas des références, le modificateur doit être unique et les valeurs admissibles sont S (uniquement pour ASME), M et L.";
+TPSRuleGDTTolElemModifiers.CorrectFunction = "Editer la tolérance et modifier le(s) modificateur(s)";
+
+//Sept points sont vérifiés dans la TPSRuleGDTTolElemModifiers. Pour la granularité, prévoir 6 régles suplémentaires
+//TPSRuleGDTTolElemModifiers pour any form specification, the Free State Symbol may be applied and specified alone
+
+//TPSRuleGDTTolElemFormModifier.Name = "maximum//least material condition application on form specification. ";
+//TPSRuleGDTTolElemFormModifier.Help = " For any Form specification, such as linear profile, planar and position specifications, the Maximum Material Condition (MMC) may be applied and specified alone. ";
+//TPSRuleGDTTolElemFormModifier.CorrectFunction = " Apply and specify alone the Maximum/Least Material Condition (MMC). ";
+
+//TPSRuleGDTTolElemFirstModifierOnOLR.Name = "MMC or LMC or S condition application for orientation, location and runout specifications";
+//TPSRuleGDTTolElemFirstModifierOnOLR.Help = " For any Orientation, Location and Runout specification, the first condition shall be MMC or LMC or S (ASME standard only). ";
+//TPSRuleGDTTolElemFirstModifierOnOLR.CorrectFunction = " Set first MMC or LMC or S (ASME only) condition for orientation, location and runout specifications. ";
+
+//TPSRuleGDTTolElemSecondModifierOnOLR.Name = "free state symbol application for orientation, location and runout specifications";
+//TPSRuleGDTTolElemSecondModifierOnOLR.Help = " For any Orientation, Location and Runout specification, the second condition shall be the free state symbol, if necessary. ";
+//TPSRuleGDTTolElemSecondModifierOnOLR.CorrectFunction = " Set second the free state symbol, if necessary, for orientation, location and runout specifications. ";
+
+//TPSRuleGDTTolElemThirdModifierOnOLR.Name = "projected tolerance zone symbol application for orientation, location and runout specifications";
+//TPSRuleGDTTolElemThirdModifierOnOLR.Help = " For any Orientation, Location and Runout specification, the third option shall be the projected tolerance zone symbol, if necessary. ";
+//TPSRuleGDTTolElemThirdModifierOnOLR.CorrectFunction = " Set third the projected tolerance zone symbol, if necessary, for orientation, location and runout specifications. ";
+
+//TPSRuleGDTTolElemFourthModifierOnOLR.Name = "statistical tolerancing symbol application for orientation, location and runout specifications";
+//TPSRuleGDTTolElemFourthModifierOnOLR.Help = " For any Orientation, Location and Runout specification, the fourth option shall be the statistical tolerancing symbol, if necessary. ";
+//TPSRuleGDTTolElemFourthModifierOnOLR.CorrectFunction = " Set fourth the statistical tolerancing symbol, if necessary, for orientation, location and runout specifications. ";
+
+//TPSRuleDatumElemModifiers.Name = "modifier specification on datum elements";
+//TPSRuleDatumElemModifiers.Help = " Only MMC (M symbol) or LMC (L symbol) or S (ASME standard only) conditions shall be specified on datum elements. ";
+//TPSRuleDatumElemModifiers.CorrectFunction = "Specify only MMC or LMC or S modifiers on datum elements";
+
+TPSRuleGDTRefExist.Name = "Cohérence et unicité des références indiquées dans les annotations";
+TPSRuleGDTRefExist.Help = "Une référence indiquée dans un cadre de référence/GDT doit exister dans l'ensemble d'annotations.
+- Une référence ne doit pas être indiquée plusieurs fois dans le même cadre de référence/GDT.";
+TPSRuleGDTRefExist.CorrectFunction = "Editez l'annotation en indiquant une référence existante et/ou créez la référence manquante";
+
+//Deux points sont vérifiés dans la TPSRuleGDTRefExist . Pour la granularité, prévoir 1 régle suplémentaire
+//TPSRuleGDTRefExist pour l'existence des datums spécifiés dans le GDT (1 seule fois chacun)
+
+TPSRuleGDTDatUnicity.Name = "Spécification de référence unique dans un GDT donné ";
+TPSRuleGDTDatUnicity.Help = " Une référence ne peut être spécifiée plusieurs fois dans un même cadre de référence/GDT";
+TPSRuleGDTDatUnicity.CorrectFunction = "Indiquez une référence une seule fois dans la syntaxe d'un GDT donné ";
+
+TPSRuleGDTDoubleRow.Name = "sur un GDT composite";
+TPSRuleGDTDoubleRow.Help = "Les tolérances de forme et certaines tolérances telles que la position, le profil avec référence(s) peuvent être définies sur 2 lignes. Les références trouvées sur la seconde ligne doivent être également référencées sur la première.
+Les modificateurs sur l'élément tolérancé doivent être les mêmes sur les deux lignes, idem
+pour les références présentes sur les deux lignes. ";
+TPSRuleGDTDoubleRow.CorrectFunction = "Editer l'annotation";
+
+//Quatre points sont vérifiés dans la TPSRuleGDTTolElemModifiers. Pour la granularité, prévoir 3 régles suplémentaires
+//TPSRuleGDTDoubleRow : For Any orientation, location, runout specification and profile specified with datum can be grouped into composite specifications.
+
+//TPSRuleGDTDoubleRowDatCorresp.Name = "composite GDT datum correspondance ";
+//TPSRuleGDTDoubleRowDatCorresp.Help = " For composite specifications, the datums specified in the second GDT shall be specified in the first GDT";
+//TPSRuleGDTDoubleRowDatCorresp.CorrectFunction = " Check the datum correspondance in the composite GDT ";
+
+//TPSRuleGDTDoubleRowZTModCorresp.Name= " toleranced-element modifier correspondance in composite GDT";
+//TPSRuleGDTDoubleRowZTModCorresp.Help = " For composite specifications, the modifiers on the toleranced element shall be the same in both specifications. ";
+//TPSRuleGDTDoubleRowZTModCorresp.CorrectFunction = " Check the toleranced-element modifier correspondance in composite GDT ";
+
+//TPSRuleGDTDoubleRowZTModCorresp.Name= " datum-element modifier correspondance in composite GDT";
+//TPSRuleGDTDoubleRowDatModCorresp.Help = " For composite specifications, the modifiers on datums shall be the same in both specifications ";
+//TPSRuleGDTDoubleRowDatModCorresp.CorrectFunction = " Check the datum modifier correspondance in composite GDT ";
+
+//TPSRuleGDTDoubleRowFormMod.Name = " ??? ";
+//TPSRuleGDTDoubleRowFormMod.Help = " For composite form specifications (no datum specified), the modifiers on the toleranced element may be different ";
+//TPSRuleGDTDoubleRowFormMod.CorrectFunction = " the toleranced-element modifiers may be different in composite form GDT ";
+//En fait, cette règle correspond plus à un conseil informatif qu'à une interdiction
+//Il faudra donc prévoir différents niveaux de règles
+
+TPSRuleGDTRestrictValue.Name = "les valeurs de restriction";
+TPSRuleGDTRestrictValue.Help = " La (ou les) valeur(s) de restriction sur les tolérances doi(ven)t être un (ou des) chiffre(s) strictement positif(s). Dans le cas de la tolérance de circularité, la restriction peut être définie en degrés et doit être strictement comprise entre 0 et 360 degrés";
+TPSRuleGDTRestrictValue.CorrectFunction = "Editer l'annotation et modifier la(ou les) valeur(s) de restriction";
+
+//Trois points sont vérifiés dans la TPSRuleGDTRestrictValue. Pour la granularité, prévoir 2 régles suplémentaires
+//TPSRuleGDTRestrictValue.Help  pour : The tolerance value restriction shall be strictly positive.
+
+//TPSRuleGDTRestrictAngularValue.Name = " ??? ";
+//TPSRuleGDTRestrictAngularValue.Help = " The circularity tolerance value restriction may be defined in degree. ";
+//TPSRuleGDTRestrictAngularValue.CorrectFunction = " Set the circularity tolerance value restriction in degree, if necessary. ";
+//En fait, cette règle correspond plus à un conseil informatif qu'à une interdiction
+//Il faudra donc prévoir différents niveaux de règles
+
+//TPSRuleGDTRestrictRangeValue.Name = "Circularity angular tolerance value range ";
+//TPSRuleGDTRestrictRangeValue.Help = " The circularity tolerance value restriction shall be a 0-to-360 degree value. ";
+//TPSRuleGDTRestrictRangeValue.CorrectFunction = " Set the circularity angular tolerance value between 0° and 360°. ";
+
+//------------------------------ Geometrical Tolerances Without Reference Frame
+
+TPSRulePlaneDirection.Name = "Direction de la zone de tolérance";
+TPSRulePlaneDirection.Help = "La direction de la zone de tolérance est incorrecte";
+TPSRulePlaneDirection.CorrectFunction = "Choisir soit un autre plan d'annotations, soit une autre direction";
+
+//--------------------------------- Geometrical Tolerances With Reference Frame
+
+TPSRuleRefFrameOfTolExist.Name = "Existence d'un cadre de tolérance";
+TPSRuleRefFrameOfTolExist.Help = "Une tolérance géométrique doit faire référence à un système de référence existant ";
+TPSRuleRefFrameOfTolExist.CorrectFunction = "Associer un autre système de référence à la tolérance géométrique";
+
+TPSRuleRefFrameOfTolStatus.Name = "Etat du système de référence ";
+TPSRuleRefFrameOfTolStatus.Help = "Une tolérance géométrique est incorrecte si son système de référence est incorrect.";
+TPSRuleRefFrameOfTolStatus.CorrectFunction = "Corriger le système de référence ";
+
+//--------------------------------------------------------- Annotation Drafting
+
+TPSRuleDraftingAnnotation.Name = "Définition d'annotation";
+TPSRuleDraftingAnnotation.Help = "L'annotation spécifiée est endommagée.";
+TPSRuleDraftingAnnotation.CorrectFunction  = "Supprimer l'annotation et la recréer ";
+
+//------------------------------------------------------------------- Dimension
+
+TPSRuleLimitsOfSize.Name = "Définition des écarts supérieur et inférieur";
+TPSRuleLimitsOfSize.Help = "L'écart supérieur doit être strictement plus grand que l'écart inférieur";
+TPSRuleLimitsOfSize.CorrectFunction = "Modifier les écarts";
+
+TPSRuleSingleLimitSpecifiedValue.Name = "Définition de la valeur uni-limite spécifiée";
+TPSRuleSingleLimitSpecifiedValue.Help = "La valeur uni-limite spécifiée doit être strictement positive";
+TPSRuleSingleLimitSpecifiedValue.CorrectFunction  = "Modifier la valeur uni-limite spécifiée";
+
+TPSRuleDimensionValue.Name = "Valeur de cote résultante";
+TPSRuleDimensionValue.Help = "La valeur de cote résultante sera strictement positive";
+TPSRuleDimensionValue.CorrectFunction  = "Modifier les écarts";
+
+TPSRuleStringUExist.Name = "Définition du paramètre string_U";
+TPSRuleStringUExist.Help = "Le paramètre string_U n'existe pas";
+TPSRuleStringUExist.CorrectFunction  = "Définir le paramètre string_U";
+
+TPSRuleStringLExist.Name = "Définition du paramètre string_L";
+TPSRuleStringLExist.Help = "Le paramètre string_L n'existe pas";
+TPSRuleStringLExist.CorrectFunction  = "Définir le paramètre string_L";
+
+TPSRuleStringULengthType.Name = "Type du paramètre string_U";
+TPSRuleStringULengthType.Help = "Le paramètre string_U n'est pas du type longueur";
+TPSRuleStringULengthType.CorrectFunction  = "Modifier le paramètre string_U";
+
+TPSRuleStringLLengthType.Name = "Type du paramètre string_L";
+TPSRuleStringLLengthType.Help = "Le paramètre string_L n'est pas du type longueur";
+TPSRuleStringLLengthType.CorrectFunction  = "Modifier le paramètre string_L";
+
+TPSRuleAlphaTolerance.Name = "Définition de la tolérance";
+TPSRuleAlphaTolerance.Help = "La tolérance spécifiée doit être définie dans la norme";
+TPSRuleAlphaTolerance.CorrectFunction  = "Sélectionner une autre tolérance";
+
+//------------------------------------------------------------- Basic Dimension
+
+TPSRuleFeatureLink.Name = "Validité de l'élément de contexte.";
+TPSRuleFeatureLink.Help = "L'(les) élément(s) utilisant la cote encadrée courante n'est(ne sont) pas convenables ou existant(s).";
+TPSRuleFeatureLink.CorrectFunction = "Modifier l'(les) élément(s) de contexte ou re-créer.";
+
+TPSRuleResAreaDatumTarget.Name = "Elément de cote encadrée incorrect.";
+TPSRuleResAreaDatumTarget.Help = "Au moins un élément support de la cote encadrée doit appartenir à la géométrie de la restriction de surface/référence partielle.";
+TPSRuleResAreaDatumTarget.CorrectFunction  = "Utilisez la commande Gestion de la géométrie support pour remplacer la géométrie support de la cote encadrée ou détruisez la.";
+
+TPSRuleDRFInSupport.Name = "Elément de cote encadrée incorrect.";
+TPSRuleDRFInSupport.Help = "Les éléments supports de la cote encadrée doivent appartenir à la géométrie des références spécifiées définissant le système de références.";
+TPSRuleDRFInSupport.CorrectFunction  = "Utilisez la commande Gestion de la géométrie support pour remplacer la géométrie support de la cote encadrée ou détruisez la.";
+
+TPSRuleDRFAutoInSupport.Name = "Elément de cote encadrée incorrect.";
+TPSRuleDRFAutoInSupport.Help = "Les dimensions internes des entités à dimension ne peuvent pas être utilisées en tant que cotes encadrées.";
+TPSRuleDRFAutoInSupport.CorrectFunction  = "Détruisez la cote encadrée.";
+
+TPSRuleTolGeomType.Name = "Tolérance géométrique ne nécessitant pas de cote encadrée.";
+TPSRuleTolGeomType.Help = "Les tolérances géométriques de coaxialité, symétrie, perpendicularité, parallélisme, battement circulaire, battement total, planéité, rectitude, circularité
+  et cylindricité ne nécessitent pas de cote encadrée.";
+TPSRuleTolGeomType.CorrectFunction  = "Détruisez la cote encadrée.";
+
+TPSRuleTolGeomInSupport.Name = "Elément de cote encadrée incorrect.";
+TPSRuleTolGeomInSupport.Help = "Les éléments supports de la cote encadrée doivent appartenir à la géométrie des éléments tolérancés ou des références spécifiées définissant le système de références éventuellement utilisé.
+  Ils ne peuvent pas appartenir uniquement aux éléments de référence.";
+TPSRuleTolGeomInSupport.CorrectFunction  = "Utilisez la commande Gestion de la géométrie support pour remplacer la géométrie support de la cote encadrée ou détruisez la.";
+
+TPSRuleTolGeomAutoInSupport.Name = "Elément de cote encadrée incorrect.";
+TPSRuleTolGeomAutoInSupport.Help = "Les dimensions internes des entités à dimension ne peuvent pas être utilisées en tant que cotes encadrées.";
+TPSRuleTolGeomAutoInSupport.CorrectFunction  = "Détruisez la cote encadrée.";
+
+TPSRuleTolGeomAngularity.Name = "Type de cote encadrée incorrect pour la tolérance d'inclinaison.";
+TPSRuleTolGeomAngularity.Help = "Les cotes encadrées entre élément tolérancé et élément de référence ne peuvent être que de nature angulaire pour les tolérances d'inclinaison.";
+TPSRuleTolGeomAngularity.CorrectFunction  = "Détruisez la cote encadrée.";
+
+TPSRuleFeatureUnicity.Name = "Elément de cote encadrée incorrect.";
+TPSRuleFeatureUnicity.Help = "Les cotes encadrées doivent être uniques pour l'élément de contexte.";
+TPSRuleFeatureUnicity.CorrectFunction = "Détruisez la cote encadrée.";
+
+//------------------------------------------------------ Constructed Geometries
+
+// Basic rules
+
+TPSRuleCGAssocCaseTTRS.Name = "Cas d'association entre représentant et représenté géométriques incorrect.";
+TPSRuleCGAssocCaseTTRS.Help = 
+"L'élément géométrique utilisé pour représenter la surface utilisateur\n
+ou le groupe de surfaces n'est pas compatible en nature ou en position avec la surface utilisateur\n
+ou le groupe de surfaces (il ne doit bloquer aucun de ses degrés de liberté).";
+TPSRuleCGAssocCaseTTRS.CorrectFunction = "Modifier la géométrie ou sa position\n
+ou Utilisez la commande Gestion de la géométrie support pour modifier la surface utilisateur représentée\n
+ou Utilisez la commande Gestion de la géométrie de construction pour modifier le lien de représentant.";
+
+TPSRuleCGRepTTRS.Name = "Surface utilisateur incorrecte.";
+TPSRuleCGRepTTRS.Help =
+"L'élément géométrique qui représente une surface utilisateur\n
+ou un groupe de surfaces doit être valide.";
+TPSRuleCGRepTTRS.CorrectFunction = "Modifier la géométrie ou sa position\n
+ou Utilisez la commande Gestion de la géométrie support pour modifier la surface utilisateur représentée\n
+ou Utilisez la commande Gestion de la géométrie de construction pour modifier le lien de représentant.";
+
+// Point rules
+
+TPSRuleCGPointCanonicity.Name = "Canonicité de la surface utilisateur contextuelle incorrecte pour la définition du point.";
+TPSRuleCGPointCanonicity.Help = "La canonicité de la surface utilisateur contextuelle ne doit pas changer.";
+TPSRuleCGPointCanonicity.CorrectFunction = "Modifier la géométrie ou sa position\n
+ou Utilisez la commande Gestion de la géométrie support pour modifier la surface utilisateur contextuelle représentée\n
+ou Utilisez la commande Gestion de la géométrie de construction pour modifier le lien de représentant.";
+
+TPSRuleCGInterPoint.Name = "Surface utilisateur contextuelle incorrecte pour la définition de la géométrie du point d'intersection.";
+TPSRuleCGInterPoint.Help =
+"La surface utilisateur contextuelle doit correspondre à un noeud, avec exactement deux composants.\n
+L'un doit être associé à une classe plane et à une canonicité plane et l'autre à une classe cylindrique ou de révolution.\n
+Enfin, l'intersection doit exister.";
+TPSRuleCGInterPoint.CorrectFunction = "Modifier la géométrie ou sa position\n
+ou Utilisez la commande Gestion de la géométrie support pour modifier la surface utilisateur représentée\n
+ou Utilisez la commande Gestion de la géométrie de construction pour modifier le lien de représentant.";
+
+// Axis rules
+
+TPSRuleCGAxisClass.Name = "Canonicité de la surface utilisateur contextuelle incorrecte pour la définition de la géométrie de l'axe.";
+TPSRuleCGAxisClass.Help = "La canonicité de la surface utilisateur contextuelle ne doit pas changer.";
+TPSRuleCGAxisClass.CorrectFunction = "Modifier la géométrie ou sa position\n
+ou Utilisez la commande Gestion de la géométrie support pour modifier la surface utilisateur contextuelle représentée\n
+ou Utilisez la commande Gestion de la géométrie de construction pour modifier le lien de représentant.";
+
+TPSRuleCGInterAxis.Name = "Surface utilisateur contextuelle incorrecte pour la définition de la géométrie de l'axe d'intersection.";
+TPSRuleCGInterAxis.Help =
+"La surface utilisateur contextuelle doit correspondre à un noeud, avec exactement deux composants.\n
+Chacun doit être associé à une classe plane et à une canonicité plane.\n
+Enfin, l'intersection doit exister.";
+TPSRuleCGInterAxis.CorrectFunction = "Modifier la géométrie ou sa position\n
+ou Utilisez la commande Gestion de la géométrie support pour modifier la surface utilisateur représentée\n
+ou Utilisez la commande Gestion de la géométrie de construction pour modifier le lien de représentant.";
+
+// Circle rules
+
+TPSRuleCGCircleCanonicity.Name = "Canonicité de la surface utilisateur contextuelle incorrecte pour la définition de la géométrie du cercle.";
+TPSRuleCGCircleCanonicity.Help = "La canonicité de la surface utilisateur contextuelle ne doit pas changer.";
+TPSRuleCGCircleCanonicity.CorrectFunction = "Modifier la géométrie ou sa position\n
+ou Utilisez la commande Gestion de la géométrie support pour modifier la surface utilisateur contextuelle représentée\n
+ou Utilisez la commande Gestion de la géométrie de construction pour modifier le lien de représentant.";
+
+TPSRuleCGCircleSupport.Name = "Plan contextuel incorrect pour la définition de la géométrie du cercle.";
+TPSRuleCGCircleSupport.Help = "Le plan contextuel doit être valide.";
+TPSRuleCGCircleSupport.CorrectFunction = "Vérifier la validité du plan contextuel pour obtenir un état correct.";
+
+// Curve rules
+
+TPSRuleCGCurveDistinct.Name = "Positions des points contextuels incorrectes pour la définition de la géométrie de la courbe.";
+TPSRuleCGCurveDistinct.Help = "Les points de la courbe ne doivent pas avoir des positions identiques.";
+TPSRuleCGCurveDistinct.CorrectFunction = "Modifier la géométrie ou sa position\n
+ou Utilisez la commande Gestion de la géométrie support pour modifier la surface utilisateur représentée\n
+ou Utilisez la commande Gestion de la géométrie de construction pour modifier le lien de représentant.";
+
+TPSRuleCGCurveElements.Name = "Numéro des points contextuels incorrect pour la définition de la géométrie de la courbe.";
+TPSRuleCGCurveElements.Help = "La définition de la courbe doit comporter au moins deux points.";
+TPSRuleCGCurveElements.CorrectFunction = "Modifier la géométrie ou sa position\n
+ou Utilisez la commande Gestion de la géométrie support pour modifier la surface utilisateur représentée\n
+ou Utilisez la commande Gestion de la géométrie de construction pour modifier le lien de représentant.";
+
+// Plane rules
+
+TPSRuleCGPlaneCanonicity.Name = "Canonicité de la surface utilisateur contextuelle incorrecte pour la définition de la géométrie du plan.";
+TPSRuleCGPlaneCanonicity.Help = "La canonicité de la surface utilisateur contextuelle ne doit pas changer.";
+TPSRuleCGPlaneCanonicity.CorrectFunction = "Modifier la géométrie ou sa position\n
+ou Utilisez la commande Gestion de la géométrie support pour modifier la surface utilisateur contextuelle représentée\n
+ou Utilisez la commande Gestion de la géométrie de construction pour modifier le lien de représentant.";
+
+TPSRuleCGAnglePlane.Name = "Surface utilisateur contextuelle incorrecte pour la définition de la géométrie du plan angle.";
+TPSRuleCGAnglePlane.Help =
+"La surface utilisateur contextuelle doit correspondre à un noeud, avec exactement deux composants.\n
+L'un doit être associé à une classe plane et l'autre à une classe cylindrique ou de révolution.\n
+Enfin, le plan et la droite doivent être parallèles.";
+TPSRuleCGAnglePlane.CorrectFunction = "Modifier la géométrie ou sa position\n
+ou Utilisez la commande Gestion de la géométrie support pour modifier la surface utilisateur représentée\n
+ou Utilisez la commande Gestion de la géométrie de construction pour modifier le lien de représentant.";
+
+TPSRuleCGMedianPlane.Name = "Surface utilisateur contextuelle incorrecte pour la définition de la géométrie du plan médian.";
+TPSRuleCGMedianPlane.Help = 
+"La surface utilisateur contextuelle doit correspondre à un noeud, avec exactement deux composants.\n
+Chacun doit être associé à une classe plane et à une canonicité plane.\n
+Enfin, le niveau TTRS le plus élevé doit être associé à une classe prismatique ou plane.";
+TPSRuleCGMedianPlane.CorrectFunction = "Modifier la géométrie ou sa position\n
+ou Utilisez la commande Gestion de la géométrie support pour modifier la surface utilisateur représentée\n
+ou Utilisez la commande Gestion de la géométrie de construction pour modifier le lien de représentant.";
+
+TPSRuleCGPassingPlane.Name = "Surface utilisateur contextuelle incorrecte pour la définition de la géométrie du plan passant.";
+TPSRuleCGPassingPlane.Help = "
+Vous devez disposer des composants géométriques de surface utilisateur contextuelle suivants :\n
+1.Deux plans coplanaires\n
+2.Ou un plan et une droite coplanaire\n
+3.Ou un plan et un point coplanaire\n
+4.Ou deux droites parallèles ou se coupant\n
+5.Ou une droite et un point ne figurant pas sur la droite\n
+6.Ou trois points\n
+Cette sélection permet de générer le plan passant.\n
+Enfin, tous les autres plans, droites et points de la sélection géométrique contextuelle doivent être coplanaires et compris dans le plan passant obtenu.";
+TPSRuleCGPassingPlane.CorrectFunction = "Modifier la géométrie ou sa position\n
+ou Utilisez la commande Gestion de la géométrie support pour modifier la surface utilisateur représentée\n
+ou Utilisez la commande Gestion de la géométrie de construction pour modifier le lien de représentant.";
+
+// Thread rules
+
+TPSRuleCGThread.Name = "Surface utilisateur contextuelle incorrecte pour la définition de la géométrie du taraudage.";
+TPSRuleCGThread.Help = 
+"La surface utilisateur contextuelle doit correspondre à un support.\n
+Elle doit être associée à une classe cylindrique basée sur un élément géométrique unique correspondant à un taraudage.";
+TPSRuleCGThread.CorrectFunction = "Modifier la géométrie ou sa position\n
+ou Utilisez la commande Gestion de la géométrie support pour modifier la surface utilisateur représentée\n
+ou Utilisez la commande Gestion de la géométrie de construction pour modifier le lien de représentant.";
+
+TPSRuleCGThreadHole.Name = "Objet trou contextuel incorrect pour la définition de la géométrie du taraudage.";
+TPSRuleCGThreadHole.Help = "L'objet trou doit être défini comme un trou taraudé.";
+TPSRuleCGThreadHole.CorrectFunction = "Editez l'objet trou et définissez l'option Taraudé.";
+
+TPSRuleCGThreadFeatValidity.Name = "Surface utilisateur contextuelle incorrecte pour la définition de la géométrie du taraudage.";
+TPSRuleCGThreadFeatValidity.Help = "La surface utilisateur contextuelle doit être valide.";
+TPSRuleCGThreadFeatValidity.CorrectFunction = "Vérifier la validité de la surface utilisateur contextuelle pour obtenir un état correct.";
+
+// Cylinder rules
+
+TPSRuleCGCylinder.Name = "Surface utilisateur contextuelle incorrecte pour la définition de la géométrie du cylindre encerclant.";
+TPSRuleCGCylinder.Help =
+"En ce qui concerne tous les composants géométriques de la surface utilisateur contextuelle :\n
+Les trois premières droites doivent faire partie d'une classe prismatique globale (droites parallèles placées sur le cylindre encerclant commun).\n
+Enfin, toutes les autres droites de la sélection géométrique contextuelle sont parallèles et placées sur le cylindre encerclant commun.";
+TPSRuleCGCylinder.CorrectFunction = "Modifier la géométrie ou sa position\n
+ou Utilisez la commande Gestion de la géométrie support pour modifier la surface utilisateur représentée\n
+ou Utilisez la commande Gestion de la géométrie de construction pour modifier le lien de représentant.";
+
+TPSRuleCGRefCylinder.Name = "Surface utilisateur contextuelle incorrecte pour la définition de la géométrie du cylindre encerclant de référence.";
+TPSRuleCGRefCylinder.Help =
+"En ce qui concerne tous les composants géométriques de la surface utilisateur contextuelle :\n
+Dès lors que la première droite tient lieu de référence :\n
+Toutes les autres droites de la sélection géométrique contextuelle sont parallèles et placées sur le cylindre encerclant commun de référence.";
+TPSRuleCGRefCylinder.CorrectFunction = "Modifier la géométrie ou sa position\n
+ou Utilisez la commande Gestion de la géométrie support pour modifier la surface utilisateur représentée\n
+ou Utilisez la commande Gestion de la géométrie de construction pour modifier le lien de représentant.";
+
+// ------------------------------------------------------------ Tabulated Value
+
+TPSTabulatedValue.Name = "Valeur tabulée";
+TPSTabulatedValue.Help  = "Le paramètre n'existe pas.";
+TPSTabulatedValue.CorrectFunction  = "Créer un paramètre de longueur et lui donner le nom de la valeur tabulée.";
+
+TPSBadTabulatedValue.Name = "Valeur tabulée incorrecte";
+TPSBadTabulatedValue.Help  = "Le paramètre portant ce nom n'est pas de type longueur.";
+TPSBadTabulatedValue.CorrectFunction  = "Créer un paramètre de type longueur.";
+
+TPSUBRefinementValue.Name = "Valeur de Tolérance Restrictive";
+TPSUBRefinementValue.Help  = "La valeur de tolérance restrictive doit être positive.
+Elle ne peut être nulle que si une condition de matière est spécifiée.";
+TPSUBRefinementValue.CorrectFunction  = "Editer l'annotation et modifier la(ou les) valeur(s) de restriction.";
+
+TPSUBRefinementValueLow.Name = "Valeur de Tolérance Restrictive";
+TPSUBRefinementValueLow.Help  = "La valeur de tolérance restrictive doit être inférieure à la valeur de tolérance principale.";
+TPSUBRefinementValueLow.CorrectFunction  = "Editer l'annotation et modifier la valeur de restriction.";
+
+TPSUBLengthApplicationValue.Name = "Longueur d'Application";
+TPSUBLengthApplicationValue.Help  = "La longueur d'application de la tolérance doit être
+strictement positive et inférieure à l'infini modèle. Ou pour une tolérance de circularité, l'angle d'arc d'application de la tolérance doit être strictement positif et inférieur à 360°.";
+TPSUBLengthApplicationValue.CorrectFunction  = "Editer l'annotation et modifier la valeur de la longueur d'application.";
+
+// -------------------------------------------------------- Projected Tolerance
+
+TPSProjectedTolerance.Name = "Zone de tolérance projetée";
+TPSProjectedTolerance.Help  = "L'option de zone de tolérance projetée n'est pas ou n'est
+plus applicable à la géométrie à laquelle elle se rapporte. La géométrie doit être constituée de cylindres parallèles.";
+TPSProjectedTolerance.CorrectFunction  = "Editer la tolérance ou la géométrie.";
+
+TPSProjectedToleranceReference.Name = "Zone de tolérance projetée";
+TPSProjectedToleranceReference.Help  = "La référence de la zone de tolérance projetée doit être définie.";
+TPSProjectedToleranceReference.CorrectFunction  = "Editer l'annotation et définir la référence.";
+
+TPSProjectedTolLength.Name = "Zone de tolérance projetée";
+TPSProjectedTolLength.Help  = "La longueur d'application de la zone de tolérance
+projetée doit être strictement positive et inférieure à l'infini modèle.";
+TPSProjectedTolLength.CorrectFunction  = "Editer l'annotation et modifier la valeur de la longueur d'application.";
+// ---------------------------------------------------------- Shifted Tolerance
+
+TPSShiftedTolerance.Name = "Tolérance de profil décalée";
+TPSShiftedTolerance.Help  = "La valeur de décalage ne doit pas être égale à la moitié de la valeur de la tolérance,
+sans quoi la zone de tolérance n'est pas décalée et vous devez utiliser une zone de tolérance ordinaire.";
+TPSShiftedTolerance.CorrectFunction  = "Editer la valeur de décalage.";
+
+// --------------------------------------------------------------- TangentPlane
+
+TPSTangentPlane.Name = "Plan tangent";
+TPSTangentPlane.Help  = "Le modificateur Plan tangent ne peut pas être utilisé pour une surface non plane.";
+TPSTangentPlane.CorrectFunction  = "Editer la géométrie.";
+
+// ---------------------------------------------------------------- LMC and MMC
+
+TPSReferenceFrameLMCMMC.Name = "Condition matières sur les éléments de références.";
+TPSReferenceFrameLMCMMC.Help  = "Une tolérance dimensionnelle doit être spécifiée sur chaque élément 
+de référence pour pouvoir appliquer une condition de minimum ou maximum matière.";
+TPSReferenceFrameLMCMMC.CorrectFunction  = "Modifier la condition matière ou créer une tolérance dimensionnelle.";
+
+TPSTOLLMCMMC.Name = "Condition matière sur l'élément tolérancé.";
+TPSTOLLMCMMC.Help  = "Une tolérance dimensionnelle doit être spécifiée sur chaque élément 
+tolérancé pour pouvoir appliquer une condition de minimum ou maximum matière.";
+TPSTOLLMCMMC.CorrectFunction  = "Modifier la condition matière ou créer une tolérance dimensionnelle.";
+
+// --------------------------------------------------------------- AnnotationPlane
+
+TPSRuleAnnotationPlane.Name = "Validité du plan d'annotation";
+TPSRuleAnnotationPlane.Help = "Le plan d'annotation n'est pas convenable.";
+TPSRuleAnnotationPlane.CorrectFunction  = "Transférer l'annotation 3D dans une autre vue.";
+
+// ------------------------------------------------------------- RestrictedArea
+
+TPSRuleRestrictedAreaUndefined.Name = "Validité de la surface restreinte";
+TPSRuleRestrictedAreaUndefined.Help = "La surface de restriction n'est pas incluse dans la surface restreinte.";
+TPSRuleRestrictedAreaUndefined.CorrectFunction = "Réduire la taille de la surface de restriction ou la projeter sur la surface restreinte.";
+
+TPSRuleRestrictedAreaDisjoined.Name = "Validité de la surface restreinte";
+TPSRuleRestrictedAreaDisjoined.Help = "La surface de restriction n'est pas incluse dans la surface restreinte.";
+TPSRuleRestrictedAreaDisjoined.CorrectFunction = "Réduire la taille de la surface de restriction ou la projeter sur la surface restreinte.";
+
+TPSRuleRestrictedAreaInContact.Name = "Validité de la surface restreinte";
+TPSRuleRestrictedAreaInContact.Help = "La surface de restriction n'est pas incluse dans la surface restreinte.";
+TPSRuleRestrictedAreaInContact.CorrectFunction = "Réduire la taille de la surface de restriction ou la projeter sur la surface restreinte.";
+
+// ------------------------------------------------------------- StandardSwitch
+
+TPSRuleStandardSwAsmeToIso.Name = "Validité du commutateur de norme";
+TPSRuleStandardSwAsmeToIso.Help = "Impossible de convertir les données sémantiques de la norme ASME/ANSI en ISO/JIS.";
+TPSRuleStandardSwAsmeToIso.CorrectFunction = "Créer une annotation avec la norme requise.";
+
+TPSRuleStandardSwIsoToAsme.Name = "Validité du commutateur de norme";
+TPSRuleStandardSwIsoToAsme.Help = "Impossible de convertir les données sémantiques de la norme ISO/JIS en ASME/ANSI.";
+TPSRuleStandardSwIsoToAsme.CorrectFunction = "Créer une annotation avec la norme requise.";
+
+// ------------------------------------------------------------- Teometrical Tolerance Display
+
+TPSRuleGeomTolDisplay.Name = "Affichage de la tolérance géométrique incorrect";
+TPSRuleGeomTolDisplay.Help = "L'affichage 3D de la tolérance géométrique n'est pas cohérent avec son attribut sémantique.\n La zone de tolérance est un cylindre, selon les attributs sémantiques, mais le symbole de diamètre \nne s'affiche pas dans le trait de coupe. ";
+TPSRuleGeomTolDisplay.CorrectFunction = "Editez la tolérance géométrique (le symbole de diamètre s'ajoute automatiquement) et choisissez l'une des options suivantes : \n 1. Cliquez sur OK si l'objectif de conception consiste à définir une zone de tolérance de cylindre ou, \n 2. Sélectionnez une direction de zone de tolérance si l'objectif de conception consiste à définir une zone de tolérance de 2 plans parallèles\n, puis cliquez sur OK.";

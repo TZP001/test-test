@@ -1,0 +1,48 @@
+'=====================================================================================================
+'COPYRIGHT DASSAULT SYSTEMES 2006
+'
+'Jan 2006  User Exit for Process ID Generation - Sample VB script	 GNY
+'
+'=====================================================================================================
+'Usage Notes:  This is a sample script provided with the Software.  Customers can modify body
+'of the functions in this script in order to implement their site specific algorithm to generate 
+'process identifier. Also customers can choose to create another script file with the function 
+'names(OnActivityCreate, OnActivityMove) to implement their naming convention for process identifer
+'
+'NOTE THAT THE FUNCTION NAMES ARE KEYWORDS AND SHOULD NOT BE CHANGED IN THE IMPLEMENTATION AT
+'THE CUSTOMER SITE. 
+'
+'The absolute path of the script file needs to be defined at Tools->Options->Library tab page.
+'Note that this can be done only by the site administrator.
+'=====================================================================================================
+
+'=====================================================================================================
+'OnActivityCreate() implementation will be called at the time of activity creation. Thus, it will get
+'called as a post action to the following operations 
+'Insert Activity command
+'Insert Assembly Activity or BIW Activity command
+'Cut/Copy/Paste & Drag/Drop of one activity to another
+'=====================================================================================================
+Function OnActivityCreate( iAct )
+
+    Dim impAct As Activity
+    Set impAct = iAct 
+    'Catia.SystemService.Print  "Activity Label-OnActivityCreate - iAct: " & iAct.Name
+
+    OnActivityCreate = iAct.Name
+
+End Function
+
+'=====================================================================================================
+'OnActivityMove() implementation will be called only at the time of reparenting an existing activity. 
+'Thus, it will get called as a post action to the execution of Reparent activity command.
+'=====================================================================================================
+Function OnActivityMove( iAct )
+
+    Dim impAct As Activity
+    Set impAct = iAct 
+    'Catia.SystemService.Print  "Activity Label-OnActivityMove - iAct: " & iAct.Name
+
+    OnActivityMove= iAct.Name
+
+End Function

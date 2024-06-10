@@ -1,0 +1,68 @@
+//=====================================================================================
+//                                     CNEXT - CXRn
+//                          COPYRIGHT DASSAULT SYSTEMES 2001 
+//-------------------------------------------------------------------------------------
+// FILENAME    :    CATDrwDimThreadCmd
+// LOCATION    :    DraftingIntCommands
+// AUTHOR      :    fgx
+// BUT         :    Commande de creation de cotes sur threads (top and/or side views)
+// DATE        :    07.03.2001
+//-------------------------------------------------------------------------------------
+// DESCRIPTION :    
+//-------------------------------------------------------------------------------------
+// COMMENTS    :    
+//-------------------------------------------------------------------------------------
+// MODIFICATIONS     user  date        purpose
+//    HISTORY        ----  ----        -------
+//=====================================================================================
+
+//******************************************************************************
+// Command
+//******************************************************************************
+CATDrwDimThreadCmd.Title="ねじ寸法";
+CATDrwDimThreadCmd.UndoTitle="ねじ寸法を作成";
+
+//******************************************************************************
+// States
+//******************************************************************************
+CATDrwDimThreadCmd.waitForSelState.Message="寸法に対するねじの表現を選択してください";
+CATDrwDimThreadCmd.waitFor2sdLineState.Message="最初の 2D 直線に平行な2番目の直線を選択してください";
+
+//******************************************************************************
+// Agents
+//******************************************************************************
+CATDrwDimThreadCmd._agentSet._elemAgent.UndoTitle="ねじ切り表現を選択";
+CATDrwDimThreadCmd._agentSet._lineAgent1.UndoTitle="2番目の2Dﾗｲﾝを選択";
+CATDrwDimThreadCmd._agentSet.2DPointIndication.UndoTitle="選択";
+
+CATDrwDimThreadCmd.OrientBarRessource.Bar.Title="方向";
+
+//******************************************************************************
+// Force dimension on element Button
+//******************************************************************************
+CATDrwDimThreadCmd.OrientBarRessource._refElem.Title="ｴﾚﾒﾝﾄを基準";
+CATDrwDimThreadCmd.OrientBarRessource._refElem.ShortHelp="ｴﾚﾒﾝﾄを基準";
+CATDrwDimThreadCmd.OrientBarRessource._refElem.Help="寸法線が寸法ｴﾚﾒﾝﾄと並列になるように指定します";
+CATDrwDimThreadCmd.OrientBarRessource._refElem.LongHelp="ｴﾚﾒﾝﾄを基準
+寸法線が寸法ｴﾚﾒﾝﾄと並列になるように指定します｡";
+
+//******************************************************************************
+// Force horizontal dimension Button
+//******************************************************************************
+CATDrwDimThreadCmd.OrientBarRessource._refHori.Title="水平方向に指定";
+CATDrwDimThreadCmd.OrientBarRessource._refHori.ShortHelp="水平方向に指定";
+CATDrwDimThreadCmd.OrientBarRessource._refHori.Help="寸法線が水平になるように指定します";
+CATDrwDimThreadCmd.OrientBarRessource._refHori.LongHelp="水平方向に指定
+寸法線が水平になるように指定します｡";
+
+//******************************************************************************
+// Force vertical dimension Button
+//******************************************************************************
+CATDrwDimThreadCmd.OrientBarRessource._refVert.Title="垂直方向に指定";
+CATDrwDimThreadCmd.OrientBarRessource._refVert.ShortHelp="垂直方向に指定";
+CATDrwDimThreadCmd.OrientBarRessource._refVert.Help="寸法線が垂直になるように指定します";
+CATDrwDimThreadCmd.OrientBarRessource._refVert.LongHelp="垂直方向に指定
+寸法線が垂直になるように指定します｡";
+
+FakeThreadDim="関連しないねじ寸法が作成されました｡";
+

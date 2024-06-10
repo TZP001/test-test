@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<st:repository xsi:schemaLocation="urn:com:dassault_systemes:settings settings.xsd" xmlns:st="urn:com:dassault_systemes:settings" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+  <st:Description name="Multiprocess" PrimaryTabpage="/Digital Mockup/Multiprocess Settings">
+    <st:role>SMultiprocess settings</st:role>
+    <st:RepositoryFile>Multiprocess</st:RepositoryFile>
+    <st:version>1</st:version>
+    <st:compatibility>
+      <st:FullCompatibilityfromLevel>1</st:FullCompatibilityfromLevel>
+      <st:UpwardCompatibilityfromLevel>1</st:UpwardCompatibilityfromLevel>
+    </st:compatibility>
+  </st:Description>
+  <st:attributes>
+    <st:attribute Name="MaxSon">
+      <st:role>Maximum number of child processes</st:role>
+      <st:int>
+        <st:min>1</st:min>
+        <st:max>100</st:max>
+        <st:step>1</st:step>
+        <st:default>
+          <st:value>2</st:value>
+        </st:default>
+      </st:int>
+    </st:attribute>
+    <st:attribute Name="MaxTime">
+      <st:role>Timeout in minutes</st:role>
+      <st:int>
+        <st:min>1</st:min>
+        <st:max>720</st:max>
+        <st:step>1</st:step>
+        <st:default>
+          <st:value>60</st:value>
+        </st:default>
+      </st:int>
+    </st:attribute>
+    <st:attribute Name="LogFilePath">
+      <st:role>Path of the log file</st:role>
+      <st:URN>
+        <st:defaultWindows>
+          <st:value>${CATTemp}</st:value>
+        </st:defaultWindows>
+        <st:defaultUnix>
+          <st:value>${CATTemp}</st:value>
+        </st:defaultUnix>
+      </st:URN>
+    </st:attribute>
+   </st:attributes>
+</st:repository>

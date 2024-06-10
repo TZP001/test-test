@@ -1,0 +1,2334 @@
+// Pour des infos pertinentes la signification des differentes messages :
+//
+//
+//    a- Title = Nom de la commande affich・//              REGLES: - Commencer par un verbe ・l'infinitif
+//                      - Min/maj : chaque mot doit commencer par une majuscule.
+//                  
+//    b- Help = Help affich・an bas ・gauche du Frame CATIA
+//              REGLES: - Phrase normale au niveau des min/maj.
+//
+//    c- ShortHelp = Bulle affich・sur ice.
+//              REGLES: - Commencer par un verbe ・l'infinitif
+//                      - Min/maj : chaque mot doit commencer par une majuscule.
+//
+//    d- LongHelp = Help affich・en selectionnant le Menu principal 'Help' + What's This ?
+//              REGLES: - Phrase normale au niveau des min/maj.
+//						- SOYEZ BAVARD !!!
+
+DesignFeature="設計ﾌｨｰﾁｬｰ - ﾊﾟﾗﾒｰﾀは修正できません";
+MfgView="ﾏﾆｭﾌｧｸﾁｬﾘﾝｸﾞ ﾋﾞｭｰ";
+MfgDesign="設計";
+MfgHole="穴";
+MfgPrismaticPocket="ﾌﾟﾘｽﾞﾏﾃｨｯｸ ﾎﾟｹｯﾄ";
+MfgPrismaticSlab="ﾌﾟﾘｽﾞﾏﾃｨｯｸ ｽﾗﾌﾞ";
+MfgAxial="軸ﾌｨｰﾁｬｰ";
+MfgPrismaticSurfacing="ﾌﾟﾘｽﾞﾏﾃｨｯｸ ｻｰﾌｪｽ加工";
+Mfg3AxisFeature="3軸ﾌｨｰﾁｬｰ";
+MfgProfileContouringFeature="ﾌﾟﾛﾌｧｲﾙ輪郭加工ﾌｨｰﾁｬｰ";
+MfgPtToPtFeature="点-点 ﾌｨｰﾁｬｰ";
+MfgCounterbore="座ぐり";
+MfgCountersink="皿もみ";
+MfgIntThreaded="内ねじ";
+MfgPatternDefinition="ﾊﾟﾀｰﾝ形状"; // VSC: For pattern definition.
+MfgMachiningPattern="加工ﾊﾟﾀｰﾝ";
+MfgPatternUsage="加工ﾊﾟﾀｰﾝ";
+MfgSpotDrill="ｽﾎﾟｯﾄ ﾄﾞﾘﾙ";
+MfgCircularMill="円形ﾌﾗｲｽ";
+MfgBackBore="ﾊﾞｯｸ ﾎﾞｱ";
+Mfg2SidesChamfer="両面面取り";
+MfgTSlot="T-ｽﾛｯﾄ";
+MfgThreadMill="ねじﾌﾗｲｽ";
+MfgChamferedHole="面取り穴";
+MfgMachiningAxisSystem="加工座標系";
+MfgAxisSystemType="加工軸ﾀｲﾌﾟ";
+Offset="厚み";
+Geometry="形状";
+Tolerance="公差";
+SelectedFeature="ﾌｨｰﾁｬｰ";
+Unknown="不明";
+None="形状ﾌｨｰﾁｬｰは選択されていません｡";
+Diameter="直径";
+CBDiameter="座ぐり直径";
+Depth="深さ";
+CSAngle="角度";
+CBDepth="座ぐり深さ";
+ThreadDepth="ねじの深さ";
+THDepth="ねじの深さ";
+ThreadDiameter="ねじ径";
+THDiameter="ねじ径";
+ThreadPitch="ねじﾋﾟｯﾁ";
+THPitch="ﾋﾟｯﾁ";
+RightThreaded="右ねじ切り";
+LeftThreaded="左ねじ切り";
+MfgPitchSens="ねじ方向";
+THMode="ねじ方向";
+THSens="ねじ方向";
+Extension="穴の拡張";
+Simple="単純";
+Tapered="ﾃｰﾊﾟ";
+Counterbored="座ぐり";
+Countersunk="皿穴";
+Counterdrilled="皿もみ(ﾄﾞﾘﾙ)";
+Threaded="ねじ切り";
+MfgHoleExtension="範囲 ";
+JumpDistance="ｼﾞｬﾝﾌﾟ距離";
+MFG_AXIAL_RADIAL_LINKING="軸-半径ﾘﾝｸ";
+MfgGuidance="工具軸加工方式";
+MfgPatternTopMode="投影ﾓｰﾄﾞ";
+MfgPatternOrderingMode="配列ﾓｰﾄﾞ";
+MfgContouringMode="輪郭加工ﾓｰﾄﾞ";
+CSDiameter="皿もみ穴の直径";
+CSDepth="皿もみ穴の深さ";
+BackDepth="背景深さ";
+SlotDiameter="ｽﾛｯﾄ直径";
+
+//BFA,05 Nov 06 - Fix for IR 558444. Corrected the names. 
+CDDiameter="皿もみ(ﾄﾞﾘﾙ)直径";
+CDAngle="皿もみ(ﾄﾞﾘﾙ)角度";
+CDDepth="皿もみ(ﾄﾞﾘﾙ)深さ";
+//End of fix
+
+CHDiameter="面取り直径";
+
+OriginOffset="原点ｵﾌｾｯﾄ";
+
+MfgAxialFeature="軸ﾌｨｰﾁｬｰ";
+MfgMachiningFeature="加工ﾌｨｰﾁｬｰ";
+MfgPrismaticFeature="ﾌﾟﾘｽﾞﾏﾃｨｯｸ ﾌｨｰﾁｬｰ";
+
+// Smu : features base types
+MfgBase="ﾏﾆｭﾌｧｸﾁｬﾘﾝｸﾞ ﾍﾞｰｽ ﾌｨｰﾁｬｰ";
+ManufacturingFeature="ﾏﾆｭﾌｧｸﾁｬﾘﾝｸﾞ ﾌｨｰﾁｬｰ";
+MachiningFeature="加工ﾌｨｰﾁｬｰ";
+PrismaticFeature="ﾌﾟﾘｽﾞﾏﾃｨｯｸ ﾌｨｰﾁｬｰ";
+
+MfgMachinableAreaFeature="加工可能領域";
+MfgMachinableGeomFeature="加工可能形状";
+
+MfgMachinableComputedStockFeature="加工可能な計算済み素材";
+MfgMaxTurnEnvelopeMachinableFeature="最大回転ｴﾝﾍﾞﾛｰﾌﾟ";
+
+// Smu : Machinable features from GSSL Feature Recognition
+MfgMachinableBaseFeature="加工可能ﾍﾞｰｽ ﾌｨｰﾁｬｰ";
+MfgMachinableAxialFeature="加工可能軸ﾌｨｰﾁｬｰ";
+FeatureType="ﾌｨｰﾁｬｰ ﾀｲﾌﾟ";
+XAxis="元の軸のX成分";
+YAxis="元の軸のY成分";
+ZAxis="元の軸のZ成分";
+pX="元のX座標";
+pY="元のY座標";
+pZ="元のZ座標";
+HoleType="穴のﾀｲﾌﾟ";
+HoleBottomType="穴の下部のﾀｲﾌﾟ";
+HoleBottomAngle="穴の下部の角度";
+
+// VSC: New attributes exposed for Prismatic machining area
+MfgMinimumCornerRadius="最小ｺｰﾅｰ半径";
+MfgMinimumChannelWidth="最小ﾁｬﾈﾙ幅";
+MfgMaximumChannelWidth="最大ﾁｬﾈﾙ幅";
+MfgBottomFilletRadius="下部ﾌｨﾚｯﾄ半径";
+
+// =====================================================================
+// NLS General
+// =====================================================================
+
+MfgIsActive="ｱｸﾃｨﾌﾞ?";
+
+// =====================================================================
+// NLS for Macros
+// =====================================================================
+
+MfgMacroDistance="距離";
+MfgMacroPositionningAngleA="垂直角度";
+MfgMacroPositionningAngleB="水平角度";
+MfgMacroTgtDistance="距離";
+MfgMacroCircleAngularPositionA="角度ｾｸﾀ";
+MfgMacroCircleAngularPositionB="角度方向";
+MfgMacroRadius="半径";
+MfgMacroHorizontalSafetyDistance="水平安全距離";
+MfgMacroVerticalSafetyDistance="垂直安全距離";
+MfgMacroRampingAngle="ﾏｸﾛ ﾗﾝﾋﾟﾝｸﾞ角度";
+MfgMacroCornerValue="ﾏｸﾛ ｺｰﾅｰ半径";
+MfgMacroCornized="ｺｰﾅｰ化ﾏｸﾛ";
+MfgMacroMotionsActiveStatus="ｱｸﾃｨﾌﾞなﾏｸﾛですか?";
+MfgMacroMotionsRelevant="使用可能なﾏｸﾛですか?";
+MfgMacroType="ﾏｸﾛ ﾀｲﾌﾟ";
+MfgMacroMotion="ｸﾞﾙｰﾌﾟ";
+MfgMacroClearanceMotion="ｸﾞﾙｰﾌﾟ";
+MfgMacroMotions="ﾏｸﾛ";
+MfgMacroClearanceMotions="ｸﾘｱﾗﾝｽ";
+MfgMacroApproachMotions="ｱﾌﾟﾛｰﾁ";
+MfgMacroRetractMotions="ﾘﾄﾗｸﾄ";
+MfgMacroBetweenFinishingPathMotions="仕上げﾊﾟｽに戻る";
+MfgMacroLinkingMotions="ﾘﾝｸ";
+MfgMacroReturnBetweenLevelMotions="2ﾚﾍﾞﾙ間のﾘﾀｰﾝ";
+MfgMacroReturnInOneLevelMotions="同一ﾚﾍﾞﾙ内のﾘﾀｰﾝ";
+IsMfgRelativeRadiusTRUE="絶対らせん半径";
+IsMfgRelativeRadiusFALSE="半径の差異と次のﾊﾟｽ";
+
+ClearanceOptionFrame="ｸﾘｱﾗﾝｽ ｵﾌﾟｼｮﾝ";
+MfgClearanceCorner="R付きｺｰﾅｰ ｸﾘｱﾗﾝｽ";
+MfgClearanceCorner.LongHelp="ｸﾘｱﾗﾝｽのｺｰﾅｰ加工を許可します";
+
+// =====================================================================
+// Types des trajets elementaires de macro
+// =====================================================================
+
+MfgMacroElementaryNormalMotion="垂直";
+MfgMacroElementaryBackMotion="ﾊﾞｯｸ";
+MfgMacroElementaryCircularDirMotion="円形手動";
+MfgMacroElementaryBoxMotion="ﾎﾞｯｸｽ";
+MfgMacroElementaryPSMMotion="ｾｸｼｮﾝ移動の延長";
+MfgMacroElementaryHSMMotion="高速ﾌﾗｲｽ加工";
+MfgMacroElementaryHMRMotion="荒加工";
+MfgMacroElementaryHelixMotion="らせん";
+MfgMacroElementaryRampingMotion="ﾗﾝﾋﾟﾝｸﾞ";
+MfgMacroElementaryHorizontalMotion="水平";
+MfgMacroElementaryGoToAPointMotion="点まで移動";
+MfgMacroElementaryCircularMotion="円形";
+MfgMacroElementaryToolAxisMotion="工具軸";
+MfgMacroElementaryDeltaLnDistMotion="直線上の距離";
+MfgMacroElementaryAxialMotion="軸";
+MfgMacroPPWord="PPﾜｰﾄﾞ";
+MfgMacroElementaryGoToAPlaneMotion="平面まで移動";
+
+// ===================================================
+// NLS for Copy Order
+// ============================================
+
+// PFE: Copy Order R7
+MfgNbOfCopy="ｺﾋﾟｰの数(N)";
+MfgDeltaX="X に沿った距離";
+MfgDeltaY="Y に沿った距離";
+MfgDeltaZ="Z に沿った距離";
+MfgKeepAssociativity="ﾘﾝｸを保持";
+MfgTransformationType="変換ﾀｲﾌﾟ";
+MfgRotationAngle="角度";
+
+// PFE:  ajouts Copy Order R8 
+MfgDeltaAlongAxis="方向の距離";
+MfgTranslationType="平行移動ﾀｲﾌﾟ";
+
+// PFE : ajouts copy order R10
+MfgPriorityType="順序";
+MfgRotationType="回転ﾀｲﾌﾟ";
+MfgAxisMachAxis="軸";
+
+// PCB : ajouts copy order R12
+MfgMatrixType="ﾏﾄﾘｯｸｽ ﾀｲﾌﾟ";
+MfgAffinityFactAlongX="X方向の近似係数";
+MfgAffinityFactAlongY="Y方向の近似係数";
+MfgAffinityFactAlongZ="Z方向の近似係数";
+MfgScaleFact="係数";
+MfgMatrixFactX1="X1";
+MfgMatrixFactY1="Y1";
+MfgMatrixFactZ1="Z1";
+MfgMatrixFactX2="X2";
+MfgMatrixFactY2="Y2";
+MfgMatrixFactZ2="Z2";
+MfgMatrixFactX3="X3";
+MfgMatrixFactY3="Y3";
+MfgMatrixFactZ3="Z3";
+MfgMatrixAlongX="X方向の平行移動";
+MfgMatrixAlongY="Y方向の平行移動";
+MfgMatrixAlongZ="Z方向の平行移動";
+
+// =====================================================================
+// NLS for Machinist
+// =====================================================================
+
+ToolCornerRadius="半径";
+ToolDiameter="直径";
+ToolAngle="角度";
+ToolLength="長さ";
+UmaMachTol="公差";
+UmaOverlap="ｵｰﾊﾞｰﾗｯﾌﾟ(% O)";
+UmaDepth="深さ";
+UmaWidth="幅";
+UmaLength="長さ";
+PartOverThickness="ﾊﾟｰﾂ ｵﾌｾｯﾄ";
+
+M3xAccostingSide="初期工具位置";
+M3xApproachAndRetractMacroMotion="ｲﾝﾀｰ ﾊﾟｽ ﾓｰﾄﾞ";
+M3xApproachAndRetractRadius="ｱﾌﾟﾛｰﾁ&ﾘﾄﾗｸﾄ半径";
+M3xApproachDistance="ｱﾌﾟﾛｰﾁ距離";
+M3xApproachMacroMotion="ｱﾌﾟﾛｰﾁ ﾓｰﾄﾞ";
+M3xApproachVectorX="X方向にｱﾌﾟﾛｰﾁ";
+M3xApproachVectorY="Y方向にｱﾌﾟﾛｰﾁ";
+M3xApproachVectorZ="Z方向にｱﾌﾟﾛｰﾁ";
+M3xAutomatiqueStrategy="最適加工方式";
+M3xContouringMode="ｻｲｸﾙ ﾀｲﾌﾟ";
+M3xCornerizationRadius="ｺｰﾅｰ半径";
+M3xCtxOverThickness="ﾁｪｯｸ ｵﾌｾｯﾄ";
+M3xCutStrategy="ﾊﾟｽ ﾀｲﾌﾟ";
+M3xCuttingMode="切削ﾓｰﾄﾞ";
+M3xDeltaZ="最小変更長さ";
+M3xDrillingSafetyDistance="穴あけ安全距離";
+M3xEngagementMode="合わせｱﾌﾟﾛｰﾁ ﾓｰﾄﾞ";
+M3xFilterHVAngle="最小角度";
+M3xFilterHVLength="最小長さ";
+M3xFilterHVMode="HVﾌｨﾙﾀ";
+M3xForceCompute="強制再生";
+M3xHSMEngagementRadius="遷移半径";
+M3xHardDrillToolAngle="穴あけ工具角度";
+M3xHardDrillToolDiameter="穴あけ工具直径";
+M3xHardDrillToolLength="穴あけ工具長さ";
+M3xHardEngagementMode="合わせｱﾌﾟﾛｰﾁ ﾓｰﾄﾞ";
+M3xHardHelixDiameter="らせんの直径(% O)";
+M3xHardInterpolationMode="補間ﾓｰﾄﾞ";
+M3xHardMachiningMode="加工ﾓｰﾄﾞ";
+M3xHardOverlap="ﾊﾟｽ ｵｰﾊﾞｰﾗｯﾌﾟ(直径比率)";
+M3xHardStopOffset="停止ｵﾌｾｯﾄ(% O)";
+M3xHardSweepingMode="工具ﾊﾟｽ ｽﾀｲﾙ";
+M3xHighSpeed="高速機械加工";
+M3xLengthMin="最小変更長さ";
+M3xLinkDistance="ｽｷｯﾌﾟする島の長さ";
+M3xLinkMode="島をｽｷｯﾌﾟ";
+M3xMachiningMode="工具ﾊﾟｽ ｽﾀｲﾙ";
+M3xMachiningZone="加工ｿﾞｰﾝ";
+M3xMacroMotionRetractOptimization="未使用";
+M3xMaxHorizontalSlope="最大水平勾配";
+M3xMaxWidthToMachine="加工最大幅";
+M3xMinFrontalSlope="最小正面勾配";
+M3xMinLateralSlope="最小側面勾配";
+M3xMinStepDistance="最小ｽﾃｯﾌﾟ距離";
+M3xMinZoneArea="加工する最小領域(% O)";
+M3xOffsetEndPlane="終了平面ｵﾌｾｯﾄ";
+M3xOffsetLowerPlane="下部平面ｵﾌｾｯﾄ";
+M3xOffsetSafetyPlane="安全平面ｵﾌｾｯﾄ";
+M3xOffsetSide="ｵﾌｾｯﾄ側";
+M3xOffsetStartPlane="開始平面ｵﾌｾｯﾄ";
+M3xOffsetUpperPlane="上部平面ｵﾌｾｯﾄ";
+M3xOverShoot="端点でｵﾌｾｯﾄ";
+M3xOverThickness="ﾊﾟｰﾂ ｵﾌｾｯﾄ";
+M3xPartAutoLimit="ﾊﾟｰﾂ内のみ加工";
+M3xPlunge="ﾌﾟﾗﾝｼﾞ";
+M3xRaiseDistance="軸方向安全距離";
+M3xRampAngle="ﾗﾝﾋﾟﾝｸﾞ角度";
+M3xRetractDistance="ﾘﾄﾗｸﾄ距離";
+M3xRetractMacroMotion="ﾘﾄﾗｸﾄ ﾓｰﾄﾞ";
+M3xRetractTpSPMode="安全平面ﾓｰﾄﾞまでﾘﾄﾗｸﾄ";
+M3xRetractVectorX="X方向にﾘﾄﾗｸﾄ";
+M3xRetractVectorY="Y方向にﾘﾄﾗｸﾄ";
+M3xRetractVectorZ="Z方向にﾘﾄﾗｸﾄ";
+M3xReverseToolPath="工具ﾊﾟｽを反転";
+M3xSMEngagementAngle="合わせｱﾌﾟﾛｰﾁ角度";
+M3xSMSBitangencyMode="ﾍﾟﾝｼﾙ ﾘﾜｰｸ";
+M3xSMSLayerModeValue="切削の最大深さ";
+M3xSMSLimitOverShoot="端点でｵﾌｾｯﾄ";
+M3xSMSReworkStrategyAngle="ﾘﾜｰｸ加工方式角度";
+M3xSMSStopMode="呼び番号";
+M3xSMSStopPosition="停止位置";
+M3xSMSSweepingStrategyMode="ｽｲｰﾌﾟ加工方式";
+M3xSafetyDistance="半径の安全距離";
+M3xScallopHeight="削り残し高さ";
+M3xSetSmartStepValue="ｽﾃｯﾌﾟ距離";
+M3xStepDirection="ｽﾃｯﾌﾟｵｰﾊﾞｰ側面";
+M3xStepDistance="最大距離";
+M3xStepOverMode="未使用";
+M3xStopMode="停止ﾓｰﾄﾞ";
+M3xStopPosition="位置";
+M3xSynchronize="同期化";
+M3xToContour="方向";
+M3xToolCoreDiameter="工具非切削部直径";
+M3xUpDownMode="方向";
+M3xViewDirCheck="衝突ﾁｪｯｸ";
+M3xViewDirMode="ﾋﾞｭｰ方向";
+M3xVisuMode="選択ﾓｰﾄﾞ";
+M3xZLevelPassOverlap="ﾊﾟｽのｵｰﾊﾞｰﾗｯﾌﾟ";
+
+// =====================================================================
+// NLS for times
+// =====================================================================
+MfgNonMachiningTime="非加工時間";
+MfgWaitingTime="待機時間";
+
+// =====================================================================
+// NLS for feeds & speeds
+// =====================================================================
+
+MFG_FEED_APP_VALUE="ｱﾌﾟﾛｰﾁの送り速度";
+MFG_FEED_APP_MODE="ｱﾌﾟﾛｰﾁの早送り速度";
+MFG_FEED_PLUNGE_VALUE="ﾌﾟﾗﾝｼﾞの送り速度 ";
+MFG_FEED_PLUNGE_MODE="ﾌﾟﾗﾝｼﾞの早送り速度";
+MFG_FEED_MACH_VALUE="加工送り速度";
+MFG_CHAMFER_FEED_VALUE="面取りの送り速度";
+MFG_FEED_RETRACT_VALUE="ﾘﾄﾗｸﾄの送り速度";
+MFG_FEED_RETRACT_MODE="ﾘﾄﾗｸﾄの早送り速度";
+MFG_FEED_FINISH_VALUE="仕上げの送り速度";
+MfgGlobalFeedrateMagnitude="送り速度の単位";
+MFG_LATHE_MACH_FEED_VALUE="加工送り速度";
+
+MFG_SPINDLE_MACH_VALUE="機械加工ｽﾋﾟﾝﾄﾞﾙ";
+MFG_CHAMFER_SPINDLE_VALUE="面取りｽﾋﾟﾝﾄﾞﾙ";
+MFG_SPINDLE_FINISH_VALUE="仕上げｽﾋﾟﾝﾄﾞﾙ";
+MfgGlobalSpindleMagnitude="ｽﾋﾟﾝﾄﾞﾙの単位";
+
+MFG_VC="旧の切削速度";
+MFG_VC_NEW="切削速度";
+MFG_PP="切削深さ";
+MFG_SZ="切刃ごとの送り速度";
+MFG_SZ_GLOBAL="送り速度";
+
+MFG_VC_NEW_SP="ｽﾋﾟﾝﾄﾞﾙ速度";
+MFG_VC_FINISH="旧の仕上げ切削速度";
+MFG_VC_FINISH_NEW="仕上げ切削速度";
+MFG_AA_FINISH="仕上げ切削の軸方向の深さ";
+MFG_AR_FINISH="仕上げ切削の半径方向の深さ";
+MFG_SZ_FINISH="切刃ごとの仕上げ送り速度";
+MFG_SZ_FINISH_GLOBAL="仕上げの送り速度";
+
+MFG_VC_ROUGH="旧の荒加工切削速度";
+MFG_VC_ROUGH_NEW="荒加工切削速度";
+MFG_AA_ROUGH="荒加工切削の軸方向の深さ";
+MFG_AR_ROUGH="荒加工切削の半径方向の深さ";
+MFG_SZ_ROUGH="切刃ごとの荒加工送り速度";
+MFG_SZ_ROUGH_GLOBAL="荒加工送り速度";
+MFG_PP_ROUGH="切削の荒加工深さ(内部ﾊﾟﾗﾒｰﾀ)";
+
+MFG_VC_ECROUTAGE="ﾃﾞｽｹｰﾘﾝｸﾞ速度(内部ﾊﾟﾗﾒｰﾀ)";
+MFG_VC_ECROUTAGE_NEW="ﾃﾞｽｹｰﾘﾝｸﾞ速度(内部ﾊﾟﾗﾒｰﾀ)";
+MFG_SZ_ECROUTAGE="ﾃﾞｽｹｰﾘﾝｸﾞ送り速度(内部ﾊﾟﾗﾒｰﾀ)";
+MFG_PP_ECROUTAGE="切削のﾃﾞｽｹｰﾘﾝｸﾞ深さ(内部ﾊﾟﾗﾒｰﾀ)";
+
+// Feedrate Reduction in Corners
+MFG_FEED_REDUC_CORNERS="ｺｰﾅｰの送り速度の減速";
+MfgReductionRate="減速率";
+MfgReductionAngle="最小角度";
+MfgMaximumRadius="最大半径";
+MfgDistBeforeCorner="ｺｰﾅｰ前の距離";
+MfgDistAfterCorner="ｺｰﾅｰ後の距離";
+
+MfgSlowdownRate="ｽﾛｰ ﾀﾞｳﾝ速度";
+
+MFG_MACHINE_COMP="工作機械の適合性(内部ﾊﾟﾗﾒｰﾀ)";
+MfgUndefined="未定義";
+MfgHorizontalLatheMachine="水平旋盤";
+MfgVerticalLatheMachine="垂直旋盤";
+
+// =====================================================================
+// NLS for Prismatic Machining & Multi Axis Machining
+// =====================================================================
+
+MFG_AXIAL_DEPTH="切削の最大深さ";
+MFG_BREAKTHROUGH="貫通";
+MFG_CHAMFER_VAL="面取り直径";
+MFG_CLEAR_TIP="ｱﾌﾟﾛｰﾁ ｸﾘｱﾗﾝｽ";
+MFG_CLEAR_TIP_2="ｱﾌﾟﾛｰﾁ ｸﾘｱﾗﾝｽ2";
+MFG_OUTPUT_MODE="未使用";
+MFG_CYCLE_OUTPUT="CYCLE構文を出力";
+MFG_CYCLE_INSTRUCTION="CYCLE NC命令";
+MFG_CYCLE_USER_SYNTAX="CYCLE ﾕｰｻﾞｰ構文";
+MFG_ROTABL_OUTPUT="自動ROTABL";
+MFG_RESULT_MACHINING="異なる深さを加工";
+MFG_RESULT_THREAD_MACHINING="ねじ切りの各深さを加工";
+MFG_DELTADEPTH_DIAMETER="ﾃﾞﾙﾀ直径";
+MFG_DELTADEPTH_DISTANCE="ﾃﾞﾙﾀ距離";
+MFG_DELTADEPTH_INC="ﾃﾞﾙﾀ増分";
+MFG_DELTADEPTH_MODE="ﾃﾞﾙﾀ ﾓｰﾄﾞ";
+MFG_DELTADEPTH_OFFSET="ﾃﾞﾙﾀ ｵﾌｾｯﾄ";
+MFG_DELTADEPTH_SHOULDER="ﾃﾞﾙﾀ肩";
+MFG_DELTADEPTH_TIP="ﾃﾞﾙﾀ先端";
+MFG_DEPTH_DEC="減少割合";
+MFG_DEPTH_DIAMETER="直径";
+MFG_DEPTH_DISTANCE="距離深さ";
+MFG_DEPTH_LIM="減少限界";
+MFG_DEPTH_MODE="深さﾓｰﾄﾞ";
+MFG_DEPTH_OFFSET="ｵﾌｾｯﾄ";
+MFG_DEPTH_SHOULDER="肩先深さ";
+MFG_DEPTH_TIP="先端深さ";
+MFG_DWELL_MODE="ﾄﾞｳｪﾙ ﾓｰﾄﾞ";
+MFG_DWELL_REVOL="回転数でﾄﾞｳｪﾙ";
+MFG_DWELL_REVOL_DOUBLE="回転数でﾄﾞｳｪﾙ";
+MFG_DWELL_TIME="時間単位でﾄﾞｳｪﾙ";
+MFG_HELIX_ANGLE="らせん角度 ";
+MFG_HELIX_MODE="らせんﾓｰﾄﾞ ";
+MFG_HELIX_PITCH="らせんﾋﾟｯﾁ ";
+MFG_LIFT_ANGLE="ｼﾌﾄ角度";
+MFG_LIFT_DIST="ｼﾌﾄ距離";
+MFG_LIFT_MODE="ｼﾌﾄ ﾓｰﾄﾞ";
+MFG_OFFSET_RET="ｵﾌｾｯﾄをﾘﾄﾗｸﾄ";
+MFG_PPWORDS="PPﾜｰﾄﾞ構文";
+MFG_PLUNGE_DIAMETER="ﾌﾟﾗﾝｼﾞ 直径";
+MFG_PLUNGE_DISTANCE="ﾌﾟﾗﾝｼﾞ距離";
+MFG_PLUNGE_MODE="ﾌﾟﾗﾝｼﾞ ﾓｰﾄﾞ";
+MFG_PLUNGE_OFFST="ﾌﾟﾗﾝｼﾞ ｵﾌｾｯﾄ";
+MFG_PLUNGE_SHOULDER="ﾌﾟﾗﾝｼﾞ肩";
+MFG_PLUNGE_TIP="ﾌﾟﾗﾝｼﾞ先端";
+MFG_PLUNGE_FOR_CHAMFERING="面取り加工のﾌﾟﾗﾝｼﾞ";
+MFG_RETRACT_CLEAR_TIP="ﾘﾄﾗｸﾄ";
+MFG_SPOTDEPTH_DIAM="ｽﾎﾟｯﾄ直径";
+MFG_SPOTDEPTH_DISTANCE="ｽﾎﾟｯﾄ距離";
+MFG_SPOTDEPTH_MODE="ｽﾎﾟｯﾄ ﾓｰﾄﾞ";
+MFG_SPOTDEPTH_OFFST="ｽﾎﾟｯﾄ ｵﾌｾｯﾄ";
+MFG_SPOTDEPTH_SHOULDER="ｽﾎﾟｯﾄ肩";
+MFG_SPOTDEPTH_TIP="ｽﾎﾟｯﾄ先端";
+MFG_TL_COMP="最初の補正";
+MFG_TL_COMP.LongHelp="工具補正IDを指定します \n加工ｵﾍﾟﾚｰｼｮﾝに使用";
+MFG_TL_COMP_2="2番目の補正";
+MFG_TL_COMP_2.LongHelp="工具補正IDを指定します \n加工ｵﾍﾟﾚｰｼｮﾝに使用";
+MFG_XOFF="Xに沿ったｼﾌﾄ";
+MFG_YOFF="Yに沿ったｼﾌﾄ";
+MFG_ZOFF="Zに沿ったｼﾌﾄ";
+Mfg5AxisAngleManagement="工具軸ｶﾞｲﾀﾞﾝｽ";
+Mfg5AxisCollisionAngle="許容ﾁﾙﾄ";
+Mfg5AxisCollisionBinor="許容ﾁﾙﾄ";
+Mfg5AxisEMToolAxisStrategy="工具軸ﾓｰﾄﾞ";
+Mfg5AxisHelixAxisStrategy="工具軸ﾓｰﾄﾞ";
+Mfg5AxisMachDirMode="ｽﾃｯﾌﾟｵｰﾊﾞｰ";
+Mfg5AxisRadialStrategy="径方向加工方式";
+Mfg5XHelixRadialStrategy="径方向加工方式";
+MfgApproachDistance="ｱﾌﾟﾛｰﾁ距離";
+MfgApproachMode="ｱﾌﾟﾛｰﾁ ﾓｰﾄﾞ";
+MfgAutoContinuing="内部ﾊﾟﾗﾒｰﾀ";
+MfgAutoDraftAngle="自動ﾄﾞﾗﾌﾄ角度";
+MfgAvoidScallopOnBottom="底面のｽｷｬﾛｯﾌﾟ回避";
+MfgAvoidScallop="全ﾚﾍﾞﾙのｽｷｬﾛｯﾌﾟ回避";
+MfgAxialStrategy="軸方向加工方式";
+MfgBiNormangl="ﾁﾙﾄ角";
+MfgBottomFinishPathThickness="底面仕上げ厚み";
+MfgNbSideFinishByLevel="ﾚﾍﾞﾙごとの側面仕上げﾊﾟｽの数";
+MfgCheckMode1="端点1";
+MfgCheckMode2="端点2";
+MfgCircularMillingMode="加工ﾓｰﾄﾞ";
+MfgClearanceDistance="ｸﾘｱﾗﾝｽの距離";
+MfgCollisionCheckingCheck="ﾁｪｯｸの衝突を検出";
+MfgCollisionCheckingDrive="ﾄﾞﾗｲﾌﾞの衝突を検出";
+MfgCollisionCheckingEnd="2番目の端点での衝突を検出";
+MfgCollisionCheckingMode="衝突ﾁｪｯｸ ﾓｰﾄﾞ";
+MfgCollisionCheckingPart="ﾊﾟｰﾂの衝突を検出";
+MfgCollisionCheckingStart="最初の端点での衝突を検出";
+MfgCollisionDrive="ﾄﾞﾗｲﾌﾞの衝突";
+MfgCollisionPart="ﾊﾟｰﾂの衝突";
+MfgCollisionThkCheck="許容ｶﾞｳｼﾞをﾁｪｯｸ";
+MfgCollisionThkDrive="許容ｶﾞｳｼﾞをﾄﾞﾗｲﾌﾞ";
+MfgCollisionThkEnd="許容ｶﾞｳｼﾞを終了";
+MfgCollisionThkPart="許容ｶﾞｳｼﾞを分解";
+MfgCollisionThkStart="許容ｶﾞｳｼﾞを開始";
+MfgCollisionTolCheck="精度をﾁｪｯｸ";
+MfgCollisionTolDrive="精度をﾄﾞﾗｲﾌﾞ";
+MfgCollisionTolEnd="精度を終了";
+MfgCollisionTolPart="精度を分解";
+MfgCollisionTolStart="精度を開始";
+MfgCondDrive="ﾄﾞﾗｲﾌﾞ位置";
+MfgCondLim1="開始";
+MfgCondLim2="停止";
+MfgContactHeight="接触高さ";
+MfgContourType="輪郭形状ﾀｲﾌﾟ";
+MfgContouringClosedContour="輪郭加工ﾓｰﾄﾞ";
+MfgContouringDrivingMode="輪郭加工ﾄﾞﾗｲﾋﾞﾝｸﾞ ﾓｰﾄﾞ";
+MfgContouringModeForGC="輪郭のﾀｲﾌﾟ";
+MfgCorneringApproachDist="ﾌｧﾝ ｱﾌﾟﾛｰﾁ距離";
+MfgCorneringFlag="ｺｰﾅｰ加工工具ﾊﾟｽ";
+MfgCorneringLeaveDist="ﾌｧﾝ ﾘｰﾌﾞ距離";
+MfgCorneringRadius="ｺｰﾅｰ加工半径";
+MfgCurveAxisStrategy="ｶﾞｲﾀﾞﾝｽ";
+MfgCurveMachiningSU="曲線沿い加工";
+MfgCutcom="Cutcom";
+MfgDirectionOfCut="切削の方向";
+MfgDistanceBetweenPaths="ﾊﾟｽ間の距離";
+MfgEndOfPath="ﾊﾟｽ端";
+MfgEndPathINOUT="ﾊﾟｽ端";
+MfgEndPathOverhangRatio="ｵｰﾊﾞｰﾊﾝｸﾞ比率";
+MfgFacingFinish="仕上げﾓｰﾄﾞ";
+MfgFC5XDrivingMode="ﾌﾗｲｽする側";
+MfgFixtureAccuracy="治具の正確さ";
+MfgForcedContour="強制輪郭";
+MfgGlobalCheckOffset="ﾁｪｯｸ ｵﾌｾｯﾄ";
+MfgGlobalDriveThickness="輪郭線ｸﾘｱﾗﾝｽ";
+MfgGlobalOffsetOnBottom="底面ｵﾌｾｯﾄ";
+MfgGlobalOffsetOnBoundary="ﾊｰﾄﾞ境界ｵﾌｾｯﾄ";
+MfgGlobalOffsetOnContour="輪郭ｵﾌｾｯﾄ";
+MfgGlobalOffsetOnSoftBoundary="ｿﾌﾄ境界ｵﾌｾｯﾄ";
+MfgGlobalOffsetOnTop="上面ｵﾌｾｯﾄ";
+MfgGlobalPartOffset="ﾊﾟｰﾂ ｵﾌｾｯﾄ";
+MfgGlobalPartThickness="ﾊﾟｰﾂ上の厚み";
+MfgGlobalSpindleOutput="ｽﾋﾟﾝﾄﾞﾙ出力";
+MfgHSMCorner="HSMｺｰﾅｰ加工";
+MfgHSMCornerFinish="側面仕上げﾊﾟｽのｺｰﾅｰ加工";
+MfgHSMCornerRadius="ｺｰﾅｰ半径";
+MfgHSMCornerRadiusFinish="側面仕上げﾊﾟｽのｺｰﾅｰ半径";
+MfgHSMExtraSegmentOverlap="余分の線分のｵｰﾊﾞｰﾗｯﾌﾟ";
+MfgHSMExtraSegmentOverlapFinish="側面仕上げﾊﾟｽの余分の線分のｵｰﾊﾞｰﾗｯﾌﾟ";
+MfgHSMLimitAngleFinish="側面仕上げﾊﾟｽの限界角度";
+MfgHSMMiniTransitionLength="遷移長さ";
+MfgHSMRecoveryCoefficient="中心部のﾊﾟｽの重なり";
+MfgHSMTransitionAngle="遷移角度";
+MfgHSMTransitionRadius="遷移半径";
+MfgHardnessOnBottom="下限";
+MfgHardnessOnTop="上限";
+MfgImposedInnerPoint="穴あけ位置";
+MfgLeaveDistance="ﾘｰﾌﾞ距離";
+MfgMachiningDirIndic="ｽﾃｯﾌﾟｵｰﾊﾞｰ";
+MfgMachiningMode="工具ﾊﾟｽ ｽﾀｲﾙ";
+MfgMachiningModeforFacing="平面加工工具ﾊﾟｽ ｽﾀｲﾙ";
+MfgMachiningModeforPocket="ﾎﾟｹｯﾄ加工工具ﾊﾟｽ ｽﾀｲﾙ";
+MfgMachiningTolerance="加工ﾄﾚﾗﾝｽ";
+MfgManualTMDir="手動方向";
+MfgMaxBiNormangl="最大ﾁﾙﾄ角";
+MfgMaxDepth="最大深さ";
+MfgMaxDepthOfCut="切削の最大深さ";
+MfgMaxDiscretizationAngle="最大分割角度";
+MfgMaxDiscretizationStep="最大分割ｽﾃｯﾌﾟ";
+MfgMaxDistance="ﾊﾟｽ間の最大距離";
+MfgMaxDistSteps="ｽﾃｯﾌﾟ間の最大距離";
+MfgMaxNormangl="最大ﾘｰﾄﾞ角";
+MfgMinBiNormangl="最小ﾁﾙﾄ角";
+MfgMinDepth="最小深さ ";
+MfgMinNormangl="最小ﾘｰﾄﾞ角";
+MfgMinPathLenght="最小ﾊﾟｽ長さ";
+MfgMixteHelical="内向き/外向きらせん混合";
+MfgNormangl="ﾘｰﾄﾞ角";
+MfgNumberOfLevels="ﾚﾍﾞﾙの数";
+MfgNumberOfPathes="ﾊﾟｽの数";
+MfgNumberOfPathesAlongZ="Z沿いのﾊﾟｽの数";
+MfgNumberOfPathesOnSide="側面のﾊﾟｽの数";
+MfgNumberOfRadialPaths="ﾊﾟｽの数";
+MfgOffsetAlongToolAxis="工具軸に沿って底面でｵﾌｾｯﾄ";
+MfgOffsetAxial1="軸ｵﾌｾｯﾄ1";
+MfgOffsetAxial2="軸ｵﾌｾｯﾄ2";
+MfgOffsetOnRelim1="端点1でｵﾌｾｯﾄ";
+MfgOffsetOnRelim2="端点2でｵﾌｾｯﾄ";
+MfgOffsetRelim1="端点1でｵﾌｾｯﾄ";
+MfgOffsetRelim2="端点2でｵﾌｾｯﾄ";
+MfgOutputStyle="補正出力";
+MfgOverhang="ｵｰﾊﾞｰﾗｯﾌﾟ ﾊﾟｰｾﾝﾄ";
+MfgPtToPtOffset="ｵﾌｾｯﾄ";
+MfgRadialStrategyforPocket="径方向加工方式";
+MfgRampingAngle="ﾗﾝﾋﾟﾝｸﾞ角度";
+MfgReturnMode="戻りﾓｰﾄﾞ";
+MfgReUseFirstDrive="最初のﾄﾞﾗｲﾌﾞを再使用";
+MfgScallopHeight="削り残し高さ";
+MfgScallopPassRate="削り残しのﾊﾟｽの割合";
+MfgSequencingMode="順序ﾓｰﾄﾞ";
+MfgSideAppClearance="工具の側面ｱﾌﾟﾛｰﾁ ｸﾘｱﾗﾝｽ";
+MfgSideApproachClearance="工具の側面ｱﾌﾟﾛｰﾁ ｸﾘｱﾗﾝｽ";
+MfgSideFinish="側面仕上げﾊﾟｽ ﾓｰﾄﾞ";
+MfgBottomThicknessOnSideFinish="側面仕上げの底面の厚み";
+MfgSideFinishBottomThickness="底面仕上げの側面の残し代";
+MfgSideOffsetIncrement="側面ｵﾌｾｯﾄの増分";
+MfgSideThickness="側面仕上げ厚み";
+MfgSpringPath="工具たわみ補正ﾊﾟｽ";
+MfgStartHardness="硬さﾓｰﾄﾞを開始";
+MfgStartOnRelim1="端点1で開始";
+MfgStopHardness="硬さﾓｰﾄﾞを終了";
+MfgThruElem="へ / から";
+MfgTipApproachClearance="先端ｱﾌﾟﾛｰﾁ ｸﾘｱﾗﾝｽ ";
+MfgToolAxis="工具軸";
+MfgToolAxis_Mode="工具軸加工方式";
+MfgToolAxis_VectorX="工具軸ﾍﾞｸﾄﾙ X";
+MfgToolAxis_VectorY="工具軸ﾍﾞｸﾄﾙ Y";
+MfgToolAxis_VectorZ="工具軸ﾍﾞｸﾄﾙ Z";
+MfgToolAxisStrategy="工具軸加工方式";
+MfgZOffsetIncrement="Zｵﾌｾｯﾄの増分 ";
+
+// *** FTS : Debut attributs R9
+//-----------------------------
+
+// Global flank
+
+Mfg5AxisUserDefinedCuttingHeightFlag="工具ﾊﾟﾗﾒｰﾀを使用してﾌｧﾝを制御";
+Mfg5AxisUserDefinedCuttingHeight="有効切削長";
+Mfg5AxisDeActivateFanning="ﾌｧﾝ処理を停止します";
+
+// Sequential flank
+
+MfgLocalToolAxisStrategy="ｶﾞｲﾀﾞﾝｽ";
+Mfg5Axis4XNormalConstraintFlag="4軸を使用可能にする";
+MfgLocalDriveThicknessToAdd="ﾄﾞﾗｲﾌﾞに加えられたｵﾌｾｯﾄ";
+
+// *** FTS : Fin attributs R9
+//-----------------------------
+
+
+// *** FTS : Debut attributs R10
+//------------------------------
+
+// 5X curve and flank
+
+MfgBottomFinishPathStyle="底面仕上げﾊﾟｽ ｽﾀｲﾙ";
+
+// 5X flank
+
+Mfg5AxisOutputType="出力ﾀｲﾌﾟ";
+
+// 5X curve
+
+MfgCurveTgtAxisStrategySubModes="ﾓｰﾄﾞ";
+
+// Fac iso
+
+MfgIsoparExtensionDistBeforeFirstPath="寸法補助線の始め";
+MfgIsoparExtensionDistAfterLastPath="寸法補助線の終り";
+
+// Sequential flank
+
+Mfg5AxisLocalStoppingCondition="停止条件";
+Mfg5AxisLocalReStartingDirection="再ｽﾀｰﾄの方向";
+Mfg5AxisLocalSwapSideOnDS="ﾄﾞﾗｲﾌﾞの工具側面";
+Mfg5AxisLocalSlowdownRate="ｽﾛｰ ﾀﾞｳﾝ速度";
+
+// *** FTS : Fin attributs R10
+//------------------------------
+
+
+// =====================================================================
+// Modifs Post R8 and R9(jmn)
+// =====================================================================
+
+MfgPocketingStyle="ﾎﾟｹｯﾄ加工ｽﾀｲﾙ ";
+MfgAllwaysStayOnBottom="常に底面";
+MfgPercentageReduction="切り捨てられた遷移ﾊﾟｽ";
+MfgReworkMode="ﾘﾜｰｸ領域ﾀｲﾌﾟに対するﾌｨﾙﾀ処理";
+MfgReworkOverhang="ﾘﾜｰｸ領域のｵｰﾊﾞｰﾊﾝｸﾞ";
+MfgToolOn="ｶﾞｲﾄﾞ上の工具位置";
+MfgDriveBox="境界ｴﾝﾍﾞﾛｰﾌﾟ";
+
+MfgBreakthrough="貫通";
+MfgPocketingFinish="ﾎﾟｹｯﾄ加工仕上げﾓｰﾄﾞ";
+MfgHSMLimitAngle="限界角度";
+
+MfgCompensationMode="補正適用ﾓｰﾄﾞ";
+MfgSequencing="順序付け";
+
+Mfg5AxisTangentAxisAngle="許容ﾘｰﾄﾞ";
+Mfg5AxisFanningDistance="ﾌｧﾝ距離";
+
+MfgManualStartDir="手動方向";
+Mfg5AxisMultiLevelMode="ﾓｰﾄﾞ";
+MfgCorneringFinishRadius="仕上げｺｰﾅｰ加工半径";
+
+MfgMinPathLength="最小ﾊﾟｽ長さ";
+Mfg5AxisMinHealDistance="最小修復距離";
+Mfg5AxisSkipPath="ﾊﾟｽをｽｷｯﾌﾟ";
+Mfg5AxisIsoparAxisStrategy="ｶﾞｲﾀﾞﾝｽ";
+
+MfgLatheRoughingStrategy="荒加工ﾓｰﾄﾞ";
+MfgLatheMdLocation="場所";
+MfgLatheContouringMode="ﾊﾟｰﾂ輪郭切削";
+MfgLatheLeadInMode="ﾘｰﾄﾞ ｲﾝ";
+// New V5R14-1
+MfgLatheLiftOffMode="ﾘﾌﾄ ｵﾌ";
+MfgLatheProfileOutputMode="ﾌﾟﾛﾌｧｲﾙ出力";
+MfgLatheToolHolderConstraintMode="ｲﾝｻｰﾄ ﾎﾙﾀﾞ拘束";
+// End New V5R14-1
+MfgLatheLiftOffMode="ﾘﾌﾄ ｵﾌ";
+MfgLatheProfileOutputMode="ﾌﾟﾛﾌｧｲﾙ出力";
+MfgLatheMinMachRadius="最小加工半径";
+MfgLatheMaxMachRadius="最大加工半径";
+MfgLatheJawPosition="ﾁｬｯｸあご部の軸境界";
+MfgLatheChipPlungeDistance="ﾁｯﾌﾟ ﾌﾟﾗﾝｼﾞ距離";
+MfgLatheChipRetractDistance="ﾁｯﾌﾟ ﾘﾄﾗｸﾄ距離";
+MfgLatheChipClearDistance="ﾁｯﾌﾟ ｸﾘｱ距離";
+MfgLatheGougingSafetyAngle="ｶﾞｳｼﾞ安全角度";
+MfgLatheRecessingStrategy="凹部加工ﾓｰﾄﾞ";
+MfgLatheRecessAutoOutput="自動出力";
+MfgLatheMdOrientation="方向";
+MfgLatheMachDirection="加工方向";
+MfgLatheContouringCornerMode="外側ｺｰﾅｰの輪郭切削";
+MfgLatheCutcomStrategy="CUTCOM";
+MfgLatheLeadInType="ﾘｰﾄﾞ ｲﾝ";
+MfgLatheLiftOffType="ﾘﾌﾄ ｵﾌ";
+MfgLatheFirstCornerProcessing="入り口ｺｰﾅｰ";
+MfgLatheLastCornerProcessing="出口ｺｰﾅｰ";
+MfgLatheCornerProcessing="その他ｺｰﾅｰ";
+MfgLatheInvertStrategy="加工方式を反転";
+MfgLatheInvertLiftOffType="ﾘﾌﾄ ｵﾌを反転";
+MfgLatheFirstFlankLeadInType="最初の側面ﾘｰﾄﾞ ｲﾝ";
+MfgLatheLastFlankLeadInType="最後の側面ﾘｰﾄﾞ ｲﾝ";
+MfgLatheOtherFlankLeadInType="その他の側面ﾘｰﾄﾞ ｲﾝ";
+MfgLatheThreadProfile="ﾌﾟﾛﾌｧｲﾙ";
+MfgLatheThreadOrientation="方向";
+MfgLatheThreadUnit="ねじ単位";
+MfgLatheThreadPerInchNumber="ｲﾝﾁ当りのねじ数";
+MfgLatheThreadNumber="ねじの数";
+MfgLatheThreadMachining="ねじ切りのﾀｲﾌﾟ";
+MfgLatheConstantsectionPassNumber="ﾊﾟｽの数";
+MfgLatheMaxConstantDepthOfCut="切削深さ";
+MfgLatheThreadPenetration="ねじの貫通";
+MfgLathePenetrationAngle="貫通角度";
+MfgLatheFirstPassNumber="最初のﾊﾟｽの数";
+MfgLatheFirstSectionRate="最初のﾊﾟｽの断面の割合";
+MfgLatheLastPassNumber="最後のﾊﾟｽの数";
+MfgLatheLastPassDepthOfCut="最後のﾊﾟｽ切削深さ";
+MfgLatheSpringPassNumber="工具たわみ補正ﾊﾟｽの数";
+MfgLatheMacroMode="ﾏｸﾛ ﾓｰﾄﾞ";
+
+// *** LAS : Debut R9
+// Les Attributs des Seq. Motions Lathe
+//-------------------------------------
+MfgLatheSeqMotionGeomFeature="順次旋削動作形状ﾌｨｰﾁｬｰ";
+MfgLatheSeqMotionGeomFeature.LongHelp="順次旋削動作形状ﾌｨｰﾁｬｰ";
+
+// Start Up de motion
+//--------------------
+MfgSeqMotionLatheGoStd="1面ｽﾀｰﾄ";
+MfgSeqMotionLatheGoGo="2面ｽﾀｰﾄ";
+MfgSeqMotionLatheIndirv="ﾍﾞｸﾄﾙ移動";
+MfgSeqMotionLatheDelta="ﾃﾞﾙﾀ移動";
+MfgSeqMotionLatheFollow="形状沿い移動";
+MfgSeqMotionPPWord="PPﾜｰﾄﾞ";
+
+// Types du motion
+//--------------------
+MfgLatheEOType="動作ﾀｲﾌﾟ";
+MfgLatheEOType.LongHelp="工具動作のﾀｲﾌﾟを定義します｡";
+MfgLatheGoStd="1面ｽﾀｰﾄ";
+MfgLatheGoStd.LongHelp="ｴﾚﾒﾝﾄに対する1面ｽﾀｰﾄ動作です｡";
+MfgLatheGoGo="2面ｽﾀｰﾄ";
+MfgLatheGoGo.LongHelp="2つのｴﾚﾒﾝﾄを基準にした2面ｽﾀｰﾄ動作です｡";
+MfgLatheIndirv="ﾍﾞｸﾄﾙ移動";
+MfgLatheIndirv.LongHelp="ﾍﾞｸﾄﾙ移動動作です｡";
+MfgLatheGoDelta="ﾃﾞﾙﾀ移動";
+MfgLatheGoDelta.LongHelp="平行移動を定義するﾃﾞﾙﾀ移動動作です｡";
+MfgLatheFollow="形状沿い移動";
+MfgLatheFollow.LongHelp="ﾄﾞﾗｲﾌﾞ ｴﾚﾒﾝﾄを基準にした形状沿い移動動作です｡";
+MfgLathePP="PP命令";
+MfgLathePP.LongHelp="PP命令";
+// Speed Range
+//--------------------
+MfgLatheEOSpeedRangeNum="速度範囲数値";
+MfgLatheEOSpeedRangeNum.LongHelp="速度範囲数値を定義します｡";
+// Direction sur la drive
+//--------------------
+MfgLatheEODriveDir="ﾄﾞﾗｲﾌﾞ方向";
+MfgLatheEODriveDir.LongHelp="ﾄﾞﾗｲﾌﾞ方向を定義します｡";
+// xxxx
+//--------------------
+MfgLatheEOGuidingPoint="ｶﾞｲﾄﾞ点";
+MfgLatheEOGuidingPoint.LongHelp="ｶﾞｲﾄﾞ点を定義します｡";
+// xxxx
+//--------------------
+MfgLatheEOFirstCheckMode="最初のﾁｪｯｸ ﾓｰﾄﾞ";
+MfgLatheEOFirstCheckMode.LongHelp="最初のﾁｪｯｸ ﾓｰﾄﾞを定義します｡";
+// xxxx
+//--------------------
+MfgLatheEOSecondCheckMode="2番目のﾁｪｯｸ ﾓｰﾄﾞ";
+MfgLatheEOSecondCheckMode.LongHelp="2番目のﾁｪｯｸ ﾓｰﾄﾞを定義します｡";
+// Go Delta definition
+//--------------------
+MfgLatheEODeltaCheckMode="ﾃﾞﾙﾀ ﾁｪｯｸ ﾓｰﾄﾞ";
+MfgLatheEODeltaCheckMode.LongHelp="[ﾃﾞﾙﾀ移動]工具動作ﾓｰﾄﾞを定義します｡";
+MfgLatheEOValueDistance="距離";
+MfgLatheEOValueDistance.LongHelp="工具動作の距離を定義します｡";
+MfgLatheEODeltaAxial="ﾃﾞﾙﾀ軸(Z)";
+MfgLatheEODeltaAxial.LongHelp="工具動作の軸構成要素を定義します｡";
+MfgLatheEODeltaRadial="ﾃﾞﾙﾀ半径(X)";
+MfgLatheEODeltaRadial.LongHelp="工具動作の半径構成要素を定義します｡";
+// Drive Element
+//--------------------
+MfgLatheEODriveElemType="ﾄﾞﾗｲﾌﾞ ｴﾚﾒﾝﾄ ﾀｲﾌﾟ";
+MfgLatheEODriveElemType.LongHelp="ﾄﾞﾗｲﾌﾞ ｴﾚﾒﾝﾄ ﾀｲﾌﾟを定義します｡";
+// Check And Drive limit
+//--------------------
+MfgLatheEOLimitCheck="最初のﾁｪｯｸ境界";
+MfgLatheEOLimitCheck.LongHelp="最初のﾁｪｯｸ ｴﾚﾒﾝﾄの形状の外挿を制御します｡";
+MfgLatheExtended="拡張";
+MfgLatheExtended.LongHelp="ﾁｪｯｸ ｴﾚﾒﾝﾄの端点が延長されます｡";
+MfgLatheActual="実際";
+MfgLatheActual.LongHelp="ﾁｪｯｸ ｴﾚﾒﾝﾄの端点は拡張されません｡";
+MfgLatheEOLimitDrive="2番目のﾁｪｯｸ境界";
+MfgLatheEOLimitDrive.LongHelp="2番目のﾁｪｯｸ ｴﾚﾒﾝﾄの形状の外挿を制御します｡";
+// Collision on check
+//--------------------
+MfgLatheEOCollCheck="ﾁｪｯｸに関する衝突回避";
+MfgLatheEOCollCheck.LongHelp="ﾁｪｯｸ ｴﾚﾒﾝﾄの衝突回避をｾｯﾄします｡";
+// Collision on drive
+//--------------------
+MfgLatheEOCollDrive="ﾄﾞﾗｲﾌﾞに関する衝突回避";
+MfgLatheEOCollDrive.LongHelp="ﾄﾞﾗｲﾌﾞ ｴﾚﾒﾝﾄの衝突回避をｾｯﾄします｡";
+// xxxx
+//--------------------
+MfgLatheEOFollowChangeDrive="ﾄﾞﾗｲﾌﾞを変更";
+MfgLatheEOFollowChangeDrive.LongHelp="次の動作が続く場合､ \nﾁｪｯｸ ｴﾚﾒﾝﾄがﾄﾞﾗｲﾌﾞ ｴﾚﾒﾝﾄになるかどうか､あるいはﾄﾞﾗｲﾌﾞ ｴﾚﾒﾝﾄが保持されるかどうかを定義します｡";
+// xxxx
+//--------------------
+MfgLatheEOFeedrateMode="送り速度ﾓｰﾄﾞ";
+MfgLatheEOFeedrateMode.LongHelp="ｸﾞﾛｰﾊﾞﾙ送り速度内の送り速度ﾓｰﾄﾞの選択｡";
+MFG_LOCALFEED="ﾛｰｶﾙ送り速度";
+MFG_LOCALFEED.LongHelp="ﾛｰｶﾙで使用する送り速度を定義します｡";
+MFG_SPINDLE_MACH="ﾛｰｶﾙ ｽﾋﾟﾝﾄﾞﾙ速度";
+MFG_SPINDLE_MACH.LongHelp="ﾛｰｶﾙで使用するｽﾋﾟﾝﾄﾞﾙ速度を定義します｡";
+MFG_LOCALFEED_VALUE="ﾛｰｶﾙ送り速度";
+MFG_LOCALFEED_VALUE.LongHelp="ﾛｰｶﾙで使用する送り速度を定義します｡";
+// Sequential Feed and Speed
+//--------------------
+MfgLatheEOLocalSpindleMode="ﾛｰｶﾙ ｽﾋﾟﾝﾄﾞﾙ ﾓｰﾄﾞ";
+MfgLatheEOLocalSpindleMode.LongHelp="ﾛｰｶﾙ ｽﾋﾟﾝﾄﾞﾙ ﾓｰﾄﾞを定義します｡";
+Mfg_LatheGlobalSpindleMagnitude="ｽﾋﾟﾝﾄﾞﾙの単位";
+Mfg_LatheGlobalSpindleMagnitude.LongHelp="ｽﾋﾟﾝﾄﾞﾙ単位を定義します｡";
+Mfg_LatheGlobalFeedrateMagnitude="送り速度の単位";
+Mfg_LatheGlobalFeedrateMagnitude.LongHelp="送り速度単位を定義します｡";
+// xxxx
+//--------------------
+MfgLatheEOLeftClearAngle="左方安全角度";
+MfgLatheEOLeftClearAngle.LongHelp="加工方向を基準にして挿入に追加する左方安全角度を定義します｡";
+MfgLatheEORightClearAngle="右方安全角度";
+MfgLatheEORightClearAngle.LongHelp="加工方向を基準にして挿入に追加する右方安全角度を定義します｡";
+MfgLatheEOValueAngle="角度";
+MfgLatheEOValueAngle.LongHelp="挿入に追加する角度を定義します｡";
+// xxxx
+//--------------------
+MfgLatheEOGlobalCheckThickness="ﾁｪｯｸ ｵﾌｾｯﾄ";
+MfgLatheEOAxialCheckOffset="軸ﾁｪｯｸ ｵﾌｾｯﾄ";
+MfgLatheEORadialCheckOffset="半径ﾁｪｯｸ ｵﾌｾｯﾄ";
+MfgLatheEOGlobalDriveThickness="2番目のﾁｪｯｸ ｵﾌｾｯﾄ";
+MfgLatheEOAxialDriveOffset="軸方向の2番目のﾁｪｯｸ ｵﾌｾｯﾄ";
+MfgLatheEORadialDriveOffset="径方向の2番目のﾁｪｯｸ ｵﾌｾｯﾄ";
+// *** LAS : FIN R9
+
+// *** JMN : DEBUT RI0335403B
+
+MfgLatheOutputPointChanged="出力点を変更";
+MfgLatheThreadFirstPasses="最初のﾊﾟｽ";
+MfgLatheThreadLastPasses="最後のﾊﾟｽ";
+MfgLatheThreadSringPasses="工具たわみ補正ﾊﾟｽ";
+MfgLatheRecessMachining="凹部加工";
+MfgLatheMinMachMode="最小加工半径";
+MfgLatheMaxMachMode="最大加工半径";
+MfgLatheJawsMode="ﾁｬｯｸあご部の軸境界";
+MfgLatheUnderSpindleAxis="ｽﾋﾟﾝﾄﾞﾙ軸下の加工";
+MfgLatheFirstPlungePos="最初のﾌﾟﾗﾝｼﾞの位置";
+MfgLatheNextPlungePos="次のﾌﾟﾗﾝｼﾞの位置";
+MfgLatheGroovingContouringMode="ﾊﾟｰﾂ輪郭切削";
+MfgLatheGrooveByLevel="ﾚﾍﾞﾙごとの溝加工";
+MfgLatheChipBreak="切屑破砕";
+MfgLatheInvertClearance="ｸﾘｱﾗﾝｽを反転";
+MfgLatheInvertOverlap="ｵｰﾊﾞｰﾗｯﾌﾟを反転";
+MfgLatheInvertThickness="厚みを反転";
+MfgLatheInvertOption="反転されたｴﾚﾒﾝﾄを最初に加工";
+MfgLatheToolCompensation="工具補正";
+CompNumber="補正番号";
+
+// *** JMN : FIN RI0335403B
+
+// *** JMN / LHX pour R9 start
+
+MfgProgressThrough="未使用";
+MfgToolDiameterRatioChoice="未使用";
+MfgInvertProgressionDirection="未使用";
+MfgForceLimits="未使用";
+MfgContouringContourCharacteristic="未使用";
+MfgClosedContouringMatterSide="未使用";
+MfgOpenContouringMatterSide="未使用";
+MfgContactMode="未使用";
+
+// *** JMN / LHX pour R9  end
+
+// *** VCS : Debut R9
+// Attributs Sequential Motions PtToPt dans code generique
+//--------------------------------------------------------
+// Start Up de motion
+//--------------------
+MfgPtToPtSiteSU="動作";
+// *** VCS : Fin R9
+MfgPtToPtSite="位置動作";
+MfgPtToPtDeltaSite="ﾃﾞﾙﾀ動作";
+
+M3xLimitLineSide="加工する側面";
+M3xOvershootTolerance="ﾘﾜｰｸしきい値";
+M3xPocketProgressionMode="らせん移動";
+M3xRatioOrLengthMode="ﾊﾟｽ ｵｰﾊﾞｰﾗｯﾌﾟ ﾓｰﾄﾞ";
+M3xHardOverlapLength="ﾊﾟｽ ｵｰﾊﾞｰﾗｯﾌﾟ(長さ)";
+M3xPSMLength="長さ";
+M3xPSMSafetyDistance="安全距離";
+M3xPSMAngle="斜線";
+M3xMacroApproachBackTypeCoordinateMode="定義";
+M3xMacroApproachBackTypeLength="長さ";
+M3xMacroApproachBackTypeHeight="高さ";
+M3xMacroApproachBackTypeAngle="ﾗﾝﾌﾟ角度";
+M3xMacroApproachBackTypeRadius="半径";
+M3xMacroApproachCircularVectorComputationMode="平面計算ﾓｰﾄﾞ";
+M3xMacroApproachCircularAngle="角度";
+M3xMacroApproachCircularRadius="半径";
+M3xMacroApproachBoxLinkingMode="ﾘﾝｸ ﾓｰﾄﾞ";
+M3xMacroApproachBoxXLength="接線に沿った距離";
+M3xMacroApproachBoxYLength="工具軸に沿った距離";
+M3xMacroApproachBoxZLength="法線軸に沿った距離";
+M3xMacroApproachBoxSide="法線軸の側面";
+M3xMacroRetractBackTypeCoordinateMode="定義";
+M3xMacroRetractBackTypeLength="長さ";
+M3xMacroRetractBackTypeHeight="高さ";
+M3xMacroRetractBackTypeAngle="ﾗﾝﾌﾟ角度";
+M3xMacroRetractBackTypeRadius="半径";
+M3xMacroRetractCircularVectorComputationMode="平面計算ﾓｰﾄﾞ";
+M3xMacroRetractCircularAngle="角度";
+M3xMacroRetractCircularRadius="半径";
+M3xMacroRetractBoxLinkingMode="ﾘﾝｸ ﾓｰﾄﾞ";
+M3xMacroRetractBoxXLength="接線に沿った距離";
+M3xMacroRetractBoxYLength="工具軸に沿った距離";
+M3xMacroRetractBoxZLength="法線軸に沿った距離";
+M3xMacroRetractBoxSide="法線軸の側面";
+M3xLinkFeedDistance="送り速度長さ";
+M3xProgressDirectionMode="工具ﾊﾟｽ ｽﾀｲﾙ";
+M3xHorizontalZonesDetectionMode="水平ｿﾞｰﾝ選択";
+
+// =====================================================================
+// NLS for Resources
+// =====================================================================
+
+MFG_ANGLE2="角度2";
+MFG_APT_ANGLE="工具角度";
+MFG_APT_DIAMETER="直径の呼び径";
+MFG_APT_HEIGHT="高さ";
+MFG_APT_HOR_DISTANCE="水平距離";
+MFG_APT_RADIUS="ｺｰﾅｰ半径";
+MFG_APT_TIP_ANGLE="先端角度";
+MFG_APT_VER_DISTANCE="垂直距離";
+MFG_ASS_GAGE_1="ｹﾞｰｼﾞ1";
+MFG_ASS_GAGE_2="ｹﾞｰｼﾞ2";
+MFG_BALL_TYPE="ﾎﾞｰﾙ ｴﾝﾄﾞ工具";
+MFG_BAR_CUT_RAD="ﾊﾞｰ切削半径";
+MFG_BAR_LENGTH_1="ﾊﾞｰ長さ1";
+MFG_BAR_LENGTH_2="ﾊﾞｰ長さ2";
+MFG_BODY_DIAM="本体直径";
+MFG_BORE_ABILITY="ﾎﾞｰﾘﾝｸﾞ能力";
+MFG_CHAMFR_DIAM1="面取り直径1";
+MFG_CHAMFR_DIAM2="面取り直径2";
+MFG_CLEAR_ANGLE="ｸﾘｱﾗﾝｽ角度";
+MFG_CMP_RAD_OPT="半径補正";
+MFG_CMP_TL_DIAM="工具直径";
+MFG_COMMENT="ｺﾒﾝﾄ";
+MFG_COMPOSITION="構成";
+MFG_COOLNT_SNTX="切削油構文";
+MFG_CORNER_RAD="ｺｰﾅｰ半径";
+MFG_CORNER_RAD_2="上部ｺｰﾅｰ半径";
+MFG_CUT_ANGLE="切削角度";
+MFG_CUT_LENGTH="切削長";
+MFG_EFFECTIVE_LENGTH="有効長";
+MFG_DESC_CODE="説明ｺｰﾄﾞ";
+MFG_DIAMETER_1="直径1";
+MFG_DIAMETER_2="直径2";
+MFG_DIAMETER_3="直径3";
+MFG_DIAMETER_4="直径4";
+MFG_DIAMETER_5="直径5";
+MFG_DIAMETER_6="直径6";
+MFG_ENTRY_DIAM="入り口直径";
+MFG_GAUGING_ANG="ｹﾞｰｼﾞ角度";
+MFG_HAND_ANGLE="ﾊﾝﾄﾞ角度";
+MFG_HAND_STYLE="ﾊﾝﾄﾞ ｽﾀｲﾙ";
+MFG_HOLDER_CAPAB="ﾎﾙﾀﾞ機能";
+MFG_INIT_ROT_POS="開始位置";
+MFG_INSERT_ANGLE="ｲﾝｻｰﾄの角度";
+MFG_INSERT_LGTH="ｲﾝｻｰﾄの長さ";
+MFG_INSERT_MAT="ﾏﾃﾘｱﾙ";
+MFG_INSERT_THICK="厚み";
+MFG_INSERT_WIDTH="ｲﾝｻｰﾄの幅";
+MFG_INT_CIRC_2D="2D円形補間";
+MFG_INT_CIRC_3D="3D円形補間";
+MFG_INT_LIN_3D="3D線形補間";
+MFG_INT_HELICAL="らせん補間";
+MFG_ISO_APPR_ANG="ISOｱﾌﾟﾛｰﾁ角度";
+MFG_ISO_BAR_DIA="ISOﾊﾞｰ直径";
+MFG_ISO_BAR_TYPE="ISOﾊﾞｰ ﾀｲﾌﾟ";
+MFG_ISO_CLAM_SYS="ISOｸﾗﾝﾌﾟ ｼｽﾃﾑ";
+MFG_ISO_CLR_ANG="ISOｸﾘｱﾗﾝｽ角度";
+MFG_ISO_CUTCOND="ｲﾝｻｰﾄ切れ刃条件(ISO)";
+MFG_ISO_CUT_SIZE="ISO切削ｻｲｽﾞ";
+MFG_ISO_DIR="ISO方向";
+MFG_ISO_HEIGHT="ISO高さ";
+MFG_ISO_LENGTH="ISO長さ";
+MFG_ISO_NOSE_RAD="ｲﾝｻｰﾄ ﾉｰｽﾞ半径(ISO)";
+MFG_ISO_SHAPE="ISO形状";
+MFG_ISO_THICK="ｲﾝｻｰﾄ厚み(ISO)";
+MFG_ISO_TOL="内接円直径(ISO)";
+MFG_ISO_TYPE="ｲﾝｻｰﾄ ﾀｲﾌﾟ(ISO)";
+MFG_ISO_WIDTH="ISO幅";
+MFG_KAPPA_R="ｶｯﾊﾟR";
+MFG_LATHE_RAD_AX="径方向の軸";
+MFG_LATHE_AX_AX="ﾀﾚｯﾄの座標軸";
+MFG_LATHE_SPN_AX="ｽﾋﾟﾝﾄﾞﾙ軸";
+MFG_LEADING_ANG="ﾘｰﾄﾞ角";
+MFG_LENGTH="長さ";
+MFG_LENGTH_1="長さ1";
+MFG_LENGTH_2="長さ2";
+MFG_LENGTH_NOM_DIAM="直径の呼び径の場所";
+MFG_LIFE_TIME="寿命";
+MFG_LNG_NUM="長さ番号";
+MFG_MACH_QUALITY="加工品質";
+MFG_MACHINE_COMP="工作機械の互換性";
+MFG_MAX_BOR_DPTH="最大ﾎﾞｰﾘﾝｸﾞ深さ";
+MFG_MAX_CUT_DIAM="最大切削直径";
+MFG_MAX_CUT_DPTH="最大切削深さ";
+MFG_MAX_CUT_WDTH="最大切削幅";
+MFG_MAX_DIAMETER="最大直径";
+MFG_MAX_MIL_LENGTH="最大加工長さ";
+MFG_MAX_MIL_TIME="最大寿命";
+MFG_MAX_PLNG_ANG="最大ﾌﾟﾗﾝｼﾞ角度";
+MFG_MAX_REC_DPTH="最大凹部深さ";
+MFG_MIN_ANGLE="最小分割角度";
+MFG_MIN_CUT_DIAM="最小切削直径";
+MFG_MIN_DIAM="最小直径";
+MFG_MIN_DIAMETER="最小直径";
+MFG_MIN_DISC="最小分割ｽﾃｯﾌﾟ";
+MFG_NAME="名前";
+MFG_NB_OF_COMP="構成要素の数";
+MFG_NB_OF_FLUTES="溝の数";
+MFG_NB_OF_STAGES="ｽﾃｰｼﾞの数";
+MFG_NB_OF_THREAD="ねじの数";
+MFG_NOMINAL_DIAM="直径の呼び径";
+MFG_NON_CUT_DIAM="非切削部直径";
+MFG_NOSE_RADIUS="ﾉｰｽﾞ半径";
+MFG_ORIENT_ANGLE="方向";
+MFG_ORIGINAL_ID="ｿｰｽ識別子";
+MFG_OUTPUT_FRMT="NCﾃﾞｰﾀ形式";
+MFG_OUTP_PREF_1="選択出力点1";
+MFG_OUTP_PREF_2="選択出力点2";
+MFG_OUTP_PREF_3="選択出力点3";
+MFG_OUTPUT_TYPE="NCﾃﾞｰﾀ ﾀｲﾌﾟ:";
+MFG_OUTSIDE_DIAM="外側の直径";
+MFG_OVERALL_LGTH="全体の長さ";
+MFG_PITCH_OF_THD="ねじﾋﾟｯﾁ";
+MFG_PITCH_OF_THREAD="ねじﾋﾟｯﾁ";
+MFG_PP_WORD_TBL="ﾎﾟｽﾄ ﾌﾟﾛｾｯｻ(PP)ﾜｰﾄﾞ ﾃｰﾌﾞﾙ";
+MFG_R_MAX_CIRC="最大補間半径";
+MFG_R_MIN_CIRC="最小補間半径";
+MFG_RAD_NUM="半径番号";
+MFG_RADIAL_TL_RAKE_ANG="半径の工具ﾚｰｷ角度 ";
+MFG_REPOSITORY_SOURCE="ﾘﾎﾟｼﾞﾄﾘ ｿｰｽ";
+MFG_ROT_DIR="回転方向";
+MFG_ROT_TYP="回転ﾀｲﾌﾟ";
+MFG_ROTARY_ANGLE="回転角度";
+MfgTableRotationAngleMode="定義";
+MFG_ROTARY_AXIS="回転軸";
+MFG_ROTARY_CATEGORY="ｶﾃｺﾞﾘ";
+MFG_ROTARY_CATEGORY.LongHelp="回転ｶﾃｺﾞﾘ: ﾃｰﾌﾞﾙまたはﾍｯﾄﾞ";
+MFG_SHANK_HEIGHT="軸部高さ";
+MFG_SHANK_WIDTH="軸部幅";
+MFG_SHK_CUT_WDTH="軸部切削幅";
+MFG_SHK_LENGTH_1="軸部長さ1";
+MFG_SHK_LENGTH_2="軸部長さ2";
+MFG_SITE_NUM="補正番号";
+MFG_SITE_TYP="ﾀｲﾌﾟ";
+MFG_SIZE_DESIGN="ｻｲｽﾞ指定";
+MFG_STRT_PT_SYNT="開始点加工方式";
+MFG_TAPER_ANGLE="ﾃｰﾊﾟ角度";
+MFG_THD_CLS_DESC="ねじｸﾗｽの記述";
+MFG_THD_FRM_DESC="ねじ形式の記述";
+MFG_THREAD_CLASS="ねじのｸﾗｽ";
+MFG_THREAD_FORM="ねじ形式";
+MFG_TIP_ANGLE="刃先角度";
+MFG_TIP_LENGTH="刃先長さ";
+MFG_TIP_RADIUS="刃先半径";
+MFG_TL_RAKE_ANG="工具ﾚｰｷ角度 ";
+MFG_TL_SET_LGTH="全ｾｯﾄ長さ";
+MFG_TL_REF_COMP="基準補正";
+MFG_TL_SET_X="ｾｯﾄX";
+MFG_TL_SET_Y="ｾｯﾄY";
+MFG_TL_SET_Z="ｾｯﾄZ";
+MFG_TL_SETUP_ANG="設定角度";
+MFG_TL_TIP_LGTH="工具先端長さ";
+MFG_TOOL_ANGLE="工具角度";
+MFG_TOOL_ASS_POWER="ﾊﾟﾜｰ";
+MFG_TOOL_CATALOG="工具ｶﾀﾛｸﾞ";
+MFG_TOOL_CORE_DIAMETER="非切削部直径";
+MFG_TOOL_INVERT="工具を反転";
+MFG_TOOL_NUMBER="工具番号";
+MFG_TOOTH_DES="切刃記述";
+MFG_TOOTH_DESC="切刃記述";
+MFG_TOOTH_MAT="切刃材質";
+MFG_TOOTH_MATDES="切刃材質の記述";
+MFG_TOOTH_MATDESC="切刃材質の記述";
+MFG_TRAILING_ANG="ﾄﾚｰﾘﾝｸﾞ角度";
+MFG_TRAV_PITCH="横断ﾋﾟｯﾁ";
+MFG_TRAVERSE_NB="横断数";
+MFG_TURRET_NUMBER="ﾀﾚｯﾄ番号";
+MFG_WAY_OF_ROT="回転の方向";
+MFG_WEIGHT_SNTX="重量構文";
+MFG_X_HOME_POS="ﾎｰﾑ点X";
+MFG_X_INIT_SPNDL="向きI";
+MFG_X_ROT_CENTER="中心点X:";
+MFG_X_TL_ORIENT="工具向きI";
+MFG_X_TOOL_POS="工具交換点X";
+MFG_Y_HOME_POS="ﾎｰﾑ点Y";
+MFG_Y_INIT_SPNDL="向きJ";
+MFG_Y_ROT_CENTER="中心点Y";
+MFG_Y_TL_ORIENT="工具向きJ";
+MFG_Y_TOOL_POS="工具交換点Y";
+MFG_Z_HOME_POS="ﾎｰﾑ点Z";
+MFG_Z_INIT_SPNDL="向きK";
+MFG_Z_ROT_CENTER="中心点Z";
+MFG_Z_TL_ORIENT="工具向きK";
+MFG_Z_TOOL_POS="工具交換点Z";
+
+MfgSetUpDeltaX="ﾃﾞﾙﾀ X を設定";
+MfgSetUpDeltaY="ﾃﾞﾙﾀ Y を設定";
+MfgSetUpDeltaZ="ﾃﾞﾙﾀ Z を設定";
+MfgToolChangePointOnMachine="工具交換点";
+MfgToolChgX="工具交換点X";
+MfgToolChgY="工具交換点Y";
+MfgToolChgZ="工具交換点Z";
+MfgToolDiameterRatio="工具直径のﾊﾟｰｾﾝﾄ";
+
+MFG_AXIAL_RADIAL_MOVE="軸/半径方向の移動";
+MFG_MAX_FEEDRATE="最大加工送り速度";
+MFG_RAPID_FEED="早送り速度";
+MFG_CONE_DIAMETER_1="円錐直径1";
+MFG_CONE_DIAMETER_2="円錐直径2";
+MFG_CONE_DIAMETER_3="円錐直径3";
+MFG_CONE_DIAMETER_4="円錐直径4";
+MFG_CONE_DIAMETER_5="円錐直径5";
+MFG_CONE_LENGTH="円錐長さ";
+MFG_CONE_LENGTH_1="円錐長さ1";
+MFG_CONE_LENGTH_2="円錐長さ2";
+MFG_CONE_LENGTH_3="円錐長さ3";
+MFG_HOLDER_STAGES="ﾎﾙﾀﾞ ｽﾃｰｼﾞ";
+//****************************************************************
+MFG_UPPER_DIAM="上部直径";
+MFG_LOWER_DIAM="下部直径";
+MFG_UPPER_ANGLE="上部面取り角度";
+MFG_LOWER_ANGLE="下部面取り角度";
+//***************************************************************
+
+//===================================
+//for Barrel Tool
+//===================================
+MFG_BARREL_RADIUS="ﾊﾞﾚﾙ半径 ";
+MFG_RADIAL_DISTANCE="半径距離 ";
+MFG_VERTICAL_DISTANCE="垂直距離 ";
+
+
+
+
+
+MFG_X_ORIGIN_ROTARY_DIR="基準方向X";
+MFG_Y_ORIGIN_ROTARY_DIR="基準方向Y";
+MFG_Z_ORIGIN_ROTARY_DIR="基準方向Z";
+
+MFG_SPLIT_CIRCLE_STRAT="分割円加工方式";
+
+// =====================================================================
+// NLS for Lathe
+// =====================================================================
+
+// Roughing operation
+//========================
+
+MfgLatheLongRough="回転荒加工";
+
+MfgLatheStockClearance="素材ｵﾌｾｯﾄ";
+MfgLatheGlobalPartThickness="ﾊﾟｰﾂ ｵﾌｾｯﾄ";
+MfgLatheAxialPartOffset="軸ﾊﾟｰﾂ ｵﾌｾｯﾄ";
+MfgLatheRadialPartOffset="半径ﾊﾟｰﾂ ｵﾌｾｯﾄ";
+MfgLatheDepthOfCut="切削の最大深さ";
+MfgLatheAxialDepthOfCut="切削の軸の深さ";
+MfgLatheRadialDepthOfCut="切削の半径の深さ";
+MfgLathePlungeDistance="ﾌﾟﾗﾝｼﾞする前の距離";
+MfgLathePlungeAngle="ﾌﾟﾗﾝｼﾞする前の角度";
+MfgLatheLeadInDistance="ﾘｰﾄﾞ ｲﾝ距離";
+MfgLatheLeadInAngle="ﾘｰﾄﾞ ｲﾝ角度";
+MfgLatheAttackDistance="ｱﾀｯｸ距離";
+MfgLatheLiftOffDistance="ﾘﾌﾄ ｵﾌ距離";
+MfgLatheLiftOffAngle="ﾘﾌﾄ ｵﾌ角度";
+MfgLatheStartLimitClearance="開始境界ｵﾌｾｯﾄ";
+MfgLatheModeStart="開始境界ﾓｰﾄﾞ";
+MfgLatheEndLimitClearance="終了境界ｵﾌｾｯﾄ";
+MfgLatheModeEnd="終了境界ﾓｰﾄﾞ";
+
+// Grooving operation
+//========================
+
+MfgLatheGrooving="溝旋削";
+
+MfgLatheGroovingOrientation="方向";
+MfgLatheMaxLevelDepth="ﾚﾍﾞﾙの最大深さ";
+MfgLatheMaxApproachDistance="最大ｱﾌﾟﾛｰﾁ距離";
+MfgLatheInclineAngle="傾き角度";
+
+// Profile Finishing operation
+//========================
+
+MfgLatheProfileFinish="ﾌﾟﾛﾌｧｲﾙ仕上げ旋削";
+
+MfgLatheLeadInRadius="ﾘｰﾄﾞ ｲﾝ半径";
+MfgLatheLiftOffRadius="ﾘﾌﾄ ｵﾌ半径";
+MfgLatheInvertLeadInDistance="ﾘｰﾄﾞ ｲﾝ距離を反転";
+MfgLatheInvertLiftOffDistance="ﾘﾌﾄ ｵﾌ距離を反転";
+MfgLatheInvertLiftOffRadius="ﾘﾌﾄ ｵﾌ半径を反転";
+MfgLatheInvertLiftOffAngle="ﾘﾌﾄ ｵﾌ角度を反転";
+MfgLatheFirstChamferLength="面取り長さ";
+MfgLatheFirstCornerAngle="ｺｰﾅｰ角度";
+MfgLatheFirstCornerRadius="ｺｰﾅｰ半径";
+MfgLatheLastChamferLength="面取り長さ";
+MfgLatheLastCornerAngle="ｺｰﾅｰ角度";
+MfgLatheLastCornerRadius="ｺｰﾅｰ半径";
+MfgLatheChamferLength="面取り長さ";
+MfgLatheCornerRadius="ｺｰﾅｰ半径";
+
+// Recessing operation
+//========================
+
+MfgLatheRecessing="凹部旋削";
+
+// Threading operation
+//========================
+
+MfgLatheThreading="ねじ切り旋削";
+
+MfgLathePitch="ﾋﾟｯﾁ";
+MfgLatheThreadDepth="深さ";
+MfgLatheThreadLength="長さ";
+MfgLatheNominalDiameter="直径の呼び径";
+MfgLatheCrestDiameterClearance="ねじ山の直径上のｸﾘｱﾗﾝｽ";
+
+// Groove Finishing operation
+//========================
+
+MfgLatheGrooveFinish="溝仕上げ旋削";
+
+MfgLatheFirstFlankLeadInDistance="最初のﾘｰﾄﾞ ｲﾝ距離";
+MfgLatheFirstFlankLeadInAngle="最初のﾘｰﾄﾞ ｲﾝ角度";
+MfgLatheFirstFlankLeadInRadius="最初のﾘｰﾄﾞ ｲﾝ半径";
+MfgLatheLastFlankLeadInDistance="最後のﾘｰﾄﾞ ｲﾝ距離";
+MfgLatheLastFlankLeadInAngle="最後のﾘｰﾄﾞ ｲﾝ角度";
+MfgLatheLastFlankLeadInRadius="最後のﾘｰﾄﾞ ｲﾝ半径";
+MfgLatheOtherFlankLeadInDistance="その他のﾘｰﾄﾞ ｲﾝ距離";
+MfgLatheOtherFlankLeadInRadius="その他のﾘｰﾄﾞ ｲﾝ半径";
+MfgLatheOtherFlankLeadInAngle="その他のﾘｰﾄﾞ ｲﾝ角度";
+MfgLatheBottomOverlap="ｵｰﾊﾞｰﾗｯﾌﾟ";
+MfgLatheBottomClearance="ｸﾘｱﾗﾝｽ";
+MfgLatheLeadingSafetyAngle="ﾘｰﾄﾞ安全角度";
+MfgLatheTrailingSafetyAngle="ﾄﾚｰﾘﾝｸﾞ安全角度";
+MfgLatheFixtureClearance="治具ｸﾘｱﾗﾝｽ";
+
+MfgStartPosition="開始";
+MfgStartInside="内側";
+MfgStartOutside="外側";
+MfgPercentageReductionBoolean="切り捨てられた遷移ﾊﾟｽ";
+MfgScallopPass="輪郭切削ﾊﾟｽ";
+MfgScallopPassRatio="輪郭切削比率";
+MfgGuidingPoint="ｶﾞｲﾄﾞ点";
+MfgOutputPoint="出力点";
+
+DepthValue="深さ値";
+MfgNoCornerChanel="なし";
+MfgCorner="ｺｰﾅｰ";
+MfgChannel="ﾁｬﾈﾙ";
+MfgCornerChanel="ｺｰﾅｰおよびﾁｬﾈﾙ";
+
+// Update R8 SP2 - 5X MOs
+//========================
+MfgCorneringFinishFlag="仕上げｺｰﾅｰ加工工具ﾊﾟｽ";
+
+// Operations SMG
+//=================
+M3xSweepingSU="ｽｲｰﾌﾟ加工";
+M3xSoftMaterialSU="ｽｲｰﾌﾟ荒加工";
+M3xBetweenContourSU="輪郭加工";
+M3xZLevelSU="等高線加工";
+M3xBitangencySU="ﾍﾟﾝｼﾙ加工";
+M3xHardMaterialSU="荒加工";
+M3xSpiralMillingSU="ｽﾊﾟｲﾗﾙ ﾌﾗｲｽ加工";
+M3xPrismaticRoughingSU="ﾌﾟﾘｽﾞﾏﾃｨｯｸ荒加工";
+M3xMultiPocketsSU="ﾏﾙﾁﾎﾟｹｯﾄ加工";
+M3xMultiPocketsSU="ﾏﾙﾁﾎﾟｹｯﾄ加工";
+Mfg5AxisMultiPocketsFlankSU="ﾏﾙﾁﾎﾟｹｯﾄ側面輪郭加工";
+
+
+// Surface Machining features.
+M3xFeature="ｻｰﾌｪｽ ﾌｨｰﾁｬｰ";
+M3xRAFeature="ﾘﾜｰｸ領域ﾌｨｰﾁｬｰ";
+M3xSAFeature="勾配領域ﾌｨｰﾁｬｰ";
+M3xOffsetGroup="ｵﾌｾｯﾄ ｸﾞﾙｰﾌﾟ";
+M3xPoint="点";
+M3xPlane="平面";
+M3xLine="線";
+M3xArea="領域";
+
+M3xOffsetImposedPlane="ｵﾌｾｯﾄ";
+
+// OLC
+MFG_FEEDRATE_AUTO_UPD="治工具の送り速度からの自動計算";
+MFG_FEEDRATE_AUTO_UPD.LongHelp="治工具の送り速度から送り速度の自動計算を活動化します｡
+ﾏﾆｭﾌｧｸﾁｬﾘﾝｸﾞ属性はMFG_FEEDRATE_AUTO_UPDです｡";
+MFG_SPINDLE_SPEED_AUTO_UPD="治工具の送り速度からの自動計算";
+MFG_SPINDLE_SPEED_AUTO_UPD.LongHelp="治工具の送り速度からのｽﾋﾟﾝﾄﾞﾙ値の自動計算を活動化
+します｡ ﾏﾆｭﾌｧｸﾁｬﾘﾝｸﾞ属性はMFG_SPINDLE_AUTO_UPDです｡";
+
+MFG_NURBS_OUTPUT="nurbs出力";
+
+// RA / MA Feature
+//========================
+Mfg2DRAFeature="ﾌﾟﾘｽﾞﾏﾃｨｯｸ ﾘﾜｰｸ領域";
+Mfg2DMAFeature="ﾌﾟﾘｽﾞﾏﾃｨｯｸ加工領域";
+
+// Update R9 - 3X MOs
+//========================
+M3xApproachDistanceLinking="ｱﾌﾟﾛｰﾁ距離";
+M3xApproachMacroMotionLinking="ｱﾌﾟﾛｰﾁ ﾓｰﾄﾞ";
+M3xApproachVectorXLinking="X方向にｱﾌﾟﾛｰﾁ";
+M3xApproachVectorYLinking="Y方向にｱﾌﾟﾛｰﾁ";
+M3xApproachVectorZLinking="Z方向にｱﾌﾟﾛｰﾁ";
+M3xRetractDistanceLinking="ﾘﾄﾗｸﾄ距離";
+M3xRetractMacroMotionLinking="ﾘﾄﾗｸﾄ ﾓｰﾄﾞ";
+M3xRetractVectorXLinking="X方向にﾘﾄﾗｸﾄ";
+M3xRetractVectorYLinking="Y方向にﾘﾄﾗｸﾄ";
+M3xRetractVectorZLinking="Z方向にﾘﾄﾗｸﾄ";
+M3xMacroApproachBackTypeCoordinateLinkingMode="ﾘﾝｸの定義(ｱﾌﾟﾛｰﾁ)";
+M3xMacroApproachBackTypeLengthLinking="ﾘﾝｸの長さ(ｱﾌﾟﾛｰﾁ)";
+M3xMacroApproachBackTypeHeightLinking="ﾘﾝｸの高さ(ｱﾌﾟﾛｰﾁ)";
+M3xMacroApproachBackTypeAngleLinking="ﾘﾝｸのﾗﾝﾌﾟ角度(ｱﾌﾟﾛｰﾁ)";
+M3xMacroApproachBackTypeRadiusLinking="ﾘﾝｸの半径(ｱﾌﾟﾛｰﾁ)";
+M3xMacroApproachCircularVectorComputationLinkingMode="ﾘﾝｸの平面計算ﾓｰﾄﾞ(ｱﾌﾟﾛｰﾁ)";
+M3xMacroApproachCircularAngleLinking="ﾘﾝｸの角度(ｱﾌﾟﾛｰﾁ)";
+M3xMacroApproachCircularRadiusLinking="ﾘﾝｸの半径(ｱﾌﾟﾛｰﾁ)";
+M3xMacroApproachBoxLinkingLinkingMode="ﾘﾝｸのﾘﾝｸ ﾓｰﾄﾞ(ｱﾌﾟﾛｰﾁ)";
+M3xMacroApproachBoxXLengthLinking="ﾘﾝｸの接線方向の距離(ｱﾌﾟﾛｰﾁ)";
+M3xMacroApproachBoxYLengthLinking="ﾘﾝｸの工具軸方向の距離(ｱﾌﾟﾛｰﾁ)";
+M3xMacroApproachBoxZLengthLinking="ﾘﾝｸの法線軸方向の距離(ｱﾌﾟﾛｰﾁ)";
+M3xMacroApproachBoxSideLinking="ﾘﾝｸの法線軸の側面(ｱﾌﾟﾛｰﾁ)";
+M3xMacroRetractBackTypeCoordinateLinkingMode="ﾘﾝｸの定義(ﾘﾄﾗｸﾄ)";
+M3xMacroRetractBackTypeLengthLinking="ﾘﾝｸの長さ(ﾘﾄﾗｸﾄ)";
+M3xMacroRetractBackTypeHeightLinking="ﾘﾝｸの高さ(ﾘﾄﾗｸﾄ)";
+M3xMacroRetractBackTypeAngleLinking="ﾘﾝｸのﾗﾝﾌﾟ角度(ﾘﾄﾗｸﾄ)";
+M3xMacroRetractBackTypeRadiusLinking="ﾘﾝｸの半径(ﾘﾄﾗｸﾄ)";
+M3xMacroRetractCircularVectorComputationLinkingMode="ﾘﾝｸの平面計算ﾓｰﾄﾞ(ﾘﾄﾗｸﾄ)";
+M3xMacroRetractCircularAngleLinking="ﾘﾝｸの角度(ﾘﾄﾗｸﾄ)";
+M3xMacroRetractCircularRadiusLinking="ﾘﾝｸの半径(ﾘﾄﾗｸﾄ)";
+M3xMacroRetractBoxLinkingLinkingMode="ﾘﾝｸのﾘﾝｸ ﾓｰﾄﾞ(ﾘﾄﾗｸﾄ)";
+M3xMacroRetractBoxXLengthLinking="ﾘﾝｸの接線方向の距離(ﾘﾄﾗｸﾄ)";
+M3xMacroRetractBoxYLengthLinking="ﾘﾝｸの工具軸方向の距離(ﾘﾄﾗｸﾄ)";
+M3xMacroRetractBoxZLengthLinking="ﾘﾝｸの法線軸方向の距離(ﾘﾄﾗｸﾄ)";
+M3xMacroRetractBoxSideLinking="ﾘﾝｸの法線軸の側面(ﾘﾄﾗｸﾄ)";
+M3xBetweenPassMacroMotion="合わせｱﾌﾟﾛｰﾁ ﾓｰﾄﾞ";
+M3xClearanceMacroMode="ﾘﾄﾗｸﾄ ﾓｰﾄﾞ";
+M3xMultiPassIsActive="ﾏﾙﾁﾊﾟｽ";
+M3xMultiPassMode="ﾏﾙﾁﾊﾟｽの入力ﾓｰﾄﾞ";
+M3xMultiPassNumberOfLevels="ﾏﾙﾁﾊﾟｽのﾚﾍﾞﾙ数";
+M3xMultiPassDepthByLevels="ﾏﾙﾁﾊﾟｽのﾚﾍﾞﾙごとの切削深さ";
+M3xMultiPassDepthTotalHeight="ﾏﾙﾁﾊﾟｽの高さの合計";
+M3xRapidFeedDistance="未使用";
+M3xStockOvershoot="ｵｰﾊﾞｰｼｭｰﾄ";
+M3xStockContouring="ﾊﾟｰﾂ輪郭切削";
+
+M3xHardStopOffsetLength="未使用";
+M3xHardHelixDiameterLength="未使用";
+M3xHSMCornerRadius="未使用";
+M3xHSMLimitAngle="未使用";
+M3xHSMExtraSegmentOverlap="未使用";
+M3xHSMCorneringOnSideFinishPath="未使用";
+M3xHSMCornerRadiusOnSideFinishPath="未使用";
+M3xHSMLimitAngleOnSideFinishPath="未使用";
+M3xHSMTransitionRadius="未使用";
+M3xHSMTransitionAngle="未使用";
+M3xHSMTransitionLength="未使用";
+M3xImposedPlaneSensitivity="未使用";
+M3xConstantOrVariableDepth="未使用";
+M3xMachineOnlyOrderedArea="順序付けのある領域のみ加工";
+M3xMacroRetractBoxWeight="未使用";
+M3xMacroRetractBoxWeightLinking="未使用";
+M3xInfiniteSafetyDistance="ﾌﾙｾｰﾌ";
+
+M3xMacroApproachPSMLength="ｱﾌﾟﾛｰﾁの移動の延長の長さ";
+M3xMacroApproachPSMSafetyDistance="ｱﾌﾟﾛｰﾁの安全延長移動距離";
+M3xMacroApproachPSMAngle="ｱﾌﾟﾛｰﾁの移動延長角度";
+M3xMacroApproachHSMEngagementRadius="ｱﾌﾟﾛｰﾁのHMS半径";
+M3xMacroApproachHSMEngagementAngle="ｱﾌﾟﾛｰﾁのHSM角度";
+M3xMacroApproachHSMSafetyDistance="ｱﾌﾟﾛｰﾁのHSM安全距離";
+M3xMacroApproachInfiniteSafetyDistance="ｱﾌﾟﾛｰﾁのﾌﾙｾｰﾌ";
+M3xMacroRetractPSMLength="ﾘﾄﾗｸﾄの移動の延長の長さ";
+M3xMacroRetractPSMSafetyDistance="ﾘﾄﾗｸﾄの安全延長移動距離";
+M3xMacroRetractPSMAngle="ﾘﾄﾗｸﾄの移動延長角度";
+M3xMacroRetractHSMEngagementRadius="ﾘﾄﾗｸﾄのHMS半径";
+M3xMacroRetractHSMEngagementAngle="ﾘﾄﾗｸﾄのHSM角度";
+M3xMacroRetractHSMSafetyDistance="ﾘﾄﾗｸﾄのHSM安全距離";
+M3xMacroRetractInfiniteSafetyDistance="ﾘﾄﾗｸﾄのﾌﾙｾｰﾌ";
+
+M3xMacroApproachLinkingPSMLength="ｱﾌﾟﾛｰﾁ ﾘﾝｸの延長移動長さ";
+M3xMacroApproachLinkingPSMSafetyDistance="ｱﾌﾟﾛｰﾁ ﾘﾝｸの安全延長移動距離";
+M3xMacroApproachLinkingPSMAngle="ｱﾌﾟﾛｰﾁ ﾘﾝｸの移動延長角度";
+M3xMacroApproachLinkingHSMEngagementRadius="ｱﾌﾟﾛｰﾁ ﾘﾝｸのHMS半径";
+M3xMacroApproachLinkingHSMEngagementAngle="ｱﾌﾟﾛｰﾁ ﾘﾝｸのHSM角度";
+M3xMacroApproachLinkingHSMSafetyDistance="ｱﾌﾟﾛｰﾁ ﾘﾝｸのHSM安全距離";
+M3xMacroApproachLinkingInfiniteSafetyDistance="ｱﾌﾟﾛｰﾁ ﾘﾝｸのﾌﾙｾｰﾌ";
+M3xMacroRetractLinkingPSMLength="ﾘﾄﾗｸﾄ ﾘﾝｸの移動延長長さ";
+M3xMacroRetractLinkingPSMSafetyDistance="ﾘﾄﾗｸﾄ ﾘﾝｸの安全延長移動距離";
+M3xMacroRetractLinkingPSMAngle="ﾘﾄﾗｸﾄ ﾘﾝｸの移動延長角度";
+M3xMacroRetractLinkingHSMEngagementRadius="ﾘﾄﾗｸﾄ ﾘﾝｸのHMS半径";
+M3xMacroRetractLinkingHSMEngagementAngle="ﾘﾄﾗｸﾄ ﾘﾝｸのHSM角度";
+M3xMacroRetractLinkingHSMSafetyDistance="ﾘﾄﾗｸﾄ ﾘﾝｸのHSM安全距離";
+M3xMacroRetractLinkingInfiniteSafetyDistance="ﾘﾄﾗｸﾄ ﾘﾝｸのﾌﾙｾｰﾌ";
+
+M3xInvMachDir="加工方向ｻｲﾄﾞ";
+M3xInvStartDir="開始方向ｻｲﾄﾞ";
+M3xStayOnSurface="未使用";
+M3xProgressDirectionOnSurface="未使用";
+
+M3xMacroMotionSameForAll="未使用";
+M3xReverseMA="未使用";
+M3xOffsetSafetyPlaneLinking="ﾘﾝｸの安全平面ｵﾌｾｯﾄ";
+M3xPocketProgression="未使用";
+
+// Update R10 - 3X MOs
+//========================
+M3xStayOnBottom="常に底面";
+M3xWithCompensation="未使用";
+M3xBottomDetection="水平領域検出";
+M3xBottomThickness="底面の厚み";
+M3xBottomFinishThickness="底面の中間仕上げ厚み";
+M3xBottomAngle="水平領域の最大角度 ";
+M3xBottomHardOverlapLength="底面ﾊﾟｽ ｵｰﾊﾞｰﾗｯﾌﾟ(長さ)";
+M3xBottomHardOverlap="底面ﾊﾟｽ ｵｰﾊﾞｰﾗｯﾌﾟ(比率)";
+M3xBottomRatioOrLengthMode="底面ｵｰﾊﾞｰﾗｯﾌﾟ定義";
+M3xDifferentThicknessOnBottom="未使用";
+M3xIsMaxDiscretization="分割ｽﾃｯﾌﾟを定義";
+M3xMaxDiscretization="最大分割ｽﾃｯﾌﾟ";
+M3xMultiPassSequencingMode="ﾏﾙﾁﾊﾟｽの順序付けﾓｰﾄﾞ";
+M3xBetweenPassDistance="未使用";
+
+//----------------------------------
+// NCReview
+//----------------------------------
+// For V4NCLatheStandardOperation
+//===============================
+MfgV4IsCollisionCheck="輪郭の衝突ﾁｪｯｸ";
+MfgV4CollisionCheck="直線､曲線､または輪郭の衝突ﾁｪｯｸ";
+MfgV4GeoRelimit="形状の境界設定";
+MfgV4MachTol="加工ﾄﾚﾗﾝｽ";
+MfgV4ThicknessDrive="ﾄﾞﾗｲﾌﾞ曲線からの垂直の厚み";
+MfgV4AxialOffsetDrive="ﾄﾞﾗｲﾌﾞ曲線からの軸方向のｵﾌｾｯﾄ";
+MfgV4RadialOffsetDrive="ﾄﾞﾗｲﾌﾞ曲線からの半径方向のｵﾌｾｯﾄ";
+MfgV4ThicknessCheck="ﾁｪｯｸ曲線からの垂直の厚み";
+MfgV4AxialOffsetCheck="ﾁｪｯｸ曲線からの軸方向のｵﾌｾｯﾄ";
+MfgV4RadialOffsetCheck="ﾁｪｯｸ曲線からの半径方向のｵﾌｾｯﾄ";
+MfgV4LeftSafetyAngle="左方安全角度";
+MfgV4RightSafetyAngle="右方安全角度";
+MfgV4IsFeedRAPID="早送りﾓｰﾄﾞの送り速度";
+MfgV4FeedMachLinear="加工(単位:分)";
+MfgV4FeedMachAngular="加工(単位:tr)";
+MfgV4SpindleMachLinear="加工(単位:分)";
+MfgV4SpindleMachAngular="加工(RPM)";
+// For V4NCLatheCycleOperation 
+//===============================
+MfgV4LatheCycleType="ｻｲｸﾙ ﾀｲﾌﾟ";
+MfgV4LatheMdOrientation="方向";
+MfgV4LatheMdLocation="場所";
+MfgV4LatheMachiningRecess="凹部加工";
+MfgV4LatheMachDirection="加工方向";
+MfgV4LatheContouringMode="ﾊﾟｰﾂ輪郭切削";
+MfgV4SemiFinition="ﾊﾟｰﾂ輪郭切削";
+MfgV4CorrectorChange="出力点を変更";
+MfgV4MultiCutConditions="送り速度の変化";
+MfgV4ToolCompensation="CUTCOM";
+MfgV4EdgeMode="ｺｰﾅｰ処理";
+MfgV4ClearanceOnStock="素材上のｸﾘｱﾗﾝｽ";
+MfgV4ThicknessOnFinish="ﾊﾟｰﾂ上の厚み";
+MfgV4AxialOffsetOnFinish="ﾊﾟｰﾂの軸方向のｵﾌｾｯﾄ";
+MfgV4RadialOffsetOnFinish="ﾊﾟｰﾂの半径方向のｵﾌｾｯﾄ";
+MfgV4PlungeLimitAngle="ﾄﾚｰﾘﾝｸﾞ角度";
+MfgV4PrincipalEdgeAngle="ﾘｰﾄﾞ角";
+MfgV4LatheMinMachRadius="最小加工半径";
+MfgV4LatheMaxMachRadius="最大加工半径";
+MfgV4LatheJawPosition="ﾁｬｯｸあご部の軸境界";
+MfgV4MaxDepth="最大ﾎﾞｰﾘﾝｸﾞ深さ ";
+MfgV4MaxGrooveDepth="最大の溝の深さ";
+MfgV4MaxGrooveSlope="ｶﾞｳｼﾞ角度";
+MfgV4LatheRadialDepthOfCut="切削の半径の深さ";
+MfgV4LatheAxialDepthOfCut="切削の軸の深さ";
+MfgV4MaxDepthPass="切削の最大深さ";
+MfgV4LatheFirstPlungePos="最初のﾌﾟﾗﾝｼﾞの位置";
+MfgV4FirstPlungeDir="最初のﾌﾟﾗﾝｼﾞの方向";
+MfgV4FirstPlungeRad="最初のﾌﾟﾗﾝｼﾞの半径";
+MfgV4LatheMachiningDir="加工方向";
+MfgV4DiscretizationTol="加工ﾄﾚﾗﾝｽ";
+MfgV4LatheChamferLength="面取り長さ";
+MfgV4LatheCornerRadius="ｺｰﾅｰ半径";
+MfgV4FirstLatheChamferLength="最初の面取り長さ";
+MfgV4FirstLatheCornerRadius="最初のｺｰﾅｰ半径";
+MfgV4LastLatheChamferLength="最後の面取り長さ";
+MfgV4LastLatheCornerRadius="最後の面取り半径";
+MfgV4RetractType="ﾘﾄﾗｸﾄ ﾀｲﾌﾟ";
+MfgV4ApproachType="ｱﾌﾟﾛｰﾁ ﾀｲﾌﾟ";
+MfgV4LatheAttackDistance="ｱﾀｯｸ距離";
+MfgV4RetractAngle="ﾘﾌﾄ ｵﾌ角度";
+MfgV4LatheLeadInDistance="ﾘｰﾄﾞ ｲﾝ距離";
+MfgV4LatheLeadInAngle="ﾘｰﾄﾞ ｲﾝ角度";
+MfgV4LeadInDistForRecess="ﾌﾟﾗﾝｼﾞする前の距離";
+MfgV4LeadInAngleForRecess="ﾌﾟﾗﾝｼﾞする前の角度";
+MfgV4LatheLiftOffDistance="ﾘﾌﾄ ｵﾌ距離";
+MfgV4AppTypeInSlowMode="ﾘｰﾄﾞ ｲﾝ ﾀｲﾌﾟ";
+MfgV4RetTypeInSlowMode="ﾘﾌﾄ ｵﾌ ﾀｲﾌﾟ";
+MfgV4PosModeOnStartElem="開始境界ﾓｰﾄﾞ";
+MfgV4PosModeOnCheckElem="終了境界ﾓｰﾄﾞ";
+MfgV4ClearanceOnStartElem="開始境界ｸﾘｱﾗﾝｽ";
+MfgV4ClearanceOnCheckElem="終了境界ｸﾘｱﾗﾝｽ";
+MfgV4LatheLeadInRadius="ﾘｰﾄﾞ ｲﾝ半径";
+MfgV4LatheLiftOffRadius="ﾘﾌﾄ ｵﾌ半径";
+MfgV4LatheFirstFlankLeadInType="最初のﾌﾗﾝｸ ﾘｰﾄﾞ ｲﾝ ﾀｲﾌﾟ";
+MfgV4LatheLastFlankLeadInType="最後のﾌﾗﾝｸ ﾘｰﾄﾞ ｲﾝ ﾀｲﾌﾟ";
+MfgV4LatheOtherFlankLeadInType="その他のﾌﾗﾝｸ ﾘｰﾄﾞ ｲﾝ ﾀｲﾌﾟ";
+MfgV4LatheFirstFlankLeadInDistance="最初のﾌﾗﾝｸ ﾘｰﾄﾞ ｲﾝ距離";
+MfgV4LatheLastFlankLeadInDistance="最後のﾌﾗﾝｸ ﾘｰﾄﾞ ｲﾝ距離";
+MfgV4LatheOtherFlankLeadInDistance="その他のﾌﾗﾝｸ ﾘｰﾄﾞ ｲﾝ距離";
+MfgV4LatheFirstFlankLeadInRadius="最初のﾌﾗﾝｸ ﾘｰﾄﾞ ｲﾝ半径";
+MfgV4LatheLastFlankLeadInRadius="最後のﾌﾗﾝｸ ﾘｰﾄﾞ ｲﾝ半径";
+MfgV4OtherLastFlankLeadInRadius="その他のﾌﾗﾝｸ ﾘｰﾄﾞ ｲﾝ半径";
+MfgV4LatheFirstFlankLeadInAngle="最初のﾌﾗﾝｸ ﾘｰﾄﾞ ｲﾝ角度";
+MfgV4LatheLastFlankLeadInAngle="最後のﾌﾗﾝｸ ﾘｰﾄﾞ ｲﾝ角度";
+MfgV4OtherLastFlankLeadInAngle="その他のﾌﾗﾝｸ ﾘｰﾄﾞ ｲﾝ角度";
+MfgV4FeedLeadIn="ﾘｰﾄﾞ ｲﾝ";
+MfgV4FeedPlunge="ﾌﾟﾗﾝｼﾞ";
+MfgV4FeedFirstPlunge="最初のﾌﾟﾗﾝｼﾞ";
+MfgV4FeedOtherPlunge="他のﾌﾟﾗﾝｼﾞ";
+MfgV4FeedAttack="ｱﾀｯｸ";
+MfgV4FeedContour="輪郭切削";
+MfgV4FeedLiftOff="ﾘﾌﾄ ｵﾌ";
+MfgV4FeedChamfer="面取り加工";
+MfgV4FeedOnFillet="ｺｰﾅｰ加工";
+MfgV4FeedPlungeContour="輪郭切削";
+// For V4MachiningOperation
+//=========================
+MfgV4PartSurfThickType="ﾊﾟｰﾄｻｰﾌｪｽの厚みのﾀｲﾌﾟ";
+MfgV4ContourType="ﾘﾝｸ輪郭形状のﾀｲﾌﾟ";
+MfgV4SurfMachMode="ｻｰﾌｪｽ･ﾏｼﾆﾝｸﾞ";
+MfgV4DistBetweenPathType="ﾊﾟｽ間の距離";
+MfgV4NumberOfLevels="ﾊﾟｽの数";
+MfgV4FinishingPass="仕上げﾊﾟｽ";
+MfgV4MachiningDirection="加工方向";
+MfgV4FinishingPassDir="仕上げﾊﾟｽ方向";
+MfgV4OptCycleMode="ｻｲｸﾙ ﾓｰﾄﾞの最適化";
+MfgV4SkipPaths="ﾊﾟｽのｽｷｯﾌﾟ";
+MfgV4PocketBoundaryType="ﾎﾟｹｯﾄ境界のﾀｲﾌﾟ";
+MfgV4CollCheck="衝突ﾁｪｯｸ";
+MfgV4ContMillingType="接触ﾌﾗｲｽ加工のﾀｲﾌﾟ";
+MfgV4Rework="ﾘﾜｰｸのﾀｲﾌﾟ";
+MfgV4PlungeType="ﾌﾟﾗﾝｼﾞのﾀｲﾌﾟ";
+MfgV4ComputedDistance="計算距離";
+MfgV4SideThickness="側面の残し代";
+MfgV4PartSurfThickness="ﾊﾟｰﾄｻｰﾌｪｽの厚み";
+MfgV4FinalPartThickness="仕上がり形状の厚み";
+MfgV4MachiningTolerance="加工ﾄﾚﾗﾝｽ";
+MfgV4TiltAngle="ﾁﾙﾄ角";
+MfgV4ScallopHeight="削り残し高さ";
+MfgV4OffsetAlongTLAxis="工具軸方向のｵﾌｾｯﾄ";
+MfgV4ThickCheckSurf="ﾁｪｯｸ ｻｰﾌｪｽの厚み";
+MfgV4FixtureThickness="治具の厚み";
+MfgV4DistBetweenPaths="ﾊﾟｽ間の距離";
+MfgV4RetractHeight="ﾘﾄﾗｸﾄ高さ";
+MfgV4RawThickCoeff="未加工厚み係数";
+MfgV4FinishingRate="仕上げﾊﾟｽの速度";
+MfgV4SlowDownRate="ｽﾛｰ ﾀﾞｳﾝ速度";
+MfgV4MinDistLinkMacro="ﾘﾝｸ ﾏｸﾛの最小距離";
+MfgV4OverrunDist="ｵｰﾊﾞｰﾗﾝ距離";
+MfgV4ThichCheckCurve="ﾁｪｯｸ曲線の厚み";
+MfgV4MaxDiscretStep="最大分割ｽﾃｯﾌﾟ";
+MfgV4MaxDiscretAngle="最大分割角度";
+MfgV4PlungeAngle="ﾌﾟﾗﾝｼﾞ角度";
+MfgV4MinDiscretStep="最小分割ｽﾃｯﾌﾟ";
+MfgV4MinDiscretAngle="最小分割角度";
+// Literaux
+//==========
+MfgV4_No_Valued="値なし";
+MfgV4_NO="いいえ";
+MfgV4_YES="はい";
+MfgV4_OFFOFF="ｵﾌ";
+MfgV4_ONOFF="CRV1にｵﾝ/CRV2にｵﾌ";
+MfgV4_OFFON="CRV1にｵﾌ/CRV2にｵﾝ";
+MfgV4_ONON="CRV1にｵﾝ/CRV2にｵﾝ";
+MfgV4_AlongNorm="法線に沿って";
+MfgV4_AlongAxis="軸に沿って";
+MfgV4_Circle="円";
+MfgV4_Angle="角度";
+MfgV4_Zig_Zag="ｼﾞｸﾞｻﾞｸﾞ";
+MfgV4_One_Way="一方向";
+MfgV4_Scallop="削り残し高さ";
+MfgV4_MaxDist="ﾊﾟｽ間の最大距離";
+MfgV4_NBPaths="ﾊﾟｽの数";
+MfgV4_CLW="CLW";
+MfgV4_CCLW="CCLW";
+MfgV4_None="なし";
+MfgV4_First="最初のﾊﾟｽ";
+MfgV4_Last="最後のﾊﾟｽ";
+MfgV4_Both="両方";
+MfgV4_Standard="標準";
+MfgV4_RawMaterial="素材";
+MfgV4_Extended="拡張";
+MfgV4_Same_Z="同位Z";
+MfgV4_Low_Z="低位Z";
+MfgV4_Low_ZReverse="低位Z + 反転";
+MfgV4_Up="上へ";
+MfgV4_Down="下へ";
+MfgV4_OnPart="ﾊﾟｰﾄ上";
+MfgV4_OnPlane="平面上";
+MfgV4_EbauchePassesParal="";
+MfgV4_EbaucheChariotage="";
+MfgV4_EbaucheDressage="";
+MfgV4_RecessZig_Zag="";
+MfgV4_Grooving="";
+MfgV4_Finition="";
+MfgV4_FinitionOutilGorge="";
+MfgV4_Interieure="内径";
+MfgV4_Exterieure="外径";
+MfgV4_Frontale="端面";
+MfgV4_Front="前";
+MfgV4_Back="後";
+MfgV4_Each="各ﾊﾟｽ";
+MfgV4_End="最後のﾊﾟｽのみ";
+MfgV4_Chamfer="面取り";
+MfgV4_Fillet="ｺｰﾅｰ";
+MfgV4_LeftUp="左上がり";
+MfgV4_Center="中央";
+MfgV4_RightDown="右下がり";
+MfgV4_Other="その他";
+MfgV4_Left="左";
+MfgV4_Right="右";
+MfgV4_To_spindle="ｽﾋﾟﾝﾄﾞﾙへ";
+MfgV4_From_spindle="ｽﾋﾟﾝﾄﾞﾙから";
+MfgV4_Direct="直接";
+MfgV4_Axial_Radial="軸-半径";
+MfgV4_Radial_Axial="半径-軸";
+MfgV4_Vector="ﾍﾞｸﾄﾙ";
+MfgV4_Circular="円形";
+MfgV4_Radius="半径";
+MfgV4_To="To";
+MfgV4_On="On";
+MfgV4_Past="Past";
+MfgV4_ToHeadStock_Spindle="ｽﾄｯｸ/ｽﾋﾟﾝﾄﾞﾙの頭へ";
+MfgV4_FromHeadStock_Spindle="ｽﾄｯｸ/ｽﾋﾟﾝﾄﾞﾙの頭から";
+
+MfgMacroAirCuttingFeedrate="空削り送り速度";
+
+// FAP : Debut R11
+
+MFG_LATHE_MODIF_RAPID="RAPIDを空削り送り速度に置換します";
+MFG_LATHE_RAPID_FEED="空削り送り速度";
+
+//========================
+// Ramping Operations
+//========================
+MfgLatheDirection="加工方向";
+
+MfgLatheRampingReworkMode="ﾘﾜｰｸ ﾓｰﾄﾞ";
+MfgLatheMOLeadingAngle="ﾘｰﾄﾞ角";
+MfgLatheMOTrailingAngle="ﾄﾚｰﾘﾝｸﾞ角度";
+MfgLatheMOGougingAngle="ｶﾞｳｼﾞ角度";
+MfgLatheRamping1stFlankPlungeDistance="最初のﾌﾗﾝｸのﾌﾟﾗﾝｼﾞ距離";
+MfgLatheRamping2ndFlankPlungeDistance="2番目のﾌﾗﾝｸのﾌﾟﾗﾝｼﾞ距離";
+MfgLatheRampingRecessingStrategy="凹部加工方式";
+MfgLatheRampingRoughingStrategy="荒加工方式";
+MfgLatheStartRampingPassMode="開始ﾊﾟｽ ﾓｰﾄﾞ";
+
+MfgLatheRampingClearance1="最初のｶｯﾄ上のｸﾘｱﾗﾝｽ";
+MfgLatheRampingClearance2="2番目のｶｯﾄ上のｸﾘｱﾗﾝｽ";
+
+MfgLatheRampingAttackChamferLength="ｱﾀｯｸ面取り長さ";
+MfgLatheRampingAttackCornerRadius="ｱﾀｯｸ ｺｰﾅｰ半径";
+MfgLatheRampingAttackCornerAngle="ｱﾀｯｸ ｺｰﾅｰ角度";
+
+MfgLatheRampingPlungeDistance="ﾘﾜｰｸ ﾌﾟﾗﾝｼﾞする前の距離";
+MfgLatheRampingPlungeAngle="ﾘﾜｰｸ ﾌﾟﾗﾝｼﾞする前の角度";
+
+// Sequential motion geometric features
+MfgLatheSequentialFeature="｢順次旋削｣形状ﾌｨｰﾁｬｰ";
+MfgLatheSequentialDeltaFeature="｢ﾃﾞﾙﾀ移動｣形状ﾌｨｰﾁｬｰ";
+MfgLatheSequentialFollowFeature="｢形状沿い移動｣形状ﾌｨｰﾁｬｰ";
+MfgLatheSequentialGoStdFeature="｢1面ｽﾀｰﾄ｣形状ﾌｨｰﾁｬｰ";
+MfgLatheSequentialIndirvFeature="｢ﾍﾞｸﾄﾙ移動｣形状ﾌｨｰﾁｬｰ";
+
+//========================
+// Feature g駮m騁riques
+//========================
+LatheFeature="旋削可能領域";
+MfgLatheLongRoughFeature="荒旋削領域";
+MfgLatheGroovingFeature="溝旋削領域";
+MfgLatheRecessingFeature="凹部旋削領域";
+MfgLatheThreadingFeature="ねじ切り旋削領域";
+MfgLatheProfileFinishFeature="ﾌﾟﾛﾌｧｲﾙ仕上げ旋削領域";
+MfgLatheGrooveFinishFeature="溝仕上げ旋削領域";
+MfgLatheSequentialGlobalGeomFeature="順次旋削領域";
+MfgLatheRampingRoughingFeature="ﾗﾝﾌﾟ荒旋削領域";
+MfgLatheRampingRecessingFeature="ﾗﾝﾌﾟ凹部旋削領域";
+
+MfgName="名前";
+MfgComment="ｺﾒﾝﾄ";
+
+MfgLatheInterruptMode="割り込みﾓｰﾄﾞ";
+MfgLatheInterruptTime="割り込み時間";
+MfgLatheInterruptNbOfPass="割り込み間のﾊﾟｽの数";
+MfgLatheInterruptNbOfLevel="割り込み間のﾚﾍﾞﾙの数";
+
+MFG_LATHE_FEED_STEP_NB="ﾌｨｰﾄﾞ ｽﾃｯﾌﾟ数";
+MFG_LATHE_LIGHT_FEED_VALUE="低ﾛｰﾄﾞ送り速度";
+MfgLatheRampingContouringMode="ﾗﾝﾋﾟﾝｸﾞ輪郭加工ﾓｰﾄﾞ";
+MfgLatheThreadSpringPasses="工具たわみ補正ﾊﾟｽ";
+
+// FAP : Fin R11
+// AJout LHX R12
+GrooveMachiningDirection="加工方向";
+GrooveAxialStrategy="軸方向加工方式";
+
+// ==================================================//
+// SMG - Macros - CXR12
+// ==================================================//
+MfgMacroBetweenPassesMotions="ﾊﾟｽ間";
+MfgMacroAutomaticRoughingMotions="自動荒加工";
+MfgMacroHeight="高さ";
+MfgMacroXLength="接線に沿った距離";
+MfgMacroYLength="工具軸に沿った距離";
+MfgMacroZLength="法線軸に沿った距離";
+MfgMacroSide="法線軸の側面";
+MfgMacroLinkingMode="ﾘﾝｸ ﾓｰﾄﾞ";
+MfgMacroZLAngle="傾斜角度";
+MfgMacroZLLength="斜線の長さ";
+MfgMacroSafetyDistance="安全距離";
+MfgMacroPredefinedMode="ﾓｰﾄﾞ";
+MfgMacroDefinedByApproachRetract="未使用";
+// SMG END
+
+// Update R12 - 3X MOs
+M3xStockContouringPosition="ﾊﾟｰﾂ輪郭切削位置";
+M3xStockContouringRatio="ﾊﾟｰﾂ輪郭切削比率";
+M3xStockContouringNumberOfLevel="ﾚﾍﾞﾙの数";
+M3xMachiningDirectionIsManual="手動";
+M3xSideThickness="側面ｵﾌｾｯﾄ";
+M3xHSMCorneringOnContouringPath="ﾊﾟｰﾂ輪郭切削ﾊﾟｽのｺｰﾅｰ作成";
+M3xHSMCornerRadiusOnContouringPath="ﾊﾟｰﾂ輪郭切削ﾊﾟｽのｺｰﾅｰ半径";
+
+// Transition Element Feature
+//========================
+MfgTransitionElementsFeature="遷移ｴﾚﾒﾝﾄ";
+
+// ==================================================//
+// SMG R13
+// ==================================================//
+MfgMacroPreRoughingMotions="事前動作";
+MfgMacroPostRoughingMotions="事後動作";
+
+M3xIgnoreFacesKO="無効なﾌｪｰｽを無視";
+
+// Gestion du brut en cours
+//------------------------------
+
+ActualStock="素材を更新";
+
+ActualStock.Title="入力素材を更新";
+ActualStock.ShortHelp="入力素材を更新";
+ActualStock.Help="現行ｵﾍﾟﾚｰｼｮﾝの入力素材を更新します";
+ActualStock.LongHelp="現行ｵﾍﾟﾚｰｼｮﾝの入力素材を更新します｡
+直前のすべての旋盤加工ｺﾝﾃｷｽﾄ ｵﾍﾟﾚｰｼｮﾝを反映して､入力素材を計算します｡
+結果のｽｹｯﾁのすべてまたは一部を現行のｵﾍﾟﾚｰｼｮﾝの入力素材として選択できます｡";
+
+InputStock="入力素材を更新";
+InputStock.Title="入力素材を更新";
+InputStock.ShortHelp="入力素材を更新";
+InputStock.Help="現行ｵﾍﾟﾚｰｼｮﾝの入力素材を更新します";
+InputStock.LongHelp="現行ｵﾍﾟﾚｰｼｮﾝの入力素材を更新します｡
+直前のすべてのｵﾍﾟﾚｰｼｮﾝを反映して､入力素材を計算します｡";
+
+OutputStock="出力素材を更新";
+OutputStock.Title="出力素材を更新";
+OutputStock.ShortHelp="出力素材を更新";
+OutputStock.Help="現行ｵﾍﾟﾚｰｼｮﾝの出力素材を更新します";
+OutputStock.LongHelp="現行ｵﾍﾟﾚｰｼｮﾝの出力素材を更新します｡";
+
+IgnoreStock="入力素材を無視";
+IgnoreStock.Title="入力素材を無視";
+IgnoreStock.ShortHelp="入力素材を無視";
+IgnoreStock.Help="工具ﾊﾟｽの計算で入力素材を無視します";
+IgnoreStock.LongHelp="工具ﾊﾟｽの計算で入力素材を無視します｡";
+
+DeactivateStock="出力素材計算を非活動化";
+DeactivateStock.Title="出力素材計算を非活動化";
+DeactivateStock.ShortHelp="出力素材計算を非活動化";
+DeactivateStock.Help="出力素材計算を非活動化";
+DeactivateStock.LongHelp="出力素材計算を非活動化｡";
+
+// Prefix for Computed Stock
+DefaultPrefixActualStock="入力素材ﾎﾞﾃﾞｨｰ";
+DefaultPrefixActualStockSketch="入力素材ｽｹｯﾁ";
+
+// Prefix for Final Stock
+DefaultPrefixFinalStock="最終素材ﾎﾞﾃﾞｨｰ";
+DefaultPrefixFinalStockSketch="最終素材ｽｹｯﾁ";
+
+// Default pr馭ix for Ref axis of the Part Operation
+DefaultRefAxisNamePO="ﾃﾞﾌｫﾙﾄ基準加工座標軸 ";
+
+// ==================================================//
+// ISO / Video accuracy R14
+// Delete unused Features (Ajout VCS R14 le 02/12/03)//
+// ==================================================//
+MfgProgramMCDBasedSimulation="NCｺｰﾄﾞ ﾍﾞｰｽのｼﾐｭﾚｰｼｮﾝ";
+MfgProgramCompensationModeSimulation="ｶｯﾀｰ補正ﾓｰﾄﾞ";
+
+MfgSetupDesignsAccuracy="設計精度";
+MfgSetupStocksAccuracy="素材精度";
+
+Mfg5AxisStartEnd="内部ﾊﾟﾗﾒｰﾀ";
+MfgStart="開始";
+MfgToolSideOnGuideCurve="ｶﾞｲﾄﾞ曲線上の位置";
+MfgToolSideOnGuideCurve.LongHelp="順方向での補助ｶﾞｲﾄﾞ ｴﾚﾒﾝﾄ上の工具の位置を指定します｡ \n";
+MfgOffsetOnGuideCurve="ｶﾞｲﾄﾞ曲線上のｵﾌｾｯﾄ";
+MfgOffsetOnGuideCurve.LongHelp="補助ｶﾞｲﾄﾞ ｴﾚﾒﾝﾄ上の側面位置を反映するｵﾌｾｯﾄを \n指定します｡";
+MfgUseGuideCurve="ｶﾞｲﾄﾞ曲線の使用";
+MfgUseGuideCurve.LongHelp="補助ｶﾞｲﾄﾞ ｴﾚﾒﾝﾄによる工具接触ﾓｰﾄﾞを指定します｡ \n- 常時 \n- 必要に応じて(ﾄﾞﾗｲﾌﾞ ｻｰﾌｪｽと衝突する可能性がある場合のみ)";
+Mfg5XOutputType="補正出力";
+Mfg5XOutputType.LongHelp="NCﾃﾞｰﾀ出力でｶｯﾀｰ補正命令を生成する方法を指定します｡
+
+なし
+補正は計算されません｡
+
+3D接触
+補正は､工具端部に接触した状態で､3Dﾍﾞｸﾄﾙ方向(XN､YN､ZN)にﾊﾟｰﾂ ｻｰﾌｪｽに垂直に計算されます｡
+補正される半径はｺｰﾅｰの半径です｡
+出力は接触点(XC､YC､ZC)およびﾊﾟｰﾂ ｻｰﾌｪｽの法線(XN､YN､ZN)です｡
+工作機械でこの項目を設定した場合､工具先端の点(XT､YT､ZT)も指定できます｡
+工具軸ﾍﾞｸﾄﾙ(IJK)は､多軸の場合出力されます｡";
+MfgMacroFeedrateType="送り速度ﾀｲﾌﾟ";
+MfgMacroFeedrateValue="送り速度値";
+MfgMacroSpindleSpeedType="ｽﾋﾟﾝﾄﾞﾙ速度ﾀｲﾌﾟ";
+MfgMacroSpindleSpeedValue="ｽﾋﾟﾝﾄﾞﾙ速度値";
+
+DeleteUnusedFeatPanelTitle="未使用ﾌｨｰﾁｬｰを削除";
+DeleteUnusedFeatNbFound=" 未使用ﾌｨｰﾁｬｰが見つかりました";
+DeleteUnusedFeatAction="ﾌｨｰﾁｬｰのｻﾌﾞﾘｽﾄを選択､および検証/ｷｬﾝｾﾙします(あるいはいずれか)";
+
+And=" および ";
+Between=" 間 ";
+MfgApproachMacro="ｱﾌﾟﾛｰﾁ ﾏｸﾛ";
+MfgRetractMacro="ﾘﾄﾗｸﾄ ﾏｸﾛ";
+MfgReturnTwoLevelMacroApp="2ﾚﾍﾞﾙ間のﾘﾀｰﾝ ｱﾌﾟﾛｰﾁ ﾏｸﾛ";
+MfgReturnTwoLevelMacroRet="2ﾚﾍﾞﾙ間のﾘﾀｰﾝ ﾘﾄﾗｸﾄ ﾏｸﾛ";
+MfgReturnOneLevelMacroApp="同一ﾚﾍﾞﾙ内のﾘﾀｰﾝ ｱﾌﾟﾛｰﾁ ﾏｸﾛ";
+MfgReturnOneLevelMacroRet="同一ﾚﾍﾞﾙ内のﾘﾀｰﾝ ﾘﾄﾗｸﾄ ﾏｸﾛ";
+MfgReturnFinishPathMacroApp="仕上げﾊﾟｽのﾘﾀｰﾝ ｱﾌﾟﾛｰﾁ ﾏｸﾛ";
+MfgReturnFinishPathMacroRet="仕上げﾊﾟｽのﾘﾀｰﾝ ﾘﾄﾗｸﾄ ﾏｸﾛ";
+MfgLinkingMacroApp="ﾘﾝｸにｱﾌﾟﾛｰﾁするﾏｸﾛ";
+MfgLinkingMacroRet="ﾘﾝｸにﾘﾄﾗｸﾄするﾏｸﾛ";
+
+// Editor for Machining Axis System
+//=================================
+Origin="原点";
+Origin.LongHelp="原点が加工座標系とは別に指定されることを指定します";
+
+Number=" 番号: ";
+Number.LongHelp="特定の工作機械ﾀｲﾌﾟでは原点番号を指定します \n原点の場合のみ使用可能";
+
+Group=" ｸﾞﾙｰﾌﾟ: ";
+Group.LongHelp="特定の工作機械ﾀｲﾌﾟでは原点ｸﾞﾙｰﾌﾟを指定します \n原点の場合のみ使用可能";
+
+Name="座標名: ";
+Name.LongHelp="加工座標系または原点の名前を指定します｡";
+
+NCOutputParameters="NC出力ﾊﾟﾗﾒｰﾀ";
+
+// ==================================================//
+// Ajout Prismatic Roughing (Rcn le 08/01/04)
+// ==================================================//
+M3xLimitContinuityTol="公差";
+M3xPRSweepingMode="工具ﾊﾟｽ ｽﾀｲﾙ";
+M3xLimitPosition="停止位置";
+M3xTruncatedTransitionPath="切り捨てられた遷移ﾊﾟｽ";
+
+// ==================================================//
+// Ajout (PGD le 08/01/04)
+// ==================================================//
+MfgOpposite="反対ﾌﾟﾛｸﾞﾗﾐﾝｸﾞ ﾓｰﾄﾞ";
+MfgGrooveMachiningDirection="加工方向";
+MfgGrooveAxialStrategy="軸方向加工方式";
+MfgTopFinishPathThickness="上面/底面仕上げ厚み";
+MFG_RELIMIT_HOLE_ORIGIN="穴の原点を境界設定";
+MFG_INVERSE_PATTERN_ORDERING="ﾊﾟﾀｰﾝ配列を反転";
+MFG_MACHINE_BLIND_THROUGH="ﾌﾞﾗｲﾝﾄﾞ/貫通穴を加工";
+
+MfgLmtSpindleNumber="ｽﾋﾟﾝﾄﾞﾙ番号";
+MFG_LATHE_MAX_SPNDL_SPEED="最大ｽﾋﾟﾝﾄﾞﾙ速度";
+MfgLmtSpiCenterX="ｽﾋﾟﾝﾄﾞﾙ中心X";
+MfgLmtSpiCenterY="ｽﾋﾟﾝﾄﾞﾙ中心Y";
+MfgLmtSpiCenterZ="ｽﾋﾟﾝﾄﾞﾙ中心Z";
+MfgLmtSpiInitAngle="初期ｽﾋﾟﾝﾄﾞﾙ角度位置(内部ﾊﾟﾗﾒｰﾀ)";
+MfgLmtSpiRotaryAngle="回転角度(内部ﾊﾟﾗﾒｰﾀ)";
+
+MfgLmtTurretNumber="ﾀﾚｯﾄ番号";
+MfgLmtTurNbToolPos="工具位置の数(内部ﾊﾟﾗﾒｰﾀ)";
+MfgLmtTurMaxToolStored="工具の最大数(内部ﾊﾟﾗﾒｰﾀ)";
+MfgLmtTurFirstToolNum="最初の工具の数(内部ﾊﾟﾗﾒｰﾀ)";
+MfgLmtTurLastToolNum="最後の工具の数(内部ﾊﾟﾗﾒｰﾀ)";
+MfgLmtTurRefPtX="ﾀﾚｯﾄ基準点X";
+MfgLmtTurRefPtY="ﾀﾚｯﾄ基準点Y";
+MfgLmtTurRefPtZ="ﾀﾚｯﾄ基準点Z";
+MfgLmtTurToolChgPtX="工具交換点X";
+MfgLmtTurToolChgPtY="工具交換点Y";
+MfgLmtTurToolChgPtZ="工具交換点Z";
+
+//========================
+// LongHelp PPR Tree
+//========================
+
+MissingTurretOnProgram="/p1 はﾀﾚｯﾄがそのﾌﾟﾛｸﾞﾗﾑに関連付けられていないので \n不完全です";
+ProgramWithNoTurret="/p1 には関連付けられたﾀﾚｯﾄがありません｡ \n旋削ｵﾍﾟﾚｰｼｮﾝを作成したい場合は､ \nﾀﾚｯﾄの割り当てが必要な場合があります｡";
+
+MfgProgramOptimization="ﾌﾟﾛｸﾞﾗﾑを最適化";
+
+// Update R15 - 3X MOs
+M3xRepartitionMode="分散ﾓｰﾄﾞ";
+M3xGuideContinuityTol="ｶﾞｲﾄﾞ公差";
+M3xConstantByFace="領域ごとの分散";
+M3xStepOverModeBetweenContour="ｽﾃｯﾌﾟｵｰﾊﾞｰ ﾓｰﾄﾞ";
+M3xSMSStopPosition1="ｶﾞｲﾄﾞ2上の停止位置";
+M3xSMSLimitOverShoot1="ｶﾞｲﾄﾞ2上のｵﾌｾｯﾄ";
+M3xSMSGuideOffsetUpdated="未使用";
+M3xStepOverModeZLevel="ｽﾃｯﾌﾟｵｰﾊﾞｰ ﾓｰﾄﾞ";
+M3xStepOverModeSweeping="ｽﾃｯﾌﾟｵｰﾊﾞｰ ﾓｰﾄﾞ";
+M3xHardDistinctMode="ﾎﾟｹｯﾄに対する別ｽﾀｲﾙ";
+M3xHardComplementaryMode="ﾎﾟｹｯﾄの工具ﾊﾟｽ ｽﾀｲﾙ";
+M3xToolCoreDiameter1="未使用";
+M3xPocketFilter="ﾎﾟｹｯﾄ ﾌｨﾙﾀ";
+M3xSmallPassFilter="小さなﾊﾟｽのﾌｨﾙﾀ";
+M3xMultiPocketsStrategy="機械加工方式";
+M3xMultiPocketsSweepingMode="工具ﾊﾟｽ ｽﾀｲﾙ";
+M3xOffsetImposedPlane2="指定平面2上のｵﾌｾｯﾄ";
+M3xSideBottomFinishThickness="側面の底面仕上げ厚み";
+M3xSideMaxDepthOfCut="側面の最大切削深さ";
+
+ManufacturingSynchronisation="同期化";
+MfgDefaultPositionOfSynchronisation="同期化の位置";
+
+// =====================================================================
+// GVS R14
+// =====================================================================
+Mfg5AxisFanningDistanceIso="ﾌｧﾝ距離";
+MfgCollisionCoveringCheck="ｶﾊﾞｰ ﾓｰﾄﾞ";
+MfgCheckCollisionWithGuide="ｶﾞｲﾄﾞの衝突を検出";
+
+// =====================================================================
+// GVS R17
+// =====================================================================
+Mfg5AxisGuideDirection="ｶﾞｲﾄﾞ側面";
+Mfg5XTubeGuidingMode="ｶﾞｲﾄﾞ加工方式";
+Mfg5XTubeMachiningMode="工具ﾊﾟｽ ｽﾀｲﾙ";
+Mfg5XWayOfCutAlongGuide="ｶﾞｲﾄﾞ沿いの切削方法";
+Mfg5XTubeMatSide="切削の方向";
+Mfg5XTubeRadialStrategy="ｽﾃｯﾌﾟｵｰﾊﾞｰ";
+Mfg5AxisTubeAxisStrategy="工具軸ﾓｰﾄﾞ";
+Mfg5AxisAllowVariableTilt="可変ﾁﾙﾄを許可";
+Mfg5XTubeAxisSelection="ｶﾞｲﾄﾞ選択ﾓｰﾄﾞ";
+Mfg5AxisGuidingAxis="ｶﾞｲﾄﾞ方向";
+Mfg5AxisCurveSweepingSideToMachine="加工するﾏﾃﾘｱﾙ ｻｲﾄﾞ";
+MfgDistanceOnGuide="ｶﾞｲﾄﾞ上の距離";
+MfgWithMaxPlungingDistance="ｱｸﾃｨﾌﾞな最大ﾌﾟﾗﾝｼﾞ距離";
+MfgMaxPlungingDistance="最大ﾌﾟﾗﾝｼﾞ距離";
+Mfg5AxisOppositeToMachiningDir="加工方向と反対";
+
+// =====================================================================
+// BIL R17 Thread Milling
+// =====================================================================
+MfgThreadMillingStrategy="ねじﾌﾗｲｽ加工方式";
+MfgThreadMillingMode="ねじﾌﾗｲｽ加工ﾓｰﾄﾞ";
+
+// =====================================================================
+// Rcn R17 (Plunge)
+// =====================================================================
+M3xBeforeCutDistance="最初の切削後の距離";
+M3xBeforeBottomDistance="底面までの距離";
+M3xLateralRetractDistance="横方向ﾘﾄﾗｸﾄ距離";
+M3xMinPlungingDistance="最小ﾌﾟﾗﾝｼﾞ長さ";
+M3xCtrDiscretizationStep="最大切削の進行";
+M3xLongitudinalStep="縦方向ｽﾃｯﾌﾟ";
+M3xTransversalStep="最大切削の進行";
+M3xGrooveWidth="溝の幅";
+M3xGrooveStep="溝ｽﾃｯﾌﾟ";
+M3xGridDefinitionMode="ｸﾞﾘｯﾄﾞ ﾀｲﾌﾟ";
+M3xGridMachiningMode="加工ｽﾀｲﾙ";
+M3xGridOWDirection="加工側面";
+M3xCenterNumber="中心にﾏﾃﾘｱﾙ ﾁｪｯｸを適用";
+
+M3xAuthorizedFM="未使用";
+M3xMaxFMDepthOfCut="全ﾏﾃﾘｱﾙの最大切削深さ";
+M3xFMManagementMode="完全に使用される工具の管理";
+M3xFMTrochoidMinDiam="未使用";
+M3xFMTrochoidMaxDiam="未使用";
+M3xFMTrochoidStart="未使用";
+M3xFMTrochoidStep="未使用";
+M3xFMTrochoidStartAngle="未使用";
+M3xTrochoidParamMode="未使用";
+M3xFMTrochoidMinRadDist="最小のﾄﾛｺｲﾄﾞ半径";
+M3xFMTrochoidMaxRadDist="未使用";
+M3xPassCorner="高速ﾌﾗｲｽ加工";
+M3xPassCornerRadius="ｺｰﾅｰ半径";
+
+
+//=====================================================================
+//Sequential Axial Motions
+// =====================================================================
+
+MfgSpindleSpeedMachining="機械加工";
+MfgSpindleSpeedLocal="ﾛｰｶﾙ ｽﾋﾟﾝﾄﾞﾙ";
+MfgAngularSpindleMagnitude="角度";
+MfgLinearSpindleMagnitude="線形";
+MfgSpindleCW="CLW";
+MfgSpindleCCLW="CCLW";
+
+MfgSpindleStop="ｽﾋﾟﾝﾄﾞﾙ停止";
+MfgSpindleLock="ｽﾋﾟﾝﾄﾞﾙ ﾛｯｸ";
+
+MfgAxialLevelDiameter="直径";
+MfgAxialPlaneDistance="距離";
+
+
+// spindle speed
+MfgSpindleSpeedMachining="機械加工";
+MfgSpindleSpeedLocal="ﾛｰｶﾙ ｽﾋﾟﾝﾄﾞﾙ";
+MfgAngularSpindleMagnitude="角度";
+MfgLinearSpindleMagnitude="線形";
+MfgSpindleCLW="CLW";
+MfgSpindleCCLW="CCLW";
+
+// spindle stop/lock
+MfgSpindleStop="ｽﾋﾟﾝﾄﾞﾙ停止";
+MfgSpindleLock="ｽﾋﾟﾝﾄﾞﾙ ﾛｯｸ";
+
+//delay
+MfgSpindleDwellByTimeUnit="時間による";
+MfgSpindleDwellByRevolution="回転による";
+
+// go delta go to plane to to clearance
+MfgMachiningFeedrate="機械加工";
+MfgApproachFeedrate="ｱﾌﾟﾛｰﾁ";
+MfgRetractFeedrate="ﾘﾄﾗｸﾄ";
+MfgRapidFeedrate="早送り";
+MfgLocalFeedrate="ﾛｰｶﾙ送り速度";
+MfgAngularFeedrateMagnitude="角度";
+MfgLinearFeedrateMagnitude="線形";
+
+// ==================================================//
+// MfgAxialLevelPlane
+// ==================================================//
+MfgAxialLevelTopPlane="1";
+MfgAxialLevelBottomPlane="2";
+
+MfgAxialSeqStrategy="機械加工方式";
+MfgAxialSeqStrategy.LongHelp="機械加工方式を定義します";
+MfgAxialSeqBottomTop="下部/上部";
+MfgAxialSeqTopBottom="上部/下部";
+MfgAxialLevelOffsetOnDiameter="直径のｵﾌｾｯﾄ";
+MfgAxialLevelOffsetOnDiameter.LongHelp="直径のｵﾌｾｯﾄを定義します";
+MfgAxialLevelDiameter="直径";
+
+MfgSeqMotionApplicationEachLevel="各ﾚﾍﾞﾙ";
+MfgSeqMotionApplicationFirstLevel="第1ﾚﾍﾞﾙ";
+MfgSeqMotionApplicationLastLevel="最終ﾚﾍﾞﾙ";
+
+
+// spindle stop/lock
+MfgSpindleAngularLock="ｽﾋﾟﾝﾄﾞﾙ角度ﾛｯｸ";
+MfgSpindleStop="ｽﾋﾟﾝﾄﾞﾙ停止";
+MfgSpindleLock="ｽﾋﾟﾝﾄﾞﾙ ﾛｯｸ";
+MfgSeqMotionAxialSpindleStop="ｽﾋﾟﾝﾄﾞﾙ停止";
+
+//delay
+MfgSpindleDwellTime="ｽﾋﾟﾝﾄﾞﾙ ﾄﾞｳｪﾙの時間";
+MfgSpindleDwellRevolution="ｽﾋﾟﾝﾄﾞﾙ ﾄﾞｳｪﾙの回転";
+MfgSpindleDwellByTimeUnit="時間による";
+MfgSpindleDwellByRevolution="回転による";
+MfgSeqMotionAxialDelay="遅延";
+
+MfgAxialPlane="軸方向平面";
+MfgAxialPlaneGeom="軸方向平面形状";
+MfgAxialPlaneDistance="軸方向平面距離";
+MfgAxialLevel="軸ﾚﾍﾞﾙ";
+MfgAxialLevelBottomPlane="軸ﾚﾍﾞﾙの下部平面";
+MfgAxialLevelTopPlane="軸ﾚﾍﾞﾙの上部平面";
+MfgAxialLevelDiameter="軸ﾚﾍﾞﾙの直径";
+MfgAxialLevelOffsetOnDiameter="軸ﾚﾍﾞﾙの直径のｵﾌｾｯﾄ";
+MfgSeqMotionApplicationMode="適用ﾓｰﾄﾞ ";
+MfgSeqMotionAxialSpindleSpeed="ｽﾋﾟﾝﾄﾞﾙ速度";
+
+MfgSeqMotionAxialGoToPlane="平面まで移動";
+MfgPlaneNumber="平面番号";
+MfgOffsetOnPlane="平面上のｵﾌｾｯﾄ";
+MfgNumberOfPlanes="平面の数";
+MfgSeqMotionAxialGoDelta="ﾃﾞﾙﾀ移動";
+MfgSeqMotionAxialGoToClearance="ｸﾘｱﾗﾝｽまで移動";
+MfgSeqMotionAxialCircular="円形";
+MfgSeqMotionAxialHelical="らせん";
+MfgSeqMotionAxialPPWord="PPﾜｰﾄﾞ";
+
+
+// BQA R17 UDF Creation using Technological Results
+// =====================================================================
+//Since Name was already Used in  " Editor for Machining Axis System" We are forced to Use it as UDF Name.
+
+UDFName="名前";
+
+// =====================================================================
+// GVS R17SP3 Tube Machining Evolutions
+// =====================================================================
+Mfg5XToolPosition="工具点のﾄﾞﾗｲﾋﾞﾝｸﾞ";
+Mfg5XHardMachiningMode="ｿﾞｰﾝ";
+Mfg5XPropagationMode="未使用";
+Mfg5AxisEndAngle="仰角";
+Mfg5AxisStartAngle="未使用";
+Mfg5AxisCavityOnStart="未使用";
+Mfg5AxisCavityOnEnd="未使用";
+
+// =====================================================================
+// GVS R18
+// =====================================================================
+MfgThruGuideSubMode="ｶﾞｲﾄﾞに追従ﾓｰﾄﾞ";
+MfgOffsetOnTiltGuide="ﾁﾙﾄ ｶﾞｲﾄﾞ上のｵﾌｾｯﾄ";
+MfgSideOnTiltGuide="ﾁﾙﾄ ｶﾞｲﾄﾞの側面のｵﾌｾｯﾄ";
+MfgExtrapolateTiltGuide="ﾁﾙﾄ ｶﾞｲﾄﾞを拡張";
+MfgMacroCircleMode="平面内";
+
+// =====================================================================
+// NES R18
+// =====================================================================
+M3xTo5xMode="工具軸ﾓｰﾄﾞ";
+M3xTo5xAngle="角度";
+M3xTo5xAngleStepMax="最大分割角度";
+M3xTo5xLengthMin="最小長さ";
+M3xTo5xOffsetTool="工具のｵﾌｾｯﾄ";
+M3xTo5xOffsetAssembly="工具ｱｾﾝﾌﾞﾘｰのｵﾌｾｯﾄ";
+M3xTo5xAngleMin="最小角度";
+M3xTo5xAngleMax="最大角度";
+M3xTo5xAngleStep="ｽﾃｯﾌﾟ角度";
+
+Mfg5XSpiralMillingStyle="工具ﾊﾟｽ ｽﾀｲﾙ";
+Mfg5XHelicalMovement="らせん移動";
+MfgCollisionOffsetTool="工具のｵﾌｾｯﾄ";
+MfgCollisionOffsetToolAss="工具ｱｾﾝﾌﾞﾘｰのｵﾌｾｯﾄ";
+MfgCollisionWithAssembly="工具ｱｾﾝﾌﾞﾘｰの衝突ﾁｪｯｸ";
+Mfg5XSpiralAxisStrategy="工具軸ﾓｰﾄﾞ";
+
+M3xOffsetShank="工具ｼｬﾝｸのｵﾌｾｯﾄ";
+M3xMinLengthUndercut="除去する最小長さ";
+M3xCriterUndercut="ｱﾝﾀﾞｰｶｯﾄ条件";
+M3xSetCriterUndercut="ｱﾝﾀﾞｰｶｯﾄ条件を設定";
+M3xRemoveUndercut="ｱﾝﾀﾞｰｶｯﾄのﾊﾟｽの部分を除去";
+
+M5xSmLength1="未使用"; M5xSmLength2="未使用";
+M5xSmBool1="未使用"; M5xSmBool2="未使用";
+M5xCsLength1="未使用"; M5xCsLength2="未使用";
+M5xCsBool1="未使用"; M5xCsBool2="未使用";
+M5xCrvLength1="未使用"; M5xCrvLength2="未使用";
+M5xCrvBool1="未使用"; M5xCrvBool2="未使用";
+M5xIsoLength1="未使用"; M5xIsoLength2="未使用";
+M5xIsoBool1="未使用"; M5xIsoBool2="未使用";
+M5xBcLength1="未使用"; M5xBcLength2="未使用";
+M5xBcBool1="未使用"; M5xBcBool2="未使用";
+M5xSwLength1="未使用"; M5xSwLength2="未使用";
+M5xSwBool1="未使用"; M5xSwBool2="未使用";
+M5xTbLength1="未使用"; M5xTbLength2="未使用";
+M5xTbBool1="未使用"; M5xTbBool2="未使用";
+M5xHxLength1="未使用"; M5xHxLength2="未使用";
+M5xHxBool1="未使用"; M5xHxBool2="未使用";
+M3xBtLength1="未使用"; M3xBtLength2="未使用";
+M3xBtBool1="未使用"; M3xBtBool2="未使用";
+M3xSwLength1="未使用"; M3xSwLength2="未使用";
+M3xSwBool1="未使用"; M3xSwBool2="未使用";
+M3xSrLength1="未使用"; M3xSrLength2="未使用";
+M3xSrBool1="未使用"; M3xSrBool2="未使用";
+M3xBcLength1="未使用"; M3xBcLength2="未使用";
+M3xBcBool1="未使用"; M3xBcBool2="未使用";
+M3xSmLength1="未使用"; M3xSmLength2="未使用";
+M3xSmBool2="未使用";
+M3xRgLength1="未使用"; M3xRgLength2="未使用";
+M3xRgBool1="未使用"; M3xRgBool2="未使用";
+
+MfgCmdSequenceNum="順序番号";
+M3xSmBool1="R19 ﾊﾟﾗﾒｰﾀをｱｯﾌﾟｸﾞﾚｰﾄﾞ";
+
+M3xZlLength2="未使用";
+
+M3xZlLength1="工具ﾊﾟｽのｵﾌｾｯﾄ";
+M3xZlBool1="円形補間";
+M3xZlBool2="UpgradeVersion";
+M3xCircInterpo="円形補間";
+M3xCircInterpoOptim="円形補間を最適化する近似ﾊﾟｽ";
+
+// =====================================================================
+// GVS R19
+// =====================================================================
+MfgThruLeadAngle="ﾘｰﾄﾞ角";
+MfgAllowOffsetOnStops="停止時ｵﾌｾｯﾄ";
+MfgMacroClearanceDiscretization="工具軸ｽﾑｰｽﾞ移動";
+MfgMacroClearanceDiscretization.LongHelp="ｸﾘｱﾗﾝｽ ﾘﾝｸ ﾊﾟｽに最大分割角度を適用";
+
+MfgCheckCollision="衝突ﾁｪｯｸを活動化";
+MfgCheckCollisionOnPart="設計ﾊﾟｰﾂの衝突ﾁｪｯｸ";
+MfgCheckCollisionOnFixture="治具の衝突ﾁｪｯｸ";
+MfgCheckCollisionOnStock="入力素材の衝突ﾁｪｯｸ";
+MfgCheckCollisionOffsetTool="工具ｼｬﾝｸのｵﾌｾｯﾄ";
+MfgCheckCollisionOffsetAssembly="工具ｱｾﾝﾌﾞﾘｰのｵﾌｾｯﾄ";
+
+//===================================================================
+// NES R19
+//===================================================================
+M3xCtrFinishedStep="完了した切削の進行";
+M3xPlungeNbContour="輪郭数";
+M3xPlungeOffset="ｵﾌｾｯﾄ";
+M3xOffsetContour="輪郭線ｸﾘｱﾗﾝｽ";
+M3xPlungeMachiningDir="加工方向";
+
+M3xUseToolAsEndMill="ｴﾝﾄﾞ ﾐﾙ工具として工具を使用";
+M3xOptimizeFor3to5x="3-5軸ｺﾝﾊﾞｰﾀに関連したｵﾍﾟﾚｰｼｮﾝを最適化";
+
+//===================================================================
+// NES R19 : for Styli Tool
+//===================================================================
+
+MFG_CYLINDER_LENGTH="ｼﾘﾝﾀﾞ長さ";
+MFG_BALL_LENGTH_DOWN="ﾎﾞｰﾙ下側長さ";
+
+MFG_STYLUS_TYPE="ﾀｲﾌﾟ";
+MFG_STYLUS_MATERIAL="ﾏﾃﾘｱﾙ";
+
+
+// Smu - R19 : NLS for Principal axis in MfgDirection feature in F(x) panel
+PrincipalAxis="主軸";
+
+
+//===================================================================
+// MPG Flank R19
+//===================================================================
+MfgGlobalBottomThickness="ﾊﾟｰﾂ下部のｵﾌｾｯﾄ";
+M5xMultiPocketNoPush="ﾂｰﾙ ﾌﾟｯｼｭを回避";
+M5xFixedAxisForSemiFinishing="半仕上げﾊﾟｽ内の固定工具軸";
+Mfg5AxisMaxLeadAngle="最大ﾘｰﾄﾞ角";
+Mfg5AxisMaxTiltAngle="最大ﾁﾙﾄ角";
+Mfg5AxisMPFAxisStrategy="工具軸ﾓｰﾄﾞ";
+MfgMaxDepthOfCutFinish="ﾊﾟｽ間の軸仕上げ距離";
+MfgMPFSideFinish="側面仕上げﾊﾟｽ ﾓｰﾄﾞ";
+MfgScallopHeightFinish="軸仕上げ削り残し高さ";
+Mfg5AxisMPGMultiLevelMode="軸ﾓｰﾄﾞ";
+Mfg5AxisFinishMultiLevelMode="仕上げｽﾃｯﾌﾟｵｰﾊﾞｰ ﾓｰﾄﾞ";
+Mfg5AxisRoughMultiLevelMode="半仕上げｽﾃｯﾌﾟｵｰﾊﾞｰ ﾓｰﾄﾞ";
+
+M5xMPFLength1="未使用";
+M5xMPFLength2="未使用";
+M5xMPFBool1="未使用";
+M5xMPFBool2="未使用";
+Mfg5AxisFinishAxialHelicalAngle="未使用";
+Mfg5AxisFinishAxialHelicalDist="未使用";
+Mfg5AxisFinishAxialHelicalMode="未使用";
+Mfg5AxisRoughAxialHelicalAngle="未使用";
+Mfg5AxisRoughAxialHelicalDist="未使用";
+Mfg5AxisRoughAxialHelicalMode="未使用";
+MfgCorneringSharpFlag="未使用";
+MfgNumberOfLevelsFinish="未使用";
+
+MfgProbingSlotElementsOffset="ｵﾌｾｯﾄ";
+
+//===================================================================
+// FAO R19SP3 Relimit Area With Checks
+//===================================================================
+MfgRelimitAreaWithCheck="ﾁｪｯｸした領域を境界設定";
+
+
+// Trochoid Milling
+MfgTrochoidDiameter="ﾄﾛｺｲﾄﾞ直径";
+
+//************************************************************
+// QIH Message for NOT found NC Sets
+//************************************************************
+NCSet.Text="NCｾｯﾄのﾘｽﾄは加工ﾃﾞｰﾀの読み取り時に見つかりませんでした \n";
+//************************************************************
+
+//************************************************************
+// Added for DPM_MPP_IPM_GENERATION_MODE=TRUE
+//************************************************************
+IPMToolGenMode="工具から";
+IPMGeometryGenMode="形状から";
+IPMUserSettingsGenMode="なし";
+//************************************************************

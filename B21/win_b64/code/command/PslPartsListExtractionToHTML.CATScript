@@ -1,0 +1,544 @@
+'// COPYRIGHT DASSAULT SYSTEMES  1999
+'//============================================================================
+'//
+'// Language="VBSCRIPT"
+'// To extract the parameters from Product object in current selection
+'//
+'//============================================================================
+'// Major CATIA interface used:
+'//
+'// interface         VB Name         Remarks
+'// -----------       ------------    --------------
+'// CATIADocument     Document        access the current document
+'// CATIAWorkbench    workbench       access the Manufacturing Systems Layout
+'//                                   workbench
+'// CATIASelection    Selection       to get the object from current selection
+'//                                   in the interactive section
+'// CATIAProduct      Product         to get the Product Ids and the associated
+'//                                   parameters list
+'// CATIAParameters   Parameters      a list of parameters associated with a
+'//                                   Product object
+'// CATIAParameter    Parameter       to get the value of a parameter
+'//
+'//============================================================================
+'//
+'// Audit Trail:
+'//----------------------------------------------------------------------------
+'//   Author     : Vic Szeto (Dassault Systemes)
+'//   Date       : 8/99
+'//   Chg id     :
+'//   Chg nature :
+'//----------------------------------------------------------------------------
+'//   Modified   : Sudhi Gulur (Dassault Systemes)
+'//   Date       : March 29, 2000
+'//   Chg id     :
+'//   Chg nature :
+'//----------------------------------------------------------------------------
+'//   Modified   : Sudhi Gulur (Dassault Systemes)
+'//   Date       : April 11, 2001
+'//   Chg id     :
+'//   Chg nature : Supported execution of script on UNIX. 
+'//============================================================================
+
+Option Explicit
+
+'******************************************************************************
+'  GLOBAL variable declarations section
+'******************************************************************************
+'// ---------- Debug Traces
+Const intG_TRACEON = 1
+Dim strMessage
+
+'// ---------- objGEXCEL Part List Report Format
+Const strGReportTitlePartNumber   = "Part Name"
+Const strGReportTitleInstanceName = "Instance Name"
+Const strGReportTitleNomenclature = "User Type"
+
+'// ---------- CATIAV5 application objects
+Dim objCATIAV5Document0     As Document
+Dim objCATIAV5ArrWorkbench0 As Workbench
+Dim objCATIAV5Selection     As Selection
+Dim objCATIAV5FileSystem    As FileSystem
+Dim objCATIAV5File          As File
+Dim objCATIAV5TextStream    As TextStream
+Dim strOutputHTMLFile       As String
+Dim  strGInputPanelTitle    As String
+Dim  strGInputPanelPrompt   As String
+Dim  strGInputPanelPrompt2  As String
+
+Const intNT   = 0
+Const intUNIX = 1
+Dim  intOS                  As Integer
+Dim strDirectorySlashArray(2) As String
+strDirectorySlashArray(intNT) = "\"
+strDirectorySlashArray(intUNIX) = "/"
+
+
+'@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+'//                       User customizable sections                 
+'@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+strGInputPanelTitle = "Report Generation"
+strGInputPanelPrompt2 = "Define report output file"
+
+'========== The number of parameters to report and their names 
+Const intGNBParamName = 5
+Dim arrayStrGParamName (5)
+Dim arrayStrGParamColumnTitleName (5)
+
+Const NumOfDummyExcelColumns = 8
+Dim strDummyExcelRow(8) As String
+
+'========== the first 3 columns are reserved for the parameter's
+'========== Part Name, Instance Name and User Type
+Const intGNBProductIDReservedCol  = 3
+'========== the first row is reserved for the name of the parameters
+Const intGNBParamNameReservedRow  = 1
+
+Const intGReportStartAfterRow = 9
+Const intGReportStartAfterCol = 0
+
+Const intGReportMaxColumnIndex = 8
+Dim intGReportCurrentRow  As integer
+
+'******************************************************************************
+Sub CheckOS()
+'******************************************************************************
+
+Dim strCATStartupPath As String
+strCATStartupPath = CATIA.SystemService.Environ("CATStartupPath") 
+Dim intSlashLocation As Integer
+intSlashLocation  = Instr(3, strCATStartupPath, strDirectorySlashArray(intUNIX))  
+       
+'---------- Search for a slash 
+If (intSlashLocation > 0) Then    
+  '// ----------- Unix Operating System
+  DbgTrace " ----------- Unix Operating System",0
+  intOS = intUNIX
+Else
+  '// ----------- NT Operating System
+  DbgTrace " ----------- NT Operating System",0
+  intOS = intNT
+End If
+
+End Sub '///////////////////////////////////////////////////////////// DbgTrace
+
+
+'------------------------------------------------------------------------------
+Sub GetReportFile ()
+'------------------------------------------------------------------------------
+  Dim strCATTempPath As String
+
+  Dim ApplIfileSys      As Object
+  Set ApplIfileSys = CATIA.FileSystem 
+
+  '// Find a temp directory to place the output file
+  strCATTempPath    = CATIA.SystemService.Environ("CATTemp") 
+  DbgTrace "CATTemp path = " & strCATTempPath ,0
+
+
+  CheckOS
+
+  strOutputHTMLFile = strCATTempPath + strDirectorySlashArray(intOS) +"PartsListReport.html"
+
+    '---------- InputBox returns the string when user press the Enter/OK key
+	'---------- and returns null string when user press Cancel
+    strOutputHTMLFile = InputBox(strGInputPanelPrompt2, strGInputPanelTitle, strOutputHTMLFile)
+
+    If ( Len (strOutputHTMLFile) = 0) Then
+      intGCancel2 = 1
+    End If
+
+  '---------- No need to display error message, the above loop will not
+  '---------- be exited until a valid template is found or Cancel is selected
+  If ( intGCancel = 0 And AppliFileSys.FileExists(strOutputHTMLFile)) Then
+     Dim strMessage
+	 Dim nBtn
+
+     strMessage  = "Report File: " + strOutputHTMLFile + " exists, Overwrite?"
+	 ' Yes/No button = 4, vBQuestion 32
+     nBtn = MsgBox(strMessage,36,strGInputPanelTitle)
+	 If ( nBtn = 7 ) Then
+	   intGCancel2 = 1
+	 End If
+     Exit Sub
+  End If
+
+
+End Sub '/////////////////////////////////////////////// 
+
+
+
+'------------------------------------------------------------------------------
+Sub InitParamName ()
+'------------------------------------------------------------------------------
+  arrayStrGParamName (1) = "CATRouPartNumber"
+  arrayStrGParamColumnTitleName(1) = "Part Number"
+  arrayStrGParamName (2) = "NominalSize"
+  arrayStrGParamColumnTitleName(2) = "Nominal Size"
+  arrayStrGParamName (3) = "Material"
+  arrayStrGParamColumnTitleName(3) = " Material "
+  arrayStrGParamName (4) = "EndStyle"
+  arrayStrGParamColumnTitleName(4) = " End Style "
+  arrayStrGParamName (5) = "Rating"
+  arrayStrGParamColumnTitleName(5) = " Rating "
+
+End Sub '////////////////////////////////////////////////////// InitParamFilter
+
+
+
+Sub DbgTrace (iStrMsgString, iIntYesError)
+'------------------------------------------------------------------------------
+If (intG_TRACEON = 1) Then
+  CATIA.SystemService.Print iStrMsgString 
+  If (iIntYesError = 1) Then 
+	   CATIA.SystemService.Print "Err Number = " & Err.Number
+	End If
+End If
+
+End Sub '///////////////////////////////////////////////////////////// DbgTrace
+
+'------------------------------------------------------------------------------
+Sub StartCATIAV5 ()
+'------------------------------------------------------------------------------
+  Set objCATIAV5Document0 = CATIA.ActiveDocument
+  DbgTrace "V5: Active Document",1
+
+  '//---------- Get Arrworkbench from current document
+  Set objCATIAV5ArrWorkbench0 = objCATIAV5Document0.GetWorkbench("ArrWorkbench") 
+  DbgTrace "V5: GetWorkbench0",1
+
+  '//---------- Get current selection
+  Set objCATIAV5Selection = objCATIAV5Document0.Selection
+  DbgTrace "V5: Selection",1
+
+End Sub '///////////////////////////////////////////////////////// StartCATIAV5
+
+
+'------------------------------------------------------------------------------
+Sub WriteToEXCELParamList (iIntRow As integer, iStrColumn As String, _ 
+    iStr As String ,iBold As Integer, iLargeSize As Integer, iFill As Integer)
+'------------------------------------------------------------------------------
+  On Error Resume Next
+
+  If (Len (iStr) > 0) Then
+    Dim intWhichColumn As integer
+    intWhichColumn = 0
+
+    Select Case iStrColumn
+       Case strGReportTitlePartNumber
+	          intWhichColumn = intGReportStartAfterCol + 1
+	     Case strGReportTitleInstanceName
+	   	      intWhichColumn = intGReportStartAfterCol + 2
+	     Case strGReportTitleNomenclature
+	          intWhichColumn = intGReportStartAfterCol + 3
+    End Select
+
+    If (intWhichColumn = 0) Then
+       Dim NotTheSame As Integer
+       Dim intK As Integer
+       NotTheSame = 0
+       For intK = 1 to intGNBParamName
+          '----------  NotTheSame = 0 means same string
+          NotTheSame = StrComp (arrayStrGParamName(intK), iStrColumn, 0)
+          If (NotTheSame = 0) Then
+				     intWhichColumn = intGReportStartAfterCol + intK _
+					                    + intGNBProductIDReservedCol
+             Exit For
+				  End If
+       Next '// For intK
+	  End If
+
+    If (intWhichColumn > intGReportStartAfterCol) Then
+
+       Dim strCellContents As String
+       strCellContents = ""
+       If (iBold > 0) Then
+
+       Else
+
+       End If
+       If (iLargeSize > 0) Then
+
+       Else
+
+       End If
+
+        strCellContents = strCellContents + iStr
+        strDummyExcelRow(intWhichColumn) = strCellContents
+
+       If (iFill > 0) Then
+
+       Else
+
+       End If
+
+    End If
+
+  End If
+
+End Sub '////////////////////////////////////////////////////// WriteToEXCELParamList
+
+
+'------------------------------------------------------------------------------
+Sub WriteColumnHeadings()
+'------------------------------------------------------------------------------
+
+  '// Write out default Titles
+  WriteToEXCELParamList intGReportCurrentRow, strGReportTitlePartNumber, _
+                        strGReportTitlePartNumber,1,1,1
+  WriteToEXCELParamList intGReportCurrentRow, strGReportTitleInstanceName, _
+                        strGReportTitleInstanceName, 1,1,1
+  WriteToEXCELParamList intGReportCurrentRow, strGReportTitleNomenclature, _
+                        strGReportTitleNomenclature, 1,1,1
+
+  '// Write out the Custom Titles for the Custom parameters
+
+  Dim intCustomColIndex As integer
+  For intCustomColIndex = 1 to intGNBParamName
+   WriteToEXCELParamList intGReportCurrentRow, Cstr(arrayStrGParamName(intCustomColIndex)), _ 
+                          Cstr(arrayStrGParamColumnTitleName(intCustomColIndex)),1,1,1
+  Next '// Cycle through custom title headings
+
+End Sub '//////////////////////////////////////////////////////WriteColumnHeadings
+
+
+'@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+'------------------------------------------------------------------------------
+'******************************************************************************
+Sub OpenFileSystem()
+'******************************************************************************
+
+   Set objCATIAV5FileSystem = CATIA.FileSystem
+   Set objCATIAV5File       = objCATIAV5FileSystem.CreateFile(strOutputHTMLFile, True) 
+   Set objCATIAV5TextStream = objCATIAV5File.OpenAsTextStream("ForWriting")
+
+End Sub '///////////////////////////////////////////////////////// OpenFileSystem
+
+'******************************************************************************
+Sub CloseFileSystem()
+'******************************************************************************
+
+     objCATIAV5TextStream.Close
+
+End Sub '///////////////////////////////////////////////////////// CloseFileSystem
+
+
+'******************************************************************************
+Sub WriteDummyExcelRow(iString As String)
+'******************************************************************************
+
+   Dim strTextContents As String
+ 
+   DbgTrace "##############################" , 1
+   strTextContents = iString + Chr(10)   
+   DbgTrace "String Contents: " & strTextContents, 1
+   DbgTrace "##############################" , 1
+   'MsgBox strTextContents
+
+   objCATIAV5TextStream.Write(strTextContents)
+
+End Sub '///////////////////////////////////////////////////////// WriteDummyExcelRow
+
+
+
+'------------------------------------------------------------------------------------
+Sub InsertARowAt (iIntRow As Integer)
+'------------------------------------------------------------------------------------
+
+  Dim strTextData As String
+  Dim i As Integer
+  strTextData = "<TR>"
+  For i = 1 To NumOfDummyExcelColumns
+
+    if(Len(Cstr(strDummyExcelRow(i))) > 0) then
+      strTextData = strTextData + "<TD font color=#800000><B> " + Cstr(strDummyExcelRow(i)) + " </B></TD>"
+    else
+      strTextData = strTextData + "<TD> " + "&nbsp;" + "</TD>"
+    end if
+
+  Next
+  strTextData = strTextData + "</TR>"
+ 
+  WriteDummyExcelRow strTextData
+
+  '// Reset all the DummyRow Data
+
+  For i = 1 To NumOfDummyExcelColumns
+      strDummyExcelRow(i) = ""
+  Next
+
+End Sub '////////////////////////////////////////////////////// InsertARowAt
+'------------------------------------------------------------------------------------
+Sub DoOneProductParam (iobjCATIAV5Product As Product)
+'------------------------------------------------------------------------------------
+  Dim objCATIAV5Parameters As Parameters 
+  Dim objCATIAV5Param      As Parameter 
+  Dim intNBParameters      As integer
+
+  On Error Resume Next
+  If (iobjCATIAV5Product Is Nothing) Then
+   Exit Sub
+  End If
+
+  'MsgBox "Processing Part:" & Cstr(iobjCATIAV5Product.PartNumber)
+  'MsgBox "Processing Part:" & Cstr(iobjCATIAV5Product.Name)
+
+  WriteToEXCELParamList intGReportCurrentRow, strGReportTitlePartNumber, _
+                        Cstr(iobjCATIAV5Product.PartNumber),0,0,0
+  WriteToEXCELParamList intGReportCurrentRow, strGReportTitleInstanceName, _
+                        Cstr(iobjCATIAV5Product.Name), 0,0,0
+  WriteToEXCELParamList intGReportCurrentRow, strGReportTitleNomenclature, _
+                        Cstr(iobjCATIAV5Product.Nomenclature), 0,0,0
+
+  'MsgBox "Fetching Parameters"
+  Set objCATIAV5Parameters = Nothing
+  Set objCATIAV5Parameters = iobjCATIAV5Product.Parameters
+  'DbgTrace "V5: Parameters",1
+  'MsgBox "Fetched Parameters"
+
+  intNBParameters = objCATIAV5Parameters.Count
+  DbgTrace "V5: NB of Parameters = " & intNBParameters,1
+  'MsgBox  "V5: NB of Parameters = " & intNBParameters
+
+  If (intNBParameters > 0) Then
+     Dim intK As integer
+     For intK = 1 to intGNBParamName
+      Err.Clear '//Clear Error Stack
+      Dim strParamSearchWord 
+      strParamSearchWord  = arrayStrGParamName(intK)
+      'DbgTrace "Searching For Parameter: " & strParamSearchWord, 1
+
+      Set objCATIAV5Param = objCATIAV5Parameters.Item (strParamSearchWord)
+      If(Not(Err.Number <> 0)) Then
+        If (Not (objCATIAV5Param Is Nothing) ) Then
+           Dim strParamValue As String
+           strParamValue = objCATIAV5Param.ValueAsString
+
+           'DbgTrace "Parameter Value As String:" & strParamValue, 1
+           If(Len(strParamValue) > 0) Then
+             If(StrComp(strParamValue, "None", 0))  Then       
+                WriteToEXCELParamList intGReportCurrentRow, _
+	          Cstr(arrayStrGParamName(intK)), strParamValue, _
+                   0,0,0          
+             End If
+           End If
+        End If      
+      Else 
+        Err.Clear '//Clear Error Stack
+      End If
+      Set objCATIAV5Param = Nothing      
+     Next '// For intK
+	End If
+     Set objCATIAV5Parameters = Nothing
+     Set objCATIAV5Param      = Nothing
+
+End Sub '////////////////////////////////////////////////////////// DoOneProductParam
+
+'====================================================================================
+Sub CATMain ()
+'====================================================================================
+
+StartCATIAV5
+
+InitParamName 
+
+Dim objCATIAV5Product  As Product 
+Dim objCATIAV5Products As Products 
+Dim objSelectedProduct As Product 
+Dim intNBInSelection   As integer
+Dim intSubProdIndex    As integer
+Dim strUserMsg         As String
+Dim idFilter(1)   
+Dim intDebug          As Integer   
+Dim objAsArrangementProd As ArrangementProduct 
+
+intNBInSelection = 0
+intDebug         = 0
+intGReportCurrentRow = 0
+intGReportCurrentRow = intGReportStartAfterRow + intGNBParamNameReservedRow 
+
+
+On Error Resume Next
+
+GetReportFile
+
+OpenFileSystem
+
+WriteDummyExcelRow "<HTML><TITLE>Parts List</TITLE><BODY><TABLE BORDER=1 bgcolor=#FFFF66 font color=#800000>"
+
+WriteColumnHeadings
+
+Err.Clear
+'//----------------------------------------------------------------------
+'// Make sure that the user picks a product from the spec tree first.
+'//----------------------------------------------------------------------
+Set objSelectedProduct  = objCATIAV5Selection.FindObject("CATIAProduct")
+DbgTrace "FindObject", 1
+
+if (Err.Number <> 0) Then 
+   Set objSelectedProduct = Nothing
+   MsgBox "Object not Found"
+Else 
+  Do Until ( objSelectedProduct Is Nothing )
+ 
+   '//-------------------------------------------------------------------
+   '// once you get a handle on the product, make sure that the object
+   '// selected is actually an Arrangement SystemLine Product
+   '//--------------------------------------------------------------------
+   Set objAsArrangementProd = Nothing
+   Set objAsArrangementProd = objCATIAV5ArrWorkbench0.ConvertProductToArrangementProduct(objSelectedProduct)
+   if ( objAsArrangementProd Is Nothing) Then
+       'MsgBox "Selected Object Not a Logical Line, Distribution System"
+   Else 
+    If ((StrComp(Cstr(objAsArrangementProd.Type), "ArrangementLogicalLine") = 0) Or _
+        (StrComp(Cstr(objAsArrangementProd.Type), "ArrangementDistributionSystem") = 0) Or _
+        (StrComp(Cstr(objAsArrangementProd.Type), "ArrangementPathwaySystem") = 0)) Then
+       'MsgBox Cstr(objAsArrangementProd.Type)
+       Dim intNumOfSubProducts As integer
+       Set objCATIAV5Products = objSelectedProduct.Products
+       intNumOfSubProducts = objCATIAV5Products.Count       
+       'MsgBox "Num of objects found:" & intNumOfSubProducts
+       If (intNumOfSubProducts > 0) Then  
+         For intSubProdIndex =1 to intNumOfSubProducts   
+           Set objCATIAV5Product = Nothing  
+           Set objCATIAV5Product = objCATIAV5Products.Item(intSubProdIndex)
+           If(objCATIAV5Product Is Nothing ) Then
+               DbgTrace "Cannot Find GetSubItem object#" & intSubProdIndex, 1
+           Else
+               DbgTrace "FOUND GetSubItem object#" & intSubProdIndex, 1
+               intNBInSelection = intNBInSelection + 1
+               '//-------------------------------------------------------
+               '//        Get Parameter List for this product
+               '//-------------------------------------------------------
+	             InsertARowAt (intGReportCurrentRow)               
+               DoOneProductParam  objCATIAV5Product
+               intGReportCurrentRow = intGReportCurrentRow + 1
+               Set objCATIAV5Product = Nothing
+           End If                 
+         Next  '// End Do ...each FindObject
+       End if
+     End if
+   End if
+   Set objSelectedProduct   = objCATIAV5Selection.FindObject("CATIAProduct")
+   If (Err.Number <> 0) Then 
+     Set objSelectedProduct = Nothing
+     Exit Do
+   End If
+  Loop  '// End Do ...each FindObject
+End if
+
+WriteDummyExcelRow "</TABLE></BODY></HTML>"
+
+CloseFileSystem
+
+DbgTrace "total number of Product in selection = " & intNBInSelection, 0 
+If(intNBInSelection > 0) then
+  strUserMsg = "Parts List Report written to: " + strOutputHTMLFile
+  MsgBox strUserMsg
+Else
+  strUserMsg = "Unable to generate Parts List Report."
+  MsgBox strUserMsg
+End If
+
+End Sub '/////////////////////////////////////////////////////////// CATMain

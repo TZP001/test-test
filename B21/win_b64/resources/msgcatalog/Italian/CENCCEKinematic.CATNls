@@ -1,0 +1,318 @@
+// =====================================================================
+// CCE kinematic NLS-File Number range x16000..x16999
+//
+// $Revision: 1.40 $
+// $Date: 2010/04/16 10:23:57CEST $
+//
+// Syntax:
+//   <ModuleId>_<MsgId>.<Key> = "Text";
+//   where 
+//     ModuleId: Text   - for classification (internally not used yet)
+//     MsgId   : Number - Messagenumber (first digit is severity)
+//     Key     : Text   - "iSev" -> Severity
+//                        "sMsg" -> Short Message Text (not used yet)
+//                        "lMsg" -> Long Message Text
+//
+// Limitations:
+//    # max. nb. of parameters supported: /P1 .. /P25
+//    # max. nb. of lMsg-lines: 10
+//    # Key iSev has to be before lMsg 
+//
+// =====================================================================
+
+// ------------------------------------------------------------------
+// Information messages
+// ------------------------------------------------------------------
+
+//CCE_IM116000.iSev = "1";
+//CCE_IM116000.sMsg = "Info";
+//CCE_IM116000.lMsg = "Application Information - Param: /P1";
+
+CCE_IM116001.iSev="1";
+CCE_IM116001.sMsg="Informazioni";
+CCE_IM116001.lMsg="Per il calcolo di tutti gli assi (/P1) sarà utilizzata la forma di calcolo lin.+rot.-axis.";
+
+CCE_IM116002.iSev="1";
+CCE_IM116002.sMsg="Informazioni";
+CCE_IM116002.lMsg="L'utensile corrente '/P1' ha più di una compensazione utensile /P2.";
+
+CCE_IM116003.iSev="1";
+CCE_IM116003.sMsg="Informazioni";
+CCE_IM116003.lMsg="È stato selezionato l'ID di compensazione '/P1'.";
+
+// ------------------------------------------------------------------
+// Warning messages
+// ------------------------------------------------------------------
+
+//CCE_WM316000.iSev = "3";
+//CCE_WM316000.sMsg = "Warn";
+//CCE_WM316000.lMsg = "Application Warning - Param: /P1";
+
+CCE_EM316001.iSev="3";
+CCE_EM316001.sMsg="Avvertenza";
+CCE_EM316001.lMsg="Il valore di impostazione '/P1' non è compreso nell'intervallo [/P2 ... /P3] dell'asse '/P4'.";
+
+CCE_EM316002.iSev="4";
+CCE_EM316002.sMsg="Avvertenza";
+CCE_EM316002.lMsg="Esiste più di un elemento '/P1' trovato durante la lettura del file di F della macchina. Il primo elemento verrà accettato.";
+
+CCE_EM316003.iSev="4";
+CCE_EM316003.sMsg="Avvertenza";
+CCE_EM316003.lMsg="Impossibile trovare una compensazione utensile /P1 per l'utensile corrente '/P2'.";
+
+CCE_EM316004.iSev="4";
+CCE_EM316004.sMsg="Avvertenza";
+CCE_EM316004.lMsg="Il valore dell'impostazione/P1 = /P2 durante l'ottimizzazione '/P3'.";
+
+// ------------------------------------------------------------------
+// Error messages
+// ------------------------------------------------------------------
+
+//CCE_EM416000.iSev = "4";
+//CCE_EM416000.sMsg = "Err";
+//CCE_EM416000.lMsg = "Application Error - Param1: /P1";
+
+CCE_EM416001.iSev="4";
+CCE_EM416001.sMsg="Err";
+CCE_EM416001.lMsg="L'elemento di concatenamento di tipo '/P1' è sconosciuto. Verificare la descrizione della macchina.";
+
+CCE_EM416002.iSev="4";
+CCE_EM416002.sMsg="Err";
+CCE_EM416002.lMsg="Impossibile trovare l'attributo '/P1' dell'elemento 'Elemento' di tipo '/P2' leggendo il file di descrizione della macchina.";
+
+CCE_EM416003.iSev="4";
+CCE_EM416003.sMsg="Err";
+CCE_EM416003.lMsg="Impossibile leggere l'attributo '/P1' dell'elemento 'Elemento' di tipo '/P2' leggendo il file di descrizione della macchina.";
+
+CCE_EM416004.iSev="4";
+CCE_EM416004.sMsg="Err";
+CCE_EM416004.lMsg="Impossibile trovare l'elemento '/P1' dell'elemento 'Elemento' di tipo '/P2' leggendo il file di descrizione della macchina.";
+
+CCE_EM416005.iSev="4";
+CCE_EM416005.sMsg="Err";
+CCE_EM416005.lMsg="Il giunto di concatenamento di tipo '/P1' è sconosciuto. Verificare la descrizione della macchina.";
+
+CCE_EM416006.iSev="4";
+CCE_EM416006.sMsg="Err";
+CCE_EM416006.lMsg="Il numero di giunti successivi dell'elemento '/P1' è inferiore a 2. Verificare la descrizione della macchina.";
+
+CCE_EM416007.iSev="4";
+CCE_EM416007.sMsg="Err";
+CCE_EM416007.lMsg="Il giunto successivo dell'elemento INERT '/P1' non è valido (NULL). Verificare la descrizione della macchina.";
+
+CCE_EM416008.iSev="4";
+CCE_EM416008.sMsg="Err";
+CCE_EM416008.lMsg="Il giunto precedente '/P1' è valido (NOT NULL). Verificare la descrizione della macchina.";
+
+CCE_EM416009.iSev="4";
+CCE_EM416009.sMsg="Err";
+CCE_EM416009.lMsg="Il numero di giunti successivi '/P1' non è 0. Verificare la descrizione della macchina.";
+
+CCE_EM416010.iSev="4";
+CCE_EM416010.sMsg="Err";
+CCE_EM416010.lMsg="Il giunto successivo dell'elemento '/P1' '/P2' è valido (NOT NULL). Verificare la descrizione della macchina.";
+
+CCE_EM416011.iSev="4";
+CCE_EM416011.sMsg="Err";
+CCE_EM416011.lMsg="Il giunto precedente '/P1' non è valido (NULL). Verificare la descrizione della macchina.";
+
+CCE_EM416012.iSev="4";
+CCE_EM416012.sMsg="Err";
+CCE_EM416012.lMsg="Il numero di giunti successivi dell'elemento '/P1' è 0. Verificare la descrizione della macchina.";
+
+CCE_EM416013.iSev="4";
+CCE_EM416013.sMsg="Err";
+CCE_EM416013.lMsg="Il giunto successivo dell'elemento BODY '/P1' non è valido (NULL). Verificare la descrizione della macchina.";
+
+CCE_EM416014.iSev="4";
+CCE_EM416014.sMsg="Err";
+CCE_EM416014.lMsg="Il giunto precedente l'elemento '/P1' '/P1' non è valido (NULL). Verificare la descrizione della macchina.";
+
+CCE_EM416015.iSev="4";
+CCE_EM416015.sMsg="Err";
+CCE_EM416015.lMsg="Alcuni elementi precedenti del giunto non sono validi (NULL). Verificare la descrizione della macchina.";
+
+CCE_EM416016.iSev="4";
+CCE_EM416016.sMsg="Err";
+CCE_EM416016.lMsg="Alcuni elementi successivi del giunto non sono validi (NULL). Verificare la descrizione della macchina.";
+
+CCE_EM416017.iSev="4";
+CCE_EM416017.sMsg="Err";
+CCE_EM416017.lMsg="Impossibile /P1 l'attributo '/P2' dell'elemento '/P3' leggendo il file di descrizione della macchina.";
+
+CCE_EM416018.iSev="4";
+CCE_EM416018.sMsg="Err";
+CCE_EM416018.lMsg="Impossibile /P1 l'elemento figlio '/P2' dell'elemento '/P3' leggendo il file di descrizione della macchina.";
+
+CCE_EM416019.iSev="4";
+CCE_EM416019.sMsg="Err";
+CCE_EM416019.lMsg="Impossibile trovare elementi figli dell'elemento '/P1' leggendo il file di descrizione della macchina.";
+
+CCE_EM416020.iSev="4";
+CCE_EM416020.sMsg="Err";
+CCE_EM416020.lMsg="Impossibile trovare l'attributo '/P1' dell'elemento 'Giunto' di tipo '/P2' leggendo il file di descrizione della macchina.";
+
+CCE_EM416021.iSev="4";
+CCE_EM416021.sMsg="Err";
+CCE_EM416021.lMsg="Impossibile leggere l'attributo '/P1' dell'elemento 'Giunto' di tipo '/P2' leggendo il file di descrizione della macchina.";
+
+CCE_EM416022.iSev="4";
+CCE_EM416022.sMsg="Err";
+CCE_EM416022.lMsg="Impossibile trovare l'attributo '/P1' dell'elemento '/P2' di un giunto leggendo il file di descrizione della macchina.";
+
+CCE_EM416023.iSev="4";
+CCE_EM416023.sMsg="Err";
+CCE_EM416023.lMsg="Impossibile trovare l'elemento '/P1' di tipo '/P2' leggendo il file di descrizione della macchina.";
+
+CCE_EM416024.iSev="4";
+CCE_EM416024.sMsg="Err";
+CCE_EM416024.lMsg="Impossibile trovare l'attributo '/P1' dell'elemento '/P2' di tipo '/P3'-'/P4' leggendo il file di descrizione della macchina.";
+
+CCE_EM416025.iSev="4";
+CCE_EM416025.sMsg="Err";
+CCE_EM416025.lMsg="Impossibile leggere l'attributo '/P1' dell'elemento '/P2' di tipo '/P3'-'/P4' leggendo il file di descrizione della macchina.";
+
+CCE_EM416026.iSev="4";
+CCE_EM416026.sMsg="Err";
+CCE_EM416026.lMsg="Impossibile trovare l'attributo '/P1' dell'elemento '/P2' denominato '/P3' leggendo il file di descrizione della macchina.";
+
+CCE_EM416027.iSev="4";
+CCE_EM416027.sMsg="Err";
+CCE_EM416027.lMsg="Impossibile trovare l'elemento '/P1' di '/P2'-'/P3' leggendo il file di descrizione della macchina.";
+
+CCE_EM416028.iSev="4";
+CCE_EM416028.sMsg="Err";
+CCE_EM416028.lMsg="Impossibile trovare l'elemento '/P1' dell'elemento '/P2' denominato '/P3' leggendo il file di descrizione della macchina.";
+
+CCE_EM416030.iSev="4";
+CCE_EM416030.sMsg="Err";
+CCE_EM416030.lMsg="La descrizione della macchina non è corretta. La cornice del body di nome '/P1' è diversa dalla cornice del body precedente (o un altro elemento di concatenamento) di nome '/P2'.";
+
+CCE_EM416031.iSev="4";
+CCE_EM416031.sMsg="Err";
+CCE_EM416031.lMsg="Impossibile trovare la compensazione della lunghezza utensile con ID = /P1 per l'utensile '/P2'.";
+
+CCE_EM416032.iSev="4";
+CCE_EM416032.sMsg="Err";
+CCE_EM416032.lMsg="Impossibile trovare la compensazione del raggio utensile con ID = /P1 per l'utensile '/P2'.";
+
+CCE_EM416033.iSev="4";
+CCE_EM416033.sMsg="Err";
+CCE_EM416033.lMsg="Numero non corretto di elementi 'Asse' in un elemento '???PosList' (N = /P1, deve essere/P2).";
+
+CCE_EM416034.iSev="4";
+CCE_EM416034.sMsg="Err";
+CCE_EM416034.lMsg="Impossibile trovare l'elemento '/P1' dell'elemento 'ElencoOrigine' di tipo '/P2' leggendo il file di descrizione della macchina.";
+
+CCE_EM416035.iSev="4";
+CCE_EM416035.sMsg="Err";
+CCE_EM416035.lMsg="Impossibile trovare l'utensile denominato '/P1' nell'elenco di utensili. /P2";
+
+CCE_EM416036.iSev="4";
+CCE_EM416036.sMsg="Err";
+CCE_EM416036.lMsg="Impossibile trovare un'origine con il nome '/P1' e l'ID di gruppo = /P2 nell'elenco origini.";
+
+CCE_EM416037.iSev="4";
+CCE_EM416037.sMsg="Err";
+CCE_EM416037.lMsg="Impossibile leggere '/P1' di uno degli elementi leggendo il file di descrizione della macchina.";
+
+CCE_EM416038.iSev="4";
+CCE_EM416038.sMsg="Err";
+CCE_EM416038.lMsg="Impossibile trovare l'elemento '/P1' di '/P2'-'/P3' di '/P4' leggendo il file di descrizione della macchina.";
+
+CCE_EM416039.iSev="4";
+CCE_EM416039.sMsg="Err";
+CCE_EM416039.lMsg="Impossibile trovare il giunto di concatenamento di id = /P1. Controllare il file di descrizione della macchina. ";
+
+CCE_EM416040.iSev="4";
+CCE_EM416040.sMsg="Err";
+CCE_EM416040.lMsg="Problema di convalida: il numero di elementi in una istanza 'dati asse' (n=/P1) non è corretto(il numero di elementi nell'ordine asse' n=/P2).";
+
+CCE_EM416041.iSev="4";
+CCE_EM416041.sMsg="Err";
+CCE_EM416041.lMsg="Impossibile definire un 'asse libero' del giunto di concatenamento di tipo '/P1' dell'id = '/P2'. Deve essere 'X', 'Y' o 'Z'.";
+
+CCE_EM416042.iSev="4";
+CCE_EM416042.sMsg="Err";
+CCE_EM416042.lMsg="Impossibile elaborare il valore di impostazione /P1 = /P2 per l'ottimizzazione '/P3'. Intervallo consentito:  /P4.../P5.";
+
+CCE_EM416043.iSev="4";
+CCE_EM416043.sMsg="Err";
+CCE_EM416043.lMsg="Impossibile convalidare i valori limite dell'asse '/P1' (min=/P2, max=/P3) leggendo il file di descrizione della macchina.";
+
+CCE_EM416044.iSev="4";
+CCE_EM416044.sMsg="Err";
+CCE_EM416044.lMsg="Impossibile modificare il valore dell'asse bloccato 'P1'.";
+
+CCE_EM416045.iSev="4";
+CCE_EM416045.sMsg="Err";
+CCE_EM416045.lMsg="Impossibile ottenere un parametro kin con ID = /P1.";
+
+CCE_EM416046.iSev="4";
+CCE_EM416046.sMsg="Err";
+CCE_EM416046.lMsg="Il parametro kin di recupero con ID= /P1 non è /P2.";
+
+CCE_EM416047.iSev="4";
+CCE_EM416047.sMsg="Err";
+CCE_EM416047.lMsg="Il parametro kin di recupero con ID = /P1 non è di tipo '/P2'.";
+
+CCE_EM416048.iSev="4";
+CCE_EM416048.sMsg="Err";
+CCE_EM416048.lMsg="Impossibile trovare l'asse '/P1' nell'unità corrente.";
+
+CCE_EM416049.iSev="4";
+CCE_EM416049.sMsg="Err";
+CCE_EM416049.lMsg="L'utilizzo simultaneo dei parametri /P1 non è consentito per l'asse '/P2'.";
+
+CCE_EM416050.iSev="4";
+CCE_EM416050.sMsg="Err";
+CCE_EM416050.lMsg="Impossibile recuperare le informazioni utente. Non è stato ancora impostato un utensile.";
+
+CCE_EM416051.iSev="4";
+CCE_EM416051.sMsg="Err";
+CCE_EM416051.lMsg="Il primo e il secondo asse di rotazione sono contrassegnati come 'abilitati per il parametro SEQ'. Controllare 'MCE_SECTION' of PP.";
+
+CCE_EM416052.iSev="4";
+CCE_EM416052.sMsg="Err";
+CCE_EM416052.lMsg="Impossibile trovare una soluzione per l'asse '/P1' per parametro '/P2'. Controllare il parametro SEQ o i limiti dell'asse.";
+
+CCE_EM416053.iSev="4";
+CCE_EM416053.sMsg="Err";
+CCE_EM416053.lMsg="Entrambe le soluzioni per l'asse '/P1' sono '/P2' e non sono applicabili a causa del parametro di impostazione '/P3'.";
+
+CCE_EM416054.iSev="4";
+CCE_EM416054.sMsg="Err";
+CCE_EM416054.lMsg="Lo stato richiesto del vettore utensile /P1 non può essere raggiunto dalla macchina per lo stato corrente dell'asse speciale '/P2' = /P3.";
+
+CCE_EM416055.iSev="4";
+CCE_EM416055.sMsg="Err";
+CCE_EM416055.lMsg="Lo stato richiesto del vettore utensile /P1 non può essere raggiunto dalla macchina.";
+
+CCE_EM416056.iSev="4";
+CCE_EM416056.sMsg="Err";
+CCE_EM416056.lMsg="Il vettore con velocità di movimento /P1 e il vettore del normale orientamento /P2 dell'asse /P3 non sono ortogonali nella descrizione della macchina.";
+
+CCE_EM416057.iSev="4";
+CCE_EM416057.sMsg="Err";
+CCE_EM416057.lMsg="L'asse con velocità di movimento dell'asse di orientamento '/P1' non è un asse 'Z' nella descrizione della macchina. Questo non è supportato.";
+
+CCE_EM416058.iSev="4";
+CCE_EM416058.sMsg="Err";
+CCE_EM416058.lMsg="L'utensile con il numero di utensile /P1 e /P2 il numero di registro /P3 sono già presenti nell'elenco utensili. Questo determina risultati non prevedibili nella simulazione ISO. Modificare il numero dell'utensile o eliminare le risorse non utilizzate.";
+
+CCE_EM416059.iSev="4";
+CCE_EM416059.sMsg="Err";
+CCE_EM416059.lMsg="Impossibile riposizionare un valore della compensazione dell'utensile /P1: nessun registro di compensazione attivo";
+
+
+
+
+//CCE_EM516000.iSev = "5";
+//CCE_EM516000.sMsg = "Err";
+//CCE_EM516000.lMsg = "Application Error - Param1: /P1";
+
+
+// =====================================================================
+// End of CCE utility NLS-File
+// =====================================================================
+//

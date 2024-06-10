@@ -1,0 +1,763 @@
+Option Explicit
+'-----------------------------------------------------------------------------
+' Script highlighting the document in the CATIA session if the object 
+' selected in the SmarTeam Window is open in the CATIA session.
+'
+'     Script Requires:  SmarTeam Record List Library
+'						CATIA V5 Document Interfaces Object Library
+'
+'     Author: Dassault-Systemes
+'
+'     Notes: If used in Part Number mode, please read the comment
+'			 line 645. Thanks.
+'
+' (C) Copyright Dassault Systemes 2001   All Rights Reserved
+'-----------------------------------------------------------------------------
+
+' ----------------------------------------------------------------------------
+' GLOBAL VARIABLES
+' ----------------------------------------------------------------------------
+' These variables can be used anywhere in this script.
+' All the corresponding values are set at the beginning of the script
+' and won't be modified during the process of the script.
+' ----------------------------------------------------------------------------
+'
+' The running CATIA session.
+'
+Dim CATIA As Object
+'
+' The File Name of the document selected in the SmarTeam Window.
+'
+Dim FileNamePDM As String
+'
+' The Additional Identifier of the selected document.
+'
+Dim AdditionalIdentifier As String
+'
+' The Attribute Name for the additional identifier.
+' It is valuated if you are in Expose Mode.
+' If not equal "".
+'
+Dim AttributeNameForAdditionalIdentifier As String 
+'
+' SMARTEAM FileCatalog
+'
+Dim FileCatalog As Object 'ISmFileCatalog
+
+' ----------------------------------------------------------------------------
+
+Sub ShowSmMessage(SmSession As ISmSession, MessageCode As Integer, MessageType As Integer, Params As ISmStrings)
+	Dim GUIServices As ISmGUIServices
+	Dim SmButtons As Object
+	Dim MESSCOMMON
+
+	MESSCOMMON = 1
+
+	Set SmButtons = SmSession.NewVariantList()
+	SmButtons.Value("0") = tmbOk
+	Set GUIServices = SmSession.GetService("SmGUISrv.SmGUIServices")
+
+	Dim Result
+	Result = GUIServices.GUIStore.DisplayMessage(MESSCOMMON, MessageCode, MessageType, 0, SmButtons, Params)	
+End Sub
+
+Sub ShowSmErrorMessage(SmSession As ISmSession, MessageCode As Integer)
+	Dim Param As ISMStrings 
+	Set Param = Nothing
+	ShowSmMessage SmSession, MessageCode, 2, Param
+End Sub
+
+Sub ShowSmWorningMessage(SmSession As ISmSession, MessageCode As Integer)
+	Dim Param As ISMStrings 
+	Set Param = Nothing
+	ShowSmMessage SmSession, MessageCode, 1, Param
+End Sub
+
+'-----------------------------------------------------------------------------
+' Return the current CATIA active document
+' Return Nothing in case there are no current document (this situation can
+' occur if File/Desk is currently activated)
+'-----------------------------------------------------------------------------
+Function GetCATIAActiveDocument() As Object
+	Dim activeDocument
+	
+	On Error GoTo Nodoc
+	Set activeDocument = CATIA.ActiveDocument
+	GoTo Done
+	Nodoc:
+		Set activeDocument = Nothing
+	Done:
+	Set GetCATIAActiveDocument = activeDocument
+End Function
+
+'-----------------------------------------------------------------------------
+' Get File Extension
+'	This function retrieves the Extension of a File Name.
+'	If the document has not dot, we retrieve "".
+'	If the document has two dots or more we retrieve the Extension
+'	from the last one.
+' eg : MyExcel.xls1.xls2 => The Extension = xls2
+'
+' In : FileName As String = Given File Name
+' Output : the Extension of the given File Name  
+'-----------------------------------------------------------------------------
+Function GetFileExtension(FileName As String) As String
+	'Declaration of variables.
+  	Dim i As Integer
+  	Dim DotPos As Integer
+
+  	GetFileExtension = FileName
+  	DotPos = 0
+  	'Retrieve after the last "." .
+  	For i = Len(FileName) To 1 Step -1
+    	If (Mid(FileName,i,1) = ".") Then
+      		DotPos = i
+	  		Print "DotPos = " + cstr(DotPos)
+	  		Exit For
+    	End If
+  	Next i
+  	If (DotPos <> 0) Then
+    	GetFileExtension = Mid(FileName, DotPos+1, Len(FileName)-DotPos)
+		Print "GetFileExtension = " + Mid(FileName, DotPos+1, Len(FileName)-DotPos)
+  	Else
+		GetFileExtension = ""
+  	End If
+End Function
+
+'-----------------------------------------------------------------------------
+' Get Short Name
+'	Given a full path, returns the filename only
+' eg : E:\HOME\me\TOTO.CATPart --> TOTO.CATPart
+'
+' In: Full path of a file
+' Output : filename
+'-----------------------------------------------------------------------------
+Function GetShortName(FullPath As String) As String
+
+	GetShortName = ""
+	If inStr(FullPath,"\") <> 0 Then
+		GetShortName = FileParse$(FullPath,3)
+	End If
+End Function
+
+'-----------------------------------------------------------------------------
+' Document Is The Selected One ?
+' We just check that the file is referenced in FileCatalog
+'
+'	In : PathDoc As String = the full path CATIA of the document to indentify
+'	OutPut of the function : 1 if the document is the selected one
+'							 0 else  
+'-----------------------------------------------------------------------------
+Function DocumentIsTheSelectedOne(PathDoc As String) As Integer
+ 	'Global variables necessary in this function.
+	'Dim FileCatalog As Object				
+	'Dim FileNamePDM As String	
+	'-------------------------
+	'Declaration of variables.
+	Dim i As Integer
+	Dim PathFromQuery As String
+
+	'First, we check that given CATIA document is referenced in FileCatalog
+	Dim fis As Object ' ISmFileIdentifiers
+	Set fis = FileCatalog.NewSmFileIdentifiers
+	fis.KeyType = 0 ' cktFullName
+	Dim tmpStr As Variant
+	tmpStr = PathDoc
+	Dim fi As Object ' ISmFileIdentifier
+	Set fi = fis.Add(tmpStr)
+	Dim rf As Object ' ISmRetrieveFilter
+	Set rf = FileCatalog.NewSmRetrieveFilter
+	'necessary ? rf.RetrieveAttachedItems = true
+	Dim fis2 As Variant
+	Dim rf2 As Variant
+	Set fis2 = fis
+	Set rf2 = rf
+	Dim ris As Object ' ISmResultItems
+	Set ris = FileCatalog.GetFileItems(fis2, rf2)
+	If ( ris.Count > 0 ) Then
+		Dim ri As Object
+		Dim zero As Variant
+		zero = 0
+		Set ri = ris.Item(zero)
+		If ( ri.ReturnCode = 0 ) Then ' crcSuccess
+			'
+			' PathDoc is known by SmarTeam
+			' Is it our SMARTEAM document ?
+			'
+			If ( UCase(GetShortName(PathDoc)) = UCase(FileNamePDM) ) Then
+				DocumentIsTheSelectedOne = 1
+			End If
+		End If
+	End If
+
+End Function
+
+'-----------------------------------------------------------------------------
+' Find In Product Structure	
+'	Recursive Method.
+' 	Used to go and fetch the right selected element.
+'	If we have identified it, we highlight it.
+'	eg:
+'		Product 1
+'			|--- Product 2
+'			|		|--- Part 1
+'			|--- Part 2
+'	We start on the root document "Product 1", and we retrieve all the sons
+'	For each element, we check if it is the selected one.
+'	Several occurences can be be highlighted. 	
+'
+'	In : Product As Object = the Product to study
+'	OutPut of the function : 1 if we have identified it and highlighted it
+'							 0 else 
+'-----------------------------------------------------------------------------
+Function FindInProductStructure(Product As Object) As Integer
+ 	'Global variables necessary in this function.
+	'Dim CATIA As Object
+	'Dim AdditionalIdentifier As String
+	'Dim AttributeNameForAdditionalIdentifier As String
+	'--------------------------------------------------
+	'Declaration of variables.
+	Dim List As Object
+  	Dim SonProduct As Object
+	Dim FullPathCATIADocument As String
+	Dim Extension As String
+	Dim Found As Integer
+	Dim i As Integer
+
+  	Set List = Product.Products
+	For i = 1 To List.Count
+		Set SonProduct = List.Item(i)
+		If (FindInProductStructure(SonProduct) = 1) Then
+			Found = 1
+		End If
+	Next i
+
+  	FullPathCATIADocument = Product.ReferenceProduct.Parent.FullName
+  	Extension = GetFileExtension(FullPathCATIADocument)
+
+  	'Is it the product selected in Team PDM ?
+  	'----------------------------------------
+  	If (UCase(Extension) = UCase("CATProduct")) Then
+		If (AttributeNameForAdditionalIdentifier <> "") Then
+			'Database with Expose mode.
+ 			If (UCase(AdditionalIdentifier) = UCase(Product.ReferenceProduct.Name)) Then
+				If ( DocumentIsTheSelectedOne(FullPathCATIADocument) = 1) Then
+					'Ok, we have identified the document in the CATIA session.
+           			CATIA.ActiveDocument.Selection.Add Product
+					Found = 1
+				End If
+			End If
+		Else
+			'Database without Expose mode.
+			If ( DocumentIsTheSelectedOne(FullPathCATIADocument) = 1) Then
+				'Ok, we have identified the document in the CATIA session.
+           		CATIA.ActiveDocument.Selection.Add Product
+				Found = 1
+			End If
+		End If
+  	End If
+
+	'Is it the part selected in Team PDM ?
+	'-------------------------------------
+  	If (UCase(Extension) = UCase("CATPart")) Then
+		If ( DocumentIsTheSelectedOne(FullPathCATIADocument) = 1) Then
+			'Ok, we have identified the document in the CATIA session.
+			CATIA.ActiveDocument.Selection.Add Product ' .ReferenceProduct.Parent.Part
+			Found = 1
+		End If
+  	End If
+
+	FindInProductStructure = Found 
+End Function
+
+'-----------------------------------------------------------------------------
+' Find In A Product
+' 	Used to go and fetch the right selected element.
+'	If we have identified it, we highlight it.	
+'	We start on the root document "Product".
+'	To retrieve all the sons for the "Product" and check if it is the selected
+'	one, we use FindInProductStructure method. 	
+' 			
+'	In : Document As Object = the root document of the active window
+'	OutPut of the function : 1 if we have identified it and highlighted it
+'							 0 else 
+'-----------------------------------------------------------------------------
+Function FindInAProduct(Document As Object) As Integer
+	'Declaration of variables.
+	Dim FullPathCATIADocument As String
+	Dim ListProductsParts As Object
+
+	'Retrieve first the path.
+	FullPathCATIADocument = Document.FullName
+
+	'Find First in the Product Structure.
+	Set ListProductsParts = Document.Product
+	If (FindInProductStructure(ListProductsParts) = 1) Then
+		FindInAProduct = 1
+		GoTo Selected
+	End If
+
+	'Is the root Product ?
+	If ( DocumentIsTheSelectedOne(FullPathCATIADocument) = 1) Then
+		FindInAProduct = 1
+	End If
+
+	Selected:
+
+End Function
+
+'-----------------------------------------------------------------------------
+' Find In A Part
+' 	Used to go and fetch the right selected element.
+'	If we have identified it, we highlight it.	
+'	We start on the root document "Part".
+' 			
+'	In : Document As Object = the root document of the active window
+'	OutPut of the function : 1 if we have identified it and highlighted it
+'							 0 else 
+'-----------------------------------------------------------------------------
+Function FindInAPart(Document As Object) As Integer
+	'Declaration of variables.
+	Dim FullPathCATIADocument As String
+
+	'Retrieve first the path.
+	FullPathCATIADocument = Document.FullName
+
+	'Is the root Part ?
+	If ( DocumentIsTheSelectedOne(FullPathCATIADocument) = 1) Then
+		CATIA.ActiveDocument.Selection.Add Document.Part
+		FindInAPart = 1
+	End If
+
+End Function
+
+'-----------------------------------------------------------------------------
+' Find In A Drawing	
+' 	Used to go and fetch the right selected element.
+'	If we have identified it, we highlight it.
+'	eg:
+'		Drawing
+'			|--- Sheet 1
+'			|--- Sheet 2
+'	We start on the root document "Drawing", and we retrieve all the sons
+'	For each element, we check if it is the selected one. 	
+' 			
+'	In : Document As Object = the root document of the active window
+'	OutPut of the function : 1 if we have identifyed it and highlight it 
+'							 0 else
+'-----------------------------------------------------------------------------
+Function FindInADrawing(Document As Object) As Integer
+ 	'Global variables necessary in this function.
+	'Dim CATIA As Object
+	'Dim AdditionalIdentifier As String
+	'Dim AttributeNameForAdditionalIdentifier As String
+	'--------------------------------------------------
+	'Declaration of variables.
+	Dim i As Integer
+	Dim NbOfSheets As Integer
+	Dim FullPathCATIADocument As String
+	Dim ListSheets As Object
+	Dim Sheet As Object
+	Dim SheetID As String
+
+	'Retrieve first the path.
+	FullPathCATIADocument = Document.FullName
+
+	Set ListSheets = Document.Sheets
+	NbOfSheets = ListSheets.Count
+	If (AttributeNameForAdditionalIdentifier <> "") Then
+		'Database with Expose mode.
+		For i = 1 To NbOfSheets
+			Set Sheet = ListSheets.Item(i)
+			SheetID = Sheet.Name
+ 			If (UCase(AdditionalIdentifier) = UCase(SheetID)) Then
+				If ( DocumentIsTheSelectedOne(FullPathCATIADocument) = 1) Then
+			        	'Ok, we have identified the document in the CATIA session.
+			        	CATIA.ActiveDocument.Selection.Add Sheet
+					FindInADrawing = 1 
+			        GoTo Selected
+				End If
+			 End If
+		Next i
+	Else
+		'Database without Expose mode.
+		If ( DocumentIsTheSelectedOne(FullPathCATIADocument) = 1) Then
+			For i = 1 To NbOfSheets
+				Set Sheet = ListSheets.Item(i)
+				CATIA.ActiveDocument.Selection.Add Sheet
+			Next i
+			FindInADrawing = 1
+			GoTo Selected
+		End If
+	End If
+
+	Selected:
+
+End Function
+
+'-----------------------------------------------------------------------------
+' Find In The Window
+' 	Starting from the root document of the window to retrieve the SmarTeam 
+'	selected document.
+'	First, we check if the document is a Product, a Part, a Drawing or another
+'   one.
+'	Then, call the associated function.
+'	
+'	In : Document As Object = the root document of the active window
+'	OutPut of the function : 1 if we have identified it and highlight it
+'							 0 else
+'-----------------------------------------------------------------------------
+Function FindInTheWindow(Document As Object) As Integer
+	'Declaration of variables.
+	Dim i As Integer
+	Dim FullPathCATIADocument As String
+	Dim FileTypeCATIA As String
+	Dim PathFromQuery As String
+
+	'Retrieve first the path and the file type.
+	FullPathCATIADocument = Document.FullName
+	FileTypeCATIA = GetFileExtension(FullPathCATIADocument)
+
+	'If the document is a Product	
+	'----------------------------
+    If (UCase(FileTypeCATIA) = UCase("CATProduct")) Then
+		If (FindInAProduct(Document) = 1) Then
+			FindInTheWindow = 1
+			GoTo Selected
+		End If			
+	End If
+
+	'If the document is a Part	
+	'-------------------------
+    If (UCase(FileTypeCATIA) = UCase("CATPart")) Then
+		If (FindInAPart(Document) = 1) Then
+			FindInTheWindow = 1
+			GoTo Selected
+		End If			
+	End If
+
+	'If the document is a Drawing
+	'----------------------------
+	If (UCase(FileTypeCATIA) = UCase("CATDrawing")) Then
+		If (FindInADrawing(Document) = 1) Then
+			FindInTheWindow = 1
+			GoTo Selected
+		End If	
+	End If	
+		
+	'Another Type of document (CATProcess, bmp, ...)
+	'-----------------------------------------------
+	' For other kind of documents, we consider that there is no need
+	' to navigate within the document because its content Is Not exposed
+	' in the database so checking the document contained in the window
+	' is enough.
+	If ( DocumentIsTheSelectedOne(FullPathCATIADocument) = 1) Then
+		FindInTheWindow = 1
+	End If
+
+	Selected :
+
+End Function
+
+'-----------------------------------------------------------------------------
+' Retrieve Additional Identifier
+' 	Retrieving the attribute Additional Identifier in the mapping Group Type: 
+' 	Special Attributes.
+'
+' In : SmSession As SmApplic.SmSession = the SmarTeam Session 
+' Output of the function : the Attribut Name
+' If we are not in Expose mode, equals "".
+'-----------------------------------------------------------------------------
+Function RetrieveAdditionalIdentifier(SmSession As SmApplic.SmSession) As String 
+	'Declaration of variables.
+	Dim i As Integer, j As Integer, k As Integer, l As Integer
+	Dim SmIntegration As ISmIntegrationStore
+	Dim SmPropertyGroupTypes As SmIntegrationTool.ISmPropertyGroupTypes
+	Dim SmPropertyGroupType As SmIntegrationTool.ISmPropertyGroupType
+	Dim SmPropertyGroups As SmIntegrationTool.ISmPropertyGroups
+	Dim SmPropertyGroup As SmIntegrationTool.ISmPropertyGroup
+	Dim SmGroupProperties As SmIntegrationTool.ISmGroupProperties
+	Dim SmGroupProperty As SmIntegrationTool.ISmGroupProperty
+	Dim SmClassesMappings As SmIntegrationTool.ISmClassesMappings
+	Dim SmClassMapping As SmIntegrationTool.ISmClassMapping
+	Dim SmClassAttribute As SmApplic.ISmClassAttribute
+	Dim NbGroupProperties As Integer
+	Dim NbGroupTypes As Integer
+	Dim GroupsTypeName As String
+	Dim NbGroups As Integer
+	Dim GroupName As String
+	Dim GroupProperty As String
+	Dim NbClassesMapping As Integer	
+
+	'Initialization of the function.
+	RetrieveAdditionalIdentifier = ""
+
+	Set SmIntegration = SmSession.GetService("SmIntegrationTool.SmIntegrationStore")
+	'Get CATIA application group types. 
+	Set SmPropertyGroupTypes = SmIntegration.GetGroupTypesForApplication("CATIA")
+	NbGroupTypes = SmPropertyGroupTypes.Count
+	For i = 0 To NbGroupTypes-1
+		Set SmPropertyGroupType = SmPropertyGroupTypes.Item(i)
+		GroupsTypeName = SmPropertyGroupType.Name
+		'GroupsTypeName: Special Attributes
+		If GroupsTypeName = "Special Attributes" Then		
+			Set SmPropertyGroups = SmPropertyGroupType.Groups
+			NbGroups = SmPropertyGroups.Count
+			'Groups = 1
+			For j = 0 To NbGroups-1
+				Set SmPropertyGroup = SmPropertyGroups.Item(j)
+				GroupName = SmPropertyGroup.Name
+				'GroupName: Special Attributes
+				If GroupName = "Special Attributes" Then
+					Set SmGroupProperties = SmPropertyGroup.Properties
+					NbGroupProperties = SmGroupProperties.Count
+					'GroupProperties
+					For k = 0 To NbGroupProperties-1
+						Set SmGroupProperty = SmGroupProperties.Item(k)
+						'F(X) Properties Name: GroupProperty
+						GroupProperty = SmGroupProperty.Name
+						If GroupProperty = "Additional Identifier" Then
+							Set SmClassesMappings = SmGroupProperty.Mappings
+							NbClassesMapping = SmClassesMappings.Count
+							For l = 0 To NbClassesMapping-1
+								Set SmClassMapping = SmClassesMappings.Item(l)
+								Set SmClassAttribute = SmClassMapping.Attribute
+								'Additional Identifier
+								RetrieveAdditionalIdentifier = SmClassAttribute.Name
+								'We have gone and fetched the Additionnal Identifier attribute.
+								'we have to exit the loop. 
+								GoTo Skip
+							Next l
+						End If
+					Next k
+				End If	
+			Next j
+		End If	
+	Next i
+
+	Skip :
+
+End Function
+
+'-----------------------------------------------------------------------------
+' Main function of LocateInCATIA
+'-----------------------------------------------------------------------------
+Function LocateInCATIA(ApplHndl As Long,Sstr As String,FirstPar As Long,SecondPar As Long,ThirdPar As Long ) As Integer
+ 	'Global variables declared in the main function.
+	'Dim CATIA As Object
+	'Dim ResultOfQuery As Object
+	'Dim FileNamePDM As String
+	'Dim AdditionalIdentifier As String
+	'Dim AttributeNameForAdditionalIdentifier As String	
+	'--------------------------------------------------	
+	'Declaration of variables.
+	Dim SmSession As SmApplic.SmSession
+	Dim COMFirstList As Object
+	Dim COMSecondList As Object
+	Dim COMThirdList As Object
+	Dim DirectoryPDM As String
+	Dim i As Integer
+	Dim NumberOfWindowsInCATIA As Long
+	Dim CurrentWindow As Object
+	Dim Window As Object
+	Dim Document As Object
+	Dim CurrentDocument As Object
+	Dim Selection As Integer
+	
+	On Error GoTo AssignErrorCode
+'ViewPort.Open "Debug window",3000,3000,500,500
+'ViewPort.Clear
+	'========================================================================
+	'Converting procedural script arguments into COM ones.
+	'========================================================================
+		'Get Session from Application handle.
+   		Set SmSession = SCREXT_ObjectForInterface(ApplHndl)
+   		'Convert Record lists to COM Representation.
+		CONV_RecListToComRecordList	FirstPar,COMFirstList
+		CONV_RecListToComRecordList	SecondPar,COMSecondList
+		CONV_RecListToComRecordList	ThirdPar,COMThirdList
+
+	'========================================================================
+	'Get selected object.
+	'========================================================================
+		'Impossible case.
+		If COMFirstList.RecordCount <= 0 Then
+			GoTo NoSelectedObject
+		End If
+
+	'========================================================================
+	'One selected object ?
+	'========================================================================
+		'Warning one document selected.
+		If COMFirstList.RecordCount > 1 Then
+			'Warning.
+			ShowSmWorningMessage SmSession, 28504 'ERR_MORE_THEN_ONE_DOCUMENTS_SELECT = 28504
+			'*MsgBox "Warning : You have selected more than one object."+(Chr(13))+"Only the first document is going to be located in the CATIA session."
+		End If	
+
+	'========================================================================
+	'Retrieving information about the selected object. 
+	'========================================================================
+		' To locate the selected document in the CATIA session, we need to
+		' retrieve the following information from the database:
+		' - the complete pathname of the document,
+		'   (this is the full pathname of the document in the local environment
+		'   of the user)
+		' - the 'Additional Identifier' that identifies the feature within the
+		'   document.
+		Dim compObject As ISmCompositeObject
+		Set compObject = SmSession.ObjectStore.CompositeObjectFromData(COMFirstList, 0, true)
+		Dim OneObject As ISmObject
+		For i = 0 To compObject.Count-1
+			Set OneObject = compObject.ItemByIndex(i)
+			If OneObject.SmClass.ClassType = 2 Then ' ctSubClass
+				Exit For
+			Else
+				Set OneObject = Nothing
+			End If
+		Next i
+		If OneObject Is Nothing Then
+			GoTo NoSelectedObject
+		End If
+
+		Dim COMFirstSmObject As ISmObject
+		Set COMFirstSmObject = OneObject.Clone
+		COMFirstSmObject.AddAttributes "CAD_REF_FILE_NAME;DIRECTORY"
+		COMFirstSmObject.RetrieveAttributes
+
+		FileNamePDM = COMFirstSmObject.Data.ValueAsString("CAD_REF_FILE_NAME")
+		DirectoryPDM = COMFirstSmObject.Data.ValueAsString("DIRECTORY")
+		Print "FN=" & FileNamePDM
+		Print "DN=" & DirectoryPDM
+	
+'		Dim COMFirstSmObject As ISmObject
+'		Set COMFirstSmObject = SmSession.ObjectStore.ObjectFromData(COMFirstList.GetRecord(0),True).Clone
+'		COMFirstSmObject.Retrieve
+'
+'		FileNamePDM = COMFirstSmObject.Data.ValueAsString("CAD_REF_FILE_NAME")
+'		DirectoryPDM = COMFirstSmObject.Data.ValueAsString("DIRECTORY")
+	    
+	'========================================================================
+	'Retrieving the attribute AdditionalIdentifier in the mapping Group Type: 
+	'Special Attributes. 
+	'======================================================================== 
+ 		AttributeNameForAdditionalIdentifier = ""
+		'Note: If used in Part Number mode, activate the four lines below.
+		'AttributeNameForAdditionalIdentifier = RetrieveAdditionalIdentifier(SmSession)
+		'If (AttributeNameForAdditionalIdentifier <> "") Then
+		'	AdditionalIdentifier = COMFirstSmObject.Data.ValueAsString(AttributeNameForAdditionalIdentifier)
+		'End If		
+
+	'========================================================================
+	' Get FileCatalog
+	' It will be required to check if documents from the CATIA session are
+	' recognized by SMARTEAM
+	'========================================================================
+	Dim ccs As Object ' ISmClientContextService
+	Set ccs = SmSession.GetService("SmartClientContextService.SmClientContextService")
+	'r11 Set ccs = SmSession.GetService("SmartClientContextService.SmRawClientContextService")
+	Dim cc As Object ' ISmClientContext
+	Set cc  = ccs.ClientContext
+	Set FileCatalog  = cc.FileCatalog
+
+	'========================================================================
+	'Loop on all the documents opened in the CATIA session.
+	'First search in the current window. 
+	'Then search in other window(s).
+	'========================================================================
+		CurrentWindow = Null
+ 		Set CATIA = GetObject(,"CATIA.Application")
+				
+		'Retrieve the number of Window(s) in the CATIA Session.
+		NumberOfWindowsInCATIA = CATIA.Windows.Count
+		If (NumberOfWindowsInCATIA = 0)	Then
+			GoTo EndFunction
+		End If 		
+
+		'Search first in the current Window	and in the active document.
+		Set CurrentWindow = CATIA.ActiveWindow
+		Set CurrentDocument = GetCATIAActiveDocument()
+		If ( Not CurrentDocument Is Nothing ) Then
+			'Clear all selection on the active Document.
+			CurrentDocument.Selection.Clear					
+			If ( FindInTheWindow(CurrentDocument) = 1 ) Then
+				Selection = 1
+				GoTo EndFunction
+			End If
+		End If
+
+		'If the document is not in the current Window,
+		'Search it in another Window.		
+		For i = 1 To NumberOfWindowsInCATIA 
+			Set Window = CATIA.Windows.Item(i)
+			Window.Activate
+			Set Document = GetCATIAActiveDocument()
+			If ( Not Document Is Nothing ) Then
+				If ( CurrentDocument Is Nothing ) Then
+					'no current active document. Sure that we did not already check this doc
+					'Clear all selection on the active Document.
+					Document.Selection.Clear					
+					If ( FindInTheWindow(Document) = 1 ) Then
+						Selection = 1
+						GoTo EndFunction
+					End If
+				ElseIf ( UCase(Document.FullName) <> UCase(CurrentDocument.FullName) ) Then
+					'Clear all selection on the active Document.
+					Document.Selection.Clear					
+					If ( FindInTheWindow(Document) = 1 ) Then
+						Selection = 1
+						GoTo EndFunction
+					End If
+				End If
+			End If
+		Next i
+
+  	EndFunction :
+
+	'========================================================================
+	'Converting COM Variable into procedural script output.
+	'========================================================================
+		CONV_ComRecListToRecordList	COMThirdList,ThirdPar
+
+	'========================================================================
+	'End Function.
+	'========================================================================
+		' If the selected document is not found in the CATIA session,
+		' we restore the original active window of the CATIA session.	
+		If (Selection = 0) Then
+			'Display back your current Window.
+			If (NumberOfWindowsInCATIA > 0) Then
+				CurrentWindow.Activate
+			End If
+			ShowSmWorningMessage SmSession, 28505 ' ERR_OBJECT_NOT_OPEN_IN_CATIA = 28505
+			'*MsgBox "Your SmarTeam selected object isn't open in the CATIA Session."
+		End If
+
+		LocateInCATIA = Err_None ' the function should return a value.
+			              		 ' Err_None=0
+		Exit Function
+
+	'========================================================================
+	'Error Management.
+	'========================================================================
+	NoSelectedObject:
+		ShowSmErrorMessage SmSession, 28500 'ERR_NO_OBJECT_SELECTED_OR_ERROR = 28500
+		'*MsgBox "No selected object in the SmarTeam session."
+		LocateInCATIA = Err_Gen
+		Exit Function
+
+	AssignErrorCode:
+		Dim Params As ISmStrings
+		Set Params = SmSession.NewSmStrings()
+
+	    Params.Add "LocateInCATIA"
+    	Params.Add "Locate In CATIA"
+    	Params.Add Err.Description
+
+		ShowSmMessage SmSession, 28503, 2, Params 'ERR_IN_FUNCTION = 28503
+		'*MsgBox "Internal Error. The Script Locate In CATIA ended. "+(Chr(13))+"Contact your administrator."
+		LocateInCATIA = Err_Gen
+		Exit Function
+
+End Function
+

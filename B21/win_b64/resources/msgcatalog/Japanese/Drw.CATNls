@@ -1,0 +1,197 @@
+//=====================================================================================
+//                                     CNEXT - CXR1
+//                          COPYRIGHT DASSAULT SYSTEMES 1998 
+//-------------------------------------------------------------------------------------
+// FILENAME    :    Drw
+// LOCATION    :    DraftingUI
+// AUTHOR      :    fgx
+// BUT         :    Workbench Drafting 
+// DATE        :    17.11.1998
+//-------------------------------------------------------------------------------------
+// DESCRIPTION :    
+//-------------------------------------------------------------------------------------
+// COMMENTS    :    
+//-------------------------------------------------------------------------------------
+// MODIFICATIONS     user  date        purpose
+//    HISTORY        ----  ----        -------
+//      00           fgx   ??.05.98    Creation
+//      01           fgx   23.11.98    Nouvelle version CXR2
+//      02           fgx   13.01.99    Sous-menu de gendim
+//      03           fgx   28.01.99    Ajout du container de gendim dans tools
+//      04           fgx   26.02.99    Ajout tb de style
+//      05           fgx   29.03.99    Nouvelles commandes sketcher
+//      06           fgx   04.08.99    Nouveaux workbenches
+//      07           fgx   17.11.99    Ajout des tb measure et browser
+//      08           fgx   09.12.99    Ajout de tb analyze + container lines
+//	  09	         lgk   26.06.02	   Revision
+//	  10	         lgk   15.10.02	   -
+//=====================================================================================
+
+// Configuration
+// -------------
+Drw.Title="ÄŞ×ÌÃ¨İ¸Ş";
+Drw.ShortHelp="ÄŞ×ÌÃ¨İ¸Ş";
+Drw.Help="ÄŞ×ÌÃ¨İ¸Ş Ü°¸ÍŞİÁ‚Å‚·";
+Drw.LongHelp="‚±‚ÌÜ°¸ÍŞİÁ‚Í‹@ŠB}–Ê‚Ìì¬‚Ég—p‚³‚ê‚Ü‚·";
+
+// Toolbars
+// --------
+// Right
+contTbSelect.Title="‘I‘ğ";
+contTbDrawing.Title="}–Ê";
+contTbViews.Title="}";
+contTbDimensioning.Title="¡–@‚ğì¬";
+contTbGeneration.Title="¶¬";
+contTbAnnotations.Title="’ß";
+contTbDressup.Title="ÄŞÚ½±¯Ìß";
+contTbGeometryCreation.Title="Œ`ó‚ğì¬";
+contTbGeometryEdition.Title="Œ`ó‚ğC³";
+// Top
+contTbStyle.Title="½À²Ù";
+contTbTextProperties.Title="Ã·½Ä ÌßÛÊßÃ¨";
+contTbDimensionProperties.Title="¡–@‚ÌÌßÛÊßÃ¨";
+CATDrwMumericalPropertiesTlb.Title="”’lÌßÛÊßÃ¨";
+contTbGraphicProperties.Title="¸Ş×Ì¨¯¸ ÌßÛÊßÃ¨";
+// Bottom
+contTbUpdate.Title="XV";
+contTbTools.Title="Â°Ù";
+CATDrwVisualizationTlb.Title="•\¦";
+contTbMeasure.Title="‘ª’è";
+contTbBrowser.Title="¶ÀÛ¸Ş ÌŞ×³»Ş";
+// UnDock
+contTbOrientation.Title="ˆÊ’u‚Æ•ûŒü";
+contTbPosition.Title="ˆÊ’uŒˆ‚ß";
+contTbAnalyze.Title="‰ğÍ";
+contTbMultiView.Title="•¡”}(2.5 D)";
+CATDrwAreaFillIcb.Title="´Ø± Ì¨Ù";
+
+// Sub-Toolbars
+// ------------
+contSheets.Title="¼°Ä";
+contProjections.Title="“Š‰e";
+contSections.Title="’f–Ê";
+contDetails.Title="ÃŞ¨Ã°Ù";
+contClippings.Title="¸Ø¯Ëßİ¸Ş";
+contBroken.Title="}‚ğ•ª’f";
+contViewWizard.Title="³¨»Ş°ÄŞ";
+contDimensions.Title="¡–@";
+CATDrwFeatDimIcb.Title="‹ZpÌ¨°Á¬°¡–@";
+CATDrwContInterruptTlb.Title="¡–@‚ğ•ÒW";
+contTolerancing.Title="Œö·";
+contGenDim.Title="¡–@‚ğ¶¬";
+contTexts.Title="Ã·½Ä";
+contSymbols.Title="¼İÎŞÙ";
+CATDrwContTableIcb.Title="Ã°ÌŞÙ";
+contAxis.Title="²‚Æ‚Ë‚¶Ø‚è";
+contPoint.Title="“_";
+contLine.Title="’¼ü";
+contCircle.Title="‰~‚Æ‘È‰~";
+contProfiles.Title="ÌßÛÌ§²Ù";
+contCurves.Title="‹Èü";
+contRelimit.Title="‹«ŠEİ’è";
+contTransfor.Title="•ÏŠ·";
+contCst.Title="S‘©";
+CATDrwSktAnalyseIcb.Title="2D‰ğÍÂ°Ù";
+CATDrwBOMIcb.Title="•”•i•\";
+
+// Sub-Menus
+// ---------
+// First level
+contMenuViews.Title="}";
+contMenuViews.Mnemonic="V";
+contMenuDrawing.Title="}–Ê";
+contMenuDrawing.Mnemonic="r";
+contMenuDimensioning.Title="¡–@‚ğì¬";
+contMenuDimensioning.Mnemonic="D";
+contMenuGeneration.Title="¶¬";
+contMenuGeneration.Mnemonic="n";
+contMenuAnnotations.Title="’ß";
+contMenuAnnotations.Mnemonic="A";
+contMenuDressup.Title="ÄŞÚ½±¯Ìß";
+contMenuDressup.Mnemonic="u";
+contMenuGeometryCreation.Title="Œ`ó‚ğì¬";
+contMenuGeometryCreation.Mnemonic="G";
+contMenuGeometryEdition.Title="Œ`ó‚ğC³";
+contMenuGeometryEdition.Mnemonic="m";
+contMenuDrwGenDimTools.Title="¡–@‚ğ¶¬";
+contMenuDrwGenDimTools.Mnemonic="g";
+contMenuDrwPositioning.Title="ˆÊ’uŒˆ‚ß";
+contMenuDrwPositioning.Mnemonic="P";
+contMenuDrwAnalyze.Title="‰ğÍ";
+contMenuDrwAnalyze.Mnemonic="A";
+contMenuDrwMultiView.Title="•¡”}(2.5 D)";
+contMenuDrwMultiView.Mnemonic="i";
+contMenuCst.Title="S‘©";
+contMenuCst.Mnemonic="C";
+
+// Second level
+contMenuProjections.Title="“Š‰e";
+contMenuProjections.Mnemonic="P";
+contMenuSections.Title="’f–Ê";
+contMenuSections.Mnemonic="S";
+contMenuDetails.Title="ÃŞ¨Ã°Ù";
+contMenuDetails.Mnemonic="D";
+contMenuClippings.Title="¸Ø¯Ëßİ¸Ş";
+contMenuClippings.Mnemonic="C";
+contMenuBroken.Title="}‚ğ•ª’f";
+contMenuBroken.Mnemonic="C";
+contMenuViewWizard.Title="³¨»Ş°ÄŞ";
+contMenuViewWizard.Mnemonic="W";
+// ---
+contMenuSheets.Title="¼°Ä";
+contMenuSheets.Mnemonic="S";
+// ---
+contMenuDimensions.Title="¡–@";
+contMenuDimensions.Mnemonic="D";
+CATDrwFeatDimSnu.Title="‹ZpÌ¨°Á¬°¡–@";
+CATDrwFeatDimSnu.Mnemonic="F";
+contMenuTolerancing.Title="Œö·";
+contMenuTolerancing.Mnemonic="T";
+// ---
+contMenuTexts.Title="Ã·½Ä";
+contMenuTexts.Mnemonic="T";
+contMenuSymbols.Title="¼İÎŞÙ";
+contMenuSymbols.Mnemonic="S";
+CATDrwContTableMenuSnu.Title="Ã°ÌŞÙ";
+CATDrwContTableMenuSnu.Mnemonic="a";
+CATDrwAreaFillSnu.Title="´Ø± Ì¨Ù";
+
+// ---
+contMenuAxis.Title="²‚Æ‚Ë‚¶Ø‚è";
+contMenuAxis.Mnemonic="A";
+// ---
+contMenuPoint.Title="“_";
+contMenuPoint.Mnemonic="P";
+contMenuLine.Title="’¼ü";
+contMenuLine.Mnemonic="L";
+contMenuCircle.Title="‰~‚Æ‘È‰~";
+contMenuCircle.Mnemonic="C";
+contMenuProfiles.Title="ÌßÛÌ§²Ù";
+contMenuProfiles.Mnemonic="f";
+contMenuCurves.Title="‹Èü";
+contMenuCurves.Mnemonic="u";
+// ---
+contMenuRelimit.Title="‹«ŠEİ’è";
+contMenuRelimit.Mnemonic="R";
+contMenuTransfor.Title="•ÏŠ·";
+contMenuTransfor.Mnemonic="T";
+CATDrwBOMSnu.Title="•”•i•\";
+
+// Third level
+contMenuInterrupt.Title="¡–@‚ğ•ÒW";
+contMenuInterrupt.Mnemonic="E";
+
+// Contextual Sub-Menus
+// --------------------
+DrwPositionalLink.Title="ˆÊ’uØİ¸";
+DrwOrientationLink.Title="•ûŒüØİ¸";
+DrwViewPositioning.Title="}‚ğ”z’u";
+DrwDimInterruptSubMenu.Title="’†’f";
+CATDrwViewPositioningTlb.Title="}‚ğ”z’u";
+CATDrwGVSSnu.Title="¶¬}½À²Ù";
+CATDrwDimensionRepresentation.Title="¡–@•\¦";
+CATDrwMeasureMode.Title="‘ª’èÓ°ÄŞ";
+CATDrwRepresentationMode.Title="•\¦Ó°ÄŞ";
+CATDrwAngleSector.Title="Šp“x¾¸À";
+CATDrwClipBoxSnu.Title="3D¸Ø¯Ëßİ¸Ş";
+CATDrwPrintAreaSnu.Title="ˆóü´Ø±";

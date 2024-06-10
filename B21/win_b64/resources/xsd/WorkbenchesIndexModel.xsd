@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs='http://www.w3.org/2001/XMLSchema'>
+	<xs:element name="UserCategories" type="UserCategoriesType"></xs:element>
+	<xs:complexType name="UserCategoriesType">
+		<xs:sequence minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="UserCategory" type="UserCategoryType"></xs:element>
+		</xs:sequence>
+		<xs:attribute name="AccessKey" type="xs:string" use="optional"></xs:attribute>
+		<xs:attribute name="CodeLevel" type="xs:string" use="required"></xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="UserCategoryType">
+		<xs:sequence>
+			<xs:element name="Workbenches" type="WorkbenchesType"></xs:element>
+		</xs:sequence>
+		<xs:attribute name="UcId" type="Identifier" use="required"></xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="WorkbenchesType">
+		<xs:sequence minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="Wb" type="WorkbenchType"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="WorkbenchType">
+		<xs:sequence>
+			<xs:element name="WbId" type="Identifier" minOccurs="1" maxOccurs="1"></xs:element>
+			<xs:element name="FactoryItf" type="Identifier" minOccurs="1" maxOccurs="1"></xs:element>
+			<xs:element name="FatherWshop" type="Identifier" minOccurs="1" maxOccurs="1"></xs:element>
+			<xs:element name="Infos" type="InformationsType" minOccurs="0" maxOccurs="1"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="InformationsType">
+		<xs:sequence minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="Info" type="InfoType"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="InfoType">
+		<xs:attribute name="Name" type="Identifier" use="required"></xs:attribute>
+		<xs:attribute name="Value" type="xs:string"></xs:attribute>
+	</xs:complexType>
+	<xs:simpleType name="Identifier">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="\w[\w_]+" />
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

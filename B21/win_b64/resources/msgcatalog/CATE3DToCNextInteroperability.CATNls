@@ -1,0 +1,85 @@
+// ****************************************************************************
+// CATIA Version 5 Release 2 Framework Electrical
+// VESD
+// Copyright Dassault Systemes 1998
+// ****************************************************************************
+//  Abstract:
+//  ---------
+//    
+//  E3D To CNext interoperability error messages
+//    
+// ****************************************************************************
+//  Usage:
+//  ------
+//
+// ****************************************************************************
+//  Main Methods:
+//  -------------
+//
+// ****************************************************************************
+//  Historic
+//  --------
+//
+//  Author: Michel Stufano
+//  Date  : 12/05/98
+//  Goal  : Creation
+//
+// ****************************************************************************
+//  Handle exceptions the following way :
+//  ------------------------------------
+//
+//  
+//   if (WrongType) {
+//     long ier = 0;
+//     CATUnicodeString key = "WrongType";
+//     CATElecInputError *err = 
+//       new CATElecInputError(ier, Key,"CATElecErrors");
+//     err->SetNLSParameters(3, "Mechant", "Fido", "Mechant");
+//     CATThrow(err);
+//   }
+//
+// ****************************************************************************
+// framework E3DToCNextInteroperability
+
+//----------------------------------------------------------------------------
+
+NullPointer = "The pointer is NULL.";
+
+EmptyList   = "/p1 list is empty.";
+
+InvalidJele = "The Jele = /p1 ;",
+              "It is an invalid value.";
+
+QIError     = "Error with QueryInterface:",
+              "To /p1 from /p2 .";
+
+CatgeoError = "CATGEO /p1 has returned an error code ",
+              "ier = /p2 .";
+
+NoModelName = "model name is invalid.";
+
+MemAllocation = "Cannot Allocate Memory";
+
+ClassNotFound = "Class /p1 not found in dictionary";
+
+E3DMigration.UpdateKO = "Update error";
+
+E3DMigration.ComputeBNSKO = "BNS computation failed";
+
+E3DMigration.BuildProtectionKO = "Protection Build failed";
+
+E3DMigration.CPPPointRepNotFound = "CPP point representation not found, CPP not migrate";
+
+E3DMigration.CPPNotMigrated = "Required CPP not migrated, SIC-SIC connection not made";
+
+E3DMigration.ConvertKO = "Error during migration";
+
+E3DMigration.ConvertOK = "Correctly migrated";
+
+E3DMigration.ComputeRuleViolation = "BNS has been created with BendRadius smaller than its Diameter";
+
+E3DMigration.NoAsResult = "As Result mode is not supported for electrical elements";
+E3DMigration.CurveDiff = "BNS Shape difference detected, using multi-branchable mode option will migrate the curve as result";
+
+E3DMigration.GRRNotFound = "Failed to retrieve Graphic Representation. Migration of this component is skipped.";
+

@@ -1,0 +1,101 @@
+INFO_HELP="
+CATDMUBuilder 构建与文档列表相对应的产品并向高速缓存提供
+              相关数据。\n
+用法：\n
+   检索帮助信息：
+      CATDMUBuilder -h\n
+   构建产品并供给高速缓存：
+      CATDMUBuilder inputlocation
+                    [-db dbx -user user -spwd cryppwd -role role -server srv]
+                    [-static][-selins]
+                    -product dirprod [-prefix prefix]
+                    [-replacebycgr dircgr][-activate|-deactivate][-onlyone]
+                    [-nocache][-force][-copycache]\n
+   供给高速缓存数据：
+      CATDMUBuilder inputlocation
+                    [-db dbx -user user -spwd cryppwd -role role -server srv]
+                    [-static][-selins]\n
+Windows 示例：\n
+   CATDMUBuilder -h
+   CATDMUBuilder c:\u\input.txt -product c:\proddir\n
+Unix 示例：\n
+   CATDMUBuilder -h
+   CATDMUBuilder /u/input1
+   CATDMUBuilder /u/input2 -user user1 -spwd user1pwd -role user1role -server server2\n
+参数：\n
+   -h                   ：帮助。
+   inputlocation        ：定义要处理的文档列表。
+                          相关路径信息如下：
+                          - 包含文档列表的文件。
+                            它的每一行必须包含一个文档路径
+                           （路径末尾包含前面为“CATDLN://”的 DLName）。
+                          - 包含文档的目录。
+                            将处理此目录的所有文档。
+                            此目录可以是前面为“CATDLN://”的 DLName。
+                          处理不同类型的文档：CATProduct、CATVpm、
+                          psn、Scene4D、xml 或 MultiCAD 装配。
+   -db dbx              ：定义数据库（VPM、VPMServer 或 ENOVIAV5）。
+   -user user           ：定义用户。
+   -pwd  pwd            ：定义用户的密码（不能与 -spwd 一起使用）。
+   -spwd cryppwd        ：定义用户的密码。
+                          使用前已解密。
+   -role role           ：定义用户的角色。
+   -server srv          ：定义服务器。
+   -serverid id         ：连接至现有服务器（仅使用 ENOVIAV5）。
+   -host hostid         ：定义服务器（仅使用 VPMServer）。
+   -static              ：使用静态选项打开 psn 文件（仅对 psn 有效）。
+                          默认情况下，使用动态选项打开。
+   -selins              ：打开带有选定实例的 psn 文件（仅对 psn 有效）。
+                          默认情况下，打开带有所有实例的 psn 文件。
+   -product dirprod     ：将产品存储在目录 dirprod 中。
+                          此目录可以是前面为“CATDLN://”的 DLName。
+   -prefix prefix       ：保存名称中带有前缀的所有产品。
+   -replacebycgr dircgr ：使用在目录 dircgr 中复制的
+                          相关 cgr 替换所有部件。
+                          此目录可以是前面为“CATDLN://”的 DLName。
+   -activate            ：激活所有形状并保存激活状态。
+   -deactivate          ：取消激活所有形状并保存激活状态。
+   -onlyone             ：集成根产品中的所有部件。
+   -nocache             ：避免高速缓存准备步骤。
+   -force               ：强制重新计算已高速缓存的数据。
+   -copycache           ：在本地高速缓存目录中复制所有已高速缓存的数据。
+   -noreplace           ：防止复制期间替换文件。
+   -mp                  ：启用多进程。
+   -listcomp dircomp    ：列出每个产品的所有部件。目录
+                          中的每个产品将包含一个文本文件（同名）。每个文件
+                          的每一行都有一个部件。
+   -outputformat xx yy  ：在给定格式的列表中导出产品结构
+                          (xx, yy)。此选项需要 -product 选项。已在 dirprod 目录中
+                          导出每个文件。
+   -savedata            ：将链接至产品结构的数据保存到同一目录下。\n
+   注意：若文档参考 VPM，则 user、spwd、role 和 server 参数为必需。\n
+诊断：\n
+   可能的退出状态值有：\n
+      0   成功完成。\n
+      1   由于以下某种原因而失败：
+          - 许可证不可用
+          - 已取消激活高速缓存管理
+          - 缺少参数
+          - 参数无效
+          - 选项后缺少参数
+          - 缺少输入文件
+          - 无法找到文件
+          - 无法打开输入文件
+          - 文档类型错误\n
+      2   处理错误。\n
+      3   部分处理。\n
+排除故障：\n
+   退出状态 = 1：
+      使用标准错误文件中的信息
+      修改命令行或环境。\n
+   退出状态 = 2：
+      联系本地支持人员。\n
+   退出状态 = 3：
+      修复产生问题的文件：其名称包含在标准
+      错误文件中。文件的交互使用可能会产生问题。
+";
+ERR_PROCESSING="错误：无法处理 CATDMUBuilder。";
+ERR_TREATMENT="错误：无法处理以下文档/目录：";
+OK_TREATMENT="确定：已处理以下文档/目录：";
+START_BATCH="CATDMUBuilder 启动时间：";
+STOP_BATCH="CATDMUBuilder 在此周期之后停止：";

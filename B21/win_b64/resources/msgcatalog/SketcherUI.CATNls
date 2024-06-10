@@ -1,0 +1,2308 @@
+// LGK Quick Revision 25/07/2002
+// LGK Revision 2	    15/10/2002
+// LGK Revision 3	    14/01/2003
+// NMB Revision 4       21/03/2003
+// NMB Revision all     24/03/2003
+
+
+DYS.Settings.Notify.Ttl.NegativeGridSpacing = "Spacing";
+DYS.Settings.Notify.Msg.NegativeGridSpacing = "Enter a positive number to set the grid spacing.";
+DYS.Settings.Notify.Ttl.NegativeGridSecStep = "Graduations";
+DYS.Settings.Notify.Msg.NegativeGridSecStep = "Enter a positive number to set the graduations.";
+
+DYS.SettingFrame.Title = "Sketcher";
+
+SketcherUI.CATComDYSInit.SelectState.Message = "Select a plane, a planar face or a sketch";
+
+SketcherUI.CATComDYSContour.FirstPoint.Message = "Click or select the start point of the profile";
+SketcherUI.CATComDYSContour.CreateLine.Message = "Click or select the end point of the current line";
+SketcherUI.CATComDYSContour.CreateTgtArc.Message = "Click to create the end point of the current tangent arc";
+SketcherUI.CATComDYSContour.Create3PtsArc.Message = "Click to define the second point of current arc";
+SketcherUI.CATComDYSContour.Create3PtsArc.Create3PtsArcCmd.ThirdPoint.Message = "Click to create the end point of current arc";
+SketcherUI.CATComDYSContour.SwitchBar.Line.Title = "Line";
+SketcherUI.CATComDYSContour.SwitchBar.Line.Help = "Creates a line";
+SketcherUI.CATComDYSContour.SwitchBar.Line.LongHelp = "Switches to the Line command.";
+SketcherUI.CATComDYSContour.SwitchBar.Line.ShortHelp = "Line";
+SketcherUI.CATComDYSContour.SwitchBar.TgtArc.Title = "Tangent arc";
+SketcherUI.CATComDYSContour.SwitchBar.TgtArc.Help = "Creates an arc tangent to the line or arc previously created. Dragging then releasing the mouse also creates a tangent arc.";
+SketcherUI.CATComDYSContour.SwitchBar.TgtArc.LongHelp = "Switches to the Tangent Arc command.";
+SketcherUI.CATComDYSContour.SwitchBar.TgtArc.ShortHelp = "Tangent Arc";
+SketcherUI.CATComDYSContour.SwitchBar.3PtsArc.Title = "Three point arc";
+SketcherUI.CATComDYSContour.SwitchBar.3PtsArc.Help = "Creates an arc by clicking or selecting three points";
+SketcherUI.CATComDYSContour.SwitchBar.3PtsArc.LongHelp = "Switches to the Three Point Arc command.";
+SketcherUI.CATComDYSContour.SwitchBar.3PtsArc.ShortHelp = "Three Point Arc";
+// Gestion Visu Copilote
+SketcherUI.CATComDYSContour.FirstPt.Name.Title = "First Point: ";
+SketcherUI.CATComDYSContour.FirstPt.Name.Help = "Defines the coordinates of the first point";
+SketcherUI.CATComDYSContour.FirstPt.Name.ShortHelp = "First Point";
+SketcherUI.CATComDYSContour.FirstPt.Name.LongHelp = "Defines the coordinates of the first point.";
+SketcherUI.CATComDYSContour.FirstPt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSContour.FirstPt.ULabel.ShortHelp = "First Coordinate of the First Point";
+SketcherUI.CATComDYSContour.FirstPt.UEditor.ShortHelp = "First Coordinate of the First Point";
+SketcherUI.CATComDYSContour.FirstPt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSContour.FirstPt.VLabel.ShortHelp = "Second Coordinate of the First Point";
+SketcherUI.CATComDYSContour.FirstPt.VEditor.ShortHelp = "Second Coordinate of the First Point";
+
+
+SketcherUI.CATComDYSRect.FirstPoint.Message = "Select or click the first point to create a rectangle";
+SketcherUI.CATComDYSRect.EndPoint.Message = "Select or click the second point to create a rectangle";
+// Gestion Visu Copilote
+SketcherUI.CATComDYSRect.StartPt.Name.Title = "First Point: ";
+SketcherUI.CATComDYSRect.StartPt.Name.Help = "Defines the coordinates of the first point";
+SketcherUI.CATComDYSRect.StartPt.Name.ShortHelp = "First Point";
+SketcherUI.CATComDYSRect.StartPt.Name.LongHelp = "Defines the coordinates of the first point.";
+SketcherUI.CATComDYSRect.StartPt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSRect.StartPt.ULabel.ShortHelp = "First Coordinate of the First Point";
+SketcherUI.CATComDYSRect.StartPt.UEditor.ShortHelp = "First Coordinate of the First Point";
+SketcherUI.CATComDYSRect.StartPt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSRect.StartPt.VLabel.ShortHelp = "Second Coordinate of the First Point";
+SketcherUI.CATComDYSRect.StartPt.VEditor.ShortHelp = "Second Coordinate of the First Point";
+SketcherUI.CATComDYSRect.EndPt.Name.Title = "Second Point: ";
+SketcherUI.CATComDYSRect.EndPt.Name.Help = "Defines the coordinates of the second point";
+SketcherUI.CATComDYSRect.EndPt.Name.ShortHelp = "Second Point";
+SketcherUI.CATComDYSRect.EndPt.Name.LongHelp = "Defines the coordinates of the second point.";
+SketcherUI.CATComDYSRect.EndPt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSRect.EndPt.ULabel.ShortHelp = "First Coordinate of the Second Point";
+SketcherUI.CATComDYSRect.EndPt.UEditor.ShortHelp = "First Coordinate of the Second Point";
+SketcherUI.CATComDYSRect.EndPt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSRect.EndPt.VLabel.ShortHelp = "Second Coordinate of the Second Point";
+SketcherUI.CATComDYSRect.EndPt.VEditor.ShortHelp = "Second Coordinate of the Second Point";
+SketcherUI.CATComDYSRect.Width.Dimension.EnglobingFrame.IntermediateFrame.Label.Title = "Width: ";
+SketcherUI.CATComDYSRect.Width.Dimension.EnglobingFrame.IntermediateFrame.Label.Help = "Defines the width";
+SketcherUI.CATComDYSRect.Width.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp = "Width";
+SketcherUI.CATComDYSRect.Width.Dimension.EnglobingFrame.IntermediateFrame.Label.LongHelp = "Defines the width value.";
+SketcherUI.CATComDYSRect.Height.Dimension.EnglobingFrame.IntermediateFrame.Label.Title = "Height: ";
+SketcherUI.CATComDYSRect.Height.Dimension.EnglobingFrame.IntermediateFrame.Label.Help = "Defines the height";
+SketcherUI.CATComDYSRect.Height.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp = "Height";
+SketcherUI.CATComDYSRect.Height.Dimension.EnglobingFrame.IntermediateFrame.Label.LongHelp = "Defines the height value.";
+
+SketcherUI.CATComDYSCenteredRect.initState.Message = "Select or click a point to create the center of the rectangle";
+SketcherUI.CATComDYSCenteredRect.pointSelected.Message = "Select or click the second point to create a centered rectangle";
+SketcherUI.CATComDYSCenteredRect.StartPt.Name.Title = "First Point: ";
+SketcherUI.CATComDYSCenteredRect.StartPt.Name.Help = "Defines the coordinates of the first point";
+SketcherUI.CATComDYSCenteredRect.StartPt.Name.ShortHelp = "First Point";
+SketcherUI.CATComDYSCenteredRect.StartPt.Name.LongHelp = "Defines the coordinates of the first point.";
+SketcherUI.CATComDYSCenteredRect.StartPt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSCenteredRect.StartPt.ULabel.ShortHelp = "First Coordinate of the First Point";
+SketcherUI.CATComDYSCenteredRect.StartPt.UEditor.ShortHelp = "First Coordinate of the First Point";
+SketcherUI.CATComDYSCenteredRect.StartPt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSCenteredRect.StartPt.VLabel.ShortHelp = "Second Coordinate of the First Point";
+SketcherUI.CATComDYSCenteredRect.StartPt.VEditor.ShortHelp = "Second Coordinate of the First Point";
+SketcherUI.CATComDYSCenteredRect.EndPt.Name.Title = "Second Point: ";
+SketcherUI.CATComDYSCenteredRect.EndPt.Name.Help = "Defines the second point";
+SketcherUI.CATComDYSCenteredRect.EndPt.Name.ShortHelp = "Second Point";
+SketcherUI.CATComDYSCenteredRect.EndPt.Name.LongHelp = "Defines the coordinates of the second point.";
+SketcherUI.CATComDYSCenteredRect.EndPt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSCenteredRect.EndPt.ULabel.ShortHelp = "First Coordinate of the Second Point";
+SketcherUI.CATComDYSCenteredRect.EndPt.UEditor.ShortHelp = "First Coordinate of the Second Point";
+SketcherUI.CATComDYSCenteredRect.EndPt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSCenteredRect.EndPt.VLabel.ShortHelp = "Second Coordinate of the Second Point";
+SketcherUI.CATComDYSCenteredRect.EndPt.VEditor.ShortHelp = "Second Coordinate of the Second Point";
+SketcherUI.CATComDYSCenteredRect.Width.Dimension.EnglobingFrame.IntermediateFrame.Label.Title = "Width: ";
+SketcherUI.CATComDYSCenteredRect.Width.Dimension.EnglobingFrame.IntermediateFrame.Label.Help = "Defines the width";
+SketcherUI.CATComDYSCenteredRect.Width.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp = "Width";
+SketcherUI.CATComDYSCenteredRect.Width.Dimension.EnglobingFrame.IntermediateFrame.Label.LongHelp = "Defines the width value.";
+SketcherUI.CATComDYSCenteredRect.Height.Dimension.EnglobingFrame.IntermediateFrame.Label.Title = "Height: ";
+SketcherUI.CATComDYSCenteredRect.Height.Dimension.EnglobingFrame.IntermediateFrame.Label.Help = "Defines the Height";
+SketcherUI.CATComDYSCenteredRect.Height.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp = "Height";
+SketcherUI.CATComDYSCenteredRect.Height.Dimension.EnglobingFrame.IntermediateFrame.Label.LongHelp = "Defines the height value.";
+
+SketcherUI.CATComDYSCenteredParallelogram.FirstLineState.Message = "Select the first line";
+SketcherUI.CATComDYSCenteredParallelogram.SecondLineState.Message = "Select the second line";
+SketcherUI.CATComDYSCenteredParallelogram.MoveDimensionsState.Message = "Select or click the end point to create a centered parallelogram";
+SketcherUI.CATComDYSCenteredParallelogram.EndPt.Name.Title = "End Point: ";
+SketcherUI.CATComDYSCenteredParallelogram.EndPt.Name.Help = "Defines the coordinates of the end point";
+SketcherUI.CATComDYSCenteredParallelogram.EndPt.Name.ShortHelp = "End Point";
+SketcherUI.CATComDYSCenteredParallelogram.EndPt.Name.LongHelp = "Defines the coordinates of the end point.";
+SketcherUI.CATComDYSCenteredParallelogram.EndPt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSCenteredParallelogram.EndPt.ULabel.ShortHelp = "First Coordinate of the End Point";
+SketcherUI.CATComDYSCenteredParallelogram.EndPt.UEditor.ShortHelp = "First Coordinate of the End Point";
+SketcherUI.CATComDYSCenteredParallelogram.EndPt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSCenteredParallelogram.EndPt.VLabel.ShortHelp = "Second Coordinate of the End Point";
+SketcherUI.CATComDYSCenteredParallelogram.EndPt.VEditor.ShortHelp = "Second Coordinate of the End Point";
+SketcherUI.CATComDYSCenteredParallelogram.Height.Dimension.EnglobingFrame.IntermediateFrame.Label.Title = "Height: ";
+SketcherUI.CATComDYSCenteredParallelogram.Height.Dimension.EnglobingFrame.IntermediateFrame.Label.Help = "Defines the height";
+SketcherUI.CATComDYSCenteredParallelogram.Height.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp = "Height";
+SketcherUI.CATComDYSCenteredParallelogram.Height.Dimension.EnglobingFrame.IntermediateFrame.Label.LongHelp = "Defines the height value.";
+SketcherUI.CATComDYSCenteredParallelogram.Width.Dimension.EnglobingFrame.IntermediateFrame.Label.Title = "Width: ";
+SketcherUI.CATComDYSCenteredParallelogram.Width.Dimension.EnglobingFrame.IntermediateFrame.Label.Help = "Defines the width";
+SketcherUI.CATComDYSCenteredParallelogram.Width.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp = "Width";
+SketcherUI.CATComDYSCenteredParallelogram.Width.Dimension.EnglobingFrame.IntermediateFrame.Label.LongHelp = "Defines the width value.";
+
+
+SketcherUI.CATComDYSParallelogram.FirstSide.Message = "Click or select a point to define the first side";
+SketcherUI.CATComDYSParallelogram.LineCmd.EndPoint.Message = "Select a point or click to locate the first side end point";
+SketcherUI.CATComDYSParallelogram.SecondSide.Message = "Click or select a point to define the second side";
+// Gestion Visu Copilote
+SketcherUI.CATComDYSParallelogram.LineCmd.StartPt.Name.Title = "First Corner: ";
+SketcherUI.CATComDYSParallelogram.LineCmd.StartPt.Name.Help = "Defines the coordinates of the first Corner";
+SketcherUI.CATComDYSParallelogram.LineCmd.StartPt.Name.ShortHelp = "First Corner";
+SketcherUI.CATComDYSParallelogram.LineCmd.StartPt.Name.LongHelp = "Defines the coordinates of the first Corner.";
+SketcherUI.CATComDYSParallelogram.LineCmd.StartPt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSParallelogram.LineCmd.StartPt.ULabel.ShortHelp = "First Coordinate of the First Corner";
+SketcherUI.CATComDYSParallelogram.LineCmd.StartPt.UEditor.ShortHelp = "First Coordinate of the First Corner";
+SketcherUI.CATComDYSParallelogram.LineCmd.StartPt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSParallelogram.LineCmd.StartPt.VLabel.ShortHelp = "Second Coordinate of the First Corner";
+SketcherUI.CATComDYSParallelogram.LineCmd.StartPt.VEditor.ShortHelp = "Second Coordinate of the First Corner";
+SketcherUI.CATComDYSParallelogram.LineCmd.StartPt.Length_Label.Title = "W: ";
+SketcherUI.CATComDYSParallelogram.LineCmd.StartPt.Length_Label.ShortHelp = "Parallelogram Width";
+SketcherUI.CATComDYSParallelogram.LineCmd.StartPt.Length_Value.ShortHelp = "Parallelogram Width";
+SketcherUI.CATComDYSParallelogram.LineCmd.StartPt.Angle_Label.Title = "A: ";
+SketcherUI.CATComDYSParallelogram.LineCmd.StartPt.Angle_Label.ShortHelp= "Angle Between Parallelogram Base and Horizontal Reference";
+SketcherUI.CATComDYSParallelogram.LineCmd.StartPt.Angle_Value.ShortHelp= "Angle Between Parallelogram Base and Horizontal Reference";
+SketcherUI.CATComDYSParallelogram.LineCmd.EndPt.Name.Title = "Second Corner: ";
+SketcherUI.CATComDYSParallelogram.LineCmd.EndPt.Name.Help = "Defines the second corner";
+SketcherUI.CATComDYSParallelogram.LineCmd.EndPt.Name.ShortHelp = "Second Corner";
+SketcherUI.CATComDYSParallelogram.LineCmd.EndPt.Name.LongHelp = "Defines the second corner.";
+SketcherUI.CATComDYSParallelogram.LineCmd.EndPt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSParallelogram.LineCmd.EndPt.ULabel.ShortHelp = "First Coordinate of Second Corner";
+SketcherUI.CATComDYSParallelogram.LineCmd.EndPt.UEditor.ShortHelp = "First Coordinate of Second Corner";
+SketcherUI.CATComDYSParallelogram.LineCmd.EndPt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSParallelogram.LineCmd.EndPt.VLabel.ShortHelp = "Second Coordinate of Second Corner";
+SketcherUI.CATComDYSParallelogram.LineCmd.EndPt.VEditor.ShortHelp = "Second Coordinate of Second Corner";
+SketcherUI.CATComDYSParallelogram.LineCmd.EndPt.Length_Label.Title = "W: ";
+SketcherUI.CATComDYSParallelogram.LineCmd.EndPt.Length_Label.ShortHelp = "Parallelogram Width";
+SketcherUI.CATComDYSParallelogram.LineCmd.EndPt.Length_Value.ShortHelp = "Parallelogram Width";
+SketcherUI.CATComDYSParallelogram.LineCmd.EndPt.Angle_Label.Title = "A: ";
+SketcherUI.CATComDYSParallelogram.LineCmd.EndPt.Angle_Label.ShortHelp= "Angle Between Parallelogram Base and Horizontal Reference";
+SketcherUI.CATComDYSParallelogram.LineCmd.EndPt.Angle_Value.ShortHelp= "Angle Between Parallelogram Base and Horizontal Reference";
+SketcherUI.CATComDYSParallelogram.EndPt.Name.Title = "Third Point: ";
+SketcherUI.CATComDYSParallelogram.EndPt.Name.Help = "Defines the coordinates of the third point";
+SketcherUI.CATComDYSParallelogram.EndPt.Name.ShortHelp = "Third Point";
+SketcherUI.CATComDYSParallelogram.EndPt.Name.LongHelp = "Defines the coordinates of the third point.";
+SketcherUI.CATComDYSParallelogram.EndPt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSParallelogram.EndPt.ULabel.ShortHelp = "First Coordinate of Third Point";
+SketcherUI.CATComDYSParallelogram.EndPt.UEditor.ShortHelp = "First Coordinate of Third Point";
+SketcherUI.CATComDYSParallelogram.EndPt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSParallelogram.EndPt.VLabel.ShortHelp = "Second Coordinate of Third Point";
+SketcherUI.CATComDYSParallelogram.EndPt.VEditor.ShortHelp = "Second Coordinate of Third Point";
+SketcherUI.CATComDYSParallelogram.Height.Dimension.EnglobingFrame.IntermediateFrame.Label.Title = "Height: ";
+SketcherUI.CATComDYSParallelogram.Height.Dimension.EnglobingFrame.IntermediateFrame.Label.Help = "Defines the height";
+SketcherUI.CATComDYSParallelogram.Height.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp = "Height";
+SketcherUI.CATComDYSParallelogram.Height.Dimension.EnglobingFrame.IntermediateFrame.Label.LongHelp = "Defines a height value.";
+SketcherUI.CATComDYSParallelogram.Angle.Dimension.EnglobingFrame.IntermediateFrame.Label.Title = "Angle: ";
+SketcherUI.CATComDYSParallelogram.Angle.Dimension.EnglobingFrame.IntermediateFrame.Label.Help = "Defines the angle";
+SketcherUI.CATComDYSParallelogram.Angle.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp = "Angle";
+SketcherUI.CATComDYSParallelogram.Angle.Dimension.EnglobingFrame.IntermediateFrame.Label.LongHelp = "Defines an angle value.";
+
+
+SketcherUI.CATComDYSRectOrient.FirstSide.Message = "Click or select a point to define the first side";
+SketcherUI.CATComDYSRectOrient.LineCmd.EndPoint.Message = "Select a point or click to locate the first side end point";
+SketcherUI.CATComDYSRectOrient.SecondSide.Message = "Click or select a point to define the second side";
+// Gestion Visu Copilote
+SketcherUI.CATComDYSRectOrient.LineCmd.StartPt.Name.Title = "First Corner: ";
+SketcherUI.CATComDYSRectOrient.LineCmd.StartPt.Name.Help = "Defines the coordinates of the first corner";
+SketcherUI.CATComDYSRectOrient.LineCmd.StartPt.Name.ShortHelp = "First Corner";
+SketcherUI.CATComDYSRectOrient.LineCmd.StartPt.Name.LongHelp = "Defines the coordinates of the first corner.";
+SketcherUI.CATComDYSRectOrient.LineCmd.StartPt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSRectOrient.LineCmd.StartPt.ULabel.ShortHelp = "First Coordinate of the First Corner";
+SketcherUI.CATComDYSRectOrient.LineCmd.StartPt.UEditor.ShortHelp = "First Coordinate of the First Corner";
+SketcherUI.CATComDYSRectOrient.LineCmd.StartPt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSRectOrient.LineCmd.StartPt.VLabel.ShortHelp = "Second Coordinate of the First Corner";
+SketcherUI.CATComDYSRectOrient.LineCmd.StartPt.VEditor.ShortHelp = "Second Coordinate of the First Corner";
+SketcherUI.CATComDYSRectOrient.LineCmd.StartPt.Length_Label.Title = "W: ";
+SketcherUI.CATComDYSRectOrient.LineCmd.StartPt.Length_Label.ShortHelp = "Rectangle Width";
+SketcherUI.CATComDYSRectOrient.LineCmd.StartPt.Length_Value.ShortHelp = "Rectangle Width";
+SketcherUI.CATComDYSRectOrient.LineCmd.StartPt.Angle_Label.Title = "A: ";
+SketcherUI.CATComDYSRectOrient.LineCmd.StartPt.Angle_Label.ShortHelp= "Angle Between the Rectangle Base and the Horizontal Reference";
+SketcherUI.CATComDYSRectOrient.LineCmd.StartPt.Angle_Value.ShortHelp= "Angle Between the Rectangle Base and the Horizontal Reference";
+SketcherUI.CATComDYSRectOrient.LineCmd.EndPt.Name.Title = "Second Corner: ";
+SketcherUI.CATComDYSRectOrient.LineCmd.EndPt.Name.Help = "Defines the coordinates of the second corner";
+SketcherUI.CATComDYSRectOrient.LineCmd.EndPt.Name.ShortHelp = "Second Corner";
+SketcherUI.CATComDYSRectOrient.LineCmd.EndPt.Name.LongHelp = "Defines the coordinates of the second corner.";
+SketcherUI.CATComDYSRectOrient.LineCmd.EndPt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSRectOrient.LineCmd.EndPt.ULabel.ShortHelp = "First Coordinate of the Second Corner";
+SketcherUI.CATComDYSRectOrient.LineCmd.EndPt.UEditor.ShortHelp = "First Coordinate of the Second Corner";
+SketcherUI.CATComDYSRectOrient.LineCmd.EndPt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSRectOrient.LineCmd.EndPt.VLabel.ShortHelp = "Second Coordinate of the Second Corner";
+SketcherUI.CATComDYSRectOrient.LineCmd.EndPt.VEditor.ShortHelp = "Second Coordinate of the Second Corner";
+SketcherUI.CATComDYSRectOrient.LineCmd.EndPt.Length_Label.Title = "W: ";
+SketcherUI.CATComDYSRectOrient.LineCmd.EndPt.Length_Label.ShortHelp = "Rectangle Width";
+SketcherUI.CATComDYSRectOrient.LineCmd.EndPt.Length_Value.ShortHelp = "Rectangle Width";
+SketcherUI.CATComDYSRectOrient.LineCmd.EndPt.Angle_Label.Title = "A: ";
+SketcherUI.CATComDYSRectOrient.LineCmd.EndPt.Angle_Label.ShortHelp= "Angle Between the Rectangle Base and the Horizontal Reference";
+SketcherUI.CATComDYSRectOrient.LineCmd.EndPt.Angle_Value.ShortHelp= "Angle Between the Rectangle Base and the Horizontal Reference";
+SketcherUI.CATComDYSRectOrient.EndPt.Name.Title = "Third Corner: ";
+SketcherUI.CATComDYSRectOrient.EndPt.Name.Help = "Defines the coordinates of the third corner";
+SketcherUI.CATComDYSRectOrient.EndPt.Name.ShortHelp = "Third Corner";
+SketcherUI.CATComDYSRectOrient.EndPt.Name.LongHelp = "Defines the coordinates of the third corner.";
+SketcherUI.CATComDYSRectOrient.EndPt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSRectOrient.EndPt.ULabel.ShortHelp = "First Coordinate of the Third Corner";
+SketcherUI.CATComDYSRectOrient.EndPt.UEditor.ShortHelp = "First Coordinate of the Third Corner";
+SketcherUI.CATComDYSRectOrient.EndPt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSRectOrient.EndPt.VLabel.ShortHelp = "Second Coordinate of the Third Corner";
+SketcherUI.CATComDYSRectOrient.EndPt.VEditor.ShortHelp = "Second Coordinate of the Third Corner";
+SketcherUI.CATComDYSRectOrient.Height.Dimension.EnglobingFrame.IntermediateFrame.Label.Title = "Height: ";
+SketcherUI.CATComDYSRectOrient.Height.Dimension.EnglobingFrame.IntermediateFrame.Label.Help = "Defines the height";
+SketcherUI.CATComDYSRectOrient.Height.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp = "Height";
+SketcherUI.CATComDYSRectOrient.Height.Dimension.EnglobingFrame.IntermediateFrame.Label.LongHelp = "Defines the height value.";
+
+SketcherUI.CATComDYSRelimit.FirstElem.Message = "Select a point or a curve type element";
+SketcherUI.CATComDYSRelimit.SecondElem.Message = "Select a second point or curve type element, or select the same curve type element in order to determine the trimming point";
+SketcherUI.CATComDYSRelimit.TrimElemForMSel.Message = "Select a curve in order to trim all the selected elements";
+SketcherUI.CATComDYSRelimit.LocationForMsel.Message = "Click to locate the part of the trimmed elements to be kept";
+SketcherUI.CATComDYSRelimit.SwitchBar.Trim_All.Title = "Trim all";
+SketcherUI.CATComDYSRelimit.SwitchBar.Trim_All.Help = "Trims all elements";
+SketcherUI.CATComDYSRelimit.SwitchBar.Trim_All.LongHelp = "Trims all the elements.";
+SketcherUI.CATComDYSRelimit.SwitchBar.Trim_All.ShortHelp = "Trim All Elements";
+SketcherUI.CATComDYSRelimit.SwitchBar.Trim_El1.Title = "Trim the first element";
+SketcherUI.CATComDYSRelimit.SwitchBar.Trim_El1.Help = "Trims the first element";
+SketcherUI.CATComDYSRelimit.SwitchBar.Trim_El1.LongHelp = "Trims the first element only.";
+SketcherUI.CATComDYSRelimit.SwitchBar.Trim_El1.ShortHelp = "Trim First Element";
+SketcherUI.CATComDYSRelimit.NoRelimitation.Title = "Trim";
+SketcherUI.CATComDYSRelimit.NoRelimitation.Message = "The selected element won't be trimmed.\n";
+SketcherUI.CATComDYSRelimit.NonIntersected.Title = "Non-intersected elements";
+SketcherUI.CATComDYSRelimit.NonIntersected.Message = "The selected elements do not intersect,\nthey will not be trimmed\n";
+SketcherUI.CATComDYSRelimit.SuperImposed.Title = "Superimposed elements";
+SketcherUI.CATComDYSRelimit.SuperImposed.Message = "The selected elements are superimposed,\nthey will not be trimmed\n";
+SketcherUI.CATComDYSRelimit.LengthToDist.Title = "Trim";
+SketcherUI.CATComDYSRelimit.LengthToDist.Message = "It is impossible to trim a lengthed element.\nDo you want to convert the length into distance?\n";
+SketcherUI.CATComDYSRelimit.CheckMiddlePoint.Title = "Trim";
+SketcherUI.CATComDYSRelimit.CheckMiddlePoint.Message = "The position of the middle point constraint will be modified after this operation.\nDo you confirm this modification?";
+
+
+SketcherUI.CATComDYSQuickTrim.Elem.Message = "Select a curve type element";
+SketcherUI.CATComDYSQuickTrim.SwitchBar.RubberIn.Title = "Rubber In";
+SketcherUI.CATComDYSQuickTrim.SwitchBar.RubberIn.Help = "Deletes the selected part of an element";
+SketcherUI.CATComDYSQuickTrim.SwitchBar.RubberIn.LongHelp = "Deletes the selected part of an element.";
+SketcherUI.CATComDYSQuickTrim.SwitchBar.RubberIn.ShortHelp = "Break And Rubber In";
+SketcherUI.CATComDYSQuickTrim.SwitchBar.RubberOut.Title = "Rubber Out";
+SketcherUI.CATComDYSQuickTrim.SwitchBar.RubberOut.Help = "Keeps the selected part of an element";
+SketcherUI.CATComDYSQuickTrim.SwitchBar.RubberOut.LongHelp = "Keeps the selected part of an element.";
+SketcherUI.CATComDYSQuickTrim.SwitchBar.RubberOut.ShortHelp = "Break And Rubber Out";
+SketcherUI.CATComDYSQuickTrim.SwitchBar.Keep.Title = "Keep";
+SketcherUI.CATComDYSQuickTrim.SwitchBar.Keep.Help = "Breaks the selected part of an element";
+SketcherUI.CATComDYSQuickTrim.SwitchBar.Keep.LongHelp = "Breaks the selected part of an element.";
+SketcherUI.CATComDYSQuickTrim.SwitchBar.Keep.ShortHelp = "Break And Keep";
+SketcherUI.CATComDYSQuickTrim.LengthToDist.Title = "Quick Trim";
+SketcherUI.CATComDYSQuickTrim.LengthToDist.Message = "It is impossible to trim a lengthed element.\nDo you want to convert the length into distance?\n";
+SketcherUI.CATComDYSQuickTrim.CheckMiddlePoint.Title = "Quick Trim";
+SketcherUI.CATComDYSQuickTrim.CheckMiddlePoint.Message = "The middle point constraint might be modified or even deleted after this operation.\nDo you confirm this modification?";
+
+SketcherUI.CATComDYSClose.Elem.Message = "Select a curve type element";
+
+SketcherUI.CATComDYSComplementary.Elem.Message = "Select a circle or ellipse arc";
+
+SketcherUI.CATComDYSCorner.FirstElem.Message = "Select the first curve, or a common point";
+SketcherUI.CATComDYSCorner.SecondElem.Message = "Select the second curve";
+SketcherUI.CATComDYSCorner.Rubber.Message = "Click to locate the corner";
+SketcherUI.CATComDYSCorner.Radius.Message = "Enter the radii of the corners";
+SketcherUI.CATComDYSCorner.SwitchBar.Trim_All.Title = "Trim all";
+SketcherUI.CATComDYSCorner.SwitchBar.Trim_All.Help = "Trims all elements";
+SketcherUI.CATComDYSCorner.SwitchBar.Trim_All.LongHelp = "Trims all the elements.";
+SketcherUI.CATComDYSCorner.SwitchBar.Trim_All.ShortHelp = "Trim All Elements";
+SketcherUI.CATComDYSCorner.SwitchBar.Trim_El1.Title = "Trim the first element";
+SketcherUI.CATComDYSCorner.SwitchBar.Trim_El1.Help = "Trims the first element";
+SketcherUI.CATComDYSCorner.SwitchBar.Trim_El1.LongHelp = "Trims the first element only.";
+SketcherUI.CATComDYSCorner.SwitchBar.Trim_El1.ShortHelp = "Trim First Element";
+SketcherUI.CATComDYSCorner.SwitchBar.No_Trim.Title = "No trim";
+SketcherUI.CATComDYSCorner.SwitchBar.No_Trim.Help = "Trims no elements";
+SketcherUI.CATComDYSCorner.SwitchBar.No_Trim.LongHelp = "Trims no elements.";
+SketcherUI.CATComDYSCorner.SwitchBar.No_Trim.ShortHelp = "No Trim";
+SketcherUI.CATComDYSCorner.SwitchBar.StdLine.Title = "Standard line trim";
+SketcherUI.CATComDYSCorner.SwitchBar.StdLine.Help = "Trims all elements with standard lines";
+SketcherUI.CATComDYSCorner.SwitchBar.StdLine.LongHelp = "Trims all elements with standard lines.";
+SketcherUI.CATComDYSCorner.SwitchBar.StdLine.ShortHelp = "Standard Lines Trim";
+SketcherUI.CATComDYSCorner.SwitchBar.ConstrLine.Title = "Construction line trim";
+SketcherUI.CATComDYSCorner.SwitchBar.ConstrLine.Help = "Trims all elements with construction lines";
+SketcherUI.CATComDYSCorner.SwitchBar.ConstrLine.LongHelp = "Trims all elements with construction lines.";
+SketcherUI.CATComDYSCorner.SwitchBar.ConstrLine.ShortHelp = "Construction Lines Trim";
+SketcherUI.CATComDYSCorner.SwitchBar.ConstrLineNoTrim.Title = "Construction lines no trim";
+SketcherUI.CATComDYSCorner.SwitchBar.ConstrLineNoTrim.Help = "Breaks all elements with no trimmed construction lines";
+SketcherUI.CATComDYSCorner.SwitchBar.ConstrLineNoTrim.LongHelp = "Breaks all elements with no trimmed construction lines.";
+SketcherUI.CATComDYSCorner.SwitchBar.ConstrLineNoTrim.ShortHelp = "Construction Lines No Trim";
+SketcherUI.CATComDYSCorner.NoRelimitation.Title = "Corner Command";
+SketcherUI.CATComDYSCorner.NoRelimitation.Message = "The selected element will not be trimmed.\n";
+SketcherUI.CATComDYSCorner.LengthToDist.Title = "Corner Command";
+SketcherUI.CATComDYSCorner.FirstLengthToDist.Message = "It is impossible to trim a lengthed element.\nDo you want to convert the length of the first selected element into distance?\n";
+SketcherUI.CATComDYSCorner.SecondLengthToDist.Message = "It is impossible to trim a lengthed element.\nDo you want to convert the length of the second selected element into distance?\n";
+SketcherUI.CATComDYSCorner.CheckMiddlePoint.Title = "Corner Command";
+SketcherUI.CATComDYSCorner.FirstCheckMiddlePoint.Message = "The position of the middle point constraint of the first selected element will be modified after this operation.\n Do you confirm this modification?";
+SketcherUI.CATComDYSCorner.SecondCheckMiddlePoint.Message = "The position of the middle point constraint of the second selected element will be modified after this operation.\n Do you confirm this modification?";
+SketcherUI.CATComDYSCorner.ImpCorner.Title = "Corner Command";
+SketcherUI.CATComDYSCorner.ImpossibleCorner.Message = "Impossible to create the corner with this radius value.\n";
+SketcherUI.CATComDYSCorner.SuperImposed.Title = "Superimposed elements";
+SketcherUI.CATComDYSCorner.SuperImposed.Message = "The selected elements are superimposed,\nthe corner will not be created\n";
+SketcherUI.CATComDYSCorner.Radius.Dimension.EnglobingFrame.IntermediateFrame.Label.Title = "Radius: ";
+SketcherUI.CATComDYSCorner.Radius.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp = "Radius of the Corner"; 
+
+SketcherUI.CATComDYSCorner.DefaultRadius.Check.Title = "Keep as default radius for next";
+SketcherUI.CATComDYSCorner.DefaultRadius.Check.ShortHelp = "Keep as default radius for next";
+SketcherUI.CATComDYSCorner.DefaultRadius.Check.Help = "Keeps the radius value as default radius value for next corner";
+SketcherUI.CATComDYSCorner.DefaultRadius.Check.LongHelp = "Keeps the radius value as default radius value for next call at the corner command";
+
+SketcherUI.CATComDYSChamfer.FirstElem.Message = "Select the first curve, or a common point";
+SketcherUI.CATComDYSChamfer.SecondElem.Message = "Select the second curve";
+SketcherUI.CATComDYSChamfer.Rubber.Message = "Click to locate the chamfer";
+SketcherUI.CATComDYSChamfer.RubberL1L2.Message = "Click to locate the chamfer";
+SketcherUI.CATComDYSChamfer.RubberL1Ang.Message = "Click to locate the chamfer";
+SketcherUI.CATComDYSChamfer.LengthAndAngle.Message = "Enter the length and the angle (with the first element) of the chamfer";
+SketcherUI.CATComDYSChamfer.Length1AndLength2.Message = "Enter the two lengths to define the chamfer";
+SketcherUI.CATComDYSChamfer.Length1AndAngle.Message = "Enter the length on the first support and the angle (with the first element) to define the chamfer";
+SketcherUI.CATComDYSChamfer.SwitchBar.Trim_All.Title = "Trim all";
+SketcherUI.CATComDYSChamfer.SwitchBar.Trim_All.Help = "Trims all elements";
+SketcherUI.CATComDYSChamfer.SwitchBar.Trim_All.LongHelp = "Trims all the selected elements.";
+SketcherUI.CATComDYSChamfer.SwitchBar.Trim_All.ShortHelp = "Trim All Elements";
+SketcherUI.CATComDYSChamfer.SwitchBar.Trim_El1.Title = "Trim the first element";
+SketcherUI.CATComDYSChamfer.SwitchBar.Trim_El1.Help = "Trims the first element";
+SketcherUI.CATComDYSChamfer.SwitchBar.Trim_El1.LongHelp = "Trims the first element only.";
+SketcherUI.CATComDYSChamfer.SwitchBar.Trim_El1.ShortHelp = "Trim First Element";
+SketcherUI.CATComDYSChamfer.SwitchBar.No_Trim.Title = "No trim";
+SketcherUI.CATComDYSChamfer.SwitchBar.No_Trim.Help = "Trims no elements";
+SketcherUI.CATComDYSChamfer.SwitchBar.No_Trim.LongHelp = "Trims no elements.";
+SketcherUI.CATComDYSChamfer.SwitchBar.No_Trim.ShortHelp = "No Trim";
+SketcherUI.CATComDYSChamfer.SwitchBar.StdLine.Title = "Standard lines trim";
+SketcherUI.CATComDYSChamfer.SwitchBar.StdLine.Help = "Trims the two elements until their intersection";
+SketcherUI.CATComDYSChamfer.SwitchBar.StdLine.LongHelp = "Trims the two elements until their intersection.";
+SketcherUI.CATComDYSChamfer.SwitchBar.StdLine.ShortHelp = "Standard Lines Trim";
+SketcherUI.CATComDYSChamfer.SwitchBar.ConstrLine.Title = "Construction lines trim";
+SketcherUI.CATComDYSChamfer.SwitchBar.ConstrLine.Help = "Trims the two elements with construction lines";
+SketcherUI.CATComDYSChamfer.SwitchBar.ConstrLine.LongHelp = "Trims the two elements with construction lines.";
+SketcherUI.CATComDYSChamfer.SwitchBar.ConstrLine.ShortHelp = "Construction Lines Trim";
+SketcherUI.CATComDYSChamfer.SwitchBar.ConstrLineNoTrim.Title = "Construction lines no trim";
+SketcherUI.CATComDYSChamfer.SwitchBar.ConstrLineNoTrim.Help = "Breaks all elements with no trimmed construction lines";
+SketcherUI.CATComDYSChamfer.SwitchBar.ConstrLineNoTrim.LongHelp = "Breaks all elements with no trimmed construction lines.";
+SketcherUI.CATComDYSChamfer.SwitchBar.ConstrLineNoTrim.ShortHelp = "Construction Lines No Trim";
+SketcherUI.CATComDYSChamfer.KeyBar.AngleHyp.Title = "Angle,Hypotenuse";
+SketcherUI.CATComDYSChamfer.KeyBar.AngleHyp.Help = "Defines the angle and hypotenuse";
+SketcherUI.CATComDYSChamfer.KeyBar.AngleHyp.LongHelp = "Defines the angle with the first support of the chamfer and its length.";
+SketcherUI.CATComDYSChamfer.KeyBar.AngleHyp.ShortHelp = "Angle And Hypotenuse";
+SketcherUI.CATComDYSChamfer.KeyBar.L1L2.Title = "First and Second Length";
+SketcherUI.CATComDYSChamfer.KeyBar.L1L2.Help = "Defines the first and the second length";
+SketcherUI.CATComDYSChamfer.KeyBar.L1L2.LongHelp = "Defines the first and the second length to build the chamfer.";
+SketcherUI.CATComDYSChamfer.KeyBar.L1L2.ShortHelp = "First and Second Length";
+SketcherUI.CATComDYSChamfer.KeyBar.L1Angle.Title = "Angle and First Length";
+SketcherUI.CATComDYSChamfer.KeyBar.L1Angle.Help = "Defines the angle and first length";
+SketcherUI.CATComDYSChamfer.KeyBar.L1Angle.LongHelp = "Defines the angle with the first element and its first length to build the chamfer.";
+SketcherUI.CATComDYSChamfer.KeyBar.L1Angle.ShortHelp = "Angle and First Length";
+SketcherUI.CATComDYSChamfer.NoRelimitation.Title = "Chamfer Command";
+SketcherUI.CATComDYSChamfer.NoRelimitation.Message = "The selected element will not be trimmed.\n";
+SketcherUI.CATComDYSChamfer.LengthToDist.Title = "Chamfer Command";
+SketcherUI.CATComDYSChamfer.FirstLengthToDist.Message = "It is impossible to trim a lengthed element.\nDo you want to convert the length of the first selected element into distance?\n";
+SketcherUI.CATComDYSChamfer.SecondLengthToDist.Message = "It is impossible to trim a lengthed element.\nDo you want to convert the length of the second selected element into distance?\n";
+SketcherUI.CATComDYSChamfer.CheckMiddlePoint.Title = "Chamfer Command";
+SketcherUI.CATComDYSChamfer.FirstCheckMiddlePoint.Message = "The position of the middle point constraint of the first selected element will be modified after this operation.\n Do you confirm this modification?";
+SketcherUI.CATComDYSChamfer.SecondCheckMiddlePoint.Message = "The position of the middle point constraint of the second selected element will be modified after this operation.\n Do you confirm this modification?";
+SketcherUI.CATComDYSChamfer.SuperImposed.Title = "Superimposed elements";
+SketcherUI.CATComDYSChamfer.SuperImposed.Message = "The selected elements are superimposed,\nthe chamfer will not be created\n";
+SketcherUI.CATComDYSChamfer.ImpChamfer.Title = "Chamfer Command";
+SketcherUI.CATComDYSChamfer.ImpossibleChamfer.Message = "It is impossible to create the chamfer with these length and angle values.\n";
+SketcherUI.CATComDYSChamfer.ImpossibleChamferL1L2.Message = "It is impossible to create the chamfer with these lengths values.\n";
+SketcherUI.CATComDYSChamfer.Length.Dimension.EnglobingFrame.IntermediateFrame.Label.Title = "Length: ";
+SketcherUI.CATComDYSChamfer.Length.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp = "Length";
+SketcherUI.CATComDYSChamfer.Length.Dimension.EnglobingFrame.IntermediateFrame.Label.Help = "Defines the length of the chamfer";
+SketcherUI.CATComDYSChamfer.FirstLength.Dimension.EnglobingFrame.IntermediateFrame.Label.Title = "First length: ";
+SketcherUI.CATComDYSChamfer.FirstLength.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp = "First Length";
+SketcherUI.CATComDYSChamfer.FirstLength.Dimension.EnglobingFrame.IntermediateFrame.Label.Help = "Defines the length along the first element";
+SketcherUI.CATComDYSChamfer.SecondLength.Dimension.EnglobingFrame.IntermediateFrame.Label.Title = "Second length: ";
+SketcherUI.CATComDYSChamfer.SecondLength.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp = "Second Length";
+SketcherUI.CATComDYSChamfer.SecondLength.Dimension.EnglobingFrame.IntermediateFrame.Label.Help = "Defines the length along the second element";
+SketcherUI.CATComDYSChamfer.Angle.Dimension.EnglobingFrame.IntermediateFrame.Label.Title = "Angle: ";
+SketcherUI.CATComDYSChamfer.Angle.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp = "Angle";
+SketcherUI.CATComDYSChamfer.Angle.Dimension.EnglobingFrame.IntermediateFrame.Label.Help = "Defines the angle between the chamfer and the first support";
+
+
+SketcherUI.CATComDYSLine.CreateLine.Message = "Select a point or click to locate the start point";
+SketcherUI.CATComDYSCenterLine.CreateCenterLine.Message = "Select a point or click to locate the start point";
+SketcherUI.CATComDYSCenterLine.ModifyLine.Title = "Axis Creation";
+SketcherUI.CATComDYSCenterLine.ModifyLine.Message = "The selected line will be transformed into an axis.\nDo you want to transform this line?";
+
+SketcherUI.CATComDYSGenericLine.StartPoint.Message = "Select a point or click to locate the start point";
+SketcherUI.CATComDYSGenericLine.EndPoint.Message = "Select a point or click to locate the end point";
+// Gestion Visu Copilote
+SketcherUI.CATComDYSGenericLine.StartPt.Name.Title = "Start Point: ";
+SketcherUI.CATComDYSGenericLine.StartPt.Name.Help = "Defines the coordinates of the start point";
+SketcherUI.CATComDYSGenericLine.StartPt.Name.ShortHelp = "Start Point";
+SketcherUI.CATComDYSGenericLine.StartPt.Name.LongHelp = "Defines the coordinates of the start point.";
+SketcherUI.CATComDYSGenericLine.StartPt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSGenericLine.StartPt.ULabel.ShortHelp = "First Coordinate of Start Point";
+SketcherUI.CATComDYSGenericLine.StartPt.UEditor.ShortHelp = "First Coordinate of Start Point";
+SketcherUI.CATComDYSGenericLine.StartPt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSGenericLine.StartPt.VLabel.ShortHelp = "Second Coordinate of Start Point";
+SketcherUI.CATComDYSGenericLine.StartPt.VEditor.ShortHelp = "Second Coordinate of Start Point";
+SketcherUI.CATComDYSGenericLine.StartPt.Length_Label.Title = "L: ";
+SketcherUI.CATComDYSGenericLine.StartPt.Length_Label.ShortHelp = "Line Length";
+SketcherUI.CATComDYSGenericLine.StartPt.Length_Value.ShortHelp = "Line Length";
+SketcherUI.CATComDYSGenericLine.StartPt.Angle_Label.Title = "A: ";
+SketcherUI.CATComDYSGenericLine.StartPt.Angle_Label.ShortHelp= "Angle Between Line and Horizontal Reference";
+SketcherUI.CATComDYSGenericLine.StartPt.Angle_Value.ShortHelp= "Angle Between Line and Horizontal Reference";
+SketcherUI.CATComDYSGenericLine.EndPt.Name.Title = "End Point: ";
+SketcherUI.CATComDYSGenericLine.EndPt.Name.Help = "Defines the end point";
+SketcherUI.CATComDYSGenericLine.EndPt.Name.ShortHelp = "End Point";
+SketcherUI.CATComDYSGenericLine.EndPt.Name.LongHelp = "Defines the end point coordinates.";
+SketcherUI.CATComDYSGenericLine.EndPt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSGenericLine.EndPt.ULabel.ShortHelp = "First Coordinate of End Point";
+SketcherUI.CATComDYSGenericLine.EndPt.UEditor.ShortHelp = "First Coordinate of End Point";
+SketcherUI.CATComDYSGenericLine.EndPt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSGenericLine.EndPt.VLabel.ShortHelp = "Second Coordinate of End Point";
+SketcherUI.CATComDYSGenericLine.EndPt.VEditor.ShortHelp = "Second Coordinate of End Point";
+SketcherUI.CATComDYSGenericLine.EndPt.Length_Label.Title = "L: ";
+SketcherUI.CATComDYSGenericLine.EndPt.Length_Label.ShortHelp = "Line Length";
+SketcherUI.CATComDYSGenericLine.EndPt.Length_Value.ShortHelp = "Line Length";
+SketcherUI.CATComDYSGenericLine.EndPt.Angle_Label.Title = "A: ";
+SketcherUI.CATComDYSGenericLine.EndPt.Angle_Label.ShortHelp= "Angle Between Line Horizontal Reference";
+SketcherUI.CATComDYSGenericLine.EndPt.Angle_Value.ShortHelp= "Angle Between Line Horizontal Reference";
+
+
+SketcherUI.CATComDYSSpline.FirstPoint.Message = "Select or click the first control point of the spline";
+SketcherUI.CATComDYSSpline.NextPoint.Message = "Select or click the next point of the spline. Double-click to end the spline.";
+// Gestion Visu Copilote
+SketcherUI.CATComDYSSpline.ControlPt.Name.Title = "Control Point: ";
+SketcherUI.CATComDYSSpline.ControlPt.Name.Help = "Defines the coordinates of the control point";
+SketcherUI.CATComDYSSpline.ControlPt.Name.ShortHelp = "Control Point";
+SketcherUI.CATComDYSSpline.ControlPt.Name.LongHelp = "Defines the coordinates of the control point.";
+SketcherUI.CATComDYSSpline.ControlPt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSSpline.ControlPt.ULabel.ShortHelp = "First Coordinate of Control Point";
+SketcherUI.CATComDYSSpline.ControlPt.UEditor.ShortHelp = "First Coordinate of Control Point";
+SketcherUI.CATComDYSSpline.ControlPt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSSpline.ControlPt.VLabel.ShortHelp = "Second Coordinate of Control Point";
+SketcherUI.CATComDYSSpline.ControlPt.VEditor.ShortHelp = "Second Coordinate of Control Point";
+SketcherUI.CATComDYSSpline.CloseSpline = "Close spline";
+
+SketcherUI.CATComDYSSpline2.FirstPoint.Message = "Select or click the first control point of the spline";
+SketcherUI.CATComDYSSpline2.NextPoint.Message = "Select or click the next point of the spline. Double-click to end the spline.";
+SketcherUI.CATComDYSSpline2.TangentDir.Message = "Select a point or click to locate the tangent";
+SketcherUI.CATComDYSSpline2.ControlPt.Name.Title = "Control Point: ";
+SketcherUI.CATComDYSSpline2.ControlPt.Name.Help = "Defines the control point";
+SketcherUI.CATComDYSSpline2.ControlPt.Name.ShortHelp = "Control Point";
+SketcherUI.CATComDYSSpline2.ControlPt.Name.LongHelp = "Defines the control point coordinates.";
+SketcherUI.CATComDYSSpline2.ControlPt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSSpline2.ControlPt.ULabel.ShortHelp = "First Coordinate of Control Point";
+SketcherUI.CATComDYSSpline2.ControlPt.UEditor.ShortHelp = "First Coordinate of Control Point";
+SketcherUI.CATComDYSSpline2.ControlPt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSSpline2.ControlPt.VLabel.ShortHelp = "Second Coordinate of Control Point";
+SketcherUI.CATComDYSSpline2.ControlPt.VEditor.ShortHelp = "Second Coordinate of Control Point";
+SketcherUI.CATComDYSSpline2.TgtCopilot.Name.Title = "Point Coordinates: ";
+SketcherUI.CATComDYSSpline2.TgtCopilot.Name.Help = "Defines the point Coordinates";
+SketcherUI.CATComDYSSpline2.TgtCopilot.Name.ShortHelp = "Point Coordinates";
+SketcherUI.CATComDYSSpline2.TgtCopilot.Name.LongHelp = "Defines the point coordinates.";
+SketcherUI.CATComDYSSpline2.TgtCopilot.ULabel.Title = "H: ";
+SketcherUI.CATComDYSSpline2.TgtCopilot.ULabel.ShortHelp = "Point First Coordinate";
+SketcherUI.CATComDYSSpline2.TgtCopilot.UEditor.ShortHelp = "Point First Coordinate";
+SketcherUI.CATComDYSSpline2.TgtCopilot.VLabel.Title = "V: ";
+SketcherUI.CATComDYSSpline2.TgtCopilot.VLabel.ShortHelp = "Point Second Coordinate";
+SketcherUI.CATComDYSSpline2.TgtCopilot.VEditor.ShortHelp = "Point Second Coordinate";
+SketcherUI.CATComDYSSpline2.CloseSpline = "Close spline";
+SketcherUI.CATComDYSSpline2.CheckAgent.Check.Title = "Connection to the limiting point";
+SketcherUI.CATComDYSSpline2.CheckAgent.Check.Help = "Connects to the limiting point of the curve";
+SketcherUI.CATComDYSSpline2.CheckAgent.Check.LongHelp = "Connects to the limiting point of the curve.";
+SketcherUI.CATComDYSSpline2.CheckAgent.Check.ShortHelp = "Connection to the Limiting Point";
+SketcherUI.CATComDYSSpline2.ContinuitySwitchBar.Continuity0.Title = "C0";
+SketcherUI.CATComDYSSpline2.ContinuitySwitchBar.Continuity0.ShortHelp = "Continuity in point";
+SketcherUI.CATComDYSSpline2.ContinuitySwitchBar.Continuity1.Title = "C1";
+SketcherUI.CATComDYSSpline2.ContinuitySwitchBar.Continuity1.ShortHelp = "Continuity in tangency";
+SketcherUI.CATComDYSSpline2.ContinuitySwitchBar.Continuity2.Title = "C2";
+SketcherUI.CATComDYSSpline2.ContinuitySwitchBar.Continuity2.ShortHelp = "Continuity in curvature";
+SketcherUI.CATComDYSSpline2.Tension.Dimension.EnglobingFrame.IntermediateFrame.Label.Title = "Tension: ";
+SketcherUI.CATComDYSSpline2.Tension.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp = "Tension of the tangency";
+SketcherUI.CATComDYSSpline2.TangencyAngle.Dimension.EnglobingFrame.IntermediateFrame.Label.Title = "Angle: ";
+SketcherUI.CATComDYSSpline2.TangencyAngle.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp = "Angle of the tangency";
+SketcherUI.CATComDYSSpline2.TangencySwitchBar.Parallel.Title = "Parallel";
+SketcherUI.CATComDYSSpline2.TangencySwitchBar.Parallel.ShortHelp = "Parallel tangency";
+SketcherUI.CATComDYSSpline2.TangencySwitchBar.Perpendicular.Title = "Perpendicular";
+SketcherUI.CATComDYSSpline2.TangencySwitchBar.Perpendicular.ShortHelp = "Perpendicular tangency";
+SketcherUI.CATComDYSSpline2.TangencySwitchBar.Horizontal.Title = "Horizontal";
+SketcherUI.CATComDYSSpline2.TangencySwitchBar.Horizontal.ShortHelp = "Horizontal tangency";
+SketcherUI.CATComDYSSpline2.TangencySwitchBar.Vertical.Title = "Vertical";
+SketcherUI.CATComDYSSpline2.TangencySwitchBar.Vertical.ShortHelp = "Vertical tangency";
+
+SketcherUI.CATComDYSConnect.FirstElem.Message = "Select the first element you wish to connect"; 
+SketcherUI.CATComDYSConnect.SecondElem.Message = "Select the last element to end the connection"; 
+SketcherUI.CATComDYSConnect.SwitchBar.Spline.Title = "Curve Connect";
+SketcherUI.CATComDYSConnect.SwitchBar.Spline.Help = "Connects with a spline";
+SketcherUI.CATComDYSConnect.SwitchBar.Spline.LongHelp = "Connects two elements with a spline.";
+SketcherUI.CATComDYSConnect.SwitchBar.Spline.ShortHelp = "Connect with a Spline";
+SketcherUI.CATComDYSConnect.SwitchBar.Circle.Title = "Arc Connect";
+SketcherUI.CATComDYSConnect.SwitchBar.Circle.Help = "Connects with an arc";
+SketcherUI.CATComDYSConnect.SwitchBar.Circle.LongHelp = "Connects two elements with an arc.";
+SketcherUI.CATComDYSConnect.SwitchBar.Circle.ShortHelp = "Connect with an Arc";
+SketcherUI.CATComDYSConnect.ContinuitySwitchBar.Continuity0.Title = "C0";
+SketcherUI.CATComDYSConnect.ContinuitySwitchBar.Continuity0.ShortHelp = "Continuity in point";
+SketcherUI.CATComDYSConnect.ContinuitySwitchBar.Continuity1.Title = "C1";
+SketcherUI.CATComDYSConnect.ContinuitySwitchBar.Continuity1.ShortHelp = "Continuity in tangency";
+SketcherUI.CATComDYSConnect.ContinuitySwitchBar.Continuity2.Title = "C2";
+SketcherUI.CATComDYSConnect.ContinuitySwitchBar.Continuity2.ShortHelp = "Continuity in curvature";
+SketcherUI.CATComDYSConnect.Tension.Dimension.EnglobingFrame.IntermediateFrame.Label.Title = "Tension: ";
+SketcherUI.CATComDYSConnect.Tension.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp = "Tension of the tangency"; 
+SketcherUI.CATComDYSConnect.NoSolution.Title   = "Connect";
+SketcherUI.CATComDYSConnect.NoSolution.Message = "The connecting curve cannot be created with the selected elements.\n\nRemember that where you click to select the first and the second element is important:\nthe creation of the connecting curve depends on the position where you click.\nTangents and extremity points are created as close as possible to where you clicked\non the two selected elements.";
+
+SketcherUI.CATComEdit2DConnect.ErrorPoint.Title="Warning";
+SketcherUI.CATComEdit2DConnect.ErrorPoint.Message = "The point must either belong to a curve or be on a curve.";
+
+SketcherUI.CATComEdit2DConnect.DefinitionConnectCurve.Message="Select a field to modify the definition of the connecting curve";
+SketcherUI.CATComEdit2DConnect.SelectionFirstPoint.Message="Select a point or click to locate the first end point of the connecting curve";
+SketcherUI.CATComEdit2DConnect.SelectionSecondPoint.Message="Select a point or click to locate the second end point of the connecting curve";
+SketcherUI.CATComEdit2DConnect.SelectionFirstCurve.Message="Select a curve to define the tangency or curvature at the first end point of the connecting curve";
+SketcherUI.CATComEdit2DConnect.SelectionSecondCurve.Message="Select a curve to define the tangency or curvature at the second end point of the connecting curve";
+
+SketcherUI.CATComDYSCircleCtrRds.CreateCircle.Message = "Select a point or click to define the center";
+SketcherUI.CATComDYSArcCtrRds.CreateArc.Message = "Select a point or click to define the center";
+SketcherUI.CATComDYSArcCtrRds.ArcCmd.Center.Name.Title = "Arc Center: ";
+// ------------------------------------------------------------------------------------------------------------------
+// Cercle ferme Centre + Rayon
+SketcherUI.CATComDYSGenericCircleCtrRds.SetCenter.Message = "Select a point or click to define the circle center";
+SketcherUI.CATComDYSGenericCircleCtrRds.SetRadius.Message = "Select a point or click to define the circle radius";
+// Copilot
+SketcherUI.CATComDYSGenericCircleCtrRds.Center.Name.Title = "Circle Center: ";
+SketcherUI.CATComDYSGenericCircleCtrRds.Center.Name.Help = "Defines the coordinates of the circle center";
+SketcherUI.CATComDYSGenericCircleCtrRds.Center.Name.ShortHelp = "Circle Center";
+SketcherUI.CATComDYSGenericCircleCtrRds.Center.Name.LongHelp = "Defines the coordinates of the circle center.";
+SketcherUI.CATComDYSGenericCircleCtrRds.Center.ULabel.Title = "H: ";
+SketcherUI.CATComDYSGenericCircleCtrRds.Center.ULabel.ShortHelp = "First Coordinate of Circle Center";
+SketcherUI.CATComDYSGenericCircleCtrRds.Center.UEditor.ShortHelp = "First Coordinate of Circle Center";
+SketcherUI.CATComDYSGenericCircleCtrRds.Center.VLabel.Title = "V: ";
+SketcherUI.CATComDYSGenericCircleCtrRds.Center.VLabel.ShortHelp = "Second Coordinate of Circle Center";
+SketcherUI.CATComDYSGenericCircleCtrRds.Center.VEditor.ShortHelp = "Second Coordinate of Circle Center";
+SketcherUI.CATComDYSGenericCircleCtrRds.Center.Radius_Label.Title = "R: ";
+SketcherUI.CATComDYSGenericCircleCtrRds.Center.Radius_Label.ShortHelp = "Circle Radius";
+SketcherUI.CATComDYSGenericCircleCtrRds.Center.Radius_Value.ShortHelp = "Circle Radius";
+SketcherUI.CATComDYSGenericCircleCtrRds.Center.StartAngle_Label.Title = "A: ";
+SketcherUI.CATComDYSGenericCircleCtrRds.Center.StartAngle_Label.ShortHelp= "Angle Between Arc Start Point Horizontal Reference";
+SketcherUI.CATComDYSGenericCircleCtrRds.Center.StartAngle_Value.ShortHelp= "Angle Between Arc Start Point Horizontal Reference";
+SketcherUI.CATComDYSGenericCircleCtrRds.Center.SectorAngle_Label.Title = "S: ";
+SketcherUI.CATComDYSGenericCircleCtrRds.Center.SectorAngle_Label.ShortHelp= "Oriented Angle";
+SketcherUI.CATComDYSGenericCircleCtrRds.Center.SectorAngle_Value.ShortHelp= "Oriented Angle";
+SketcherUI.CATComDYSGenericCircleCtrRds.Radius.Name.Title = "Point on Circle: ";
+SketcherUI.CATComDYSGenericCircleCtrRds.Radius.Name.Help = "Defines the coordinates of the point the circle will go through";
+SketcherUI.CATComDYSGenericCircleCtrRds.Radius.Name.ShortHelp = "Point on Circle";
+SketcherUI.CATComDYSGenericCircleCtrRds.Radius.Name.LongHelp = "Defines the coordinates of the point the circle will go through.";
+SketcherUI.CATComDYSGenericCircleCtrRds.Radius.ULabel.Title = "H: ";
+SketcherUI.CATComDYSGenericCircleCtrRds.Radius.UName.ShortHelp = "Useless Value";
+SketcherUI.CATComDYSGenericCircleCtrRds.Radius.UEditor.ShortHelp = "Useless Value";
+SketcherUI.CATComDYSGenericCircleCtrRds.Radius.VLabel.Title = "V: ";
+SketcherUI.CATComDYSGenericCircleCtrRds.Radius.VName.ShortHelp = "Useless Value";
+SketcherUI.CATComDYSGenericCircleCtrRds.Radius.VEditor.ShortHelp = "Useless Value";
+SketcherUI.CATComDYSGenericCircleCtrRds.Radius.Radius_Label.Title = "R: ";
+SketcherUI.CATComDYSGenericCircleCtrRds.Radius.Radius_Label.ShortHelp = "Circle Radius";
+SketcherUI.CATComDYSGenericCircleCtrRds.Radius.Radius_Value.ShortHelp = "Circle Radius";
+// ------------------------------------------------------------------------------------------------------------------
+// Arc relimite Centre + Rayon
+SketcherUI.CATComDYSGenericCircleCtrRds.SetArcStart.Message = "Select a point or click to define the radius and the start point of the arc";
+SketcherUI.CATComDYSGenericCircleCtrRds.SetArcEnd.Message = "Move the cursor and click to end the arc";
+// Copilot
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcStart.Name.Title = "Start Point: ";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcStart.Name.Help = "Defines the coordinates of the arc start point: ";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcStart.Name.ShortHelp = "Start Point";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcStart.Name.LongHelp = "Defines the start point of the circle.";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcStart.ULabel.Title = "H: ";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcStart.UName.ShortHelp = "First Coordinate of Arc Start Point";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcStart.UEditor.ShortHelp = "First Coordinate of Arc Start Point";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcStart.VLabel.Title = "V: ";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcStart.VName.ShortHelp = "Second Coordinate of Arc Start Point";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcStart.VEditor.ShortHelp = "Second Coordinate of Arc Start Point";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcStart.Radius_Label.Title = "R: ";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcStart.Radius_Label.ShortHelp = "Circle Radius";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcStart.Radius_Value.ShortHelp = "Circle Radius";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcStart.StartAngle_Label.Title = "A: ";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcStart.StartAngle_Label.ShortHelp= "Angle Between Arc Start Point and Horizontal Reference";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcStart.StartAngle_Value.ShortHelp= "Angle between Arc Start Point and Horizontal Reference";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcStart.SectorAngle_Label.Title = "S: ";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcStart.SectorAngle_Label.ShortHelp= "Oriented Angle";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcStart.SectorAngle_Value.ShortHelp= "Oriented Angle";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcEnd.Name.Title = "End Point: ";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcEnd.Name.Help = "Defines the coordinates of the arc end point";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcEnd.Name.ShortHelp = "End Point";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcEnd.Name.LongHelp = "Defines the coordinates of the arc end point.";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcEnd.ULabel.Title = "H: ";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcEnd.UName.ShortHelp = "First Coordinate of Arc End Point";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcEnd.UEditor.ShortHelp = "First Coordinate of Arc End Point";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcEnd.VLabel.Title = "V: ";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcEnd.VName.ShortHelp = "Second Coordinate of Arc End Point";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcEnd.VEditor.ShortHelp = "Second Coordinate of Arc End Point";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcEnd.Radius_Label.Title = "R: ";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcEnd.Radius_Label.ShortHelp = "Circle Radius";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcEnd.Radius_Value.ShortHelp = "Circle Radius";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcEnd.StartAngle_Label.Title = "A: ";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcEnd.StartAngle_Label.ShortHelp= "Angle Between Arc Start Point and Horizontal Reference";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcEnd.StartAngle_Value.ShortHelp= "Angle Between Arc Start Point and Horizontal Reference";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcEnd.SectorAngle_Label.Title = "S: ";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcEnd.SectorAngle_Label.ShortHelp= "Oriented Angle";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcEnd.SectorAngle_Value.ShortHelp= "Oriented Angle";
+// ------------------------------------------------------------------------------------------------------------------
+
+
+SketcherUI.CATComDYSCircle3Pts.CreateCircle.Message = "Click or select the first point of the circle";
+SketcherUI.CATComDYSCircle3Pts.CircleCmd.StartPt.Name.Title = "First Point: ";
+SketcherUI.CATComDYSCircle3Pts.CircleCmd.EndPt.Name.Title = "Last Point: ";
+SketcherUI.CATComDYSArc3Pts.CreateArc.Message = "Click or select the start point of the arc";
+SketcherUI.CATComDYSArc3Pts.ArcCmd.SecondPoint.Message = "Click or select the second point the arc will go through";
+SketcherUI.CATComDYSArc3Pts.ArcCmd.ThirdPoint.Message = "Click or select the end point of the arc";
+SketcherUI.CATComDYSArc3Pts.ArcCmd.StartPt.Radius_Label.ShortHelp = "Arc Radius";
+SketcherUI.CATComDYSArc3Pts.ArcCmd.StartPt.Radius_Value.ShortHelp = "Arc Radius";
+SketcherUI.CATComDYSArc3Pts.ArcCmd.MidPt.Radius_Label.ShortHelp = "Arc Radius";
+SketcherUI.CATComDYSArc3Pts.ArcCmd.MidPt.Radius_Value.ShortHelp = "Arc Radius";
+SketcherUI.CATComDYSArc3Pts.ArcCmd.EndPt.Radius_Label.ShortHelp = "Arc Radius";
+SketcherUI.CATComDYSArc3Pts.ArcCmd.EndPt.Radius_Value.ShortHelp = "Arc Radius";
+SketcherUI.CATComDYSArc3Pts132.CreateArc.Message = "Click or select the start point of the arc";
+SketcherUI.CATComDYSArc3Pts132.ArcCmd.SecondPoint.Message = "Click or select the end point of the arc";
+SketcherUI.CATComDYSArc3Pts132.ArcCmd.ThirdPoint.Message = "Click or select the second point the arc will go through";
+SketcherUI.CATComDYSArc3Pts132.ArcCmd.StartPt.Radius_Label.ShortHelp = "Arc Radius";
+SketcherUI.CATComDYSArc3Pts132.ArcCmd.StartPt.Radius_Value.ShortHelp = "Arc Radius";
+SketcherUI.CATComDYSArc3Pts132.ArcCmd.MidPt.Radius_Label.ShortHelp = "Arc Radius";
+SketcherUI.CATComDYSArc3Pts132.ArcCmd.MidPt.Radius_Value.ShortHelp = "Arc Radius";
+SketcherUI.CATComDYSArc3Pts132.ArcCmd.EndPt.Radius_Label.ShortHelp = "Arc Radius";
+SketcherUI.CATComDYSArc3Pts132.ArcCmd.EndPt.Radius_Value.ShortHelp = "Arc Radius";
+
+SketcherUI.CATComDYSGenericCircle3Pts.FirstPoint.Message = "Click or select the start point of the circle";
+SketcherUI.CATComDYSGenericCircle3Pts.SecondPoint.Message = "Click or select the second point the circle will go through";
+SketcherUI.CATComDYSGenericCircle3Pts.ThirdPoint.Message = "Click or select the last point of the circle";
+SketcherUI.CATComDYSGenericCircle3Pts.StartPt.Name.Title = "Start Point: ";
+SketcherUI.CATComDYSGenericCircle3Pts.StartPt.Name.Help = "Defines the start point of the circle";
+SketcherUI.CATComDYSGenericCircle3Pts.StartPt.Name.ShortHelp = "Start Point";
+SketcherUI.CATComDYSGenericCircle3Pts.StartPt.Name.LongHelp = "Defines the start point of the circle.";
+SketcherUI.CATComDYSGenericCircle3Pts.StartPt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSGenericCircle3Pts.StartPt.ULabel.ShortHelp = "First Coordinate of Start Point";
+SketcherUI.CATComDYSGenericCircle3Pts.StartPt.UEditor.ShortHelp = "First Coordinate of Start Point";
+SketcherUI.CATComDYSGenericCircle3Pts.StartPt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSGenericCircle3Pts.StartPt.VLabel.ShortHelp = "Second Coordinate of Start Point";
+SketcherUI.CATComDYSGenericCircle3Pts.StartPt.VEditor.ShortHelp = "Second Coordinate of Start Point";
+SketcherUI.CATComDYSGenericCircle3Pts.StartPt.Radius_Label.Title = "R: ";
+SketcherUI.CATComDYSGenericCircle3Pts.StartPt.Radius_Label.ShortHelp = "Circle Radius";
+SketcherUI.CATComDYSGenericCircle3Pts.StartPt.Radius_Value.ShortHelp = "Circle Radius";
+SketcherUI.CATComDYSGenericCircle3Pts.MidPt.Name.Title = "Second Point: ";
+SketcherUI.CATComDYSGenericCircle3Pts.MidPt.Name.Help = "Defines the second point";
+SketcherUI.CATComDYSGenericCircle3Pts.MidPt.Name.ShortHelp = "Second Point";
+SketcherUI.CATComDYSGenericCircle3Pts.MidPt.Name.LongHelp = "Defines the second point of the circle.";
+SketcherUI.CATComDYSGenericCircle3Pts.MidPt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSGenericCircle3Pts.MidPt.ULabel.ShortHelp = "First Coordinate of Second Point";
+SketcherUI.CATComDYSGenericCircle3Pts.MidPt.UEditor.ShortHelp = "First Coordinate of Second Point";
+SketcherUI.CATComDYSGenericCircle3Pts.MidPt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSGenericCircle3Pts.MidPt.VLabel.ShortHelp = "Second Coordinate of Second Point";
+SketcherUI.CATComDYSGenericCircle3Pts.MidPt.VEditor.ShortHelp = "Second Coordinate of Second Point";
+SketcherUI.CATComDYSGenericCircle3Pts.MidPt.Radius_Label.Title = "R: ";
+SketcherUI.CATComDYSGenericCircle3Pts.MidPt.Radius_Label.ShortHelp = "Circle Radius";
+SketcherUI.CATComDYSGenericCircle3Pts.MidPt.Radius_Value.ShortHelp = "Circle Radius";
+SketcherUI.CATComDYSGenericCircle3Pts.EndPt.Name.Title = "End Point: ";
+SketcherUI.CATComDYSGenericCircle3Pts.EndPt.Name.Help = "End point";
+SketcherUI.CATComDYSGenericCircle3Pts.EndPt.Name.ShortHelp = "End Point";
+SketcherUI.CATComDYSGenericCircle3Pts.EndPt.Name.LongHelp = "Defines the end point of the circle.";
+SketcherUI.CATComDYSGenericCircle3Pts.EndPt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSGenericCircle3Pts.EndPt.ULabel.ShortHelp = "First Coordinate of End Point";
+SketcherUI.CATComDYSGenericCircle3Pts.EndPt.UEditor.ShortHelp = "First Coordinate of End Point";
+SketcherUI.CATComDYSGenericCircle3Pts.EndPt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSGenericCircle3Pts.EndPt.VLabel.ShortHelp = "Second Coordinate of End Point";
+SketcherUI.CATComDYSGenericCircle3Pts.EndPt.VEditor.ShortHelp = "Second Coordinate of End Point";
+SketcherUI.CATComDYSGenericCircle3Pts.EndPt.Radius_Label.Title = "R: ";
+SketcherUI.CATComDYSGenericCircle3Pts.EndPt.Radius_Label.ShortHelp = "Circle Radius";
+SketcherUI.CATComDYSGenericCircle3Pts.EndPt.Radius_Value.ShortHelp = "Circle Radius";
+
+// Creation Ellipse V2.0
+SketcherUI.CATComDYSEllipseCtrRds.Center.Message = "Click to define the ellipse center";
+SketcherUI.CATComDYSEllipseCtrRds.MajorRadius.Message = "Click to define the major axis and the ellipse orientation";
+SketcherUI.CATComDYSEllipseCtrRds.MinorRadius.Message = "Click to define a point on the ellipse";
+// Gestion Visu Copilote
+SketcherUI.CATComDYSEllipseCtrRds.FirstPt.Name.Title = "Center: ";
+SketcherUI.CATComDYSEllipseCtrRds.FirstPt.Name.Help = "Defines the ellipse center";
+SketcherUI.CATComDYSEllipseCtrRds.FirstPt.Name.ShortHelp = "Ellipse Center";
+SketcherUI.CATComDYSEllipseCtrRds.FirstPt.Name.LongHelp = "Defines the ellipse center.";
+SketcherUI.CATComDYSEllipseCtrRds.FirstPt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSEllipseCtrRds.FirstPt.ULabel.ShortHelp = "First Coordinate of Ellipse Center";
+SketcherUI.CATComDYSEllipseCtrRds.FirstPt.UEditor.ShortHelp = "First Coordinate of Ellipse Center";
+SketcherUI.CATComDYSEllipseCtrRds.FirstPt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSEllipseCtrRds.FirstPt.VLabel.ShortHelp = "Second Coordinate of Ellipse Center";
+SketcherUI.CATComDYSEllipseCtrRds.FirstPt.VEditor.ShortHelp = "Second Coordinate of Ellipse Center";
+SketcherUI.CATComDYSEllipseCtrRds.FirstPt.MajorRadius_Label.Title = "Major Radius: ";
+SketcherUI.CATComDYSEllipseCtrRds.FirstPt.MajorRadius_Label.ShortHelp = "Major Radius";
+SketcherUI.CATComDYSEllipseCtrRds.FirstPt.MajorRadius_Value.ShortHelp = "Major Radius";
+SketcherUI.CATComDYSEllipseCtrRds.FirstPt.MinorRadius_Label.Title = "Minor Radius: ";
+SketcherUI.CATComDYSEllipseCtrRds.FirstPt.MinorRadius_Label.ShortHelp = "Minor Radius";
+SketcherUI.CATComDYSEllipseCtrRds.FirstPt.MinorRadius_Value.ShortHelp = "Minor Radius";
+SketcherUI.CATComDYSEllipseCtrRds.FirstPt.Angle_Label.Title = "A: ";
+SketcherUI.CATComDYSEllipseCtrRds.FirstPt.Angle_Label.ShortHelp = "Orientation";
+SketcherUI.CATComDYSEllipseCtrRds.FirstPt.Angle_Value.ShortHelp = "Orientation";
+SketcherUI.CATComDYSEllipseCtrRds.SecondPt.Name.Title = "Major Semi-Axis Endpoint:  ";
+SketcherUI.CATComDYSEllipseCtrRds.SecondPt.Name.Help = "Defines the major semi-axis endpoint";
+SketcherUI.CATComDYSEllipseCtrRds.SecondPt.Name.ShortHelp = "Major Semi-Axis Endpoint";
+SketcherUI.CATComDYSEllipseCtrRds.SecondPt.Name.LongHelp = "Defines the major semi-axis endpoint.";
+SketcherUI.CATComDYSEllipseCtrRds.SecondPt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSEllipseCtrRds.SecondPt.ULabel.ShortHelp = "First Coordinate of Major Axis End";
+SketcherUI.CATComDYSEllipseCtrRds.SecondPt.UEditor.ShortHelp = "First Coordinate of Major Axis End";
+SketcherUI.CATComDYSEllipseCtrRds.SecondPt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSEllipseCtrRds.SecondPt.VLabel.ShortHelp = "Second Coordinate of Major Axis End";
+SketcherUI.CATComDYSEllipseCtrRds.SecondPt.VEditor.ShortHelp = "Second Coordinate of Major Axis End";
+SketcherUI.CATComDYSEllipseCtrRds.SecondPt.MajorRadius_Label.Title = "Major Radius: ";
+SketcherUI.CATComDYSEllipseCtrRds.SecondPt.MajorRadius_Label.ShortHelp = "Major Radius";
+SketcherUI.CATComDYSEllipseCtrRds.SecondPt.MajorRadius_Value.ShortHelp = "Major Radius";
+SketcherUI.CATComDYSEllipseCtrRds.SecondPt.MinorRadius_Label.Title = "Minor Radius: ";
+SketcherUI.CATComDYSEllipseCtrRds.SecondPt.MinorRadius_Label.ShortHelp = "Minor Radius";
+SketcherUI.CATComDYSEllipseCtrRds.SecondPt.MinorRadius_Value.ShortHelp = "Minor Radius";
+SketcherUI.CATComDYSEllipseCtrRds.SecondPt.Angle_Label.Title = "A: ";
+SketcherUI.CATComDYSEllipseCtrRds.SecondPt.Angle_Label.ShortHelp = "Orientation";
+SketcherUI.CATComDYSEllipseCtrRds.SecondPt.Angle_Value.ShortHelp = "Orientation";
+SketcherUI.CATComDYSEllipseCtrRds.ThirdPt.Name.Title = "Minor Semi-Axis Endpoint: ";
+SketcherUI.CATComDYSEllipseCtrRds.ThirdPt.Name.Help = "Defines the minor semi-axis endpoint";
+SketcherUI.CATComDYSEllipseCtrRds.ThirdPt.Name.ShortHelp = "Minor Semi-Axis Endpoint";
+SketcherUI.CATComDYSEllipseCtrRds.ThirdPt.Name.LongHelp = "Defines the minor semi-axis endpoint.";
+SketcherUI.CATComDYSEllipseCtrRds.ThirdPt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSEllipseCtrRds.ThirdPt.ULabel.ShortHelp = "Point First Coordinate";
+SketcherUI.CATComDYSEllipseCtrRds.ThirdPt.UEditor.ShortHelp = "Point First Coordinate";
+SketcherUI.CATComDYSEllipseCtrRds.ThirdPt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSEllipseCtrRds.ThirdPt.VLabel.ShortHelp = "Point Second Coordinate";
+SketcherUI.CATComDYSEllipseCtrRds.ThirdPt.VEditor.ShortHelp = "Point Second Coordinate";
+SketcherUI.CATComDYSEllipseCtrRds.ThirdPt.MajorRadius_Label.Title = "Major Radius: ";
+SketcherUI.CATComDYSEllipseCtrRds.ThirdPt.MajorRadius_Label.ShortHelp = "Major Radius";
+SketcherUI.CATComDYSEllipseCtrRds.ThirdPt.MajorRadius_Value.ShortHelp = "Major Radius";
+SketcherUI.CATComDYSEllipseCtrRds.ThirdPt.MinorRadius_Label.Title = "Minor Radius: ";
+SketcherUI.CATComDYSEllipseCtrRds.ThirdPt.MinorRadius_Label.ShortHelp = "Minor Radius";
+SketcherUI.CATComDYSEllipseCtrRds.ThirdPt.MinorRadius_Value.ShortHelp = "Minor Radius";
+SketcherUI.CATComDYSEllipseCtrRds.ThirdPt.Angle_Label.Title = "A: ";
+SketcherUI.CATComDYSEllipseCtrRds.ThirdPt.Angle_Label.ShortHelp = "Orientation";
+SketcherUI.CATComDYSEllipseCtrRds.ThirdPt.Angle_Value.ShortHelp = "Orientation";
+
+
+SketcherUI.CATComDYSBreak.FirstElem.Message = "Select the element to be broken or a common point";
+SketcherUI.CATComDYSBreak.SecondElem.Message = "Select the breaking element";
+SketcherUI.CATComDYSBreak.LengthToDist.Title = "Break";
+SketcherUI.CATComDYSBreak.LengthToDist.Message = "It is impossible to break a lengthed element.\nDo you want to convert the length into distance?\n";
+SketcherUI.CATComDYSBreak.CheckMiddlePoint.Title = "Break";
+SketcherUI.CATComDYSBreak.CheckMiddlePoint.Message = "The middle point constraint might be modified or even deleted after this operation.\nDo you confirm this modification?";
+SketcherUI.CATComDYSBreak.Explode.Title = "Break";
+SketcherUI.CATComDYSBreak.Explode1.Message = "The selected point will be isolated.\n";
+SketcherUI.CATComDYSBreak.Explode.Message = "All the selected points will be isolated.\n";
+
+
+SketcherUI.CATComDYSUseEdge.SelElem.Message = "Select the 3D elements you wish to be intersected with the sketch plane";
+SketcherUI.CATComDYSUseEdge.NoIntBox.Title = "Intersection with the sketch plane";
+SketcherUI.CATComDYSUseEdge.NoInt.Message = "Intersection with the sketch plane failed:\nintersection does not exist.\n";
+SketcherUI.CATComDYSUseEdge.Cycle.Message = "Intersection with the sketch plane failed:\nit would create an update cycle.\n";
+SketcherUI.CATComDYSUseEdge.PartialInt.Message = "Warning: Only certain elements resulting from the intersection with the sketch plane\n are associative. (The number of non associative elements is = ";
+SketcherUI.CATComDYSUseEdge.NoAssInt.Message = "Warning: Elements resulting from the intersection with the sketch plane\n are not associative. (The number of non associative elements is = ";
+
+
+SketcherUI.CATComDYSUseEdgeProj.SelElem.Message = "Select the 3D elements you wish to project onto the sketch plane";
+SketcherUI.CATComDYSUseEdgeProj.NoProjBox.Title = "Projection onto the sketch plane";
+SketcherUI.CATComDYSUseEdgeProj.NoProj.Message = "Projection onto the sketch plane failed:\nthe selected elements cannot be projected\n";
+SketcherUI.CATComDYSUseEdgeProj.Cycle.Message = "Projection onto the sketch plane failed:\nit would create an update cycle.\n";
+SketcherUI.CATComDYSUseEdgeProj.PartialProj.Message = "Warning: Only certain elements resulting from the projection onto the sketch plane\nare associative. (The number of non associative elements is = ";
+SketcherUI.CATComDYSUseEdgeProj.NoAssProj.Message = "Warning: Elements resulting from the projection onto the sketch plane\nare not associative. (The number of non associative elements is = ";
+
+
+SketcherUI.CATComDYSUseEdgeSilh.SelElem.Message = "Select the 3D surfaces you wish to project the silhouette edges onto the sketch plane";
+SketcherUI.CATComDYSUseEdgeSilh.NoProjBox.Title = "Silhouette Edges Projection onto the sketch plane";
+SketcherUI.CATComDYSUseEdgeSilh.NoProj.Message = "Silhouette edges projection onto the sketch plane failed:\nthe selected surfaces cannot be projected\n";
+SketcherUI.CATComDYSUseEdgeSilh.Cycle.Message = "Silhouette edges projection onto the sketch plane failed:\nit would create an update cycle.\n";
+SketcherUI.CATComDYSUseEdgeSilh.PartialProj.Message = "Warning: Only certain elements resulting from the silhouette edges projection onto the sketch plane\n are associative. (The number of non associative elements is = ";
+SketcherUI.CATComDYSUseEdgeSilh.NoAssProj.Message = "Warning: Elements resulting from the silhouette edge projection onto the sketch plane\n are not associative. (The number of non associative elements is = ";
+
+
+SketcherUI.CATComDYSPoint.PointCreation.Message = "Click to create the point";
+SketcherUI.CATComDYSPoint.Point.Name.Title = "Point Coordinates: ";
+SketcherUI.CATComDYSPoint.Point.ULabel.Title = "H: ";
+SketcherUI.CATComDYSPoint.Point.ULabel.ShortHelp = "Point First Coordinate";
+SketcherUI.CATComDYSPoint.Point.UEditor.ShortHelp = "Point First Coordinate";
+SketcherUI.CATComDYSPoint.Point.VLabel.Title = "V: ";
+SketcherUI.CATComDYSPoint.Point.VLabel.ShortHelp = "Point Second Coordinate";
+SketcherUI.CATComDYSPoint.Point.VEditor.ShortHelp = "Point Second Coordinate";
+SketcherUI.CATComDYSPoint.Barycenter.Title = "Isobarycenter Creation";
+SketcherUI.CATComDYSPoint.Barycenter.Message = "Isobarycenter will be created between all the selected points.\nDo you want to create this point?";
+
+
+SketcherUI.2DElementType.Construction.Title = "Construction element";
+
+SketcherUI.2DPointPanel.Title = "Point Definition";
+
+
+SketcherUI.2DPointEditor.CartesianPage.Title = "Cartesian";
+SketcherUI.2DPointEditor.CartesianPage.Help = "Defines the cartesian coordinate of the point";
+SketcherUI.2DPointEditor.CartesianPage.LongHelp = "Defines the cartesian coordinate of the point.";
+SketcherUI.2DPointEditor.CartesianPage.H_Length.Title  = "H:";
+SketcherUI.2DPointEditor.CartesianPage.X.Spinner.Title = "H";
+SketcherUI.2DPointEditor.CartesianPage.V_Length.Title  = "V:";
+SketcherUI.2DPointEditor.CartesianPage.Y.Spinner.Title = "V";
+SketcherUI.2DPointEditor.PolarPage.Title = "Polar";
+SketcherUI.2DPointEditor.PolarPage.Help = "Defines the polar coordinate of the point";
+SketcherUI.2DPointEditor.PolarPage.LongHelp = "Defines the polar coordinate of the point.";
+SketcherUI.2DPointEditor.PolarPage.Radius_Length.Title  = "Radius:";
+SketcherUI.2DPointEditor.PolarPage.Radius.Spinner.Title = "Radius";
+SketcherUI.2DPointEditor.PolarPage.Alpha_Angle.Title    = "Angle:";
+SketcherUI.2DPointEditor.PolarPage.Angle.Spinner.Title  = "Angle";
+
+SketcherUI.2DDirectionEditor.Length.Title         = "Length: ";
+SketcherUI.2DDirectionEditor.Length.Spinner.Title = "Length";
+SketcherUI.2DDirectionEditor.Angle.Title          = "Angle:  ";
+SketcherUI.2DDirectionEditor.Angle.Spinner.Title  = "Angle";
+
+
+SketcherUI.CATComEdit2DCircle.PanelState.Message = "Enter the definition of the circle";
+SketcherUI.CATComEdit2DCstPoint.InitState.Message = "Define Control Point";
+SketcherUI.2DCirclePanel.Title = "Circle Definition";
+SketcherUI.2DCirclePanel.Center.Title = "Center Point";
+SketcherUI.2DCirclePanel.Radius_Length.Title = "Radius: ";
+SketcherUI.2DCirclePanel.CircleRadius.Spinner.Title = "Radius";
+
+
+SketcherUI.CATComEdit2DEllipse.PanelState.Message = "Enter the definition of the ellipse";
+
+SketcherUI.2DEllipsePanel.Title = "Ellipse Definition";
+SketcherUI.2DEllipsePanel.Center.Title = "Center Point";
+SketcherUI.2DEllipsePanel.MajorRadius_Length.Title = "Major radius: ";
+SketcherUI.2DEllipsePanel.EllipseMajorRadius.Spinner.Title = "Major radius";
+SketcherUI.2DEllipsePanel.MinorRadius_Length.Title = "Minor radius: ";
+SketcherUI.2DEllipsePanel.EllipseMinorRadius.Spinner.Title = "Minor radius";
+SketcherUI.2DEllipsePanel.Alpha_Angle.Title = "Angle: ";
+SketcherUI.2DEllipsePanel.Angle.Spinner.Title = "Angle";
+
+
+SketcherUI.CATComEdit2DLine.PanelState.Message = "Enter the definition of the line";
+SketcherUI.CATComEdit2DLine.ErrorModif.Title   = "Invalid Values";
+SketcherUI.CATComEdit2DLine.ErrorModif.Message = "The given geometrical constraints laying on this line\ndo not match the specified input values.\nAdd or remove constraints to modify this line.";
+
+SketcherUI.CATComEdit2DParabola.PanelState.Message = "Enter the definition of the parabola";
+SketcherUI.CATComEdit2DParabola.ErrorModif.Title   = "Invalid Values";
+SketcherUI.CATComEdit2DParabola.ErrorModif.Message = "Specify different values for parabola focus and apex coordinates.";
+
+SketcherUI.CATComEdit2DHyperbola.PanelState.Message = "Enter the definition of the hyperbola";
+SketcherUI.CATComEdit2DHyperbola.ErrorModif.Title   = "Invalid Values";
+SketcherUI.CATComEdit2DHyperbola.ErrorModif.Message = "Specify different values for hyperbola focus and apex coordinates.";
+
+SketcherUI.2DLinePanel.Title = "Line Definition";
+SketcherUI.2DLinePanel.StartPoint.Title = "End Point 1";
+SketcherUI.2DLinePanel.EndPoint.Title = "End Point 2";
+SketcherUI.2DLinePanel.Parameters.Title = "Parameters";
+
+
+SketcherUI.CATComEdit2DPoint.PanelState.Message  = "Enter the new point coordinates";
+
+SketcherUI.CATComEdit2DSpline.PanelState.Message  = "Select a control point and if needed, set a tangency and a curvature radius or remove it.";
+SketcherUI.CATComEdit2DSpline.SelNewPoint.Message  = "Select the desired new control point";
+
+SketcherUI.2DCstPointPanel.Title = "Control Point Definition";
+SketcherUI.2DCstPointPanel.PanelState.Message  = "Enter the new point coordinates and if needed, set a tangency and a curvature radius.";
+SketcherUI.2DCstPointPanel.2DCstPointEditor.Help = "Defines the Point Coordinates";
+SketcherUI.2DCstPointPanel.2DCstPointEditor.LongHelp = "Defines the point coordinates.";
+
+SketcherUI.Editor2DCstTangent.TangentImposition.Title = "Tangency";
+SketcherUI.Editor2DCstTangent.TangentImposition.Help = "Imposes a tangency";
+SketcherUI.Editor2DCstTangent.TangentImposition.LongHelp = "Imposes a tangency.";
+SketcherUI.Editor2DCstTangent.InvertTangent.Title = "Reverse Tangent";
+SketcherUI.Editor2DCstTangent.InvertTangent.Help = "Reverses tangent";
+SketcherUI.Editor2DCstTangent.InvertTangent.LongHelp = "Reverses the tangent direction.";
+SketcherUI.Editor2DCstTangent.CurvatureImposition.Title = "Curvature Radius:";
+SketcherUI.Editor2DCstTangent.CurvatureImposition.Help = "Imposes a curvature";
+SketcherUI.Editor2DCstTangent.CurvatureImposition.LongHelp = "Imposes a curvature.";
+
+
+SketcherUI.CATComDYSCircleXYRds.CircleData.Message = "Enter the absolute coordinates of the center or if needed, select a reference point";
+SketcherUI.CATComDYSCircleXYRds.CircleDataWithRef.Message = "Enter the relative coordinates of the center or if needed, select an other reference point";
+
+SketcherUI.CATComDYSPointXY.PointData.Message = "Enter the absolute coordinates of the new point or if needed, select a reference point";
+SketcherUI.CATComDYSPointXY.PointDataWithRef.Message = "Enter the relative coordinates of the new point or if needed, select an other reference point";
+
+SketcherUI.3DPointPanel.Title = "Point Definition";
+
+SketcherUI.3DPointEditor.CartesianPage.Title = "Cartesian";
+SketcherUI.3DPointEditor.CartesianPage.Help = "Defines the cartesian coordinate of the point";
+SketcherUI.3DPointEditor.CartesianPage.LongHelp = "Defines the cartesian coordinate of the point.";
+SketcherUI.3DPointEditor.CartesianPage.X_Length.Title  = "x:     ";
+SketcherUI.3DPointEditor.CartesianPage.X.Spinner.Title = "x";
+SketcherUI.3DPointEditor.CartesianPage.Y_Length.Title  = "y:     ";
+SketcherUI.3DPointEditor.CartesianPage.Y.Spinner.Title = "y";
+SketcherUI.3DPointEditor.CartesianPage.Z_Length.Title  = "z:     ";
+SketcherUI.3DPointEditor.CartesianPage.Z.Spinner.Title = "z";
+SketcherUI.3DPointEditor.CylindricalPage.Title = "Cylindrical";
+SketcherUI.3DPointEditor.CylindricalPage.Help = "Defines the cylindrical coordinate of the point";
+SketcherUI.3DPointEditor.CylindricalPage.LongHelp = "Defines the cylindrical coordinate of the point.";
+SketcherUI.3DPointEditor.CylindricalPage.Radius_Length.Title  = "Radius:";
+SketcherUI.3DPointEditor.CylindricalPage.Radius.Spinner.Title = "Radius";
+SketcherUI.3DPointEditor.CylindricalPage.Theta_Angle.Title    = "Theta: ";
+SketcherUI.3DPointEditor.CylindricalPage.Theta.Spinner.Title  = "Theta";
+SketcherUI.3DPointEditor.CylindricalPage.Height_Length.Title  = "Height:";
+SketcherUI.3DPointEditor.CylindricalPage.Height.Spinner.Title = "Height";
+SketcherUI.3DPointEditor.SphericalPage.Title = "Spherical";
+SketcherUI.3DPointEditor.SphericalPage.Help = "Defines the spherical coordinate of the point";
+SketcherUI.3DPointEditor.SphericalPage.LongHelp = "Defines the spherical coordinate of the point.";
+SketcherUI.3DPointEditor.SphericalPage.Radius_Length.Title  = "Radius:";
+SketcherUI.3DPointEditor.SphericalPage.Radius.Spinner.Title = "Radius";
+SketcherUI.3DPointEditor.SphericalPage.Theta_Angle.Title    = "Theta: ";
+SketcherUI.3DPointEditor.SphericalPage.Theta.Spinner.Title  = "Theta";
+SketcherUI.3DPointEditor.SphericalPage.Phi_Angle.Title      = "Phi:   ";
+SketcherUI.3DPointEditor.SphericalPage.Phi.Spinner.Title    = "Phi";
+
+SketcherUI.CATComEdit3DLine.PanelState.Message  = "Modify the line definition";
+
+SketcherUI.CATComEdit3DPlane.PanelState.Message = "Modify the plane definition";
+
+SketcherUI.CATComEdit3DPoint.PanelState.Message = "Enter the point coordinates";
+
+SketcherUI.3DPlanePanel.Title = "Plane Definition";
+SketcherUI.3DPlanePanel.Origin.Title = "Origin";
+SketcherUI.3DPlanePanel.Origin.Help = "Defines the Origin";
+SketcherUI.3DPlanePanel.Origin.LongHelp = "Defines the coordinates of the plan origin.";
+SketcherUI.3DPlanePanel.Normal.Title = "Normal";
+SketcherUI.3DPlanePanel.Normal.Help = "Defines the normal";
+SketcherUI.3DPlanePanel.Normal.LongHelp = "Defines the normal.";
+SketcherUI.3DPlanePanel.Normal.X_Vector.Title = "x:";
+SketcherUI.3DPlanePanel.Normal.UxValue.Title  = "Nx";
+SketcherUI.3DPlanePanel.Normal.Y_Vector.Title = "y:";
+SketcherUI.3DPlanePanel.Normal.UyValue.Title  = "Ny";
+SketcherUI.3DPlanePanel.Normal.Z_Vector.Title = "z:";
+SketcherUI.3DPlanePanel.Normal.UzValue.Title  = "Nz";
+
+SketcherUI.3DLinePanel.Title = "Line Definition";
+SketcherUI.3DLinePanel.Origin.Title = "Origin";
+SketcherUI.3DLinePanel.Origin.Help = "Defines the origin of the line";
+SketcherUI.3DLinePanel.Origin.LongHelp = "Defines the origin of the line.";
+SketcherUI.3DLinePanel.Direction.Title = "Direction";
+SketcherUI.3DLinePanel.Direction.Help = "Defines the direction of the line";
+SketcherUI.3DLinePanel.Direction.LongHelp = "Defines the direction of the line.";
+SketcherUI.3DLinePanel.Direction.X_Vector.Title = "x:";
+SketcherUI.3DLinePanel.Direction.UxValue.Title  = "Dx";
+SketcherUI.3DLinePanel.Direction.Y_Vector.Title = "y:";
+SketcherUI.3DLinePanel.Direction.UyValue.Title  = "Dy";
+SketcherUI.3DLinePanel.Direction.Z_Vector.Title = "z:";
+SketcherUI.3DLinePanel.Direction.UzValue.Title  = "Dz";
+
+// Symmetry Command
+SketcherUI.CATComDYSSymmetry.ElementMirror.Message = "Select the set of elements to be duplicated by symmetry";
+SketcherUI.CATComDYSSymmetry.ElementSymmetry.Message = "Select the set of elements to be symmetrized";
+SketcherUI.CATComDYSSymmetry.Symmetry.Message = "Select the line or axis from which the elements will remain equidistant";
+
+// Isolate Command
+SketcherUI.CATComDYSIsolate.GetImportedGeometry.Message = "Select the projection or intersection you wish to isolate";
+SketcherUI.CATComDYSIsolate.RerouteNeeded.Title   = "Warning: Reroute may be needed";
+SketcherUI.CATComDYSIsolate.RerouteNeeded.Message = "The specifications related to the isolated elements will need to be rerouted";
+SketcherUI.CATComDYSIsolate.IsolateFailed.Message = "The operation of isolation failed !";
+SketcherUI.CATComDYSIsolate.IsolateFailed.Title = "Warning";
+SketcherUI.CATComDYSIsolate.IsolateLMGUseEdgeFailed.Message = "Isolate use edge in LMG Sketchis not authorized!";
+SketcherUI.CATComDYSIsolate.IsolateLMGUseEdgeFailed.Title = "Warning";
+
+
+// Ressources NLS (CXR2 Commands)
+// AutoConstraint Command
+
+SketcherUI.CATComAutoConstraint.stateGetEltSel.Message = "Select or unselect the elements to be constrained, or select another option";
+SketcherUI.CATComAutoConstraint.stateGetEltRef.Message = "Select or unselect the references elements, or select another option";
+SketcherUI.CATComAutoConstraint.stateGetEltSym.Message = "Select or unselect the lines for symmetries, or select another option";
+SketcherUI.CATComAutoConstraint.AutoConstraintPanel.Title    = "Auto Constraint";
+SketcherUI.CATComAutoConstraint.AutoConstraintPanel.ObjectSelLabel.Title     = "Elements to be constrained:";
+SketcherUI.CATComAutoConstraint.AutoConstraintPanel.ObjectSelLabel.LongHelp  = "Defines the elements to be constrained.";
+SketcherUI.CATComAutoConstraint.AutoConstraintPanel.ObjectRefLabel.Title     = "Reference elements:";
+SketcherUI.CATComAutoConstraint.AutoConstraintPanel.ObjectRefLabel.LongHelp  = "Defines the reference elements.";
+SketcherUI.CATComAutoConstraint.AutoConstraintPanel.ObjectSymLabel.Title     = "Symmetry lines:";
+SketcherUI.CATComAutoConstraint.AutoConstraintPanel.ObjectSymLabel.LongHelp  = "Defines the symmetry lines.";
+SketcherUI.CATComAutoConstraint.AutoConstraintPanel.ObjectModeLabel.Title    = "Constraint Mode:";
+SketcherUI.CATComAutoConstraint.AutoConstraintPanel.ObjectModeLabel.LongHelp = "Defines the constraint creation mode.";
+SketcherUI.CATComAutoConstraint.AutoConstraintPanel.ObjectModeCombo.Stacked.Item = "Stacked";
+SketcherUI.CATComAutoConstraint.AutoConstraintPanel.ObjectModeCombo.Chained.Item = "Chained";
+
+Element                = "Element"; 
+Element_s              = "Elements"; 
+NoSelection            = "No Selection";
+2DLine                 = "Line";
+2DLine_s               = "Lines";
+2DPoint                = "Point";
+2DPoint_s              = "Points";
+2DCircle               = "Circle";
+2DCircle_s             = "Circles";
+2DEllipse              = "Ellipse";
+2DEllipse_s            = "Ellipses";
+2DSplineCurve          = "Spline";
+2DSplineCurve_s        = "Splines";
+2DCstPoint             = "CstPoint";
+2DCstPoint_s           = "CstPoints";
+2DCstPointTangent      = "Tangent";
+2DCstPointTangent_s    = "Tangents";
+Imported3DGeometry     = "Imported geom.";
+Imported3DGeometry_s   = "Imported geom. ";
+CATBrpObject           = "Imported geom.";
+CATBrpObject_s         = "Imported geom. ";
+2DAxis_HDirection      = "H Direction";
+2DAxis_VDirection      = "V Direction";
+CATRSurImpl            = "Face";
+CATRSurImpl_s          = "Faces";
+R7Imported3DGeometry   = "Imported geom.";
+R7Imported3DGeometry_s = "Imported geom. ";
+CATREdgeImpl           = "Edge";
+CATREdgeImpl_s         = "Edges";
+CATWireREdgeImpl       = "Edge";
+CATWireREdgeImpl_s     = "Edges";
+CATFVertexImpl         = "Vertex";
+CATFVertexImpl_s       = "Vertex";
+CATBorderFVertexImpl   = "Vertex";
+CATBorderFVertexImpl_s = "Vertex";
+CATAxisImpl            = "Axis";
+CATAxisImpl_s          = "Axis";
+
+// Ressources NLS
+// Panel Animation Contrainte
+
+SketcherUI.CATComDimAnimate.SelCst.Message = "Select constraint to animate";
+SketcherUI.CATComDimAnimate.KeyValues.Message = "Enter values";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Title = "Animate Constraint";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Parameters.Title     = "Parameters";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Parameters.LongHelp  = "Defines the parameters.";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Parameters.FirstValue.Title    = "First value:";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Parameters.FirstValue.LongHelp = "Defines the first value.";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Parameters.LastValue.Title    = "Last value:";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Parameters.LastValue.LongHelp = "Defines the last value.";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Parameters.NbStep.Title    = "Number of steps:";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Parameters.NbStep.LongHelp = "Defines the number of steps.";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Actions.Title    = "Actions";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Actions.LongHelp = "Defines the actions.";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Actions.RunReverse.Title          = "Run back animation";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Actions.RunReverse.Help           = "Runs back the animation";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Actions.RunReverse.ShortHelp      = "Run Back Animation";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Actions.RunReverse.LongHelp       = "Defines the run back animation.";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Actions.Pause.Title          = "Pause animation";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Actions.Pause.Help           = "Pauses the animation";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Actions.Pause.ShortHelp      = "Pause Animation";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Actions.Pause.LongHelp       = "Defines the pause animation.";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Actions.Stop.Title          = "Stop animation";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Actions.Stop.Help           = "Stops the animation";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Actions.Stop.ShortHelp      = "Stop Animation";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Actions.Stop.LongHelp       = "Defines the stop animation.";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Actions.RunForward.Title          = "Run animation";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Actions.RunForward.Help           = "Runs the animation";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Actions.RunForward.ShortHelp      = "Run Animation";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Actions.RunForward.LongHelp       = "Defines the run animation";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.RepeatOption.Title = "Options";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.RepeatOption.OneShot.Title          = "One shot";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.RepeatOption.OneShot.Help           = "Defines the one shot mode";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.RepeatOption.OneShot.ShortHelp      = "One shot";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.RepeatOption.OneShot.LongHelp       = "Defines the one shot mode.";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.RepeatOption.Reverse.Title          = "Reverse";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.RepeatOption.Reverse.Help           = "Defines the reverse mode";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.RepeatOption.Reverse.ShortHelp      = "Reverse";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.RepeatOption.Reverse.LongHelp       = "Defines the reverse mode.";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.RepeatOption.Loop.Title          = "Loop";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.RepeatOption.Loop.Help           = "Defines the loop mode";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.RepeatOption.Loop.ShortHelp      = "Loop";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.RepeatOption.Loop.LongHelp       = "Defines the loop mode.";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.RepeatOption.Repeat.Title          = "Repeat";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.RepeatOption.Repeat.Help           = "Defines the repeat mode";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.RepeatOption.Repeat.ShortHelp      = "Repeat";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.RepeatOption.Repeat.LongHelp       = "Defines the repeat mode.";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.HideConstraints.Title     = "Hide constraints";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.HideConstraints.Help       = "Defines the Hide Constraints mode";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.HideConstraints.ShortHelp  = "Hide Constraints";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.HideConstraints.LongHelp   = "Defines the Hide Constraints mode.";
+
+//
+// keyhole profile
+//
+SketcherUI.CATCom2DKeyHole.FirstSide.Message  = "Define the center of large radius";
+SketcherUI.CATCom2DKeyHole.Entraxe.EndPoint.Message = "Define the center of small radius";
+SketcherUI.CATCom2DKeyHole.SecondSide.Message = "Click a point on the keyhole profile to define the small radius";
+SketcherUI.CATCom2DKeyHole.ThirdSide.Message = "Click a point on the keyhole profile to define the large radius";
+SketcherUI.CATCom2DKeyHole.Radius.Message = "Enter the radius value";
+SketcherUI.CATCom2DKeyHole.Radius.Dimension.EnglobingFrame.IntermediateFrame.Label.Title = "Radius: ";
+SketcherUI.CATCom2DKeyHole.Radius.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp = "Radius of the Elongated Hole"; 
+SketcherUI.CATCom2DKeyHole.Entraxe.StartPt.Name.Title = "Center: ";
+SketcherUI.CATCom2DKeyHole.Entraxe.StartPt.Name.Help = "Defines the center of Large Radius";
+SketcherUI.CATCom2DKeyHole.Entraxe.StartPt.Name.ShortHelp = "Center";
+SketcherUI.CATCom2DKeyHole.Entraxe.StartPt.Name.LongHelp = "Defines the center of large radius.";
+SketcherUI.CATCom2DKeyHole.Entraxe.StartPt.ULabel.Title = "H: ";
+SketcherUI.CATCom2DKeyHole.Entraxe.StartPt.VLabel.Title = "V: ";
+SketcherUI.CATCom2DKeyHole.Entraxe.EndPt.Name.Title = "Center: ";
+SketcherUI.CATCom2DKeyHole.Entraxe.EndPt.Name.Help = "Defines the center of Small Radius";
+SketcherUI.CATCom2DKeyHole.Entraxe.EndPt.Name.ShortHelp = "Center";
+SketcherUI.CATCom2DKeyHole.Entraxe.EndPt.Name.LongHelp = "Defines the center of small radius.";
+SketcherUI.CATCom2DKeyHole.Entraxe.EndPt.ULabel.Title = "H: ";
+SketcherUI.CATCom2DKeyHole.Entraxe.EndPt.VLabel.Title = "V: ";
+SketcherUI.CATCom2DKeyHole.FirstRadius.Name.Title = "Small Radius: ";
+SketcherUI.CATCom2DKeyHole.FirstRadius.Name.Help = "Defines the first point on keyhole profile defining the small radius";
+SketcherUI.CATCom2DKeyHole.FirstRadius.Name.ShortHelp = "First Point";
+SketcherUI.CATCom2DKeyHole.FirstRadius.Name.LongHelp = "Defines the first point on keyhole profile defining the small radius.";
+SketcherUI.CATCom2DKeyHole.FirstRadius.ULabel.Title = "H: ";
+SketcherUI.CATCom2DKeyHole.FirstRadius.VLabel.Title = "V: ";
+SketcherUI.CATCom2DKeyHole.SecondRadius.Name.Title = "Second Radius: ";
+SketcherUI.CATCom2DKeyHole.SecondRadius.Name.Help = "Defines the second point on keyhole profile defining the large radius";
+SketcherUI.CATCom2DKeyHole.SecondRadius.Name.ShortHelp = "Second Point";
+SketcherUI.CATCom2DKeyHole.SecondRadius.Name.LongHelp = "Defines the second point on keyhole profile defining the large radius.";
+SketcherUI.CATCom2DKeyHole.SecondRadius.ULabel.Title = "H: ";
+SketcherUI.CATCom2DKeyHole.SecondRadius.VLabel.Title = "V: ";
+
+//
+//  Elongated hole
+//
+SketcherUI.CATCom2DTrouOblong.FirstSide.Message  = "Define the center to center distance";
+SketcherUI.CATCom2DTrouOblong.SecondSide.Message = "Click to define a point on the elongated hole";
+SketcherUI.CATCom2DTrouOblong.Radius.Message = "Enter the radius value";
+SketcherUI.CATCom2DTrouOblong.Radius.Dimension.EnglobingFrame.IntermediateFrame.Label.Title = "Radius: ";
+SketcherUI.CATCom2DTrouOblong.Radius.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp = "Radius of the Elongated Hole"; 
+SketcherUI.CATCom2DTrouOblong.Entraxe.StartPt.Name.Title = "First Center: ";
+SketcherUI.CATCom2DTrouOblong.Entraxe.StartPt.Name.Help = "Defines the first point of the center to center of the elongated hole";
+SketcherUI.CATCom2DTrouOblong.Entraxe.StartPt.Name.ShortHelp = "First Center";
+SketcherUI.CATCom2DTrouOblong.Entraxe.StartPt.Name.LongHelp = "Defines the first point on the center to center of the elongated hole.";
+SketcherUI.CATCom2DTrouOblong.Entraxe.StartPt.ULabel.Title = "H: ";
+SketcherUI.CATCom2DTrouOblong.Entraxe.StartPt.VLabel.Title = "V: ";
+SketcherUI.CATCom2DTrouOblong.Entraxe.EndPt.Name.Title = "Second Center: ";
+SketcherUI.CATCom2DTrouOblong.Entraxe.EndPt.Name.Help = "Defines the second point on the center to center of the elongated hole";
+SketcherUI.CATCom2DTrouOblong.Entraxe.EndPt.Name.ShortHelp = "Second Center";
+SketcherUI.CATCom2DTrouOblong.Entraxe.EndPt.Name.LongHelp = "Defines the second point on the center to center distance of the elongated hole";
+SketcherUI.CATCom2DTrouOblong.Entraxe.EndPt.ULabel.Title = "H: ";
+SketcherUI.CATCom2DTrouOblong.Entraxe.EndPt.VLabel.Title = "V: ";
+SketcherUI.CATCom2DTrouOblong.EndPt.Name.Title = "Point on Elongated: ";
+SketcherUI.CATCom2DTrouOblong.EndPt.Name.Help = "Defines the point on the elongated hole";
+SketcherUI.CATCom2DTrouOblong.EndPt.Name.ShortHelp = "Point on Elongated Hole";
+SketcherUI.CATCom2DTrouOblong.EndPt.Name.LongHelp = "Defines the point on the elongated hole.";
+SketcherUI.CATCom2DTrouOblong.EndPt.ULabel.Title = "H: ";
+SketcherUI.CATCom2DTrouOblong.EndPt.VLabel.Title = "V: ";
+
+//
+// Cylindrical elongated hole
+//
+SketcherUI.CATCom2DTrouOblongArc.FirstSide.Message  = "Define the center to center Arc";
+SketcherUI.CATCom2DTrouOblongArc.SecondSide.Message = "Click to define a point on the cylndrical elongated hole";
+SketcherUI.CATCom2DTrouOblongArc.CenterPt.Name.Title = "Center to center arc: ";
+SketcherUI.CATCom2DTrouOblongArc.Radius.Message = "Enter the radius value";
+SketcherUI.CATCom2DTrouOblongArc.Radius.Dimension.EnglobingFrame.IntermediateFrame.Label.Title = "Radius: ";
+SketcherUI.CATCom2DTrouOblongArc.Radius.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp = "Cylindrical Elongated Hole Radius"; 
+SketcherUI.CATCom2DTrouOblongArc.EntraxeArc.CenterPt.Name.Title = "Arc Center: ";
+SketcherUI.CATCom2DTrouOblongArc.EntraxeArc.CenterPt.Name.Help = "Defines the center of the cylindrical elongated hole";
+SketcherUI.CATCom2DTrouOblongArc.EntraxeArc.CenterPt.Name.ShortHelp = "Cylindrical Elongated Hole Center";
+SketcherUI.CATCom2DTrouOblongArc.EntraxeArc.CenterPt.Name.LongHelp = "Defines the center of the cylindrical elongated hole.";
+SketcherUI.CATCom2DTrouOblongArc.EntraxeArc.CenterPt.ULabel.Title = "H: ";
+SketcherUI.CATCom2DTrouOblongArc.EntraxeArc.CenterPt.VLabel.Title = "V: ";
+SketcherUI.CATCom2DTrouOblongArc.EntraxeArc.PtOn.Name.Title = "First Center: ";
+SketcherUI.CATCom2DTrouOblongArc.EntraxeArc.PtOn.Name.Help = "Defines the first point of the center to center distance of the cylindrical elongated hole";
+SketcherUI.CATCom2DTrouOblongArc.EntraxeArc.PtOn.Name.ShortHelp = "First point (Center to Center Distance)";
+SketcherUI.CATCom2DTrouOblongArc.EntraxeArc.PtOn.Name.LongHelp = "Defines the first point of the center to center distance of the cylindrical elongated hole.";
+SketcherUI.CATCom2DTrouOblongArc.EntraxeArc.PtOn.ULabel.Title = "H: ";
+SketcherUI.CATCom2DTrouOblongArc.EntraxeArc.PtOn.VLabel.Title = "V: ";
+SketcherUI.CATCom2DTrouOblongArc.EntraxeArc.EndPt.Name.Title = "Second Center: ";
+SketcherUI.CATCom2DTrouOblongArc.EntraxeArc.EndPt.Name.Help = "Defines the second point of the center to center of the cylindrical elongated hole";
+SketcherUI.CATCom2DTrouOblongArc.EntraxeArc.EndPt.Name.ShortHelp = "Second point (Center to Center Distance)";
+SketcherUI.CATCom2DTrouOblongArc.EntraxeArc.EndPt.Name.LongHelp = "Defines the second point of the center to center distance of the cylindrical elongated hole.";
+SketcherUI.CATCom2DTrouOblongArc.EntraxeArc.EndPt.ULabel.Title = "H: ";
+SketcherUI.CATCom2DTrouOblongArc.EntraxeArc.EndPt.VLabel.Title = "V: ";
+SketcherUI.CATCom2DTrouOblongArc.EndPt.Name.Title = "Point on Cylindrical Elongated Hole: ";
+SketcherUI.CATCom2DTrouOblongArc.EndPt.Name.Help = "Defines the point on the cylindrical elongated hole";
+SketcherUI.CATCom2DTrouOblongArc.EndPt.Name.ShortHelp = "Point on Cylindrical Elongated Hole";
+SketcherUI.CATCom2DTrouOblongArc.EndPt.Name.LongHelp = "Defines the point on the cylindrical elongated hole.";
+SketcherUI.CATCom2DTrouOblongArc.EndPt.ULabel.Title = "H: ";
+SketcherUI.CATCom2DTrouOblongArc.EndPt.VLabel.Title = "V: ";
+
+//
+// Hexagone
+//
+SketcherUI.CATCom2DHexagon.FirstPoint.Message = "Select or click to define the hexagon center";
+SketcherUI.CATCom2DHexagon.EndPoint.Message = "Select or click to define a point on the hexagon";
+// Gestion Visu Copilote
+SketcherUI.CATCom2DHexagon.StartPt.Name.Title = "Hexagon Center: ";
+SketcherUI.CATCom2DHexagon.StartPt.Name.Help = "Defines the coordinates of the hexagon center";
+SketcherUI.CATCom2DHexagon.StartPt.Name.ShortHelp = "Hexagon center";
+SketcherUI.CATCom2DHexagon.StartPt.Name.LongHelp = "Defines the coordinates of the hexagon center.";
+SketcherUI.CATCom2DHexagon.StartPt.ULabel.Title = "H: ";
+SketcherUI.CATCom2DHexagon.StartPt.ULabel.ShortHelp = "First Coordinate of the Center Point ";
+SketcherUI.CATCom2DHexagon.StartPt.UEditor.ShortHelp = "First Coordinate of the Center Point ";
+SketcherUI.CATCom2DHexagon.StartPt.VLabel.Title = "V: ";
+SketcherUI.CATCom2DHexagon.StartPt.VLabel.ShortHelp = "Second Coordinate of the Center Point";
+SketcherUI.CATCom2DHexagon.StartPt.VEditor.ShortHelp = "Second Coordinate of the Center Point";
+SketcherUI.CATCom2DHexagon.EndPt.Name.Title = "Point on Hexagon: ";
+SketcherUI.CATCom2DHexagon.EndPt.Name.Help = "Defines the coordinates of the point on hexagon";
+SketcherUI.CATCom2DHexagon.EndPt.Name.ShortHelp = "Point on Hexagon";
+SketcherUI.CATCom2DHexagon.EndPt.Name.LongHelp = "Defines the coordinates of the point on hexagon.";
+SketcherUI.CATCom2DHexagon.EndPt.ULabel.Title = "H: ";
+SketcherUI.CATCom2DHexagon.EndPt.ULabel.ShortHelp = "Enter the First Coordinate of the Point on Hexagon";
+SketcherUI.CATCom2DHexagon.EndPt.UEditor.ShortHelp = "Enter the First Coordinate of the Point on Hexagon";
+SketcherUI.CATCom2DHexagon.EndPt.VLabel.Title = "V: ";
+SketcherUI.CATCom2DHexagon.EndPt.VLabel.ShortHelp = "Enter the Second Coordinate of the Point on Hexagon";
+SketcherUI.CATCom2DHexagon.EndPt.VEditor.ShortHelp = "Enter the Second Coordinate of the Point on Hexagon";
+SketcherUI.CATCom2DHexagon.Dimension.Dimension.EnglobingFrame.IntermediateFrame.Label.Title = "Dimension: ";
+SketcherUI.CATCom2DHexagon.Dimension.Dimension.EnglobingFrame.IntermediateFrame.Label.Help = "Defines the dimension";
+SketcherUI.CATCom2DHexagon.Dimension.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp = "Dimension";
+SketcherUI.CATCom2DHexagon.Dimension.Dimension.EnglobingFrame.IntermediateFrame.Label.LongHelp = "Defines the dimension value.";
+SketcherUI.CATCom2DHexagon.Angle.Dimension.EnglobingFrame.IntermediateFrame.Label.Title = "Angle: ";
+SketcherUI.CATCom2DHexagon.Angle.Dimension.EnglobingFrame.IntermediateFrame.Label.Help = "Defines the angle";
+SketcherUI.CATCom2DHexagon.Angle.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp = "Angle";
+SketcherUI.CATCom2DHexagon.Angle.Dimension.EnglobingFrame.IntermediateFrame.Label.LongHelp = "Defines the angle value";
+//
+// Points Spaces
+//
+SketcherUI.CATComDYSPointsSpaces.SelCrvSupport.Message  = "Select a line or a curve on which the points are to be created";
+SketcherUI.CATComDYSPointsSpaces.SelOriginPoint.Message = "Select the origin point or change number of new points in the dialog box";
+SketcherUI.CATComDYSPointsSpaces.SelEndPoint.Message = "Select the end point or change displayed values in the dialog box";
+SketcherUI.CATComDYSPointsSpaces.KeyParameters.Message = "Enter the number of new points to create in the dialog box";
+SketcherUI.CATComDYSPointsSpaces.SelPtCrvSupport.Message  = "Select the origin point or a curve on which the points are to be created";
+
+//
+SketcherUI.CATComDYSPointsSpaces.2DPointsSpacesPanel.Title = "Equidistant Point Definition";
+SketcherUI.CATComDYSPointsSpaces.2DPointsSpacesPanel.Parameters.Title = "Parameters";
+SketcherUI.CATComDYSPointsSpaces.2DPointsSpacesPanel.Parameters.ParameterMode.Title = "Parameters: ";
+SketcherUI.CATComDYSPointsSpaces.2DPointsSpacesPanel.Parameters.ParameterModeCombo.NbAndSpacing.Item = "Points & Spacing";
+SketcherUI.CATComDYSPointsSpaces.2DPointsSpacesPanel.Parameters.ParameterModeCombo.NbAndLength.Item = "Points & Length";
+SketcherUI.CATComDYSPointsSpaces.2DPointsSpacesPanel.Parameters.ParameterModeCombo.SpacingAndLength.Item = "Spacing & Length";
+SketcherUI.CATComDYSPointsSpaces.2DPointsSpacesPanel.Parameters.NbStep.Title = "New Points: ";
+SketcherUI.CATComDYSPointsSpaces.2DPointsSpacesPanel.Parameters.NbStepValue.Title = "New Points";
+SketcherUI.CATComDYSPointsSpaces.2DPointsSpacesPanel.Parameters.DistanceValue.Title = "Spacing: ";
+SketcherUI.CATComDYSPointsSpaces.2DPointsSpacesPanel.Parameters.DistanceValue.Spinner.Title = "Spacing";
+SketcherUI.CATComDYSPointsSpaces.2DPointsSpacesPanel.Parameters.LengthValue.Title = "Length: ";
+SketcherUI.CATComDYSPointsSpaces.2DPointsSpacesPanel.Parameters.LengthValue.Spinner.Title = "Length";
+SketcherUI.CATComDYSPointsSpaces.2DPointsSpacesPanel.ReverseDirection.Title = " Reverse Direction ";
+
+
+// Rotate command
+
+SketcherUI.CATComDYSRotate.SelState.Message="Select geometry to be rotated";
+SketcherUI.CATComDYSRotate.Point1State.Message="Select or click the rotation center point";
+SketcherUI.CATComDYSRotate.Point2State.Message="Select or click a point to define a reference line for angle";
+SketcherUI.CATComDYSRotate.Point3State.Message="Select or click a point to define an angle";
+SketcherUI.CATComDYSRotate.Help="Rotate drawing elements";
+
+
+// Gestion mini toolbar de saisie de coordonnees
+SketcherUI.CATComDYSRotate.CenterPt.Name.Title = "Center Point: ";
+SketcherUI.CATComDYSRotate.CenterPt.Name.Help = "Defines the center point";
+SketcherUI.CATComDYSRotate.CenterPt.Name.ShortHelp = "Center Point";
+SketcherUI.CATComDYSRotate.CenterPt.Name.LongHelp = "Defines the center point.";
+SketcherUI.CATComDYSRotate.CenterPt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSRotate.CenterPt.ULabel.ShortHelp = "First Coordinate of Center Point";
+SketcherUI.CATComDYSRotate.CenterPt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSRotate.CenterPt.VLabel.ShortHelp = "Second Coordinate of Center Point";
+SketcherUI.CATComDYSRotate.StartPt.Name.Title = "First Point: ";
+SketcherUI.CATComDYSRotate.StartPt.Name.Help = "Defines the first point";
+SketcherUI.CATComDYSRotate.StartPt.Name.ShortHelp = "First Point";
+SketcherUI.CATComDYSRotate.StartPt.Name.LongHelp = "Defines the first point.";
+SketcherUI.CATComDYSRotate.StartPt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSRotate.StartPt.ULabel.ShortHelp = "First Coordinate of Center Point";
+SketcherUI.CATComDYSRotate.StartPt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSRotate.StartPt.VLabel.ShortHelp = "Second Coordinate of Center Point";
+SketcherUI.CATComDYSRotate.EndPt.Name.Title = "Second Point: ";
+SketcherUI.CATComDYSRotate.EndPt.Name.Help = "Defines the Second Point";
+SketcherUI.CATComDYSRotate.EndPt.Name.ShortHelp = "Second Point";
+SketcherUI.CATComDYSRotate.EndPt.Name.LongHelp = "Defines the second point.";
+SketcherUI.CATComDYSRotate.EndPt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSRotate.EndPt.ULabel.ShortHelp = "First Coordinate of Second Point";
+SketcherUI.CATComDYSRotate.EndPt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSRotate.EndPt.VLabel.ShortHelp = "Second Coordinate of the Second Point";
+
+// Rotate Panel
+SketcherUI.CATComDYSRotate.TransfoPanel.Title="Rotation Definition";
+SketcherUI.CATComDYSRotate.TransfoPanel.DuplicatePanel.Title="Duplicate";
+SketcherUI.CATComDYSRotate.TransfoPanel.DuplicatePanel.DupNumLabel.Title="Instance(s): ";
+SketcherUI.CATComDYSRotate.TransfoPanel.DuplicatePanel.DupCheck.Title="Duplicate mode";
+SketcherUI.CATComDYSRotate.TransfoPanel.DuplicatePanel.CstCheck.Title="Constraint Conservation";
+SketcherUI.CATComDYSRotate.TransfoPanel.AnglePanel.Title="Angle";
+SketcherUI.CATComDYSRotate.TransfoPanel.AnglePanel.Value.Title="Value: ";
+SketcherUI.CATComDYSRotate.TransfoPanel.AnglePanel.StepMode.Title="Snap Mode";
+
+
+// Scale command
+
+SketcherUI.CATComDYSScale.SelState.Message="Select geometry to be scaled";
+SketcherUI.CATComDYSScale.Point1State.Message="Select or click the scaling center point";
+SketcherUI.CATComDYSScale.Point2State.Message="Select or click a point to define a scaling value";
+SketcherUI.CATComDYSScale.Help="stretch drawing elements";
+
+
+// Gestion mini toolbar de saisie de coordonnees
+SketcherUI.CATComDYSScale.StartPt.Name.Title = "Center Point: ";
+SketcherUI.CATComDYSScale.StartPt.Name.Help = "Defines the center point";
+SketcherUI.CATComDYSScale.StartPt.Name.ShortHelp = "Center Point";
+SketcherUI.CATComDYSScale.StartPt.Name.LongHelp = "Defines the center point.";
+SketcherUI.CATComDYSScale.StartPt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSScale.StartPt.ULabel.ShortHelp = "Center Point First Coordinate";
+SketcherUI.CATComDYSScale.StartPt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSScale.StartPt.VLabel.ShortHelp = "Center Point Second Coordinate";
+SketcherUI.CATComDYSScale.EndPt.Name.Title = "End Point: ";
+SketcherUI.CATComDYSScale.EndPt.Name.Help = "Defines the end point";
+SketcherUI.CATComDYSScale.EndPt.Name.ShortHelp = "End Point";
+SketcherUI.CATComDYSScale.EndPt.Name.LongHelp = "Defines the end point.";
+SketcherUI.CATComDYSScale.EndPt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSScale.EndPt.ULabel.ShortHelp = "End Point First Coordinate";
+SketcherUI.CATComDYSScale.EndPt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSScale.EndPt.VLabel.ShortHelp = "End Point Second Coordinate";
+
+// Scale Panel
+SketcherUI.CATComDYSScale.TransfoPanel.Title="Scale Definition";
+SketcherUI.CATComDYSScale.TransfoPanel.DuplicatePanel.Title="Duplicate";
+SketcherUI.CATComDYSScale.TransfoPanel.DuplicatePanel.DupCheck.Title="Duplicate mode";
+SketcherUI.CATComDYSScale.TransfoPanel.DuplicatePanel.CstCheck.Title="Conservation of the constraints";
+SketcherUI.CATComDYSScale.TransfoPanel.ScalePanel.Title="Scale";
+SketcherUI.CATComDYSScale.TransfoPanel.ScalePanel.Value.Title="Value: ";
+SketcherUI.CATComDYSScale.TransfoPanel.ScalePanel.StepMode.Title="Snap Mode";
+
+
+// Translate command
+
+SketcherUI.CATComDYSTranslate.SelState.Message="Select the geometry to be translated";
+SketcherUI.CATComDYSTranslate.Point1State.Message="Select or click the translation start point";
+SketcherUI.CATComDYSTranslate.Point2State.Message="Select or click the translation end point";
+SketcherUI.CATComDYSTranslate.Help="Translate drawing elements";
+
+
+// Gestion mini toolbar de saisie de coordonnees
+SketcherUI.CATComDYSTranslate.StartPt.Name.Title = "Start Point: ";
+SketcherUI.CATComDYSTranslate.StartPt.Name.Help = "Defines the start point";
+SketcherUI.CATComDYSTranslate.StartPt.Name.ShortHelp = "Start Point";
+SketcherUI.CATComDYSTranslate.StartPt.Name.LongHelp = "Defines the start point.";
+SketcherUI.CATComDYSTranslate.StartPt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSTranslate.StartPt.ULabel.ShortHelp = "Start Point First Coordinate";
+SketcherUI.CATComDYSTranslate.StartPt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSTranslate.StartPt.VLabel.ShortHelp = "Start Point Second Coordinate";
+SketcherUI.CATComDYSTranslate.EndPt.Name.Title = "End Point: ";
+SketcherUI.CATComDYSTranslate.EndPt.Name.Help = "Defines the end point";
+SketcherUI.CATComDYSTranslate.EndPt.Name.ShortHelp = "End Point";
+SketcherUI.CATComDYSTranslate.EndPt.Name.LongHelp = "Defines the end point.";
+SketcherUI.CATComDYSTranslate.EndPt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSTranslate.EndPt.ULabel.ShortHelp = "End Point First Coordinate";
+SketcherUI.CATComDYSTranslate.EndPt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSTranslate.EndPt.VLabel.ShortHelp = "End Point Second Coordinate";
+
+// Translate Panel
+SketcherUI.CATComDYSTranslate.TransfoPanel.Title="Translation Definition";
+SketcherUI.CATComDYSTranslate.TransfoPanel.DuplicatePanel.Title="Duplicate";
+SketcherUI.CATComDYSTranslate.TransfoPanel.DuplicatePanel.DupNumLabel.Title="Instance(s): ";
+SketcherUI.CATComDYSTranslate.TransfoPanel.DuplicatePanel.DupCheck.Title="Duplicate mode";
+SketcherUI.CATComDYSTranslate.TransfoPanel.DuplicatePanel.CstCheck.Title="Conservation of the constraints";
+SketcherUI.CATComDYSTranslate.TransfoPanel.LengthPanel.Title="Length";
+SketcherUI.CATComDYSTranslate.TransfoPanel.LengthPanel.Value.Title="Value: ";
+SketcherUI.CATComDYSTranslate.TransfoPanel.LengthPanel.StepMode.Title="Snap Mode";
+SketcherUI.CATComDYSTranslate.TransfoPanel.DuplicatePanel.InternalCstCheck.Title="Keep internal constraints";
+SketcherUI.CATComDYSTranslate.TransfoPanel.DuplicatePanel.ExternalCstCheck.Title="Keep external constraints";
+
+
+// Creation Parabole par foyer
+SketcherUI.CATComDYSParabolaFocus.Focus.Message = "Select a point or click to locate the focus";
+SketcherUI.CATComDYSParabolaFocus.Apex.Message = "Select a point or click to locate the apex";
+SketcherUI.CATComDYSParabolaFocus.Pt1.Message = "Select a point or click to locate the parabola start point";
+SketcherUI.CATComDYSParabolaFocus.Pt2.Message = "Select a point or click to locate the parabola end point";
+// Gestion Visu Copilote
+SketcherUI.CATComDYSParabolaFocus.FirstPt.Name.Title = "Focus: ";
+SketcherUI.CATComDYSParabolaFocus.FirstPt.Name.Help = "Defines the parabola focus";
+SketcherUI.CATComDYSParabolaFocus.FirstPt.Name.ShortHelp = "Parabola Focus";
+SketcherUI.CATComDYSParabolaFocus.FirstPt.Name.LongHelp = "Defines the parabola focus.";
+SketcherUI.CATComDYSParabolaFocus.FirstPt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSParabolaFocus.FirstPt.ULabel.ShortHelp = "Parabola Focus First coordinate";
+SketcherUI.CATComDYSParabolaFocus.FirstPt.UEditor.ShortHelp = "Parabola Focus First coordinate";
+SketcherUI.CATComDYSParabolaFocus.FirstPt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSParabolaFocus.FirstPt.VLabel.ShortHelp = "Parabola Focus Second Coordinate";
+SketcherUI.CATComDYSParabolaFocus.FirstPt.VEditor.ShortHelp = "Parabola Focus Second Coordinate";
+SketcherUI.CATComDYSParabolaFocus.SecondPt.Name.Title = "Apex: ";
+SketcherUI.CATComDYSParabolaFocus.SecondPt.Name.Help = "Defines the parabola apex";
+SketcherUI.CATComDYSParabolaFocus.SecondPt.Name.ShortHelp = "Parabola Apex";
+SketcherUI.CATComDYSParabolaFocus.SecondPt.Name.LongHelp = "Defines the parabola apex.";
+SketcherUI.CATComDYSParabolaFocus.SecondPt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSParabolaFocus.SecondPt.ULabel.ShortHelp = "Parabola Apex First Coordinate";
+SketcherUI.CATComDYSParabolaFocus.SecondPt.UEditor.ShortHelp = "Parabola Apex First Coordinate";
+SketcherUI.CATComDYSParabolaFocus.SecondPt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSParabolaFocus.SecondPt.VLabel.ShortHelp = "Parabola Apex Second Coordinate";
+SketcherUI.CATComDYSParabolaFocus.SecondPt.VEditor.ShortHelp = "Parabola Apex Second Coordinate";
+SketcherUI.CATComDYSParabolaFocus.ThirdPt.Name.Title = "Start Point: ";
+SketcherUI.CATComDYSParabolaFocus.ThirdPt.Name.Help = "Defines the start point";
+SketcherUI.CATComDYSParabolaFocus.ThirdPt.Name.ShortHelp = "Start Point";
+SketcherUI.CATComDYSParabolaFocus.ThirdPt.Name.LongHelp = "Defines the start point.";
+SketcherUI.CATComDYSParabolaFocus.ThirdPt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSParabolaFocus.ThirdPt.ULabel.ShortHelp = "Start Point First Coordinate";
+SketcherUI.CATComDYSParabolaFocus.ThirdPt.UEditor.ShortHelp = "Start Point First Coordinate";
+SketcherUI.CATComDYSParabolaFocus.ThirdPt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSParabolaFocus.ThirdPt.VLabel.ShortHelp = "Start Point Second Coordinate";
+SketcherUI.CATComDYSParabolaFocus.ThirdPt.VEditor.ShortHelp = "Start Point Second Coordinate";
+SketcherUI.CATComDYSParabolaFocus.FourthPt.Name.Title = "End Point: ";
+SketcherUI.CATComDYSParabolaFocus.FourthPt.Name.Help = "Defines the end point";
+SketcherUI.CATComDYSParabolaFocus.FourthPt.Name.ShortHelp = "End Point";
+SketcherUI.CATComDYSParabolaFocus.FourthPt.Name.LongHelp = "Defines the end point of the parabola.";
+SketcherUI.CATComDYSParabolaFocus.FourthPt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSParabolaFocus.FourthPt.ULabel.ShortHelp = "End Point First Coordinate";
+SketcherUI.CATComDYSParabolaFocus.FourthPt.UEditor.ShortHelp = "End Point First Coordinate";
+SketcherUI.CATComDYSParabolaFocus.FourthPt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSParabolaFocus.FourthPt.VLabel.ShortHelp = "End Point Second Coordinate";
+SketcherUI.CATComDYSParabolaFocus.FourthPt.VEditor.ShortHelp = "End Point Second Coordinate";
+
+SketcherUI.2DParabolaPanel.Title = "Parabola Definition";
+SketcherUI.2DParabolaPanel.Focus.Title = "Focus Point";
+SketcherUI.2DParabolaPanel.Apex.Title = "Apex Point";
+
+// Creation Hyperbole par foyer
+SketcherUI.CATComDYSHyperbolaFocus.Focus.Message = "Select a point or click to locate the focus";
+SketcherUI.CATComDYSHyperbolaFocus.Center.Message = "Select a point or click to locate the center";
+SketcherUI.CATComDYSHyperbolaFocus.Apex.Message = "Select a point or click to locate the apex";
+SketcherUI.CATComDYSHyperbolaFocus.Pt1.Message = "Select a point or click to locate the hyperbola start point";
+SketcherUI.CATComDYSHyperbolaFocus.Pt2.Message = "Select a point or click to locate the hyperbola end point";
+// Gestion Visu Copilote
+SketcherUI.CATComDYSHyperbolaFocus.FirstPt.Name.Title = "Focus: ";
+SketcherUI.CATComDYSHyperbolaFocus.FirstPt.Name.Help = "Defines the Hyperbola focus";
+SketcherUI.CATComDYSHyperbolaFocus.FirstPt.Name.ShortHelp = "Hyperbola Focus";
+SketcherUI.CATComDYSHyperbolaFocus.FirstPt.Name.LongHelp = "Defines the Hyperbola focus.";
+SketcherUI.CATComDYSHyperbolaFocus.FirstPt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSHyperbolaFocus.FirstPt.ULabel.ShortHelp = "Hyperbola Focus First Coordinate";
+SketcherUI.CATComDYSHyperbolaFocus.FirstPt.UEditor.ShortHelp = "Hyperbola Focus First Coordinate";
+SketcherUI.CATComDYSHyperbolaFocus.FirstPt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSHyperbolaFocus.FirstPt.VLabel.ShortHelp = "Hyperbola Focus Second Coordinate";
+SketcherUI.CATComDYSHyperbolaFocus.FirstPt.VEditor.ShortHelp = "Hyperbola Focus Second Coordinate";
+SketcherUI.CATComDYSHyperbolaFocus.FirstPt.Excentricity_Label.Title = "e: ";
+SketcherUI.CATComDYSHyperbolaFocus.FirstPt.Excentricity_Label.ShortHelp = "Excentricity";
+SketcherUI.CATComDYSHyperbolaFocus.FirstPt.Excentricity_Value.ShortHelp = "Excentricity";
+SketcherUI.CATComDYSHyperbolaFocus.SecondPt.Name.Title = "Center: ";
+SketcherUI.CATComDYSHyperbolaFocus.SecondPt.Name.Help = "Defines the hyperbola center";
+SketcherUI.CATComDYSHyperbolaFocus.SecondPt.Name.ShortHelp = "Hyperbola Center";
+SketcherUI.CATComDYSHyperbolaFocus.SecondPt.Name.LongHelp = "Defines the hyperbola center.";
+SketcherUI.CATComDYSHyperbolaFocus.SecondPt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSHyperbolaFocus.SecondPt.ULabel.ShortHelp = "Hyperbola Center First Coordinate";
+SketcherUI.CATComDYSHyperbolaFocus.SecondPt.UEditor.ShortHelp = "Hyperbola Center First Coordinate";
+SketcherUI.CATComDYSHyperbolaFocus.SecondPt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSHyperbolaFocus.SecondPt.VLabel.ShortHelp = "Hyperbola Center Second Coordinate";
+SketcherUI.CATComDYSHyperbolaFocus.SecondPt.VEditor.ShortHelp = "Hyperbola Center Second Coordinate";
+SketcherUI.CATComDYSHyperbolaFocus.SecondPt.Excentricity_Label.Title = "e: ";
+SketcherUI.CATComDYSHyperbolaFocus.SecondPt.Excentricity_Label.ShortHelp = "Excentricity";
+SketcherUI.CATComDYSHyperbolaFocus.SecondPt.Excentricity_Value.ShortHelp = "Excentricity";
+SketcherUI.CATComDYSHyperbolaFocus.ThirdPt.Name.Title = "Apex: ";
+SketcherUI.CATComDYSHyperbolaFocus.ThirdPt.Name.Help = "Defines the hyperbola apex";
+SketcherUI.CATComDYSHyperbolaFocus.ThirdPt.Name.ShortHelp = "Hyperbola Apex";
+SketcherUI.CATComDYSHyperbolaFocus.ThirdPt.Name.LongHelp = "Defines the Hyperbola Apex.";
+SketcherUI.CATComDYSHyperbolaFocus.ThirdPt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSHyperbolaFocus.ThirdPt.ULabel.ShortHelp = "Hyperbola Apex First Coordinate";
+SketcherUI.CATComDYSHyperbolaFocus.ThirdPt.UEditor.ShortHelp = "Hyperbola Apex First Coordinate";
+SketcherUI.CATComDYSHyperbolaFocus.ThirdPt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSHyperbolaFocus.ThirdPt.VLabel.ShortHelp = "Hyperbola Apex Second Coordinate";
+SketcherUI.CATComDYSHyperbolaFocus.ThirdPt.VEditor.ShortHelp = "Hyperbola Apex Second Coordinate";
+SketcherUI.CATComDYSHyperbolaFocus.ThirdPt.Excentricity_Label.Title = "e: ";
+SketcherUI.CATComDYSHyperbolaFocus.ThirdPt.Excentricity_Label.ShortHelp = "Excentricity";
+SketcherUI.CATComDYSHyperbolaFocus.ThirdPt.Excentricity_Value.ShortHelp = "Excentricity";
+SketcherUI.CATComDYSHyperbolaFocus.FourthPt.Name.Title = "Start Point: ";
+SketcherUI.CATComDYSHyperbolaFocus.FourthPt.Name.Help = "Defines the start point";
+SketcherUI.CATComDYSHyperbolaFocus.FourthPt.Name.ShortHelp = "Start Point";
+SketcherUI.CATComDYSHyperbolaFocus.FourthPt.Name.LongHelp = "Defines the start point.";
+SketcherUI.CATComDYSHyperbolaFocus.FourthPt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSHyperbolaFocus.FourthPt.ULabel.ShortHelp = "Start Point First Coordinate";
+SketcherUI.CATComDYSHyperbolaFocus.FourthPt.UEditor.ShortHelp = "Start Point First coordinate";
+SketcherUI.CATComDYSHyperbolaFocus.FourthPt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSHyperbolaFocus.FourthPt.VLabel.ShortHelp = "Start Point Second Coordinate";
+SketcherUI.CATComDYSHyperbolaFocus.FourthPt.VEditor.ShortHelp = "Start Point Second Coordinate";
+SketcherUI.CATComDYSHyperbolaFocus.FourthPt.Excentricity_Label.Title = "e: ";
+SketcherUI.CATComDYSHyperbolaFocus.FourthPt.Excentricity_Label.ShortHelp = "Excentricity";
+SketcherUI.CATComDYSHyperbolaFocus.FourthPt.Excentricity_Value.ShortHelp = "Excentricity";
+SketcherUI.CATComDYSHyperbolaFocus.FifthPt.Name.Title = "End Point: ";
+SketcherUI.CATComDYSHyperbolaFocus.FifthPt.Name.Help = "Defines the end point";
+SketcherUI.CATComDYSHyperbolaFocus.FifthPt.Name.ShortHelp = "End Point";
+SketcherUI.CATComDYSHyperbolaFocus.FifthPt.Name.LongHelp = "Defines the end point.";
+SketcherUI.CATComDYSHyperbolaFocus.FifthPt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSHyperbolaFocus.FifthPt.ULabel.ShortHelp = "End Point First Coordinate";
+SketcherUI.CATComDYSHyperbolaFocus.FifthPt.UEditor.ShortHelp = "End Point First Coordinate";
+SketcherUI.CATComDYSHyperbolaFocus.FifthPt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSHyperbolaFocus.FifthPt.VLabel.ShortHelp = "End Point Second Coordinate";
+SketcherUI.CATComDYSHyperbolaFocus.FifthPt.VEditor.ShortHelp = "End Point Second Coordinate";
+SketcherUI.CATComDYSHyperbolaFocus.FifthPt.Excentricity_Label.Title = "e: ";
+SketcherUI.CATComDYSHyperbolaFocus.FifthPt.Excentricity_Label.ShortHelp = "Excentricity";
+SketcherUI.CATComDYSHyperbolaFocus.FifthPt.Excentricity_Value.ShortHelp = "Excentricity";
+
+SketcherUI.2DHyperbolaPanel.Title = "Hyperbola Definition";
+SketcherUI.2DHyperbolaPanel.Focus.Title = "Focus Point";
+SketcherUI.2DHyperbolaPanel.Center.Title = "Center Point";
+SketcherUI.2DHyperbolaPanel.Excentricity.Title = "Excentricity";
+SketcherUI.2DHyperbolaPanel.Excentricity.Spinner.Title = "Excentricity";
+SketcherUI.2DHyperbolaPanel.Excentricity_Value.Title = "Excentricity: ";
+
+SketcherUI.CATComDYSLine.Sym.Check.Title= "Symmetrical Extension";
+SketcherUI.CATComDYSLine.Sym.Check.LongHelp= "Creates a symmetrical line related to the line starting point.";
+SketcherUI.CATComDYSLine.Sym.Check.ShortHelp= "Symmetrical Extension";
+SketcherUI.CATComDYSLine.Sym.Check.Help= "Check this button to create a symmetrical extended line";
+SketcherUI.CATComDYSCenterLine.Sym.Check.Title= "Symmetrical Extension";
+SketcherUI.CATComDYSCenterLine.Sym.Check.LongHelp= "Creates a symmetrical axis related to the axis starting point.";
+SketcherUI.CATComDYSCenterLine.Sym.Check.ShortHelp= "Symmetrical Extension";
+SketcherUI.CATComDYSCenterLine.Sym.Check.Help= "Check this button to create a symmetrical extended axis";
+
+// Creation Line bi-tangente
+SketcherUI.CATCom2DLine2Tangent.FirstElement.Message = "First Tangent: select the geometry to create a tangent line";
+SketcherUI.CATCom2DLine2Tangent.SecondElement.Message = "Second Tangent: select the geometry to create a tangent line";
+SketcherUI.CATCom2DLine2Tangent.NoSolution.Title   = "Bi-tangent line";
+SketcherUI.CATCom2DLine2Tangent.NoSolution.Message = "The bi-tangent line cannot be created when selecting these two elements.\n\nRemember that the position of the points of selection is important: \nthe line creation depends on the position of these selection points.\nTangents are created as close as possible to where you clicked \non the two selected elements.";
+SketcherUI.CATCom2DLine2Tangent.NoTangent.Title = "Warning";
+SketcherUI.CATCom2DLine2Tangent.NoTangent.Message = "As tangency is not relevant with a point or a line, only coincidence has been taken into account";
+
+// Creation Cercle tri-tangent
+SketcherUI.CATCom2DCircle3Tangent.FirstElement.Message = "First Tangent: select the geometry to create a tangent circle";
+SketcherUI.CATCom2DCircle3Tangent.SecondElement.Message = "Second Tangent: select the geometry to create a tangent circle";
+SketcherUI.CATCom2DCircle3Tangent.ThirdElement.Message = "Third Tangent: select the geometry to create a tangent circle";
+SketcherUI.CATCom2DCircle3Tangent.NoSolution.Title   = "Tri-tangent circle";
+SketcherUI.CATCom2DCircle3Tangent.NoSolution.Message = "The tri-tangent circle cannot be created when selecting these three elements.\n\nRemember that the position of the points of selection is important: \nthe circle creation depends on the position of these selection points.\nTangents are created as close as possible to where you clicked \non the three selected elements.";
+SketcherUI.CATCom2DCircle3Tangent.NoTangent.Title = "Warning";
+SketcherUI.CATCom2DCircle3Tangent.NoTangent.Message = "As tangency is not relevant with a point, only coincidence has been taken into account";
+SketcherUI.CATCom2DCircle3Tangent.Inconsistent.Title = "Warning";
+SketcherUI.CATCom2DCircle3Tangent.Inconsistent.Message = "The sketch is not consistent !\n Ensure that the sketch is consistent before creating tri-tangent circle.\n Otherwise, the system will not compute the tangencies properly.";
+
+
+// AutoSearch
+SketcherUI.CATCom2DAutoSearch.SelElem.Message = "Select the geometry to be used for performing the automatic search";
+
+SketcherUI.CATCom2DAutoSearch2.SelElem.Message = "Select the geometry to be used for performing the automatic search";
+SketcherUI.CATCom2DAutoSearch2.Resolution.Dimension.EnglobingFrame.IntermediateFrame.Label.Title = "Tolerance: ";
+SketcherUI.CATCom2DAutoSearch2.Resolution.Dimension.EnglobingFrame.IntermediateFrame.Label.Help = "Defines the Tolerance";
+SketcherUI.CATCom2DAutoSearch2.Resolution.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp = "Tolerance";
+SketcherUI.CATCom2DAutoSearch2.Resolution.Dimension.EnglobingFrame.IntermediateFrame.Label.LongHelp = "Defines the geometrical tolerance for coincident points.";
+SketcherUI.CATCom2DAutoSearch2.CheckContour.Check.Title = "Automatic Search Profile";
+SketcherUI.CATCom2DAutoSearch2.CheckContour.Check.Help = "Defines the Automatic Search Profile";
+SketcherUI.CATCom2DAutoSearch2.CheckContour.Check.LongHelp = "Defines the automatic search stops when one closed profile is found.";
+SketcherUI.CATCom2DAutoSearch2.CheckContour.Check.ShortHelp = "Automatic Search Profile";
+
+// Analyse
+SketcherUI.CATCom2DAnalyse.SelElement.Message   = "Select the geometry to analyse";
+SketcherUI.CATCom2DAnalyse.NewElement.Message   = "Select new support for the selected projection or intersection";
+SketcherUI.CATCom2DAnalyse.UpdateNeeded.Title   = "Warning: Update needed";
+SketcherUI.CATCom2DAnalyse.UpdateNeeded.Message = "Your sketch must be updated in order to take into account this modification (exit and re-enter the sketch)";
+SketcherUI.CATCom2DAnalyse.ReplaceError.Title   = "Warning: Replace";
+SketcherUI.CATCom2DAnalyse.ReplaceError.Message = "Unable to replace the projection or intersection support by the selected element.";
+SketcherUI.CATCom2DAnalyse.MultiSelError.Title   = "Warning: Replace";
+SketcherUI.CATCom2DAnalyse.MultiSelError.Message = "Select one projection or intersection support to execute replace command.";
+SketcherUI.CATCom2DAnalyse.StrWrongPt        = "Wrong point";
+SketcherUI.CATCom2DAnalyse.StrPtNotInCst     = "Warning: Point not in construction mode";
+SketcherUI.CATCom2DAnalyse.StrWrongCoinc     = "Wrong coincidence";
+SketcherUI.CATCom2DAnalyse.StrImpossCoinc    = "Warning: Coincidence impossible";
+SketcherUI.CATCom2DAnalyse.StrDegenerated    = "Degenerated";
+SketcherUI.CATCom2DAnalyse.StrInvalidCrv     = "Warning: Invalid curve (start point and end point coincide)";
+SketcherUI.CATCom2DAnalyse.StrClosed         = "Closed";
+SketcherUI.CATCom2DAnalyse.StrOpened         = "Opened";
+SketcherUI.CATCom2DAnalyse.StrIsolated       = "Isolated";
+SketcherUI.CATCom2DAnalyse.StrIsolPtNotInCst = "Warning: Isolated point not in construction mode";
+SketcherUI.CATCom2DAnalyse.StrCurves         = "Curve(s)";
+SketcherUI.CATCom2DAnalyse.StrProfile        = "Implicit Profile";
+SketcherUI.CATCom2DAnalyse.StrAutoCrossing   = " - Warning: Autocrossing profile";
+SketcherUI.CATCom2DAnalyse.StrNonManifold    = "Warning: Non manifold topology";
+SketcherUI.CATCom2DAnalyse.StrCheckPassed    = "All check passed";
+SketcherUI.CATCom2DAnalyse.StrEndPtDist      = "End points distance = ";
+SketcherUI.CATCom2DAnalyse.StrProjection     = "Projection";
+SketcherUI.CATCom2DAnalyse.StrImplicitProj   = "Implicit Projection";
+SketcherUI.CATCom2DAnalyse.StrWrongProj      = "Wrong Projection";
+SketcherUI.CATCom2DAnalyse.StrIntersection   = "Intersection";
+SketcherUI.CATCom2DAnalyse.StrImplicitInter  = "Implicit Intersection";
+SketcherUI.CATCom2DAnalyse.StrWrongInter     = "Wrong Intersection";
+SketcherUI.CATCom2DAnalyse.StrValid          = "Valid";
+SketcherUI.CATCom2DAnalyse.StrDeactivated    = "Deactivated";
+SketcherUI.CATCom2DAnalyse.StrPoints         = "Point(s)";
+SketcherUI.CATCom2DAnalyse.StrDomains        = "Domain(s)";
+SketcherUI.CATCom2DAnalyse.StrOutsideFixTGeoms = "Warning: Geometry is not included in definition of";
+SketcherUI.CATCom2DAnalyse.StrWarnOutsideFixTGeoms = "Non-standard FixTogether definition";
+SketcherUI.CATCom2DAnalyse.StrUseEdgeNotUpgradable = "Upgrade not possible (data have been created before V5R8 GA)";
+SketcherUI.CATCom2DAnalyse.StrEmptyFixTogether = "Warning: The FixTogether is empty ( it does not contain geometry )";
+SketcherUI.CATCom2DAnalyse.StrNoRigidFixTogether = "Warning: Use of use-edge(s) - Rigidity cannot be kept in case of 3D geometry modification";
+
+// Solving status
+StrUnderConstrained = "Under-Constrained";
+StrIsoConstrained   = "Iso-Constrained"; 
+StrOverConstrained  = "Over-Constrained";
+StrInconsistent     = "Inconsistent";
+StrNotChanged       = "Not Changed";
+StrUnknown          = "Unknown";
+StrConstraintType   = "Constraint";
+StrGeometryType     = "Geometry";
+StrReferenceElement  = "Reference Element";
+StrConstructionGeom = " [Construction]";
+StrAxisGeom =		" [Axis]";
+StrInactivatedConstr = " [Inactivated]";
+StrIsoConstrainedByConstruction = "Under-Constrained [No-Effect]";
+
+// Activate Command
+SketcherUI.CATComDYSActivate.GetImportedGeometry.Message = "Select the projection or intersection you wish to activate";
+
+// 2D Conic
+SketcherUI.CATComDYSConic.Pt1.Message = "Select a point or click to locate the first end point";
+SketcherUI.CATComDYSConic.Pt2.Message = "Select a point or click to locate the second end point";
+SketcherUI.CATComDYSConic.Pt3.Message = "Select a point or click to locate the first point on the conic";
+SketcherUI.CATComDYSConic.Pt4.Message = "Select a point or click to locate the second point on the conic";
+SketcherUI.CATComDYSConic.Pt5.Message = "Select a point or click to locate the third point on the conic";
+SketcherUI.CATComDYSConic.Pt6.Message = "Select a point or click to locate the tangent at the first end point ";
+SketcherUI.CATComDYSConic.Pt7.Message = "Select a point or click to locate the tangent at the second end point";
+SketcherUI.CATComDYSConic.Pt8.Message = "Select a point or click to locate the tangents at the end points";
+SketcherUI.CATComDYSConic.Pt9.Message = "Select a point or click to locate a point on the conic to define the excentricity";
+SketcherUI.CATComDYSConic.Tgte1.Check.Title = "Tangent";
+SketcherUI.CATComDYSConic.Tgte1.Check.Help = "Defines the tangent at first end point";
+SketcherUI.CATComDYSConic.Tgte1.Check.LongHelp = "Defines the tangent at first end point.";
+SketcherUI.CATComDYSConic.Tgte1.Check.ShortHelp = "First Tangent";
+SketcherUI.CATComDYSConic.Tgte2.Check.Title = "Tangent";
+SketcherUI.CATComDYSConic.Tgte2.Check.Help = "Defines the tangent at second end point";
+SketcherUI.CATComDYSConic.Tgte2.Check.LongHelp = "Defines the tangent at second end point.";
+SketcherUI.CATComDYSConic.Tgte2.Check.ShortHelp = "Second Tangent";
+SketcherUI.CATComDYSConic.TwoTgtes.Check.Title = "Tangents";
+SketcherUI.CATComDYSConic.TwoTgtes.Check.Help = "Defines the tangents at the end points";
+SketcherUI.CATComDYSConic.TwoTgtes.Check.LongHelp = "Defines the tangents at the end points.";
+SketcherUI.CATComDYSConic.TwoTgtes.Check.ShortHelp = "Two Tangents";
+// Gestion visu copilot
+SketcherUI.CATComDYSConic.FirstPtLim.Name.Title = "First End Point: ";
+SketcherUI.CATComDYSConic.FirstPtLim.Name.Help = "Defines the first end point";
+SketcherUI.CATComDYSConic.FirstPtLim.Name.ShortHelp = "First End Point";
+SketcherUI.CATComDYSConic.FirstPtLim.Name.LongHelp = "Defines the first end point coordinates.";
+SketcherUI.CATComDYSConic.FirstPtLim.ULabel.Title = "H: ";
+SketcherUI.CATComDYSConic.FirstPtLim.ULabel.ShortHelp = "First Coordinate of the First End Point";
+SketcherUI.CATComDYSConic.FirstPtLim.UEditor.ShortHelp = "First Coordinate of the First End Point ";
+SketcherUI.CATComDYSConic.FirstPtLim.VLabel.Title = "V: ";
+SketcherUI.CATComDYSConic.FirstPtLim.VLabel.ShortHelp = "Second Coordinate of the First End Point";
+SketcherUI.CATComDYSConic.FirstPtLim.VEditor.ShortHelp = "Second Coordinate of the First End Point";
+SketcherUI.CATComDYSConic.FirstPtLim.Excentricity_Label.Title = "e: ";
+SketcherUI.CATComDYSConic.FirstPtLim.Excentricity_Label.ShortHelp = "Excentricity";
+SketcherUI.CATComDYSConic.FirstPtLim.Excentricity_Value.ShortHelp = "Excentricity";
+SketcherUI.CATComDYSConic.SecondPtLim.Name.Title = "Second End Point: ";
+SketcherUI.CATComDYSConic.SecondPtLim.Name.Help = "Defines the second end point";
+SketcherUI.CATComDYSConic.SecondPtLim.Name.ShortHelp = "Second End Point";
+SketcherUI.CATComDYSConic.SecondPtLim.Name.LongHelp = "Defines the second end point coordinates.";
+SketcherUI.CATComDYSConic.SecondPtLim.ULabel.Title = "H: ";
+SketcherUI.CATComDYSConic.SecondPtLim.ULabel.ShortHelp = "First coordinate of the Second End Point";
+SketcherUI.CATComDYSConic.SecondPtLim.UEditor.ShortHelp = "First Coordinate of the Second End Point ";
+SketcherUI.CATComDYSConic.SecondPtLim.VLabel.Title = "V: ";
+SketcherUI.CATComDYSConic.SecondPtLim.VLabel.ShortHelp = "Second Coordinate of the Second end Point";
+SketcherUI.CATComDYSConic.SecondPtLim.VEditor.ShortHelp = "Second Coordinate of the Second end Point";
+SketcherUI.CATComDYSConic.SecondPtLim.Excentricity_Label.Title = "e: ";
+SketcherUI.CATComDYSConic.SecondPtLim.Excentricity_Label.ShortHelp = "Excentricity";
+SketcherUI.CATComDYSConic.SecondPtLim.Excentricity_Value.ShortHelp = "Excentricity";
+SketcherUI.CATComDYSConic.FirstPt.Name.Title = "First Point: ";
+SketcherUI.CATComDYSConic.FirstPt.Name.Help = "Defines the first point";
+SketcherUI.CATComDYSConic.FirstPt.Name.ShortHelp = "First Point";
+SketcherUI.CATComDYSConic.FirstPt.Name.LongHelp = "Defines the first point coordinates.";
+SketcherUI.CATComDYSConic.FirstPt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSConic.FirstPt.ULabel.ShortHelp = "First Coordinate of the First Point";
+SketcherUI.CATComDYSConic.FirstPt.UEditor.ShortHelp = "First Coordinate of the First Point ";
+SketcherUI.CATComDYSConic.FirstPt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSConic.FirstPt.VLabel.ShortHelp = "Second Coordinate of the First Point";
+SketcherUI.CATComDYSConic.FirstPt.VEditor.ShortHelp = "Second Coordinate of the First Point";
+SketcherUI.CATComDYSConic.FirstPt.Excentricity_Label.Title = "e: ";
+SketcherUI.CATComDYSConic.FirstPt.Excentricity_Label.ShortHelp = "Excentricity";
+SketcherUI.CATComDYSConic.FirstPt.Excentricity_Value.ShortHelp = "Excentricity";
+SketcherUI.CATComDYSConic.SecondPt.Name.Title = "Second Point: ";
+SketcherUI.CATComDYSConic.SecondPt.Name.Help = "Defines the second point";
+SketcherUI.CATComDYSConic.SecondPt.Name.ShortHelp = "Second Point";
+SketcherUI.CATComDYSConic.SecondPt.Name.LongHelp = "Defines the second point";
+SketcherUI.CATComDYSConic.SecondPt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSConic.SecondPt.ULabel.ShortHelp = "First Coordinate of the Second Point";
+SketcherUI.CATComDYSConic.SecondPt.UEditor.ShortHelp = "First Coordinate of the Second Point ";
+SketcherUI.CATComDYSConic.SecondPt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSConic.SecondPt.VLabel.ShortHelp = "Second Coordinate of the Second Point";
+SketcherUI.CATComDYSConic.SecondPt.VEditor.ShortHelp = "Second Coordinate of the Second Point";
+SketcherUI.CATComDYSConic.SecondPt.Excentricity_Label.Title = "e: ";
+SketcherUI.CATComDYSConic.SecondPt.Excentricity_Label.ShortHelp = "Excentricity";
+SketcherUI.CATComDYSConic.SecondPt.Excentricity_Value.ShortHelp = "Excentricity";
+SketcherUI.CATComDYSConic.ThirdPt.Name.Title = "Third Point: ";
+SketcherUI.CATComDYSConic.ThirdPt.Name.Help = "Defines the third point";
+SketcherUI.CATComDYSConic.ThirdPt.Name.ShortHelp = "Third Point";
+SketcherUI.CATComDYSConic.ThirdPt.Name.LongHelp = "Defines the third point coordinates.";
+SketcherUI.CATComDYSConic.ThirdPt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSConic.ThirdPt.ULabel.ShortHelp = "First Coordinate of the Third Point";
+SketcherUI.CATComDYSConic.ThirdPt.UEditor.ShortHelp = "First Coordinate of the Third Point ";
+SketcherUI.CATComDYSConic.ThirdPt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSConic.ThirdPt.VLabel.ShortHelp = "Second Coordinate of the Third Point";
+SketcherUI.CATComDYSConic.ThirdPt.VEditor.ShortHelp = "Second Coordinate of the Third Point";
+SketcherUI.CATComDYSConic.ThirdPt.Excentricity_Label.Title = "e: ";
+SketcherUI.CATComDYSConic.ThirdPt.Excentricity_Label.ShortHelp = "Excentricity";
+SketcherUI.CATComDYSConic.ThirdPt.Excentricity_Value.ShortHelp = "Excentricity";
+SketcherUI.CATComDYSConic.FirstTgte.Name.Title = "First Tangent: ";
+SketcherUI.CATComDYSConic.FirstTgte.Name.Help = "Defines the first tangent point";
+SketcherUI.CATComDYSConic.FirstTgte.Name.ShortHelp = "First Tangent";
+SketcherUI.CATComDYSConic.FirstTgte.Name.LongHelp = "Defines the first tangent coordinates.";
+SketcherUI.CATComDYSConic.FirstTgte.AngleLabel.Title = "A: ";
+SketcherUI.CATComDYSConic.FirstTgte.AngleLabel.ShortHelp = "Angle value of the First Tangent";
+SketcherUI.CATComDYSConic.FirstTgte.AngleEditor.ShortHelp = "Angle value of the First Tangent";
+SketcherUI.CATComDYSConic.FirstTgte.Excentricity_Label.Title = "e: ";
+SketcherUI.CATComDYSConic.FirstTgte.Excentricity_Label.ShortHelp = "Excentricity";
+SketcherUI.CATComDYSConic.FirstTgte.Excentricity_Value.ShortHelp = "Excentricity";
+SketcherUI.CATComDYSConic.SecondTgte.Name.Title = "Second Tangent: ";
+SketcherUI.CATComDYSConic.SecondTgte.Name.Help = "Defines the second tangent";
+SketcherUI.CATComDYSConic.SecondTgte.Name.ShortHelp = "Second Tangent";
+SketcherUI.CATComDYSConic.SecondTgte.Name.LongHelp = "Defines the second tangent coordinates.";
+SketcherUI.CATComDYSConic.SecondTgte.AngleLabel.Title = "A: ";
+SketcherUI.CATComDYSConic.SecondTgte.AngleLabel.ShortHelp = "Angle value of the Second Tangent";
+SketcherUI.CATComDYSConic.SecondTgte.AngleEditor.ShortHelp = "Angle value of the Second Tangent";
+SketcherUI.CATComDYSConic.SecondTgte.Excentricity_Label.Title = "e: ";
+SketcherUI.CATComDYSConic.SecondTgte.Excentricity_Label.ShortHelp = "Excentricity";
+SketcherUI.CATComDYSConic.SecondTgte.Excentricity_Value.ShortHelp = "Excentricity";
+SketcherUI.CATComDYSConic.TwoTgtes.Name.Title = "Both Tangent Point: ";
+SketcherUI.CATComDYSConic.TwoTgtes.Name.Help = "Defines the both tangent point";
+SketcherUI.CATComDYSConic.TwoTgtes.Name.ShortHelp = "Both Tangent Point";
+SketcherUI.CATComDYSConic.TwoTgtes.Name.LongHelp = "Defines the both tangent point coordinates.";
+SketcherUI.CATComDYSConic.TwoTgtes.ULabel.Title = "H: ";
+SketcherUI.CATComDYSConic.TwoTgtes.ULabel.ShortHelp = "First Coordinate of the Both Tangent Point";
+SketcherUI.CATComDYSConic.TwoTgtes.UEditor.ShortHelp = "First Coordinate of the Both Tangent Point";
+SketcherUI.CATComDYSConic.TwoTgtes.VLabel.Title = "V: ";
+SketcherUI.CATComDYSConic.TwoTgtes.VLabel.ShortHelp = "Second Coordinate of the Both Tangent Point";
+SketcherUI.CATComDYSConic.TwoTgtes.VEditor.ShortHelp = "Second Coordinate of the Both Tangent Point";
+SketcherUI.CATComDYSConic.TwoTgtes.Excentricity_Label.Title = "e: ";
+SketcherUI.CATComDYSConic.TwoTgtes.Excentricity_Label.ShortHelp = "Excentricity";
+SketcherUI.CATComDYSConic.TwoTgtes.Excentricity_Value.ShortHelp = "Excentricity";
+SketcherUI.CATComDYSConic.Excentricity.Name.Title = "Apex : ";
+SketcherUI.CATComDYSConic.Excentricity.Name.Help = "Defines the excentricity point";
+SketcherUI.CATComDYSConic.Excentricity.Name.ShortHelp = "Excentricity Point";
+SketcherUI.CATComDYSConic.Excentricity.Name.LongHelp = "Defines the apex to define the excentricity.";
+SketcherUI.CATComDYSConic.Excentricity.ULabel.Title = "H: ";
+SketcherUI.CATComDYSConic.Excentricity.ULabel.ShortHelp = "First Coordinate of the Apex to Define the Excentricity";
+SketcherUI.CATComDYSConic.Excentricity.UEditor.ShortHelp = "First Coordinate of the Apex to Define the Excentricity ";
+SketcherUI.CATComDYSConic.Excentricity.VLabel.Title = "V: ";
+SketcherUI.CATComDYSConic.Excentricity.VLabel.ShortHelp = "Second Coordinate of the Apex to Define the Excentricity";
+SketcherUI.CATComDYSConic.Excentricity.VEditor.ShortHelp = "Second Coordinate of the Apex to Define the Excentricity";
+SketcherUI.CATComDYSConic.Excentricity.Excentricity_Label.Title = "e: ";
+SketcherUI.CATComDYSConic.Excentricity.Excentricity_Label.ShortHelp = "Excentricity";
+SketcherUI.CATComDYSConic.Excentricity.Excentricity_Value.ShortHelp = "Excentricity";
+
+// 2D conic curve like GSD
+SketcherUI.CATComDYSConicCurve.SwitchBar.TwoPoints.Title = "Two Points";
+SketcherUI.CATComDYSConicCurve.SwitchBar.TwoPoints.Help = "Creates the conic curve by two points";
+SketcherUI.CATComDYSConicCurve.SwitchBar.TwoPoints.LongHelp = "Creates the conic curve defined by two points.";
+SketcherUI.CATComDYSConicCurve.SwitchBar.TwoPoints.ShortHelp = "Two Points";
+SketcherUI.CATComDYSConicCurve.SwitchBar.FourPoints.Title = "Four Points";
+SketcherUI.CATComDYSConicCurve.SwitchBar.FourPoints.Help = "Creates a conic curve by four points";
+SketcherUI.CATComDYSConicCurve.SwitchBar.FourPoints.LongHelp = "Creates a conic Curve defined by four points.";
+SketcherUI.CATComDYSConicCurve.SwitchBar.FourPoints.ShortHelp = "Four Points";
+SketcherUI.CATComDYSConicCurve.SwitchBar.FivePoints.Title = "Five points";
+SketcherUI.CATComDYSConicCurve.SwitchBar.FivePoints.Help = "Creates a conic curve by five points";
+SketcherUI.CATComDYSConicCurve.SwitchBar.FivePoints.LongHelp = "Creates a conic Curve defined by five points.";
+SketcherUI.CATComDYSConicCurve.SwitchBar.FivePoints.ShortHelp = "Five Points";
+SketcherUI.CATComDYSConicCurve.SwitchBar.StartEndTgt.Title = "Start and End Tangent";
+SketcherUI.CATComDYSConicCurve.SwitchBar.StartEndTgt.Help = "Crerates a tangent at start point and tangent at end point";
+SketcherUI.CATComDYSConicCurve.SwitchBar.StartEndTgt.LongHelp = "Creates a tangent at first end point and tangent at second end point of conic curve.";
+SketcherUI.CATComDYSConicCurve.SwitchBar.StartEndTgt.ShortHelp = "Start and End Tangent";
+SketcherUI.CATComDYSConicCurve.SwitchBar.TgtIntPt.Title = "Tangent intersection point";
+SketcherUI.CATComDYSConicCurve.SwitchBar.TgtIntPt.Help = "Creates an intersection point that defines the direction of tangencies at end points";
+SketcherUI.CATComDYSConicCurve.SwitchBar.TgtIntPt.LongHelp = "Creates an intersection point that defines the direction of tangency at first end point and second end point of conic.";
+SketcherUI.CATComDYSConicCurve.SwitchBar.TgtIntPt.ShortHelp = "Tangent Intersection Point";
+SketcherUI.CATComDYSConicCurve.Parameter.Dimension.EnglobingFrame.IntermediateFrame.Label.Title = "Parameter: ";
+SketcherUI.CATComDYSConicCurve.Parameter.Dimension.EnglobingFrame.IntermediateFrame.Label.Help = "Defines the parameter";
+SketcherUI.CATComDYSConicCurve.Parameter.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp = "Parameter";
+SketcherUI.CATComDYSConicCurve.Parameter.Dimension.EnglobingFrame.IntermediateFrame.Label.LongHelp = "Defines the parameter value.";
+SketcherUI.CATComDYSConicCurve.Angle.Dimension.EnglobingFrame.IntermediateFrame.Label.Title = "Angle: ";
+SketcherUI.CATComDYSConicCurve.Angle.Dimension.EnglobingFrame.IntermediateFrame.Label.Help = "Defines the angle";
+SketcherUI.CATComDYSConicCurve.Angle.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp = "Angle";
+SketcherUI.CATComDYSConicCurve.Angle.Dimension.EnglobingFrame.IntermediateFrame.Label.LongHelp = "Defines the angle value for the tangent direction.";
+SketcherUI.CATComDYSConicCurve.EndPtOfCrv.Check.Title = "Nearest end point";
+SketcherUI.CATComDYSConicCurve.EndPtOfCrv.Check.Help = "Defines the nearest end point";
+SketcherUI.CATComDYSConicCurve.EndPtOfCrv.Check.LongHelp = "Defines the nearest end point";
+SketcherUI.CATComDYSConicCurve.EndPtOfCrv.Check.ShortHelp = "Nearest End Point";
+SketcherUI.CATComDYSConicCurve.Tangent.Check.Title = "Tangent";
+SketcherUI.CATComDYSConicCurve.Tangent.Check.Help = "Defines the tangent at passing point";
+SketcherUI.CATComDYSConicCurve.Tangent.Check.LongHelp = "Defines the tangent at passing point of conic curve";
+SketcherUI.CATComDYSConicCurve.Tangent.Check.ShortHelp = "Tangent at Passing Point";
+SketcherUI.CATComDYSConicCurve.StartPointState.Message = "Select a point or click to locate the first end point"; 
+SketcherUI.CATComDYSConicCurve.EndPointState.Message = "Select a point or click to locate the second end point";
+SketcherUI.CATComDYSConicCurve.FirstIPassPointState.Message = "Select a point or click to locate the first point on the conic";
+SketcherUI.CATComDYSConicCurve.SecondIPassPointState.Message = "Select a point or click to locate the second point on the conic";
+SketcherUI.CATComDYSConicCurve.ThirdIPassPointState.Message = "Select a point or click to locate the third point on the conic";
+SketcherUI.CATComDYSConicCurve.TangentIntersectPointState.Message = "Select a point or click to locate the tangent intersection point";
+SketcherUI.CATComDYSConicCurve.ParamOrPassPointState.Message = "Select a point or click to locate a passing point on the conic or enter a parameter value";
+SketcherUI.CATComDYSConicCurve.StartTangentState.Message = "Select a point or click to locate the tangent at the first end point";
+SketcherUI.CATComDYSConicCurve.EndTangentState.Message = "Select a point or click to locate the tangent at the second end point";
+SketcherUI.CATComDYSConicCurve.FirstIPassTangentState.Message = "Select a point or click to locate the tangent at the first point on the conic";
+SketcherUI.CATComDYSConicCurve.SecondIPassTangentState.Message = "Select a point or click to locate the tangent at the second point on the conic"; 
+SketcherUI.CATComDYSConicCurve.NoSolution.Title   = "Conic";
+SketcherUI.CATComDYSConicCurve.NoSolution.Message = "The conic cannot be created with the selected elements.";
+
+SketcherUI.CATComDYSConicCurve.PtCopilot.Name.Title = "Point Coordinates: ";
+SketcherUI.CATComDYSConicCurve.PtCopilot.ULabel.Title = "H: ";
+SketcherUI.CATComDYSConicCurve.PtCopilot.ULabel.ShortHelp = "Point First Coordinate";
+SketcherUI.CATComDYSConicCurve.PtCopilot.UEditor.ShortHelp = "Point First Coordinate";
+SketcherUI.CATComDYSConicCurve.PtCopilot.VLabel.Title = "V: ";
+SketcherUI.CATComDYSConicCurve.PtCopilot.VLabel.ShortHelp = "Point Second Coordinate";
+SketcherUI.CATComDYSConicCurve.PtCopilot.VEditor.ShortHelp = "Point Second Coordinate";
+
+SketcherUI.CATComDYSConicCurve.StartPointCplt.Name.Title = "Start Point: ";
+SketcherUI.CATComDYSConicCurve.StartPointCplt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSConicCurve.StartPointCplt.ULabel.ShortHelp = "First Coordinate of the Start Point";
+SketcherUI.CATComDYSConicCurve.StartPointCplt.UEditor.ShortHelp = "First Coordinate of the Start Point";
+SketcherUI.CATComDYSConicCurve.StartPointCplt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSConicCurve.StartPointCplt.VLabel.ShortHelp = "Second Coordinate of the Start Point";
+SketcherUI.CATComDYSConicCurve.StartPointCplt.VEditor.ShortHelp = "Second Coordinate of the Start Point";
+
+SketcherUI.CATComDYSConicCurve.EndPointCplt.Name.Title = "End Point: ";
+SketcherUI.CATComDYSConicCurve.EndPointCplt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSConicCurve.EndPointCplt.ULabel.ShortHelp = "First Coordinate of the End Point";
+SketcherUI.CATComDYSConicCurve.EndPointCplt.UEditor.ShortHelp = "First Coordinate of the End Point";
+SketcherUI.CATComDYSConicCurve.EndPointCplt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSConicCurve.EndPointCplt.VLabel.ShortHelp = "Second Coordinate of the End Point";
+SketcherUI.CATComDYSConicCurve.EndPointCplt.VEditor.ShortHelp = "Second Coordinate of the End Point";
+
+SketcherUI.CATComDYSConicCurve.Point1Cplt.Name.Title = "First Point: ";
+SketcherUI.CATComDYSConicCurve.Point1Cplt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSConicCurve.Point1Cplt.ULabel.ShortHelp = "First Coordinate of the First Point";
+SketcherUI.CATComDYSConicCurve.Point1Cplt.UEditor.ShortHelp = "First Coordinate of the First Point";
+SketcherUI.CATComDYSConicCurve.Point1Cplt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSConicCurve.Point1Cplt.VLabel.ShortHelp = "Second Coordinate of the First Point";
+SketcherUI.CATComDYSConicCurve.Point1Cplt.VEditor.ShortHelp = "Second Coordinate of the First Point";
+
+SketcherUI.CATComDYSConicCurve.Point2Cplt.Name.Title = "Second Point: ";
+SketcherUI.CATComDYSConicCurve.Point2Cplt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSConicCurve.Point2Cplt.ULabel.ShortHelp = "First Coordinate of the Second Point";
+SketcherUI.CATComDYSConicCurve.Point2Cplt.UEditor.ShortHelp = "First Coordinate of the Second Point";
+SketcherUI.CATComDYSConicCurve.Point2Cplt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSConicCurve.Point2Cplt.VLabel.ShortHelp = "Second Coordinate of the Second Point";
+SketcherUI.CATComDYSConicCurve.Point2Cplt.VEditor.ShortHelp = "Second Coordinate of the Second Point";
+
+SketcherUI.CATComDYSConicCurve.Point3Cplt.Name.Title = "Third Point: ";
+SketcherUI.CATComDYSConicCurve.Point3Cplt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSConicCurve.Point3Cplt.ULabel.ShortHelp = "First Coordinate of the Third Point";
+SketcherUI.CATComDYSConicCurve.Point3Cplt.UEditor.ShortHelp = "First Coordinate of the Third Point";
+SketcherUI.CATComDYSConicCurve.Point3Cplt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSConicCurve.Point3Cplt.VLabel.ShortHelp = "Second Coordinate of the Third Point";
+SketcherUI.CATComDYSConicCurve.Point3Cplt.VEditor.ShortHelp = "Second Coordinate of the Third Point";
+
+SketcherUI.CATComDYSConicCurve.PassingPointCplt.Name.Title = "Passing Point: ";
+SketcherUI.CATComDYSConicCurve.PassingPointCplt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSConicCurve.PassingPointCplt.ULabel.ShortHelp = "First Coordinate of the Passing Point";
+SketcherUI.CATComDYSConicCurve.PassingPointCplt.UEditor.ShortHelp = "First Coordinate of the Passing Point";
+SketcherUI.CATComDYSConicCurve.PassingPointCplt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSConicCurve.PassingPointCplt.VLabel.ShortHelp = "Second Coordinate of the Passing Point";
+SketcherUI.CATComDYSConicCurve.PassingPointCplt.VEditor.ShortHelp = "Second Coordinate of the Passing Point";
+
+SketcherUI.CATComDYSConicCurve.TgtCopilot.Name.Title = "Point Coordinates: ";
+SketcherUI.CATComDYSConicCurve.TgtCopilot.ULabel.Title = "H: ";
+SketcherUI.CATComDYSConicCurve.TgtCopilot.ULabel.ShortHelp = "Point First Coordinate";
+SketcherUI.CATComDYSConicCurve.TgtCopilot.UEditor.ShortHelp = "Point First Coordinate";
+SketcherUI.CATComDYSConicCurve.TgtCopilot.VLabel.Title = "V: ";
+SketcherUI.CATComDYSConicCurve.TgtCopilot.VLabel.ShortHelp = "Point Second Coordinate";
+SketcherUI.CATComDYSConicCurve.TgtCopilot.VEditor.ShortHelp = "Point Second Coordinate";
+
+SketcherUI.CATComDYSConicCurve.StartTangentCplt.Name.Title = "Start Tangent: ";
+SketcherUI.CATComDYSConicCurve.StartTangentCplt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSConicCurve.StartTangentCplt.ULabel.ShortHelp = "First Coordinate of the Start Tangent";
+SketcherUI.CATComDYSConicCurve.StartTangentCplt.UEditor.ShortHelp = "First Coordinate of the Start Tangent";
+SketcherUI.CATComDYSConicCurve.StartTangentCplt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSConicCurve.StartTangentCplt.VLabel.ShortHelp = "Second Coordinate of the Start Tangent";
+SketcherUI.CATComDYSConicCurve.StartTangentCplt.VEditor.ShortHelp = "Second Coordinate of the Start Tangent";
+
+SketcherUI.CATComDYSConicCurve.EndTangentCplt.Name.Title = "End Tangent: ";
+SketcherUI.CATComDYSConicCurve.EndTangentCplt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSConicCurve.EndTangentCplt.ULabel.ShortHelp = "First Coordinate of the End Tangent";
+SketcherUI.CATComDYSConicCurve.EndTangentCplt.UEditor.ShortHelp = "First Coordinate of the End Tangent";
+SketcherUI.CATComDYSConicCurve.EndTangentCplt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSConicCurve.EndTangentCplt.VLabel.ShortHelp = "Second Coordinate of the End Tangent";
+SketcherUI.CATComDYSConicCurve.EndTangentCplt.VEditor.ShortHelp = "Second Coordinate of the End Tangent";
+
+SketcherUI.CATComDYSConicCurve.Tangent1Cplt.Name.Title = "First Tangent: ";
+SketcherUI.CATComDYSConicCurve.Tangent1Cplt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSConicCurve.Tangent1Cplt.ULabel.ShortHelp = "First Coordinate of the First Tangent";
+SketcherUI.CATComDYSConicCurve.Tangent1Cplt.UEditor.ShortHelp = "First Coordinate of the First Tangent";
+SketcherUI.CATComDYSConicCurve.Tangent1Cplt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSConicCurve.Tangent1Cplt.VLabel.ShortHelp = "Second Coordinate of the First Tangent";
+SketcherUI.CATComDYSConicCurve.Tangent1Cplt.VEditor.ShortHelp = "Second Coordinate of the First Tangent";
+
+SketcherUI.CATComDYSConicCurve.Tangent2Cplt.Name.Title = "Second Tangent: ";
+SketcherUI.CATComDYSConicCurve.Tangent2Cplt.ULabel.Title = "H: ";
+SketcherUI.CATComDYSConicCurve.Tangent2Cplt.ULabel.ShortHelp = "First Coordinate of the Second Tangent";
+SketcherUI.CATComDYSConicCurve.Tangent2Cplt.UEditor.ShortHelp = "First Coordinate of the Second Tangent";
+SketcherUI.CATComDYSConicCurve.Tangent2Cplt.VLabel.Title = "V: ";
+SketcherUI.CATComDYSConicCurve.Tangent2Cplt.VLabel.ShortHelp = "Second Coordinate of the Second Tangent";
+SketcherUI.CATComDYSConicCurve.Tangent2Cplt.VEditor.ShortHelp = "Second Coordinate of the Second Tangent";
+
+SketcherUI.CATComDYSConicCurve.PtTgIntCopilot.Name.Title = "Tangent Intersection Point: ";
+SketcherUI.CATComDYSConicCurve.PtTgIntCopilot.ULabel.Title = "H: ";
+SketcherUI.CATComDYSConicCurve.PtTgIntCopilot.ULabel.ShortHelp = "First Coordinate of the Tangent Intersection Point";
+SketcherUI.CATComDYSConicCurve.PtTgIntCopilot.UEditor.ShortHelp = "First Coordinate of the Tangent Intersection Point";
+SketcherUI.CATComDYSConicCurve.PtTgIntCopilot.VLabel.Title = "V: ";
+SketcherUI.CATComDYSConicCurve.PtTgIntCopilot.VLabel.ShortHelp = "Second Coordinate of the Tangent Intersection Point";
+SketcherUI.CATComDYSConicCurve.PtTgIntCopilot.VEditor.ShortHelp = "Second Coordinate of the Tangent Intersection Point";
+
+SketcherUI.CATComEdit2DConicCurve.ErrorNumberElement.Title = "Conic curve Definition";
+SketcherUI.CATComEdit2DConicCurve.ErrorNumberElement.Message = "The number of input of a conic curve must not exceed Five.\nPlease, unset one input.";
+
+SketcherUI.CATComEdit2DConicCurve.DefinitionConicCurve.Message = "Select a field to modify the definition of conic curve";
+SketcherUI.CATComEdit2DConicCurve.SelectionStartPoint.Message = "Select a point or click to locate the first end point"; 
+SketcherUI.CATComEdit2DConicCurve.SelectionEndPoint.Message = "Select a point or click to locate the second end point";
+SketcherUI.CATComEdit2DConicCurve.SelectionFirstPoint.Message = "Select a point or click to locate the first point on the conic";
+SketcherUI.CATComEdit2DConicCurve.SelectionSecondPoint.Message = "Select a point or click to locate the second point on the conic";
+SketcherUI.CATComEdit2DConicCurve.SelectionThirdPoint.Message = "Select a point or click to locate the third point on the conic";
+SketcherUI.CATComEdit2DConicCurve.SelectionTangentIntersectionPoint.Message = "Select a point or click to locate the tangent intersection point";
+SketcherUI.CATComEdit2DConicCurve.SelectionStartTangent.Message = "Select a point or click to locate the tangent at the first end point ";
+SketcherUI.CATComEdit2DConicCurve.SelectionEndTangent.Message = "Select a point or click to locate the tangent at the second end point";
+SketcherUI.CATComEdit2DConicCurve.SelectionFirstTangent.Message = "Select a point or click to locate the tangent at the first point on the conic";
+SketcherUI.CATComEdit2DConicCurve.SelectionSecondTangent.Message = "Select a point or click to locate the tangent at the second point on the conic"; 
+SketcherUI.CATComEdit2DConicCurve.PtCopilot.Name.Title = "Point Coordinates: ";
+SketcherUI.CATComEdit2DConicCurve.PtCopilot.ULabel.Title = "H: ";
+SketcherUI.CATComEdit2DConicCurve.PtCopilot.ULabel.ShortHelp = "Point First Coordinate";
+SketcherUI.CATComEdit2DConicCurve.PtCopilot.UEditor.ShortHelp = "Point First Coordinate";
+SketcherUI.CATComEdit2DConicCurve.PtCopilot.VLabel.Title = "V: ";
+SketcherUI.CATComEdit2DConicCurve.PtCopilot.VLabel.ShortHelp = "Point Second Coordinate";
+SketcherUI.CATComEdit2DConicCurve.PtCopilot.VEditor.ShortHelp = "Point Second Coordinate";
+
+
+// Creation Offset Contour
+SketcherUI.CATCom2DOffsetContour.SelElement.Message = "Select the geometry(ies) to be duplicated using an offset value";
+SketcherUI.CATCom2DOffsetContour.NewPosition.Message = "Select a point or click for locating the new element(s)";
+// Gestion Visu Copilote
+SketcherUI.CATCom2DOffsetContour.NewPosition.Name.Title = "New Position: ";
+SketcherUI.CATCom2DOffsetContour.NewPosition.Name.Help = "Defines the new position of the duplicated element(s)";
+SketcherUI.CATCom2DOffsetContour.NewPosition.Name.ShortHelp = "New Position";
+SketcherUI.CATCom2DOffsetContour.NewPosition.Name.LongHelp = "Defines the new position of the duplicated element(s).";
+SketcherUI.CATCom2DOffsetContour.NewPosition.ULabel.Title = "H: ";
+SketcherUI.CATCom2DOffsetContour.NewPosition.ULabel.ShortHelp = "First Coordinate (Origin Point of Duplicated Element)";
+SketcherUI.CATCom2DOffsetContour.NewPosition.UEditor.ShortHelp = "First Coordinate (Origin Point of Duplicated Element)";
+SketcherUI.CATCom2DOffsetContour.NewPosition.VLabel.Title = "V: ";
+SketcherUI.CATCom2DOffsetContour.NewPosition.VLabel.ShortHelp = "Second Coordinate (Origin Point of Duplicated Element)";
+SketcherUI.CATCom2DOffsetContour.NewPosition.VEditor.ShortHelp = "Second Coordinate (Origin Point of Duplicated Element)";
+SketcherUI.CATCom2DOffsetContour.NewPosition.Offset_Label.Title = "Offset: ";
+SketcherUI.CATCom2DOffsetContour.NewPosition.Offset_Label.Help = "Defines the offset value";
+SketcherUI.CATCom2DOffsetContour.NewPosition.Offset_Label.ShortHelp = "Offset Value";
+SketcherUI.CATCom2DOffsetContour.NewPosition.Offset_Label.LongHelp = "Defines the value of the offset between the origin element(s) and the duplicated element(s).";
+SketcherUI.CATCom2DOffsetContour.NewPosition.Offset_Value.ShortHelp = "Offset Value";
+SketcherUI.CATCom2DOffsetContour.PropagSwitchBar.No_Propagation.Title = "No propagation";
+SketcherUI.CATCom2DOffsetContour.PropagSwitchBar.No_Propagation.Help = "Defines the the No Propagation mode";
+SketcherUI.CATCom2DOffsetContour.PropagSwitchBar.No_Propagation.LongHelp = "Defines the the No Propagation mode.";
+SketcherUI.CATCom2DOffsetContour.PropagSwitchBar.No_Propagation.ShortHelp = "No Propagation";
+SketcherUI.CATCom2DOffsetContour.PropagSwitchBar.Tg_Propagation.Title = "Tangent propagation";
+SketcherUI.CATCom2DOffsetContour.PropagSwitchBar.Tg_Propagation.Help = "Defines the tangent propagation";
+SketcherUI.CATCom2DOffsetContour.PropagSwitchBar.Tg_Propagation.LongHelp = "Defines the tangent propagation.";
+SketcherUI.CATCom2DOffsetContour.PropagSwitchBar.Tg_Propagation.ShortHelp = "Tangent Propagation";
+SketcherUI.CATCom2DOffsetContour.PropagSwitchBar.Pt_Propagation.Title = "Point propagation";
+SketcherUI.CATCom2DOffsetContour.PropagSwitchBar.Pt_Propagation.Help = "Defines the point propagation";
+SketcherUI.CATCom2DOffsetContour.PropagSwitchBar.Pt_Propagation.LongHelp = "Defines the point propagation.";
+SketcherUI.CATCom2DOffsetContour.PropagSwitchBar.Pt_Propagation.ShortHelp = "Point Propagation";
+SketcherUI.CATCom2DOffsetContour.BothSideCheckBar.Check.Title = "Both side offset";
+SketcherUI.CATCom2DOffsetContour.BothSideCheckBar.Check.Help = "Defines the both side offset";
+SketcherUI.CATCom2DOffsetContour.BothSideCheckBar.Check.LongHelp = "Defines the both side offset creation.";
+SketcherUI.CATCom2DOffsetContour.BothSideCheckBar.Check.ShortHelp = "Both Side Offset";
+SketcherUI.CATCom2DOffsetContour.NbDuplications.Dimension.EnglobingFrame.IntermediateFrame.Label.Title = "Instance(s): ";
+SketcherUI.CATCom2DOffsetContour.NbDuplications.Dimension.EnglobingFrame.IntermediateFrame.Label.Help = "Defines the instance(s)";
+SketcherUI.CATCom2DOffsetContour.NbDuplications.Dimension.EnglobingFrame.IntermediateFrame.Label.LongHelp = "Defines the number of new offset instance(s) to create.";
+SketcherUI.CATCom2DOffsetContour.NbDuplications.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp = "Number of Instance(s)";
+SketcherUI.CATCom2DOffsetContour.PartialOffset.Title = "Offset partially done";
+SketcherUI.CATCom2DOffsetContour.PartialOffset.Message = "Warning: Only certain offset values have been taken into account.\n(The number of created offset is = ";
+SketcherUI.CATCom2DOffsetContour.CheckIntersection.Title = "Offset";
+SketcherUI.CATCom2DOffsetContour.CheckIntersection.Message = "Unable to compute the offset.\nNon manifold input or the wire is self intersecting.\nSelect another geometry to offset.";
+SketcherUI.CATCom2DOffsetContour.Cycle.Message = "Unable to create the offset:\nit would create an update cycle.\n";
+
+// Point Intersection Command
+SketcherUI.CATCom2DPointIntersect.Element.Message = "Select the set of the elements to be intersected with another element";
+SketcherUI.CATCom2DPointIntersect.Intersect.Message = "Select the element from which the elements will be intersected";
+
+// Point Projection Command
+SketcherUI.CATCom2DPointProject.Element.Message = "Select the set of the elements to be projected onto another element";
+SketcherUI.CATCom2DPointProject.Project.Message = "Select the element on which the selected points will be projected";
+
+SketcherUI.CATCom2DPointProject.ProjectOrtho.Message = "Select the element on which the selected points will be projected";
+SketcherUI.CATCom2DPointProject.ProjectAlongDir.Message = "Select a point or click to locate the position or the direction of projection";
+SketcherUI.CATCom2DPointProject.ProjectOntoCurve.Message = "Select the element on which the selected points will be projected";
+
+SketcherUI.CATCom2DPointProject.SwitchBar.Orthogonal.Title = "Orthogonal";
+SketcherUI.CATCom2DPointProject.SwitchBar.Orthogonal.Help = "Creates an orthogonal projection";
+SketcherUI.CATCom2DPointProject.SwitchBar.Orthogonal.LongHelp = "Switches to orthogonal projection mode.";
+SketcherUI.CATCom2DPointProject.SwitchBar.Orthogonal.ShortHelp = "Orthogonal Projection";
+SketcherUI.CATCom2DPointProject.SwitchBar.AlongDirection.Title = "Along a direction";
+SketcherUI.CATCom2DPointProject.SwitchBar.AlongDirection.Help = "Creates a projection along a direction";
+SketcherUI.CATCom2DPointProject.SwitchBar.AlongDirection.LongHelp = "Switches to projection along a direction mode.";
+SketcherUI.CATCom2DPointProject.SwitchBar.AlongDirection.ShortHelp = "Along a Direction";
+
+SketcherUI.CATCom2DPointProject.ProjDirCplt.Name.Title = "Direction: ";
+SketcherUI.CATCom2DPointProject.ProjDirCplt.ULabel.Title = "H: ";
+SketcherUI.CATCom2DPointProject.ProjDirCplt.ULabel.ShortHelp = "First Coordinate of direction point";
+SketcherUI.CATCom2DPointProject.ProjDirCplt.UEditor.ShortHelp = "First Coordinate of direction point";
+SketcherUI.CATCom2DPointProject.ProjDirCplt.VLabel.Title = "V: ";
+SketcherUI.CATCom2DPointProject.ProjDirCplt.VLabel.ShortHelp = "Second Coordinate of direction point";
+SketcherUI.CATCom2DPointProject.ProjDirCplt.VEditor.ShortHelp = "Second Coordinate of direction point";
+
+SketcherUI.CATCom2DPointProject.ProjAngle.Dimension.EnglobingFrame.IntermediateFrame.Label.Title = "Angle: ";
+SketcherUI.CATCom2DPointProject.ProjAngle.Dimension.EnglobingFrame.IntermediateFrame.Label.Help = "Defines the Angle of the direction of projection";
+SketcherUI.CATCom2DPointProject.ProjAngle.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp = "Angle of Direction";
+SketcherUI.CATCom2DPointProject.ProjAngle.Dimension.EnglobingFrame.IntermediateFrame.Label.LongHelp = "Defines the angle value for the direction of projection.";
+
+SketcherUI.CATCom2DPointProject.PointProjection.Title = "Projection Point";
+SketcherUI.CATCom2DPointProject.NotProjPointAlongDir.Message = "No projection found along the given direction !";
+SketcherUI.CATCom2DPointProject.NotProjPoint.Message = " No projection found !";
+SketcherUI.CATCom2DPointProject.PartialProjPoint.Message = "Warning : One or several points are not projected !";
+
+// Commande Droite infinie
+SketcherUI.CATComDYSLineHV.CreateLine.Message = "Select a point or click to locate the line";
+SketcherUI.CATComDYSLineHV.SwitchBar.Horizontal.Title = "Horizontal";
+SketcherUI.CATComDYSLineHV.SwitchBar.Horizontal.Help = "Creates an horizontal line";
+SketcherUI.CATComDYSLineHV.SwitchBar.Horizontal.LongHelp = "Switches to Infinite Horizontal Line.";
+SketcherUI.CATComDYSLineHV.SwitchBar.Horizontal.ShortHelp = "Horizontal Line";
+SketcherUI.CATComDYSLineHV.SwitchBar.Vertical.Title = "Vertical";
+SketcherUI.CATComDYSLineHV.SwitchBar.Vertical.Help = "Creates a vertical line";
+SketcherUI.CATComDYSLineHV.SwitchBar.Vertical.LongHelp = "Switches to Infinite Vertical Line.";
+SketcherUI.CATComDYSLineHV.SwitchBar.Vertical.ShortHelp = "Vertical Line";
+SketcherUI.CATComDYSLineHV.SwitchBar.Standard.Title = "By Two Points";
+SketcherUI.CATComDYSLineHV.SwitchBar.Standard.Help = "Creates a line through two points";
+SketcherUI.CATComDYSLineHV.SwitchBar.Standard.LongHelp = "Switches to Line Through Two Points.";
+SketcherUI.CATComDYSLineHV.SwitchBar.Standard.ShortHelp = "Line Through Two Points";
+
+// Commande Bissectrice infinie
+SketcherUI.CATCom2DBisectingLine.FirstLine.Message = "Select the first line that defines the sector to be bisected";
+SketcherUI.CATCom2DBisectingLine.SecondLine.Message = "Select the second line that defines the sector to be bisected";
+
+// Noms des noeuds virtuels du graphe.
+ConstraintGroup = "Constraints";
+GeometryGroup = "Geometry";
+ExternalGroup = "Use-edges";
+
+// Edit Operator (UseEdge)
+SketcherUI.CATComEdit2DOperator.SelNewRef.Message   = "Select the new 3D element for this operator";
+SketcherUI.CATComEdit2DOperator.SelNewNear.Message   = "Select the new near element for this operator";
+SketcherUI.CATComEdit2DOperator.NoSelection   = "No selection";
+SketcherUI.CATComEdit2DOperator.ReferenceElement   = "Reference Element";
+
+// Edit 2DOutput
+SketcherUI.CATComEdit2DOutput.initState.Message  = "Select the new element for this output";
+SketcherUI.CATComEdit2DOutput.ReferenceElement   = "Reference Element";
+SketcherUI.CATComEdit2DOutput.WarningTitle.Title = "Output feature edition";
+SketcherUI.CATComEdit2DOutput.DegeneratedElement.Message = "The selected element is degenerated.\nPlease, select another element.";
+SketcherUI.CATComEdit2DOutput.AlreadyPublishElement.Message = "The selected element is already exposed.\nPlease, select another element.";
+
+// Edit Offset (UseEdge)
+SketcherUI.CATComEdit2DOffset.SelNewOffsetElem.Message   = "Select the new 3D element for this offset";
+SketcherUI.CATComEdit2DOffset.SelNewInitElem.Message   = "Select the new reference element for the offset propagation";
+SketcherUI.CATComEdit2DOffset.NoSelection   = "No selection";
+SketcherUI.CATComEdit2DOffset.ReferenceElement   = "Object to offset";
+
+
+// Sketch Positioning
+SketcherUI.CATComCreateSketchPosition.StateCreation.Message = "Select a plane, two lines, an axis system, a planar face or a sketch";
+SketcherUI.CATComModifySketchSupport.SketchState.Message = "Select a sketch";
+SketcherUI.CATComModifySketchSupport.ModifyState.Message="Modify the support plane";
+SketcherUI.CATComSketchPosition.stateEltSup1.Message = "Select a plane, two lines, an axis system, a planar face or a sketch";
+SketcherUI.CATComSketchPosition.stateEltSup2.Message = "Select the second line";
+SketcherUI.CATComSketchPosition.stateEltOrigin1.Message = "Select the origin mode or 3D element";
+SketcherUI.CATComSketchPosition.stateEltOrigin2.Message = "Select the second line";
+SketcherUI.CATComSketchPosition.stateEltOrient.Message = "Select the orientation mode or 3D element";
+SketcherUI.CATComSketchPosition.stateNeutral.Message = "Validate the absolute axis position or change the specification";
+
+// Old Positioning 
+SketcherUI.CATComModifySketchSupport.OLDModifyState.Message="Select the new sketch support plane";
+SketcherUI.CATComOldChangeSketchSupport.Sketch.Message = "Select a sketch which support is to be changed";
+SketcherUI.CATComOldChangeSketchSupport.Plane.Message = "Select the new sketch support plane";
+SketcherUI.CATComOldChangeSketchSupport.AvoidLoop.Message = "Choose another plane whose parents are not defined in the sketch";
+
+
+// Line Normal to Curve
+SketcherUI.CATCom2DLineNormalToCurve.state1.Message  = "Click to define the first extremity of the line";
+SketcherUI.CATCom2DLineNormalToCurve.state2.Message = "Click to select a curve";
+SketcherUI.CATCom2DLineNormalToCurve.state3.Message = "Click to select a curve";
+SketcherUI.CATCom2DLineNormalToCurve.state4.Message = "Click to define the second extremity of the line";
+SketcherUI.CATCom2DLineNormalToCurve.Pt1Agt.Name.Title = "First Point: ";
+SketcherUI.CATCom2DLineNormalToCurve.Pt1Agt.Name.Help = "Defines the first point";
+SketcherUI.CATCom2DLineNormalToCurve.Pt1Agt.Name.ShortHelp = "First Point";
+SketcherUI.CATCom2DLineNormalToCurve.Pt1Agt.Name.LongHelp = "Defines the first point.";
+SketcherUI.CATCom2DLineNormalToCurve.Pt1Agt.ULabel.Title = "H: ";
+SketcherUI.CATCom2DLineNormalToCurve.Pt1Agt.ULabel.ShortHelp = "First Coordinate of the First Point";
+SketcherUI.CATCom2DLineNormalToCurve.Pt1Agt.UEditor.ShortHelp = "First Coordinate of the First Point ";
+SketcherUI.CATCom2DLineNormalToCurve.Pt1Agt.VLabel.Title = "V: ";
+SketcherUI.CATCom2DLineNormalToCurve.Pt1Agt.VLabel.ShortHelp = "Second Coordinate of the First Point";
+SketcherUI.CATCom2DLineNormalToCurve.Pt1Agt.VEditor.ShortHelp = "Second Coordinate of the First Point";
+SketcherUI.CATCom2DLineNormalToCurve.Pt2Agt.Name.Title = "Second Point: ";
+SketcherUI.CATCom2DLineNormalToCurve.Pt2Agt.Name.Help = "Defines the second point";
+SketcherUI.CATCom2DLineNormalToCurve.Pt2Agt.Name.ShortHelp = "Second Point";
+SketcherUI.CATCom2DLineNormalToCurve.Pt2Agt.Name.LongHelp = "Defines the second point.";
+SketcherUI.CATCom2DLineNormalToCurve.Pt2Agt.ULabel.Title = "H: ";
+SketcherUI.CATCom2DLineNormalToCurve.Pt2Agt.ULabel.ShortHelp = "First Coordinate of the Second Point";
+SketcherUI.CATCom2DLineNormalToCurve.Pt2Agt.UEditor.ShortHelp = "First Coordinate of the Second Point ";
+SketcherUI.CATCom2DLineNormalToCurve.Pt2Agt.VLabel.Title = "V: ";
+SketcherUI.CATCom2DLineNormalToCurve.Pt2Agt.VLabel.ShortHelp = "Second Coordinate of the Second Point";
+SketcherUI.CATCom2DLineNormalToCurve.Pt2Agt.VEditor.ShortHelp = "Second Coordinate of the Second Point";
+SketcherUI.CATCom2DLineNormalToCurve.LineNormalToCurveMode.Check.Title = "Select a curve before";
+SketcherUI.CATCom2DLineNormalToCurve.LineNormalToCurveMode.Check.Help = "Selects a curve before create the line";
+SketcherUI.CATCom2DLineNormalToCurve.LineNormalToCurveMode.Check.LongHelp = "Selects a curve before create the line.";
+SketcherUI.CATCom2DLineNormalToCurve.LineNormalToCurveMode.Check.ShortHelp = "Select a Curve before";
+
+SketcherUI.CATCom2DLineNormalToCurve.state2b.Message = "Click to select a curve or a point";
+
+SketcherUI.CATCom2DLineNormalToCurve.Sym.Check.Title= "Symmetrical Extension";
+SketcherUI.CATCom2DLineNormalToCurve.Sym.Check.LongHelp= "Creates a symmetrical line related to the line starting point.";
+SketcherUI.CATCom2DLineNormalToCurve.Sym.Check.ShortHelp= "Symmetrical Extension";
+SketcherUI.CATCom2DLineNormalToCurve.Sym.Check.Help= "Check this button to create a symmetrical extended line";
+
+SketcherUI.CATCom2DLineNormalToCurve.Length.Dimension.EnglobingFrame.IntermediateFrame.Label.Title = "Length: ";
+SketcherUI.CATCom2DLineNormalToCurve.Length.Dimension.EnglobingFrame.IntermediateFrame.Label.Help = "Defines the length";
+SketcherUI.CATCom2DLineNormalToCurve.Length.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp = "Length";
+SketcherUI.CATCom2DLineNormalToCurve.Length.Dimension.EnglobingFrame.IntermediateFrame.Label.LongHelp = "Defines the length of line.";
+
+SketcherUI.CATCom2DLineNormalToCurve.CurveNotFound.Message = "The point is isolated ! \nPlease, select a curve where the point will be projected,\n which will define the beginning of the normal line.";
+SketcherUI.CATCom2DLineNormalToCurve.CurveNotFound.Title = "Warning";
+
+SketcherUI.CATCom2DLineNormalToCurve.SeveralCurves.Message = "The point belongs at several curves ! \nPlease, select the curve to which the point belongs in order to avoid ambiguity.";
+SketcherUI.CATCom2DLineNormalToCurve.SeveralCurves.Title = "Warning";
+
+SketcherUI.CATCom2DLineNormalToCurve.InvalidPoint.Message = "The projection of point on curve has failed ! \nPlease, select a new point or a new curve.";
+SketcherUI.CATCom2DLineNormalToCurve.InvalidPoint.Title = "Warning";
+
+//edit spline
+SketcherUI.CATComEdit2DSpline.ControlPt.Name.Title = "Point Coordinates: ";
+SketcherUI.CATComEdit2DSpline.ControlPt.ULabel.Title = "H: ";
+SketcherUI.CATComEdit2DSpline.ControlPt.ULabel.ShortHelp = "Point First Coordinate";
+SketcherUI.CATComEdit2DSpline.ControlPt.UEditor.ShortHelp = "Point First Coordinate";
+SketcherUI.CATComEdit2DSpline.ControlPt.VLabel.Title = "V: ";
+SketcherUI.CATComEdit2DSpline.ControlPt.VLabel.ShortHelp = "Point Second Coordinate";
+SketcherUI.CATComEdit2DSpline.ControlPt.VEditor.ShortHelp = "Point Second Coordinate";
+
+SketcherUI.CATComEdit2DSpline2.PanelState.Message  = "Select a control point and if needed, set a tangency and a curvature radius or remove it.";
+SketcherUI.CATComEdit2DSpline2.SelNewPoint.Message  = "Select the desired new control point";
+SketcherUI.CATComEdit2DSpline2.SelCurveTgtDir.Message  = "Select a tangency direction for the selected point";
+SketcherUI.CATComEdit2DSpline2.SelCurveCrvDir.Message  = "Select a curvature direction for the selected point";
+SketcherUI.CATComEdit2DSpline2.SelCurveRefElt.Message  = "Select the reference element for the selected point";
+SketcherUI.CATComEdit2DSpline2.ControlPt.Name.Title = "Control Point: ";
+SketcherUI.CATComEdit2DSpline2.ControlPt.ULabel.Title = "H: ";
+SketcherUI.CATComEdit2DSpline2.ControlPt.ULabel.ShortHelp = "Point First Coordinate";
+SketcherUI.CATComEdit2DSpline2.ControlPt.UEditor.ShortHelp = "Point First Coordinate";
+SketcherUI.CATComEdit2DSpline2.ControlPt.VLabel.Title = "V: ";
+SketcherUI.CATComEdit2DSpline2.ControlPt.VLabel.ShortHelp = "Point Second Coordinate";
+SketcherUI.CATComEdit2DSpline2.ControlPt.VEditor.ShortHelp = "Point Second Coordinate";
+
+//Output creation
+SketcherUI.CATComDYSOutput.InitState.Message = "Select one or several 2D geometries.";
+SketcherUI.CATComDYSOutput.WarningPanel.Title = "Output feature creation";
+SketcherUI.CATComDYSOutput.PublishedElement.Message = "The selected element is already exposed.\nPlease, select another element.";
+SketcherUI.CATComDYSOutput.AllPublishedElement.Message = "Selected elements are already exposed.\nPlease, select another element.";
+SketcherUI.CATComDYSOutput.DegeneratedElement.Message = "The selected element is degenerated.\nPlease, select another element.";
+SketcherUI.CATComDYSOutput.AllDegeneratedElement.Message = "Selected elements are degenerated.\nPlease, select another element.";
+SketcherUI.CATComDYSOutput.PublishAndDegeneratElement.Message = "Selected elements are already exposed or degenerated.\nPlease, select another element.";
+SketcherUI.CATComDYSOutput.WarningCreation.Message = "Warning : One or several geometries are already exposed or degenerated.\n/p1 outputs features have been created.";
+
+// Contextual (Corner/Chamfer)
+SketcherUI.CATComDYSContextual.MultiSelError.Message ="Points belong into the same Imported Geometry !\nThe Multi-Selection is not permitted with Construction Lines option.\nSelect the points one after the other and check the option.";
+SketcherUI.CATComDYSContextual.MultiSelError.Title   ="Multi-Selection";
+SketcherUI.CATComDYSContextual.ConfirmDefaultRadius.Message ="Do you want to use the default radius as input ?";
+SketcherUI.CATComDYSContextual.ConfirmDefaultRadius.Title   ="Warning Default Radius";
+
+
+
+// Fix Together 
+SketcherUI.CATComDYSFixTogether.SelectionState.Message = "Select one or several 2D geometries";
+SketcherUI.CATComDYSFixTogether.EditFixTogether.Message = "Edition, Select one or several 2D geometries";
+SketcherUI.CATComDYSFixTogether.MarkOfUseEdge.Message = "A Use-Edge has been included into the FixTogether !\nThe rigid set will remain rigid as long as you do not move the initial 3D geometry.\n\nTo ensure permanent rigidity of the FixTogether, isolate the Use-Edge.";
+SketcherUI.CATComDYSFixTogether.MarkOfUseEdge.Title = "Warning";
+SketcherUI.CATComEdit2DFixTogether.FixTogether.Message = "Edition, Select one or several 2D geometries";
+
+//Output Profile creation
+SketcherUI.CATComDYSOutputProfile.InitState.Message = "Select one or several 2D geometries.";
+SketcherUI.CATComDYSOutputProfile.EditOutputProfile.Message = "Edition of Output Profile.";
+
+//Edition Output Profile creation
+SketcherUI.CATComEdit2DOutputProfile.EditOutputProfile.Message = "Select one or several 2D geometries.";
+SketcherUI.CATComEdit2DOutputProfile.ConnexityWarning.Message = "Unverified Connexity !";
+SketcherUI.CATComEdit2DOutputProfile.TangencyWarning.Message = "Unverified Continuity in Tangency !";
+SketcherUI.CATComEdit2DOutputProfile.CurvatureWarning.Message = "Unverified Continuity in Curvature !";
+SketcherUI.CATComEdit2DOutputProfile.ManifoldWarning.Message = "Unverified Manifold !";
+SketcherUI.CATComEdit2DOutputProfile.IntersectWarning.Message = "Existing intersection(s) !";
+SketcherUI.CATComEdit2DOutputProfile.HomogeneousWarning.Message = "Unverified Homogeneity !";
+SketcherUI.CATComEdit2DOutputProfile.InvalidInputs.Message = "Invalid Inputs";
+SketcherUI.CATComEdit2DOutputProfile.HelpInputs.Title = "Output Profile Definition"; 
+SketcherUI.CATComEdit2DOutputProfile.HelpInputs.Message = "Input geometries have been deleted\nDo you want to use the output geometries as input ?";
+
+SketcherUI.CATSwitchHeaderInSelect.OutputProfileSetEltTypeConstruction.Title = "Warning";
+SketcherUI.CATSwitchHeaderInSelect.OutputProfileSetEltTypeConstruction.Message = "The geometry is exposed in Output Profile.\nIf you convert this geometry into construction\nthe result of Output Profile will be modified.\n\nDo you confirm this operation?";
+
+// Constraint multiEdition
+SketcherUI.CATComDYSCstMultiEdition.SelectionState.Message = "Select one or several 2D constraints";
+SketcherUI.CATComDYSCstMultiEdition.EditionState.Message = "Select one 2D constraint";
+
+SketcherUI.CATComDYSInit.AggregSketchKO.Title   = "Warning";
+SketcherUI.CATComDYSInit.AggregSketchKO.Message = "You cannot add a sketch in this current feature.\nThis current feature is specific to an external application.\nDefine another feature as current.";
+
+//--------------------------------------------------------------------------------------
+
+SketcherUI.CATComDYSUseEdgeBase.RefElemIndicator.Title = "Reference Element";
+SketcherUI.CATComDYSUseEdgeBase.NearElemIndicator.Title = "Near Element";
+SketcherUI.CATComDYSUseEdgeBase.SelRefElemToIntersectState.Message = "Select the 3D elements you wish to be intersected with the sketch plane";
+SketcherUI.CATComDYSUseEdgeBase.SelRefElemToProjectState.Message = "Select the 3D elements you wish to be projected on the sketch plane";
+SketcherUI.CATComDYSUseEdgeBase.SelNearElemState.Message = "Select the 3D element you wish to be used as near element";
+SketcherUI.CATComDYSUseEdgeBase.KeepDatumEdges.Message = "Do you want to keep these non associative edges ?";
+
+SketcherUI.CATComDYSUseEdgeProjection.NoProjBox.Title = "Projection onto the sketch plane";
+SketcherUI.CATComDYSUseEdgeProjection.NoProj.Message = "Projection onto the sketch plane failed:\nthe selected elements cannot be projected";
+SketcherUI.CATComDYSUseEdgeProjection.PartialFailProj.Message = "Warning: Associative Projection partially failed.\n Only certain elements have been successfully projected."; 
+SketcherUI.CATComDYSUseEdgeProjection.PartialDatumProj.Message = "Warning: Associative Projection partially done.\n Certain elements are not associative.";  
+SketcherUI.CATComDYSUseEdgeProjection.PartialFailDatumProj.Message = "Warning: Associative Projection partially done.\n Projection of certain elements has failed or is not associative.";  
+SketcherUI.CATComDYSUseEdgeProjection.AllDatumProj.Message = "Warning: No Associative Projection done."; 
+
+SketcherUI.CATComDYSUseEdgeIntersection.NoIntBox.Title = "Intersection with the sketch plane";
+SketcherUI.CATComDYSUseEdgeIntersection.NoInt.Message = "Intersection with the sketch plane failed:\nintersection does not exist.\n";
+SketcherUI.CATComDYSUseEdgeIntersection.PartialFailInt.Message = "Warning: Associative Intersection partially failed.\n Only certain elements have been successfully projected."; 
+SketcherUI.CATComDYSUseEdgeIntersection.PartialDatumInt.Message = "Warning: Associative Intersection partially done.\n Certain elements are not associative.";  
+SketcherUI.CATComDYSUseEdgeIntersection.PartialFailDatumInt.Message = "Warning: Associative Intersection partially done.\n Intersection of certain elements has failed or is not associative.";  
+SketcherUI.CATComDYSUseEdgeIntersection.AllDatumInt.Message = "Warning: No Associative Intersection done."; 
+
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameLeftMore.FrameLeftBase.RefElemToIntersect.Title = "Element(s) to intersect";
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameLeftMore.FrameLeftBase.RefElemToIntersect.Sel.Help = "Select the set of 3D elements to be intersected.";
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameLeftMore.FrameLeftBase.RefElemToIntersect.Sel.ShortHelp = "List of elements to intersect";
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameLeftMore.FrameLeftBase.RefElemToIntersect.Sel.LongHelp = "Select the set of 3D elements to be intersected.";
+
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameLeftMore.FrameLeftBase.RefElemToProject.Title = "Element(s) to project";
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameLeftMore.FrameLeftBase.RefElemToProject.Sel.Help = "Select the set of 3D elements to be projected.";
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameLeftMore.FrameLeftBase.RefElemToProject.Sel.ShortHelp = "List of elements to project";
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameLeftMore.FrameLeftBase.RefElemToProject.Sel.LongHelp = "Select the set of 3D elements to be projected.";
+
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameLeftMore.FrameLeftBase.NearElem.Title = "Near element";
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameLeftMore.FrameLeftBase.NearElem.Sel.Help = "Select the near element.";
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameLeftMore.FrameLeftBase.NearElem.Sel.ShortHelp = "Near Element";
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameLeftMore.FrameLeftBase.NearElem.Sel.LongHelp = "Select the near element.";
+
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameLeftMore.FrameLeftBase.NoCanonicity.Title = "No canonicity";
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameLeftMore.FrameLeftBase.NoCanonicity.Help = "Checks to perform on resulting geometries a canonicity detection.";
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameLeftMore.FrameLeftBase.NoCanonicity.ShortHelp = "Canonicity detection";
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameLeftMore.FrameLeftBase.NoCanonicity.LongHelp = "Checks to perform on resulting geometries a canonicity detection according to the application tolerance.";
+
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameLeftMore.FrameLeftBase.RefElemToReplaceIntersect.Title = "Element to intersect";
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameLeftMore.FrameLeftBase.RefElemToReplaceIntersect.Sel.Help = "Select a new 3D element to replace the previous intersected element.";
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameLeftMore.FrameLeftBase.RefElemToReplaceIntersect.Sel.ShortHelp = "Reference element";
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameLeftMore.FrameLeftBase.RefElemToReplaceIntersect.Sel.LongHelp = "Select a new 3D element to replace the previous intersected element.";
+
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameLeftMore.FrameLeftBase.RefElemToReplaceProject.Title = "Element to project";
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameLeftMore.FrameLeftBase.RefElemToReplaceProject.Sel.Help = "Select a new 3D element to replace the previous projected element.";
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameLeftMore.FrameLeftBase.RefElemToReplaceProject.Sel.ShortHelp = "Reference element";
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameLeftMore.FrameLeftBase.RefElemToReplaceProject.Sel.LongHelp = "Select a new 3D element to replace the previous projected element.";
+
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameRightMore.KeepColor.Title = "Keep color";
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameRightMore.NoApprox.Title  = "No approximation";
+
+SketcherUI.CATPanelEdit2DUseEdgeBase.More.Message = "More >>";
+SketcherUI.CATPanelEdit2DUseEdgeBase.Less.Message = "Less <<";
+
+// specialisation
+
+SketcherUI.CATPanelEdit2DIntersection.Title = "Intersection";
+SketcherUI.CATPanelEdit2DIntersection.FrameLeftMore.FrameLeftBase.ExtrapolPlanarFace.Title = "Extrapol Planar Face";
+SketcherUI.CATPanelEdit2DIntersection.FrameLeftMore.FrameLeftBase.ExtrapolPlanarFace.Help = "Checks to use the extrapolation of planar face.";
+SketcherUI.CATPanelEdit2DIntersection.FrameLeftMore.FrameLeftBase.ExtrapolPlanarFace.ShortHelp = "Extrapol Planar Face";
+SketcherUI.CATPanelEdit2DIntersection.FrameLeftMore.FrameLeftBase.ExtrapolPlanarFace.LongHelp = "Checks to use the extrapolation of planar face.";
+
+SketcherUI.CATPanelEdit2DIntersection.FrameLeftMore.FrameLeftBase.FacePerFace.Title = "Face Per Face";
+SketcherUI.CATPanelEdit2DIntersection.FrameLeftMore.FrameLeftBase.FacePerFace.Help = "Checks to intersect each face of the selection.";
+SketcherUI.CATPanelEdit2DIntersection.FrameLeftMore.FrameLeftBase.FacePerFace.ShortHelp = "Face Per Face";
+SketcherUI.CATPanelEdit2DIntersection.FrameLeftMore.FrameLeftBase.FacePerFace.LongHelp = "Checks to intersect each face of the selection.";
+
+
+
+SketcherUI.CATPanelEdit2DProjection.Title = "Projection";
+SketcherUI.CATPanelEdit2DProjection.FrameLeftMore.FrameLeftBase.EdgePerEdge.Title = "Edge Per Edge";
+SketcherUI.CATPanelEdit2DProjection.FrameLeftMore.FrameLeftBase.EdgePerEdge.Help = "Checks to project each edge of the selection.";
+SketcherUI.CATPanelEdit2DProjection.FrameLeftMore.FrameLeftBase.EdgePerEdge.ShortHelp = "Edge Per Edge";
+SketcherUI.CATPanelEdit2DProjection.FrameLeftMore.FrameLeftBase.EdgePerEdge.LongHelp = "Checks to project each edge of the selection.";
+
+SketcherUI.SketchExplodeHeader.SketchUsed.Title = "Warning";
+SketcherUI.SketchExplodeHeader.SketchUsed.Message = "A least one element of the sketch is used by another feature.\n If you decide to explode this sketch, a reroute operation may be needed.\n\n Do you confirm this operation?";
+
+SketcherUI.CATComBase.UpdateError = "Update Error";
+
+SketcherUI.SketchElementContextualSubMenuPreCond.InvalidAxisData.Title = "Warning";
+SketcherUI.SketchElementContextualSubMenuPreCond.InvalidAxisData.Message = "Invalid 2D axis data have been detected\nPlease use CATDUA to fix this issue.";
+
+SketcherUI.CATComGenericEditPanel.WarningRadiusValueNotVerified.Title = "Warning";
+SketcherUI.CATComGenericEditPanel.WarningRadiusValueNotVerified.Message = "Entered radius value is not verified due to existing constraints on the geometry.\nPlease create a radius constraint to impose your radius value.";
+
+SketcherUI.CATComGenericEditPanel.WarningGeometryPartialModif.Title = "Warning";
+SketcherUI.CATComGenericEditPanel.WarningGeometryPartialModif.Message = "Geometry has been partially modified ! Due to the presence of constraint, the coordinates cannot been taken into account.\n Do you want to keep these changes or cancel?";
+
+
+SketcherUI.CATComDYSArc1Tgt.SelCrvState.Message = "Click to select a line";
+SketcherUI.CATComDYSArc1Tgt.SelEndPtState.Message = "Click or select the end point of the circle";
+SketcherUI.CATComDYSArc1Tgt.SelCrossingPtState.Message = "Click or select the passing point of the circle";
+SketcherUI.CATComDYSArc1Tgt.EndPoint.Name.Title = "End Point: ";
+SketcherUI.CATComDYSArc1Tgt.EndPoint.Name.Help = "Defines the coordinates of the End Point";
+SketcherUI.CATComDYSArc1Tgt.EndPoint.Name.ShortHelp = "End Point";
+SketcherUI.CATComDYSArc1Tgt.EndPoint.Name.LongHelp = "Defines the coordinates of the End Point.";
+SketcherUI.CATComDYSArc1Tgt.EndPoint.ULabel.Title = "H: ";
+SketcherUI.CATComDYSArc1Tgt.EndPoint.ULabel.ShortHelp = "First coordinate of the End Point";
+SketcherUI.CATComDYSArc1Tgt.EndPoint.UEditor.ShortHelp = "First coordinate of the End Point";
+SketcherUI.CATComDYSArc1Tgt.EndPoint.VLabel.Title = "V: ";
+SketcherUI.CATComDYSArc1Tgt.EndPoint.VLabel.ShortHelp = "Second coordinate of the End Point";
+SketcherUI.CATComDYSArc1Tgt.EndPoint.VEditor.ShortHelp = "Second coordinate of the End Point";
+SketcherUI.CATComDYSArc1Tgt.Radius.Dimension.EnglobingFrame.IntermediateFrame.Label.Title = "Radius: ";
+SketcherUI.CATComDYSArc1Tgt.Radius.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp = "Radius of the arc of circle"; 
+SketcherUI.CATComDYSArc1Tgt.InvalidArcTgt.Title = "Tangent Arc Command";
+SketcherUI.CATComDYSArc1Tgt.ImpossibleArcTgt.Message = "Impossible to create the tangent arc with this radius value.\n";
+SketcherUI.CATComDYSArc1Tgt.LengthToDist.Title = "Trim";
+SketcherUI.CATComDYSArc1Tgt.LengthToDist.Message = "It is impossible to trim a lengthed element.\nDo you want to convert the length into distance?\n";
+SketcherUI.CATComDYSArc1Tgt.CheckMiddlePoint.Title = "Trim";
+SketcherUI.CATComDYSArc1Tgt.CheckMiddlePoint.Message = "The position of the middle point constraint will be modified after this operation.\nDo you confirm this modification?";
+SketcherUI.CATComDYSArc1Tgt.SwitchBar.Trim_El1.Title = "Trim the first element";
+SketcherUI.CATComDYSArc1Tgt.SwitchBar.Trim_El1.Help = "Trims the first element";
+SketcherUI.CATComDYSArc1Tgt.SwitchBar.Trim_El1.LongHelp = "Trims the first element only.";
+SketcherUI.CATComDYSArc1Tgt.SwitchBar.Trim_El1.ShortHelp = "Trim First Element";
+SketcherUI.CATComDYSArc1Tgt.SwitchBar.No_Trim.Title = "No trim";
+SketcherUI.CATComDYSArc1Tgt.SwitchBar.No_Trim.Help = "Trims no elements";
+SketcherUI.CATComDYSArc1Tgt.SwitchBar.No_Trim.LongHelp = "Trims no elements.";
+SketcherUI.CATComDYSArc1Tgt.SwitchBar.No_Trim.ShortHelp = "No Trim";
+SketcherUI.CATComDYSArc1Tgt.DefaultRadius.Check.Title = "Keep as default radius for next";
+SketcherUI.CATComDYSArc1Tgt.DefaultRadius.Check.ShortHelp = "Keep as default radius for next";
+SketcherUI.CATComDYSArc1Tgt.DefaultRadius.Check.Help = "Keeps the radius value as default radius value for next corner";
+SketcherUI.CATComDYSArc1Tgt.DefaultRadius.Check.LongHelp = "Keeps the radius value as default radius value for next call at the corner command";
+
+SketcherUI.CATCom2DLightAnalyse.InitialState.Message = "Select Sketch Analysis icon for more details on Sketch Solving Status";
+
+
+
+
+
+
+

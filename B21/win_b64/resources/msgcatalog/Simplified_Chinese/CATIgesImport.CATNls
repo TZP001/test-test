@@ -1,0 +1,580 @@
+//NLS-ENGLISH VERSION
+//=======================================================================
+// MODULE :  IgesDataExchange
+//=======================================================================
+
+// JRX 2002-08-09 : Ajout de messages d'erreur pour CATIgesConicArc
+// KVL 2002-06-04 : Creation de CATIgesImport.CATNls et refonte des anciens CATNls Iges.
+// DFB 2001-11-15 : Ajout de messages d'erreur pour la detection de trous 3D 
+//				   (CATIgesCurveOnParametricSurface et CATIgesBoundary)
+// DFB 2001-11-22 : Ajout de Bad_GetEndPPoints, Hole2DLoop et OrientPCurves
+// DFB 2001-12-11 : Ajout de Bad_ControlPoints2D
+// JRX 2001-10-24 : Ajout de messages d'erreur pour le Parsing (fsbDataTreatment)
+// MEF 2003-03-14 : Ajout de message d'erreur dans le traitement de la global data
+// mef 2004-02-05 : Ajout d'un warning si probleme de licence sur l'insert
+// CNY 2004-05-19 : Ajout d'un message info "mode CGR" pour CATIgesExportTypeManager
+// OPC 2006-06-23 : Reecriture des messages niveau Customer pour meilleure compréhension
+// wbu 28/03/2007 : ajout des messages d'erreur sur le parsing utilisable par le protocole CATIReporter et GetLastError
+
+
+// Numeros utilises : (import Iges : de [1001] a [1999]
+// [1000] a [1099] : fsb*
+// [1100] a [1149] : CATIgesCurveOnParametricSurface et CATIgesBoundary
+// [1150] a [1199] : CATIgesTrimmedParametricSurface
+// [1200] a [1299] : CATIgesElement (Actuellement utilises : 1200 a 1202) 
+// [1300] a [1399] : fileIges*
+// [1500] a [1549] : CATIgesBSplineSurface
+// [1550] a [1599] : CATIgesBSplineCurve
+// [1600] a [1649] : CATIgesCompositeCurve
+// [1650] a [1699] : CATIgesParametricSplineCurve
+// [1701] a [1750] : CATIgesConicArc
+// [1751] a [1770] : CATEIgesShapeFileSelection
+// [1800] a [1820] : CATIgesExportTypeManager
+// [1850] a [1860] : CATIgesExchangeDocu CATIgesInterface
+
+
+//--------------------------------------
+//  Messages from CATIgesExchangeDocu (CATIgesInterface.cpp)
+//--------------------------------------
+
+
+CATIgesExchangeDocu.Error.IGES = 
+"   <E> [1850] IGES 文件有问题。
+!!            解析阶段异常终止。";
+
+CATIgesExchangeDocu.Error.IGSS = 
+"   <E> [1851] 开始部分有问题。
+!!            解析阶段异常终止。";
+
+CATIgesExchangeDocu.Error.IGGS = 
+"   <E> [1852] 全局部分有问题。
+!!            解析阶段异常终止。";
+
+CATIgesExchangeDocu.Error.IGSPD = 
+"   <E> [1853] DE 或 PD 部分有问题。
+!!            解析阶段异常终止。";
+
+
+//--------------------------------------
+//  Messages from CATIgesInterface
+//--------------------------------------
+
+CATDXFileServices.Error.InputFileNotReadable = 
+"!! <E> [1858] 无法读取 IGES 文件（错误 PathERR_1001）：
+IGES 文件不存在或无法读取。
+请检查文件是否存在以及您是否有读取权限。" ;
+
+CATDXFileServices.Error.InvalidName = 
+"!! <E> [1859] 要打开的 IGES 文件名无效（错误 PathERR_1021）：
+文件名包含非 ASCII 字符或为空。
+请检查文件名是否包含无效字符。必要时重新命名 IGES 文件，然后再次打开。";
+
+CATIgesInterface.Error.TitreMsg =
+"\n o=====================================================o";
+
+
+
+//-----------------------------------------------
+//  Messages from CATIgesCurveOnParametricSurface
+//  Messages from CATIgesBoundary
+//-----------------------------------------------
+
+// Warning : Trou dans la loop 143 ou 144 3D du fichier iges - dfb
+CATIgesCurveOnParametricSurface.Warning.HoledLoop3D=
+"   <W> [1100] [T=/p2] [/p1] 无效数据：在以下 3D 边界中有个孔：/p4 /p3"; 
+
+// Warning : Trou dans la loop 143 ou 144 2D du fichier iges - dfb
+CATIgesCurveOnParametricSurface.Warning.HoledLoop2D =
+"   <W> [1101] [T=/p2] [/p1] 无效数据：在参数边界 /p4 /p3 中有个孔"; 
+
+// Warning : Si la methode GetEndPPoints n'est pas implementee, on ne peut reorienter la loop 2D - dfb
+CATIgesCurveOnParametricSurface.Warning.Bad_GetEndPPoints =
+"   <W> [1102] [T=/p2] [/p1] 无法找到端点；无法反转边界 /p4 的 2D 展示"; 
+
+// Warning : Mauvaise orientation des PCurves 2D  - dfb
+CATIgesCurveOnParametricSurface.Warning.OrientPCurves =
+"   <W> [1103] [T=/p2] [/p1] 边界包含反转的 2D 曲线 /p3"; 
+
+
+//-----------------------------------------------
+//  Messages from CATIgesTrimmedParametricSurface
+// [1150] a [1199]
+//-----------------------------------------------
+
+// Erreur : Pas de Surface pour cette face
+CATIgesTrimmedParametricSurface.Error.NoSurface=
+"   <E> [1150] 该面没有表面。请检查 IGES 文件的完整性 /p3"; 
+
+
+//--------------------------------------
+//  Messages from CATIgesElement
+//--------------------------------------
+
+
+CATIgesElement.Msg.Name_406 = 
+"   <I> [1200] [T=/p2] [/p1] 该实体名已由 406 形式和 15 实体所指定：/p3";
+
+CATIgesElement.Msg.Name_DE = 
+"   <I> [1201] [T=/p2] [/p1] 该实体名已由以下 DE 的第 18 和第 19 个字段所指定：/p3";
+
+CATIgesElement.Msg.Name_Undef = 
+"   <I> [1202] [T=/p2] [/p1] 该实体还未指定名称。";
+
+
+
+//--------------------------
+//  Messages from fileIges* 
+//--------------------------
+
+
+fileIGEStool.Error.IGES = 
+"   <E> [1317] 读取 IGES 文件 /p1 时出现问题";
+
+
+fileIGEStool.Error.IGBAD = 
+"   <E> [1318] 使用了错误的选项来打开文件 /p1";
+
+
+fileIGEStool.Error.IGST = 
+"   <E> [1319] IGES 文件错误：终止记录丢失，或是终止部分 /p1 后出现直线";
+
+
+fileIGEStool.Error.IGGS = 
+"   <E> [1320] IGES 文件 /p1 的全局部分有问题";
+
+
+fileIGEStool.Error.IGSPD = 
+"   <E> [1321] IGES 文件 /p1 的 PD 部分有问题";
+
+
+fileIGEStool.Error.EOF = 
+"   <E> [1301] 读取文件 /p1 中的 PD 记录 #/p2 时文件过早地结束";
+
+
+fileIGEStool.Error.IncBloc = 
+"   <E> [1302] 读取文件 /p1 中的 PD 记录 #/p2 时显示不完全块";
+
+
+fileIGES.Error.IGFILE = "未找到 IGES 文件 /p1 或访问被拒绝";
+
+
+fileIGES.Error.IGESF = 
+"   <E> [1323] 文件 /p1 不是 .igs 文件";
+
+
+fileIGES.Error.IGESO = 
+"   <E> [1322] 读取 IGES 文件 /p1 时出现问题";
+
+
+fileIGES.Error.IGESC = "无法关闭 IGES 文件 /p1";
+
+
+fileIGES.Msg.IGESS = 
+"   <W> [1324] 警告！至少必须存在一条启动记录。"; 
+
+
+fileIGES.Msg.IGProdIdSend = 
+"   <W> [1325] IGES 文件错误：来自发送者的产品标识有问题；";
+
+
+fileIGES.Msg.IGFileN = 
+"   <W> [1326] 文件名有问题";
+
+
+fileIGES.Msg.IGSysId = 
+"   <W> [1327] 本地系统 ID 有问题";
+
+
+fileIGES.Msg.IGPrepVers = 
+"   <W> [1328] 预处理器版本有问题";
+
+
+fileIGES.Msg.IGIntRep = 
+"   <W> [1329] 整数表达有问题";
+
+
+fileIGES.Msg.IGSingPrecMag = 
+"   <W> [1330] 单精度数值有问题";
+
+
+fileIGES.Msg.IGSingPrecSig = 
+"   <W> [1331] 单精度有效位有问题";
+
+
+fileIGES.Msg.IGDbPrecMag = 
+"   <W> [1332] 双精度数值有问题";
+
+
+fileIGES.Msg.IGDbPrecSig = 
+"   <W> [1333] 双精度有效位有问题";
+
+
+fileIGES.Msg.IGProdIdRec = 
+"   <W> [1312] 至接收者的产品标识有问题";
+
+
+fileIGES.Msg.IGSca = 
+"   <W> [1334] 模型空间缩放有问题";
+
+
+fileIGES.Msg.IGUnitFlg = 
+"   <W> [1335] 单位标识有问题";
+
+
+fileIGES.Msg.IGUnitNam = 
+"   <W> [1336] 单位有问题";
+
+
+fileIGES.Msg.IGMaxLinGrad = 
+"   <W> [1337] 最大线粗度渐进色有问题";
+
+
+fileIGES.Msg.IGMaxLinUnit = 
+"   <W> [1338] 单位中的最大线粗度的宽度有问题";
+
+
+fileIGES.Msg.IGDateGen = 
+"   <W> [1339] 交换文件生成的日期/时间有问题";
+
+
+fileIGES.Msg.IGMinUserRes = 
+"   <W> [1340] 用户想要的最小分辨率有问题";
+
+
+fileIGES.Msg.IGAppMaxCoord = 
+"   <W> [1341] 近似最大坐标值有问题";
+
+
+fileIGES.Msg.IGNamAut = 
+"   <W> [1342] IGES 文件：作者名称有问题；";
+
+
+fileIGES.Msg.IGAutOrg = 
+"   <W> [1343] 作者所在组织有问题";
+
+
+fileIGES.Msg.IGVersNum = 
+"   <W> [1344] 版本号有问题";
+
+
+fileIGES.Msg.IGDraftStd = 
+"   <W> [1345] 工程制图标准代码有问题";
+
+
+fileIGES.Msg.IGDateMod = 
+"   <W> [1346] 模型创建/修改的日期/时间有问题";
+
+
+fileIGES.Msg.IGMilSpec = 
+"   <W> [1347] MIL 规范有问题";
+
+
+fileIGES.Msg.defaultParameter = 
+"   <W> [1348] IGES 文件：参数值被设置为默认值";
+
+
+fileIGES.Msg.InvalidParameter = 
+"   <W> [1349] 警告！后续参数的值无效";
+
+
+fileIGES.Error.IGES = 
+"   <W> [1313] 读取 IGES 文件 /p1 时出现问题";
+
+
+fileIGES.Error.IGMissPD = 
+"   <W> [1314] 在 IGES 文件 /p1 中缺少 PD 部分（或文件结构损坏）";
+
+IGMissPDERR_1001.Request="IGES 文件与 IGES 标准不符" ;
+IGMissPDERR_1001.Diagnostic="缺少或错误读取 IGES 文件中的 PD 部分" ;
+IGMissPDERR_1001.Advice="检查文件是否由 80 列组成或
+检查所有参数行中的第 66 列至 72 列是否包含实体类型编号 DE 中第一行的序列号..." ;
+
+
+fileIGESelement.Msg.IGPar = 
+"   <W> [1315] PD 部分中的无效参数直线 /p1";
+
+//erb
+fileIGESelement.Msg.InvalidePD= 
+"   <W> [1316] 类型 /p1 的实体 DE /p2 的 PD 部分无效或已丢失";
+
+
+fileIGESelement.Msg.InvNurbsConv =  "从 /p1 到 NURBS 曲面的转换无效";
+
+
+fileIGESelement.Msg.UnavailableMethod = "用于对象 /p2 的方法 /p1 尚不可用。";
+
+
+fileIGESelement.Msg.ObjCreationKO = "创建对象失败。无法创建 /p1 类对象。";
+
+
+fileIGESelement.Msg.PbInMethod =
+"   <W> [1303] 类对象 /p2 的方法 /p1 有问题。";
+
+
+fileIGES.Error.IGWrite = "写入 IGES 文件 /p1 时出现问题";
+
+
+fileIGESelement.Msg.Knot="/p1：不支持多样的 B 样条线曲线的结点向量";
+
+//Example of utilization of this message:
+//The entity DE=1269 of type 104 form 2 is not supported.
+fileIGESelement.Msg.MyForme=" 格式";
+
+fileIGESopenElement.Reading.Entity =
+"   <I> [1300] [T=/p2] [/p1] 解析器；正在读取实体 (/p3) <S>";
+
+
+fileIGESopenElement.error.Ptr3DCurve= ". 没有指向实体类型 142 的 3D 曲线的 DE 的指针";
+
+fileIGESopenElement.Error.Traitement =
+"\n不支持类型为 /p2 的实体 DE=/p1";
+
+fileIGESopenElement.Error.dimention2 =
+"\n 警告：此文件含有 2D 几何图形。\n";
+
+
+fileIGEStool.Error.IgsControlChars = "文件 /p1 不符合标准：/p2 字符不允许读取访问；已完成清除尝试。";
+fileIGEStool.Error.IgsNoASCIIChars=
+"   <W> [1350] 文件 /p1 不符合标准：不允许 /p2 个字符。它们已被替换。";
+
+fileIGESopenElement.Warning.Copiousdata=
+"   <W> [1304] !!由于处于低内存状态，未平移类型为“大量数据”的实体";
+
+fileIGEStool.Warning.PtrDE =
+"!! <E> [1305] [T=/p2] [#/p1] IGES 文件错误：实体的参数数据中的目录入口指针无效 (/p3)";
+
+fileIGESopenElement.Warning.EntNonSup =
+"!! <W> [1306] [T=/p2] [#/p1] 目前不支持此实体类型。";
+
+fileIGESopenElement.Warning.FormNonSup =
+"!! <W> [1307] [T=/p2] [#/p1] 目前不支持此实体格式 (/p3)。";
+
+fileIGESopenElement.Error.MidDE =
+"!! <E> [1308] [T=/p2] [#/p1] IGES 文件错误：参数数据指针未指向实体的参数数据块的第一条记录。";
+
+fileIGESopenElement.Warning.ConicBadForm=
+"   <W> [1309] [T=/p2] [#/p1] IGES 文件中的无效数据：此实体格式不正确。已由格式 0 替换。";
+
+fileIGESelement.Msg.InterruptConversion=
+"   <W> [1310] 已激活转换中断按钮：转换停止";
+
+fileIGES.Error.GlobalDataDefault =
+"****************************
+!! <E> [1311] 无效数据：无法读取 IGES 文件中的全局部分！考虑默认值...
+****************************";
+
+
+//---------------------
+//  Messages from fsb*
+//---------------------
+
+fsb.Msg.GlobaleSection  =
+"\n ***** 文件 IGES 信息：全局部分 *****";
+
+fsb.Msg.IdentificationSender =
+"\n来自发送者的产品标识： ";
+
+fsb.Msg.FileName =
+"\n文件名： ";
+
+fsb.Msg.SystemID =
+"\n系统 ID                                     : ";
+
+fsb.Msg.Preprocessor =
+"\n预处理器版本： ";
+
+fsb.Msg.NbBinary =
+"\n用于整数表达的二进制位数： ";
+
+fsb.Msg.SingleMagnitude =
+"\n单精度数值： ";
+
+fsb.Msg.SingleSignifiance =
+"\n单精度有效位： ";
+
+fsb.Msg.DoubleMagnitude =
+"\n双精度数值： ";
+
+fsb.Msg.DoubleSignifiance =
+"\n双精度有效位： ";
+
+fsb.Msg.IdentificationReceiver =
+"\n接收者的产品标识： ";
+
+fsb.Msg.SpaceScale =
+"\n模型空间缩放： ";
+
+fsb.Msg.Flag =
+"\n单位标识： ";
+
+fsb.Msg.Units =
+"\n单位： ";
+
+fsb.Msg.Gradations =
+"\n最大线粗度渐进色数目： ";
+
+fsb.Msg.WidthUnits =
+"\n以单位表示的最大线粗度的宽度： ";
+
+fsb.Msg.DateTimeExchange =
+"\n交换文件生成的日期与时间： ";
+
+fsb.Msg.Resolution =
+"\n用户想要的最小分辨率： ";
+
+fsb.Msg.Coordinate =
+"\n近似最大坐标值： ";
+
+fsb.Msg.Author =
+"\n作者名称： ";
+
+fsb.Msg.Organization =
+"\n作者所在的组织： ";
+
+fsb.Msg.Version =
+"\n版本号： ";
+
+fsb.Msg.Code =
+"\n工程制图标准代码： ";
+
+fsb.Msg.DateTimeModif =
+"\n已创建/修改数据和时间模型： ";
+
+fsb.Msg.Specification =
+"\nMil 规范（W.E.I.Y.I.协议）： ";
+
+fsb.Msg.StartSection =
+"\n\n\n ***** 文件 IGES 信息：开始部分  *****\n";
+
+fsb.Msg.Info =
+"无信息";
+
+fsb.Msg.Error =
+"
+!! <E> [1007] 根据 IGES 标准，输入文件含有无效结构。
+无法读取此部分。请检查 IGES 文件。\n";
+
+fsbDataTreatment.Warning.ThereIsInvalidData =
+"\n *****  警告  *****\n   <W> [1000] 根据 IGES 标准，该文件含有无效数据：/p3\n";
+
+fsbDataTreatment.Warning.No3DCrvInLoop =
+"   <W> [1001] 某些循环没有 3D 曲线 /p3";
+
+fsbDataTreatment.Warning.No2DCrvInLoop =
+"   <W> [1002] 某些循环没有参数曲线 /p3";
+
+fsbDataTreatement.Processtopo.Storing =
+"   <I> [1003] [T=/p2] [/p1] 解析器；正在存储实体 (/p3) <D>";
+
+fsbDataTreatement.Processtopo.514Invalid =
+"   <W> [1004] [T=/p2] [/p1] 解析器；无效盒体：已使用的面数小于 1";
+
+fsbDataTreatement.Processtopo.186Invalid =
+"   <E> [1005] [T=/p2] [/p1] 解析器；流形实体 B-REP 对象无效：无法获取外部盒体 DE";
+
+fsbDataTreatment.Warning.3DCrvWithFlag2D =
+"   <W> [1006] [T=/p2] [/p1] 实体使用标识 (2D) 不正确。它未被考虑在内";
+
+//----------------------------------------------
+//  Messages from CATIgesBSplineSurface
+//---------------------------------------------
+
+CATIgesBSplineSurface.Warning.BSplSurfMLK=
+"   <W> [1500] [T=/p2] [/p1] MLK /p3";
+
+CATIgesBSplineSurface.Warning.CopyElemTabError=
+"   <W> [1501] [T=/p2] [/p1] 数组寻址超出边界 /p3";
+
+
+
+//-----------------------------------------------
+//  Messages from CATIgesBSplineCurve
+//-----------------------------------------------
+ 
+CATIgesBSplineCurve.Warning.ActiveSplitKO=
+"   <W> [1550] [T=/p2] [/p1] 3D 曲线分割处理 /p3 时检测到异常";
+
+CATIgesBSplineCurve.Warning.GetLimitsOnCvKO=
+"   <W> [1551] [T=/p2] [/p1] 曲线参数恢复 /p3 期间检测到异常";
+
+
+
+//---------------------------------------------
+//  Messages from CATIgesParametricSplineCurve
+//---------------------------------------------
+
+// Warning : Probleme sur les points de controle de la loop 2D - dfb
+CATIgesParametricSplineCurve.Warning.Bad_ControlPoints2D = 
+"   <W> [1650] [T=/p2] [/p1] 参数样条线曲线存在不正确的控制点，使用 3D 展示 /p4 来处理边界"; 
+
+CATIgesParametricSplineCurve.Error.Bad_Data= 
+"   <W> [1651] [T=/p2] [/p1] 此文件包含无效数据 /p3"; 
+
+
+//----------------------------------------------
+//  Messages from CATIgesConicArc
+//---------------------------------------------
+
+CATIgesConicArc.Error.IncorrectEllipse=
+"   <W> [1701] 无效或不支持的数据：未检测到作为椭圆形 /p3 的二次曲线弧格式 /p4";
+
+CATIgesConicArc.Error.IncorrectHyperbola=
+"   <W> [1702] 无效数据：未检测到作为双曲线 /p3 的二次曲线弧格式 2";
+
+CATIgesConicArc.Error.IncorrectParabola=
+"   <W> [1703] 无效数据：未检测到作为抛物线 /p3 的二次曲线弧格式 3";
+
+
+//--------------------------------------
+//  Messages from CATEIgesShapeFileSelection 
+//--------------------------------------
+
+GlobalFrame.NoLicense=
+"需要一个 MultiCad 许可证来访问该扩展";
+
+
+//------------------------------------------
+//  Messages from CATIgesExportTypeManager 
+//------------------------------------------
+
+// Info : Import en mode CGR
+CATIgesExportTypeManager.Info.CGRMode=
+"   <I> [1800] 开始以 CGR 模式导入"; 
+
+
+//------------------------------------------
+//  Messages for CATIReporter 
+//------------------------------------------
+
+PathERR_1001.Request="无法读取 IGES 文件。" ;
+PathERR_1001.Diagnostic="IGES 文件不存在或无法读取。" ;
+PathERR_1001.Advice="请检查文件是否存在以及您是否有读取权限。" ;
+
+PathERR_1021.Request="要打开的 IGES 文件的名称无效。" ;
+PathERR_1021.Diagnostic="IGES 文件名中包含非 ASCII 字符或为空。" ;
+PathERR_1021.Advice="请检查文件名是否包含无效字符。必要时重新命名 IGES 文件，然后再次打开。" ;
+
+IGProdIdSend_1001.Request="来自发送者的产品标识有问题" ;
+IGProdIdSend_1001.Diagnostic="IGES 文件的全局部分有问题：发送者的产品标识是错误的" ;
+IGProdIdSend_1001.Advice="检查 IGES 文件的全局部分中来自于发送者的产品标识。" ;
+
+IGProdIdSend_1001.Request="文件名有问题" ;
+IGProdIdSend_1001.Diagnostic="IGES 文件的全局部分有问题：文件名有问题" ;
+IGProdIdSend_1001.Advice="检查 IGES 文件全局部分中的文件名。" ;
+
+IGSysId_1001.Request="本地系统 ID 有问题" ;
+IGSysId_1001.Diagnostic="IGES 文件的全局部分有问题：本地系统 ID 有问题" ;
+IGSysId_1001.Advice="检查 IGES 文件全局部分中的本地系统 ID。" ;
+
+IGPrepVers_1001.Request="预处理器版本有问题" ;
+IGPrepVers_1001.Diagnostic="IGES 文件的全局部分有问题：预处理器版本有问题" ;
+IGPrepVers_1001.Advice="检查 IGES 文件全局部分中的预处理器版本。" ;
+
+InvalidParameter_1001.Request="参数值无效" ;
+InvalidParameter_1001.Diagnostic="IGES 文件的全局部分有问题：参数值无效。有关更多信息，请查看消息文件 (*.err)" ;
+InvalidParameter_1001.Advice="检查 IGES 文件全局部分中的参数。" ;
+
+InvalidMandatoryParameters_1001.Request="有用参数的值无效" ;
+InvalidMandatoryParameters_1001.Diagnostic="IGES 文件的全局部分有问题：有用参数的值无效。有关更多信息，请查看消息文件 (*.err)" ;
+InvalidMandatoryParameters_1001.Advice="检查 IGES 文件全局部分中的有用参数。" ;
+

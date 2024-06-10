@@ -1,0 +1,197 @@
+<!DOCTYPE Application SYSTEM "Application.dtd">
+
+<Application Name="CATElectrical" Description="Electrical Cable Routing Application" Visible = "no">
+
+     <Resource Name="SystemSpaceReservationCatalog" Description="System Space Reservation Catalog">
+           <ID  Type="Catia" Driver="File" Location="\startup\components\spaceReservation\spaceReservation.catalog"/>
+     </Resource>
+
+     <Resource Name="ElectricalDesignRulesCatalog" Description="Electrical Design Rules Catalog">
+           <ID  Type="Catia" Driver="File" Location="\startup\EquipmentAndSystems\Electrical\DesignRules\ElectricalDesignRules.catalog"/>
+     </Resource>
+
+     <Resource Name="ElectricalReportDefinitions" Description="Electrical Report Definitions Directory">
+           <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\Electrical\SampleData"/>
+     </Resource>
+
+     <Resource Name="ReportExpressions" Description="Report Expressions Directory">
+           <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\ReporterData"/>
+     </Resource>
+
+     <Resource Name="ElectricalIDSchema" Description="Electrical ID Schema Directory">
+           <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\Electrical\DataDictionary"/>
+     </Resource>
+
+     <Resource Name="ElectricalUserDictionary" Description="Electrical User Dictionary">
+           <ID  Type="Misc" Driver="File" Location="CATElectricalSample.CATfct"/>
+     </Resource>
+
+     <Resource Name="MultiDisciplineIDSchema" Description="MultiDiscipline ID Schema Directory">
+           <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\MultiDiscipline\DataDictionary"/>
+     </Resource>
+
+     <!-- ************** Option=1   - Default : Update the instance ID after Build New Reference (BNR) is performed *************** -->
+     <!-- *************** Option=2   -  Do not update the instance ID after  Build New Reference (BNR) is performed  ******************** -->
+     <Resource Name="UpdateInstanceNameAfterBNR" Description="Update instance ID after Build New Reference">
+          <ID  Type="Misc" Driver="File" Location="1"/>
+     </Resource>
+  
+  <!-- ************** COMPUTED ATTRIBUTE RESOURCES ************** -->
+
+     <Resource Name="EquipmentComputedAttributes" Description="Equipment list of computed attribute names">
+           <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\MultiDiscipline\SampleData\EquipmentComputedAttributes.txt"/>
+     </Resource>
+
+     <Resource Name="PipingComputedAttributes" Description="Piping list of computed attribute names">
+           <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\MultiDiscipline\SampleData\PipingComputedAttributes.txt"/>
+     </Resource>
+
+     <Resource Name="InstrumentComputedAttributes" Description="Instrument list of computed attribute names">
+           <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\MultiDiscipline\SampleData\InstrumentComputedAttributes.txt"/>
+     </Resource>
+
+     <Resource Name="HVACComputedAttributes" Description="HVAC list of computed attribute names">
+           <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\MultiDiscipline\SampleData\HVACComputedAttributes.txt"/>
+     </Resource>
+
+     <Resource Name="TubingComputedAttributes" Description="Tubing list of computed attribute names">
+           <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\MultiDiscipline\SampleData\TubingComputedAttributes.txt"/>
+     </Resource>
+
+     <Resource Name="WaveguideComputedAttributes" Description="Waveguide list of computed attribute names">
+           <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\MultiDiscipline\SampleData\WaveguideComputedAttributes.txt"/>
+     </Resource>
+
+     <Resource Name="RacewayComputedAttributes" Description="Raceway list of computed attribute names">
+           <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\MultiDiscipline\SampleData\RacewayComputedAttributes.txt"/>
+     </Resource>
+
+     <Resource Name="ConduitComputedAttributes" Description="Conduit list of computed attribute names">
+           <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\MultiDiscipline\SampleData\ConduitComputedAttributes.txt"/>
+     </Resource>
+
+     <Resource Name="HangerComputedAttributes" Description="Hanger list of computed attribute names">
+           <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\MultiDiscipline\SampleData\HangerComputedAttributes.txt"/>
+     </Resource>
+
+     <Resource Name="CompAccessComputedAttributes" Description="Component Access list of computed attribute names">
+           <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\MultiDiscipline\SampleData\CompAccessComputedAttributes.txt"/>
+     </Resource>
+
+     <Resource Name="ElectricalComputedAttributes" Description="Electrical list of computed attribute names">
+           <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\MultiDiscipline\SampleData\ElectricalComputedAttributes.txt"/>
+     </Resource>
+
+     <!-- ******************************************************************* -->
+     <!--  The following resource defines the wildcard value for the   ****** -->
+     <!--  attribute Cable Category on a cableway object like hanger,  ****** -->
+     <!--  Cable penetration.  When routing a cable and the rule       ****** -->
+     <!--  "Match Cable Category" is enabled, cables with any          ****** -->
+     <!--  Cable Category value can only be routed through hangers     ****** -->
+     <!--  with the same Cable Category value.  If this resource is    ****** -->
+     <!--  non-null and non-blank then it will define the wildcard     ****** -->
+     <!--  value on the hanger (cableway object).  This will allow a   ****** -->
+     <!--  cable with any Cable Category value to be routed through    ****** -->   
+     <!--  the hanger with the wildcard value.   If the value is ""    ****** -->
+     <!--  then no wildcard.                                           ****** -->
+     <!-- ******************************************************************* -->
+     <Resource Name="CableCategoryWildcard" Description="Cable Category wildcard value on cableway object">
+         <ID  Type="Misc" Driver="File" Location=""/>
+     </Resource>
+
+  <!-- ***************************************************************** -->
+  <!--  The following resource defines the behavior on setting the    ** -->
+  <!--  association status for Equipment in the command               ** -->
+  <!--  "Analyze Functional-Physical Integration Status"              ** -->
+  <!-- ******Option=0 The default: Function is realized if it is      ** -->
+  <!-- ******         associated with an object in 3D documents.      ** -->
+  <!-- ******Option=1 Function is realized if an object with the      ** -->
+  <!-- ******         same name in the 3D documents even it is not    ** -->
+  <!-- ******         associated with an object.                      ** -->
+  <!-- ***************************************************************** -->
+  <Resource Name="2D3DAssociationStatusOption" Description="Function Physical Association Status option">
+    <ID  Type="Misc" Driver="File" Location="0"/>
+  </Resource>
+
+  <!-- ***************************************************************** -->
+  <!--  For "Electrical Cable Database importer" command  - IR29196   ** -->
+  <!--  The PRM resource "TypeofECVDataToBeImported" defines the      ** -->
+  <!--  behavior on type of part to be imported in EnoviaDB. This     ** -->
+  <!--  setting is only for hangers/lofts and conduit/raceway runs    ** -->
+  <!-- ******Option=1 Hangers + Lofts(Loft sections/pathways/spatial lofts) ** -->
+  <!-- ******Option=2 Conduit and Raceway runs                        ** -->
+  <!-- ******NOTE: Equipment,Electrical eqpts etc are always imported ** -->
+  <!-- ****** irrespective of the flag set                            ** -->
+  <!-- ***************************************************************** -->
+  <Resource Name="TypeofECVDataToBeImported" Description="Type of ECV data(Hangers and Lofts OR Conduit and Raceway runs) to be imported">
+    <ID  Type="Misc" Driver="File" Location="1"/>
+  </Resource>
+
+  <!-- ******************************************************************* -->
+  <!--  The following resource defines the resource for             ****** -->
+  <!--  Design Validation command and 2D3DIntegrationStatusReport   ****** -->
+  <!-- ******************************************************************* -->
+  <!-- Design Validation Report  -->
+  <!-- define the output file for the design validation report  -->
+  <Resource Name="DesignValidationReport" Description="Design Validation Report">
+    <ID  Type="Path" Driver="File" Location="C:\CATTemp\Validation\DesignValidation.txt"/>
+  </Resource>
+
+  <!-- for Electrical Discipline -->
+  <!-- Electrical Design Validation Mandatory Attributes  -->
+  <!-- define the file which lists all mandatory attributes  -->
+  <Resource Name="ElectricalDesignValidationMandatoryAttributes" Description="Electrical Design Validation Mandatory Attributes">
+    <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\Electrical\SampleData\ElectricalDesignValidationMandatoryAttributes.txt"/>
+  </Resource>
+
+  <!-- Electrical Design Validation Input Criteria -->
+  <!-- define the file which lists all attributes with values that the validation process must meet -->
+  <Resource Name="ElectricalDesignValidationInputCriteria" Description="Electrical Design Validation Input Criteria">
+    <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\Electrical\SampleData\ElectricalDesignValidationInputCriteria.txt"/>
+  </Resource>
+
+  <!-- Required Electrical Design Validation Checks -->
+  <!-- define the file which lists all checks that the validation process should check -->
+  <Resource Name="ElectricalRequiredDesignValidationChecks" Description="Required Electrical Design Validation Checks">
+    <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\Electrical\SampleData\ElectricalRequiredDesignValidationChecks.txt"/>
+  </Resource>
+
+  <!-- 2D3DIntegrationStatusReport  -->
+  <!-- define the output file for the Function Physical integration status report  -->
+  <Resource Name="2D3DIntegrationStatusReport" Description="Function Physical integration status report">
+    <ID  Type="Path" Driver="File" Location="C:\CATTemp\Integration\2D3DIntegrationStatusReport.txt"/>
+  </Resource>
+
+  <!-- Catalogs used for design validation -->
+  <Resource Name="PipingStandardsCatalog" Description="Piping Standards Catalog" >
+    <ID  Type="Catia" Driver="File" Location="\startup\EquipmentAndSystems\Piping\Standards\PipingStandards.catalog"/>
+  </Resource>
+  <Resource Name="PipingDesignRulesCatalog" Description="Piping Design Rules Catalog" >
+    <ID  Type="Catia" Driver="File" Location="\startup\EquipmentAndSystems\Piping\DesignRules\PipingDesignRules.catalog"/>
+  </Resource>
+
+  <Resource Name="TubingStandardsCatalog" Description="Tubing Standards Catalog" >
+    <ID  Type="Catia" Driver="File" Location="\startup\EquipmentAndSystems\Tubing\Standards\TubingStandards.catalog"/>
+  </Resource>
+
+  <Resource Name="RacewayStandardsCatalog" Description="Raceway Standards Catalog">
+    <ID  Type="Catia" Driver="File" Location="\startup\EquipmentAndSystems\Raceway\Standards\RacewayStandards.catalog"/>
+  </Resource>
+
+  <Resource Name="WaveguideStandardsCatalog" Description="Waveguide Standards Catalog" >
+    <ID  Type="Catia" Driver="File" Location="\startup\EquipmentAndSystems\Waveguide\Standards\WaveguideStandards.catalog"/>
+  </Resource>
+
+  <Resource Name="ConduitStandardsCatalog" Description="Conduit Standards Catalog">
+    <ID  Type="Catia" Driver="File" Location="\startup\EquipmentAndSystems\Conduit\Standards\ConduitStandards.catalog"/>
+  </Resource>
+
+  <!-- ******************************************************************* -->
+  <!-- ******************************************************************* -->
+
+  <!-- ID Sequence Number Definition Directory
+     <Resource Name="IDSequenceNumber" Description="ID Sequence Number Definition Directory">
+           <ID  Type="Path" Driver="File" Location="C:\CATTemp\IDSequenceNumbers"/>
+     </Resource>  -->
+
+</Application>

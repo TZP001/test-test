@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xsd:schema targetNamespace="http://www.3ds.com/xsd/PLMSecuritySSOBase.xsd" xmlns:tns="http://www.3ds.com/xsd/PLMSecuritySSOBase.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+ <xsd:complexType name="SSOCredentialArrayType">
+  <xsd:sequence>
+   <xsd:element form="qualified" maxOccurs="unbounded" name="Item" nillable="true" type="tns:SSOCredential"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="SSOCredentialDescriptorArrayType">
+  <xsd:sequence>
+   <xsd:element form="qualified" maxOccurs="unbounded" name="Item" nillable="true" type="tns:SSOCredentialDescriptor"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="SSOCredential">
+  <xsd:sequence>
+   <xsd:element form="qualified" maxOccurs="1" minOccurs="1" name="CredentialApplicationID" nillable="true" type="xsd:string"/>
+   <xsd:element form="qualified" maxOccurs="1" minOccurs="1" name="CredentialApplicationType" nillable="true" type="xsd:string"/>
+   <xsd:element form="qualified" maxOccurs="1" minOccurs="1" name="CredentialName" nillable="true" type="xsd:string"/>
+   <xsd:element form="qualified" maxOccurs="1" minOccurs="1" name="CredentialValue" nillable="true" type="xsd:string"/>
+   <xsd:element form="qualified" maxOccurs="1" minOccurs="1" name="Descriptor" nillable="true" type="tns:SSOCredentialDescriptor"/>
+   <xsd:element form="qualified" maxOccurs="1" minOccurs="1" name="Owner" nillable="true" type="xsd:string"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="SSOCredentialDescriptor">
+  <xsd:sequence>
+   <xsd:element form="qualified" maxOccurs="1" minOccurs="1" name="HiddenState" nillable="false" type="xsd:boolean"/>
+   <xsd:element form="qualified" maxOccurs="1" minOccurs="1" name="Name" nillable="true" type="xsd:string"/>
+   <xsd:element form="qualified" maxOccurs="1" minOccurs="1" name="PasswordState" nillable="false" type="xsd:boolean"/>
+   <xsd:element form="qualified" maxOccurs="1" minOccurs="1" name="Type" nillable="true" type="xsd:string"/>
+   <xsd:element form="qualified" maxOccurs="1" minOccurs="1" name="Validator" nillable="true" type="xsd:string"/>
+  </xsd:sequence>
+ </xsd:complexType>
+</xsd:schema>

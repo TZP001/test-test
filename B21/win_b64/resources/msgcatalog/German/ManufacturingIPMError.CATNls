@@ -1,0 +1,155 @@
+// =====================================================================
+//
+// Erreurs Framework Manufacturing dedie a la generation de l'IPM
+// =================================
+//
+// Deux manieres de formater vos messages : 
+//
+// a- Specifier en delimitant avec le caractere '\n' :
+//       Request      (ce que l'on tentait de faire)
+//       Diagnostic   (ce qui est arrive)
+//       Advice       (...ce qu'il pourrait faire si possible)
+//
+//     Exemple :
+//       ERR_3000 = "Initializing '/p1' attribute in '/p2'.\nAttribute does not exist.\nContact your local support.";  
+//       
+//               NOTE : Le parametrage des messages se fait via SetNLSParameter
+//
+// ou bien
+//
+// b- Specifier vos messages avec la cle + les 3 facettes Request/Diagnostic/Advice
+//
+//     Exemple :
+//       ERR_3000.Request    "Initializing '/p1' attribute in '/p2'." 
+//       ERR_3000.Diagnostic "Attribute does not exist."
+//       ERR_3000.Advice     "\nContact your local support."
+// 
+//               NOTE : Le parametrage de chaque facette se fait par :
+//                         Request    : SetNLSRequestParams
+//                         Diagnostic : SetNLSDiagnosticParams
+//                         Advice     : SetNLSAdviceParams
+//
+// =====================================================================
+
+
+//************************************************************
+// Plage reservee aux messages generiques ERR_0000 a ERR_0999
+//************************************************************
+ERR_0100.Request="Fehler beim Generieren oder Anzeigen des IPM-Volumens.";
+ERR_0100.Diagnostic="\nDas IPM-Volumen kann nicht generiert oder angezeigt werden, da die dem Werkzeug \n oder der Werkzeugbaugruppe hinzugefügte benutzerdefinierte Darstellung nicht korrekt ist.";
+ERR_0100.Advice="\nPrüfen, ob die benutzerdefinierte Darstellung des Werkzeugs oder der Werkzeugbaugruppe korrekt definiert ist.";
+
+ERR_0150.Request="Warnung beim Generieren oder Anzeigen des IPM-Volumens.";
+ERR_0150.Diagnostic="\nDas IPM-Volumen wird nicht generiert oder angezeigt, da die dem Werkzeug \noder der Werkzeugbaugruppe hinzugefügte benutzerdefinierte Darstellung ein Reinigungswerkzeug darstellt.";
+ERR_0150.Advice="\nDie benutzerdefinierte Darstellung des Werkzeugs oder der Werkzeugbaugruppe ändern oder entfernen, um das IPM-Volumen ermitteln zu können.";
+
+ERR_0200.Request="Fehler beim Generieren oder Anzeigen des IPM-Volumens.";
+ERR_0200.Diagnostic="\nDie Generierung und Anzeige des IPM-Volumens werden bei dieser Bearbeitungsoperation noch nicht unterstützt.";
+ERR_0200.Advice="\nDiese Bearbeitungsoperation wird während der IPM-Generierung ignoriert.";
+
+ERR_0250.Diagnostic="Der aktuelle Modus für IPM-Generierung wird bei dieser Bearbeitungsoperation nicht unterstützt.";
+ERR_0250.Advice="\nDen Generierungsmodus für das in Bearbeitung befindliche Modell unter 'Tools' -> 'Optionen' ändern.";
+
+ERR_0300.Request="Fehler bei der Berechnung des Eingaberohteils";
+ERR_0300.Diagnostic="\nAktualisierung des Eingaberohteils in Bezug auf Operation '/p1' fehlgeschlagen";
+ERR_0300.Advice="\nDie Operation '/p1' ändern und das Eingaberohteil aktualisieren ";
+
+ERR_0350.Request="Fehler beim Generieren oder Anzeigen des IPM-Volumens.";
+ERR_0350.Diagnostic="\nAktualisierung des IPM-Volumens in Bezug auf Operation '/p1' fehlgeschlagen.";
+ERR_0350.Advice="\nDie Operation '/p1' ändern und IPM aktualisieren";
+
+ERR_0400.Request="Fehler beim Generieren oder Aktualisieren von IPM.";
+ERR_0400.Diagnostic="\nIPM-Erzeugung aus einer benutzerdefinierten Vorlage fehlgeschlagen. Die IPM-Generierung wird abgebrochen.";
+ERR_0400.Advice="\nUnter 'Tools->Optionen' prüfen, ob der Pfad für benutzerdefinierte IPM-Schablonen gültig ist.";
+
+ERR_0450.Request="Fehler beim Generieren des IPM-Volumens.";
+ERR_0450.Diagnostic="\nDie IPM-Generierung setzt voraus, dass die Rohteilkörper veröffentlicht wurden.";
+ERR_0450.Advice="\nAlle Rohteilkörper veröffentlichen und IPM aktualisieren ";
+
+
+ERR_0500.Request="Fehler beim Generieren oder Anzeigen des IPM-Volumens.";
+ERR_0500.Diagnostic="\nDas IPM-Volumen kann nicht generiert werden, da der ausgewählte IPM-Generierungsmodus nicht unterstützt wird.";
+ERR_0500.Advice="\nIPM-Generierungsmodus ändern";
+
+ERR_0600.Request="Fehler beim Generieren oder Anzeigen des IPM-Volumens.";
+ERR_0600.Diagnostic="\nDas IPM-Volumen kann nicht generiert werden, da kein Werkzeug ausgewählt ist.";
+ERR_0600.Advice="\nWerkzeug für die IPM-Generierung auswählen ";
+
+ERR_0700.Request="Fehler beim Generieren oder Anzeigen des IPM-Volumens.";
+ERR_0700.Diagnostic="Bearbeitungsoperation für IPM-Generierung nicht aktiv.";
+ERR_0700.Advice="\nBearbeitungsoperation aktivieren, damit sie bei der IPM-Generierung berücksichtigt wird.";
+
+//************************************************************
+// Plage reservee aux erreurs Curve Following ERR_1000 a ERR_1499
+//************************************************************
+ERR_1000.Request="Fehler beim Generieren oder Anzeigen des IPM-Volumens.";
+ERR_1000.Diagnostic="\nDas IPM-Volumen kann nicht generiert oder angezeigt werden, da die Werkzeugachse nicht senkrecht zu den Kurven liegt.";
+ERR_1000.Advice="\nPrüfen, ob die geometrische Definition der Kurvenfräsoperation korrekt ist \n und ob ihre Werkzeugachse senkrecht zu den Kurven liegt.";
+
+//************************************************************
+// Plage reservee aux erreurs Point to Point ERR_1500 a ERR_1999
+//************************************************************
+ERR_1500.Request="Fehler beim Generieren oder Anzeigen des IPM-Volumens.";
+ERR_1500.Diagnostic="\nDas IPM-Volumen kann nicht generiert oder angezeigt werden, da sich nicht alle Bewegungen in derselben Ebene abspielen \noder/und diese Ebene nicht senkrecht zur Werkzeugachse liegt.";
+ERR_1500.Advice="\nPrüfen, ob sich die geometrische Definition aller Bewegungen bei der Punkt-zu-Punkt-Operation in derselben Ebene befindet\nund ob die Werkzeugachse senkrecht zu dieser Ebene liegt.";
+
+//************************************************************
+// Area for Profile Contouring errors from ERR_2000 to ERR_2499
+//************************************************************
+ERR_2000.Request="Fehler beim Generieren oder Anzeigen des IPM-Volumens.";
+ERR_2000.Diagnostic="\nDas IPM-Volumen kann nicht generiert oder angezeigt werden, da der ausgewählte Konturfräsmodus nicht unterstützt wird.";
+ERR_2000.Advice="\nDen Konturfräsmodus 'Zwischen zwei Ebenen' auf der Registerkarte 'Geometrie' des Konturfräseditors auswählen.";
+
+ERR_2010.Request="Fehler beim Generieren oder Anzeigen des IPM-Volumens.";
+ERR_2010.Diagnostic="\nDas IPM-Volumen kann nicht generiert oder angezeigt werden, da das der Aktivität zugeordnete Werkzeug nicht unterstützt wird.";
+ERR_2010.Advice="\nDer Konturfräsoperation einen Planfräser, Schaftfräser oder T-Nutfräser zuordnen.";
+
+ERR_2020.Request="Fehler beim Generieren oder Anzeigen des IPM-Volumens.";
+ERR_2020.Diagnostic="\nDas IPM-Volumen kann nicht generiert oder angezeigt werden, da die dem Werkzeug zugeordnete Benutzerdarstellung bei dieser Operation nicht unterstützt wird.";
+ERR_2020.Advice="\nDie dem Werkzeug zugeordnete Benutzerdarstellung entfernen.";
+
+//************************************************************
+// Area for Assembly Station errors from ERR_2500 to ERR_2999
+//************************************************************
+ERR_2500.Request="Fehler beim Generieren des IPM-Volumens für Assembly Station.";
+ERR_2500.Diagnostic="\nDas IPM-Volumen kann nicht generiert oder angezeigt werden, da Assembly Station mindestens eine Kindaktivität aufweist.";
+ERR_2500.Advice="\nSicherstellen, dass Assembly Station keine Kindaktivitäten aufweist.";
+
+//************************************************************
+// Area for Pocketing errors from ERR_3000 to ERR_3499
+//************************************************************
+ERR_3000.Request="Fehler beim Generieren oder Anzeigen des IPM-Volumens.";
+ERR_3000.Diagnostic="\nDas IPM-Volumen kann nicht generiert oder angezeigt werden, da der automatische Auszugswinkel nicht unterstützt wird.";
+ERR_3000.Advice="\nDen automatischen Auszugswinkel auf null setzen.";
+
+//************************************************************
+// Area for Prismatic Roughing errors from ERR_3500 to ERR_3999
+//************************************************************
+ERR_3500.Request="Fehler beim Generieren oder Anzeigen des IPM-Volumens.";
+ERR_3500.Diagnostic="\nDie Generierung oder Anzeige des IPM-Volumens in Bezug auf die prismatische Schruppoperation ist fehlgeschlagen.";
+ERR_3500.Advice="\nDie prismatische Schruppoperation ändern und das IPM-Volumen generieren oder anzeigen ";
+
+
+//************************************************************
+// Area for generic errors for pocketing/facing operations from ERR_4000 to ERR_4500
+//************************************************************
+ERR_4000.Request="Fehler beim Generieren oder Anzeigen des IPM-Volumens.";
+ERR_4000.Diagnostic="\nDas IPM-Volumen kann nicht generiert oder angezeigt werden, da die Werkzeugachse nicht senkrecht zur Bodenebene liegt. ";
+ERR_4000.Advice="\nDie Werkzeugachse ändern oder eine andere Bodenebene auswählen.";
+
+ERR_4010.Request="Fehler beim Generieren oder Anzeigen des IPM-Volumens.";
+ERR_4010.Diagnostic="\nDas IPM-Volumen kann nicht generiert oder angezeigt werden, da die Werte für 'Aufmaß/obere Fläche' und 'Aufmaß/Bodenfläche' nicht kompatibel sind.";
+ERR_4010.Advice="\nDen Wert für 'Aufmaß/obere Fläche' oder 'Aufmaß/Bodenfläche' ändern.";
+
+ERR_4020.Request="Fehler beim Generieren oder Anzeigen des IPM-Volumens.";
+ERR_4020.Diagnostic="\nIPM-Volumen kann aufgrund eines falschen Bohrungs-, Gewinde- oder Werkzeugdurchmessers nicht generiert oder angezeigt werden.";
+ERR_4020.Advice="\nDen Bohrungs-, Gewinde- oder Werkzeugdurchmesser ändern";
+
+
+
+
+
+
+ERR_5000.Request="Diskrepanz in Hybridoption";
+ERR_5000.Diagnostic="\nDas IPM-Volumen kann nicht generiert oder angezeigt werden, da eine Diskrepanz zwischen dem Modus, in dem die Konstruktion erzeugt wurde, und dem in Extras-Optionen festgelegten aktuellen Modus besteht.";
+ERR_5000.Advice="\nBeide Modi müssen synchronisiert bleiben";

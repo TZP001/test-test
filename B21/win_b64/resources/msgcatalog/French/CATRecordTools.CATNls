@@ -1,0 +1,44 @@
+Usage = "
+Utilitaire de gestion des fichiers de capture des enregistrements V5.
+
+Syntaxe : RecordTools -s name [-Check|-FindPath path |-FindCmd cmdname] [-h, -?, -help]
+       RecordTools -s name -d name -ChangePath    oldpath newpath [ID]
+       RecordTools -s name -d name -ChangeSubPath oldpath newpath
+       RecordTools -s name -d name -ChangeData  ID datapos newdata
+       RecordTools -s name -d name -ChangeDataString oldString NewString
+       RecordTools -s name -d name -ChangeEvent ID newevent
+       RecordTools -s name -d name -Delete ID
+       RecordTools -s name -d name -DeleteSubPath subpath
+
+   -h, -?, -help    : Cette aide
+   -s name          : Nom du fichier source (généralement capture.rec)
+   -d name          : Nom du fichier de destination
+
+   -Check           : Vérifie l'intégrité du fichier source et l'affiche au format xml
+   -FindPath        : Recherche le chemin de la commande CATCommand dans le fichier source
+   -findCmd         : Recherche le nom de la commande CATCommand dans le fichier source
+
+   -ChangePath      : Remplace le chemin complet 'oldpath' par 'newpath' partout, sauf si la valeur 'ID' est spécifiée
+   -ChangeSubPath   : Remplace le sous-chemin 'oldpath' par 'newpath'
+   -ChangeData      : Remplace les données de la zone d'enregistrement 'ID' à l'emplacement 'datapos' par 'newdata'
+   -ChangeDataString: Remplace 'oldString' par 'newString' dans toutes les données de type CHAR, dans toutes les zones
+   -ChangeEvent     : Remplace l'événement de la zone d'enregistrement 'ID' par 'newevent'
+   -Delete          : Supprime la zone d'enregistrement 'ID'
+   -DeleteSubPath   : Supprime toutes les zones d'enregistrement contenant 'subpath'
+
+   ID               : ID d'interaction dans le formulaire CRnnn ou CInnn, fourni par l'option -Check";
+
+Error.0  = "# ERREUR-RecordTools-: ";
+Error.1  = "-s: fichier source manquant.";
+Error.2  = "le fichier de destination ne peut être identique au fichier source.";
+Error.3  = "-d: fichier de destination manquant.";
+Error.4  = "Numéro d'enregistrement manquant.";
+Error.5  = "Sous-chemin manquant.";
+Error.6  = "-s: ne trouve pas le fichier source";
+Error.7  = "Argument non reconnu.";
+Error.8  = "-s: ne peut pas ouvrir le fichier source";
+Error.9  = "-d: fichier de destination manquant.";
+Error.10 = "-d: le fichier de destination existe déjà.";
+Error.11 = "-d: le répertoire du fichier de destination n'existe pas.";
+
+Error.99 = "Nombre d'arguments incorrect.";

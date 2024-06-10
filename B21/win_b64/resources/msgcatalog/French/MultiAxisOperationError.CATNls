@@ -1,0 +1,591 @@
+// =====================================================================
+// Erreurs Multi Axis Operations
+// Essayer de formater vos messages en specifiant (delimiteur = caracteres fin de ligne) :
+//       Request      (ce que l'on tentait de faire)
+//       Diagnostic   (ce qui est arrive)
+//       Advice       (...ce qu'il pourrait faire si possible)
+// ou bien
+//       Specifier vos messages avec la cle + les 3 facettes :
+//           ex: ERR_2002.Request    Reading data. 
+//               ERR_2002.Diagnostic Manufacturing software error : Access to a NULL handler.
+//               ERR_2002.Advice     Contact your local support.
+//
+// REMARK:
+// No need to type carriage-return characters at the end of your messages
+// since the panel automatically handles spaces between messages
+//
+// =====================================================================
+
+InfoTitle="Information Fabrication par CN";
+WarningTitle="Avertissement Fabrication par CN";
+ErrorTitle="Erreur Fabrication par CN";
+GeneralErrorTitle="Erreur";
+PanelTitle="Erreur Fabrication par CN";
+UpdateError="Erreur pendant la mise à jour";
+InternalError="Erreur dans le logiciel Fabrication par CN. \n L'erreur est: /p1";
+InitError="Erreur durant l'initialisation";
+ErrorNotSpecified="Erreur non spécifiée.\n Contacter votre support local.";
+
+//====================================================================================================
+// Erreurs VERIFY
+//====================================================================================================
+
+ERR_1000="La tolérance d'usinage est négative ou nulle.";
+ERR_1001="La hauteur de crête est négative ou nulle.";
+ERR_1002="La distance entre passes est négative ou nulle.";
+ERR_1003="Le nombre de passes est négatif ou nul.";
+ERR_1004="Le pas de discrétisation maxi est négatif ou nul.";
+ERR_1005="L'angle de discrétisation maxi est négatif ou nul.";
+ERR_1006="La longueur minimale de passe est négative.";
+ERR_1007="La pièce n'est pas définie.";
+ERR_1008="La pièce est la même qu'un élément d'arrêt déjà sélectionné.";
+ERR_1009="Une surépaisseur négative sur pièce est utilisée et sa valeur absolue est trop élevée par rapport au rayon de l'outil.\nModifiez la surépaisseur de la pièce ou le diamètre nominal de l'outil.";
+ERR_1010="Une surépaisseur négative sur obstacle est utilisée et sa valeur absolue est trop élevée par rapport au rayon de l'outil.\nModifiez la surépaisseur sur obstacle ou le diamètre nominal de l'outil.";
+ERR_1011="Le diamètre outil est nul.\n Sélectionner un autre outil.";
+ERR_1012="Le rayon de coin de l'outil est nul.\n Sélectionner un autre outil.";
+ERR_1013="Un mode de guidage de l'axe outil autorisant une variation de l'angle de détalonnage ou de l'inclinaison latérale nécessite:
+soit des éléments d'arrêt soit l'activation du contrôle de collision sur la pièce.
+Spécifier des éléments d'arrêt, activer le contrôle de collision sur la pièce, ou bien changer le mode de guidage.";
+ERR_1014="Une surépaisseur négative sur pièce est utilisée et sa valeur absolue est trop élevée par rapport au rayon de coin de l'outil.\nModifiez la surépaisseur de pièce ou le rayon de coin de l'outil.";
+ERR_1015="Une surépaisseur négative sur obstacle est utilisée et sa valeur absolue est trop élevée par rapport au rayon de coin de l'outil.\nModifiez la surépaisseur sur obstacle ou le rayon de coin de l'outil.";
+ERR_1016="Une surépaisseur négative sur pièce n'est pas autorisée quand un outil à fond plat est utilisé.";
+ERR_1017="Une surépaisseur négative sur obstacle n'est pas autorisée quand un outil à fond plat est utilisé.";
+ERR_1018="Un mode de guidage de l'axe outil autorisant une variation de l'angle de détalonnage ou de l'inclinaison latérale nécessite:
+soit des éléments d'arrêt soit l'activation du contrôle de collision sur la pièce ou les éléments de flanc.
+Spécifier des éléments d'arrêt, activer le contrôle de collision sur la pièce ou les éléments de flanc,
+ou bien changer le mode de guidage.";
+ERR_1019="Mauvaise valeur de détalonnage.
+  - Les valeurs mini et maxi de détalonnage doivent être comprises entre 0 et +90.
+  - La valeur du détalonnage maxi doit être plus grande que la valeur du détalonnage mini.";
+ERR_1020="Mauvaise valeur de distance mini de détalonnage.
+  - La distance mini de détalonnage doit être comprise entre les angles de détalonnage mini et maxi.";
+ERR_1021="Macros : plan de sûreté incorrect.
+Régénérer un lien géométrique valide vers ce plan.";
+ERR_1022="Il manque un axe outil de référence.
+Le lien géométrique vers l'axe outil a peut-être été détruit.
+Régénérer un lien géométrique valide ou définir manuellement un vecteur.";
+ERR_1023="Il manque une direction de vue.
+Le lien géométrique vers la direction de vue a peut-être été détruit.
+Régénérer un lien géométrique valide ou définir manuellement un vecteur.";
+ERR_1024="La distance entre passes doit être plus grande que la tolérance d'usinage.";
+ERR_1025="Le lien géométrique vers l'axe d'interpolation /p1 est introuvable.
+Régénérer un lien géométrique valide ou définir manuellement un vecteur.";
+ERR_1026="Les outils coniques ne sont pas autorisés en mode axe tangent.\nSélectionner un autre type d'outil.";
+ERR_1027="L'axe d'interpolation /p1 sera ignoré pendant le calcul\ncar il est défini au même emplacement que l'axe /p2.";
+ERR_1028="Il manque d'autres axes d'interpolation.
+Le lien géométrique vers ces axes d'interpolation a peut-être été détruit.
+Régénérer un lien géométrique valide ou définir manuellement un vecteur.";
+
+ERR_1029="La géométrie de /p1 est absente, son statut est introuvable.\nVeuillez la resélectionner.";
+ERR_1030="Seuls les outils à extrémité sphérique sont autorisés en mode de calcul pointe-outil.";
+ERR_1031="Une surépaisseur négative sur pièce est utilisée et sa valeur absolue est trop élevée par rapport au rayon du corps de l'outil.\nModifiez la surépaisseur sur pièce ou le diamètre du corps de l'outil.";
+ERR_1032="Une surépaisseur négative sur obstacle est utilisée et sa valeur absolue est trop élevée par  rapport au rayon du corps de l'outil.\nModifiez la surépaisseur sur obstacle ou le diamètre du corps de l'outil.";
+ERR_1033="Il est conseillé de définir des macros de liaison lorsqu'un usinage à l'extérieur du contour de limite est effectué.";
+ERR_1034="Aucun plan de sécurité n'est défini sur la phase d'usinage. \nVeuillez sélectionner un plan de sécurité dans la phase d'usinage ou modifiez le mode de la macro de dégagement.";
+ERR_1035="Le plan de sécurité défini sur la phase d'usinage est incorrect.\nRestaurez un lien de géométrie cohérent avec le plan de sécurité de la phase d'usinage.";
+ERR_1036="Aucun plan n'est défini dans la macro de dégagement.\nSélectionnez un plan ou modifiez le mode de la macro de dégagement.";
+ERR_1037="Le plan défini dans la macro de dégagement est incorrect.\nRestaurez un lien de géométrie cohérent avec ce plan.";
+ERR_1038="Les plans sélectionnés comme plans d'arrêt ne sont pas pris en compte.";
+ERR_1039="Les guides ne sont pas définis.";
+ERR_1040="Les fonds ne sont pas définis.";
+
+//====================================================================================================
+// Erreurs communes 
+//====================================================================================================
+
+ERR_1161="Des collisions n'ont pas été résolues :
+- vérifiez les collisions sur un assemblage d'outils adapté (suffisamment long)
+- ou définissez une macro de liaison adaptée afin d'éviter les collisions.";
+
+ERR_1198="Code exécutable manquant pour ce calcul.
+Contactez votre support local.";
+ERR_1199="Il n'y a rien à usiner.
+Vérifier la définition des données.";
+ERR_1227="La géométrie n'a pas été trouvée.
+Sélectionner les éléments géométriques nécessaires.";
+ERR_1228="Erreur pendant le calcul de trajectoire.
+Contacter votre support local.";
+ERR_1229="Erreur pendant le calcul de trajectoire.\n Localisation probable de l'erreur:/p1";
+
+// Compensation
+ERR_1230="Le mode de compensation 3D Contact n'est pas supporté.\nFixez le paramètre à Non dans l'éditeur de la machine.";
+ERR_1231="Le mode de compensation 3D Contact n'est pas supporté pour cette opération quand un ensemble de surépaisseurs est défini.";
+ERR_1232="Le mode de compensation 3D Contact n'est pas supporté pour cette opération quand une surépaisseur sur pièce est définie.";
+
+ERR_1610="Des collisions n'ont pas été résolues :
+- vérifiez les collisions sur un assemblage d'outils adapté,
+- définissez des macros de liaison adaptées afin d'éviter les collisions.";
+ERR_1611="Collision sur macro d'approche :
+- changez/désactivez la macro d'approche,
+- vérifiez les collisions sur un assemblage d'outils adapté,
+- définissez une macro de liaison adaptée afin d'éviter les collisions.";
+ERR_1612="Collision sur macro de retrait :
+- changez/désactivez la macro de retrait,
+- vérifiez les collisions sur un assemblage d'outils adapté,
+- définissez une macro de liaison adaptée afin d'éviter les collisions.";
+
+ERR_1999="Calcul de la trajectoire.
+Calcul interrompu.";
+ERR_27=" Données d'entrée erronées.";
+
+ERR_1233="La pièce à usiner est incorrecte.\nDes éléments sont masqués ou vides.";
+
+// Thru a guide
+ERR_1240="Le guide d'inclinaison n'est pas continu.";
+ERR_1241="Décalage incompatible sur le guide d'inclinaison.\nSélectionnez un autre guide ou réduisez la valeur du décalage.";
+ERR_1242="Le guide d'inclinaison est trop complexe et ne peut pas être décalé.\nSélectionnez un guide continu en tangence ou un guide planaire.";
+
+// Selection multiple de faces
+ERR_1131="Sélection de plusieurs faces.\nVérifiez votre géométrie. ";
+
+//====================================================================================================
+// Erreurs Sweeping
+//====================================================================================================
+
+ERR_2000="La direction de vue est parallèle à la direction de départ.\n Sélectionner deux directions non parallèles.";
+ERR_2001="Paramètres du balayage 5 axes corrects.";
+ERR_2003="La valeur de l'angle de détalonnage doit être comprise entre -90 et +90.";
+ERR_2004="La valeur du détalonnage mini doit être comprise entre -90 et +90.";
+ERR_2005="La valeur du détalonnage maxi doit être comprise entre -90 et +90.";
+ERR_2006="La valeur de l'angle d'inclinaison latérale doit être comprise entre -90 et +90.";
+ERR_2007="La valeur de l'inclinaison mini doit être comprise entre -90 et +90.";
+ERR_2008="La valeur de l'inclinaison maxi doit être comprise entre -90 et +90.";
+ERR_2009="La valeur du détalonnage maxi doit être plus grande que la valeur du détalonnage mini.";
+ERR_2010="La valeur de l'inclinaison maxi doit être plus grande que la valeur de l'inclinaison mini.";
+ERR_2011="La valeur du détalonnage doit être comprise entre le détalonnage mini et le détalonnage maxi.";
+ERR_2012="La valeur de l'inclinaison doit être comprise entre l'inclinaison mini et l'inclinaison maxi.";
+
+//====================================================================================================
+// Erreurs Flank Contouring
+//====================================================================================================
+
+ERR_3001="Paramètres du contournage 5 axes corrects.";
+ERR_3002="\tNuméro du niveau axial : ";
+ERR_3003="\tNuméro du trajet radial : ";
+ERR_3004="\tNuméro de l'élément flanc : ";
+
+ERR_3050="Impossible de générer automatiquement le point de référence.
+Passer en sélection manuelle.";
+
+ERR_3060="Problèmes rencontrés lors de la prise en compte des macros.
+Vérifiez vos paramètres";
+
+ERR_3228="Flanc incorrect
+Le type de géométrie sélectionné en tant que flanc
+n'est pas reconnu comme un type valide. Par exemple, la surface
+et le flanc ne peuvent être le même élément";
+
+ERR_3251="Echec de la projection de l'outil sur l'élément d'arrêt
+L'outil n'a pu être projeté sur l'élément d'arrêt.
+Il est possible que la surface présente de fortes discontinuités angulaires.
+Vous pouvez aussi modifier les paramètres d'usinage
+(tolérance d'usinage, distance maxi entre points, etc..) pour résoudre ce problème.";
+
+ERR_3314="Elément flanc.
+Géométrie non prise en charge.";
+
+ERR_3315="Elément de départ.
+Géométrie non prise en charge.";
+
+ERR_3316="Elément d'arrêt.
+Géométrie non prise en charge.";
+
+ERR_3317="Direction de départ indéfinie
+La direction de départ de l'usinage n'a pu être établie.";
+
+ERR_3318="Type de géométrie incorrect pour les flancs
+Les seuls types possibles pour les flancs sont
+les plans et les surfaces.";
+
+ERR_3320="Erreur interne.
+La routine appelée a détecté des valeurs
+d'entrée incorrectes.";
+
+ERR_3321="Le vecteur définissant la direction est d'amplitude trop faible.
+Le vecteur défini a une norme trop petite pour permettre de 
+déterminer une direction. Par exemple, un axe outil
+de '0,0,0.000001' est trop petit.";
+
+ERR_3322="Type de géométrie incorrect pour la surface.
+La surface peut uniquement être un plan, une face, une surface
+ou un Rsur.";
+
+ERR_3323="Axe outil incorrect
+Les coordonnées I,J,K de l'axe outil sont trop petites.
+Le vecteur défini a une norme trop petite pour permettre de
+déterminer une direction. Par exemple, un axe outil
+de '0,0,0.000001' est trop petit.";
+
+ERR_3324="La direction d'avance a changé
+Le programme n'est pas en mesure de calculer la direction d'avance
+le long de la surface.
+Une raison possible est quand la surface devient parallèle au flanc.";
+
+ERR_3325="La direction d'avance est inversée
+Le programme n'est pas en mesure de calculer la direction d'avance
+le long du flanc.
+Une raison possible est quand l'outil est parallèle à la surface ou perpendiculaire au flanc
+Ce problème peut aussi se produire quand l'outil ne peut voir l'élément d'arrêt.";
+
+ERR_3328="Echec de la projection de l'outil
+Une erreur s'est produite en analysant une surface utilisée 
+dans l'opération courante. Cela peut se produire si la surface
+possède une brusque variation angulaire.
+Dans le cas du point de départ, essayer de modifier la position
+du point de référence";
+
+ERR_3329="Mauvaise interaction Outil / Flanc
+Le programme n'a pas réussi à
+positionner correctement l'outil sur au flanc.";
+
+ERR_3338="Echec de la projection de l'outil sur la surface
+Le programme ne peut projeter l'outil sur la surface.";
+
+ERR_3339="Elément de guide auxiliaire non valide.
+Au moins un élément guide ne peut être évalué sur le flanc.
+Vérifiez que chaque élément de guide auxiliaire sélectionné
+peut être projeté correctement sur l'un des flancs sélectionnés";
+
+ERR_3340="Eléments flanc non contigus.
+Définissez une direction de départ manuelle à l'aide de la commande contextuelle Modifications locales.";
+
+ERR_3341="Echec lié à la position de fin
+Le système ne parvient pas à positionner l'outil. \nCauses possibles :
+Erreur sur le flanc 1 : Vérifiez l'élément de départ,
+essayez d'utiliser un point de référence manuel et une direction manuelle pour le départ.
+Erreur sur le flanc 2 : Vérifiez l'élément de départ et l'ordre des flancs.
+Erreur sur un autre flanc : La courbure+l'épaisseur du coin
+correspond à une valeur supérieure au rayon du corps outil.";
+
+ERR_3363="Cas géométrique impossible
+Ce code d'erreur se produit pour les raisons suivantes :
+* La surface d'arrêt ne peut être déterminée avec la stratégie d'axe outil - TANTO FAN -.
+* La normale au flanc est devenue parallèle à l'axe outil.";
+
+ERR_3455="Calcul interrompu suite aux sauts d'outil.
+lors du calcul de la trajectoire, des sauts d'outils ont été détectés.
+Ce problème arrive exceptionnellement quand il y a plusieurs surfaces.
+Contacter votre support local.";
+
+ERR_3456="Condition impossible sur l'élément d'arrêt
+Un problème a été détecté pour trouver la position de
+l'outil par rapport à la surface d'arrêt. 
+Vérifier que vous n'avez pas demandé une condition 
+impossible pour positionner l'outil sur la surface d'arrêt.";
+
+ERR_3457="Eléments de guide non contigus.
+Définissez une condition d'arrêt manuelle à l'aide de la commande contextuelle Modifications locales.";
+
+ERR_3462="Condition spécifique sur la surface
+La découpe du disque et le basculement de l'axe de l'outil\nrequièrent le positionnement de l'outil SUR la surface.
+Aucun point tangent ne permet de garder le contact avec l'élément guide.
+Une longueur de coupe trop faible peut notamment expliquer cette anomalie.";
+
+ERR_3463="Condition spécifique sur la surface.
+La découpe du disque et le basculement de l'axe de l'outil\nrequièrent le positionnement de l'outil SUR la surface.";
+
+ERR_3474="La vitesse est nulle
+La valeur fournie pour la vitesse d'avance est nulle. Les vitesses
+doivent avoir une valeur non nulle.";
+
+ERR_3479="Type de géométrie incorrect pour les flancs en mode TANTO FAN.
+Avec la stratégie - TANTO FAN - un flanc peut uniquement
+être un plan, une face, une surface ou un Rsur.";
+
+ERR_3506="Direction d'usinage indéfinie
+La direction d'usinage ne peut être calculée.";
+
+ERR_3508="Type de flanc non valide pour TANTO/PARELM -
+Les types pris en charge pour le flanc sont les surfaces, les faces,\nles RSUR ou les plans.";
+
+ERR_3553="La hauteur de contact est trop faible
+La hauteur de contact de l'outil le long des flancs est trop petite.";
+
+ERR_3554="Echec de la projection de l'outil sur le flanc.
+L'outil n'a pas pu être projeté sur le flanc.
+Il est possible que la position de référence ne se trouve pas devant le flanc.
+Le déplacement du point de référence près du flanc devrait résoudre le problème.";
+
+ERR_3559="Hors tolérance
+Non respect de la tolérance d'usinage sur le parcours\p1.";
+
+ERR_3666="Echec de discrétisation des frontières.
+Une erreur a été détectée lors du traitement de la frontière de la surface de début/fin, de la pièce ou du flanc.
+\nAdressez-vous à votre support technique local.";
+
+ERR_3667="Les conditions sont trop brutales.
+Les conditions sont trop brutales pour le mode COMBIN de l'axe outil.
+L'outil n'est pas parvenu à s'éloigner de l'emplacement de départ ou à s'approcher de l'élément suivant.
+Cette erreur se produit généralement lorsque
+la distance de basculement est trop faible.
+Pour résoudre cette erreur, vous devez augmenter la distance de départ/d'arrivée
+afin qu'elle soit supérieure\nau diamètre de l'outil.";
+
+ERR_3671="Problème d'allocation mémoire.
+Problème d'allocation mémoire, impossible d'allouer de la mémoire";
+
+ERR_3674="L'arrondi des coins a échoué.
+Vérifier le rayon de l'arrondi spécifié.";
+
+ERR_3710="Erreur dans le modèle interne
+ Incohérence détectée dans le modèle interne.";
+
+ERR_3717="Décalage impossible suivant l'axe outil
+L'angle entre l'axe outil et la normale au fond excède 90 degrés.";
+
+ERR_3718="Décalage impossible suivant l'axe outil
+La normale au fond n'a pas été correctement évaluée pendant le calcul.";
+
+ERR_3723="Erreur de communication interne
+Une erreur s'est produite dans le logiciel CATIA mais elle n'a pas\nété correctement transmise au moniteur 5 axes.\nAdressez-vous à votre support technique local.";
+
+ERR_3724="Echec de la direction automatique
+Le logiciel n'est\npas parvenu à localiser Gauche/Droite sur le premier flanc. Il est possible que les flancs\nne soient pas adjacents ou que la géométrie soit complexe.
+
+Définissez une direction manuelle dans la page Stratégie.";
+
+ERR_3726="Valeur de l'angle max. non valide.
+Cette valeur ne doit pas être égale à ZERO ou à un multiple de 180.\nModifiez la valeur indiquée dans le panneau d'options.";
+
+ERR_3730="Déplacement incohérent de l'outil
+Certaines géométries ne peuvent pas être\névaluées. Effectuez une nouvelle sélection de la géométrie.";
+
+ERR_3731="Déplacement incohérent de l'outil.
+Au moins un élément de la pièce ne\npeut pas être évalué. Redéfinissez et\nresélectionnez tous les éléments de la pièce.";
+
+ERR_3732="Déplacement incohérence de l'outil.
+L'élément flanc n'a pas pu être\névalué. sélectionnez-le à nouveau.";
+
+ERR_3741="Courbe indéfinie
+Aucune courbe n'a été fournie comme pièce pour le flanc '/p1'.";
+
+ERR_3742="Courbe indéfinie
+Cette courbe n'est pas une frontière des flancs sélectionnés.";
+
+ERR_3743="Plusieurs points sélectionnés Sélection incorrecte. Resélectionnez.";
+
+//====================================================================================================
+// Errors 5 Axis Curve
+//====================================================================================================
+
+ERR_4000="Aucun élément de guide de l'axe n'a été défini
+Les éléments de guide de l'axe sont nécessaires dans ce contexte.
+Sélectionner au moins un élément de guide";
+
+ERR_4001="Il manque un axe outil de référence.
+L'axe outil n'a pas été défini
+Sélectionner un axe outil.";
+
+ERR_4002="Il manque le point de guidage de l'axe outil.
+Le point de guidage de l'axe outil n'a pas été défini
+Sélectionner le point de guidage de l'axe outil.";
+
+ERR_4003="Il manque la droite de guidage de l'axe outil.
+La droite de guidage de l'axe outil n'a pas été pas défini
+Sélectionner la droite de guidage de l'axe outil.";
+
+ERR_4004="Il manque les éléments auxiliaires
+Les éléments auxiliaires sont nécessaires dans ce contexte.
+Sélectionner au moins un élément auxiliaire.";
+
+ERR_4005="Paramètres de l'usinage de courbes 5 axes OK.";
+
+ERR_4006="Aucun axe d'interpolation défini
+Les axes d'interpolation sont nécessaires dans ce contexte.
+Sélectionner les axes d'interpolation.";
+
+ERR_4007="La stratégie d'axe outil est inadaptée aux outils boule.
+L'utilisation de la distance de détalonnage n'est pas compatible avec le choix d'un outil boule.
+Changer d'outil ou choisir une autre stratégie d'axe outil.";
+
+ERR_4008="Il n'y a rien à usiner.
+Il se peut que l'outil suive une mauvaise ligne isoparamétrique. 
+Modifiez l'axe outil de référence ou bien vérifiez vos paramètres";
+
+ERR_4009="Plusieurs faces internes ne sont pas connexes et des orientations sont introuvables.\nSélectionnez à nouveau les faces non connexes les unes après les autres.";
+
+ERR_4010="Le guide d'inclinaison n'est pas défini.";
+
+ERR_4011="Les surfaces guides ne sont pas définies.";
+
+//====================================================================================================
+// Errors 5 Axis Contour Driven 
+//====================================================================================================
+
+ERR_5000="Aucun élément de guide n'est défini
+Les éléments de guide sont nécessaires dans ce contexte.
+Sélectionner des éléments de guide.";
+
+ERR_5001="Paramètres d'usinage Guidage par contour 5 axes corrects.";
+
+ERR_5002="Le paramètre Prise de passe n'est pas autorisé pour effectuer l'animation trajectoire.
+Le nombre de trajectoires n'est pas autorisé pour l'animation
+dans les stratégies de guidage des contours et des contours rayonnants.
+Sélectionnez une autre stratégie radiale ou de guidage.";
+
+ERR_5003="Auto intersection d'un contour.\n Choisir un autre contour.";
+
+ERR_5004="Le contour ne peut être traité : de la direction de Vue
+il constitue un ensemble d'éléments confondus.
+Modifier la direction de Vue ou sélectionner un autre contour.";
+
+ERR_5005="Le contour n'est pas continu.\nFermer le contour ou en choisir un autre.";
+
+ERR_5006="Le décalage sur le contour est incompatible avec le contour guide.\nChoisir un autre contour ou modifier le décalage.";
+ERR_5007="L'outil est incompatible avec celui de la zone de reprise.\nChoisir un autre outil.";
+ERR_5008="Le contour guide n'est pas défini.";
+ERR_5009="Décalage négatif  ou position sur contour incompatible avec les stop contours.";
+
+// NE PAS UTILISER LA PLAGE JUSQU'A 5020 (futures erreurs Pattern2d)
+
+
+//====================================================================================================
+// JLN 5 Avril 2001
+// Information 5 Axis Generic
+//====================================================================================================
+ERR_6001.Request="Calcul de trajectoire avec la stratégie - TANGENT AXIS -";
+ERR_6001.Diagnostic="Un des flancs n'est pas réglé.\n Ceci peut conduire à des collisions ou un usinage laissant de la matière.";
+ERR_6001.Advice="Vérifiez que cette stratégie est bien adaptée à cette tache";
+
+ERR_6002.Request="Calcul de trajectoire avec la stratégie - TANGENT AXIS -";
+ERR_6002.Diagnostic="En dépit de la plage de basculement autorisée, pour certaines positions,\n la direction de réglage des flancs n'a pas toujours été respectée.\n Ceci peut conduire à des collisions ou un usinage laissant de la matière.";
+ERR_6002.Advice="Augmentez la plage de basculement autorisée";
+
+ERR_6003.Request="Calcul de trajectoire avec variation de l'angle de détalonnage";
+ERR_6003.Diagnostic="Certaines zones de la pièce n'ont pu être usinées. \n La plage couverte est [ /p1 , /p2 ] deg";
+ERR_6003.Advice="Augmentez l'angle de détalonnage maxi.";
+
+ERR_6004.Request="Calcul de trajectoire avec variation de l'angle de détalonnage";
+ERR_6004.Diagnostic="Toute la pièce a pu être usinée. \n La plage couverte est [ /p1 , /p2 ] deg";
+
+ERR_6005.Request="Calcul de trajectoire avec variation de l'angle d'inclinaison latérale";
+ERR_6005.Diagnostic="Certaines zones de la pièce n'ont pu être usinées. \n La plage couverte est [ /p1 , /p2 ] deg";
+ERR_6005.Advice="Augmentez la plage de variation de l'angle d'inclinaison latérale";
+
+ERR_6006.Request="Calcul de trajectoire avec variation de l'angle d'inclinaison latérale";
+ERR_6006.Diagnostic="Toute la pièce a pu être usinée. \n La plage couverte est [ /p1 , /p2 ] deg";
+
+ERR_6013.Request="Calcul de trajectoire avec variation de l'angle de détalonnage";
+ERR_6013.Diagnostic="Certaines zones de la pièce n'ont pu être usinées. \n Pas de variation de l'angle de détalonnage.";
+ERR_6013.Advice="Augmentez l'angle de détalonnage maxi.";
+
+ERR_6014.Request="Calcul de trajectoire avec variation de l'angle de détalonnage";
+ERR_6014.Diagnostic="Toute la pièce a pu être usinée. \n Pas de variation de l'angle de détalonnage.";
+
+ERR_6015.Request="Calcul de trajectoire avec variation de l'angle d'inclinaison latérale";
+ERR_6015.Diagnostic="Certaines zones de la pièce n'ont pu être usinées. \n Pas de variation de l'angle d'inclinaison latérale.";
+ERR_6015.Advice="Augmentez la plage de variation de l'angle d'inclinaison latérale";
+
+ERR_6016.Request="Calcul de trajectoire avec variation de l'angle d'inclinaison latérale";
+ERR_6016.Diagnostic="Toute la pièce a pu être usinée. \n Pas de variation de l'angle d'inclinaison latérale.";
+
+ERR_6007.Request="Conditions locales de Contre dépouille détectées";
+ERR_6007.Diagnostic="Certaines zones de la pièce n'ont pu être usinée.\nLocalement, l'orientation relative de l'axe outil et de la normale matière \nn'est pas compatible avec la géométrie des arêtes de coupe de l'outil";
+ERR_6007.Advice="Changez l'orientation de l'axe outil ou sélectionnez un autre type d'outil : \nT-Slotter ou cône à angle de coupe négatif";
+
+ERR_6008.Request="Calcul de trajectoire avec la stratégie - TANGENT AXIS -, Selon les Iso-line ou Normal aux Courbes Guide";
+ERR_6008.Diagnostic="Pénétration maximale des flancs : /p1 \nEloignement maximal des flancs : /p2 ";
+ERR_6008.Advice="L'une des deux valeurs n'est pas compatible avec les tolérances attendues \ncar les flancs ne sont pas globalement développables selon l'axe outil.\n Modifier la stratégie d'axe outil.";
+
+//====================================================================================================
+// Errors 3/5 Axis Isopar 
+//====================================================================================================
+
+ERR_7001="Paramètres d'usinage isoparamétrique corrects.";
+
+ERR_7010.Request="La géométrie de la pièce doit être complètement définie avant de sélectionner les coins.";
+ERR_7010.Advice="Les coins proposés dépendent de la topologie de la pièce à usiner.
+Sélectionnez toute la géométrie de la pièce à usiner.";
+
+ERR_7011.Request="Vous devez définir la géométrie de la pièce et les coins avant de sélectionner les axes d'interpolation.";
+ERR_7011.Advice="Les axes d'interpolation seront proposés pour sélection sur les sommets disponibles.
+Sélectionnez toutes les géométries de pièce.";
+
+ERR_7012="Géométrie incorrecte.
+Les éléments Multi-Faces '/p1' sélectionnés comme fond ou flanc n'ont pu être simplifiés.";
+
+ERR_7013="Géométrie non prise en charge.
+Une pièce /p1./p2 bordée par moins de 3 REdges n'est pas prise en charge en usinage isoparamétrique.";
+
+ERR_7014="Géométrie non supportée.
+Les ceintures avec des îlots entre les faces ne sont pas supportées en usinage isoparamétrique.";
+
+ERR_7015="Les coins doivent être sélectionnés autour du fond pour que l'opération puisse être calculée. Ils seront proposés à la sélection selon la géométrie du fond.
+Sélectionnez les coins.";
+
+ERR_7016="Géométrie non supportée.
+Les éléments sélectionnés comme Fonds ne forment pas une ceinture.";
+
+ERR_7017="Fond '/p1'
+Géométrie non supportée.";
+
+ERR_7018="Les plans ne sont pas supportés comme éléments de pièce.";
+
+ERR_7019="Géométrie non supportée.
+Ne pas faire une sélection globale.
+Sélectionnez les faces désirées les une après les autres dans '/p1'.";
+
+ERR_7020="Le décalage négatif supérieur au rayon de coin ne fonctionne que pour les zones verticales ou horizontales";
+
+ERR_7021="Les configurations de coin autorisées ne peuvent pas être calculées dans la ceinture /p1.
+Supprimez la pièce /p1./p2 de la ceinture.";
+
+ERR_7022="Impossible de lire les positions des axes d'interpolation supplémentaires.\nVeuillez supprimer tous les axes supplémentaires, puis sélectionnez-les de nouveau.";
+ERR_7023="Les axes d'interpolation supplémentaires ne sont pas pris en compte car il est impossible de lire leurs positions.\nVeuillez retirer tous les axes supplémentaires et les sélectionner de nouveau.";
+
+ERR_7024="Erreur interne.\nImpossible d'afficher les interférences.";
+ERR_7025="Les éléments et les pièces de guidage ne sont pas définis.\nLa détection des interférences d'outil est désactivée.";
+ERR_7026="Impossible d'afficher l'outil en contact avec la pièce dans cette direction.";
+ERR_7027="La détection des interférences d'outil ne fonctionne avec une représentation utilisateur de l'outil.";
+ERR_7028="Des interférences d'outil avec une surépaisseur sur obstacle ont été détectées.\nElles ne sont pas affichées.";
+ERR_7029="Des interférences d'outil avec une surépaisseur sur pièce ont été détectées.\nElles ne sont pas affichées.";
+ERR_7030="Des interférences d'outil avec des surépaisseurs sur obstacle et sur pièce ont été détectées.\nElles ne sont pas affichées.";
+
+ERR_7031="Il est impossible de calculer les positions d'outil intermédiaires.\nVérifiez les axes d'interpolation.";
+
+//====================================================================================================
+// Errors 5 Axis Helix Machining 
+//====================================================================================================
+
+ERR_8001="Paramètres d'usinage hélicoïdal multi-axes corrects.";
+
+ERR_8996="Vous devez définir le BA, le BF, le contour haut et le contour bas
+avant de sélectionner les axes d'interpolation.";
+
+ERR_8997=" Le BA, le BF, le contour haut et/ou le contour bas ne sont pas supportés.
+Sélectionnez des contours valides. ";
+
+ERR_8998="Une intersection doit exister entre BA/contour haut, BA/contour bas, BF/contour haut et BF/contour bas.
+Sélectionnez des contours valides. ";
+
+//====================================================================================================
+// Errors 4 Axis Curve Sweeping
+//====================================================================================================
+
+ERR_9001="Paramètres du balayage de courbe 5 axes corrects.";
+ERR_9002="Un guide droit n'est pas autorisé.";
+ERR_9003="Le guide n'est pas plan.";
+ERR_9004="Le guide n'est pas continu.";
+ERR_9005="Un guide plan valide doit être défini avant la sélection des directions de départ.";
+
+//====================================================================================================
+// Errors 5 Axis Tube Machining
+//====================================================================================================
+
+ERR_10001="Paramètres d'usinage tube 5 axes corrects.";
+ERR_10002="La position de l'axe guide n'est pas définie.";
+ERR_10003="Aucune zone de cavité n'est détectée.\n Sélectionnez un point pour définir le centre de projection de la cavité.";
+
+//====================================================================================================
+// Errors 5 Axis Spiral Milling
+//====================================================================================================
+
+ERR_11001="Paramètres de surfaçage multi-axes corrects.";
+ERR_11002="La face guide n'est pas définie.";
+
+//====================================================================================================
+// Errors Multi Pocket Flank contouring
+//====================================================================================================
+
+ERR_12001="Paramètres du contournage en flanc multi-poches corrects.";
+

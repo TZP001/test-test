@@ -1,0 +1,132 @@
+
+'// ---------- CATIAV5 application objects
+'====================================================================================
+Sub CATMain () 'Method to Manage Tag/TagGroup
+'====================================================================================
+'*************************************************************************************
+'* Insert the Robot IRB_1400 in the Process Doc                                                           								 *
+'* The Script Creates three Tag Group Group1,Group2,Group3                           											 *
+'*   Creates 1 Tag in Group1                                                        																	 *
+'*           6Tags in Group2                                                        																			 *
+'*   Reparents the Tag group1 to Robot                                               															 *
+'*   Copies the Tags of Group2 to Group3                                             															 *
+'*   Deletes the Tag1 og Group1                                                     																	 *                    
+'*************************************************************************************
+Dim processDoc as PPRDocument
+set processDoc = CATIA.ActiveDocument.PPRDocument
+
+Dim rsrcs as Products
+set rsrcs = processDoc.Resources
+
+Dim count
+Dim name as String
+Dim name1 as String
+Dim objProduct As Product
+
+Dim objTagGroupFactory As TagGroupFactory
+Dim objTagGroup(2) As TagGroup
+Dim objCATIAV5Tag As Tag
+Dim objTag(5) As Tag
+Dim ModifyRef As Boolean
+Dim TagList(5) as List
+Dim objects As Products
+Dim objTagList As Product
+Dim objTagGroups As Products
+Dim objParent As Product
+Dim  objChild As Products
+count=rsrcs.Count
+
+for i=1 to count
+Set objProduct  = rsrcs.item(i)
+name= objProduct.Name
+if(name="IRB_1400.1") then
+   Set objRobot=objProduct
+end If
+next 
+
+
+
+ModifyRef = FALSE
+
+Set objTagGroupFactory= objRobot.GetTechnologicalObject("TagGroupFactory")
+
+objTagGroupFactory.CreateTagGroup "Group1", ModifyRef,objRobot, objTagGroup(0)
+objTagGroupFactory.CreateTagGroup "Group2", ModifyRef, objRobot, objTagGroup(1)
+objTagGroupFactory.CreateTagGroup "Group3", ModifyRef, objRobot, objTagGroup(2)
+
+
+objTagGroup(0).CreateTag objCATIAV5Tag 
+for i=0 to 5 step 1
+objTagGroup(1).CreateTag objTag(i)
+next
+
+
+msgbox(" The Tags in group1")
+name1=objCATIAV5Tag.Name
+msgbox(name1)
+
+
+msgbox(" The Tags in group2")
+for k=0 to 5 step 1
+name=objTag(k).Name
+msgbox(name)
+next
+
+msgbox("Raparenting Group1 to Robot")
+set rsrcs = processDoc.Resources
+count=rsrcs.Count
+for i=1 to count
+Set objProduct  = rsrcs.item(i)
+name= objProduct.Name
+if(name="TagList.1") then
+   Set objTagList =objProduct
+end If
+next 
+
+Set objTagGroups =objTagList.Products
+Set objParent=objTagGroups.item(1)
+
+Set objTagGroupFactory=objParent.GetTechnologicalObject("TagGroupFactory")
+objTagGroupFactory.ReparentTagGroup objTagGroup(0),objRobot,TRUE
+
+msgbox("Copying the tags from Group2 to Group 3")
+objTagGroupFactory.CopyTagGroup objTagGroup(1),objTagGroup(2)
+
+msgbox("Deleting the tagGroup Group2")
+set rsrcs = processDoc.Resources
+count=rsrcs.Count
+for i=1 to count
+Set objProduct  = rsrcs.item(i)
+name= objProduct.Name
+if(name="TagList.1") then
+   Set objTagList =objProduct
+end If
+next 
+
+Set objTagGroups =objTagList.Products
+Set objParent=objTagGroups.item(1)
+
+Set objTagGroupFactory=objParent.GetTechnologicalObject("TagGroupFactory")
+objTagGroupFactory.DeleteTagGroup objTagGroup(1)
+
+msgbox("Deleting the Tag in Group1")
+Set objChild=objRobot.Products
+count=objChild.Count
+for i=1 to count
+Set objProduct=objChild.item(i)
+name=objProduct.Name
+if(name="Group1.1.1") then
+Set objTagGroup(0)=objProduct.GetTechnologicalObject("TagGroup")
+Set objCATIAV5Tag=objTagGroup(0).GetTag(1)
+end If
+next
+objTagGroup(0).DeleteTag objCATIAV5Tag
+
+
+
+
+
+
+
+
+End Sub '/////////////////////////////////////////////////////////// CATMain

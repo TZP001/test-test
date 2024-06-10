@@ -1,0 +1,133 @@
+SelStrategy 									= "Select strategy...";
+MfgMachiningTabPage								= "Machining";
+MfgStepOverTabPage								= "Stepover";
+MfgFinishingTabPage								= "Finishing";
+MfgToolAxisTabPage								= "Tool Axis";
+MfgHSMTabPage									= "HSM";
+
+MfgToolAxisStrategy 							= "Guidance";
+MfgToolAxisStrategy.LongHelp					= "Specifies how the tool axis is to be guided.";
+MfgContactHeight 								= "Contact height";
+MfgContactHeight.LongHelp						= "Determines a point on the drive surface 
+where the tool side must respect tangency conditions. 
+The contact height is measured from the tool tip 
+along the tool axis. The point is such that its 
+projection from the drive onto the tool axis 
+respects the specified contact height.";
+Mfg5AxisUserDefinedCuttingHeightFlag			= "Control fanning using tool parameter";
+Mfg5AxisUserDefinedCuttingHeightFlag.LongHelp	= "Select the checkbox to specify a useful cutting length on the chosen tool. 
+Otherwise, the default standard cutting length value (Lc) will be used.";
+Mfg5AxisUserDefinedCuttingHeight				= "Useful cutting length";
+Mfg5AxisUserDefinedCuttingHeight.LongHelp		= "Specifies a user-defined cutting height for the current tool. This parameter
+is helpful to control the tool fanning or the offset distance when approching surfaces
+with negative draft angles, without any modification of the tool chosen in the database.
+For instance when machining a drive and approaching a check surface with negative draft angle,
+the smaller this length is, the later the tool will fan to reach its stopping position on the
+check.";
+MfgLeaveDistance 								= "Leave fanning distance";
+MfgLeaveDistance.LongHelp						= "Specifies a distance at the start of the operation
+over which tool fanning takes place.";
+MfgApproachDistance 							= "Approach fanning distance";
+MfgApproachDistance.LongHelp					= "Specifies a distance at the end of the operation
+over which tool fanning takes place.";
+Mfg5AxisDeActivateFanning						= "Disable fanning";
+Mfg5AxisDeActivateFanning.LongHelp				= "Specifies the tool axis fanning mode.";
+
+MfgReUseFirstDrive								= "Close tool path";
+MfgReUseFirstDrive.LongHelp						= "For a closed contour, select the checkbox to specify 
+that the first drive is also to be used as the last drive.";
+MfgManualTMDir									= "Manual direction";
+MfgManualTMDir.LongHelp							= "Specifies the direction on the drive at the beginning of the motion.
+'Auto' lets the algorithm determine the direction regarding the reference position.";
+Mfg5AxisMachDirMode 							= "Go";
+Mfg5AxisMachDirMode.LongHelp					= "Allows you to manually specify the direction on the drive.";
+
+MfgMachToler 									= "Machining tolerance";
+MfgMachToler.LongHelp							= "This is a chordal tolerance used to control distribution and number of output positions.";
+MfgMaxDistSteps									= "Max distance between steps";
+MfgMaxDistSteps.LongHelp						= "Specifies the maximum distance between points. Internally, it is used as an order of magnitude of the motion
+length on one drive surface. This helps the algorithm to detect the end of drive elements. If a same geometrical configuration
+contains drive surface elements with very dissimilar sizes, the greatest one's rough bulk is the best choice for this input.";
+MfgMaxDiscretizationStep						= "Max discretization step";
+MfgMaxDiscretizationStep.LongHelp				= "Specifies the maximum allowed discretization step used to ensure linearity between positions that are far apart.
+If the theoretical tool path calculation gives couples of adjacent positions (x,y,z) whose distance is above the one the
+machine is able to achieve, then the machine will probably fail to create a linear interpolation. To avoid this, another calculation
+is processed so additional positions are output.";
+MfgMaxDiscretizationAngle						= "Max discretization angle";
+MfgMaxDiscretizationAngle.LongHelp				= "Specifies the maximum allowed discretization angle between two consecutive positions that the machine is able to achieve.
+If the theoretical tool path calculation gives couples of adjacent positions (i,j,k) whose angle is above the one the
+machine is able to achieve, then the machine will probably fail to create an interpolation. To avoid this, another calculation
+is processed so additional positions are output.";
+
+MfgDirectionOfCut								= "Direction of cut";
+MfgDirectionOfCut.LongHelp						= "Specifies how milling is to be done: 
+- Climb milling: 
+  the front of the advancing tool (in the machining direction) cuts into the material first
+- Conventional milling:
+  the rear of the advancing tool (in the machining direction) cuts into the material first ";
+
+MfgMachiningMode 								= "Tool path style";
+MfgMachiningMode.LongHelp 						= "Indicates the cutting mode of the operation:
+- Zig Zag: 
+  the machining direction is reversed 
+  from one path to the next
+- One way: 
+  the same machining direction is used 
+  from one path to the next.";
+MfgSequencingMode  								= "Sequencing";
+MfgSequencingMode.LongHelp  					= "Specifies the order in which machining is to be done:
+- Axial: 
+  axial machining is done first then radial
+- Radial: 
+  radial machining is done first then axial.";
+
+RadialStrategyFrame 							= "Radial Strategy";
+MfgDistanceBetweenPaths 						= "Distance between paths";
+MfgDistanceBetweenPaths.LongHelp 				= "Defines the maximum distance between 
+two consecutive tool paths in a radial strategy.";
+MfgNumberOfRadialPaths 							= "Number of paths";
+MfgNumberOfRadialPaths.LongHelp 				= "Defines the number of tool paths in a radial strategy.";
+
+AxialStrategyFrame 								= "Axial Strategy";
+Mfg5AxisMultiLevelMode							= "Mode"; 
+Mfg5AxisMultiLevelMode.LongHelp 				= "Defines the computation mode for axial paths.";
+MfgMaxDepthOfCut 								= "Distance between paths";
+MfgMaxDepthOfCut.LongHelp 						= "Defines the maximum distance between 
+two consecutive tool paths in an axial strategy.";
+MfgNumberOfLevels 								= "Number of levels";
+MfgNumberOfLevels.LongHelp 						= "Defines the number of levels to be 
+machined in an axial strategy.";
+
+Mfg5AxisOutputType			= "Compensation output";
+Mfg5AxisOutputType.LongHelp		= "Specifies how cutter compensation instructions are to be generated on the NC data output:  
+
+None
+Compensation is not computed.
+
+2D radial tip
+Compensation is computed in a plane normal to the tool axis, and activated with regard to a cutter side (left or right). 
+The radius that is compensated is the cutter radius.
+Output is the tool tip point (XT, YT, ZT). 
+
+3D radial
+Compensation is computed along a 3D vector (PQR), normal to the drive surface, in contact with the flank of the tool. 
+The radius that is compensated is the cutter radius.
+Output is the tool tip point (XT, YT, ZT) and the drive surface normal (PQR). Tool axis vector (IJK) is output in multi-axis.";
+
+MfgLocal4XPlane				= "Optional 4X plane";
+SelLocal4XPlane				= "Click to select an optional 4 axis direction \nused in local modifications.";
+
+MfgToolSideOnGuideCurve			= "Position on guide curve";
+MfgToolSideOnGuideCurve.LongHelp	= "Specifies the position of the tool on the auxiliary guiding element \nwith respect to the Forward direction.";
+
+MfgOffsetOnGuideCurve			= "Offset on guide curve";
+MfgOffsetOnGuideCurve.LongHelp	= "Specifies the offset to take into account \nfor the side positionning on the auxiliary guiding element.";
+
+MfgUseGuideCurve				= "Use of guide curve";
+MfgUseGuideCurve.LongHelp		= "Specifies the tool contact mode with the auxiliary guiding element: \n- Always.\n- If Needed (that is only when there is a risk of collision with the drive surface)";
+
+MfgCollisionThkStart            = "Tilt angle";
+MfgCollisionThkStart.LongHelp	= "Specifies the tilt angle";
+
+MfgCollisionThkEnd              = "Lead angle";
+MfgCollisionThkEnd.LongHelp		= "Specifies the lead angle";

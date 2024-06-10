@@ -1,0 +1,74 @@
+//=====================================================================================
+//                                     CNEXT - CXRn
+//                          COPYRIGHT DASSAULT SYSTEMES 2001 
+//-------------------------------------------------------------------------------------
+// FILENAME    :    CATDrwDimThreadCmd
+// LOCATION    :    DraftingIntCommands
+// AUTHOR      :    fgx
+// BUT         :    Commande de creation de cotes sur threads (top and/or side views)
+// DATE        :    07.03.2001
+//-------------------------------------------------------------------------------------
+// DESCRIPTION :    
+//-------------------------------------------------------------------------------------
+// COMMENTS    :    
+//-------------------------------------------------------------------------------------
+// MODIFICATIONS     user  date        purpose
+//    HISTORY        ----  ----        -------
+//=====================================================================================
+
+//******************************************************************************
+// Command
+//******************************************************************************
+CATDrwDimThreadCmd.Title = "Thread dimension";
+CATDrwDimThreadCmd.UndoTitle = "Thread dimension creation";
+
+//******************************************************************************
+// States
+//******************************************************************************
+CATDrwDimThreadCmd.waitForSelState.Message = "Select the repesentation of the thread to dimension";
+CATDrwDimThreadCmd.waitFor2sdLineState.Message = "Select a second 2D line, parallel to the first one";
+
+//******************************************************************************
+// Agents
+//******************************************************************************
+CATDrwDimThreadCmd._agentSet._elemAgent.UndoTitle = "Thread representation selection";
+CATDrwDimThreadCmd._agentSet._lineAgent1.UndoTitle = "Second 2D line selection";
+CATDrwDimThreadCmd._agentSet.2DPointIndication.UndoTitle = "Selection";
+
+CATDrwDimThreadCmd.OrientBarRessource.Bar.Title="Orientation";
+
+//******************************************************************************
+// Force dimension on element Button
+//******************************************************************************
+CATDrwDimThreadCmd.OrientBarRessource._refElem.Title = "Force dimension on element";
+CATDrwDimThreadCmd.OrientBarRessource._refElem.ShortHelp="Force dimension on element";
+CATDrwDimThreadCmd.OrientBarRessource._refElem.Help=
+"Forces dimension line to be parallel to the dimensioned element";
+CATDrwDimThreadCmd.OrientBarRessource._refElem.LongHelp=
+"Force dimension on element
+Forces dimension line to be parallel to the dimensioned element.";
+
+//******************************************************************************
+// Force horizontal dimension Button
+//******************************************************************************
+CATDrwDimThreadCmd.OrientBarRessource._refHori.Title = "Force horizontal dimension";
+CATDrwDimThreadCmd.OrientBarRessource._refHori.ShortHelp="Force horizontal dimension";
+CATDrwDimThreadCmd.OrientBarRessource._refHori.Help=
+"Forces dimension line to be horizontal";
+CATDrwDimThreadCmd.OrientBarRessource._refHori.LongHelp=
+"Force horizontal dimension
+Forces dimension line to be horizontal.";
+
+//******************************************************************************
+// Force vertical dimension Button
+//******************************************************************************
+CATDrwDimThreadCmd.OrientBarRessource._refVert.Title = "Force vertical dimension";
+CATDrwDimThreadCmd.OrientBarRessource._refVert.ShortHelp="Force vertical dimension";
+CATDrwDimThreadCmd.OrientBarRessource._refVert.Help=
+"Forces dimension line to be vertical";
+CATDrwDimThreadCmd.OrientBarRessource._refVert.LongHelp=
+"Force vertical dimension
+Forces dimension line to be vertical.";
+
+FakeThreadDim="Non-associative thread dimension created.";
+

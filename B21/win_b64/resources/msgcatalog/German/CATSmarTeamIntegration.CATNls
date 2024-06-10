@@ -1,0 +1,720 @@
+// ==========================================================================================
+// ======================================= Connection =======================================
+// ==========================================================================================
+DocLocST.Name="SmarTeam-Datenbank";
+
+ConnectionError_NoSMARTEAM.Title="Falsche Installation von SMARTEAM";
+ConnectionError_NoSMARTEAM.Text="SMARTEAM nicht installiert.
+SMARTEAM installieren, bevor die Verbindung hergestellt wird";
+
+ConnectionError_NoDatabase.Title="Datenbank nicht gefunden";
+ConnectionError_NoDatabase.Text="Keine Datenbank definiert.
+Datenbankverbindungsmanager öffnen und die Datenbank definieren oder den SMARTEAM-Administrator benachrichtigen.";
+
+ConnectionError_NoDefaultWorkFolder.Title="Falsche Installation von SMARTEAM";
+ConnectionError_NoDefaultWorkFolder.Text="Standardarbeitsordner für SMARTEAM nicht definiert.
+Den SMARTEAM-Administrator benachrichtigen.";
+
+ConnectionError_WrongDB.Title="SMARTEAM-Verbindungsfehler";
+ConnectionError_WrongDB.Text="SmarTeam ist bereits mit der falschen Datenbank /P1 verbunden.
+SmarTeam schließen und Vorgang wiederholen";
+
+ConnectionError_DBNotFound.Title="SMARTEAM-Verbindungsfehler";
+ConnectionError_DBNotFound.Text="Datenbank /P1 nicht gefunden";
+
+NoCATIAIntegration.Title="Keine CATIA Integration";
+NoCATIAIntegration.Text="Für die Integration von CATIA in die aktuelle Datenbank liegt keine Definition vor.
+Das Dienstprogramm 'Integration Tools Setup' verwenden, um die Integration zu definieren";
+
+InitializeCATIAIntegrationKO.Title="CATIA Integration kann nicht initialisiert werden";
+InitializeCATIAIntegrationKO.Text="Die Integration von CATIA in die aktuelle Datenbank kann nicht initialisiert werden.
+Das Dienstprogramm 'Integration Tools Setup' verwenden, um die Integration von CATIA zu korrigieren";
+
+NoAdditionalIdentifier.Title="Unvollständige CATIA Integration";
+NoAdditionalIdentifier.Text="Die aktuelle Datenbank muss aktualisiert werden, damit sie mit dieser Version von CATIA verwendet werden kann.
+
+Eintrag 'Zusätzliche Kennung' (Additional Identifier) nicht definiert.
+Das Dienstprogramm 'Integration Tools Setup' verwenden, um Folgendes auszuführen:
+- Definition des Typs der Zuordnungsgruppe 'Besondere Attribute' (Special Attributes)
+- Anschließend Definition der Zuordnungsgruppe 'Besondere Attribute' (Special Attributes)
+- Definition der Zuordnungseigenschaft 'Zusätzliche Kennung' (Additional Identifier)
+- Definition des Attributs, das dieser Zuordnungseigenschaft zugewiesen werden soll";
+
+NoAdditionalIdentifierForCATProduct.Title="Unvollständige CATIA Integration";
+NoAdditionalIdentifierForCATProduct.Text="CATIA Integration ist unvollständig. Um dieses Problem zu beheben, prüfen, ob folgende Voraussetzungen gegeben sind:
+
+- Dem CATIA Dateityp 'CATProduct' wurde im Dienstprogramm 'Dateitypverwaltung' ein gültiger SmarTeam-Dateityp zugeordnet
+- Alle Klassen, die zum Speichern eines 'CATProduct'-Dokuments verwendet werden können, enthalten das Attribut, das im Dienstprogramm 'Data Model Designer' der Zuordnungseigenschaft zugewiesen ist";
+
+NoAdditionalIdentifierForCATDrawing.Title="Unvollständige CATIA Integration";
+NoAdditionalIdentifierForCATDrawing.Text="CATIA Integration ist unvollständig. Um dieses Problem zu beheben, prüfen, ob folgende Voraussetzungen gegeben sind:
+
+- Dem CATIA Dateityp 'CATDrawing' wurde im Dienstprogramm 'Dateitypverwaltung' ein gültiger SmarTeam-Dateityp zugeordnet
+- Alle Klassen, die zum Speichern eines 'CATDrawing'-Dokuments verwendet werden können, enthalten das Attribut, das im Dienstprogramm 'Data Model Designer' der Zuordnungseigenschaft zugewiesen ist";
+
+WarnIntegration.Title="SmarTeam";
+WarnIntegration.Text="Für die Integration von CATIA in die aktuelle Datenbank liegt keine Definition vor oder die Integration ist nicht vollständig.\nDas Dienstprogramm 'Integration Tools Setup' verwenden, um die Integration von CATIA zu definieren oder zu beenden.";
+
+ConnectionEnvVariableError.Title="Befehl \"Verbinden\" abgebrochen";
+ConnectionEnvVariableError.Text="Verbindung auf Grund einer veralteten Umgebungsvariablen fehlgeschlagen: CATIA_TEAM_PDM_UUID.\nDiese Variable aus den Umgebungseinstellungen entfernen, bevor die Verbindung zu SmarTeam hergestellt wird.";
+
+ConnectionError_AttachSmarTeam.Title="Verbindung fehlgeschlagen";
+ConnectionError_AttachSmarTeam.Text="Verbindung zu SmarTeam kann nicht hergestellt werden";
+
+NoCATIASmarTeamLicense.Title="Keine Lizenz";
+NoCATIASmarTeamLicense.Text="Keine Lizenz für \"SmarTeam Integration\" verfügbar";
+
+SmarTeamInitializationFailed.Title="SmarTeam-Initialisierung";
+SmarTeamInitializationFailed.Text="SmarTeam-Ausnahme bei der Initialisierung.";
+
+// ==========================================================================================
+// ================================ Current Template Project ================================
+// ======================================== New From ========================================
+// ==========================================================================================
+WarningNewFrom.Title="SmarTeam";
+WarningNewFrom.Text="Für die Projektklasse wurde kein CN_TEMPLATE_PROJECT definiert.\nDaher können die folgenden Befehle nicht verwendet werden:\n- Neu aus...,\n- Aktuelles Vorlagenprojekt.";
+FullNewFrom.Title="Neu aus";
+
+NewFromNoDoc.Title="Neu aus";
+NewFromNoDoc.Text="In ausgewähltem Projekt ist kein Dokument vorhanden.";
+NewFromNoProject.Title="Neu aus";
+NewFromNoProject.Text="Für diesen Befehl ist kein aktuelles Vorlagenprojekt definiert.\nDen Befehl 'Aktuelles Vorlagenobjekt' verwenden.";
+NoDefaultProject.Title="Aktuelles Standardprojekt";
+NoDefaultProject.Text="In der aktuellen Datenbank befindet sich kein Projekt.\nUm diesen Befehl ausführen zu können, muss mindestens\n ein Projekt in der aktuellen Datenbank erzeugt werden.";
+NewFromDocCanBeOpenInCATIA.Title="Neu aus";
+NewFromDocCanBeOpenInCATIA.Text="Dieses Dokument kann in CATIA nicht geöffnet werden.";
+
+NewFromPb.Title="Neu aus";
+NewFromPb.Text="Datenbank nicht ordnungsgemäß festgelegt.\nDie Werte der folgenden Felder im Systemkonfigurationseditor überprüfen:\n- CATIA.ProjectTableNameForNewFrom\n- CATIA.DocumentTableNameForNewFrom";
+NewFromNoProject.Title="Neu aus";
+NewFromNoProject.Text="Kein aktuelles Vorlagenprojekt definiert. Den Befehl 'Tools/Aktuelles Vorlagenprojekt' aufrufen.";
+NewFromPbLink.Title="Neu aus";
+NewFromPbLink.Text="Die Verknüpfung zwischen Projekten und Dokumentklasse kann nicht abgerufen werden.";
+
+ViewTitleNewFrom.Title="Neu aus - ";
+ViewTitleTemplateProject.Title="Aktuelles Vorlagenprojekt";
+
+
+// ==========================================================================================
+// ========================================== Find ==========================================
+// ==========================================================================================
+NoDocForQuery.Title="Dokumente suchen";
+NoDocForQuery.Text="In der ausgewählten Klasse wurde kein Dokument gefunden";
+
+ViewTitleForQuery.Title="Ein Dokument suchen";
+
+
+// ==========================================================================================
+// ==================================== Show Profile Card ===================================
+// ==========================================================================================
+SmarTeamLocate.Title="Dokument suchen";
+SmarTeamLocate.Text="Das Dokument /p ist in der Datenbank nicht vorhanden.";
+
+
+// ==========================================================================================
+// ==================================== Insert Component ====================================
+// ==========================================================================================
+InsertWarning.Title="Komponente einfügen";
+InsertWarning.Text="Der Befehl \"Teil//Produkt einfügen...\" kann auf die aktuelle Auswahl nicht angewendet werden.";
+
+InsertPNConfictWarning.Title="SmarTeam-Warnung";
+InsertPNConfictWarning.Text="Teilenummernkonflikt erkannt! Eine der Komponenten in der CATIA Sitzung weist die gleiche Teilenummer wie die eingefügte Komponente auf. Teilenummer der Komponente ändern.";
+
+InsertComponentConflict.Title="Komponente einfügen";
+InsertComponentConflict.Text="Der Befehl konnte nicht ausgeführt werden.\nSicherstellen, dass in der Baugruppe kein Zyklus und kein Konflikt\nder Teilenummern vorliegt.";
+
+InsertComponentError.Title="Komponente einfügen";
+InsertComponentError.Text="Dieses Dokument ist für die Ausführung des Befehls \"Komponente einfügen...\" nicht zulässig.\n Der Befehl \"Komponente einfügen...\" kann auf die ausgewählte Komponente nicht angewendet werden.";
+
+// Messages prompt
+CATSmarTeamIntegration.stDBItem.Message="Eine Komponente auswählen, in die das Dokument eingefügt werden soll.";
+// Save Message
+InsertWrongValue.Title="Sichern";
+InsertWrongValue.Text="Der Datei- und Verzeichnisname für /P1 darf nicht geändert werden.";
+
+
+// ==========================================================================================
+// ==================================== Replace Component ===================================
+// ==========================================================================================
+ReplaceComponentDoc.Title="Komponente ersetzen";
+ReplaceComponentDoc.Text="Um diesen Befehl ausführen zu können, muss ein Produkt oder ein Produkt eines Teils ausgewählt\n und dieses durch ein anderes Produkt oder Teil ersetzt werden.";
+
+ReplaceComponentConflict.Title="Komponente ersetzen";
+ReplaceComponentConflict.Text="Der Befehl konnte nicht ausgeführt werden.\n Sicherstellen, dass zwischen dem Zielprodukt und dem importierten Produkt kein Zyklus und keine \n Konflikte der Teilenummern vorliegen.";
+
+ReplaceComponentError.Title="Komponente ersetzen";
+ReplaceComponentError.Text="Dieses Produkt ist für die Ausführung des Befehls \"Komponente ersetzen...\" nicht zulässig.\n Der Befehl \"Komponente ersetzen...\" kann auf die ausgewählte Komponente nicht angewendet werden.";
+
+ReplaceComponentMultiOccurrences.Title="Komponente ersetzen";
+ReplaceComponentMultiOccurrences.Text="Im Dokument kommt die zu ersetzende Komponente mehrmals vor.\nSollen alle ihre Exemplare ersetzt werden?";
+
+
+// ==========================================================================================
+// ================================ Replace Selected Revision ===============================
+// ==========================================================================================
+RSRUnloadDirty.Text="/p1 wurde in der Sitzung geändert. Ersetzen ist möglich. Dabei gehen jedoch alle Änderungen des Dokuments verloren!\nSoll die Operation fortgesetzt werden?";
+RSRUnloadDirty.Title="Ausgewählte Überarbeitung ersetzen (Geänderte Dokumente)";
+
+RSRUnloadForbidden.Text="Der Befehl kann für folgendes Dokument nicht ausgeführt werden:\n/p1\nEventuell verweist ein anderes geändertes Dokument in der Sitzung auf das Dokument, oder das Dokument ist durch eines der Dokumente gesperrt, die auf das Dokument verweisen!";
+RSRUnloadForbidden.Title="Ersetzen der ausgewählten Überarbeitung ist nicht zulässig";
+
+ViewTitleAllRevisions.Title="Durch ausgewählte Überarbeitung ersetzen";
+NotSavedForMapTextValue.Title="Dokument nicht in der Datenbank";
+NotSavedForMapTextValue.Text="Das Dokument wurde in der Datenbank nicht gesichert.\nDieses vor Starten des Befehls speichern.";
+
+ReplaceSelectedRevisionError.Title="Befehl \"Komponente ersetzen...\" abgebrochen";
+ReplaceSelectedRevisionError.Text="Der Befehl kann nicht ausgeführt werden.\nVor Verwendung des Befehls \"Komponente ersetzen...\" bei diesem Dokument wird empfohlen, das oder die folgenden Dokumente zu speichern:
+/p1";
+
+
+// ==========================================================================================
+// ====================================== Bulk Loading ======================================
+// ==========================================================================================
+BulkLoading.Title="Große Datenmengen laden";
+BulkLoadingProgressTaskOK.Text="Ladevorgang erfolgreich";
+BulkLoadingProgressTaskKO.Text="Ladevorgang teilweise ausgeführt";
+BulkLoadingOK.Title="Große Datenmengen laden";
+BulkLoadingOK.Text="Ladevorgang erfolgreich.";
+
+
+//===================================
+// Error During BulkLoading operation
+//===================================
+BulkLoadingInterrupted.Title="SmarTeam-Befehl 'Große Datenmengen laden' unterbrochen";
+BulkLoadingInterrupted.Text="Fehler beim Laden großer Datenmengen";
+
+
+// ==========================================================================================
+// ======================================== Check In ========================================
+// ==========================================================================================
+// Check In report
+//================
+CheckInReport.Title="Bericht über die Eincheckoperation";
+CheckInReport.Text="Eincheckoperation erfolgreich";
+
+
+// ==========================================================================================
+// ========================================= Release ========================================
+// ==========================================================================================
+// Release report
+//===============
+ReleaseReport.Title="Freigabebericht";
+ReleaseReport.Text="Freigabeoperation erfolgreich";
+
+
+// ==========================================================================================
+// ======================================== Check Out =======================================
+// ==========================================================================================
+CheckOutAborted.Title="Auscheckoperation abgebrochen";
+CheckOutAborted.Text="Dieses Dokument kann nicht ausgecheckt werden, da es in der Sitzung geändert wurde.";
+
+CheckOutWarning.Title="Auscheckoperation";
+CheckOutWarning.Text="Eine Auscheckoperation würde bei diesem Dokument zu einem unsicherem Status der Baugruppe führen.
+Vor dem Speichern der Baugruppe wird empfohlen, eine Auscheckoperation für die folgenden Dokumente auszuführen:
+/p1
+Soll die Auscheckoperation trotzdem für das aktuelle Dokument ausgeführt werden?";
+
+CheckOutNotLatestRev.Title="Auscheckoperation abgebrochen";
+CheckOutNotLatestRev.Text="Dieses Dokument kann nicht ausgecheckt werden, da es nicht die neueste Version des Datenbankobjekts darstellt.\nZunächst den Befehl \"Durch ausgewählte Version ersetzen\" ausführen.";
+
+MultiCheckOutNotLatestRev.Title="Auscheckoperation";
+MultiCheckOutNotLatestRev.Text="Die folgenden Dokumente können nicht ausgecheckt werden, da sie nicht die neueste Version des Datenbankobjekts darstellen.\n Soll die Operation für die anderen ausgewählten Dokumente fortgesetzt werden?";
+
+AllCheckOutNotLatestRev.Title="Auscheckoperation";
+AllCheckOutNotLatestRev.Text="ALLE zum Auschecken ausgewählten Dokumente entsprechen nicht der neuesten Version des Datenbankobjekts; Auschecken wird abgebrochen.\n Details:";
+
+
+// ==========================================================================================
+// ====================================== New Release =======================================
+// ==========================================================================================
+NewReleaseAborted.Title="Neue Freigabeoperation abgebrochen";
+NewReleaseAborted.Text="Für dieses Dokument kann keine neue Freigabe vorgenommen werden, da es in der Sitzung geändert wurde.";
+
+NewReleaseWarning.Title="Neue Freigabeoperation";
+NewReleaseWarning.Text="Eine neue Freigabeoperation würde bei diesem Dokument zu einem unsicheren Status der Baugruppe führen.
+Vor dem Speichern der Baugruppe wird empfohlen, eine neue Freigabeoperation für die folgenden Dokumente durchzuführen:
+/p1
+Soll die neue Freigabeoperation trotzdem für das aktuelle Dokument ausgeführt werden?";
+
+NewReleaseNotLatestRev.Title="Neue Freigabeoperation abgebrochen";
+NewReleaseNotLatestRev.Text="Für dieses Dokument kann \"Neue Freigabe\" nicht ausgeführt werden, da es nicht die neueste Version des Datenbankobjekts darstellt.\nZunächst den Befehl \"Durch ausgewählte Version ersetzen\" ausführen.";
+
+MultiNewReleaseNotLatestRev.Title="Neue Freigabeoperation";
+MultiNewReleaseNotLatestRev.Text="Für die folgenden Dokumente kann \"Neue Freigabe\" nicht ausgeführt werden, da sie nicht die neueste Version des Datenbankobjekts darstellen.\n Soll die Operation für die anderen ausgewählten Dokumente fortgesetzt werden?";
+
+AllNewReleaseNotLatestRev.Title="Neue Freigabeoperation";
+AllNewReleaseNotLatestRev.Text="ALLE zum Auschecken ausgewählten Dokumente entsprechen nicht der aktuellen Version des Datenbankobjekts; daher wird die neue Freigabeoperation abgebrochen.\n Details:";
+
+
+// ==========================================================================================
+// ===================================== Undo Check Out =====================================
+// ==========================================================================================
+UndoCOUnloadDirty.Text="/p1 oder einige Dokumente, auf die darin verwiesen wird, wurden in der Sitzung geändert. 'Auschecken rückgängig machen' ist möglich. Dabei gehen jedoch alle Änderungen des Dokuments verloren!\nSoll die Operation fortgesetzt werden?";
+UndoCOUnloadDirty.Title="Auschecken für geändertes Dokument rückgängig machen";
+
+UndoCheckOutError.Title="Befehl \"Auschecken rückgängig machen\" abgebrochen";
+UndoCheckOutError.Text="Der Befehl kann nicht ausgeführt werden.\nVor Verwendung des Befehls \"Auschecken rückgängig machen\" bei diesem Dokument wird empfohlen, das oder die folgenden Dokumente zu speichern:";
+
+
+// xpn +
+
+// These NLS manage the panel which asking check Out And New release during a Global Refresh operation
+CheckOutNewReleaseGlobal.Title="Schnelles Auschecken";
+COOTFIntro.Text="Von CATIA/Smarteam Integration wurden einige Dokumentänderungen in der Sitzung festgestellt.
+Diese Dokumente können von Ihnen oder durch einen Attributzuordnungsprozess geändert worden sein, oder die Verknüpfungen zwischen den Dokumenten in CATIA
+und in Smarteam sind unterschiedlich.\n\n";
+DocToNewRelease.Text="Für die folgenden Dokumente muss eine 'Neue Freigabe'-Operation ausgeführt werden:\n/p1";
+DocToCheckOut.Text="Für die folgenden Dokumente muss eine 'Auschecken'-Operation ausgeführt werden:\n/p1";
+Conclusion.Text="\nWenn Sie diese Operationen ausführen, können Sie Änderungen in Smarteam sichern!\n";
+QuestionCONR.Text="Soll für einige dieser Dokumente eine 'Auschecken'- oder 'Neue Freigabe'-Operation ausgeführt werden?";
+QuestionNRSolo.Text="Soll für dieses Dokument eine 'Neue Freigabe'-Operation ausgeführt werden?";
+QuestionNRMulti.Text="Soll für einige dieser Dokumente eine 'Neue Freigabe'-Operation ausgeführt werden?";
+QuestionCOSolo.Text="Soll für dieses Dokument eine 'Auschecken'-Operation ausgeführt werden?";
+QuestionCOMulti.Text="Soll für einige dieser Dokumente eine 'Auschecken'-Operation ausgeführt werden?";
+//Conclusion.Text = "\nPerform these operations enables you to save all your modifications and save them in Smarteam!\n";
+
+// xpn -
+
+// NO MORE USED +
+//CheckOutOTFDBDirty.Text = "Links are not synchronized between the CATIA session and SMARTEAM for the following document:\n/p1 (Checked In).\nChecking out the document enables you to update the link with SMARTEAM.\n\nDo you want to perform the Check Out on the Fly?";
+//CheckOutOTFDBDirty.Title = "Check Out on the fly (Document Link Analysis)";
+//CheckOutOTF.Title = "Check Out on the fly";
+//CheckOutOTFOld.Text = "The document /p1 can not be modified. Do you want to check it out?";
+//CheckOutOTF.Text = "A modification has been detected on the following Read Only Smarteam document :\n/p1 (Checked In).\n\nDo you want to perform the Check Out on the Fly?";
+//CheckOutGlobal.Title = "Global Check Out";
+//NewReleaseGlobal.Title = "Global New Release";
+//Pres.Text = "A modification has been detected on the following Read Only Smarteam documents :\n\n";
+//MultiDBLinkDirtyReleasedPb.Text = "Links are not synchronized between the CATIA Session and SMARTEAM for the following documents :\n";
+//AfterDBLinkDirty.Text = "Checking out these documents enables you to update the links with SMARTEAM.\n";
+//MultiDBDirtyReleasedPb.Text = "Following documents are Read Only and modified : \n";
+//SingleDBLinkDirtyReleasedPb.Text = "is not synchronized with Database and Released\n";
+//SingleDBDirtyReleasedPb.Text = "is Dirty and Released\n";
+//MultiDBLinkDirtyCheckedInPb.Text = "are not synchronized with Database and CheckedIn\n\n";
+//MultiDBDirtyCheckedInPb.Text = "are Dirty and CheckedIn\n\n";
+//SingleDBLinkDirtyCheckedInPb.Text = "is not synchronized with Database and CheckedIn\n\n";
+//SingleDBDirtyCheckedInPb.Text = "is Dirty and CheckedIn\n\n";
+//FinalMessageCONR.Text = "Do you want to perform the Check Out on the Fly on some of these documents ?";
+//FinalMessageCO.Text = "Do you want to perform a Check Out on one of these doc?";
+//FinalMessageNR.Text = "Do you want to perform a New Release on one of these doc?";
+//NewReleaseOTF.Title = "Check Out on the fly";
+//NewReleaseOTFOld.Text = "The document /p1 can not be modified. Do you want to perform a new release?";
+//NewReleaseOTF.Text = "A modification has been detected on the following Read Only Smarteam document :\n/p1 (Released).\n\nDo you want to perform the Check Out on the Fly?";
+//NewReleaseOTFDBLinkDirty.Title = "Check Out on the fly (Document Link Analysis)";
+//NewReleaseOTFDBLinkDirty.Text = "Links are not synchronized between the CATIA session and SMARTEAM for the following document:\n/p1 (Released).\nChecking out the document enables you to update the link with SMARTEAM.\n\nDo you want to perform the Check Out on the Fly?";
+// NO MORE USED -
+
+
+// ==========================================================================================
+// ========================================= SmarTeam Tools/Options =========================================
+// ==========================================================================================
+
+// NeedRestart popup window in Tools/Options
+NeedRestart.Title="Warnung";
+NeedRestart.Message="Die Sitzung erneut starten, um die Änderungen zu berücksichtigen.";
+
+// User should not modify content of SMARTEAM Tools/Options page if already connected
+AlreadyConnected.Title="Warnung";
+AlreadyConnected.Text="Der Inhalt dieser Seite sollte bei bestehender Verbindung nicht geändert werden.";
+
+
+// ==========================================================================================
+// ========================================= Script =========================================
+// ==========================================================================================
+NoScript.Title="Kein Script";
+NoScript.Text="Diesem Befehl ist kein Script zugeordnet
+Den Menüeintrag \"Tools/Optionen\" aufrufen und das Register \"SmarTeam-Scripts\" auswählen, um diesem Befehl ein Script zuzuordnen";
+
+UserNotConnected.Title="Benutzer hat keine Verbindung";
+UserNotConnected.Text="Benutzer hat keine Verbindung
+Vor Ausführung dieses Befehls den Menüeintrag \"SmarTeam/Verbinden\" aufrufen";
+
+NotConnectedThenNoScript.Title="Kein Script";
+NotConnectedThenNoScript.Text="Benutzer hat keine Verbindung.
+Verbindung zur SmarTeam-Datenbank herstellen, um Zugriff auf die Liste der verfügbaren Scripts zu erhalten";
+
+ScriptRemoved.Title="Script nicht verfügbar";
+ScriptRemoved.Text="Mindestens ein Script ist nicht mehr verfügbar
+Die entsprechende(n) Datei(en) wurde(n) bereinigt";
+
+
+// ==========================================================================================
+// ========================================= Others =========================================
+// ==========================================================================================
+SessionUpdateProblem.Title="Lebenszyklusoperation teilweise ausgeführt";
+SessionUpdateProblem.Text="Mehrere Dokumente wurden nicht korrekt verarbeitet.\nSie verbleiben in der Sitzung.";
+
+MissingPropertyGroupType.Title="Fehlender Typ der Eigenschaftsgruppe";
+MissingPropertyGroupType.Text="Typ \"/p1\" der Eigenschaftsgruppe existiert nicht.\nDas Dienstprogramm \"Integration Tool Setup\" verwenden, um vor Starten des Befehls diesen Typ der Eigenschaftsgruppe zu erzeugen.";
+
+CheckBeforeSave.Title="Sichern";
+CheckBeforeSave.Text="Das oder die folgenden Dokumente wurden geändert, es besteht jedoch nur Lesezugriff darauf:
+/p1
+Es wird dringend empfohlen, dieses Problem vor Speichern der Baugruppe zu beheben.\nTrotzdem fortfahren?";
+
+
+// ==========================================================================================
+// Reports generated by the code which check synchronization between document
+// in the session and their corresponding file
+// ==========================================================================================
+CATStiSessionServices.FileIsMissing="Fehler: Datei fehlt für Dokument /p";
+CATStiSessionServices.InternalError="Interner Fehler beim Überprüfen der Synchronisation mit der Dokumentdatei: /p";
+CATStiSessionServices.DocNotSynchronized="Fehler: Dokument nicht mit seiner Datei synchronisiert: /p";
+
+
+// ==========================================================================================
+// =========================== Generic Load error/warning message ===========================
+// ==========================================================================================
+DirtyLoadedDocuments.Title="Warnhinweise zum geöffneten Dokument";
+ERR_0001="Das Dokument /p wurde während der Attributzuordnung in SmarTeam geändert. Mehrere im Dokument gespeicherten Attribute wurden von SmarTeam geändert.";
+
+
+// ==========================================================================================
+// =========================== Generic Save error/warning message ===========================
+// ==========================================================================================
+ERR_0010="Das Dokument /p, auf das nur Lesezugriff besteht, wurde geändert. Die Änderung geht verloren, wenn das Dokument nicht ausgecheckt und erneut gespeichert wird.";
+
+ERR_0011="Das Dokument /p wurde geändert.";
+
+ERR_0012="Sichern des Dokuments /p fehlgeschlagen";
+
+ERR_0013="Sichern: Laden der Dokumentattribute fehlgeschlagen";
+
+ERR_0014="Aktualisierung der Verknüpfungen fehlgeschlagen";
+
+ERR_0015="Sichern in SmarTeam fehlgeschlagen";
+
+ERR_0016="Generierung der Voranzeige fehlgeschlagen";
+
+ERR_0017="Dokumentpfad oder Zugriffsberechtigung wurden außerhalb des Editors geändert";
+
+ERR_0018="Ersetzen des Dokuments fehlgeschlagen";
+
+ERR_0019="Das Dokument /p wurde nicht verknüpft. Den Verknüpfungstyp prüfen.";
+
+ERR_0020="Aktualisierung der Verknüpfung fehlgeschlagen (/p1) Von: /p2
+In:   /p3";
+//"The document /p1 hasn't been linked. see below:
+//Object integration behavior in SmarTeam is: /p2, 
+//Object link behavior in SmarTeam is: /p3.";
+
+ERR_0020Bis="In der Sitzung ist kein Dokument vorhanden, das keine Verknüpfung mit diesem Dokument aufweist.";
+
+ERR_0021="Dokument kann im temporären SmarTeam-Ordner nicht gesichert werden";
+
+ERR_0022="Überarbeitungen, die den Status 'Ausgecheckt' aufweisen oder neu sind, können für diese Operation nicht ausgewählt werden";
+
+ERR_0023="Ausnahme in SmarTeam abgefangen: Funktion /p ist fehlgeschlagen.\nDen Befehl 'SmarTeam/Tools/Aktualisieren' ausführen.\n SmarTeam trennen, wenn das Problem bestehen bleiben sollte, und erneut Verbindung herstellen.";
+
+// Generate a message for a successful Check In when editor is not closed
+FailedClosureEditor.Title="Geschlossenes Editorberichtsprogramm";
+ERR_0024="Der Editor kann nach dem Einchecken nicht geschlossen werden";
+
+ERR_0025="Dokument /p kann nicht entladen werden. Die Sitzung ist möglicherweise nicht aktualisiert. Den Baugruppeneditor schließen und neu öffnen.";
+
+ERR_0026="Es wird keine Konstruktionsverknüpfung aktualisiert, da mindestens ein Kontext fehlt.";
+
+ERR_0027="Die Konstruktionsverknüpfungen wurden nicht aktualisiert, weil der folgende Kontext nicht geladen ist:\n /p. Das Kontextdokument in die CATIA Sitzung laden und erneut sichern, damit die Konstruktionsverknüpfungen in der Datenbank aktualisiert werden.\n";
+
+ERR_0028="Die Konstruktionsverknüpfungen wurden nicht aktualisiert, weil die folgenden Kontexte nicht geladen sind:\n /p. Die Kontextdokumente in die CATIA Sitzung laden und erneut sichern, damit die Konstruktionsverknüpfungen in der Datenbank aktualisiert werden.\n";
+
+
+// ==========================================================================================
+// ================================== Dirty Document Report =================================
+// ==========================================================================================
+DirtyDocumentReport.Title="Bericht über geänderte Dokumente";
+EmptyDirtyDocumentReport.Text="In der Sitzung ist kein geändertes Dokument vorhanden.";
+
+// Old Message for Undo CheckOut
+UndoCheckoutOld.Title="Auschecken rückgängig machen";
+UndoCheckoutOld.Text="Es wird dringend empfohlen, die Datei während der Operation 'Auschecken rückgängig machen' zu löschen.
+Der Benutzer wird aufgefordert, den Löschvorgang zu bestätigen.
+Soll die Datei jedoch beibebehalten werden, ist die SmarTeam-Operation 'Sichern unter' auszuführen, bevor die Operation 'Auschecken rückgängig machen' ausgeführt wird.
+
+Zum Bestätigen der Operation OK anklicken.";
+
+// New Message for Undo CheckOut
+UndoCheckout.Title="Auschecken rückgängig machen";
+UndoCheckout.Text="Die Operation 'Auschecken rückgängig machen' überschreibt /p mit der letzten eingecheckten Version in SMARTEAM.
+
+Zum Fortsetzen der Operation OK anklicken.";
+
+
+// ==========================================================================================
+// ===================================== New Open Dialog ====================================
+// ==========================================================================================
+CATStiDocumentSelector.Title="SmarTeam";
+CATStiDocumentSelector.ShortHelp="Ein Dokument in der SmarTeam-Datenbank suchen";
+CATStiDocumentSelector.LongHelp="Ein Dokument in der SmarTeam-Datenbank suchen
+Wenn eine Verbindung zu einer SmarTeam-Datenbank besteht, kann ein Dokument unter Verwendung mehrerer Suchmethoden lokalisiert werden:
+- Abfrage durch Attribut
+- Navigation in der Projekte-/Ordnerstruktur";
+
+
+// ==========================================================================================
+// ==================================== New Query Dialog ====================================
+// ==========================================================================================
+CATStiDocumentSelectorFind.Title="SmarTeam-Abfrage";
+CATStiDocumentSelectorFind.ShortHelp="Ein Dokument in einer SmarTeam-Datenbank über vorgegebene Abfragen suchen";
+CATStiDocumentSelectorFind.LongHelp="Ein Dokument in einer SmarTeam-Datenbank über vorgegebene Abfragen suchen
+Besteht eine Verbindung zu einer SmarTeam-Datenbank, ist das Abrufen eines Dokuments durch Auswahl verschiedener Suchmethoden möglich, die in der SmarTeam-Oberfläche 'Suchen' vorgegeben sind";
+
+
+// ==========================================================================================
+// ========================= Wrong Setting in Document Localization =========================
+// ==========================================================================================
+DocumentLocalizationKO.Title="Problem bei der Lokalisierung von Dokumenten";
+DocumentLocalizationKO.Text="Die Lokalisierung verknüpfter Produkte von \"SmarTeam\" mit dem Befehl \"Tools\"/\"Optionen\" und der Auswahl des Eintrags
+- \"Allgemein\" und des Registers
+- \"Dokument\" aktivieren";
+
+DocumentLocalizationWarning.Title="Warnhinweis: Mögliches Problem beim Auffinden von Dokumenten";
+DocumentLocalizationWarning.Text="Es wird empfohlen, zuerst die mit \"SmarTeam\" verbundene Dokumentensuche über die Menüleiste \"Tools\"/\"Optionen\" zu aktivieren
+- Im Strukturbaum \"Allgemein\" anklicken
+- Register \"Dokument\" aufrufen";
+
+
+// ==========================================================================================
+// =============================== Error During Save operation ==============================
+// ==========================================================================================
+ProgressTaskUI.Title="SmarTeam-Befehl 'Sichern'";
+
+SaveInterrupted.Title="SmarTeam-Befehl 'Sichern' unterbrochen";
+SaveInterrupted.Text="Fehler bei der Operation 'Sichern'";
+
+DiskSaveFailure.Title="Fehler beim Sichern in SmarTeam";
+DiskSaveFailure.Text="Beim Sichern der Datei(en) auf der Festplatte sind kritische Fehler aufgetreten; soll die Aktion rückgängig gemacht werden?\nHinweis: Das Auschecken wird für die folgenden Dokumente rückgängig gemacht; Vorgang fortsetzen?\n\n";
+
+
+// ==========================================================================================
+// ============================= Error During Save As operation =============================
+// ==========================================================================================
+SaveAsInterrupted.Title="SmarTeam-Befehl 'Sichern unter' unterbrochen";
+SaveAsInterrupted.Text="Fehler bei der Operation 'Sichern unter'";
+
+SaveAsWarning_PointingLinks.Title="SmarTeam-Befehl 'Sichern unter' - Warnung";
+SaveAsWarning_PointingLinks.Text="Auf /p1 wird durch die folgenden Dokumente in der Sitzung verwiesen: /p2
+Der SMARTEAM-Befehl \"Sichern unter\" aktualisiert die Verknüpfungen in der Sitzung auf den neuen Namen.
+Für diese Dokumente muss der SMARTEAM-Befehl \"Sichern\" ausgeführt werden, um diese Verknüpfungen beizubehalten.
+Soll die Operation fortgesetzt werden?";
+
+
+// ==========================================================================================
+// ======================= Message for generate XML Report operation ========================
+// ==========================================================================================
+NotSavedBeforeXMLReport.Title="XML-Bericht";
+NotSavedBeforeXMLReport.Text="Das Dokument vor dem Generieren des XML-Berichts sichern";
+
+NoItemSelectedXMLReport.Title="XML-Bericht";
+NoItemSelectedXMLReport.Text="Ein Objekt auswählen";
+
+XMLReportRes.Title="XML-Bericht";
+XMLReportResFail.Text="Fehler bei der Generierung des XML-Berichts";
+XMLReportResOK.Text="XML-Bericht wurde erzeugt!";
+
+
+// ==========================================================================================
+// ====================== Impact Analysis (Dependence View) NLS Support =====================
+// ==========================================================================================
+DepViewCtlNotInstalled.Title="Laden der Komponente fehlgeschlagen";
+DepViewCtlNotInstalled.Text="Informationen zur Abhängigkeitsanalyse wurden in der Registrierung nicht gefunden";
+
+NoItemSelectedDepView.Title="Abhängigkeitsanalyse";
+NoItemSelectedDepView.Text="Ein Objekt auswählen";
+
+NotSavedDepView.Title="Abhängigkeitsanalyse";
+NotSavedDepView.Text="Das Dokument in SMARTEAM vor dem Starten der \"Abhängigkeitsanalyse\" sichern\n";
+
+CloseNotifDepView.Title="Abhängigkeitsanalyse";
+CloseNotifDepView.Text="Das Fenster durch Anklicken der Schaltfläche \"Beenden\" über der Schaltfläche \"Neuanzeige\" schließen";
+
+DepViewDS64NotSupport.Title="Abhängigkeitsanalyse";
+DepViewDS64NotSupport.Text="64-Bit-Plattformen werden von der Abhängigkeitsanalyse nicht unterstützt";
+
+DependenceView.Title="Abhängigkeitsanalyse";
+DependenceView.Parent="Eltern";
+DependenceView.Internal_Component="Interne Komponente";
+DependenceView.Downstream_Application="Verknüpfung mit nachgeordneter Anwendung (Reverse)";
+DependenceView.Design_Link="Konstruktionsverknüpfung (Reverse)";
+DependenceView.Contextual_Link="Kontextverknüpfung (Reverse)";
+DependenceView.Reference_Link="CATIA Referenzverknüpfung (Reverse)";
+DependenceView.RuleBase_Link="CATIA Regelbasisverknüpfung (Reverse)";
+DependenceView.Result_Link="CATIA Ergebnisverknüpfung (Reverse)";
+DependenceView.IsComposedOf="CATIA besteht aus (Reverse)";
+DependenceView.Product_Link="Produktverknüpfung (Reverse)";
+
+
+// ==========================================================================================
+// Critical Errors On Documents: 
+// 1- A doc can't be UNLOADED, but a new version of this doc is written on disc.
+// 2- A doc can't be REROUTED.
+// 3- A doc is REMOVED from local disc by ST (for example DELETE in ST).
+// 4- A doc is NOT synchronised: it has been overridden by SmarTeam application.
+// ==========================================================================================
+CriticalError.Title="Kritische Situation";
+
+// Cases 1 & 2
+CriticalErrorUnloadReroute.Intro.Text="Die folgenden geänderten Dokumente werden über eine Lebenszyklusoperation auf dem Datenträger ersetzt:\n";
+CriticalErrorUnloadReroute.Msg.Text="Die in der Sitzung befindlichen Dokumente können nicht durch neue Dokumente ersetzt werden, die auf dem Datenträger überschrieben wurden.\nEs wird empfohlen, die Editoren zu schließen und manuell neu zu öffnen und dann den Befehl 'SMARTEAM/Tools/Aktualisieren' aufzurufen.\nFalls erforderlich, den Befehl 'Datei/Sichern unter' für die entsprechenden Dokumente ausführen.\n";
+
+// Case 2':
+CriticalErrorUnload.Intro.Text="Die folgenden in der CATIA Sitzung befindlichen Dokumente sind nicht konform mit den Dokumenten auf dem Datenträger:\n";
+CriticalErrorUnload.Msg.Text="Die Sitzung ist möglicherweise nicht auf dem neuesten Stand.\nDie Editoren der CATIA Sitzung schließen und manuell neu öffnen.";
+
+// Cases 3 & 4
+CriticalErrorRemoveNotSynchro.Intro.Text="Die folgenden in der CATIA Sitzung befindlichen Dokumente sind nicht konform mit den Dokumenten auf dem Datenträger:\n";
+CriticalErrorRemoveNotSynchro.Msg.Text="Die in Bearbeitung befindliche Operation ist wahrscheinlich fehlgeschlagen. Die Operation, falls möglich, abbrechen.\nEs wird empfohlen, die Verbindung zu SmarTeam aufzuheben und CATIA zu beenden.\n";
+
+// File Info Status
+CriticalErrorFileInfoStatus.Intro.Text="Das folgende Dokument konnte nicht abgerufen werden:\n";
+CriticalErrorFileInfoStatus.Msg.Text="Die in Bearbeitung befindliche Operation ist wahrscheinlich fehlgeschlagen. Die Operation, falls möglich, abbrechen.\nEs wird empfohlen, die Verbindung zu SmarTeam aufzuheben und CATIA zu beenden.\n";
+
+// Dirty Flag Report
+CriticalErrorGetDirtyFlag.Intro.Text="Das Abrufen des Attributs DIRTY FLAG ist für das folgende Dokument fehlgeschlagen:\n";
+CriticalErrorGetDirtyFlag.Msg.Text="(SmarTeam-Attribut TDM_CAD_DIRTYFLAG wurde NICHT gefunden)\n\nDie in Bearbeitung befindliche Operation ist wahrscheinlich fehlgeschlagen. Die Operation, falls möglich, abbrechen.\n\nDen Befehl 'SmarTeam/Tools/Aktualisieren' ausführen.\n";
+
+// SmarTeam Exceptions Management
+CriticalErrorSmarTeamFatalExceptionIntro.Text="Warnung!\n";
+CriticalErrorSmarTeamFatalException.Msg.Text="Die Verbindung zu SmarTeam musste aufgehoben werden.\nDen Befehl 'SmarTeam/Verbinden' ausführen.\n";
+
+// Refresh Icons
+CriticalErrorRefreshIcons.Intro.Text="Mindestens ein Dokument ist NICHT mit seiner Datei synchronisiert.\nMögliche Ursachen: in der SmarTeam-Anwendung ausgeführte Lebenszyklusoperationen, ...\n";
+CriticalErrorRefreshIconsWarning.Intro.Text="Mindestens ein Dokument im Speicher befindet sich NICHT an seiner richtigen Position.\nMögliche Ursachen: gelöschte Dateien, gelöschte Objekte in der SmarTeam-Anwendung, von SmarTeam ausgeführte Lebenszyklusoperationen, ...\n ";
+CriticalErrorRefreshIcons.Msg.Text="Weitere Informationen hierzu enthält der Ereignisbericht. Die betroffenen Dokumente schließen.\n";
+CriticalErrorRefreshIconsWarning.Msg.Text="Weitere Informationen hierzu enthält der Ereignisbericht. Falls erforderlich, den Befehl 'Datei/Sichern unter' für die entsprechenden Dokumente ausführen.\n";
+
+
+WarningmsgRelFromCI.Title="Freigabe geänderter Dokumente";
+WarningmsgRelFromCI.Text="Es wurde versucht, schreibgeschützte und geänderte Dokumente freizugeben:\n/p1\nEs wurde keine der an diesen Dokumenten während der Freigabeoperation vorgenommenen Änderungen gesichert.";
+
+CriticalErrorRelFromCICmd.Title="Freigabe geänderter Dokumente";
+CriticalErrorRelFromCICmd.Intro.Text="Mehrere Dokumente sind schreibgeschützt und wurden geändert:\n";
+CriticalErrorRelFromCICmd.Msg.Text="Für alle geänderten und schreibgeschützten Dokumente gilt Folgendes:\n* Es werden keine während der Freigabeoperation vorgenommenen Änderungen gesichert!\n* Es werden keine zugeordneten Attribute gespeichert!\nSoll mit der Freigabeoperation fortgefahren werden?";
+// Copy File Warning
+CopyFileWarning_Propagate.Title="Kopieren von Dateien - Warnung";
+CopyFileWarning_Propagate.Text="Warnung:\n Bei der Lebenszyklusoperation mussten mehrere Dateien in ein anderes Verzeichnis als WORK kopiert werden.\n Alle in SMARTEAM vorliegenden Dokumentabhängigkeiten dieser Dateien werden ebenfalls kopiert.";
+
+WarningMsgGRModifiedRO.Title="Globale Neuanzeige geänderter Dokumente";
+WarningMsgGRModifiedUnloadableRO.Text="Die folgenden Dokumente wurden im schreibgeschützten Modus geändert, sie können jedoch nicht entladen werden:\n/p1Alle lokalen Änderungen gehen bei Ausführung des Befehls 'Globale Neuanzeige' verloren.";
+WarningMsgGRModifiedNotUnloadableRO.Text="Die folgenden Dokumente wurden im schreibgeschützten Modus geändert und können nicht entladen werden:\n/p1\nSie werden bei einer Ausführung des Befehls 'Globale Neuanzeige' nicht aktualisiert.";
+WarningMsgGRModifiedQuestionRO.Text="Fortfahren?";
+
+GloablRefreshNoItem.Title="Bericht zur globalen Aktualisierung";
+GloablRefreshNoItem.Text="Folgende Situationen wurden festgestellt:\n1) Die Baugruppe ist möglicherweise auf dem neuesten Stand.\nDer Befehl 'Globale Neuanzeige' muss nicht ausgeführt werden.\n\n Oder: \n\n2) Die Dokumente, die aktualisiert werden sollen, sind schreibgeschützt und können nicht aus der Sitzung entladen werden.\nDen Editor schließen und erneut öffnen und anschließend den Befehl 'Globale Neuanzeige' ausführen.";
+
+CriticalErrorConnect.Intro.Text="Mindestens ein Dokument ist NICHT mit seiner Datei synchronisiert.\nMögliche Ursachen: \n 1. In SmarTeam-Editor werden Lebenszyklusoperationen ohne Verbindung zwischen CATIA und SmarTeam ausgeführt \n 2. Das Dokument wurde in SmarTeam-Editor ohne Verbindung zwischen CATIA und SmarTeam geöffnet ...\n ";
+CriticalErrorConnect.Msg.Text="Weitere Informationen hierzu enthält der Ereignisbericht. Die betroffenen Dokumente schließen und mit Verbindung zwischen CATIA und SmarTeam erneut öffnen. \n Damit die Änderungen erhalten bleiben, die Dokumente erneut sichern (diese Dokumente werden als neue Dokumente hehandelt).\n";
+
+// ==========================================================================================
+// ======================     CAI002                                    =====================
+// ======================     ERROR Messages for Bunch Unload           =====================
+// ==========================================================================================
+
+BunchUnload.Warning.Title="Warnung";
+BunchUnload.Warning.Msg="Die folgenden Dokumente wurden in der Sitzung geändert. Die Änderungen gehen jedoch verloren.\n Dennoch fortfahren?\n";
+
+CriticalErrorBunchUnload.Intro.Text="Die folgenden Dokumente enthalten Probleme:\n";
+CriticalErrorBunchUnload.Connect.Text="\nDaher werden die folgenden Dokumente\n";
+CriticalErrorBunchUnload.Msg.Text="\nnicht aus der aktuellen Sitzung entladen, durch neue Dokumente ersetzt und auf dem Datenträger überschrieben.\nEs wird empfohlen, die Editoren zu schließen und manuell neu zu öffnen und dann den Befehl 'SMARTEAM/AKTUALISIEREN' aufzurufen.\nDie entsprechenden Dokumente ggf. mit 'Datei/Sichern' sichern";
+
+BunchUnloadDocStatus.Status0.Text=" [Nicht definiert] ";
+BunchUnloadDocStatus.Status1.Text=" [Nicht ladbar] ";
+BunchUnloadDocStatus.Status2.Text=" [Nicht entladbar] ";
+BunchUnloadDocStatus.Status4.Text=" [Ist gesperrt ";
+BunchUnloadDocStatus.Status8.Text=" [Ist geändert] ";
+BunchUnloadDocStatus.Status16.Text=" [Ist geändert durch Synchronisation] ";
+
+
+// ==========================================================================================
+// ======================    HL R192CAI002 ERROR Messages for Open For Edit  =====================
+// ==========================================================================================
+
+CATStiCheckOutForEdit.Title="Fehler bei der Operation 'Auschecken'";
+CATStiCheckOutForEditFailed.Text="Bei der Operation 'Auschecken' ist ein Fehler aufgetreten:\n Die Operation 'Auschecken' wurde entweder abgebrochen,\n eine Lebenszyklusoperation eines führenden Dokument wurde im Lebenszyklusfenster geändert \n oder SmarTeam-Fehler.\n Einige Dokumente können kopiert werden, sodass sie im Lebenszyklusprozess bearbeitet werden können.";
+
+// ==========================================================================================
+// ======================    ERROR Messages for LACD : Design Compare  =====================
+// ==========================================================================================
+
+DesignCompare.Title="Konstruktionsvergleich";
+DesignCompare.Text="Das Dokument /p \n ist für einen Konstruktionsvergleich geöffnet.\n SmarTeam-Sicherung des Dokuments ist unzulässig";
+
+
+// ==========================================================================================
+// ====================================== Save As Type ======================================
+// ==========================================================================================
+SaveAsType.Title="Sichern als Typ...";
+LinktoOriginalDoc.Title="Verknüpfung mit Originaldokument";
+Frame.Title="";
+
+NoSupportedTypes.Title="SmarTeam-Befehl 'Sichern als Typ' unterbrochen";
+NoSupportedTypes.Text="Vom ausgewählten Dokument wird kein Dateityp für den Austausch unterstützt.\n DMD-Einstellungen bestätigen";
+
+//DocumentAlreadyExists.Title = "Document Already Exists";
+//DocumentAlreadyExists.Text = "The Exchange Doc with default name is already present on the Disc \n We will save this Exchange Doc with new name 'Default Name _ Integer'.";
+
+RecordlistPreparationFailed.Title="SmarTeam-Befehl 'Sichern als Typ' unterbrochen";
+RecordlistPreparationFailed.Text="SmarTeam-Befehl Speichern als Typ fehlgeschlagen\n Prüfen, ob die Dateierweiterung für den Austauschtyp in SmarTeam korrekt definiert ist";
+
+SaveAsTypeFailed.Title="SmarTeam-Befehl 'Sichern als Typ' unterbrochen";
+SaveAsTypeFailed.Text="SmarTeam-Befehl 'Sichern als Typ' fehlgeschlagen";
+
+SaveAsTypeInSTFailed.Title="SmarTeam-Befehl 'Sichern als Typ' unterbrochen";
+SaveAsTypeInSTFailed.Text="SmarTeam-Befehl 'Sichern als Typ' bei Sicherung in SmarTeam fehlgeschlagen";
+
+SaveAsTypeOnDiscFailed.Title="SmarTeam-Befehl 'Sichern als Typ' unterbrochen";
+SaveAsTypeOnDiscFailed.Text="SmarTeam-Befehl 'Sichern als Typ' bei Sicherung auf dem Datenträger fehlgeschlagen";
+
+SaveAsTypeUpdateLinksFailed.Title="SmarTeam-Befehl 'Sichern als Typ' unterbrochen";
+SaveAsTypeUpdateLinksFailed.Text="SmarTeam-Befehl 'Sichern als Typ' bei der Aktualisierung von Verknüpfungen in SmarTeam fehlgeschlagen";
+
+// ==========================================================================================
+// ======================     CATStiVB                                       ================
+// ==========================================================================================
+// IR 658993
+DocumentOpen.Title="Warnung";
+DocumentOpen.Text="Das Dokument mit derselben Kennzeichnung wurde bereits von der folgenden Speicherposition geladen:\n /p \nEs ist nicht möglich, dasselbe Dokument von einer anderen Speicherposition erneut zu laden";
+
+// ==========================================================================================
+// ================================== Save Instances Script =================================
+// ==========================================================================================
+SaveInstances.CATIANotStarted="Zum Ausführen dieses Skripts muss CATIA gestartet werden";
+SaveInstances.CATIAWrongVersion="festgestellt => Dieses Skript wird von Versionen vor V5R19SP2 nicht unterstützt";
+SaveInstances.PropagateToChildren="Speichern der Exemplare bei Kindern fortführen?";
+SaveInstances.Success="Operation erfolgreich beendet";
+SaveInstances.Cancel="Operation durch Benutzer abgebrochen";
+SaveInstances.Connect="Verbindung zwischen CATIA und SmarTeam wird hergestellt...";
+SaveInstances.Disconnect="Verbindung von SmarTeam zu CATIA-Sitzung wurde unterbrochen";
+SaveInstances.Unknown="Unbekannter Fehler";
+SaveInstances.Preprocessing="(Schritt 1/2) Vorverarbeitung läuft...";
+SaveInstances.ProcessingData="(Schritt 2/2) Daten werden verarbeitet...";
+
+// ==========================================================================================
+// ================================== Manage Representations ================================
+// ==========================================================================================
+AttachRepNoCGR.Title="Darstellung zuordnen";
+AttachRepNoCGR.Text="Die Datei /p1 konnte mit dem Befehl nicht gefunden werden.\nDiese Datei wird in der Regel bei der SmarTeam-Operation Speichern generiert.\nDie CGR-Generierung in der Konfiguration für die SmarTeam-Anwendung überprüfen und den Befehl erneut ausführen";
+
+AttachRepExistingCGR.Title="Darstellung zuordnen";
+AttachRepExistingCGR.Text="Die Datei /p1 konnte mit dem Befehl nicht generiert werden, da sie möglicherweise bereits vorhanden ist.\nVor dem erneuten Ausführen des Befehls die Datei entfernen/umbenennen oder überprüfen, ob der Benutzer über Schreibberechtigung für das entsprechende Verzeichnis verfügt";
+
+AttachRepUnknownIssue.Title="Darstellung zuordnen";
+AttachRepUnknownIssue.Text="Beim Zuordnen der Darstellung ist ein nicht identifiziertes Problem aufgetreten";
+
+AttachRepAlreadyAttached.Title="Darstellung zuordnen";
+AttachRepAlreadyAttached.Text="Die SmarTeam-Darstellung wurde mit diesem Befehl bereits /p1 zugeordnet";
+
+AttachRepMissing.Title="Darstellungsaktivierung";
+AttachRepMissing.Text="Für /p1 wurde keine SmarTeam-Darstellung gefunden.\nDarstellung mit dem Befehl Darstellung zuordnen zuweisen";
+
+//MappingFailedDueToCacheMode.Title="Revision Mapping Failed";
+MappingFailedDueToCacheMode="Die Versionszuordnung für die folgenden Dokumente ist fehlgeschlagen, da diese nicht in der CATIA-Sitzung geladen waren./p1";
+
+LoadingOfDocumentFailed="Die Freigabeoperation wurde abgebrochen, da /p1 nicht in die CATIA-Sitzung geladen werden konnte.";
+
+// ==========================================================================================
+// ================================== High Secured Session in GR ================================
+// ==========================================================================================
+
+LAGR.SecurePassword="Kennwort für die Sitzung eingeben";
+LAGR.SecurePassword.Title="Kennwort für die Sitzung";
+

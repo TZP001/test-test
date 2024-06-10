@@ -1,0 +1,128 @@
+# Adhesion Of The Insertion Spec Object and destruction management To CATI2DGeoVisu
+CATOleSite    CATI2DGeoVisu          libCATFeatureCommands
+CATOleSite    CATIModelEvents        libCATFeatureCommands
+CATOleSite    LifeCycleObject        libCATFeatureCommands
+CATOleSite    CATIEdit               libCATFeatureCommands
+CATOleSite    CATIEditMove2D         libCATFeatureCommands
+CATOleSite    CATIContextualSubMenu  libCATFeatureCommands
+
+# GroupSel
+CATBaseUnknown                CATIAlternateSelection   libCATFecGroupSelection
+CATEarlySelSetSpec            CATICreateInstance       libCATFecGroupSelection
+CATEarlySelSetPathSpec        CATICreateInstance       libCATFecGroupSelection
+CATEarlyDataFactorySet        CATICreateInstance       libCATFecGroupSelection
+CATEarlyDataFactorySetPath    CATICreateInstance       libCATFecGroupSelection
+CATEarlyDataFactorySetObject  CATICreateInstance       libCATFecGroupSelection
+
+# CATFecGroupSelection
+CATSelSetsCont				CATISelectionSetContainer	libCATFecGroupSelection
+CATDocument					CATISelectionSetsFactory	libCATFecGroupSelection
+CATEarlySelSetPathSpec		CATISelectionSetElement		libCATFecGroupSelection
+CATEarlySelSetSpec			CATISelectionSet			libCATFecGroupSelection
+CATEarlySelSetSpec			CATIAlias					libCATFecGroupSelection
+CATEarlySelSetSpec			CATICheckObject			libCATFecGroupSelection
+CATEarlySelSetSpec			CATICleanObject					libCATFecGroupSelection
+CATSelSetsCont             CATICheckObject         libCATFecGroupSelection
+CATSelSetsCont             CATICleanObject         libCATFecGroupSelection  
+
+# CATFecGroupSelectionAUTO
+CATIAVBSelectionSetsImpl	CATIASelectionSets	libCATFecGroupSelection
+CATIAVBSelectionSetsImpl	CATIVBExtension	    libCATFecGroupSelection
+CATIAVBSelectionSetsImpl	CATICreateInstance	libCATFecGroupSelection
+
+
+CATFecSetOwnerCmd       CATIRepeatableCommand  		libCATFecGroupSelection
+
+# Feature Edit Properties
+CATEditorManager        CATIFeatPropEditorFactory    libCATFecFeatPropEdit
+CATFeatPropEditor       CATIEditProperties           libCATFecFeatPropEdit
+
+# Standard Edit Properties
+CATEditorManager            CATIStdPropEditorFactory       libCATFecStandardEditor
+CATStdPropEditor            CATIEditProperties             libCATFecStandardEditor
+CATDocument                 CATIStandardNavigate           libCATFecStandardEditor
+CATfct_node                 CATINavigModify                libCATFecStandardEditor
+CATStdNavigateObject        CATIStandardNavigate           libCATFecStandardEditor
+CATStdNavigateObject        CATIStandardUIObject           libCATFecStandardEditor
+CATStdNavigateObject_node   CATINavigElement               libCATFecStandardEditor
+CATStdNavigateObject_node   CATINavigModify                libCATFecStandardEditor
+CATStd_ComboColor           CATIStandardUserEditorFactory  libCATFecStandardEditor
+CATStdComboColorFrame       CATIStandardUserFrame          libCATFecStandardEditor
+
+# Document Edit Properties
+CATEditorManager              CATIDocumentPropertyEditorFactory    libCATFeatureCommands
+CATDocumentPropertyEditor     CATIEditProperties                   libCATFeatureCommands
+
+# Desk
+CATApplicationFrame      CATIDeskWorkshopWorkshopFactory   libCATFeatureCommands
+CATDocument              CATIAlias                         libCATFeatureCommands
+CATDocument              CATIFileDescriptor                libCATFeatureCommands
+CATDocument              CATINavigateObjectDeskGraph       libCATFeatureCommands
+CATDocument              CATIDeskItem                      libCATFeatureCommands
+CATDeskNotFoundFileDesc  CATIAlias                         libCATFeatureCommands
+CATDeskNotFoundFileDesc  CATIDeskItem                      libCATFeatureCommands
+CATDeskNotFoundFileDesc  CATIFileDescriptor                libCATFeatureCommands
+CATDeskNotFoundFileDesc  CATINavigateObjectDeskGraph       libCATFeatureCommands
+# moved to FileMenu #CATDeskRootObject        CATIRootProperties                libCATFeatureCommands
+CATDeskRootObject        CATINavigateObjectDeskGraph       libCATFeatureCommands
+CATFecPathExternalLink   CATIExternalLink                  libCATFeatureCommands
+CATFileDescriptor        CATINavigateObjectDeskGraph       libCATFeatureCommands
+CATFileDescriptor        CATIAlias                         libCATFeatureCommands
+CATFileDescriptor        CATIDeskItem                      libCATFeatureCommands
+DeskWorkshop             CATIWorkshop                      libCATFeatureCommands
+DeskGraph_node           CATINavigElement                  libCATFeatureCommands
+DeskGraph_node           CATINavigModify                   libCATFeatureCommands
+DeskFileMngtWkshpAddin   CATIDeskWorkshopAddin             libCATFeatureCommands
+DeskFileMngtWkshpAddin   CATIWorkbenchAddin                libCATFeatureCommands
+DeskUnloadLoadWkshpAddin CATIDeskWorkshopAddin             libCATFeatureCommands
+DeskUnloadLoadWkshpAddin CATIWorkbenchAddin                libCATFeatureCommands
+
+CATSession							CATISessionLinksMgt									libCATFeatureCommands
+# File & Edit/Links
+CATPart                  CATIPrerequisiteDocLink           libCATFeatureCommands
+CATUCAlias               CATIAlias                         libCATFeatureCommands
+
+# Standard
+CATDocument         CATIStandardValue     libCATStandardContainer
+CATDocument         CATIStandardManager   libCATStandardContainer
+CATStdCont          CATIStream            libCATStandardContainer
+CATStdCont          CATIContainer         libCATStandardContainer
+CATStdCont          LifeCycleObject       libCATStandardContainer
+CATStandardObject   CATIStandardObject    libCATStandardContainer  
+
+# Cluster integration to standard
+CATOmbClusterProxy  CATIStandardValue	  libCATStandardContainer						
+CATOmbClusterProxy  CATIStandardManager	  libCATStandardContainer
+
+# Layers & Filters R9
+CATPart                                CATILayersAndFilters             libCATStandardContainer
+CATStandard                            CATILayersAndFilters             libCATStandardContainer
+CATStd_DocumentCurrentLayerDefinition  CATIStandardUserEditorFactory    libCATFecStandardEditor
+CATFecFrameStdCurrentLayerUserEditor   CATIStandardUserFrame            libCATFecStandardEditor
+CATStd_DocumentCurrentFilterDefinition CATIStandardUserEditorFactory    libCATFecStandardEditor
+CATFecFrameStdCurrentFilterUserEditor  CATIStandardUserFrame            libCATFecStandardEditor
+CATStd_DocumentFilterDefinition        CATIStandardUserEditorFactory    libCATFecStandardEditor
+CATFecFrameStdFilterUserEditor         CATIStandardUserFrame            libCATFecStandardEditor
+
+# Autosave
+CATSpecModEdit		   CATMarshallableCorba	libCATFecAutoSave
+CATSpecModInitDoc	   CATMarshallableCorba	libCATFecAutoSave
+CATSpecModRenameDoc	   CATMarshallableCorba	libCATFecAutoSave
+CATSpecModDocEnv           CATMarshallableCorba libCATFecAutoSave
+CATSpecModEmptyClipboard   CATMarshallableCorba libCATFecAutoSave
+CATSpecModRemoveDoc	   CATMarshallableCorba	libCATFecAutoSave
+CATSpecModLoadCont	   CATMarshallableCorba	libCATFecAutoSave
+
+
+CATSession			CATIOmbErrorDisplay			libCATFecAutoSave
+
+#Boussole
+AfrUnitConverter   CATIUnitConverter  libCATFecGroupSelection
+
+#Contr-leur de fichier de param-tres
+CATFecRenamingSettingCtrl CATIIniSettingManagment    libCATFecFeatPropEdit
+CATFecRenamingSettingCtrl CATIFecRenamingSettingAtt  libCATFecFeatPropEdit
+
+# Documet Attribute Editor
+CATEditorDocAttrb		CATIEditProperties          libCATFeatureCommands
+

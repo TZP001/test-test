@@ -1,0 +1,186 @@
+// COPYRIGHT DASSAULT SYSTEMES 2000
+//===========================================================================
+//
+// CATSamMaterialFrame (English)
+//
+//===========================================================================
+Analysis="Analisi";
+
+INF_PoissonRatioModifed="Il modulo di Poisson non può superare 0,5. È stato impostato su 0,4999.";
+INF_PoissonRatioExceed="Il modulo di Poisson è superiore al valore massimo consentito. È stato impostato sul valore massimo consentito.";
+INF_YoungsModulusRatio="Il modulo di Young è superiore al valore massimo consentito. I valori del modulo di Young e del modulo di Poisson sono stati impostati su 0.";
+INF_PoissonRatioOrthotropic3D="I valori del modulo di Poisson sono superiori al valore massimo consentito. Sono stati impostati sul valore massimo consentito.";
+INF_YoungsModulusRatioOrthotropic3D="I valori del modulo di Young sono superiori al valore massimo consentito. I valori del modulo di Young e del modulo di Poisson sono stati impostati su 0.";
+INF_CombinedOrthotropic3DExceed="La combinazione dei valori di Young e di Poisson è superiore al valore consentito di 1. I valori del modulo di Young e del modulo di Poisson sono stati impostati su 0.";
+MaterialInfoUITitle="Informazioni";
+
+analysisFrame.Title="Proprietà strutturali";
+
+SAMYoungModulus.EnglobingFrame.IntermediateFrame.Label.Title="Modulo di Young";
+SAMYoungModulus.EnglobingFrame.IntermediateFrame.Label.Value.Help="Modulo di Young del materiale";
+SAMYoungModulus.EnglobingFrame.IntermediateFrame.Label.Value.LongHelp="Modulo di Young per la descrizione della rigidità del materiale";
+
+SAMPoissonRatio.EnglobingFrame.IntermediateFrame.Label.Title="Modulo di Poisson";
+SAMPoissonRatio.EnglobingFrame.IntermediateFrame.Label.Value.Help="Modulo di Poisson del materiale";
+SAMPoissonRatio.EnglobingFrame.IntermediateFrame.Label.Value.LongHelp="Modulo di Poisson del materiale
+(dilatazione meccanica, valore tra 0 e 0.5 )";
+
+SAMDensity.EnglobingFrame.IntermediateFrame.Label.Title="Densità";
+SAMDensity.EnglobingFrame.IntermediateFrame.Label.Value.Help="Densità del materiale";
+SAMDensity.EnglobingFrame.IntermediateFrame.Label.Value.LongHelp="Densità del materiale (utilizzata nel calcolo modale)";
+
+SAMThermalExpansion.EnglobingFrame.IntermediateFrame.Label.Title="Coefficiente di dilatazione termica";
+SAMThermalExpansion.EnglobingFrame.IntermediateFrame.Label.Value.Help="Coefficiente di dilatazione termica del materiale";
+SAMThermalExpansion.EnglobingFrame.IntermediateFrame.Label.Value.LongHelp="Coefficiente di dilatazione termica (effetto di dilatazione termica) del materiale";
+
+SAMShearModulus.EnglobingFrame.IntermediateFrame.Label.Title="Limite di proporzionalità";
+SAMShearModulus.EnglobingFrame.IntermediateFrame.Label.Value.Help="Limite di proporzionalità del materiale";
+SAMShearModulus.EnglobingFrame.IntermediateFrame.Label.Value.LongHelp="Limite di proporzionalità del materiale
+Da confrontare con il valore massimo Von Mises per verificare che la parte non ceda";
+
+// SAMOrthotropic
+SAMYoungModulus_11.EnglobingFrame.IntermediateFrame.Label.Title="Modulo di Young longitudinale";
+SAMYoungModulus_11.EnglobingFrame.IntermediateFrame.Label.Value.Help="Modulo di Young longitudinale del materiale";
+SAMYoungModulus_11.EnglobingFrame.IntermediateFrame.Label.Value.LongHelp="Modulo di Young longitudinale";
+
+SAMYoungModulus_22.EnglobingFrame.IntermediateFrame.Label.Title="Modulo di Young trasversale";
+SAMYoungModulus_22.EnglobingFrame.IntermediateFrame.Label.Value.Help="Modulo di Young trasversale del materiale";
+SAMYoungModulus_22.EnglobingFrame.IntermediateFrame.Label.Value.LongHelp="Modulo di Young trasversale";
+
+SAMPoissonRatio_12.EnglobingFrame.IntermediateFrame.Label.Title="Modulo di Poisson sul piano XY";
+SAMPoissonRatio_12.EnglobingFrame.IntermediateFrame.Label.Value.Help="Modulo di Poisson del materiale sul piano XY";
+SAMPoissonRatio_12.EnglobingFrame.IntermediateFrame.Label.Value.LongHelp="Modulo di Poisson sul piano XY";
+
+SAMPoissonRatio_13.EnglobingFrame.IntermediateFrame.Label.Title="Modulo di Poisson sul piano XZ";
+SAMPoissonRatio_13.EnglobingFrame.IntermediateFrame.Label.Value.Help="Modulo di Poisson del materiale sul piano XZ";
+SAMPoissonRatio_13.EnglobingFrame.IntermediateFrame.Label.Value.LongHelp="Modulo di Poisson sul piano XZ";
+SAMPoissonRatio_23.EnglobingFrame.IntermediateFrame.Label.Title="Modulo di Poisson sul piano YZ";
+SAMPoissonRatio_23.EnglobingFrame.IntermediateFrame.Label.Value.Help="Modulo di Poisson del materiale sul piano YZ";
+SAMPoissonRatio_23.EnglobingFrame.IntermediateFrame.Label.Value.LongHelp="Modulo di Poisson sul piano YZ";
+
+SAMShearModulus_12.EnglobingFrame.IntermediateFrame.Label.Title="Modulo di elasticità al taglio sul piano XY";
+SAMShearModulus_12.EnglobingFrame.IntermediateFrame.Label.Value.Help="Modulo di elasticità al taglio sul piano XY del materiale";
+SAMShearModulus_12.EnglobingFrame.IntermediateFrame.Label.Value.longHelp="Modulo di elasticità al taglio sul piano XY";
+
+SAMShearModulus_1Z.EnglobingFrame.IntermediateFrame.Label.Title="Modulo di elasticità al taglio sul piano XZ";
+SAMShearModulus_1Z.EnglobingFrame.IntermediateFrame.Label.Value.Help="Modulo di elasticità al taglio sul piano XZ del materiale";
+SAMShearModulus_1Z.EnglobingFrame.IntermediateFrame.Label.Value.LongHelp="Modulo di elasticità al taglio sul piano XZ";
+
+SAMShearModulus_2Z.EnglobingFrame.IntermediateFrame.Label.Title="Modulo di elasticità al taglio sul piano YZ";
+SAMShearModulus_2Z.EnglobingFrame.IntermediateFrame.Label.Value.Help="Modulo di elasticità al taglio sul piano YZ del materiale";
+SAMShearModulus_2Z.EnglobingFrame.IntermediateFrame.Label.Value.LongHelp="Modulo di elasticità al taglio sul piano YZ";
+
+SAMShearModulus_13.EnglobingFrame.IntermediateFrame.Label.Title="Modulo di elasticità al taglio sul piano XZ";
+SAMShearModulus_13.EnglobingFrame.IntermediateFrame.Label.Value.Help="Modulo di elasticità al taglio sul piano XZ del materiale";
+SAMShearModulus_13.EnglobingFrame.IntermediateFrame.Label.Value.LongHelp="Modulo di elasticità al taglio sul piano XZ";
+
+SAMShearModulus_23.EnglobingFrame.IntermediateFrame.Label.Title="Modulo di elasticità al taglio sul piano YZ";
+SAMShearModulus_23.EnglobingFrame.IntermediateFrame.Label.Value.Help="Modulo di elasticità al taglio sul piano YZ del materiale";
+SAMShearModulus_23.EnglobingFrame.IntermediateFrame.Label.Value.LongHelp="Modulo di elasticità al taglio sul piano YZ";
+
+SAMTensileStressLimit_X.EnglobingFrame.IntermediateFrame.Label.Title="Tensione di trazione longitudinale";
+SAMTensileStressLimit_X.EnglobingFrame.IntermediateFrame.Label.Value.Help="Tensione di trazione longitudinale del materiale";
+SAMTensileStressLimit_X.EnglobingFrame.IntermediateFrame.Label.Value.LongHelp="Tensione di trazione longitudinale";
+
+SAMCompressiveStressLimit_X.EnglobingFrame.IntermediateFrame.Label.Title="Tensione di compressione longitudinale";
+SAMCompressiveStressLimit_X.EnglobingFrame.IntermediateFrame.Label.Value.Help="Tensione di compressione longitudinale del materiale";
+SAMCompressiveStressLimit_X.EnglobingFrame.IntermediateFrame.Label.Value.LongHelp="Tensione di compressione longitudinale";
+
+SAMTensileStressLimit_Y.EnglobingFrame.IntermediateFrame.Label.Title="Tensione di trazione trasversale";
+SAMTensileStressLimit_Y.EnglobingFrame.IntermediateFrame.Label.Value.Help="Tensione di trazione trasversale del materiale";
+SAMTensileStressLimit_Y.EnglobingFrame.IntermediateFrame.Label.Value.LongHelp="Tensione di trazione trasversale";
+
+SAMCompressiveStressLimit_Y.EnglobingFrame.IntermediateFrame.Label.Title="Tensione di compressione trasversale";
+SAMCompressiveStressLimit_Y.EnglobingFrame.IntermediateFrame.Label.Value.Help="Tensione di compressione trasversale del materiale";
+SAMCompressiveStressLimit_Y.EnglobingFrame.IntermediateFrame.Label.Value.LongHelp="Tensione di compressione trasversale";
+
+SAMTensileStrainLimit_X.EnglobingFrame.IntermediateFrame.Label.Title="Deformazione di trazione longitudinale";
+SAMTensileStrainLimit_X.EnglobingFrame.IntermediateFrame.Label.Value.Help="Deformazione di trazione longitudinale del materiale";
+SAMTensileStrainLimit_X.EnglobingFrame.IntermediateFrame.Label.Value.LongHelp="Deformazione di trazione longitudinale";
+
+SAMCompressiveStrainLimit_X.EnglobingFrame.IntermediateFrame.Label.Title="Deformazione di compressione longitudinale";
+SAMCompressiveStrainLimit_X.EnglobingFrame.IntermediateFrame.Label.Value.Help="Deformazione di compressione longitudinale del materiale";
+SAMCompressiveStrainLimit_X.EnglobingFrame.IntermediateFrame.Label.Value.LongHelp="Deformazione di compressione longitudinale";
+
+SAMTensileStrainLimit_Y.EnglobingFrame.IntermediateFrame.Label.Title="Deformazione di trazione trasversale";
+SAMTensileStrainLimit_Y.EnglobingFrame.IntermediateFrame.Label.Value.Help="Deformazione di trazione trasversale del materiale";
+SAMTensileStrainLimit_Y.EnglobingFrame.IntermediateFrame.Label.Value.LongHelp="Deformazione di trazione trasversale";
+
+SAMCompressiveStrainLimit_Y.EnglobingFrame.IntermediateFrame.Label.Title="Deformazione di compressione trasversale";
+SAMCompressiveStrainLimit_Y.EnglobingFrame.IntermediateFrame.Label.Value.Help="Deformazione di compressione trasversale del materiale";
+SAMCompressiveStrainLimit_Y.EnglobingFrame.IntermediateFrame.Label.Value.LongHelp="Deformazione di compressione trasversale";
+
+SAMThermalExpansion_X.EnglobingFrame.IntermediateFrame.Label.Title="Coefficiente di dilatazione termica longitudinale";
+SAMThermalExpansion_X.EnglobingFrame.IntermediateFrame.Label.Value.Help="Coefficiente di dilatazione termica longitudinale del materiale";
+SAMThermalExpansion_X.EnglobingFrame.IntermediateFrame.Label.Value.LongHelp="Coefficiente di dilatazione termica longitudinale";
+
+SAMThermalExpansion_Y.EnglobingFrame.IntermediateFrame.Label.Title="Coefficiente di dilatazione termica trasversale";
+SAMThermalExpansion_Y.EnglobingFrame.IntermediateFrame.Label.Value.Help="Coefficiente di dilatazione termica trasversale del materiale";
+SAMThermalExpansion_Y.EnglobingFrame.IntermediateFrame.Label.Value.LongHelp="Coefficiente di dilatazione termica trasversale";
+
+SAMThermalExpansion_33.EnglobingFrame.IntermediateFrame.Label.Title="Coefficiente di dilatazione termica normale";
+SAMThermalExpansion_33.EnglobingFrame.IntermediateFrame.Label.Value.Help="Coefficiente di dilatazione termica normale del materiale";
+SAMThermalExpansion_33.EnglobingFrame.IntermediateFrame.Label.Value.LongHelp="Coefficiente di dilatazione termica normale";
+
+analysisFrame.stressFrame.Title="Limiti di tensione";
+analysisFrame.strainFrame.Title="Limiti di deformazione";
+
+
+// combo de selection de type de materaiux
+MaterialType.Help="Definisce il tipo di materiale";
+MaterialType.MaterialTypeLabel.Title="Materiale";
+MaterialType.MaterialTypeCombo.SAMIsotropicMaterial.Title="Materiale isotropico";
+MaterialType.MaterialTypeCombo.SAMOrthotropicMaterial.Title="Materiale ortotropico 2D";
+MaterialType.MaterialTypeCombo.SAMFiberMaterial.Title="Materiale fibroso";
+MaterialType.MaterialTypeCombo.SAMHoneyCombMaterial.Title="Materiale HoneyComb";
+MaterialType.MaterialTypeCombo.SAMOrthotropic3DMaterial.Title="Materiale ortotropico 3D";
+MaterialType.MaterialTypeCombo.SAMAnisotropicMaterial.Title="Materiale anisotropo";
+
+
+// Material HONEYCOMB
+SAMYoungModulus_33.EnglobingFrame.IntermediateFrame.Label.Title="Modulo di Young normale";
+SAMYoungModulus_33.EnglobingFrame.IntermediateFrame.Label.Value.Help="Modulo di Young normale del materiale";
+SAMYoungModulus_33.EnglobingFrame.IntermediateFrame.Label.Value.LongHelp="Modulo di Young normale";
+
+SAMShearStressLimit_13.EnglobingFrame.IntermediateFrame.Label.Title="Limite di sollecitazione al taglio sul piano XZ";
+SAMShearStressLimit_13.EnglobingFrame.IntermediateFrame.Label.Value.Help="Limite di sollecitazione al taglio sul piano XZ del materiale";
+SAMShearStressLimit_13.EnglobingFrame.IntermediateFrame.Label.Value.LongHelp="Limite di sollecitazione al taglio sul piano XZ";
+
+SAMShearStressLimit_23.EnglobingFrame.IntermediateFrame.Label.Title="Limite di sollecitazione al taglio sul piano YZ";
+SAMShearStressLimit_23.EnglobingFrame.IntermediateFrame.Label.Value.Help="Limite di sollecitazione al taglio sul piano YZ del materiale";
+SAMShearStressLimit_23.EnglobingFrame.IntermediateFrame.Label.Value.LongHelp="Limite di sollecitazione al taglio sul piano YZ";
+
+// Material FIBER
+SAMShearStressLimit_12.EnglobingFrame.IntermediateFrame.Label.Title="Limite di sollecitazione al taglio sul piano XY";
+SAMShearStressLimit_12.EnglobingFrame.IntermediateFrame.Label.Value.Help="Limite di sollecitazione al taglio sul piano XY del materiale";
+SAMShearStressLimit_12.EnglobingFrame.IntermediateFrame.Label.Value.LongHelp="Limite di sollecitazione al taglio sul piano XY";
+
+// Material ANISOTROPE
+SAMThermalExpansion_Z.EnglobingFrame.IntermediateFrame.Label.Title="Coefficiente di dilatazione termica normale";
+SAMThermalExpansion_Z.EnglobingFrame.IntermediateFrame.Label.Value.Help="Coefficiente di dilatazione termica normale del materiale";
+SAMThermalExpansion_Z.EnglobingFrame.IntermediateFrame.Label.Value.LongHelp="Coefficiente di dilatazione termica normale";
+
+SAMShearModulus_11.EnglobingFrame.IntermediateFrame.Label.Title="Modulo di elasticità al taglio longitudinale";
+SAMShearModulus_11.EnglobingFrame.IntermediateFrame.Label.Value.Help="Modulo di elasticità al taglio longitudinale del materiale";
+SAMShearModulus_11.EnglobingFrame.IntermediateFrame.Label.Value.LongHelp="Modulo di elasticità al taglio longitudinale";
+
+SAMShearModulus_22.EnglobingFrame.IntermediateFrame.Label.Title="Modulo di elasticità al taglio trasversale";
+SAMShearModulus_22.EnglobingFrame.IntermediateFrame.Label.Value.Help="Modulo di elasticità al taglio trasversale del materiale";
+SAMShearModulus_22.EnglobingFrame.IntermediateFrame.Label.Value.LongHelp="Modulo di elasticità al taglio trasversale";
+
+SAMShearModulus_33.EnglobingFrame.IntermediateFrame.Label.Title="Modulo di elasticità al taglio normale";
+SAMShearModulus_33.EnglobingFrame.IntermediateFrame.Label.Value.Help="Modulo di elasticità al taglio normale del materiale";
+SAMShearModulus_33.EnglobingFrame.IntermediateFrame.Label.Value.LongHelp="Modulo di elasticità al taglio normale";
+
+SAMTensileStressLimit.EnglobingFrame.IntermediateFrame.Label.Title="Tensione di trazione";
+SAMTensileStressLimit.EnglobingFrame.IntermediateFrame.Label.Value.Help="Tensione di trazione del materiale";
+SAMTensileStressLimit.EnglobingFrame.IntermediateFrame.Label.Value.LongHelp="Tensione di trazione";
+
+SAMCompressiveStressLimit.EnglobingFrame.IntermediateFrame.Label.Title="Tensione di compressione";
+SAMCompressiveStressLimit.EnglobingFrame.IntermediateFrame.Label.Value.Help="Tensione di compressione del materiale";
+SAMCompressiveStressLimit.EnglobingFrame.IntermediateFrame.Label.Value.LongHelp="Tensione di compressione";
+
+SAMShearStressLimit.EnglobingFrame.IntermediateFrame.Label.Title="Sollecitazione al taglio";
+SAMShearStressLimit.EnglobingFrame.IntermediateFrame.Label.Value.Help="Sollecitazione al taglio";
+SAMShearStressLimit.EnglobingFrame.IntermediateFrame.Label.Value.LongHelp="Sollecitazione al taglio";
+

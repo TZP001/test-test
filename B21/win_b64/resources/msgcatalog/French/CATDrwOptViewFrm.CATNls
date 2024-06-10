@@ -1,0 +1,212 @@
+//=====================================================================================
+//                                     CNEXT - CXRn
+//                          COPYRIGHT DASSAULT SYSTEMES 2000 
+//-------------------------------------------------------------------------------------
+// FILENAME    :    CATDrwOptManip
+// LOCATION    :    DraftingUI
+// AUTHOR      :    fgx
+// BUT         :    
+// DATE        :    30.10.2000
+//-------------------------------------------------------------------------------------
+// DESCRIPTION :    Tools/Option du Drafting
+//-------------------------------------------------------------------------------------
+// COMMENTS    :    
+//-------------------------------------------------------------------------------------
+// MODIFICATIONS     user  date        purpose
+//    HISTORY        ----  ----        -------
+//	01			lgk		17.12.02	Revision
+//=====================================================================================
+
+Title="Affichage";
+
+
+frameGenElem.HeaderFrame.Global.Title="Génération de géométrie / habillage";
+frameGenElem.HeaderFrame.Global.LongHelp=
+"Génération de géométrie
+Définit les éléments de géométrie à générer.";
+frameGenElem.IconAndOptionsFrame.OptionsFrame._checkGenAxis.Title="Générer les axes";
+frameGenElem.IconAndOptionsFrame.OptionsFrame._checkGenAxis.LongHelp="Génère des lignes d'axe";
+frameGenElem.IconAndOptionsFrame.OptionsFrame._checkGenCenter.Title="Générer les lignes de centre";
+frameGenElem.IconAndOptionsFrame.OptionsFrame._checkGenCenter.LongHelp="Génère les lignes de centre";
+frameGenElem.IconAndOptionsFrame.OptionsFrame._checkGenThread.Title="Générer les filetages";
+frameGenElem.IconAndOptionsFrame.OptionsFrame._checkGenThread.LongHelp="Génère les filetages";
+frameGenElem.IconAndOptionsFrame.OptionsFrame._checkGenHiddenLines.Title="Générer les lignes cachées";
+frameGenElem.IconAndOptionsFrame.OptionsFrame._checkGenHiddenLines.LongHelp="Génère les listes cachées";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frameButtonGenFil._checkGenFil.Title="Générer les congés d'arêtes";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frameButtonGenFil._checkGenFil.LongHelp="Génère les congés d'arêtes";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frameButtonGenFil.pushGenFil.Title="Configurer";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frameButtonGenFil.pushGenFil.LongHelp="Configure la projection des congés d'arêtes";
+frameGenElem.IconAndOptionsFrame.OptionsFrame._checkGen3DColors.Title="Hériter des couleurs 3D";
+frameGenElem.IconAndOptionsFrame.OptionsFrame._checkGen3DColors.LongHelp="Permet d'hériter des couleurs 3D";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frmWireFrame.checkGenWireFrame.Title="Projeter les éléments 3D filaires";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frmWireFrame.checkGenWireFrame.LongHelp="Projette les éléments filaires 3D";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frmWireFrame.pushGenWireFrameMod.Title="Configurer";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frmWireFrame.pushGenWireFrameMod.LongHelp="Configure la projection des éléments filaires";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.checkGenApplyUncut.Title="Respecter les spécificités de l'assemblage";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.checkGenApplyUncut.LongHelp="Applique les spécifications 3D";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frameButtonLinetype.labelLinetype.Title="Types de traits sur vues";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frameButtonLinetype.labelLinetype.LongHelp="Types de traits sur vues";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frameButtonLinetype.linetypePushButton.Title="Configurer";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frameButtonLinetype.linetypePushButton.LongHelp="Configure le type de ligne et l'épaisseur";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frameProject3DPts.checkProject3DPts.Title="Projeter les points 3D";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frameProject3DPts.checkProject3DPts.LongHelp="Projette les points 3D";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frameProject3DPts.project3DPtsPushButton.Title="Configurer";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frameProject3DPts.project3DPtsPushButton.LongHelp="Configure la projection des points 3D";
+
+genGeomMngt.HeaderFrame.Global.Title="Géométrie générée";
+genGeomMngt.HeaderFrame.Global.LongHelp="Géométrie générée";
+genGeomMngt.IconAndOptionsFrame.OptionsFrame.chkGMECreation.Title="Conserver l'habillage défini manuellement sur la géométrie.";
+genGeomMngt.IconAndOptionsFrame.OptionsFrame.chkGMECreation.LongHelp="Conserver l'habillage défini manuellement sur la géométrie.";
+
+
+frameGenView.HeaderFrame.Global.Title="Génération de vues";
+frameGenView.HeaderFrame.Global.LongHelp="Définit les paramètres utilisés pour la création de vues génératives.";        
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmViewMod.lbl.Title="Mode de projection de la vue";
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmViewMod.lbl.LongHelp="Définit la façon dont les vues seront générées";
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmViewMod.combViewMod.LongHelp="Définit la façon dont les vues seront générées";
+ExactView="Vue exacte";
+CGRView="CGR";
+PictureView="Image Bitmap";
+HRV="Approximé";
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmViewMod.pushRasterOptions.Title="Configurer";
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmViewMod.pushRasterOptions.LongHelp="Configure les options des images bitmap générées.";
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmViewMod.frmPict.chkAutoLOD.Title="Niveau de détail automatique";
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmViewMod.frmPict.chkAutoLOD.LongHelp="Les DPI pour la visualisation et l'impression
+sont gérés automatiquement.";
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmViewMod.frmPict.lbl1.Title="DPI pour la visualisation";
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmViewMod.frmPict.lbl1.LongHelp="DPI pour la visualisation";
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmViewMod.frmPict.lbl2.Title="DPI pour l'impression";
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmViewMod.frmPict.lbl2.LongHelp="DPI pour l'impression";
+frameGenView.IconAndOptionsFrame.OptionsFrame.chkExactPreview.Title="Pré-visualisation exacte pour la génération de vue";
+frameGenView.IconAndOptionsFrame.OptionsFrame.chkExactPreview.LongHelp="Permet de pré-visualiser les vues à générer en mode Design même si vous travaillez en mode visualisation. Ne sélectionnez pas cette option si vous souhaitez pré-visualiser les vues à générer grâce aux données de visualisation du document 3D.";
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmGenBox.checkGenBox.Title="Générer uniquement les pièces plus grandes que";
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmGenBox.checkGenBox.LongHelp="Génère uniquement les pièces dont la taille est supérieure à celle indiquée.";
+frameGenView.IconAndOptionsFrame.OptionsFrame.chkOcclusionCulling.Title="Exclure les objets cachés";
+frameGenView.IconAndOptionsFrame.OptionsFrame.chkOcclusionCulling.LongHelp="Active ou désactive l'exclusion des objets cachés. Ce procédé améliore les performances de visualisation en évitant, de retracer les objets cachés, ce qui est particulièrement utile pour des scènes très compartimentées, par exemple dans les installations et les bâtiments.";
+frameGenView.IconAndOptionsFrame.OptionsFrame.chkSelBodyInAss.Title="Sélectionner une pièce dans un assemblage";
+frameGenView.IconAndOptionsFrame.OptionsFrame.chkSelBodyInAss.LongHelp="Active ou désactive la sélection de pièces dans un assemblage.";
+
+frameGenView.IconAndOptionsFrame.OptionsFrame._frameViewStatus._labelViewStatus.Title="Statut de mise à jour des vues approximées/images/CGR ";
+frameGenView.IconAndOptionsFrame.OptionsFrame._frameViewStatus._labelViewStatus.LongHelp="Définit les informations produit à utiliser pour déterminer si une vue doit être mise à jour ";
+frameGenView.IconAndOptionsFrame.OptionsFrame._frameViewStatus._frameViewStatusRadio._frameViewStatusRadiolocked._radioViewUpdateStatusDataVisu.Title="En fonction des données de visualisation ";
+frameGenView.IconAndOptionsFrame.OptionsFrame._frameViewStatus._frameViewStatusRadio._frameViewStatusRadiolocked._radioViewUpdateStatusDataVisu.LongHelp="Utilise les horodatages des données de visualisation des pièces (données cgr) ";
+frameGenView.IconAndOptionsFrame.OptionsFrame._frameViewStatus._frameViewStatusRadio._frameViewStatusRadiolocked._radioViewUpdateStatusDataDesign.Title="En fonction des données de conception ";
+frameGenView.IconAndOptionsFrame.OptionsFrame._frameViewStatus._frameViewStatusRadio._frameViewStatusRadiolocked._radioViewUpdateStatusDataDesign.LongHelp="Utilise les horodatages des données de conception des pièces ";
+
+
+frameClipping.HeaderFrame.Global.Title="Vue écrêtée";
+frameClipping.HeaderFrame.Global.LongHelp="Définit les paramètres utilisés dans les vues écrêtées.";        
+frameClipping.IconAndOptionsFrame.OptionsFrame.chkDimClipNoShow.Title="Cacher les dimensions sur géométrie non visible";
+frameClipping.IconAndOptionsFrame.OptionsFrame.chkDimClipNoShow.LongHelp="Cacher les dimensions sur géométrie non visible ainsi que les annotations associées en position.";
+
+frameView3D.HeaderFrame.Global.Title="Vue issue du 3D";
+frameView3D.HeaderFrame.Global.LongHelp="Définit les paramètres utilisés dans les vues extraites à partir du 3D.";        
+frameView3D.IconAndOptionsFrame.OptionsFrame.chkFTAAnnotLay.Title="Garder la mise en page et l'habillage des annotations 2D extraites";
+frameView3D.IconAndOptionsFrame.OptionsFrame.chkFTAAnnotLay.LongHelp="Conserve la mise en page et l'habillage des annotations 2D extraites.";
+frameView3D.IconAndOptionsFrame.OptionsFrame.chkGeomOf2DLView.Title="Générer une géométrie 2D";
+frameView3D.IconAndOptionsFrame.OptionsFrame.chkGeomOf2DLView.LongHelp="Génère la géométrie 2D à partir des vues de présentation.";
+frameView3D.IconAndOptionsFrame.OptionsFrame.chkGenRedCross.Title="Génère une croix rouge sur une annotation";
+frameView3D.IconAndOptionsFrame.OptionsFrame.chkGenRedCross.LongHelp="Une croix rouge est appliquée aux annotations extraites du 3D,
+si leur géométrie n'est pas extraite ou si elle est cachée dans la vue en cours.";
+frameView3D.IconAndOptionsFrame.OptionsFrame.chkSyncUpdate.Title="Synchroniser pendant la mise à jour";
+frameView3D.IconAndOptionsFrame.OptionsFrame.chkSyncUpdate.LongHelp="Synchroniser toutes les vues et les feuilles dans le dessin pendant la mise à jour.";
+
+
+viewGenFillet.Title="Génération de congés";
+viewGenFillet.frameButtonGenFil.HeaderFrame.Global.Title="Configuration des congés d'arêtes";
+viewGenFillet.frameButtonGenFil.HeaderFrame.Global.LongHelp="Configuration des congés d'arêtes
+Permet de configurer la génération des congés d'arêtes.";
+viewGenFillet.frameButtonGenFil.IconAndOptionsFrame.OptionsFrame.frameRadioGenFil.frameRadioGenFillocked.radioBoundaries.Title="Limites des congés";
+viewGenFillet.frameButtonGenFil.IconAndOptionsFrame.OptionsFrame.frameRadioGenFil.frameRadioGenFillocked.radioBoundaries.LongHelp="Limites des congés
+Affiche ou non les limites des congés d'arêtes sur les vues.";
+viewGenFillet.frameButtonGenFil.IconAndOptionsFrame.OptionsFrame.frameRadioGenFil.frameRadioGenFillocked.radioSymbo.Title="Arêtes symboliques";
+viewGenFillet.frameButtonGenFil.IconAndOptionsFrame.OptionsFrame.frameRadioGenFil.frameRadioGenFillocked.radioSymbo.LongHelp="Arêtes symboliques
+Affiche ou non les arêtes symboliques sur les vues.";
+viewGenFillet.frameButtonGenFil.IconAndOptionsFrame.OptionsFrame.frameRadioGenFil.frameRadioGenFillocked.radioProjEd.Title="Arêtes d'origine projetées";
+viewGenFillet.frameButtonGenFil.IconAndOptionsFrame.OptionsFrame.frameRadioGenFil.frameRadioGenFillocked.radioProjEd.LongHelp="Arêtes d'origine projetées
+Affiche ou non les arêtes d'origine projetées sur les vues.";
+viewGenFillet.frameButtonGenFil.IconAndOptionsFrame.OptionsFrame.frameRadioGenFil.frameRadioGenFillocked.radioOrigEd.Title="Arêtes d'origine";
+viewGenFillet.frameButtonGenFil.IconAndOptionsFrame.OptionsFrame.frameRadioGenFil.frameRadioGenFillocked.radioOrigEd.LongHelp="Arêtes d'origine
+Affiche ou non les arêtes d'origine sur les vues.";
+
+
+viewGenWireFrame.Title="Mode de projection des éléments 3D filaires";
+viewGenWireFrame.frmWireFrameMod.HeaderFrame.Global.Title="Eléments 3D filaires projetés";
+viewGenWireFrame.frmWireFrameMod.HeaderFrame.Global.LongHelp="Eléments 3D filaires projetés\nPermet d'indiquer si des éléments 3D filaires projetés\npeuvent être cachés ou sont toujours visibles.";
+viewGenWireFrame.frmWireFrameMod.IconAndOptionsFrame.OptionsFrame.radioFrmWireFrameMod.radioFrmWireFrameModlocked.radioHidden.Title="Peuvent être cachés";
+viewGenWireFrame.frmWireFrameMod.IconAndOptionsFrame.OptionsFrame.radioFrmWireFrameMod.radioFrmWireFrameModlocked.radioHidden.LongHelp="Peuvent être cachés\nPermet d'indiquer que les éléments 3D filaires projetés peuvent être cachés.";
+viewGenWireFrame.frmWireFrameMod.IconAndOptionsFrame.OptionsFrame.radioFrmWireFrameMod.radioFrmWireFrameModlocked.radioVisible.Title="Sont toujours visibles";
+viewGenWireFrame.frmWireFrameMod.IconAndOptionsFrame.OptionsFrame.radioFrmWireFrameMod.radioFrmWireFrameModlocked.radioVisible.LongHelp="Sont toujours visibles\nPermet d'indiquer que les éléments 3D filaires projetés sont toujours visibles.";
+
+
+viewGen3DPoints.Title="Projection des points 3D";
+viewGen3DPoints.frameButtonProject3DPts.HeaderFrame.Global.Title="Projeter les points 3D";
+viewGen3DPoints.frameButtonProject3DPts.HeaderFrame.Global.LongHelp="Projection des points 3D
+Indique si les points 3D projetés affichent 
+le symbole hérité du 3D ou le symbole sélectionné.";
+viewGen3DPoints.frameButtonProject3DPts.IconAndOptionsFrame.OptionsFrame.frameRadio3DSymbol.frameRadio3DSymbollocked.radioSymbolInherit.Title="Héritage du symbole 3D";
+viewGen3DPoints.frameButtonProject3DPts.IconAndOptionsFrame.OptionsFrame.frameRadio3DSymbol.frameRadio3DSymbollocked.radioSymbolInherit.LongHelp="Héritage du symbole 3D
+Affiche le symbole hérité du 3D.";
+viewGen3DPoints.frameButtonProject3DPts.IconAndOptionsFrame.OptionsFrame.frameRadio3DSymbol.frameRadio3DSymbollocked.radioSymbol.Title="Marqueur";
+viewGen3DPoints.frameButtonProject3DPts.IconAndOptionsFrame.OptionsFrame.frameRadio3DSymbol.frameRadio3DSymbollocked.radioSymbol.LongHelp="Symbole
+Affiche le symbole sélectionné.";
+viewGen3DPoints.frameButtonProject3DPts.IconAndOptionsFrame.OptionsFrame.frameRadio3DSymbol.frameRadio3DSymbollocked.comboSymbol.Title="Marqueur";
+viewGen3DPoints.frameButtonProject3DPts.IconAndOptionsFrame.OptionsFrame.frameRadio3DSymbol.frameRadio3DSymbollocked.comboSymbol.LongHelp="Symbole
+Affiche le symbole sélectionné.";
+
+
+viewLineType.Title="Types et épaisseurs de traits";
+viewLineType.frameButtonLinetype.HeaderFrame.Global.Title="Types et épaisseurs de traits";
+viewLineType.frameButtonLinetype.HeaderFrame.Global.LongHelp="Types et épaisseurs de traits";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.lblSection.Title="Vue de section";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.lblSection.LongHelp="Vue de section";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.lblDetail.Title="Vue de détail";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.lblDetail.LongHelp="Vue de détail";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.lblBroken.Title="Vue interrompue";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.lblBroken.LongHelp="Vue interrompue";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.lblBreakout.Title="Vue écorchée";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.lblBreakout.LongHelp="Vue écorchée";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.lblSkin.Title="Coupe de surface";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.lblSkin.LongHelp="Coupe de surface";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.comboSectionLinetype.LongHelp="Définit un type de trait";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.comboDetailLinetype.LongHelp="Définit un type de trait";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.comboBrokenLinetype.LongHelp="Définit un type de trait";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.comboBreakoutLinetype.LongHelp="Définit un type de trait";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.comboSkinLinetype.LongHelp="Définit un type de trait";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.comboSectionThickness.LongHelp="Définit une épaisseur de trait";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.comboDetailThickness.LongHelp="Définit une épaisseur de trait";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.comboBrokenThickness.LongHelp="Définit une épaisseur de trait";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.comboBreakoutThickness.LongHelp="Définit une épaisseur de trait";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.comboSkinThickness.LongHelp="Définit une épaisseur de trait";
+
+
+viewGenModApproximate.Title="Mode approximé";
+viewGenModApproximate.frmHRVOptions.HeaderFrame.Global.Title="Option du mode approximé";
+viewGenModApproximate.frmHRVOptions.HeaderFrame.Global.LongHelp="Permet de configurer l'option du mode approximé";
+viewGenModApproximate.frmHRVOptions.IconAndOptionsFrame.OptionsFrame.lblHRVLOD.Title = "Niveau de détail (LOD):";
+viewGenModApproximate.frmHRVOptions.IconAndOptionsFrame.OptionsFrame.lblHRVLOD.LongHelp = "Niveau de détail (LOD):";
+XGraph = "LOD";
+YGraph = "Temps";
+
+viewGenModRaster.Title="Configuration des vues images";
+viewGenModRaster.frmRasterOptions.HeaderFrame.Global.Title="Configuration des vues images";
+viewGenModRaster.frmRasterOptions.HeaderFrame.Global.LongHelp="Permet de configurer les vues images";
+viewGenModRaster.frmRasterOptions.IconAndOptionsFrame.OptionsFrame.lblRasterMode.Title="Mode de calcul";
+viewGenModRaster.frmRasterOptions.IconAndOptionsFrame.OptionsFrame.lblRasterMode.LongHelp="Mode de calcul";
+viewGenModRaster.frmRasterOptions.IconAndOptionsFrame.OptionsFrame.lblLOD.Title="Niveau de détail :";
+viewGenModRaster.frmRasterOptions.IconAndOptionsFrame.OptionsFrame.lblLOD.LongHelp="Niveau de détail :";
+viewGenModRaster.frmRasterOptions.IconAndOptionsFrame.OptionsFrame.lblLODVisu.Title="Pour la visu";
+viewGenModRaster.viewGenModRaster.IconAndOptionsFrame.OptionsFrame.lblLODVisu.LongHelp="Pour la visu";
+viewGenModRaster.frmRasterOptions.IconAndOptionsFrame.OptionsFrame.lblLODPrint.Title="Pour impression";
+viewGenModRaster.frmRasterOptions.IconAndOptionsFrame.OptionsFrame.lblLODPrint.LongHelp="Pour impression";
+
+HRD = "Filaire";
+Shading = "Rendu réaliste";
+ShadingWithEdges = "Rendu réaliste avec arêtes";
+ShadingNoLight = "Rendu réaliste, aucune source de lumière";
+ShadingWithEdgesNoLight = "Rendu réaliste avec arêtes, aucune source de lumière";
+
+LowQualityMode       = "Bas";
+NormalQualityMode    = "Moyen";
+HighQualityMode      = "Haut";
+CustomizeMode        = "Personnalisé";

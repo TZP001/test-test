@@ -1,0 +1,579 @@
+//NLS-ENGLISH VERSION
+//=======================================================================
+// MODULE :  IgesDataExchange
+//=======================================================================
+
+// JRX 2002-08-09 : Ajout de messages d'erreur pour CATIgesConicArc
+// KVL 2002-06-04 : Creation de CATIgesImport.CATNls et refonte des anciens CATNls Iges.
+// DFB 2001-11-15 : Ajout de messages d'erreur pour la detection de trous 3D 
+//				   (CATIgesCurveOnParametricSurface et CATIgesBoundary)
+// DFB 2001-11-22 : Ajout de Bad_GetEndPPoints, Hole2DLoop et OrientPCurves
+// DFB 2001-12-11 : Ajout de Bad_ControlPoints2D
+// JRX 2001-10-24 : Ajout de messages d'erreur pour le Parsing (fsbDataTreatment)
+// MEF 2003-03-14 : Ajout de message d'erreur dans le traitement de la global data
+// mef 2004-02-05 : Ajout d'un warning si probleme de licence sur l'insert
+// CNY 2004-05-19 : Ajout d'un message info "mode CGR" pour CATIgesExportTypeManager
+// OPC 2006-06-23 : Reecriture des messages niveau Customer pour meilleure comprehension
+// wbu 28/03/2007 : ajout des messages d'erreur sur le parsing utilisable par le protocole CATIReporter et GetLastError
+
+
+// Numeros utilises : (import Iges : de [1001] a [1999]
+// [1000] a [1099] : fsb*
+// [1100] a [1149] : CATIgesCurveOnParametricSurface et CATIgesBoundary
+// [1150] a [1199] : CATIgesTrimmedParametricSurface
+// [1200] a [1299] : CATIgesElement (Actuellement utilises : 1200 a 1202) 
+// [1300] a [1399] : fileIges*
+// [1500] a [1549] : CATIgesBSplineSurface
+// [1550] a [1599] : CATIgesBSplineCurve
+// [1600] a [1649] : CATIgesCompositeCurve
+// [1650] a [1699] : CATIgesParametricSplineCurve
+// [1701] a [1750] : CATIgesConicArc
+// [1751] a [1770] : CATEIgesShapeFileSelection
+// [1800] a [1820] : CATIgesExportTypeManager
+// [1850] a [1860] : CATIgesExchangeDocu CATIgesInterface
+
+
+//--------------------------------------
+//  Messages from CATIgesExchangeDocu (CATIgesInterface.cpp)
+//--------------------------------------
+
+
+CATIgesExchangeDocu.Error.IGES = 
+"   <E> [1850] IGES 파일에 문제점이 있습니다.
+!!            구문 분석 단계가 비정상적으로 종료되었습니다.";
+
+CATIgesExchangeDocu.Error.IGSS = 
+"   <E> [1851] 시작 섹션에 문제점이 있습니다.
+!!            구문 분석 단계가 비정상적으로 종료되었습니다.";
+
+CATIgesExchangeDocu.Error.IGGS = 
+"   <E> [1852] 글로벌 섹션에 문제점이 있습니다.
+!!            구문 분석 단계가 비정상적으로 종료되었습니다.";
+
+CATIgesExchangeDocu.Error.IGSPD = 
+"   <E> [1853] DE 또는 PD 섹션에 문제점이 있습니다.
+!!            구문 분석 단계가 비정상적으로 종료되었습니다.";
+
+
+//--------------------------------------
+//  Messages from CATIgesInterface
+//--------------------------------------
+
+CATDXFileServices.Error.InputFileNotReadable = 
+"!! <E> [1858] IGES 파일을 읽을 수 없음(오류 PathERR_1001):
+               IGES 파일이 존재하지 않거나 읽을 수 없습니다.
+               파일이 존재하는지와 읽을 권한이 있는지 확인하십시오." ;
+
+CATDXFileServices.Error.InvalidName = 
+"!! <E> [1859] 열려는 IGES 파일의 이름이 올바르지 않음(오류 PathERR_1021):
+               파일 이름이 비ASCII 문자를 포함하거나 비어 있습니다.
+               파일 이름의 올바르지 않은 문자를 확인하십시오. 필요한 경우, IGES 파일의 이름을 바꾼 다음 열기를 다시 시도하십시오.";
+
+CATIgesInterface.Error.TitreMsg =
+"\n o=====================================================o";
+
+
+
+//-----------------------------------------------
+//  Messages from CATIgesCurveOnParametricSurface
+//  Messages from CATIgesBoundary
+//-----------------------------------------------
+
+// Warning : Trou dans la loop 143 ou 144 3D du fichier iges - dfb
+CATIgesCurveOnParametricSurface.Warning.HoledLoop3D=
+"   <W> [1100] [T=/p2] [/p1] 유효하지 않은 데이터: 3D 경계에 홀(hole)이 있음: /p4 /p3"; 
+
+// Warning : Trou dans la loop 143 ou 144 2D du fichier iges - dfb
+CATIgesCurveOnParametricSurface.Warning.HoledLoop2D =
+"   <W> [1101] [T=/p2] [/p1] 유효하지 않은 데이터: 매개변수 경계에 홀(hole)이 있음 - /p4 /p3"; 
+
+// Warning : Si la methode GetEndPPoints n'est pas implementee, on ne peut reorienter la loop 2D - dfb
+CATIgesCurveOnParametricSurface.Warning.Bad_GetEndPPoints =
+"   <W> [1102] [T=/p2] [/p1] 끝점이 없으므로 경계의 2D 레프리젠테이션을 재지정할 수 없음 - /p4"; 
+
+// Warning : Mauvaise orientation des PCurves 2D  - dfb
+CATIgesCurveOnParametricSurface.Warning.OrientPCurves =
+"   <W> [1103] [T=/p2] [/p1] 경계에 반전된 2D 커브가 있음 - /p3"; 
+
+
+//-----------------------------------------------
+//  Messages from CATIgesTrimmedParametricSurface
+// [1150] a [1199]
+//-----------------------------------------------
+
+// Erreur : Pas de Surface pour cette face
+CATIgesTrimmedParametricSurface.Error.NoSurface=
+"   <E> [1150] 이 페이스에 대해 서피스가 없습니다. IGES 파일 무결성을 확인하십시오. /p3"; 
+
+
+//--------------------------------------
+//  Messages from CATIgesElement
+//--------------------------------------
+
+
+CATIgesElement.Msg.Name_406 = 
+"   <I> [1200] [T=/p2] [/p1] 406 양식 15 엔티티에 의해 엔티티 이름이 지정됨 : /p3";
+
+CATIgesElement.Msg.Name_DE = 
+"   <I> [1201] [T=/p2] [/p1] DE의 18번째 및 19번째 필드에 의해 엔티티 이름이 지정됨 : /p3";
+
+CATIgesElement.Msg.Name_Undef = 
+"   <I> [1202] [T=/p2] [/p1] 이 엔티티에 대해 이름이 지정되지 않음";
+
+
+
+//--------------------------
+//  Messages from fileIges* 
+//--------------------------
+
+
+fileIGEStool.Error.IGES = 
+"   <E> [1317] IGES 파일 /p1 읽기에 문제점이 있음";
+
+
+fileIGEStool.Error.IGBAD = 
+"   <E> [1318] /p1 파일을 여는 데 사용된 옵션이 잘못됨";
+
+
+fileIGEStool.Error.IGST = 
+"   <E> [1319] IGES 파일 오류: 종료 레코드가 누락되거나 종료 섹션 이후에 선이 나타남 - /p1";
+
+
+fileIGEStool.Error.IGGS = 
+"   <E> [1320] IGES 파일 /p1의 글로벌 섹션에 문제점이 있음";
+
+
+fileIGEStool.Error.IGSPD = 
+"   <E> [1321] IGES 파일 /p1의 PD 섹션에 문제점이 있음";
+
+
+fileIGEStool.Error.EOF = 
+"   <E> [1301] 파일 /p1에서 PD 레코드 #/p2 읽기 중 사전 EOF(end of file)";
+
+
+fileIGEStool.Error.IncBloc = 
+"   <E> [1302] 파일 /p1에서 PD 레코드 #/p2 읽기 중 불완전한 bloc";
+
+
+fileIGES.Error.IGFILE = "IGES 파일 /p1이 없거나 액세스가 거부됨";
+
+
+fileIGES.Error.IGESF = 
+"   <E> [1323] /p1 파일이 .igs 파일이 아님";
+
+
+fileIGES.Error.IGESO = 
+"   <E> [1322] /p1 IGES 파일을 열 수 없음";
+
+
+fileIGES.Error.IGESC = "IGES 파일 /p1을 닫을 수 없음";
+
+
+fileIGES.Msg.IGESS = 
+"   <W> [1324] 경고! 하나 이상의 시작 레코드가 있어야 합니다."; 
+
+
+fileIGES.Msg.IGProdIdSend = 
+"   <W> [1325] IGES 파일 오류: 송신측의 프로덕트 ID에 문제점이 있음";
+
+
+fileIGES.Msg.IGFileN = 
+"   <W> [1326] 파일 이름에 문제점이 있음";
+
+
+fileIGES.Msg.IGSysId = 
+"   <W> [1327] 고유 시스템 ID에 문제점이 있음";
+
+
+fileIGES.Msg.IGPrepVers = 
+"   <W> [1328] 프리프로세서 버전에 문제점이 있음";
+
+
+fileIGES.Msg.IGIntRep = 
+"   <W> [1329] 정수 레프리젠테이션에 문제점이 있음";
+
+
+fileIGES.Msg.IGSingPrecMag = 
+"   <W> [1330] 단일 정밀도 크기에 문제점이 있음";
+
+
+fileIGES.Msg.IGSingPrecSig = 
+"   <W> [1331] 단일 정밀도 중요도에 문제점이 있음";
+
+
+fileIGES.Msg.IGDbPrecMag = 
+"   <W> [1332] 이중 정밀도 크기에 문제점이 있음";
+
+
+fileIGES.Msg.IGDbPrecSig = 
+"   <W> [1333] 이중 정밀도 중요도에 문제점이 있음";
+
+
+fileIGES.Msg.IGProdIdRec = 
+"   <W> [1312] 수신측에 대한 프로덕트 식별에 문제점이 있음";
+
+
+fileIGES.Msg.IGSca = 
+"   <W> [1334] 모델 공간 배율에 문제점이 있음";
+
+
+fileIGES.Msg.IGUnitFlg = 
+"   <W> [1335] 단위 플래그에 문제점이 있음";
+
+
+fileIGES.Msg.IGUnitNam = 
+"   <W> [1336] 단위에 문제점이 있음";
+
+
+fileIGES.Msg.IGMaxLinGrad = 
+"   <W> [1337] 최대 선 가중치 변화에 문제점이 있음";
+
+
+fileIGES.Msg.IGMaxLinUnit = 
+"   <W> [1338] 단위에서 최대 선 가중치의 폭에 문제점이 있음";
+
+
+fileIGES.Msg.IGDateGen = 
+"   <W> [1339] 교환 파일 생성의 날짜/시간에 문제점이 있음";
+
+
+fileIGES.Msg.IGMinUserRes = 
+"   <W> [1340] 최소 사용자 의도 해상도에 문제점이 있음";
+
+
+fileIGES.Msg.IGAppMaxCoord = 
+"   <W> [1341] 예상 최대 좌표 값에 문제점이 있음";
+
+
+fileIGES.Msg.IGNamAut = 
+"   <W> [1342] IGES 파일: 작성자 이름에 문제점이 있음";
+
+
+fileIGES.Msg.IGAutOrg = 
+"   <W> [1343] 작성자 조직에 문제점이 있음";
+
+
+fileIGES.Msg.IGVersNum = 
+"   <W> [1344] 버전 번호에 문제점이 있음";
+
+
+fileIGES.Msg.IGDraftStd = 
+"   <W> [1345] 도면 표준 코드에 문제점이 있음";
+
+
+fileIGES.Msg.IGDateMod = 
+"   <W> [1346] 모델 작성/수정의 날짜/시간에 문제점이 있음";
+
+
+fileIGES.Msg.IGMilSpec = 
+"   <W> [1347] MIL 스펙에 문제점이 있음";
+
+
+fileIGES.Msg.defaultParameter = 
+"   <W> [1348] IGES 파일: 매개변수의 값이 기본값으로 설정되었음";
+
+
+fileIGES.Msg.InvalidParameter = 
+"   <W> [1349] 경고! 다음 매개변수의 값이 유효하지 않음";
+
+
+fileIGES.Error.IGES = 
+"   <W> [1313] /p1 IGES 파일을 읽는 중 문제점이 있음";
+
+
+fileIGES.Error.IGMissPD = 
+"   <W> [1314] IGES 파일 /p1의 누락된 PD 섹션(또는 잘못된 파일 구조) ";
+
+IGMissPDERR_1001.Request="IGES 파일이 IGES 표준에 맞지 않음 " ;
+IGMissPDERR_1001.Diagnostic="IGES 파일의 PD 섹션에 누락이 있거나 읽는 데 문제가 있음 " ;
+IGMissPDERR_1001.Advice="파일이 80 컬럼의 선으로 구성되거나,
+모든 매개변수 선의 66 - 72 컬럼에 엔티티 유형 번호 DE의 순서 번호 첫 번째 선이 있는지 확인하십시오..." ;
+
+
+fileIGESelement.Msg.IGPar = 
+"   <W> [1315] PD 섹션의 유효하지 않은 매개변수 선 /p1";
+
+//erb
+fileIGESelement.Msg.InvalidePD= 
+"   <W> [1316] /p1 유형의 엔티티 DE: /p2에 대해 유효하지 않거나 누락된 PD 섹션";
+
+
+fileIGESelement.Msg.InvNurbsConv =  "/p1에서 NURBS 서피스로의 유효하지 않은 변환";
+
+
+fileIGESelement.Msg.UnavailableMethod = "/p2 오브젝트에 대한 메소드 /p1이 아직 사용 가능하지 않습니다.";
+
+
+fileIGESelement.Msg.ObjCreationKO = "오브젝트 작성에 실패했습니다. /p1 클래스 오브젝트를 작성할 수 없습니다.";
+
+
+fileIGESelement.Msg.PbInMethod =
+"   <W> [1303] 클래스 오브젝트 /p2의 메소드 /p1에 문제점이 있습니다.";
+
+
+fileIGES.Error.IGWrite = "IGES 파일 /p1 쓰기에 문제점이 있음";
+
+
+fileIGESelement.Msg.Knot="/p1 : Bspline 커브의 매듭 벡터에 대해 지원되지 않는 다중성";
+
+//Example of utilization of this message:
+//The entity DE=1269 of type 104 form 2 is not supported.
+fileIGESelement.Msg.MyForme=" 양식 ";
+
+fileIGESopenElement.Reading.Entity =
+"   <I> [1300] [T=/p2] [/p1] 구문 분석기, 다음 엔티티 읽기 - (/p3) <S>";
+
+
+fileIGESopenElement.error.Ptr3DCurve= ". 유형 142의 엔티티에 대한 3D 커브의 DE에 대해 pointer 없음";
+
+fileIGESopenElement.Error.Traitement =
+"\n 유형 /p2의 엔티티 DE=/p1이 지원되지 않음 ";
+
+fileIGESopenElement.Error.dimention2 =
+"\n 경고: 파일에 2D 지오메트리가 포함되어 있습니다.  \n";
+
+
+fileIGEStool.Error.IgsControlChars = "파일 /p1이 표준 호환되지 않음 : /p2 문자가 읽기 액세스에서 충족하도록 허용되지 않습니다. 정리 시도가 수행됩니다.";
+fileIGEStool.Error.IgsNoASCIIChars=
+"   <W> [1350] 파일 /p1이(가) 표준을 준수하지 않음: /p2 문자는 허용되지 않습니다. 이는 교체되었습니다.";
+
+fileIGESopenElement.Warning.Copiousdata=
+"   <W> [1304] !! 유형 다수 데이터의 한 엔티티가 낮은 메모리 상태로 인해 변환되지 않음";
+
+fileIGEStool.Warning.PtrDE =
+"!! <E> [1305] [T=/p2] [#/p1] IGES 파일 오류: 엔티티의 매개변수 데이터에서 디렉토리 입력 포인터가 유효하지 않음(/p3)";
+
+fileIGESopenElement.Warning.EntNonSup =
+"!! <W> [1306] [T=/p2] [#/p1] 이 엔티티 유형이 현재 지원되지 않음";
+
+fileIGESopenElement.Warning.FormNonSup =
+"!! <W> [1307] [T=/p2] [#/p1] 이 엔티티 양식(/p3)이 현재 지원되지 않음";
+
+fileIGESopenElement.Error.MidDE =
+"!! <E> [1308] [T=/p2] [#/p1] IGES 파일 오류: 매개변수 데이터 포인터가 엔티티의 매개변수 데이터 블록에서 첫 번째 레코드를 가리키지 않음";
+
+fileIGESopenElement.Warning.ConicBadForm=
+"   <W> [1309] [T=/p2] [#/p1] IGES 파일의 유효하지 않은 데이터 : 이 엔티티에 대한 양식이 올바르지 않습니다. 이는 양식 0으로 교체되었습니다.";
+
+fileIGESelement.Msg.InterruptConversion=
+"   <W> [1310] 전송 인터럽트 버튼이 활성화됨 : 변환이 중지됨";
+
+fileIGES.Error.GlobalDataDefault =
+"****************************
+!! <E> [1311] 유효하지 않은 데이터: IGES 파일에서 글로벌 섹션을 읽을 수 없습니다. 기본값이 고려됩니다...
+****************************";
+
+
+//---------------------
+//  Messages from fsb*
+//---------------------
+
+fsb.Msg.GlobaleSection  =
+"\n ***** 파일 IGES 정보 : 글로벌 섹션 *****";
+
+fsb.Msg.IdentificationSender =
+"\n송신측에서의 프로덕트 식별               : ";
+
+fsb.Msg.FileName =
+"\n파일 이름                                        : ";
+
+fsb.Msg.SystemID =
+"\n시스템 I.D.                                      : ";
+
+fsb.Msg.Preprocessor =
+"\n프리프로세서 버전                                : ";
+
+fsb.Msg.NbBinary =
+"\n정수 레프리젠테이션을 위한 2진 비트 수           : ";
+
+fsb.Msg.SingleMagnitude =
+"\n단일 정밀도 크기                                 : ";
+
+fsb.Msg.SingleSignifiance =
+"\n단일 정밀도 중요도                               : ";
+
+fsb.Msg.DoubleMagnitude =
+"\n이중 정밀도 크기                                 : ";
+
+fsb.Msg.DoubleSignifiance =
+"\n이중 정밀도 중요도                               : ";
+
+fsb.Msg.IdentificationReceiver =
+"\n수신측에 대한 프로덕트 식별                      : ";
+
+fsb.Msg.SpaceScale =
+"\n모델 공간 배율                                   : ";
+
+fsb.Msg.Flag =
+"\n단위 플래그                                      : ";
+
+fsb.Msg.Units =
+"\n단위                                             : ";
+
+fsb.Msg.Gradations =
+"\n선 가중치 변화의 최대 수                         : ";
+
+fsb.Msg.WidthUnits =
+"\n단위에서 최대 선 가중치의 폭                    : ";
+
+fsb.Msg.DateTimeExchange =
+"\n교환 파일 생성의 날짜 & 시간                     : ";
+
+fsb.Msg.Resolution =
+"\n최대 사용자 의도 해상도                          : ";
+
+fsb.Msg.Coordinate =
+"\n예상 최대 좌표 값                                : ";
+
+fsb.Msg.Author =
+"\n작성자 이름                                      : ";
+
+fsb.Msg.Organization =
+"\n작성자 조직                                      : ";
+
+fsb.Msg.Version =
+"\n버전 번호                                        : ";
+
+fsb.Msg.Code =
+"\n도면 표준 코드                                   : ";
+
+fsb.Msg.DateTimeModif =
+"\n데이터 & 시간 모델이 작성/수정됨                 : ";
+
+fsb.Msg.Specification =
+"\nMil 스펙( 프로토콜 W.E.I.Y.I. )                 : ";
+
+fsb.Msg.StartSection =
+"\n\n\n ***** 파일 IGES 정보 : 시작 섹션  *****\n";
+
+fsb.Msg.Info =
+"정보 없음";
+
+fsb.Msg.Error =
+"
+!! <E> [1007] IGES 표준을 따르지 않은 구조가 입력 파일에 있습니다.
+              이 섹션을 읽을 수 없습니다. IGES 파일을 확인하십시오.\n";
+
+fsbDataTreatment.Warning.ThereIsInvalidData =
+"\n *****  경고  *****\n   <W> [1000] 이 파일에는 IGES 표준에 따라 유효하지 않은 데이터가 포함됨 :/p3\n";
+
+fsbDataTreatment.Warning.No3DCrvInLoop =
+"   <W> [1001] 일부 루프에는 3D 커브가 없음 - /p3";
+
+fsbDataTreatment.Warning.No2DCrvInLoop =
+"   <W> [1002] 일부 루프에는 매개변수 커브가 없음 - /p3";
+
+fsbDataTreatement.Processtopo.Storing =
+"   <I> [1003] [T=/p2] [/p1] 구문 분석기, 엔티티 저장 - (/p3) <D>";
+
+fsbDataTreatement.Processtopo.514Invalid =
+"   <E> [1004] [T=/p2] [/p1] 구문 분석기, 쉘이 유효하지 않음, 사용된 페이스의 수가 1 미만임";
+
+fsbDataTreatement.Processtopo.186Invalid =
+"   <E> [1005] [T=/p2] [/p1] 구문 분석기, 다면체 솔리드 B-REP 오브젝트가 유효하지 않음 : 외부 쉘 DE를 가져올 수 없음";
+
+fsbDataTreatment.Warning.3DCrvWithFlag2D =
+"   <W> [1006] [T=/p2] [/p1] 엔티티 사용 플래그(2D)가 올바르지 않습니다. 고려되지 않았습니다. ";
+
+//----------------------------------------------
+//  Messages from CATIgesBSplineSurface
+//---------------------------------------------
+
+CATIgesBSplineSurface.Warning.BSplSurfMLK=
+"   <W> [1500] [T=/p2] [/p1] MLK /p3";
+
+CATIgesBSplineSurface.Warning.CopyElemTabError=
+"   <W> [1501] [T=/p2] [/p1] 범위를 초과하는 배열의 주소 지정 - /p3";
+
+
+
+//-----------------------------------------------
+//  Messages from CATIgesBSplineCurve
+//-----------------------------------------------
+ 
+CATIgesBSplineCurve.Warning.ActiveSplitKO=
+"   <W> [1550] [T=/p2] [/p1] 3d 커브 분할 처리에서 예외 검출 - /p3";
+
+CATIgesBSplineCurve.Warning.GetLimitsOnCvKO=
+"   <W> [1551] [T=/p2] [/p1] 커브 매개변수 복구 중에 예외 검출 - /p3";
+
+
+
+//---------------------------------------------
+//  Messages from CATIgesParametricSplineCurve
+//---------------------------------------------
+
+// Warning : Probleme sur les points de controle de la loop 2D - dfb
+CATIgesParametricSplineCurve.Warning.Bad_ControlPoints2D = 
+"   <W> [1650] [T=/p2] [/p1] 매개변수 스플라인 커브에 잘못된 제어점이 있음. 3D 레프리젠테이션으로 경계 처리 중 - /p4"; 
+
+CATIgesParametricSplineCurve.Error.Bad_Data= 
+"   <W> [1651] [T=/p2] [/p1] 이 파일에 유효하지 않은 데이터가 포함됨 - /p3"; 
+
+
+//----------------------------------------------
+//  Messages from CATIgesConicArc
+//---------------------------------------------
+
+CATIgesConicArc.Error.IncorrectEllipse=
+"   <W> [1701] 유효하지 않거나 지원되지 않는 데이터 : 원추 호 양식 /p4가 타원으로 검출되지 않음 - /p3";
+
+CATIgesConicArc.Error.IncorrectHyperbola=
+"   <W> [1702] 유효하지 않은 데이터 : 원추 호 양식 2가 포물선으로 검출되지 않음 - /p3";
+
+CATIgesConicArc.Error.IncorrectParabola=
+"   <W> [1703] 유효하지 않은 데이터 : 원추 호 양식 3이 포물선으로 검출되지 않음 - /p3";
+
+
+//--------------------------------------
+//  Messages from CATEIgesShapeFileSelection 
+//--------------------------------------
+
+GlobalFrame.NoLicense=
+"이 확장을 액세스하려면 MultiCad 라이센스가 필요함";
+
+
+//------------------------------------------
+//  Messages from CATIgesExportTypeManager 
+//------------------------------------------
+
+// Info : Import en mode CGR
+CATIgesExportTypeManager.Info.CGRMode=
+"   <I> [1800] CGR 모드에서 데이터 반입 시작"; 
+
+
+//------------------------------------------
+//  Messages for CATIReporter 
+//------------------------------------------
+
+PathERR_1001.Request="IGES 파일을 읽을 수 없습니다." ;
+PathERR_1001.Diagnostic="IGES 파일이 없거나 읽을 수 없습니다." ;
+PathERR_1001.Advice="파일이 존재하는지와 읽을 권한이 있는지 확인하십시오." ;
+
+PathERR_1021.Request="열려는 IGES 파일의 이름이 올바르지 않습니다." ;
+PathERR_1021.Diagnostic="IGES 파일 이름이 비ASCII 문자를 포함하거나 비어 있습니다." ;
+PathERR_1021.Advice="파일 이름의 올바르지 않은 문자를 확인하십시오. 필요한 경우, IGES 파일의 이름을 바꾼 다음 다시 여십시오." ;
+
+IGProdIdSend_1001.Request="송신측의 프로덕트 ID에 문제점이 있음" ;
+IGProdIdSend_1001.Diagnostic="IGES 파일의 글로벌 섹션에 문제점이 있음: 송신측의 프로덕트 ID가 잘못되었습니다." ;
+IGProdIdSend_1001.Advice="IGES 파일의 글로벌 섹션에서 송신측 이름의 프로덕트 ID를 확인하십시오." ;
+
+IGProdIdSend_1001.Request="파일 이름에 문제점이 있음" ;
+IGProdIdSend_1001.Diagnostic="IGES 파일의 글로벌 섹션에 문제점이 있음: 파일 이름에 문제점이 있습니다." ;
+IGProdIdSend_1001.Advice="IGES 파일의 글로벌 섹션에서 파일 이름을 확인하십시오." ;
+
+IGSysId_1001.Request="고유 시스템 ID에 문제점이 있음" ;
+IGSysId_1001.Diagnostic="IGES 파일의 글로벌 섹션에 문제점이 있음: 고유 시스템 ID에 문제점이 있습니다." ;
+IGSysId_1001.Advice="IGES 파일의 글로벌 섹션에서 고유 시스템 ID를 확인하십시오." ;
+
+IGPrepVers_1001.Request="프리프로세서 버전에 문제점이 있음" ;
+IGPrepVers_1001.Diagnostic="IGES 파일의 글로벌 섹션에 문제점이 있음: 프리프로세서 버전에 문제점이 있습니다." ;
+IGPrepVers_1001.Advice="IGES 파일의 글로벌 섹션에서 프리프로세서 버전을 확인하십시오." ;
+
+InvalidParameter_1001.Request="매개변수의 값이 유효하지 않음" ;
+InvalidParameter_1001.Diagnostic="IGES 파일의 글로벌 섹션에 문제점이 있음: 매개변수의 값이 유효하지 않습니다. 세부사항은 메시지 파일(*.err)을 참조하십시오." ;
+InvalidParameter_1001.Advice="IGES 파일의 글로벌 섹션에서 매개변수를 확인하십시오." ;
+
+InvalidMandatoryParameters_1001.Request="유용한 매개변수의 값이 유효하지 않음" ;
+InvalidMandatoryParameters_1001.Diagnostic="IGES 파일의 글로벌 섹션에 문제점이 있음: 유용한 매개변수의 값이 유효하지 않습니다. 세부사항은 메시지 파일(*.err)을 참조하십시오." ;
+InvalidMandatoryParameters_1001.Advice="IGES 파일의 글로벌 섹션에서 유용한 매개변수를 확인하십시오." ;

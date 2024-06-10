@@ -1,0 +1,155 @@
+//=====================================================================================
+//                                     CNEXT - CXRn
+//                          COPYRIGHT DASSAULT SYSTEMES 1998 
+//-------------------------------------------------------------------------------------
+// FILENAME    :    CATDrwQuickDimCmd
+// LOCATION    :    DraftingIntCommands
+// AUTHOR      :    jmt
+// BUT         :    Commande de creation de cote
+// DATE        :    ??.10.1998
+//-------------------------------------------------------------------------------------
+// DESCRIPTION :    
+//-------------------------------------------------------------------------------------
+// COMMENTS    :    
+//-------------------------------------------------------------------------------------
+// MODIFICATIONS     user  date        purpose
+//    HISTORY        ----  ----        -------
+//      01           fgx   04.10.2000  Rearchitecturation CXR6
+//=====================================================================================
+
+//******************************************************************************
+// Command
+//******************************************************************************
+CATDrwQuickDimCmd.UndoTitle="寸法を作成";
+
+//******************************************************************************
+// Agents
+//******************************************************************************
+CATDrwQuickDimCmd._agentSet.UndoTitle="選択";
+
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+// Interactive Dimension Cmd : SwitchAgent related to Orientation purpose ...
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+CATDrwQuickDimCmd.OrientBarRessource.Bar.Title="方向";
+
+//******************************************************************************
+// Reference Element Button - V5R3 Only
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource.RefElem.Title="基準ｴﾚﾒﾝﾄ";
+CATDrwQuickDimCmd.OrientBarRessource.RefElem.ShortHelp="基準ｴﾚﾒﾝﾄ";
+CATDrwQuickDimCmd.OrientBarRessource.RefElem.Help="寸法線の方向は選択したｴﾚﾒﾝﾄに依存します";
+CATDrwQuickDimCmd.OrientBarRessource.RefElem.LongHelp="基準ｴﾚﾒﾝﾄ
+寸法線の方向は選択したｴﾚﾒﾝﾄに依存します";
+
+//******************************************************************************
+// Reference View Button - V5R3 Only
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource.RefVue.Title="図の基準";
+CATDrwQuickDimCmd.OrientBarRessource.RefVue.ShortHelp="図の基準";
+CATDrwQuickDimCmd.OrientBarRessource.RefVue.Help="寸法線の方向は図の方向にﾘﾝｸしています";
+CATDrwQuickDimCmd.OrientBarRessource.RefVue.LongHelp="図の基準
+寸法線の方向は図の方向にﾘﾝｸしています";
+
+//******************************************************************************
+// Projected dimension Button
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource._RefElem.Title="投影寸法";
+CATDrwQuickDimCmd.OrientBarRessource._RefElem.ShortHelp="投影寸法";
+CATDrwQuickDimCmd.OrientBarRessource._RefElem.Help="寸法線の方向はﾏｳｽの位置に依存します";
+CATDrwQuickDimCmd.OrientBarRessource._RefElem.LongHelp="投影寸法
+寸法線の方向はﾏｳｽの位置に依存します｡";
+
+//******************************************************************************
+// Force dimension on element Button
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource._RefAuto.Title="ｴﾚﾒﾝﾄを基準";
+CATDrwQuickDimCmd.OrientBarRessource._RefAuto.ShortHelp="ｴﾚﾒﾝﾄを基準";
+CATDrwQuickDimCmd.OrientBarRessource._RefAuto.Help="寸法線が寸法ｴﾚﾒﾝﾄと並列になるように指定します";
+CATDrwQuickDimCmd.OrientBarRessource._RefAuto.LongHelp="ｴﾚﾒﾝﾄを基準
+寸法線が寸法ｴﾚﾒﾝﾄと並列になるように指定します｡";
+
+//******************************************************************************
+// Force horizontal dimension Button
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource._RefHoriz.Title="水平方向に寸法を指定";
+CATDrwQuickDimCmd.OrientBarRessource._RefHoriz.ShortHelp="水平方向に寸法を指定";
+CATDrwQuickDimCmd.OrientBarRessource._RefHoriz.Help="寸法線が水平になるように指定します";
+CATDrwQuickDimCmd.OrientBarRessource._RefHoriz.LongHelp="水平方向に寸法を指定
+寸法線が水平になるように指定します｡";
+
+//******************************************************************************
+// Force vertical dimension Button
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource._RefVert.Title="垂直方向に寸法を指定";
+CATDrwQuickDimCmd.OrientBarRessource._RefVert.ShortHelp="垂直方向に寸法を指定";
+CATDrwQuickDimCmd.OrientBarRessource._RefVert.Help="寸法線が垂直になるように指定します";
+CATDrwQuickDimCmd.OrientBarRessource._RefVert.LongHelp="垂直方向に寸法を指定
+寸法線が垂直になるように指定します｡";
+
+//******************************************************************************
+// Force user defined dimension Button
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource._RefUser.Title="方向に沿って寸法を指定";
+CATDrwQuickDimCmd.OrientBarRessource._RefUser.ShortHelp="方向に沿って寸法を指定";
+CATDrwQuickDimCmd.OrientBarRessource._RefUser.Help="寸法線が方向に沿うように指定します";
+CATDrwQuickDimCmd.OrientBarRessource._RefUser.LongHelp="方向に沿って寸法を指定
+寸法線が方向に沿うように指定します｡";
+
+//******************************************************************************
+// True length dimension Button
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource.VraiGrandeur.Title="真の長さ寸法";
+CATDrwQuickDimCmd.OrientBarRessource.VraiGrandeur.ShortHelp="真の長さ寸法";
+CATDrwQuickDimCmd.OrientBarRessource.VraiGrandeur.Help="真の長さ寸法ﾓｰﾄﾞで寸法を作成します";
+CATDrwQuickDimCmd.OrientBarRessource.VraiGrandeur.LongHelp="真の長さ寸法
+真の長さ寸法ﾓｰﾄﾞで寸法を作成します｡";
+
+//******************************************************************************
+// Force dimension along direction Button
+//******************************************************************************
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionParallel.Title="方向に沿った寸法";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionParallel.ShortHelp="方向に沿った寸法";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionParallel.Help="方向に沿って寸法線を設定します";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionParallel.LongHelp="方向に沿った寸法
+方向に沿って寸法線を設定します";
+
+//******************************************************************************
+// Force dimension perpendicular to direction Button
+//******************************************************************************
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionPerpendicular.Title="方向に垂直な寸法";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionPerpendicular.ShortHelp="方向に垂直な寸法";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionPerpendicular.Help="方向に垂直な寸法線を設定します";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionPerpendicular.LongHelp="方向に垂直な寸法
+方向に垂直な寸法線を設定します｡";
+
+//******************************************************************************
+// Force dimension along a fixed angle in view Button
+//******************************************************************************
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionAngle.Title="図中の固定角度に沿った寸法";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionAngle.ShortHelp="図中の固定角度に沿った寸法";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionAngle.Help="図中で寸法線を固定角度になるように設定します";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionAngle.LongHelp="図中の固定角度に沿った寸法
+図中で寸法線を固定角度になるように設定します｡";
+
+//******************************************************************************
+// Intersection detection switch
+//******************************************************************************
+CATDrwQuickDimCmd.IntersectionAgentResource.Check.Title="交点を検出";
+CATDrwQuickDimCmd.IntersectionAgentResource.Check.ShortHelp="交点を検出";
+CATDrwQuickDimCmd.IntersectionAgentResource.Check.Help="寸法の作成時に交点を検出します";
+CATDrwQuickDimCmd.IntersectionAgentResource.Check.LongHelp="交点を検出
+寸法の作成時に交点を検出します｡";
+
+//******************************************************************************
+// Angle
+//******************************************************************************
+CATDrwQuickDimCmd.Angle.Dimension.EnglobingFrame.IntermediateFrame.Label.Title="角度: ";
+CATDrwQuickDimCmd.Angle.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp="方向からの角度を入力";
+
+//******************************************************************************
+// Driving Dim Value
+//******************************************************************************
+CATDrwQuickDimCmd.Value.Dimension.EnglobingFrame.IntermediateFrame.Label.Title="値: ";
+CATDrwQuickDimCmd.Value.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp="ﾄﾞﾗｲﾋﾞﾝｸﾞ寸法の値を入力";
+

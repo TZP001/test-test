@@ -1,0 +1,213 @@
+'// COPYRIGHT DASSAULT SYSTEMES  1999
+'//============================================================================
+'//
+'// Language="VBSCRIPT"
+'// Sample of macro to extract the section properties for Structure Design
+'//
+'//============================================================================
+'// This CATScript assumes that the user has selected Structural objects
+'// from the CATIA Specification Viewer or the 3D Window.
+'//
+'// It is advised that the user understand the VBScript and VBA concepts before
+'// attempting to modify the code to suit their needs. Microsoft Excel 97
+'// provides excellent documentation on the use of VBScript and VBA.
+'//============================================================================
+
+dim excel as AnyObject
+dim workbooks as AnyObject
+dim workbook as AnyObject
+dim sheets as AnyObject
+dim sheet as AnyObject
+dim excelTemplate as String
+dim excelTemplatePath as String
+dim strWB as Workbench
+dim strServ as AnyObject
+dim currentRow as integer
+
+'//---------------------------------------------------------------------------
+'// User customization of the attributes which will be extracted
+'//---------------------------------------------------------------------------
+
+dim nbColumns as integer
+nbColumns = 8
+dim column(8)
+column(1) = "SectionName"
+column(2) = "Area"
+column(3) = "Ixx"
+column(4) = "Iyy"
+column(5) = "Vx"
+column(6) = "Vy"
+column(7) = "Rx"
+column(8) = "Ry"
+
+'//---------------------------------------------------------------------------
+'// Find parameters value
+'//---------------------------------------------------------------------------
+
+Sub PrintParameters(iText as TextStream, iProduct as Product)
+   
+   dim parameters as Parameters
+   dim userParameters as Parameters
+   dim param as Parameter
+   dim nbParam as integer
+   dim textLine as string
+
+   On Error Resume Next
+   textLine = Cstr(iProduct.PartNumber) & ";"
+   textLine = textLine & Cstr(iProduct.Name) & ";"
+
+   dim RefProduct as Product
+   set RefProduct = iProduct.ReferenceProduct
+   set parameters = iProduct.ReferenceProduct.Parameters
+   set userParameters = iProduct.ReferenceProduct.UserRefProperties
+
+   nameProd = iProduct.Name
+   
+   Dim member as StrMember
+   Dim members as StrMembers
+   Dim section as StrSection
+
+   Set members = iProduct.Parent.Parent.GetTechnologicalObject("StructureMembers")
+
+   if (not(members is nothing)) then
+		set member = members.Item(nameProd)
+		set section = member.Section
+	    if (section is nothing) then
+        	strMessage  = "Section invalide" 
+           	msgbox (strMessage)
+		end if
+   end if
+
+   dim i as Integer
+   dim parm as Parameter
+
+   if (not(section is nothing)) then
+
+	  for i = 1 to nbColumns
+           
+	     Err.Clear
+	     
+	     if (column(i) = "Area") then
+				dim area as double
+				section.GetProperty(CatStrArea) , area
+               	if (area > 0) then
+			   		textLine = textLine & Cstr(area) 
+               	end if
+	     Elseif (column(i) = "Ixx") then
+				dim ixx as double
+				section.GetProperty(CatStrInertiaXX) , ixx
+           		if (ixx > 0) then
+			   		textLine = textLine & Cstr(ixx) 
+           		end if
+	     Elseif (column(i) = "Iyy") then
+				dim iyy as double
+				section.GetProperty(CatStrInertiaYY) , iyy
+           		if (iyy > 0) then
+			   		textLine = textLine & Cstr(iyy) 
+           		end if
+	     Elseif (column(i) = "Vx") then
+				dim vx as double
+				section.GetProperty(CatStrModuleInertiaX) , vx
+           		if (vx > 0) then
+			   		textLine = textLine & Cstr(vx) 
+           		end if
+	     Elseif (column(i) = "Vy") then
+				dim vy as double
+				section.GetProperty(CatStrModuleInertiaY) , vy
+           		if (area > 0) then
+			   		textLine = textLine & Cstr(vy) 
+           		end if
+	     Elseif (column(i) = "Rx") then
+				dim rx as double
+				section.GetProperty(CatStrGirationModuleX) , rx
+           		if (rx > 0) then
+			   		textLine = textLine & Cstr(rx) 
+           		end if
+	     Elseif (column(i) = "Ry") then
+				dim ry as double
+				section.GetProperty(CatStrGirationModuleY) , ry
+           		if (ry > 0) then
+			   		textLine = textLine & Cstr(ry) 
+           		end if
+	     Else
+                set param = parameters.Item(column(i))
+		        if (Err.Number <> 0) Then Set param = Nothing
+	        
+		        ' f(x) attribute
+		        if (Not(param Is Nothing)) then
+                		textLine = textLine & Cstr(param.ValueAsString) 
+
+		        ' user propertie on product
+                else
+			      Err.Clean
+			      set param = userParameters.Item(column(i))
+               
+	              if (Not(param Is Nothing)) then
+                       	textLine = textLine & Cstr(param.ValueAsString) 
+                  end if
+		        end if
+          end if   
+		 
+	      textLine = textLine & ";"   
+      Next
+   end if
+
+   ' write the line
+   iText.Write(textLine)
+   iText.Write(Chr(10))
+
+End Sub
+
+'//---------------------------------------------------------------------------
+'// Main
+'//---------------------------------------------------------------------------
+
+Sub CATMain()
+   
+   On Error Resume Next
+
+   dim fileSystem as FileSystem
+   set fileSystem = CATIA.FileSystem
+
+   dim bomFile as File
+   set bomFile = fileSystem.CreateFile("e:\tmp\bom.txt", true) 
+
+   dim text as TextStream
+   set text = bomFile.OpenAsTextStream("ForWriting")	
+
+   dim product as Product
+   dim nbProduct  as integer
+   nbProduct = 0
+
+   dim doc as Document
+   dim sel as Selection
+
+   set doc = CATIA.ActiveDocument
+   set strWB = doc.GetWorkbench("StrWorkbench")
+   set strServ = strWB.StrComputeServices 
+
+   set sel = doc.Selection
+
+   dim str as string
+   str = sel.SelectElement2("Product","Select objects", true)
+   
+   Dim number 
+   number = sel.Count
+   msgbox "Total number of selected objects "&Cstr(number)
+   
+   dim selectEl as SelectedElement
+   
+   for i=1 to number
+   
+      set selectEl = sel.Item(i)
+      
+      set product = selectEl.Value
+      'msgbox "Product name = " &product.Name
+      nbProduct = nbProduct + 1
+      PrintParameters text, product
+       
+      Err.clean
+   next
+
+   text.Close
+End Sub 

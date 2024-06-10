@@ -1,0 +1,247 @@
+// Fw V4CGMInteroperability 
+//  module V4ToM2
+//______________________________________________________________
+// 1-100 errors aparaissant dans le constructeur de MMMObject 
+//class CATV4M2InputError
+//_______________________________________________________________
+// 1__99 erreurs varies
+MigrationERR_001.Request="转换 V4 元素：";
+MigrationERR_001.Diagnostic="V4 元素不能转换。输入模型中的元素无效";
+MigrationERR_001.Advice="请使用 CATCLN 实用程序清除模型或手动重新设计 CATIA V4 中的元素。";
+//
+// For IER = 105
+MigrationERR_002.Request="转换 V4 元素：";
+MigrationERR_002.Diagnostic="输入模型中的合并边线无效";
+MigrationERR_002.Advice="两个面边界间的间隔高于相交曲线公差";
+// 100_199 for Solide Error *SOL
+//
+SolideERR_100.Request="转换 V4 实体：";
+SolideERR_100.Diagnostic="无法转换 V4 实体。";
+SolideERR_100.Advice="强制更新实体。";
+//
+// 200_249 for *Ski   error
+//
+SkinERR_200.Request="转换 V4 蒙皮";
+SkinERR_200.Diagnostic="无法转换 V4 蒙皮";
+SkinERR_200.Advice="请检查蒙皮。";
+//
+// 250_299 for *VOL  error
+//
+VolumeERR_250.Request="转换 V4 包络体：";
+VolumeERR_250.Diagnostic="无法转换 V4 包络体。";
+VolumeERR_250.Advice="请检查包络体。";
+//
+//-------------------------------------------------------------------------
+//
+//class CATV4M2InternalError
+//-------------------------------------------------------------------------
+//
+V4MiscErrorERR_300.Request="面迁移： ";
+V4MiscErrorERR_300.Diagnostic= "导入面时出现内部错误";
+V4MiscErrorERR_300.Advice="请报告问题。";
+//
+V4CurveERR_301.Request="导入曲线或复合曲线：";
+V4CurveERR_301.Diagnostic="导入曲线时出现内部错误。";
+V4CurveERR_301.Advice="请报告问题。";
+//
+SurfaceERR_302.Request="导入曲面：";
+SurfaceERR_302.Diagnostic="导入曲面时出现内部错误。";
+SurfaceERR_302.Advice="请报告问题。";
+//
+ReversedEdgeERR_303.Request="转换边线：";
+ReversedEdgeERR_303.Diagnostic="曲线无法投影到曲面上。";
+ReversedEdgeERR_303.Advice="请反转边线方向。";
+//
+NoResultForSurfaceERR_304.Request="导入曲面：";
+NoResultForSurfaceERR_304.Diagnostic="计算曲面时没有得到输出。";
+NoResultForSurfaceERR_304.Advice="请从曲面移除可退化的面片。";
+//
+NoResultForCurveERR_305.Request="导入曲线： ";
+NoResultForCurveERR_305.Diagnostic="计算曲线时没有得到输出。";
+NoResultForCurveERR_305.Advice="请从曲线移除已退化的弧。";
+//
+NoResultForEdgeERR_306.Request="导入边线：";
+NoResultForEdgeERR_306.Diagnostic="计算边线时没有得到输出。";
+NoResultForEdgeERR_306.Advice="请从边线移除已退化的弧。";
+//
+WrongResultForEdgeERR_307.Request="导入边线：";
+WrongResultForEdgeERR_307.Diagnostic="计算边线时没有得到输出。";
+WrongResultForEdgeERR_307.Advice="请报告问题。";
+//
+NullTangentOnCurveERR_308.Request="导入曲线：";
+NullTangentOnCurveERR_308.Diagnostic="非退化曲线上的切线为空。";
+NullTangentOnCurveERR_308.Advice="请纠正曲线来移除空的切点。";
+//
+NullTangentOnSurfaceERR_309.Request="导入曲面：";
+NullTangentOnSurfaceERR_309.Diagnostic="非退化曲面上的切线为空。";
+NullTangentOnSurfaceERR_309.Advice="请纠正曲面来移除空的切点。";
+//
+//JNV170706M2V5 LowMemoryERR_310.Request="Import conversion:";
+//JNV170706M2V5 LowMemoryERR_310.Diagnostic="Interruption because of low memory.";
+//JNV170706M2V5 LowMemoryERR_310.Advice="Simplify your model to decrease model size.";
+//
+//-------------------------------------------------------------------------
+// Classe gerant les erreurs d'entree/sortie 
+//class CATV4M2InputError
+//-------------------------------------------------------------------------
+//
+//JNV170706M2V5 ZEdgeERR_400.Request="Edge migration: ";
+//JNV170706M2V5 ZEdgeERR_400.Diagnostic="A Z shaped edge is detected. This configuration is not supported.";
+//JNV170706M2V5 ZEdgeERR_400.Advice=	"Modify the edge to suppress this Z configuration.";
+//
+//JNV170706M2V5 USurfaceERR_401.Request="Surface Migration:";
+//JNV170706M2V5 USurfaceERR_401.Diagnostic="A U shaped surface is detected.";
+//JNV170706M2V5 USurfaceERR_401.Advice="Modify the surface to suppress this U configuration.";
+//
+//JNV170706M2V5 XFaceERR_402.Request="Face Migration:";
+//JNV170706M2V5 XFaceERR_402.Diagnostic="An X shaped face is detected.";
+//JNV170706M2V5 XFaceERR_402.Advice="Modify the face to suppress this U configuration.";
+//
+//JNV170706M2V5 MisOrientedFaceERR_403.Request="Face Migration:";
+//JNV170706M2V5 MisOrientedFaceERR_403.Diagnostic="A face is not consistantly oriented with regards to its owning shell domain.";
+//JNV170706M2V5 MisOrientedFaceERR_403.Advice=" Modify the face orientation.";
+//
+//JNV170706M2V5 UnMergedEdgeERR_404.Request="Face boundary  migration:";
+//JNV170706M2V5 UnMergedEdgeERR_404.Diagnostic="An illegal boundary edge is detected.";
+//JNV170706M2V5 UnMergedEdgeERR_404.Advice="Check that all the edges properly bound the faces.";
+//
+//JNV170706M2V5 ZEdgeERR_405.Request="Edge migration: \n
+//JNV170706M2V5 ";
+//JNV170706M2V5 ZEdgeERR_405.Diagnostic="A Z shaped edge is detected at space location: /p1.\n
+//JNV170706M2V5 ";
+//JNV170706M2V5 ZEdgeERR_405.Advice="Modify the edge to suppress this Z configuration .";
+//
+//JNV170706M2V5 XEdgeERR_406.Request="Edge Curve Merger: \n
+//JNV170706M2V5 ";
+//JNV170706M2V5 XEdgeERR_406.Diagnostic="Invalid curves orientations in the edge \n
+//JNV170706M2V5 ";
+//JNV170706M2V5 XEdgeERR_406.Advice="Curves orientations are invalid.";
+//
+ControlPointsTooCloseERR_407.Request="边线迁移：\n
+";
+ControlPointsTooCloseERR_407.Diagnostic="检测到过于接近的控制点。\n
+";
+ControlPointsTooCloseERR_407.Advice="请重做边线来移除此错误。";
+//
+//JNV170706M2V5 DegeneratedFaceERR_408.Request="Face Migration :\n
+//JNV170706M2V5 ";
+//JNV170706M2V5 DegeneratedFaceERR_408.Diagnostic="Face area is null.\n
+//JNV170706M2V5 ";
+//JNV170706M2V5 DegeneratedFaceERR_408.Advice="Suppress this face.";
+//
+InvalidFaceERR_409.Request="面迁移：\n
+";
+InvalidFaceERR_409.Diagnostic="面位于两个曲面上。\n
+";
+InvalidFaceERR_409.Advice="请使用 CATCLN 实用程序清除模型。";
+//
+//JNV170706M2V5 InvalidDomainERR_410.Request="Face Migration :\n
+//JNV170706M2V5 ";
+//JNV170706M2V5 InvalidDomainERR_410.Diagnostic="Face boundary domains are not valid \n
+//JNV170706M2V5 ";
+//JNV170706M2V5 InvalidDomainERR_410.Advice="Check if first domain contains the others.\n
+//JNV170706M2V5  Any two of domains must have no intersection.\n
+//JNV170706M2V5   Any others domain cannot be included in each other ";
+//
+//JNV170706M2V5 FaceKoERR_411.Request="Face Migration : 
+//JNV170706M2V5 ";
+//JNV170706M2V5 FaceKoERR_411.Diagnostic="Face KO. 
+//JNV170706M2V5 ";
+//JNV170706M2V5 FaceKoERR_411.Advice="Check Error Message in report file.";
+//
+//JNV170706M2V5 IntersectingLoopsERR_412.Request="Face Migration :\n
+//JNV170706M2V5 ";
+//JNV170706M2V5 IntersectingLoopsERR_412.Diagnostic="Face boundary domains are crossing at space location: /p1 .
+//JNV170706M2V5 ";
+//JNV170706M2V5 IntersectingLoopsERR_412.Advice="Modify the face to suppress this configuration.";
+//
+//JNV170706M2V5 ThinFaceERR_414.Request="Face Migration :\n
+//JNV170706M2V5 ";
+//JNV170706M2V5 ThinFaceERR_414.Diagnostic="All edges are confused in face (thin face).\n
+//JNV170706M2V5 ";
+//JNV170706M2V5 ThinFaceERR_414.Advice="Suppress this face.";
+//
+//JNV170706M2V5 InvalidEdgeConfigurationERR_415.Request="Edge Migration :\n
+//JNV170706M2V5 ";
+//JNV170706M2V5 InvalidEdgeConfigurationERR_415.Diagnostic="Invalid edge configuration detected at space location: /p1 .
+//JNV170706M2V5 ";
+//JNV170706M2V5 InvalidEdgeConfigurationERR_415.Advice="Check that edge configuration from input model is valid.";
+//
+//JNV170706M2V5 InvalidInputFaceERR_416.Request="Face Migration :\n
+//JNV170706M2V5 ";
+//JNV170706M2V5 InvalidInputFaceERR_416.Diagnostic="Invalid Input Data.\n
+//JNV170706M2V5 ";
+//JNV170706M2V5 InvalidInputFaceERR_416.Advice="Correct this face from input model.";
+//
+InvalidInputVolumeOrSkinERR_417.Request="迁移：\n
+";
+InvalidInputVolumeOrSkinERR_417.Diagnostic="由于存在 /p1 个带无效输入数据的面，多个面将独立迁移。\n 
+";
+InvalidInputVolumeOrSkinERR_417.Advice="请从输入模型更正无效面。";
+//
+//JNV170706M2V5 NotSplittedFaceERR_418.Request="Face Migration :\n
+//JNV170706M2V5 ";
+//JNV170706M2V5 NotSplittedFaceERR_418.Diagnostic="Face is lying on only one closed surface, not splitted whereas SplitSurf mode is activated. \n
+//JNV170706M2V5 ";
+//JNV170706M2V5 NotSplittedFaceERR_418.Advice="Split this surface.";
+//
+//______________________________________________________________
+// Module V4MUToM2 
+// 1000 - 1099 : erreurs emises lors de la migration d'un
+//               solide polyhedrique V4.
+//
+// class CATInteropInputErrorMUV4, CATInputError.
+//_______________________________________________________________
+// 
+ConfusedPointsERR_1000.Request="转换 V4 实体模型面：\n
+";
+ConfusedPointsERR_1000.Diagnostic="面顶点混乱。\n
+";
+ConfusedPointsERR_1000.Advice="请移除此退化的面。";
+//
+InLinePointsERR_1001.Request="转换 V4 实体模型面：\n
+";
+InLinePointsERR_1001.Diagnostic="面顶点在一条直线上。\n
+";
+InLinePointsERR_1001.Advice="请移除此退化的面。";
+//
+InsufficientPointsERR_1002.Request="转换 V4 实体模型面：\n
+";
+InsufficientPointsERR_1002.Diagnostic="给出的顶点不足，无法创建面。\n
+";
+InsufficientPointsERR_1002.Advice="请移除此退化的面。";
+//
+MiddlePlaneNotDefinedERR_1003.Request="转换 V4 实体模型面：\n
+";
+MiddlePlaneNotDefinedERR_1003.Diagnostic="未定义中间平面。无法创建面。\n
+";
+MiddlePlaneNotDefinedERR_1003.Advice="";
+//
+//-------------------------------------------
+//BLI le 8/09/2002
+//  Liste des Warnings
+// Les warnings sont destines a Logger des anomalies
+// rencontrees lors de la migration qui n empechent 
+// pas de migrer l element mais pour autant le 
+// resultat est de qualite douteus
+// le numero est > 2000 
+//-------------------------------------------
+//JNV170706M2V5 EdgeGapInLoopERR_2001.Request="Loop Conversion\n
+//JNV170706M2V5 ";
+//JNV170706M2V5 EdgeGapInLoopERR_2001.Diagnostic="An Abnormal Gap Length /p1 is found between two boundary curves \n
+//JNV170706M2V5 ";
+//JNV170706M2V5 EdgeGapInLoopERR_2001.Advice="The Gap between two curves boundaries \n
+//JNV170706M2V5  is higher than Intersection Curves Tolerance";
+//
+//JNV170706M2V5 EmptyShellERR_2002.Request="Shell Conversion\n
+//JNV170706M2V5 ";
+//JNV170706M2V5 EmptyShellERR_2002.Diagnostic="An empty shell is detected \n
+//JNV170706M2V5 ";
+//JNV170706M2V5 EmptyShellERR_2002.Advice="";
+//
+//JNV170706M2V5 ThinFaceERR_2003.Request="Face Conversion\n
+//JNV170706M2V5 ";
+//JNV170706M2V5 ThinFaceERR_2003.Diagnostic="A thin face is detected.\n
+//JNV170706M2V5 ";
+//JNV170706M2V5 ThinFaceERR_2003.Advice="";
+

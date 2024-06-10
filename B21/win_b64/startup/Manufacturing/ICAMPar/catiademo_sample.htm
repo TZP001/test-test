@@ -1,0 +1,172 @@
+<html>
+
+<head>
+<title>CAM-POST and CATIA, Sample Part Programs</title>
+</head>
+
+<body bgcolor="#FFFFFF">
+
+<p><img border="0" src="images/sample.gif" width="230" height="60"></p>
+<table border="0" width="500">
+  <tr>
+    <td>Four sample programs are provided: two for lathes, one for 3-axis milling and another
+      for 5-axis milling. Each of these samples includes the definition of a work piece, its
+      tooling and a few sample manufacturing steps. Click on one of the images below to load
+      the corresponding CATIA process (CATProcess) file.<br>
+      &nbsp;</td>
+  </tr>
+</table>
+<table border="0" width="500">
+  <tr>
+    <td>
+      <table border="0">
+        <tr>
+          <td align="center" width="160" height="110"><a href="samples/Lathe2.CATProcess"><img
+            border="0" src="images/sample_lathe2.gif" width="260" height="168"></a></td>
+          <td>This <a href="samples/Lathe2.CATProcess">2 axis turning sample</a> performs
+            roughing, spot drilling and deep drilling (both on center), followed by profile
+            finishing, grooving and external threading operations. A <a
+            href="samples/Lathe3.CATProcess">3 axis mill/turn sample</a> does the same and also
+            includes milling and drilling operations using the live spindle.</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <table border="0">
+        <tr>
+          <td align="center" width="160" height="110"><a href="samples/Mill3.CATProcess"><img
+            border="0" src="images/sample_mill3.gif" width="260" height="168"></a></td>
+          <td>This <a href="samples/Mill3.CATProcess">3 axis milling sample</a> performs
+            facing, pocketing, profiling and circular milling operations, followed by a series
+            of spot drilling, deep drilling, boring, drilling, tapping and counter-sinking
+            cycles.</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <table border="0">
+        <tr>
+          <td align="center" width="160" height="110"><a href="samples/Mill5.CATProcess"><img
+            border="0" src="images/sample_mill5.gif" width="260" height="168"></a></td>
+          <td>This <a href="samples/Mill5.CATProcess">5 axis milling sample</a> performs
+            multi-axis curve machining, multi-axis flank contouring and profile contouring
+            (with vertical tool axis) operations, as well as a series of multi-axis spot
+            drilling and drilling cycles arrayed around the outside perimeter of the flange.</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h2>Running a Sample</h2>
+<table border="0" width="500">
+  <tr>
+    <td>Each of these sample programs loads an ICAM PPTable, which defines the post-processor
+      vocabulary that CATIA will output for standard operations. It is important to remember
+      that an ICAM PPTable should always be loaded whenever using CAM-POST. You can do so by
+      following these steps:
+      <ol>
+        <li>Select the <strong>Part Operation</strong> object in the CATIA navigation list.</li>
+        <li>Select the <strong>Edit</strong> menu, <strong>Part Operation</strong> submenu, <strong>Definition</strong>
+          object.</li>
+        <li>Select the icon of the NC machine on the window that appears.</li>
+        <li>Choose one of the following from the Post-Processor words table list:
+          <table border="0">
+            <tr>
+              <td width="30"></td>
+              <td>ICAM_MILL_MM</td>
+              <td width="30"></td>
+              <td>ICAM_LATHE_MM</td>
+            </tr>
+            <tr>
+              <td width="30"></td>
+              <td>ICAM_MILL_INCH</td>
+              <td width="30"></td>
+              <td>ICAM_LATHE_INCH</td>
+            </tr>
+          </table>
+        </li>
+      </ol>
+    </td>
+  </tr>
+  <tr>
+    <td>You can select either <b>Generate NC Output in Batch Mode</b> or <b>Generate NC Output
+      Interactively</b> to call up the CAM-POST post-processor. <img border="0"
+      src="images/catia_inout.jpg" align="right" vspace="4" width="282" height="333">When using
+      the batch mode of operation, be sure to save your CATProcess first, since the batch mode
+      processor uses the copy of the CATProcess last saved on disk, and not the one you are
+      editing! You do not need to save your CATProcess when using the interactive mode of
+      operation.
+      <p>When the dialog window appears, select the<strong> In/Out</strong> tab to specify the
+      manufacturing operations to post-process as well as the output format and file name.</p>
+      <p>A manufacturing program must be selected. Normally one is selected by default, unless
+      manufacturing steps have not yet been defined.</p>
+      <p>The resulting NC data must be set to <strong>NC Code</strong>. The Output File must be
+      specified with a complete path, which you can best do by selecting the <strong>Output&nbsp;File</strong>
+      button instead of typing the file name directly into the field.<br>
+      &nbsp;</td>
+  </tr>
+  <tr>
+    <td><img src="images/catia_nccode.jpg" align="right" width="280" height="330">Select the <strong>NC
+      Code</strong> tab to display a window that allows you to specify the post-processor name.
+      A post-processor must be selected to allow the <strong>Execute</strong> button to be
+      enabled.
+      <p>A number of demonstration and/or production post-processors should be listed in the
+      drop down menu. To obtain more information about a selected post-processor, press the <strong>[?]</strong>
+      button. This will call up a description of the post-processor, including (for
+      demonstration posts) the supported post-processor vocabulary and a sample NC program
+      output.</p>
+      <p>Follow <a href="#CatiaSetup">this link</a> if you are licensed to use CAM-POST but
+      your post-processors do not appear in the drop down menu.</p>
+      <p>Select the <b>None</b> post-processor entry to defer the selection of the
+      post-processor to the CAM-POST launch panel facility. This panel (shown below) can be
+      used to select alternate aptsource files, post-processors (and post-processor databases),
+      as well as to select different program options and run-time display modes. This same
+      panel will appear when the <strong>MoreOptions</strong> checkbox is selected.<br>
+      &nbsp;</td>
+  </tr>
+  <tr>
+    <td>
+      <p align="center"><img border="0" src="images/gener_launch.gif" width="410" height="230"><br>
+      &nbsp;</p>
+    </td>
+  </tr>
+</table>
+<h2><a name="CatiaSetup">CATIA Setup</a> for Licensed CAM-POST Users</h2>
+<table border="0" width="500">
+  <tr>
+    <td>CATIA ships with a CAM-POST GENER executable, designed to run demonstration
+      post-processors. Licensed CAM-POST users should run the <b>kit/CATIA/setup.exe</b>
+      program, which is copied below the installation point when CAM-POST is installed. This
+      setup program can be used to tell CATIA to run the version of CAM-POST received and
+      installed from ICAM, instead of the default one that comes with the CATIA installation.
+      Windows<small><sup>TM</sup></small> users can find a link to the setup program in the
+      Start/Programs/CAM-POST quick-start folder. A sample Windows<small><sup>TM</sup></small>
+      output follows:
+      <p align="center"><img border="0" src="images/setup.gif" width="389" height="314"></p>
+      <p>Those users with Administrator privileges can set the default for all users of the
+      computer. Select one of the &quot;<b>Use this version</b>&quot; check-boxes to have CATIA
+      use the licensed CAM-POST version of GENER instead of the CATIA default.</p>
+      <p>Starting with CATIA V5 R12 SP4, it is possible to have a list of generated and
+      dedicated post processors from a CAM-POST database appear in CATIA post-processor
+      drop-down menus (in the <i>Generate NC Code/NC Code</i> dialog and also the <i>Part
+      Operation/Machine Editor</i> dialog). This is done using the &quot;<b>Database</b>&quot;
+      selections in the setup program. The default CAM-POST database or a selected CAM-POST
+      database can be chosen.</p>
+      <p>If desired, the CATIA post-processor drop-downs can continue to show ICAM
+      demonstration post processors. This is done by selecting the &quot;<b>Also include...</b>&quot;
+      check-box. Note that demonstration post-processors with output limits will continue to
+      enforce these limits, despite the presence of a CAM-POST license. To remove this
+      limitation, the demonstration post-processor must be imported into a CAM-POST database.
+      Demonstration post-processors can be found in the <b>Startup/Manufacturing/ICAMPar/work</b>
+      directory below the CATIA installation point.</p>
+      <p>&nbsp;</td>
+  </tr>
+</table>
+
+</body>
+
+</html>

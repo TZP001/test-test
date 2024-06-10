@@ -1,0 +1,46 @@
+#------------------------------------------------------------------------------------
+#        V5-VNC bridge installation
+#        --------------------------
+# List of the files to copy and folders to create
+#
+# The folder separator must be a |(pipe) character.
+#
+# Lines may not contain leading or ending space, tabs...
+#
+# Folder : the line contains only  the folder name
+#
+# File : source file name + tabulation + target folder
+# the source file is given from the CATSTARTUPPath/Macnufacturing/samples/VNC folder
+# the target directory may contain variables as :
+#  $VMAP : path to vmap folder
+#  $VNC : path to VNCLIB folder
+#  $CATIAVNCLIB : path to CATIAVNCLib in VNCLIB ($VNC/CATIAVNC)
+#  $MACHINESLIB : path to VNC machines
+#  $MIMICSLIB : path to vnc MIMICs
+#  $PARTSLIB : path to VNC parts ($VNC/PARTS/CATIAVNC)
+#  $CLIMACROSLIB : path to VNC CLI macros ($VNC/CLIMACROS/CATIAVNC)
+#  $PROGRAMSLIB : path to VNC programs ($VNC/PROGRAMS/CATIAVNC)
+# 
+#------------------------------------------------------------------------------------
+# Folders creation
+# ----------------
+$CATIAVNCLIB
+$CLIMACROSLIB
+$PARTSLIB
+$PROGRAMSLIB
+#
+# File copy
+# ---------
+T30-machine	$MACHINESLIB
+T30-machine.mmc	$MIMICSLIB
+v-mill-3axis	$MACHINESLIB
+v-mill-3axis.mmc	$MIMICSLIB
+ToolHolders.dat	$CATIAVNCLIB
+TOOL_HOLDERS|H1_10	$PARTSLIB|TOOL_HOLDERS
+TOOL_HOLDERS|H11_20	$PARTSLIB|TOOL_HOLDERS
+TOOL_HOLDERS|H21_40	$PARTSLIB|TOOL_HOLDERS
+TOOL_HOLDERS|H41_60	$PARTSLIB|TOOL_HOLDERS
+TOOL_HOLDERS|H61_80	$PARTSLIB|TOOL_HOLDERS
+TOOL_HOLDERS|H81_100	$PARTSLIB|TOOL_HOLDERS
+TOOL_HOLDERS|H101_150	$PARTSLIB|TOOL_HOLDERS
+TOOL_HOLDERS|H151_200	$PARTSLIB|TOOL_HOLDERS

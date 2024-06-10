@@ -1,0 +1,704 @@
+PSSaveEnoviaLCATitle="Salva in ENOVIA V5 VPM";
+PSSaveErrorNomad="Il documento corrente appartiene ad una sessione nomade.\nPertanto, non può essere salvato in PDM.\nPassare all'ambiente di destinazione PDM prima di eseguire il salvataggio.";
+PSSaveErrorConnect="Salvataggio annullato perché non è stata stabilita una connessione con ENOVIA V5 VPM.";
+PSSaveErrorPing="Salvataggio annullato perché il server ENOVIA LCA non risponde.";
+PSSaveErrorProductSpec="Salvataggio impossibile. Una specifica di prodotto è presente nella sessione.\nChiuderla prima di eseguire il salvataggio.";
+
+ERR_PSSaveNoPersist="Il documento /p1 non ha permanenza PDM. Utilizzare la funzione SetPDMProperties prima di salvare.";
+ERR_PSSaveNoPersist.Generic="I documenti non hanno nessuna permanenza PDM.";
+ERR_PSSaveNoPersist.Detail="/p1";
+ERR_PSSaveNoPersist.Suggestion="Utilizzare la funzione SetPDMProperties prima del salvataggio.";
+
+ERR_SaveErrorBBProdToExp="Il documento /p1 ha una permanenza PDM impostata su Documento conservato nel vault Elementi pubblici esposti e punta ad un documento la cui permanenza è Documento non conservato nel vault Struttura esposta. Ciò non è consentito. Modificare la permanenza.";
+ERR_SaveErrorBBProdToExp.Generic="I documenti hanno una permanenza PDM impostata su Documento conservato nel vault Elementi pubblici esposti e punta ad un documento la cui permanenza è Documento non conservato nel vault Struttura esposta. Ciò non è consentito.";
+ERR_SaveErrorBBProdToExp.Detail="/p1";
+ERR_SaveErrorBBProdToExp.Suggestion="Modificare la permanenza.";
+
+
+// Error messages : ERR_, WRN_ or INF_ + identifier, /p1, /p2.. for parameters.
+
+WRN_PSVpmCsteLost="Il vincolo di assieme /p1 non può essere salvato in ENOVIA V5 VPM perché punta a dati non permanenti.";
+WRN_PSVpmCsteLost.Generic=" I vincoli di assieme non possono essere salvati in ENOVIA V5 VPM perché puntano a dati non permanenti.";
+WRN_PSVpmCsteLost.Detail="/p1";
+
+WRN_PSVpmInvalidDoc="Impossibile associare un secondo documento alla ricorrenza /p1.\nOperazione ignorata.";
+WRN_PSVpmInvalidDoc.Generic="Impossibile associare un secondo documento alla ricorrenza specificata.\nOperazione ignorata.";
+WRN_PSVpmInvalidDoc.Detail="/p1";
+
+WRN_PSVpmInvalidDocUp="Impossibile associare il documento /p1 \nad un nodo figlio di un CATPart.\nOperazione ignorata.";
+WRN_PSVpmInvalidDocUp.Generic="Impossibile associare il documento ad un nodo figlio di un CATPart.\nOperazione ignorata.";
+WRN_PSVpmInvalidDocUp.Detail="Documento /p1.";
+
+WRN_PSVpmInvalidDocUnder="Impossibile associare il documento /p1 \nad un nodo padre di un CATPart.\nOperazione ignorata.";
+WRN_PSVpmInvalidDocUnder.Generic="Impossibile associare il documento ad un nodo padre di un CATPart.\nOperazione ignorata.";
+WRN_PSVpmInvalidDocUnder.Detail="Documento /p1";
+
+
+WRN_PSVpmInvalidReplaceOnProd="Impossibile associare il documento /p1 \nsu un nodo non terminale dell'assieme.\nOperazione ignorata.";
+WRN_PSVpmInvalidReplaceOnProd.Generic="Impossibile associare il documento su un nodo non terminale dell'assieme.\nOperazione ignorata.";
+WRN_PSVpmInvalidReplaceOnProd.Detail="Documento /p1";
+
+WRN_PSVpmInstWithDirtyDoc="Impossibile associare il documento /p1 \ sulla ricorrenza cui è associato un documento non corretto.\nOperazione ignorata.";
+WRN_PSVpmInstWithDirtyDoc.Generic="Impossibile associare i documenti sulla ricorrenza cui è associato un documento non corretto.\nOperazione ignorata.";
+WRN_PSVpmInstWithDirtyDoc.Detail="Documento /p1";
+
+WRN_PSVpmInvalidMapping="Impossibile importare le ricorrenze di documenti sotto una CATPart.\nOperazione ignorata.";
+WRN_PSVpmInvalidMapping.Generic="Impossibile importare le ricorrenze di documenti sotto una CATPart.\nOperazione ignorata.";
+
+WRN_PSVpmAsmOutOfContext="Impossibile importare il nodo dell'assieme /p1 fuori contesto.";
+WRN_PSVpmAsmOutOfContext.Generic="Impossibile importare i nodi dell'assieme fuori contesto.";
+WRN_PSVpmAsmOutOfContext.Detail="/p1";
+
+WRN_PSVpmCannotRetrieveDocument="Impossibile richiamare i documenti associati a /p1 dal vault ENOVIA.\nOperazione ignorata. Verrà creato un nuovo componente.";
+WRN_PSVpmCannotRetrieveDocument.Generic="Impossibile richiamare i documenti associati agli oggetti menzionati dal vault ENOVIA.\nOperazione ignorata. Verrà creato un nuovo componente.";
+WRN_PSVpmCannotRetrieveDocument.Detail="/p1";
+
+WRN_PSVpmInvalidOper="Impossibile importare il documento associato a /p1.\nScaricare tutte le ricorrenze correlate e riprovare.";
+WRN_PSVpmInvalidOper.Generic="Impossibile importare il documento associato agli oggetti specificati.";
+WRN_PSVpmInvalidOper.Detail="/p1";
+WRN_PSVpmInvalidOper.Suggestion="Scaricare tutte le ricorrenze correlate ed eseguire nuovamente l'operazione.";
+
+WRN_PSPointedNotSaved="Impossibile salvare in ENOVIA V5 VPM le modifiche registrate sul vincolo di assieme /p1 perché tutte le ricorrenze del prodotto indicato \nnon possono essere salvate in ENOVIA V5 VPM.";
+WRN_PSPointedNotSaved.Generic="Impossibile salvare in ENOVIA V5 VPM le modifiche registrate sui vincoli di assieme, perché tutte le ricorrenze del prodotto indicato \nnon possono essere salvate in ENOVIA V5 VPM.";
+WRN_PSPointedNotSaved.Detail="/p1";
+
+INF_PSVpmDocToRename="Il documento /p1 già esiste nel database di ENOVIA V5 VPM. \n Questo documento non può essere rinominato se prima non viene rinominato.";
+INF_PSVpmDocToRename.Generic="Il documento già esiste nel database di ENOVIA V5 VPM.\n Questo documento non può essere salvato se prima non viene rinominato.";
+INF_PSVpmDocToRename.Detail="/p1";
+INF_PSVpmDocToRename.Suggestion="Rinominare i documenti.";
+
+INF_PSVpmProductToRename="Il prodotto /p1 esiste già nel database di ENOVIA V5 VPM.\n Questo prodotto non può essere salvato se prima non viene rinominato.";
+INF_PSVpmProductToRename.Generic="I prodotti già esistono nel database di ENOVIA V5 VPM.\n Non possono essere salvati se non vengono prima rinominati.";
+INF_PSVpmProductToRename.Detail="/p1";
+INF_PSVpmProductToRename.Suggestion="Rinominare i prodotti.";
+
+INF_PSVpmPartToRename="La parte /p1 già esiste nel database di ENOVIA V5 VPM. \n Questa parte non può essere salvata se non viene prima rinominata.";
+INF_PSVpmPartToRename.Generic="I documenti Part già esistono nel database di ENOVIA V5 VPM.\n Non possono essere salvati se non vengono prima rinominati.";
+INF_PSVpmPartToRename.Detail="/p1";
+INF_PSVpmPartToRename.Suggestion="Rinominare le parti.";
+
+WRN_PSVpmDocRenamed="Il documento /p1 già esiste nel database di ENOVIA V5 VPM.\n Questo documento è stato salvato automaticamente con un nuovo identificativo.";
+WRN_PSVpmDocRenamed.Generic="I documenti già esistono nel database di ENOVIA V5 VPM.\n Sono stati salvati automaticamente con un nuovo identificativo.";
+WRN_PSVpmDocRenamed.Detail="/p1";
+
+ERR_PSVpmDocToRenameNotSaved="Il documento /p1 non è stato salvato perché il documento /p1 già esiste con lo stesso nome nel database di ENOVIA V5 VPM.\n ";
+ERR_PSVpmDocToRenameNotSaved.Generic="I documenti non sono stati salvati perché alcuni di essi già esistono con lo stesso nome nel database di ENOVIA V5 VPM.\n ";
+ERR_PSVpmDocToRenameNotSaved.Detail="/p1";
+ERR_PSVpmDocToRenameNotSaved.Suggestion="Rinominare i documenti ed eseguire nuovamente l'operazione.";
+
+ERR_PSVpmProductToRenameNotSaved="Il prodotto /p1 non è stato salvato perché il prodotto /p1 già esiste con lo stesso nome nel database di ENOVIA V5 VPM.\n ";
+ERR_PSVpmProductToRenameNotSaved.Generic="I prodotti non sono stati salvati perché alcuni di essi già esistono con lo stesso nome nel database di ENOVIA V5 VPM.\n ";
+ERR_PSVpmProductToRenameNotSaved.Detail="/p1";
+ERR_PSVpmProductToRenameNotSaved.Suggestion="Rinominare i prodotti ed eseguire nuovamente l'operazione.";
+
+ERR_PSVpmPartToRenameNotSaved="Il documento Part /p1 non è stato salvato perché il documento Part /p1 già esiste con lo stesso nome nel database di ENOVIA V5 VPM.\n ";
+ERR_PSVpmPartToRenameNotSaved.Generic="I documenti Part non sono stati salvati perché alcuni di essi già esistono con lo stesso nome nel database di ENOVIA V5 VPM.\n ";
+ERR_PSVpmPartToRenameNotSaved.Detail="/p1";
+ERR_PSVpmPartToRenameNotSaved.Suggestion="Rinominare le parti ed eseguire nuovamente l'operazione.";
+
+WRN_PSVpmRefNameTruncated="La lunghezza del nome del riferimento deve essere minore di 40 caratteri. \n /p1 \nè stato troncato automaticamente in modo da rispettare i requisiti di ENOVIA V5 VPM.";
+WRN_PSVpmRefNameTruncated.Generic="La lunghezza del nome del riferimento deve essere minore di 40 caratteri.\nAlcuni oggetti sono stati troncati automaticamente per soddisfare i requisiti di ENOVIA V5 VPM.";
+WRN_PSVpmRefNameTruncated.Detail="/p1";
+
+WRN_PSVpmRefNameTruncatedTo="Il nome del riferimento deve essere minore di /p1 caratteri. \n/p2 \nè stato troncato automaticamente in modo da rispettare i requisiti di ENOVIA V5 VPM.";
+WRN_PSVpmRefNameTruncatedTo.Generic="Il nome del riferimento deve contenere un numero di caratteri minore di quello specificato.\nAlcuni oggetti sono stati troncati automaticamente per soddisfare i requisiti di ENOVIA V5 VPM.";
+WRN_PSVpmRefNameTruncatedTo.Detail="Lunghezza specificata: /p1, nome dell'oggetto: /p2";
+
+WRN_PSVpmProductRenamed="Il prodotto /p1 è già presente nel database di ENOVIA V5 VPM.\n Questo prodotto è stato salvato automaticamente come /p2";
+WRN_PSVpmProductRenamed.Generic="I prodotti già esistono nel database di ENOVIA V5 VPM.\n Sono stati salvati automaticamente con un nuovo nome.";
+WRN_PSVpmProductRenamed.Detail="Nome originale: /p1, salvato con nome: /p2";
+
+WRN_PSVpmProductPub="Impossibile salvare gli elementi pubblici a livello di assieme in ENOVIA V5 VPM.\nGli elementi pubblici devono essere rimossi o dichiarati nuovamente su una parte dettagliata";
+WRN_PSVpmProductPub.Generic="Impossibile salvare gli elementi pubblici a livello di assieme in ENOVIA V5 VPM.";
+WRN_PSVpmProductPub.Suggestion="È necessario rimuovere questa pubblicazione o dichiararla di nuovo su una parte dettagliata";
+
+WRN_PSVpmInputLostPub="Una parte contestuale utilizza elementi pubblici non supportati.\nImpossibile salvare queste informazioni in ENOVIA V5 VPM.";
+WRN_PSVpmInputLostPub.Generic="Una parte contestuale utilizza elementi pubblici non supportati.\nImpossibile salvare queste informazioni in ENOVIA V5 VPM.";
+WRN_PSVpmInputLostPub.Suggestion="È necessario gestire le contestualità.";
+
+WRN_PSVpmInputWrongCtx="La parte /p1 è contestuale all'assieme secondario /p2 (non supportato in ENOVIA V5 VPM).\nUtilizzare il menu Modifica il contesto per definire la contestualità a livello PRC.";
+WRN_PSVpmInputWrongCtx.Generic="Le parti sono contestuali agli assiemi secondari (non supportato in ENOVIA V5 VPM).";
+WRN_PSVpmInputWrongCtx.Detail="Nome della parte: /p1 , nome dell'assieme secondario: /p2";
+WRN_PSVpmInputWrongCtx.Suggestion="Utilizzare il menu Modifica il contesto per definire la contestualità a livello PRC.";
+
+WRN_PSVpmPointingFromBB="La parte /p1 è contestuale all'assieme secondario /p2 (non supportato in ENOVIA V5 VPM).\nAlla successiva apertura dell'assieme secondario, sarà necessario eseguire il comando Definisci associazioni contestuali per ripristinare il contesto.";
+WRN_PSVpmPointingFromBB.Generic=" Le parti sono contestuali agli assiemi secondari (non supportato in ENOVIA V5 VPM).";
+WRN_PSVpmPointingFromBB.Detail="Nome della parte: /p1 , nome dell'assieme secondario: /p2";
+WRN_PSVpmPointingFromBB.Suggestion="Alla successiva apertura di questo assieme secondario, sarà necessario eseguire il comando Definisci associazioni contestuali per ripristinare il contesto.";
+
+WRN_PSVpmInvalidRefMapping="Impossibile importare il riferimento /p1 \nperché un CATPart importato è già collegato ad esso. Il CATPart è associato ad un altro riferimento.\nOperazione ignorata.";
+WRN_PSVpmInvalidRefMapping.Generic="Impossibile importare i riferimenti perché un CATPart importato è già collegato ad esso.\nQuesto CATPart è associato ad un altro riferimento.\nOperazione ignorata.";
+WRN_PSVpmInvalidRefMapping.Detail="Nome del riferimento: /p1.";
+
+INF_PSVpmSaveReconciliate="Il documento /p1 è stato estratto da ENOVIA V5 VPM.\n Il suo contenuto è stato sincronizzato con la versione presente nel database.";
+INF_PSVpmSaveReconciliate.Generic="I documenti sono stati estratti da ENOVIA V5 VPM.\n Il loro contenuto è stato sincronizzato con la versione presente nel database.";
+INF_PSVpmSaveReconciliate.Detail="Nome del documento: /p1.";
+
+INF_PSVpmSaveCreateNew="Il documento /p1 è stato estratto da ENOVIA V5 VPM.\n Per esso e per il suo contenuto vengono create nuove entità del database";
+INF_PSVpmSaveCreateNew.Generic="I documenti del file sono stati estratti da ENOVIA V5 VPM.\n Per essi e per il loro contenuto vengono create nuove entità del database";
+INF_PSVpmSaveCreateNew.Detail="Nome del documento: /p1";
+
+//A1B IR-064179.Small Change in the message. 
+INF_PSVpmDocWBRenamed="Il documento /p1 già esiste nel database di ENOVIA V5 VPM.\n Verrà salvato automaticamente come /p2";
+INF_PSVpmDocWBRenamed.Generic="I documenti già esistono nel database di ENOVIA V5 VPM.\n Verranno salvati automaticamente con un nuovo nome.";
+INF_PSVpmDocWBRenamed.Detail="Nome del documento: /p1, salvato con nome: /p2";
+
+INF_PSVpmDocWBTruncated="Il nome del documento /p1 contiene un numero maggiore di 40 caratteri. \n Verrà salvato automaticamente come /p2";
+INF_PSVpmDocWBTruncated.Generic="Il nome dei documenti contiene un numero maggiore di 40 caratteri.\n Verranno salvati automaticamente con un nuovo nome.";
+INF_PSVpmDocWBTruncated.Detail="Nome del documento: /p1, salvato con nome: /p2";
+
+INF_PSVpmDocWBTruncatedTo="Il nome del documento /p1 è maggiore di /p2 caratteri. \n Verrà salvato automaticamente come /p3";
+INF_PSVpmDocWBTruncatedTo.Generic="Il nome dei documenti contiene un numero di caratteri superiore a quello specificato.\n Verranno salvati automaticamente con un nuovo nome.";
+INF_PSVpmDocWBTruncatedTo.Detail="Nome del documento: /p1, lunghezza specificata: /p2, rinominato come: /p3";
+
+INF_PSVpmDocWBInvalidChar="Il nome del documento /p1 contiene caratteri non validi. \n Verrà rinominato automaticamente";
+INF_PSVpmDocWBInvalidChar.Generic="Il nome dei documenti contiene caratteri non validi.\n Verranno rinominati automaticamente.";
+INF_PSVpmDocWBInvalidChar.Detail="Nome del documento: /p1";
+INF_PSVpmDocWBInvalidChar.Suggestion="Non utilizzare caratteri non validi nel nome dell'oggetto.";
+
+WRN_PSVpmNoRightsToDelete_Lock="Eliminazione di /p1 non consentita. \n L'entità è bloccata da un altro utente";
+WRN_PSVpmNoRightsToDelete_Lock.Generic="L'eliminazione degli oggetti non è consentita.\n L'entità è bloccata da un altro utente";
+WRN_PSVpmNoRightsToDelete_Lock.Detail="/p1";
+
+WRN_PSVpmNoRightsToDelete_UserRole="Eliminazione in /p1 non consentita. \n L'utente non dispone delle autorizzazioni necessarie";
+WRN_PSVpmNoRightsToDelete_UserRole.Generic="L'eliminazione nell'oggetto non è consentita.\n L'utente non dispone delle autorizzazioni necessarie";
+WRN_PSVpmNoRightsToDelete_UserRole.Detail="/p1";
+
+WRN_PSVpmInvalidInitLog="Impossibile salvare il documento /p1 in ENOVIA V5 VPM.";
+WRN_PSVpmInvalidInitLog.Generic="Impossibile salvare i documenti in ENOVIA V5 VPM.";
+WRN_PSVpmInvalidInitLog.Detail="/p1";
+
+
+WRN_PSVpmInputLost1="La contestualità della parte /p1 non può essere salvata in ENOVIA V5 VPM\n perché punta a dati non caricati";
+WRN_PSVpmInputLost1.Generic="La contestualità delle parti non può essere salvata in ENOVIA V5 VPM\n perché le parti puntano a dati non caricati";
+WRN_PSVpmInputLost1.Detail="Nome della parte: /p1";
+
+
+WRN_PSVpmInputLost2="La contestualità della parte /p1 che utilizza /p2 non può essere salvata in ENOVIA V5 VPM\n perché punta a dati non caricati";
+WRN_PSVpmInputLost2.Generic="La contestualità della parte1 che utilizza la parte2 non può essere salvata in ENOVIA V5 VPM\n perché punta a dati non caricati";
+WRN_PSVpmInputLost2.Detail="Nome della parte1: /p1, nome della parte2: /p2";
+
+WRN_PSVpmExtensionError="Impossibile creare l'estensione applicativa in ENOVIA V5 VPM /p1.\nVerificare che il database sia stato installato correttamente.";
+WRN_PSVpmExtensionError.Generic="Impossibile creare le estensioni applicative in ENOVIA V5 VPM.\nVerificare che il database sia stato installato correttamente.";
+WRN_PSVpmExtensionError.Detail="/p1";
+
+WRN_PSVpmConfig="Impossibile creare la ricorrenza di un riferimento di ENOVIA V5 VPM configurato /p1 in un riferimento di ENOVIA V5 VPM che non può essere configurato /p2.\n Operazione ignorata. \n Modificare le impostazioni di ENOVIA V5 VPM e riprovare.";
+WRN_PSVpmConfig.Generic=" Impossibile creare la ricorrenza dei riferimenti configurati di ENOVIA V5 VPM in riferimenti di ENOVIA V5 VPM non configurabili.\n Operazione ignorata.";
+WRN_PSVpmConfig.Detail="Riferimento di ENOVIA V5 VPM configurato: /p1, riferimento di ENOVIA V5 VPM non configurabile: /p2.";
+WRN_PSVpmConfig.Suggestion="Modificare le impostazioni di ENOVIA V5 VPM ed eseguire nuovamente l'operazione.";
+
+WRN_PSAttrMapFileParseErr="Errore durante l'analisi di /p1 \nRiga: /p2 Colonna: /p3 Messaggio: /p4.\nDopo questa operazione, l'opzione Salva in ENOVIA V5 VPM non funziona. \nModificare il file xml ed avviare nuovamente la sessione.";
+WRN_PSAttrMapFileParseErr.Generic="Errore durante l'analisi del file xml. Verificare la posizione dell'errore negli oggetti interessati.\nIl salvataggio in ENOVIA V5 VPM non funzionerà.";
+WRN_PSAttrMapFileParseErr.Detail="Nome del file XML: /p1, \n linea: /p2, colonna: /p3 \nMessaggio: /p4.";
+WRN_PSAttrMapFileParseErr.Suggestion="\nModificare il file xml e riavviare la sessione.";
+
+WRN_PSUserAttributeMappingKORef="Si sono verificati degli errori durante il salvataggio degli attributi associati con il riferimento di una parte /p1";
+WRN_PSUserAttributeMappingKORef.Generic="Si sono verificati degli errori durante il salvataggio degli attributi associati con il riferimento delle parti";
+WRN_PSUserAttributeMappingKORef.Detail="Nome della parte: /p1";
+
+WRN_PSUserAttributeMappingKOIns="Si sono verificati degli errori durante il salvataggio degli attributi associati alla ricorrenza di una parte /p1";
+WRN_PSUserAttributeMappingKOIns.Generic="Si sono verificati degli errori durante il salvataggio degli attributi associati con la ricorrenza delle parti";
+WRN_PSUserAttributeMappingKOIns.Detail="Nome della parte: /p1";
+
+INF_ImportOK="Importazione completata";
+INF_ImportOK.Generic="Importazione completata";
+
+WRN_VERSIONNING_NOT_DONE="Impossibile definire la versione di almeno un elemento";
+WRN_VERSIONNING_NOT_DONE.Generic="Impossibile definire la versione di almeno un elemento";
+
+WRN_PSVpmOpenDocumentwithoutPV="Il documento /p1 non è associato ad una versione della parte.\n Se viene salvato, verrà creata una nuova parte";
+WRN_PSVpmOpenDocumentwithoutPV.Generic="I documenti non sono associati ad una versione della parte.\n Se si esegue il salvataggio, verrà creata una nuova parte";
+WRN_PSVpmOpenDocumentwithoutPV.Detail="Nome del documento: /p1";
+
+
+INF_PSVpmOpenInBGNotAvailable="Impossibile aprire /p1 sullo sfondo.\n Nessun documento associato alla selezione corrente.";
+INF_PSVpmOpenInBGNotAvailable.Generic="Impossibile aprire gli oggetti sullo sfondo.\n Nessun documento associato alla selezione corrente.";
+INF_PSVpmOpenInBGNotAvailable.Detail="/p1";
+
+INF_PSVpmOpenInBGAlreadyDone="/p1 è già aperto sullo sfondo.\n Il documento è già stato aperto sullo sfondo con la stessa posizione.";
+INF_PSVpmOpenInBGAlreadyDone.Generic="Gli oggetti sono già aperti sullo sfondo.\n I documenti sono già stati aperti sullo sfondo con la stessa posizione.";
+INF_PSVpmOpenInBGAlreadyDone.Detail="/p1";
+
+
+INF_PSVpmOpenInBGWrongEditor="L'apertura sullo sfondo non è disponibile con l'editor selezionato.\n Il documento associato deve essere un CATPart o un CATProduct.";
+INF_PSVpmOpenInBGWrongEditor.Generic="L'apertura sullo sfondo non è disponibile con l'editor selezionato.\n Il documento associato deve essere un CATPart o un CATProduct.";
+
+INF_PSVpmOpenInBGActiveDoc="L'apertura sullo sfondo non è disponibile con il documento aperto dall'editor selezionato.";
+INF_PSVpmOpenInBGActiveDoc.Generic="L'apertura sullo sfondo non è disponibile con il documento aperto dall'editor selezionato.";
+
+ERR_SaveErrorPrcPrc="Il documento corrente /p1 non può essere salvato in ENOVIA V5 VPM\nperché contiene un prodotto ENOVIA V5 VPM (PRC) che non è il prodotto principale";
+ERR_SaveErrorPrcPrc.Generic="I documenti non può essere salvati in ENOVIA V5 VPM\nperché contengono un prodotto ENOVIA V5 VPM (PRC) che non è il prodotto principale";
+ERR_SaveErrorPrcPrc.Detail="/p1";
+
+WRN_PSVpmLoadByNameFailed="Impossibile caricare /p1 denominato /p2 da ENOVIA V5 VPM";
+WRN_PSVpmLoadByNameFailed.Generic="Impossibile caricare l'oggetto1 denominato oggetto2 da ENOVIA V5 VPM";
+WRN_PSVpmLoadByNameFailed.Detail="oggetto1: /p1, oggetto2: /p2";
+
+WRN_PSVpmSameRefInTwoPRCs="Il componente /p1 è già visualizzato in un prodotto CATIA. Non è possibile riprodurlo in un altro prodotto";
+WRN_PSVpmSameRefInTwoPRCs.Generic="I componenti sono già visualizzati in un prodotto CATIA. Non è possibile riprodurli in un altro prodotto";
+WRN_PSVpmSameRefInTwoPRCs.Detail="/p1";
+
+
+//Messages for ProductSpec
+WRN_PSProductSpecNotGranted="Non è consentito caricare ProductSpec in CATIA";
+WRN_PSProductSpecNotGranted.Generic="Non è consentito caricare ProductSpec in CATIA";
+
+WRN_PSProductSpecContextuality="La contestualità è stata creata utilizzando l'assieme di ProductSpec. Ciò non è consentito, il salvataggio non è stato eseguito in ENOVIA V5 VPM.";
+WRN_PSProductSpecContextuality.Generic="Il disegno contestuale mediante un ProductSpec non è consentito.";
+
+WRN_PSProductSpecConnection="Il vincolo /p1 è stato /p2 in ProductSpec. Ciò non è consentito, pertanto il salvataggio non è stato eseguito in ENOVIA V5 VPM.";
+WRN_PSProductSpecConnection.Generic="L'operazione eseguita sul vincolo in ProductSpec non è consentita.";
+WRN_PSProductSpecConnection.Detail="Il vincolo /p1 è stato /p2 in ProductSpec. ";
+
+WRN_PSProductSpecEntity="L'entità /p1 in ProductSpec è stata /p2. Ciò non è consentito, pertanto il salvataggio non è stato eseguito in ENOVIA V5 VPM.";
+WRN_PSProductSpecEntity.Generic="L'operazione eseguita sull'entità in ProductSpec non è consentita.";
+WRN_PSProductSpecEntity.Detail="L'entità /p1 in ProductSpec è stata /p2.";
+
+WRN_PSProductSpecInstance="L'entità /p1 è una nuova ricorrenza di ProductSpec. La creazione non è supportata e non può essere salvata in ENOVIA V5 VPM.";
+WRN_PSProductSpecInstance.Generic="La ricorrenza di ProductSpec in CATIA non è consentita.";
+WRN_PSProductSpecInstance.Detail="L'entità /p1 è una nuova ricorrenza di ProductSpec.";
+
+WRN_PSProductSpecMoveOnly="La modifica del contenuto di ProductSpec non è consentita. Sono consentite solo le operazioni di spostamento.";
+WRN_PSProductSpecMoveOnly.Generic="La modifica del contenuto di ProductSpec non è consentita. Sono consentite solo le operazioni di spostamento.";
+
+WRN_PSPRCofProdSpecInSession="ProductSpec /p1 non caricato mentre il relativo RootProduct /p2 è anche in CATIA";
+WRN_PSPRCofProdSpecInSession.Generic="Un ProductSpec non può essere caricato se il relativo RootProduct è già aperto in CATIA.";
+WRN_PSPRCofProdSpecInSession.Detail="L'entità /p1 è un ProductSpec da RootProduct /p2 già aperto in CATIA";
+
+WRN_PSProdSpecofPRCInSession="RootProduct /p1 non caricato mentre uno dei relativi ProductSpec è anche in CATIA";
+WRN_PSProdSpecofPRCInSession.Generic="Impossibile caricare i RootProduct se uno dei relativi ProductSpec è anche in CATIA";
+WRN_PSProdSpecofPRCInSession.Detail="Nome di RootProduct: /p1";
+
+WRN_PSGetDomainFail="Si è verificato un errore nel tentativo di ottenere il dominio personalizzato di ENOVIA V5 VPM in cui memorizzare la parte o il documento";
+WRN_PSGetDomainFail.Generic="Si è verificato un errore nel tentativo di ottenere il dominio personalizzato di ENOVIA V5 VPM in cui memorizzare la parte o il documento";
+
+ERR_PSInsNameTooLong="Il nome della ricorrenza xxx /p1 è troppo lungo (> 40 caratteri). Rinominarlo poiché i nomi delle ricorrenze influiscono sui collegamenti con più modelli.";
+ERR_PSInsNameTooLong.Generic="Il nome della ricorrenza è troppo lungo (> 40 caratteri).";
+ERR_PSInsNameTooLong.Detail="/p1";
+ERR_PSInsNameTooLong.Suggestion="Rinominarla poiché i nomi delle ricorrenze influiscono sui collegamenti con più modelli.";
+
+ERR_PSInsNameTooLong1="Il nome della ricorrenza xxx /p1 è troppo lungo (> 80 caratteri). Rinominarla perché i nomi delle ricorrenze influiscono sui collegamenti con più modelli.";
+ERR_PSInsNameTooLong1.Generic="Il nome della ricorrenza è troppo lungo (> 80 caratteri).";
+ERR_PSInsNameTooLong1.Detail="/p1";
+ERR_PSInsNameTooLong1.Suggestion="Rinominarla poiché i nomi delle ricorrenze influiscono sui collegamenti con più modelli.";
+
+WRN_PSPROtherVersionInSession="Impossibile caricare /p1 : un'altra versione è già caricata in CATIA.\nSincronizzare i collegamenti sulla versione desiderata prima di procedere.";
+WRN_PSPROtherVersionInSession.Generic="Impossibile caricare gli oggetti: un'altra versione è già caricata in CATIA.";
+WRN_PSPROtherVersionInSession.Detail="/p1";
+WRN_PSPROtherVersionInSession.Suggestion="\nSincronizzare i collegamenti sulla versione desiderata prima di procedere.";
+
+
+//AVM IR 518496
+WRN_PSVpmSameNameInAssembly="Impossibile importare il riferimento /p1 in quanto il nome è uguale al nome dell'elemento padre.";
+WRN_PSVpmSameNameInAssembly.Generic="Impossibile importare i riferimenti perché il loro nome è uguale al nome dell'elemento padre.";
+WRN_PSVpmSameNameInAssembly.Detail="Nome del riferimento: /p1";
+
+
+
+// SDM/07-Aug-03
+// Error messages related to business rules checking (security, lifecycle, etc...)
+
+WRN_PSBRNoPrivelege="Operazione non consentita.\nNon si dispone dell'autorizzazione per elaborare /p1 sull'oggetto /p2";
+WRN_PSBRNoPrivelege.Generic="Operazione non consentita a causa di privilegi mancanti.";
+WRN_PSBRNoPrivelege.Detail="Nome processo: /p1, nome oggetto: /p2, tipo di oggetto: /p3";
+WRN_PSBRNoPrivelege.Suggestion="Verificare i privilegi concessi all'utente corrente.";
+
+WRN_PSBRNoPrivelegeUnk="Operazione non consentita per l'oggetto /p1";
+WRN_PSBRNoPrivelegeUnk.Generic="Operazione non consentita per l'oggetto";
+WRN_PSBRNoPrivelegeUnk.Detail="Nome dell'oggetto: /p1 Tipo di oggetto: /p2";
+WRN_PSBRNoPrivelegeUnk.Suggestion="Verificare i privilegi concessi all'utente corrente.";
+
+WRN_PSBRNotLocked="Operazione non autorizzata. /p1 non è bloccato.";
+WRN_PSBRNotLocked.Generic="Operazione non autorizzata perché l'oggetto non è bloccato.";
+//QAR IR A0586095
+WRN_PSBRNotLocked.Detail="Nome dell'oggetto: /p1 Tipo di oggetto: /p2";
+//WRN_PSBRNotLocked.Detail                     = "Object Name: /p1";
+WRN_PSBRNotLocked.Suggestion="Verificare i privilegi concessi all'utente corrente.\nL'utente deve bloccare gli oggetti interessati elencati precedentemente";
+//WRN_PSBRNotLocked.Suggestion    = "Check privileges authorized to the current user.";
+
+WRN_PSBRLockedByAnother="Operazione non autorizzata. /p1 è bloccato da un altro utente.";
+WRN_PSBRLockedByAnother.Generic="Operazione non autorizzata perché l'oggetto è bloccato da un altro utente.";
+WRN_PSBRLockedByAnother.Detail="Nome dell'oggetto: /p1 Tipo di oggetto: /p2";
+WRN_PSBRLockedByAnother.Suggestion="L'oggetto deve essere sbloccato dal relativo utente.";
+
+//ZPL for "Lock by User" HL
+WRN_PSBRLockedByAnotherUserHL="Operazione non autorizzata. /p1 è bloccato da un altro utente.";
+WRN_PSBRLockedByAnotherUserHL.Generic="Operazione non autorizzata perché l'oggetto è bloccato da un altro utente.";
+WRN_PSBRLockedByAnotherUserHL.Detail="Nome dell'oggetto: /p1 , tipo di oggetto: /p2, bloccato da: /p3";
+WRN_PSBRLockedByAnotherUserHL.Suggestion="L'oggetto deve essere sbloccato dal relativo utente.";
+
+WRN_PSBRStatusNoUpdate="Operazione non autorizzata. Lo stato corrente di /p1 non può essere aggiornato.";
+WRN_PSBRStatusNoUpdate.Generic="Operazione non autorizzata perché lo stato corrente dell'oggetto non può essere aggiornato.";
+WRN_PSBRStatusNoUpdate.Detail="Nome dell'oggetto: /p1 Tipo di oggetto: /p2";
+WRN_PSBRStatusNoUpdate.Suggestion="Verificare che lo stato dell'oggetto sia corretto.";
+
+WRN_PSBRStatusReleased="Operazione non autorizzata. L'oggetto /p1 ha raggiunto il suo stato finale.";
+WRN_PSBRStatusReleased.Generic="Operazione non autorizzata perché l'oggetto ha raggiunto lo stato finale.";
+WRN_PSBRStatusReleased.Detail="Nome dell'oggetto: /p1 Tipo di oggetto: /p2";
+WRN_PSBRStatusReleased.Suggestion="Verificare che lo stato dell'oggetto sia corretto.";
+
+WRN_PSBRParentNotLocked="Operazione non autorizzata. L'elemento padre di /p1 non è bloccato.";
+//VPW IR A0619343 : spelling priviledges changed to privileges for all occurence.
+//QAR - IR 638919 : Message modified
+WRN_PSBRParentNotLocked.Generic="Operazione non consentita sull'oggetto a causa di privilegi mancanti sull'elemento padre.";
+WRN_PSBRParentNotLocked.Detail="Nome oggetto: /p1, Nome padre: /p2";
+//ZUF IR 25392 : Message modified
+WRN_PSBRParentNotLocked.Suggestion="Verificare che lo stato del blocco dell'oggetto padre nel database elencato in alto negli oggetti interessati.";
+
+WRN_PSBRParentLockedByAnother="Operazione non autorizzata. L'elemento padre di /p1 è bloccato da un altro utente.";
+WRN_PSBRParentLockedByAnother.Generic="Operazione non autorizzata perché il padre dell'oggetto è bloccato da un altro utente.";
+WRN_PSBRParentLockedByAnother.Detail="Nome dell'oggetto: /p1";
+WRN_PSBRParentLockedByAnother.Suggestion="Verificare la proprietà del blocco sull'oggetto padre.";
+
+//ZPL "Lock by User"
+WRN_PSBRParentLockedByAnotherUserHL="Operazione non autorizzata. L'elemento padre di /p1 è bloccato da un altro utente.";
+WRN_PSBRParentLockedByAnotherUserHL.Generic="Operazione non autorizzata perché il padre dell'oggetto è bloccato da un altro utente.";
+WRN_PSBRParentLockedByAnotherUserHL.Detail="Nome dell'oggetto: /p1, nome padre|bloccato da: /p2";
+WRN_PSBRParentLockedByAnotherUserHL.Suggestion="L'elemento padre deve essere sbloccato dal rispettivo utente.";
+
+//ZPL "Lock by User"
+WRN_PSBRParentLockedByAnotherUserHL2="Operazione non autorizzata. L'elemento padre di /p1 è bloccato da un altro utente.";
+WRN_PSBRParentLockedByAnotherUserHL2.Generic="Operazione non autorizzata perché il padre dell'oggetto è bloccato da un altro utente.";
+WRN_PSBRParentLockedByAnotherUserHL2.Detail="Nome dell'oggetto: /p1, tipo di oggetto: /p2, nome padre|bloccato da: /p3";
+WRN_PSBRParentLockedByAnotherUserHL2.Suggestion="L'elemento padre deve essere sbloccato dal rispettivo utente.";
+
+WRN_PSBRParentStatusNoUpdate="Operazione non autorizzata. L'elemento padre di /p1 ha uno stato che non può essere aggiornato.";
+WRN_PSBRParentStatusNoUpdate.Generic="Operazione non autorizzata perché il padre dell'oggetto non può essere aggiornato.";
+WRN_PSBRParentStatusNoUpdate.Detail="Nome dell'oggetto: /p1 Tipo di oggetto: /p2";
+WRN_PSBRParentStatusNoUpdate.Suggestion="Verificare che lo stato del padre dell'oggetto sia corretto.";
+
+WRN_PSBRParentStatusReleased="Operazione non autorizzata. Il padre /p1 ha raggiunto il suo stato finale.";
+WRN_PSBRParentStatusReleased.Generic="Operazione non autorizzata perché il padre dell'oggetto ha raggiunto lo stato finale.";
+WRN_PSBRParentStatusReleased.Detail="Nome dell'oggetto: /p1 Tipo di oggetto: /p2";
+WRN_PSBRParentStatusReleased.Suggestion="Verificare che lo stato del padre dell'oggetto sia corretto.";
+
+WRN_PSBRStatusNoDelete="Operazione non autorizzata. Lo stato corrente di /p1 non consente la cancellazione.";
+WRN_PSBRStatusNoDelete.Generic="Operazione non autorizzata perché lo stato dell'oggetto non è cancellabile.";
+WRN_PSBRStatusNoDelete.Detail="Nome dell'oggetto: /p1";
+WRN_PSBRStatusNoDelete.Suggestion="Verificare che lo stato dell'oggetto sia corretto.";
+
+WRN_PSBRParentNotConfigured="Operazione non autorizzata. L'elemento padre di /p1 non è configurato.";
+WRN_PSBRParentNotConfigured.Generic="Operazione non autorizzata perché il padre dell'oggetto non è configurato.";
+WRN_PSBRParentNotConfigured.Detail="Nome dell'oggetto: /p1";
+WRN_PSBRParentNotConfigured.Suggestion="Configurare il padre per eseguire l'operazione selezionata.";
+
+WRN_PSBRChildLockedByAnother="Operazione non autorizzata. Gli elementi figli dell'oggetto /p1 non sono bloccati dall'utente corrente.";
+WRN_PSBRChildLockedByAnother.Generic="Operazione non autorizzata perché i figli dell'oggetto non sono bloccati dall'utente corrente.";
+WRN_PSBRChildLockedByAnother.Detail="Nome dell'oggetto: /p1";
+WRN_PSBRChildLockedByAnother.Suggestion="Verificare il proprietario del blocco sui figli.";
+
+//ZPL "Locked By User" HL
+WRN_PSBRChildLockedByAnotherUserHL="Operazione non autorizzata. Gli elementi figli dell'oggetto /p1 non sono bloccati dall'utente corrente.";
+WRN_PSBRChildLockedByAnotherUserHL.Generic="Operazione non autorizzata perché alcuni figli dell'oggetto non sono bloccati dall'utente corrente.";
+WRN_PSBRChildLockedByAnotherUserHL.Detail="Nome dell'oggetto: /p1 , nome figli|proprietario del blocco: /p2";
+WRN_PSBRChildLockedByAnotherUserHL.Suggestion="I figli devono essere sbloccati dal rispettivo utente.";
+
+WRN_PSBRDelKOIIPointedByAction="Eliminazione non autorizzata. La ricorrenza /p1 viene puntata da almeno un'azione.";
+WRN_PSBRDelKOIIPointedByAction.Generic="Eliminazione non autorizzata perché la ricorrenza viene puntata da almeno un'azione.";
+WRN_PSBRDelKOIIPointedByAction.Detail="Nome della ricorrenza: /p1";
+
+WRN_PSBRNotPreferredIter="Operazione non autorizzata. L'iterazione del documento utilizzato non è la preferita";
+WRN_PSBRNotPreferredIter.Generic="Operazione non autorizzata. L'iterazione del documento utilizzato non è la preferita";
+WRN_PSBRNotPreferredIter.Detail="Nome dell'oggetto: /p1 Tipo di oggetto: /p2";
+WRN_PSBRNotPreferredIter.Suggestion="Selezionare l'iterazione preferita del documento.";
+
+WRN_PSBRUnknownError="Operazione non autorizzata su /p1. Motivo sconosciuto.";
+WRN_PSBRUnknownError.Generic="Operazione non autorizzata sull'oggetto per un motivo sconosciuto.";
+WRN_PSBRUnknownError.Detail="Nome dell'oggetto: /p1 Tipo di oggetto: /p2";
+WRN_PSBRUnknownError.Suggestion="Verificare se l'oggetto è valido nel database di ENOVIA V5 VPM"; // VPW IR 650028
+
+
+WRN_PSBRNotBelongsToLocalSite="Operazione non autorizzata perché l'oggetto /p1 non appartiene al sito locale.";
+WRN_PSBRNotBelongsToLocalSitev.Generic="Operazione non autorizzata perché l'oggetto non appartiene al sito locale.";
+WRN_PSBRNotBelongsToLocalSite.Detail="Nome dell'oggetto: /p1 Tipo di oggetto: /p2";
+
+WRN_PSBRParentNotBelongsToSite="Operazione non autorizzata. L'elemento padre di /p1 non appartiene al sito locale.";
+WRN_PSBRParentNotBelongsToSite.Generic="Operazione non autorizzata perché il padre dell'oggetto non appartiene al sito locale.";
+WRN_PSBRParentNotBelongsToSite.Detail="Nome dell'oggetto: /p1";
+
+// NFO IR-A0541479 06:06:22
+WRN_PSBROtherInstanceLockedByAnother="Operazione non autorizzata. Almeno una ricorrenza peer di /p1 è bloccata da un altro utente.";
+WRN_PSBROtherInstanceLockedByAnother.Generic="Operazione non autorizzata. Almeno una ricorrenza peer dell'oggetto è bloccata da un altro utente.";
+WRN_PSBROtherInstanceLockedByAnother.Detail="Nome dell'oggetto: /p1";
+WRN_PSBROtherInstanceLockedByAnother.Suggestion="Verificare la proprietà del blocco delle ricorrenze peer.";
+
+//ZPL "Locked By User" HL
+WRN_PSBROtherInstanceLockedByAnotherUserHL="Operazione non autorizzata. Almeno una ricorrenza peer di /p1 è bloccata da un altro utente.";
+WRN_PSBROtherInstanceLockedByAnotherUserHL.Generic="Operazione non autorizzata. Almeno una ricorrenza peer dell'oggetto è bloccata da un altro utente.";
+WRN_PSBROtherInstanceLockedByAnotherUserHL.Detail="Nome oggetto: /p1, ricorrenza|proprietario del blocco: /p2";
+WRN_PSBROtherInstanceLockedByAnotherUserHL.Suggestion="La ricorrenza deve essere sbloccata dal rispettivo utente.";
+
+//Message for UnloadBranch
+WRN_PSVpmUnloadFileEntity="L'entità /p1 deve essere salvata in ENOVIA V5 VPM prima dello scaricamento";
+WRN_PSVpmUnloadFileEntity.Generic="L'entità deve essere salvata in ENOVIA V5 VPM prima dello scaricamento";
+WRN_PSVpmUnloadFileEntity.Detail="Nome dell'entità: /p1";
+
+WRN_PSVpmUnloadNotSavedEntity="Impossibile scaricare /p1 perché le modifiche non sono state salvate in ENOVIA V5 VPM.";
+WRN_PSVpmUnloadNotSavedEntity.Generic="Impossibile scaricare gli oggetti perché le modifiche non sono state salvate in ENOVIA V5 VPM.";
+WRN_PSVpmUnloadNotSavedEntity.Detail="/p1";
+
+WRN_PSVpmCanNotUnloadUnderBB="Impossibile scaricare /p1 perché questa entità è conservata in un documento permanente nel vault.";
+WRN_PSVpmCanNotUnloadUnderBB.Generic="Impossibile scaricare gli oggetti perché questa entità è conservata in un documento permanente nel vault.";
+WRN_PSVpmCanNotUnloadUnderBB.Detail="/p1";
+
+WRN_PSVpmCanNotUnloadUnloaded="Impossibile scaricare /p1 perché questa entità è già stata scaricata.";
+WRN_PSVpmCanNotUnloadUnloaded.Generic="Impossibile scaricare le entità perché questa entità è già stata scaricata.";
+WRN_PSVpmCanNotUnloadUnloaded.Detail="/p1";
+
+WRN_PSVpmCanNotUnloadNothing="Il ramo di /p1 non presenta nessuna entità da scaricare";
+WRN_PSVpmCanNotUnloadNothing.Generic="Il ramo dell'entità non presenta nessuna entità da scaricare";
+WRN_PSVpmCanNotUnloadNothing.Detail="Nome dell'entità: /p1";
+
+WRN_PSNoUnloadIfRefInEdition="L'entità /p1 non può essere scaricata perché è aperta per la modifica altrove";
+WRN_PSNoUnloadIfRefInEdition.Generic="Le entità non può essere scaricate perché sono aperte altrove per la modifica";
+WRN_PSNoUnloadIfRefInEdition.Detail.Suggestion="/p1";
+
+
+
+//message fo TechPack
+
+ERR_TECHPACK_ClusterLoadingOperationFailure="Pacchetto tecnologico /p1 /p2 /p3 /p4 Impossibile eseguire il caricamento. /p5 /p6 /p7";
+ERR_TECHPACK_ClusterLoadingOperationFailure.Generic="Operazione di caricamento non eseguita correttamente.";
+// VPW IR A0600636 
+ERR_TECHPACK_ClusterLoadingOperationFailure.Detail="Pacchetto tecnologico  Ruolo:/p1, Categoria:/p2, Versione:/p3, Proprietario:/p4, Operazione di caricamento non riuscita. Organizzazione:/p5, Dati di creazione:/p6, Data di modifica:/p7";
+//ERR_TECHPACK_ClusterLoadingOperationFailure.Detail       = "TechPack /p1 /p2 /p3 /p4 Loading operation failed. /p5 /p6 /p7";
+
+ERR_TECHPACK_NotLocked="Il pacchetto tecnologico non è bloccato. Salvataggio interrotto.";
+ERR_TECHPACK_NotLocked.Generic="Il pacchetto tecnologico non è bloccato. Salvataggio interrotto.";
+
+ERR_TECHPACK_LockByAnotherUser="Il pacchetto tecnologico è bloccato da un altro utente. Salvataggio interrotto.";
+ERR_TECHPACK_LockByAnotherUser.Generic="Il pacchetto tecnologico è bloccato da un altro utente. Salvataggio interrotto.";
+
+ERR_TECHPACK_BelongsToNotPersistantObject="Il pacchetto tecnologico appartiene ad un oggetto non permanente. Salvataggio interrotto.";
+ERR_TECHPACK_BelongsToNotPersistantObject.Generic="Il pacchetto tecnologico appartiene ad un oggetto non permanente. Salvataggio interrotto.";
+
+ERR_TECHPACK_VaultAccessDenied="Errore durante l'accesso al vault. Salvataggio interrotto.";
+ERR_TECHPACK_VaultAccessDenied.Generic="Errore durante l'accesso al vault. Salvataggio interrotto.";
+
+WRN_TECHPACK_PointedDocumentNotInEnovia_ExpositionFailed="Il collegamento punta ad un documento non PDM (/p1). Questo collegamento viene salvato, ma non esposto.";
+WRN_TECHPACK_PointedDocumentNotInEnovia_ExpositionFailed.Generic="Il collegamento punta ad un documento non PDM. Questo collegamento viene salvato, ma non esposto.";
+WRN_TECHPACK_PointedDocumentNotInEnovia_ExpositionFailed.Detail="Nome del documento: /p1";
+
+ERR_TECHPACK_ExternalLinkNotSupported="Questo collegamento esterno (/p1) non è supportato.";
+ERR_TECHPACK_ExternalLinkNotSupported.Generic="Questo collegamento esterno non è supportato.";
+ERR_TECHPACK_ExternalLinkNotSupported.Detail="Nome del collegamento: /p1";
+
+PartialSave.Title="Operazione di salvataggio parziale";
+
+PartialSave.Text="Per le considerazioni sul blocco, sui privilegi di accesso o sul ciclo di vita,\nun gruppo secondario di dati modificati è stato respinto, ma è stato salvato uno o più documenti collegati.\nFare clic su OK per visualizzare l'elenco degli errori.";
+
+WRN_VERSINON_CREATION_FAILED="Impossibile creare la nuova versione perché la data relativa non è inclusa nell'effettività corrente";
+WRN_VERSINON_CREATION_FAILED.Generic="Impossibile creare la nuova versione perché la data relativa non è inclusa nell'effettività corrente";
+
+
+WRN_OldPartNotSupported1="La parte è stata creata prima della V5.R5. Salvataggio non supportato.";
+WRN_OldPartNotSupported1.Generic="La parte è stata creata prima della V5.R5. Salvataggio non supportato.";
+
+WRN_OldPartNotSupported2="Creare una nuova parte poi copiare e incollare la geometria.";
+WRN_OldPartNotSupported2.Generic="Creare una nuova parte poi copiare e incollare la geometria.";
+
+
+WRN_PublicationNotIntrinsic="Elementi pubblici: /p1 non è stato salvato poiché il relativo prodotto proprietario /p2 è in modalità struttura esposta.";
+WRN_PublicationNotIntrinsic.Generic="Gli elementi pubblici non sono stati salvati perché il relativo prodotto proprietario è in modalità struttura esposta.";
+WRN_PublicationNotIntrinsic.Detail="Nome degli elementi pubblici: /p1 , nome del prodotto proprietario: /p2";
+
+WRN_PublicationNotSavedInVisuMode="Gli elementi pubblici /p1 non sono stati salvati in ENOVIA V5 VPM perché puntano a dati non caricati";
+WRN_PublicationNotSavedInVisuMode.Generic="Gli elementi pubblici non sono stati salvati in ENOVIA V5 VPM perché puntano a dati non caricati";
+WRN_PublicationNotSavedInVisuMode.Detail="Nome degli elementi pubblici: /p1";
+
+
+//XPN
+ERR_NotConnectedToChoosePRC=" Per impostare la permanenza di /p1 su Struttura esposta, è necessario essere collegati ad ENOVIA V5 VPM.";
+ERR_NotConnectedToChoosePRC.Generic=" Per impostare la permanenza degli oggetti su Struttura esposta, è necessario essere collegati ad ENOVIA V5 VPM.";
+ERR_NotConnectedToChoosePRC.Detail=" Nome dell'oggetto: /p1";
+
+//BBX
+ERR_TechPackUnderPRCNotAllowed="La permanenza di /p1 non può essere modificata in Elementi pubblici esposti, poiché possiede un pacchetto tecnologico.";
+ERR_TechPackUnderPRCNotAllowed.Generic="La permanenza dell'oggetto non può essere modificata in Elementi pubblici esposti, poiché possiede un pacchetto tecnologico.";
+ERR_TechPackUnderPRCNotAllowed.Detail="Nome dell'oggetto: /p1";
+
+//CUO BZQ - 05.24.2005 - HL R16 Product Freeze
+WRN_PSBRFrozen="Operazione non autorizzata. /p1 è già consegnato/installato.";
+WRN_PSBRFrozen.Generic="Operazione non autorizzata. Gli oggetti sono già consegnati/installati.";
+WRN_PSBRFrozen.Detail="Nome dell'oggetto: /p1 Tipo di oggetto: /p2";
+
+WRN_PSBRParentFrozen="Operazione non autorizzata. L'elemento padre di /p1 è già consegnato/installato.";
+WRN_PSBRParentFrozen.Generic="Operazione non autorizzata. Il padre degli oggetti è già consegnato/installato.";
+WRN_PSBRParentFrozen.Detail="Nome dell'oggetto: /p1";
+
+
+//BZQ - 07.27.2005 - IR A0505252
+WRN_PSBRFrozenOverride="/p1 è già stato consegnato/installato. L'utente dispone dell'autorizzazione per modificarlo.";
+WRN_PSBRFrozenOverride.Generic="L'oggetto è già stato consegnato/installato. L'utente dispone dell'autorizzazione per modificarlo.";
+WRN_PSBRFrozenOverride.Detail="Nome dell'oggetto: /p1 Tipo di oggetto: /p2";
+
+WRN_PSBRParentFrozenOverride="Il padre di /p1 è già stato consegnato/installato. L'utente dispone dell'autorizzazione per modificarlo.";
+WRN_PSBRParentFrozenOverride.Generic="Il padre dell'oggetto è già stato consegnato/installato. L'utente dispone dell'autorizzazione per modificarlo.";
+WRN_PSBRParentFrozenOverride.Detail="Nome dell'oggetto: /p1";
+
+WRN_PSBRUnsolvedOperations="Operazione non autorizzata. Impossibile eliminare /p1 con le operazioni non risolte.";
+WRN_PSBRUnsolvedOperations.Generic="Operazione non autorizzata. Impossibile eliminare l'oggetto con le operazioni non risolte.";
+WRN_PSBRUnsolvedOperations.Detail="Nome dell'oggetto: /p1";
+
+//AVM - IR 530248
+WRN_PSCnxBRReleased="Operazione non autorizzata. Le operazioni di aggiunta, modifica ed eliminazione nei vincoli non possono essere salvata poiché il padre /p1 ha raggiunto lo stato finale";
+WRN_PSCnxBRReleased.Generic="Operazione non autorizzata. Le operazioni di aggiunta, modifica ed eliminazione nei vincoli non possono essere salvate poiché il padre ha raggiunto lo stato finale";
+WRN_PSCnxBRReleased.Detail="Nome del padre: /p1";
+
+ERR_SaveErrorR4SP1doc="Il documento corrente /p1 non può essere salvato in ENOVIA V5 VPM\nperché è un documento creato prima di R4SP1.\nSolo i documenti successivi a R4SP1 possono essere salvati in ENOVIA V5 VPM.";
+ERR_SaveErrorR4SP1doc.Generic="Il documento corrente non può essere salvato in ENOVIA V5 VPM\nperché è un documento creato prima di R4SP1.";
+ERR_SaveErrorR4SP1doc.Detail=" /p1";
+ERR_SaveErrorR4SP1doc.Suggestion="Solo i documenti successivi a R4SP1 possono essere salvati in ENOVIA V5 VPM.";
+
+WRN_SaveWarningR4SP1doc="Il documento corrente /p1 è stato creato prima di R4SP1. Si consiglia di non salvarlo in ENOVIA V5 VPM.\nCreare un nuovo documento, quindi copiare e incollare la geometria su di esso.";
+WRN_SaveWarningR4SP1doc.Generic=" Il documento corrente è stato creato prima di R4SP1. ";
+WRN_SaveWarningR4SP1doc.Detail=" /p1";
+WRN_SaveWarningR4SP1doc.Suggestion="Si consiglia di non salvarlo in ENOVIA V5 VPM.\nCreare un nuovo documento, quindi copiare e incollare la geometria su di esso.";
+
+ERR_SaveErrorFrozenDoc="Il documento /p1 non può essere salvato in ENOVIA V5 VPM\nperché è stato salvato 'come congelato' da un database PDM.";
+ERR_SaveErrorFrozenDoc.Generic="I documenti non possono essere salvati in ENOVIA V5 VPM\nperché sono stati salvati 'come congelati' da un database PDM.";
+ERR_SaveErrorFrozenDoc.Detail=" /p1";
+
+
+//RID IR 416546 .. Rolledback 05:09:15
+//WRN_PSNoCharacterSupportForNameDBCS = "The entity name /p1 contains unsupported DBCS character(s) /p2. Please rename before proceeding to save in ENOVIA V5 VPM.";
+//WRN_PSNoCharacterSupportForNameDBCS.Generic =  "The entity names contains unsupported DBCS character(s)..";
+//WRN_PSNoCharacterSupportForNameDBCS.Detail      = " EntityName:/p1 , DBCS chars:/p2";
+//WRN_PSNoCharacterSupportForNameDBCS.Suggestion	= "Please rename before proceeding to save in ENOVIA V5 VPM.";
+
+
+//AVM - IR 516779
+
+WRN_PSVpmForbiddenName="Il prodotto importato contiene caratteri non consentiti che non sono supportati da Catia.";
+WRN_PSVpmForbiddenName.Generic="Il prodotto importato contiene caratteri non consentiti che non sono supportati da Catia.";
+
+
+//BBX for HighLight Contextual Design in Sub Asm R17//
+
+ERR_PSVpmInputWrongCtx_NewObject="La parte /p1 è contestuale all'assieme secondario /p2 (non supportato in ENOVIA V5 VPM).\nUtilizzare il comando Gestione associazione contestuale in PRC per reinstradare automaticamente le associazioni contestuali oppure\nutilizzare il menu Modifica il contesto per gestirle manualmente.";
+ERR_PSVpmInputWrongCtx_NewObject.Generic="La parte è contestuale all'assieme secondario (non supportato in ENOVIA V5 VPM).";
+ERR_PSVpmInputWrongCtx_NewObject.Detail="Nome della parte: /p1, nome dell'assieme secondario: /p2";
+ERR_PSVpmInputWrongCtx_NewObject.Suggestion="Utilizzare il comando Gestione associazione contestuale in PRC per reinstradare automaticamente le associazioni contestuali oppure\nutilizzare il menu Modifica il contesto per gestirle manualmente.";
+
+WRN_PSVpmNotReroutedInstance="Reinstradamento non necessario/non eseguito per /p1 ";
+WRN_PSVpmNotReroutedInstance.Generic="Reinstradamento non necessario, quindi non eseguito per gli oggetti. ";
+WRN_PSVpmNotReroutedInstance.Detail="/p1";
+
+INF_PSVpmReroutedInstance="La ricorrenza /p1 è stata reinstradata su /p2 ";
+INF_PSVpmReroutedInstance.Generic="Le ricorrenze sono state reinstradate sugli oggetti menzionati. ";
+INF_PSVpmReroutedInstance.Detail="Nome della ricorrenza: /p1, reinstradata su: /p2 ";
+
+WRN_PSVpmMultiInstanciatedInstance="Il reinstradamento non è stato eseguito per /p1 in quanto esso dispone di più ricorrenze.\nUtilizzare il menu Modifica il contesto per gestire i collegamenti manualmente.";
+WRN_PSVpmMultiInstanciatedInstance.Generic="Il reinstradamento non è stato eseguito per gli oggetti perché presentano più ricorrenze.";
+WRN_PSVpmMultiInstanciatedInstance.Detail=" /p1";
+WRN_PSVpmMultiInstanciatedInstance.Suggestion="Utilizzare il menu Modifica il contesto per gestire i collegamenti manualmente.";
+
+WRN_PSVpmOutOfContextInstance="Il reinstradamento non è stato eseguito per /p1 in quanto esso non rientra nel contesto.\nUtilizzare il menu Modifica il contesto per gestire i collegamenti manualmente.";
+WRN_PSVpmOutOfContextInstance.Generic="Il reinstradamento non è stato eseguito per gli oggetti perché sono fuori contesto.";
+WRN_PSVpmOutOfContextInstance.Detail="/p1";
+WRN_PSVpmOutOfContextInstance.Suggestion="Utilizzare il menu Modifica il contesto per gestire i collegamenti manualmente.";
+
+WRN_PSVpmLinkBrokenInstance="Il reinstradamento non è stato eseguito per /p1 in quanto esso presenta dei collegamenti interrotti.\nUtilizzare il menu Modifica il contesto per gestire i collegamenti manualmente.";
+WRN_PSVpmLinkBrokenInstance.Generic="Il reinstradamento non è stato eseguito per gli oggetti perché presentano dei collegamenti interrotti.";
+WRN_PSVpmLinkBrokenInstance.Detail="/p1";
+WRN_PSVpmLinkBrokenInstance.Suggestion="Utilizzare il menu Modifica il contesto per gestire i collegamenti manualmente.";
+
+
+WRN_PSVpmRootIsPRC="Il comando Gestione associazione contestuale in PRC funziona solo se l'elemento principale è PRC.";
+WRN_PSVpmRootIsPRC.Generic="Il comando Gestione associazione contestuale in PRC funziona solo se l'elemento principale è PRC.";
+WRN_PSVpmRootIsPRC.Suggestion="Verificare che l'elemento principale sia PRC.";
+
+//BBX Ends
+
+//BBX for IR A0527926//
+WRN_PSVpmOutofCtxInst="La ricorrenza della parte /p1, utilizzata dall'associazione contestuale, non è stata trovata nella sessione CATIA. \nUtilizzare il menu Modifica contesto, per gestire le associazioni manualmente.";
+WRN_PSVpmOutofCtxInst.Generic="La ricorrenza delle parti utilizzata dall'associazione contestuale non è stata trovata nella sessione CATIA. ";
+WRN_PSVpmOutofCtxInst.Detail="Nome della parte: /p1";
+WRN_PSVpmOutofCtxInst.Suggestion="Utilizzare il menu Modifica il contesto per gestire i collegamenti manualmente.";
+
+//IR :637617 - Message modified 
+WRN_PSVpmBrokenLinks="La ricorrenza della parte /p1 presenta un'associazione contestuale interrotta o il contesto non è caricato nella sessione.\nUtilizzare il menu Modifica contesto, per gestire le associazioni manualmente.";
+WRN_PSVpmBrokenLinks.Generic="La ricorrenza delle parti presenta un'associazione contestuale interrotta o contesti relativi non sono caricati nella sessione.";
+WRN_PSVpmBrokenLinks.Detail="Nome della parte: /p1";
+WRN_PSVpmBrokenLinks.Suggestion="Verificare se le istanze utilizzate per creare le associazioni contestuali sono caricate e utilizzare il menu Modifica contesto, per gestire le associazioni manualmente.";
+
+//BBX ends//
+//Message for Pub or Ctx Synchronisation at open
+WRN_PSSynchroPubAtOpen="È stata rilevata un'incongruenza sugli elementi pubblici '/p1' nel documento '/p2'. L'incongruenza è stata risolta nella sessione.";
+WRN_PSSynchroPubAtOpen.Generic="È stata rilevata un'incongruenza sugli elementi pubblici nel documento. L'incongruenza è stata risolta nella sessione.";
+WRN_PSSynchroPubAtOpen.Detail="Nome degli elementi pubblici: /p1, nome del documento: /p2 ";
+
+//ZPL IR A0572465
+WRN_NotAnEnoviaObjectToHighlight="L'oggetto /p1 non esiste in ENOVIA V5 VPM.\n È necessario salvarlo prima in ENOVIA V5 VPM.";
+WRN_NotAnEnoviaObjectToHighlight.Generic="L'oggetto selezionato non è un'entità di ENOVIA V5 VPM.";
+WRN_NotAnEnoviaObjectToHighlight.Detail="Nome dell'oggetto: /p1";
+WRN_NotAnEnoviaObjectToHighlight.Suggestion="Salvare l'oggetto selezionato in ENOVIA V5 VPM. Il comando viene utilizzato solo per gli oggetti di ENOVIA V5 VPM.";
+
+// CUO 07:07:09 IR 581543
+WRN_PSProductSpecDetectedInSession="CATIA non è in grado di caricare oggetti da ENOVIA V5 VPM perché una ricorrenza di /p1 è nella sessione.\nUtilizzare il contesto di specifica del prodotto per caricare oggetti in CATIA.";
+WRN_PSProductSpecDetectedInSession.Generic="CATIA non è in grado di caricare oggetti da ENOVIA V5 VPM perché una ricorrenza del PRC è nella sessione.";
+WRN_PSProductSpecDetectedInSession.Detail="/p1";
+WRN_PSProductSpecDetectedInSession.Suggestion="Utilizzare il contesto di specifica del prodotto per caricare oggetti in CATIA.";
+
+//ZPL Starts IR 587852
+WRN_PSBRGCONoPrivelege="Operazione non consentita.\nNon si dispone dell'autorizzazione per elaborare /p1 sull'oggetto /p2";
+WRN_PSBRGCONoPrivelege.Generic="Operazione non consentita a causa di privilegi mancanti.";
+WRN_PSBRGCONoPrivelege.Detail="Nome processo: /p1, nome oggetto: /p2, tipo di oggetto: /p3";
+WRN_PSBRGCONoPrivelege.Suggestion="Verificare i privilegi concessi all'utente corrente.";
+
+WRN_PSBRGCOStatusReleased="Operazione non autorizzata. L'oggetto /p1 ha raggiunto il suo stato finale.";
+WRN_PSBRGCOStatusReleased.Generic="Operazione non autorizzata perché GCO ha raggiunto uno stato finale.";
+WRN_PSBRGCOStatusReleased.Detail="/p1";
+WRN_PSBRGCOStatusReleased.Suggestion="Verificare che GCO sia nello stato corretto.";
+
+WRN_PSBRGCOStatusNotModifiable="Impossibile modificare il GCO /p1.\n Questo GCO non è in uno stato modificabile.";
+WRN_PSBRGCOStatusNotModifiable.Generic="Impossibile modificare il GCO.\n Questo GCO non è in uno stato modificabile";
+WRN_PSBRGCOStatusNotModifiable.Detail="/p1";
+WRN_PSBRGCOStatusNotModifiable.Suggestion="Verificare lo stato del GCO.";
+
+WRN_PSBRGCOLinkInstNotLocked="Operazione non autorizzata.\n Gli oggetti /p1 collegati al GCO /p1 non sono bloccati o sono bloccati da altri utenti.";
+WRN_PSBRGCOLinkInstNotLocked.Generic="Uno o più oggetti collegati al GCO non sono bloccati o sono bloccati da altri utenti.";
+WRN_PSBRGCOLinkInstNotLocked.Detail="Nome GCO: /p1 , oggetti:/p2";
+WRN_PSBRGCOLinkInstNotLocked.Suggestion="Verificare lo stato di blocco per gli oggetti collegati al GCO.";
+
+//ZPL "Locked By User"
+WRN_PSBRGCOLinkInstLockedByUser="Operazione non autorizzata.\n Gli oggetti /p1 collegati al GCO /p1 sono bloccati da altri utenti.";
+WRN_PSBRGCOLinkInstLockedByUser.Generic="Uno o più oggetti collegati al GCO sono bloccati da altri utenti.";
+WRN_PSBRGCOLinkInstLockedByUser.Detail="Nome GCO:/p1 , oggetti | bloccati da:/p2";
+WRN_PSBRGCOLinkInstLockedByUser.Suggestion="Verificare la proprietà del blocco per gli oggetti collegati al GCO.";
+
+WRN_PSBRGCOBRCheckNotDone="Alcune verifiche BR sul GCO non sono disponibili con il server utilizzato.\n Per questo GCO non sono state eseguite alcune verifiche BR.";
+WRN_PSBRGCOBRCheckNotDone.Generic="Per il GCO non sono state eseguite alcune verifiche BR che non sono disponibili con il server utilizzato.";
+WRN_PSBRGCOBRCheckNotDone.Detail="/p1";
+WRN_PSBRGCOBRCheckNotDone.Suggestion="Controllare gli oggetti correlati.";
+//ZPL Ends IR 587852
+
+// CUO - IR 623996
+ERR_PSVpmSaveStopReconciliateDoc="Il documento /p1 è stato estratto erroneamente da ENOVIA V5 VPM e non può essere salvato.\n ";
+ERR_PSVpmSaveStopReconciliateDoc.Generic="Un documento è stato estratto erroneamente da ENOVIA V5 VPM e non può essere salvato.";
+ERR_PSVpmSaveStopReconciliateDoc.Suggestion="Avviare la sincronizzazione del documento in File + Desk se disponibile. Altrimenti:\nper salvare il documento come documento nuovo in ENOVIA V5 VPM:\n   1. Impostare PDM di destinazione su 'ENOVIA5' con il comando Imposta proprietà PDM \n   2. Salvare il documento su disco \n   3. Salvare in ENOVIA V5 VPM nuovamente.\nPer sostituire questo documento con il documento originale ENOVIA V5 VPM, utilizzare il comando di modifica sostituzione collegamento e salvare di nuovo.\n";
+ERR_PSVpmSaveStopReconciliateDoc.Detail="Nome del documento:/p1 - Nome del documento ENOVIA V5 VPM:/p2";
+
+// VPW - IR 628134
+WRN_PSBRParentRefStatusReleased="Operazione non autorizzata. Il riferimento padre /p1 ha raggiunto lo stato finale.";
+WRN_PSBRParentRefStatusReleased.Generic="Operazione non autorizzata perché il riferimento padre dell'oggetto ha raggiunto lo stato finale.";
+WRN_PSBRParentRefStatusReleased.Detail="Nome dell'oggetto: /p1 Tipo di oggetto: /p2";
+WRN_PSBRParentRefStatusReleased.Suggestion="Verificare che lo stato del riferimento padre dell'oggetto sia corretto.";
+
+WRN_PSVpmUELoadProcess="Si è verificato un problema durante l'esecuzione dell'uscita utente /p1.";
+WRN_PSVpmUELoadProcess.Generic="Impossibile eseguire l'uscita utente durante il processo di caricamento.";
+WRN_PSVpmUELoadProcess.Detail="Nome uscita utente: /p1";
+
+// VPW IR 668093
+INF_PSVpmIIRenamed="Un'altra ricorrenza con lo stesso nome /p1 già esiste nello stesso elemento padre /p2.\n La nuova ricorrenza è stata automaticamente salvata come /p3";
+INF_PSVpmIIRenamed.Generic="Un'altra ricorrenza con lo stesso nome già esiste nello stesso elemento padre. \n Le nuove ricorrenze sono state salvate automaticamente con il nuovo nome";
+INF_PSVpmIIRenamed.Detail="Nome originale: /p1 , Nome padre:/p2 , Salvato come:/p3 ";
+
+// VVD BOEING SAVE PANEL
+INF_FurtiveToolTip="Salvataggio effettuato senza errori/avvertenze";
+
+//QAR : IGM HL
+INF_PSVpmGraphicalPropSaveFail="Gli oggetti modificati graficamente non saranno salvati nel DB per mancanza di privilegi.";
+INF_PSVpmGraphicalPropSaveFail.Generic="Gli oggetti modificati graficamente non saranno salvati nel DB per mancanza di privilegi.";
+INF_PSVpmGraphicalPropSaveFail.Detail="Nome entità:-/p1, Tipo entità:-/p2";
+INF_PSVpmGraphicalPropSaveFail.Suggestion="Verificare che l'utente disponga dei privilegi per apportare le modifiche e che i dati siano stati bloccati dall'utente corrente e \nnon abbiano raggiunto lo stato di maturità finale";

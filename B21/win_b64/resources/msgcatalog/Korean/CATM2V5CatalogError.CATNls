@@ -1,0 +1,255 @@
+// Fw V4CGMInteroperability 
+//  module V4ToM2
+//JNV170706V4 //______________________________________________________________
+//JNV170706V4 // 1-100 errors aparaissant dans le constructeur de MMMObject 
+//JNV170706V4 //class CATInteropCatgeoError, InteropCatgeo , CATInternalError
+//JNV170706V4 //_______________________________________________________________
+//JNV170706V4 // 1__99 erreurs varies
+//JNV170706V4 MigrationERR_001.Request="Conversion of a V4 element:";
+//JNV170706V4 MigrationERR_001.Diagnostic="The V4 element could not be converted. Invalid element in input model";
+//JNV170706V4 MigrationERR_001.Advice="Clean the model with CATCLN utility or re-design manualy the element in CATIA V4.";
+//JNV170706V4 //
+//JNV170706V4 // For IER = 105
+//JNV170706V4 MigrationERR_002.Request="Conversion of a V4 element:";
+//JNV170706V4 MigrationERR_002.Diagnostic="Invalid Merged Edges in input model";
+//JNV170706V4 MigrationERR_002.Advice="The Gap between two face boudaries is higher than Intersection Curves Tolerance";
+//JNV170706V4 // 100_199 for Solide Error *SOL
+//JNV170706V4 //
+//JNV170706V4 SolideERR_100.Request="Conversion of a V4 solid:";
+//JNV170706V4 SolideERR_100.Diagnostic="The V4 solid could not be converted.";
+//JNV170706V4 SolideERR_100.Advice="Force the solid update.";
+//JNV170706V4 //
+//JNV170706V4 // 200_249 for *Ski   error
+//JNV170706V4 //
+//JNV170706V4 SkinERR_200.Request="Conversion of a V4 skin";
+//JNV170706V4 SkinERR_200.Diagnostic="The V4 skin could not be converted";
+//JNV170706V4 SkinERR_200.Advice="Check the skin.";
+//JNV170706V4 //
+//JNV170706V4 // 250_299 for *VOL  error
+//JNV170706V4 //
+//JNV170706V4 VolumeERR_250.Request="Conversion of a V4 Volume:";
+//JNV170706V4 VolumeERR_250.Diagnostic="The V4 volume could not be converted.";
+//JNV170706V4 VolumeERR_250.Advice="Check the volume.";
+//
+//-------------------------------------------------------------------------
+//
+//class CATM2V5InternalError, InteropInt , CATInternalError
+//-------------------------------------------------------------------------
+//
+MiscErrorERR_300.Request="페이스 이주: ";
+MiscErrorERR_300.Diagnostic= "페이스 반입에 내부 오류 ";
+MiscErrorERR_300.Advice="문제점을 보고하십시오.";
+//
+CurveERR_301.Request="커브 또는 혼합 커브 반입:";
+CurveERR_301.Diagnostic="커브 반입에 내부 오류.";
+CurveERR_301.Advice="문제점을 보고하십시오.";
+//
+//JNV170706V4 SurfaceERR_302.Request="Surface import:";
+//JNV170706V4 SurfaceERR_302.Diagnostic="Internal error in surface import.";
+//JNV170706V4 SurfaceERR_302.Advice="Please report the problem.";
+//
+//JNV170706V4 ReversedEdgeERR_303.Request="Edge transfert:";
+//JNV170706V4 ReversedEdgeERR_303.Diagnostic="The curve cannot be projected on the surface.";
+//JNV170706V4 ReversedEdgeERR_303.Advice="Reverse the orientation of the edge.";
+//
+//JNV170706V4 NoResultForSurfaceERR_304.Request="Surface import:";
+//JNV170706V4 NoResultForSurfaceERR_304.Diagnostic="No output given when computing the surface.";
+//JNV170706V4 NoResultForSurfaceERR_304.Advice="Remove degenerated patch from the surface.";
+//
+//JNV170706V4 NoResultForCurveERR_305.Request="Curve import: ";
+//JNV170706V4 NoResultForCurveERR_305.Diagnostic="No output given when computing the curve.";
+//JNV170706V4 NoResultForCurveERR_305.Advice="Remove degenerated arc from the curve.";
+//
+//JNV170706V4 NoResultForEdgeERR_306.Request="Edge import:";
+//JNV170706V4 NoResultForEdgeERR_306.Diagnostic="No output given when computing the edge.";
+//JNV170706V4 NoResultForEdgeERR_306.Advice="Remove degenerated arc from the edge.";
+//
+//JNV170706V4 WrongResultForEdgeERR_307.Request="Edge import:";
+//JNV170706V4 WrongResultForEdgeERR_307.Diagnostic="No output given when computing the edge.";
+//JNV170706V4 WrongResultForEdgeERR_307.Advice="Please report the problem.";
+//
+//JNV170706V4 NullTangentOnCurveERR_308.Request="Curve import:";
+//JNV170706V4 NullTangentOnCurveERR_308.Diagnostic="Null tangent on a non-degenerated curve.";
+//JNV170706V4 NullTangentOnCurveERR_308.Advice="Correct the curve to surpress the null tangent points.";
+//
+//JNV170706V4 NullTangentOnSurfaceERR_309.Request="Surface import:";
+//JNV170706V4 NullTangentOnSurfaceERR_309.Diagnostic="Null tangent on a non-degenerated surface.";
+//JNV170706V4 NullTangentOnSurfaceERR_309.Advice="Correct the surface to surpress the null tangent points.";
+//
+LowMemoryERR_310.Request="반입 변환:";
+LowMemoryERR_310.Diagnostic="메모리 부족으로 중단되었습니다.";
+LowMemoryERR_310.Advice="모델을 단순화하여 모델 크기를 줄이십시오.";
+//
+//-------------------------------------------------------------------------
+// Classe gerant les erreurs d'entree/sortie 
+//class CATM2V5InputError, InteropInput , CATInputError
+//-------------------------------------------------------------------------
+//
+ZEdgeERR_400.Request="모서리 이주: ";
+ZEdgeERR_400.Diagnostic="Z 형상 모서리가 검출되었습니다. 이 사양 정보는 지원되지 않습니다.";
+ZEdgeERR_400.Advice=	"이 Z 사양 정보를 억제하려면 모서리를 수정하십시오.";
+//
+USurfaceERR_401.Request="서피스 이주:";
+USurfaceERR_401.Diagnostic="U 형상 서피스가 검출되었습니다.";
+USurfaceERR_401.Advice="이 U 사양 정보를 억제하려면 서피스를 수정하십시오.";
+//
+XFaceERR_402.Request="페이스 이주:";
+XFaceERR_402.Diagnostic="X 형상 페이스가 검출되었습니다.";
+XFaceERR_402.Advice="이 X 사양 정보를 억제하려면 페이스를 수정하십시오.";
+//
+MisOrientedFaceERR_403.Request="페이스 이주:";
+MisOrientedFaceERR_403.Diagnostic="페이스가 자신의 쉘 도메인에 일치하는 방향이 아닙니다.";
+MisOrientedFaceERR_403.Advice=" 페이스 방향을 수정하십시오.";
+//
+UnMergedEdgeERR_404.Request="페이스 경계 이주:";
+UnMergedEdgeERR_404.Diagnostic="잘못된 경계 모서리가 검출되었습니다.";
+UnMergedEdgeERR_404.Advice="모든 모서리가 페이스를 적절하게 바인드하는지 확인하십시오.";
+//
+ZEdgeERR_405.Request="모서리 이주: \n
+";
+ZEdgeERR_405.Diagnostic="Z 형상 모서리가 공간 위치에서 검출되었습니다. /p1 \n
+";
+ZEdgeERR_405.Advice="이 Z 사양 정보를 억제하려면 모서리를 수정하십시오.";
+//
+XEdgeERR_406.Request="모서리 커브 Merger: \n
+";
+XEdgeERR_406.Diagnostic="모서리에 유효하지 않은 커브 방향 \n
+";
+XEdgeERR_406.Advice="커브 방향이 유효하지 않습니다.";
+//
+//JNV170706V4 ControlPointsTooCloseERR_407.Request="Edge migration : \n
+//JNV170706V4 ";
+//JNV170706V4 ControlPointsTooCloseERR_407.Diagnostic="Too closed control points are detected.\n
+//JNV170706V4 ";
+//JNV170706V4 ControlPointsTooCloseERR_407.Advice="Redo the edge to suppress this error.";
+//
+DegeneratedFaceERR_408.Request="페이스 이주 : \n
+";
+DegeneratedFaceERR_408.Diagnostic="페이스 면적이 널(null)입니다. \n
+";
+DegeneratedFaceERR_408.Advice="이 페이스를 억제하십시오.";
+//
+//JNV170706V4 InvalidFaceERR_409.Request="Face Migration :\n
+//JNV170706V4 ";
+//JNV170706V4 InvalidFaceERR_409.Diagnostic="A Face is lying on two surfaces.\n
+//JNV170706V4 ";
+//JNV170706V4 InvalidFaceERR_409.Advice="Clean the model with CATCLN utility.";
+//
+InvalidDomainERR_410.Request="페이스 이주 : \n
+";
+InvalidDomainERR_410.Diagnostic="페이스 경계 도메인이 유효하지 않습니다. \n
+";
+InvalidDomainERR_410.Advice="첫 번째 도메인에 다른 도메인이 포함되는지 확인하십시오. \n
+ 임의의 두 도메인에는 교차가 없어야 합니다. \n
+ 임의의 다른 도메인에는 서로에 포함될 수 없습니다. ";
+//
+FaceKoERR_411.Request="페이스 이주: ";
+FaceKoERR_411.Diagnostic="페이스 오류가 발생했습니다. 
+";
+FaceKoERR_411.Advice="보고서 파일에서 오류 메시지를 확인하십시오.";
+//
+IntersectingLoopsERR_412.Request="페이스 이주 : \n
+";
+IntersectingLoopsERR_412.Diagnostic="페이스 경계 도메인이 공간 위치에서 교차합니다. /p1
+";
+IntersectingLoopsERR_412.Advice="이 사양 정보를 억제하려면 페이스를 수정하십시오.";
+//
+ThinFaceERR_414.Request="페이스 이주 : \n
+";
+ThinFaceERR_414.Diagnostic="모든 모서리가 페이스(얇은 페이스)에서 혼동됩니다. \n
+";
+ThinFaceERR_414.Advice="이 페이스를 억제하십시오.";
+//
+InvalidEdgeConfigurationERR_415.Request="모서리 이주 :\n
+";
+InvalidEdgeConfigurationERR_415.Diagnostic="유효하지 않은 모서리 사양 정보가 공간 위치에서 검출되었습니다. /p1
+";
+InvalidEdgeConfigurationERR_415.Advice="입력 모델의 모서리 사양 정보가 올바른지 확인하십시오.";
+//
+InvalidInputFaceERR_416.Request="페이스 이주 : \n
+";
+InvalidInputFaceERR_416.Diagnostic="입력 데이터가 유효하지 않습니다. \n
+";
+InvalidInputFaceERR_416.Advice="입력 모델에서 이 페이스를 정정하십시오.";
+//
+//JNV170706V4 InvalidInputVolumeOrSkinERR_417.Request="Migration :\n
+//JNV170706V4 ";
+//JNV170706V4 InvalidInputVolumeOrSkinERR_417.Diagnostic="Faces migrated seperately because of /p1 face(s) with invalid input data.\n
+//JNV170706V4 ";
+//JNV170706V4 InvalidInputVolumeOrSkinERR_417.Advice="Correct invalid face(s) from input model.";
+//
+NotSplittedFaceERR_418.Request="페이스 이주 : \n
+";
+NotSplittedFaceERR_418.Diagnostic="SplitSurf 모드가 활성화되었지만 페이스가 하나의 닫힌 서피스에만 있어 분할되지 않습니다. \n
+";
+NotSplittedFaceERR_418.Advice="이 서피스를 분할하십시오.";
+
+CurveOutsideSupportMaxLimitsERR_419.Request="페이스 이주: \n";
+CurveOutsideSupportMaxLimitsERR_419.Diagnostic="지원의 최대 한계 밖에 커브가 정의되어 있습니다.\n";
+CurveOutsideSupportMaxLimitsERR_419.Advice="";
+
+InvalidWireGapERR_420.Request="와이어 이주 :\n";
+InvalidWireGapERR_420.Diagnostic="와이어에서 두 곡선 사이에 유효하지 않은 내부 틈을 검출했습니다. \n";
+InvalidWireGapERR_420.Advice="입력 모델에서 이 와이어를 정정하십시오. ";
+
+//
+//JNV170706V4 //______________________________________________________________
+//JNV170706V4 // Module V4MUToM2 
+//JNV170706V4 // 1000 - 1099 : erreurs emises lors de la migration d'un
+//JNV170706V4 //               solide polyhedrique V4.
+//JNV170706V4 //
+//JNV170706V4 // class CATInteropInputErrorMUV4, CATInputError.
+//JNV170706V4 //_______________________________________________________________
+//JNV170706V4 // 
+//JNV170706V4 ConfusedPointsERR_1000.Request="Conversion of a V4 Solid mock-up Face :\n
+//JNV170706V4 ";
+//JNV170706V4 ConfusedPointsERR_1000.Diagnostic="Face Vertices are confused.\n
+//JNV170706V4 ";
+//JNV170706V4 ConfusedPointsERR_1000.Advice="Remove this degenerated face.";
+//JNV170706V4 //
+//JNV170706V4 InLinePointsERR_1001.Request="Conversion of a V4 Solid mock-up Face :\n
+//JNV170706V4 ";
+//JNV170706V4 InLinePointsERR_1001.Diagnostic="Face Vertices are in line.\n
+//JNV170706V4 ";
+//JNV170706V4 InLinePointsERR_1001.Advice="Remove this degenerated face.";
+//JNV170706V4 //
+//JNV170706V4 InsufficientPointsERR_1002.Request="Conversion of a V4 Solid mock-up Face :\n
+//JNV170706V4 ";
+//JNV170706V4 InsufficientPointsERR_1002.Diagnostic="Insufficient Vertices are given to make a face.\n
+//JNV170706V4 ";
+//JNV170706V4 InsufficientPointsERR_1002.Advice="Remove this degenerated face.";
+//JNV170706V4 //
+//JNV170706V4 MiddlePlaneNotDefinedERR_1003.Request="Conversion of a V4 Solid mock-up Face :\n
+//JNV170706V4 ";
+//JNV170706V4 MiddlePlaneNotDefinedERR_1003.Diagnostic="Middle plane not defined. No Face can be created.\n
+//JNV170706V4 ";
+//JNV170706V4 MiddlePlaneNotDefinedERR_1003.Advice="";
+//
+//-------------------------------------------
+//BLI le 8/09/2002
+//  Liste des Warnings
+// Les warnings sont destines a Logger des anomalies
+// rencontrees lors de la migration qui n empechent 
+// pas de migrer l element mais pour autant le 
+// resultat est de qualite douteus
+// le numero est > 2000 
+//-------------------------------------------
+EdgeGapInLoopERR_2001.Request="루프 변환\n
+";
+EdgeGapInLoopERR_2001.Diagnostic="두 경계 커브 사이에 비정상 틈 길이 /p1이(가) 발견되었습니다. \n
+";
+EdgeGapInLoopERR_2001.Advice="두 커브 경계 사이의 틈이 \n
+ 교차 커브 공차보다 큽니다.";
+//
+EmptyShellERR_2002.Request="쉘 변환 \n
+";
+EmptyShellERR_2002.Diagnostic="빈 쉘을 검출함 \n
+";
+EmptyShellERR_2002.Advice="";
+//
+ThinFaceERR_2003.Request="페이스 변환 \n
+";
+ThinFaceERR_2003.Diagnostic="얇은 페이스가 검출되었습니다. \n
+";
+ThinFaceERR_2003.Advice="";
+

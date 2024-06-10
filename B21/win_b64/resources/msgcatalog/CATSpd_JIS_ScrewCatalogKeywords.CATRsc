@@ -1,0 +1,57 @@
+// COPYRIGHT ImpactXoft 2005
+//===================================================================
+//
+// This file contains the JIS screw catalog keywords for accessing
+// screw data for supported screw types.  The format of text string
+// must be a "comma" delimited string in the order defined below.
+//
+// Some table keys indicate that data values are computed/derived/constant as follows:
+//
+// Key "COMPUTE:FORMULA_1" = if( Shank_Diameter <= 52mm )
+//                               Length - 2.5 * P_pitch
+//                           else
+//                               Length - 3.5 * P_pitch
+//             
+// Key "COMPUTE:FORMULA_2 = Length - Shank_Length 
+//
+// Key "COMPUTE:FORMULA_3 = Length - Thread_Length 
+//
+// Key "COMPUTE:FORMULA_4 = Shank_Length + Thread_Length 
+//
+// Key "CONSTANT:0" = 0
+//
+//===================================================================
+//
+//                                                         Countersunk       Length            Head_Diameter     Thread_Diameter   Thread_Length        Shank_Diameter    Shank_Length       Thread_Pitch
+//                                                            Status           Key                  Key               Key               Key                   Key             Key                 Key
+//                                                         -----------  ------------------   ------------------  ----------------  -------------------  ----------------  -----------------  ----------
+
+JIS_B_1101_COUNTERSUNK_SLOTTED_FLAT_HEAD_SCREW                  = "YES, l_nom_Length,        dk_nom_head_Dia,    d_dia,            Threading,           d_dia,            COMPUTE:FORMULA_3, p_pitch";
+JIS_B_1101_COUNTERSUNK_SLOTTED_RAISED_HEAD_SCREW                = "YES, l_length_nom,        dk_nom_Head_dia,    d_dia,            Threading,           d_dia,            COMPUTE:FORMULA_3, p_pitch";
+JIS_B_1101_SLOTTED_CHEESE_HEAD_SET_SCREW                        = "NO,  l_Length_nom,        dk_nom_head_dia,    d_dia,            Threading,           d_dia,            COMPUTE:FORMULA_3, p_pitch";
+JIS_B_1101_SLOTTED_PAN_HEAD_SET_SCREW                           = "NO,  l_Length_nom,        dk_nom_Head_dia,    d_dia,            Threading,           d_dia,            COMPUTE:FORMULA_3, p_pitch";
+JIS_B_1111_CROSS_RECESSED_COUNTERSUNK_SCREW_CLASS_4.8           = "YES, l_length_nom,        dk_head_dia,        d_dia,            Threading,           d_dia,            COMPUTE:FORMULA_3, P_pitch";
+JIS_B_1111_CROSS_RECESSED_COUNTERSUNK_SCREW_CLASS_8.8           = "YES, l_length_nom,        dk_head_dia,        d_dia,            Threading,           d_dia,            COMPUTE:FORMULA_3, P_pitch";
+JIS_B_1111_CROSS_RECESSED_PAN_HEAD_SCREW                        = "NO,  l_length_nom,        dk_head_dia,        d_dia,            Threading,           d_dia,            COMPUTE:FORMULA_3, P_pitch";
+JIS_B_1111_CROSS_RECESSED_RAISED_HEAD_COUNTERSUNK_SCREWS        = "YES, l_length_nom,        dk_head_dia,        d_dia,            Threading,           d_dia,            COMPUTE:FORMULA_3, P_pitch";
+JIS_B_1115_SLOTTED_FLAT_CSK_HEAD_TAPPING_SCREW                  = "YES, l_length,            dk_head_dia_max,    d1_thread_od_max, threading,           d1_thread_od_max, COMPUTE:FORMULA_3, p_pitch";
+JIS_B_1115_SLOTTED_PAN_HEAD_TAPPING_SCREW                       = "NO,  l_length,            dk_head_dia_max,    d1_thread_od_max, threading,           d1_thread_od_max, COMPUTE:FORMULA_3, p_pitch";
+JIS_B_1115_SLOTTED_RAISED_CSK_HEAD_TAPPING_SCREW                = "YES, l_length,            dk_head_dia_max,    d1_thread_od_max, threading,           d1_thread_od_max, COMPUTE:FORMULA_3, p_pitch";
+JIS_B_1117_SLOTTED_SET_SCREW_WITH_CUP_POINT                     = "NO,  l_length,            d_dia,              d_dia,            Threading,           d_dia,            CONSTANT:0,        p_pitch";
+JIS_B_1117_SLOTTED_SET_SCREW_WITH_FLAT_POINT                    = "NO,  l_lengh_max,         d_dia,              d_dia,            threading,           d_dia,            CONSTANT:0,        p_pitch";
+JIS_B_1117_SLOTTED_SET_SCREW_WITH_LONG_DOG_POINT                = "NO,  l_lengh_max,         d_dia,              d_dia,            threading,           d_dia,            CONSTANT:0,        p_pitch";
+JIS_B_1117_SLOTTED_SET_SCREW_WITH_ROUND_END                     = "NO,  l_length,            d_dia,              d_dia,            threading,           d_dia,            CONSTANT:0,        p_pitch";
+JIS_B_1117_SLOTTED_SET_SCREW_WITH_TRUNCATED_CONE_POINT          = "NO,  l_lengh_max,         d_dia,              d_dia,            threading,           d_dia,            CONSTANT:0,        p_pitch";
+JIS_B_1122_CROSS_RECESSED_COUNTERSUNK_HEAD_TAPPING_SCREW        = "YES, l_length,            dk_head_dia_max,    d1_thread_od_max, threading,           d1_thread_od_max, COMPUTE:FORMULA_3, p_pitch";
+JIS_B_1122_CROSS_RECESSED_PAN_HEAD_TAPPING_SCREWS               = "NO,  l_length,            dk_head_dia_max,    d1_thread_od_max, threading,           d1_thread_od_max, COMPUTE:FORMULA_3, p_pitch";
+JIS_B_1122_CROSS_RECESSED_RAISED_COUNTERSUNK_HEAD_TAPPING_SCREWS= "YES, l_length,            dk_head_dia_max,    d1_thread_od_max, threading,           d1_thread_od_max, COMPUTE:FORMULA_3, p_pitch";
+JIS_B_1123_HEX_HEAD_TAPPING_SCREW                               = "NO,  l_length,            e_across_corners,   d1_thread_od_max, threading,           d1_thread_od_max, COMPUTE:FORMULA_3, p_pitch";
+JIS_B_1176_HEXAGON_SOCKET_HEAD_CAP_SCREW                        = "NO,  l_nom_length,        dk_max,             d_dia,            Threading,           ds_max,           COMPUTE:FORMULA_3, p_pitch";
+JIS_B_1177_GRADE_A_HEXAGON_SOCKET_SET_SCREW_CONE_POINT          = "NO,  l_nom_length,        d_dia,              d_dia,            threading,           d_dia,            CONSTANT:0,        p_pitch";
+JIS_B_1177_GRADE_A_HEXAGON_SOCKET_SET_SCREW_CUP_POINT           = "NO,  l_nom_length,        d_dia,              d_dia,            threading,           d_dia,            CONSTANT:0,        p_pitch";
+JIS_B_1177_GRADE_A_HEXAGON_SOCKET_SET_SCREW_DOG_POINT           = "NO,  l_nom_length,        d_dia,              d_dia,            threading,           d_dia,            CONSTANT:0,        p_pitch";
+JIS_B_1177_GRADE_A_HEXAGON_SOCKET_SET_SCREW_FLAT_POINT          = "NO,  l_nom_length,        d_dia,              d_dia,            threading,           d_dia,            CONSTANT:0,        p_pitch";
+JIS_B_1180_GRADES_A_B_HEX_HEAD_SCREW                            = "NO,  l_max_length,        e,                  d_dia,            threading,           d_dia,            COMPUTE:FORMULA_3, p_pitch";
+JIS_B_1180_GRADES_A_B_HEX_HEAD_SCREW_NONPREFERRED               = "NO,  l_max_length,        e,                  d_dia,            threading,           d_dia,            COMPUTE:FORMULA_3, p_pitch";
+JIS_B_1180_GRADE_C_HEX_HEAD_SCREW                               = "NO,  l_length_max,        e_acrosscorner_min, d_dia,            threading,           d_dia,            COMPUTE:FORMULA_3, p_pitch";
+JIS_B_1180_GRADE_C_HEX_HEAD_SCREW_NONPREFERRED                  = "NO,  l_length_max,        e_acrosscorner_min, d_dia,            threading,           d_dia,            COMPUTE:FORMULA_3, p_pitch";

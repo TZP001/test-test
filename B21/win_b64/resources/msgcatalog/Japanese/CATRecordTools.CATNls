@@ -1,0 +1,44 @@
+Usage="
+V5ﾚｺｰﾄﾞ ｷｬﾌﾟﾁｬ ﾌｧｲﾙ管理ﾕｰﾃｨﾘﾃｨ｡
+
+使用法: RecordTools -s name [-Check|-FindPath path |-FindCmd cmdname] [-h, -?, -help]
+       RecordTools -s name -d name -ChangePath    oldpath newpath [ID]
+       RecordTools -s name -d name -ChangeSubPath oldpath newpath
+       RecordTools -s name -d name -ChangeData  ID datapos newdata
+       RecordTools -s name -d name -ChangeDataString oldString NewString
+       RecordTools -s name -d name -ChangeEvent ID newevent
+       RecordTools -s name -d name -Delete ID
+       RecordTools -s name -d name -DeleteSubPath subpath
+
+   -h, -?, -help    : このﾍﾙﾌﾟ
+   -s name          : ｿｰｽ ﾌｧｲﾙの名前(通常はcapture.rec)
+   -d name          : 宛先ﾌｧｲﾙの名前
+
+   -Check           : ｿｰｽ ﾌｧｲﾙの整合性を確認し､XML形式で表示します
+   -FindPath        : ｿｰｽ ﾌｧｲﾙからCATCommandﾊﾟｽを検索します
+   -findCmd         : ｿｰｽ ﾌｧｲﾙからCATCommand名を検索します
+
+   -ChangePath      : 'ID'が指定されていない限り､完全ﾊﾟｽ'oldpath'をすべて'newpath'に変更します
+   -ChangeSubPath   : ｻﾌﾞﾊﾟｽ'oldpath'を'newpath'に変更します
+   -ChangeData      : 'datapos'位置にあるﾚｺｰﾄﾞ ﾌﾞﾛｯｸ'ID'内のﾃﾞｰﾀを'newdata'に変更します
+   -ChangeDataString: 全ﾌﾞﾛｯｸのすべてのCHARﾀｲﾌﾟのﾃﾞｰﾀのoldStringをnewStringに置き換えます
+   -ChangeEvent     : ﾚｺｰﾄﾞ ﾌﾞﾛｯｸ'ID'内のｲﾍﾞﾝﾄを'newevent'に変更します
+   -Delete          : ﾚｺｰﾄﾞ ﾌﾞﾛｯｸ'ID'を削除します
+   -DeleteSubPath   : 'subpath'を含むすべてのﾚｺｰﾄﾞ ﾌﾞﾛｯｸを削除します
+
+   ID               : -Checkｵﾌﾟｼｮﾝで指定された､CRnnnまたはCInnnという形式の対話ID";
+
+Error.0="# ﾚｺｰﾄﾞ ﾂｰﾙ-ｴﾗｰ: ";
+Error.1="-s: ｿｰｽ ﾌｧｲﾙがありません｡";
+Error.2="宛先ﾌｧｲﾙとｿｰｽ ﾌｧｲﾙを同じにすることはできません｡";
+Error.3="-d: 宛先ﾌｧｲﾙがありません｡";
+Error.4="ﾚｺｰﾄﾞ ﾌﾞﾛｯｸ番号がありません｡";
+Error.5="ｻﾌﾞﾊﾟｽがありません｡";
+Error.6="-s: ｿｰｽ ﾌｧｲﾙが見つかりません";
+Error.7="引数が認識されません｡";
+Error.8="-s: ｿｰｽ ﾌｧｲﾙを開けません";
+Error.9="-d: 宛先ﾌｧｲﾙがありません｡";
+Error.10="-d: 宛先ﾌｧｲﾙはすでに存在しています｡";
+Error.11="-d: 宛先ﾃﾞｨﾚｸﾄﾘが存在していません｡";
+
+Error.99="正しくない引数の数｡";

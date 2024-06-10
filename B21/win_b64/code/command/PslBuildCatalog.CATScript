@@ -1,0 +1,101 @@
+'// COPYRIGHT DASSAULT SYSTEMES  1999
+'//============================================================================
+'//
+'// Language="VBSCRIPT"
+'// To build catalog
+'//
+'//============================================================================
+'// Major CATIA interface used:
+'//
+'// interface               VB Name         Remarks
+'// -----------            ------------    --------------
+'// CATIACatalogDocument   CatalogDocument create catalog
+'//
+'//============================================================================
+'//
+'// Audit Trail:
+'//----------------------------------------------------------------------------
+'//   Author     : Vic Szeto
+'//   Date       : 8/99
+'//   Chg id     :
+'//   Chg nature :
+'//----------------------------------------------------------------------------
+'//   Modified   :
+'//   Date       :
+'//   Chg id     :
+'//   Chg nature :
+'//============================================================================
+
+Option Explicit
+
+'******************************************************************************
+'  GLOBAL variable declarations section
+'******************************************************************************
+Dim strGInputPath 
+Dim strGOutputPath
+
+'@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+'//                       User customizable sections               
+'@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Const NBGCSVFile = 13
+Dim strArrayGCSVFile (13)
+
+'------------------------------------------------------------------------------
+Sub InitCSVFileArray ()
+'------------------------------------------------------------------------------
+strArrayGCSVFile(1) = "CHAPTER1_1"
+strArrayGCSVFile(2) = "CHAPTER1_1_1"
+strArrayGCSVFile(3) = "CHAPTER1_1_2"
+strArrayGCSVFile(4) = "CHAPTER1_2"
+strArrayGCSVFile(5) = "CHAPTER1_1_1_3"
+strArrayGCSVFile(6) = "CHAPTER1_1_1_4"
+strArrayGCSVFile(7) = "ENDCHAPTER1_1_2_1"
+strArrayGCSVFile(8) = "ENDCHAPTER1_2_1"
+strArrayGCSVFile(9) = "EndCHAPTER1_1_1_1"
+strArrayGCSVFile(10) = "EndCHAPTER1_1_1_2"
+strArrayGCSVFile(11) = "EndCHAPTER1_1_1_3_1"
+strArrayGCSVFile(12) = "EndCHAPTER1_1_1_4_1"
+strArrayGCSVFile(13) = "RootCHAPTER1"
+
+
+End Sub '/////////////////////////////////////////////// InitCSVFileArray
+
+'------------------------------------------------------------------------------
+Sub GetPath ()
+'------------------------------------------------------------------------------
+  strGInputPath = InputBox("Path of the catalog input directory:", _
+      "Input path for CSV", _
+      "h:\users\sb03305\vso_testIDL\BuildCatalog.tst\FunctionTests\InputData\")
+
+  strGOutputPath = InputBox("Path of the catalog output directory:", _
+      "Output path for CSV", _
+      "h:\users\sb03305\vso_testIDL\BuildCatalog.tst\FunctionTests\Output\intel_a\")
+
+End Sub '/////////////////////////////////////////////// GetPath
+'------------------------------------------------------------------------------
+Sub CATMain ()
+'------------------------------------------------------------------------------
+  Dim objCatalogDoc As Document
+  Dim intK As Integer
+  Dim strCSVFile
+  Dim strCatalogFile
+
+  InitCSVFileArray
+
+  GetPath
+
+  On Error Resume Next
+
+  For intK = 1 to NBGCSVFile
+     strCSVFile = strGInputPath & strArrayGCSVFile (intK) & ".csv"
+     strCatalogFile = strGOutputPath & strArrayGCSVFile (intK) & ".catalog"
+     Set objCatalogDoc = CATIA.Documents.Add("CatalogDocument")
+
+     '---------- Generate catalog
+     objCatalogDoc.CreateCatalogFromcsv strCSVFile,strCatalogFile
+
+  Next  'For intK  
+
+  MsgBox "Press OK to quit", 0, "CATALOG CREATION COMPLETED"
+
+End Sub '/////////////////////////////////////////////// CATMain

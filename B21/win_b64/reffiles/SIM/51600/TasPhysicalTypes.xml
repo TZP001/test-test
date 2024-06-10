@@ -1,0 +1,583 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v2004 rel. 3 U (http://www.xmlspy.com) by JND (DASSAULT SYSTEMES) -->
+<sim:PhysicalDescriptionDirectory xmlns:sim="urn:com:dassault_systemes:Simulation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:com:dassault_systemes:Simulation Simulation.xsd" Version="51600">
+	<sim:PhysicalDescriptionPackage PackageName="Internal PhysicalDescriptionPackage">
+		<sim:Set Category="UNDEFINED">
+			<sim:Identifier ID="GENERIC_SET" DfltName="Generic Set"/>
+		</sim:Set>
+		<sim:Entity Category="UNDEFINED">
+			<sim:Identifier ID="GENERIC_ENTITY" DfltName="Genreric Entity"/>
+		</sim:Entity>
+		<sim:Entity Category="AXIS">
+			<sim:Identifier ID="IMPORTED_AXIS" DfltName="Imported Axis"/>
+		</sim:Entity>
+		<sim:Entity Category="LOAD">
+			<sim:Identifier ID="IMPORTED_LOAD" DfltName="Imported Load"/>
+		</sim:Entity>
+		<sim:Entity Category="MASS">
+			<sim:Identifier ID="IMPORTED_MASS" DfltName="Imported Mass"/>
+		</sim:Entity>
+		<sim:Entity Category="MATERIAL">
+			<sim:Identifier ID="IMPORTED_MATERIAL" DfltName="Imported Material"/>
+		</sim:Entity>
+		<sim:Entity Category="RESTRAINT">
+			<sim:Identifier ID="IMPORTED_RESTRAINT" DfltName="Imported Restraint"/>
+		</sim:Entity>
+		<sim:Entity Category="PROPERTY">
+			<sim:Identifier ID="IMPORTED_PROPERTY" DfltName="Imported Property"/>
+		</sim:Entity>
+		<sim:Entity Category="LOAD">
+			<sim:Identifier ID="COMBINED_LOAD" DfltName="Combined Load"/>
+		</sim:Entity>
+		<sim:Entity Category="MASS">
+			<sim:Identifier ID="COMBINED_MASS" DfltName="Combined Mass"/>
+		</sim:Entity>
+		<sim:Entity Category="RESTRAINT">
+			<sim:Identifier ID="COMBINED_RESTRAINT" DfltName="Combined Restraint"/>
+		</sim:Entity>
+		<sim:Characteristic MathType="UNDEFINED" ValueType="UNDEFINED">
+			<sim:Identifier ID="GENERIC_CHARACTERISTIC" DfltName="Generic Characteristic"/>
+		</sim:Characteristic>
+		<sim:Characteristic MathType="SCALAR" ValueType="POINTER">
+			<sim:Identifier ID="CHARAC_COLLECTOR_POINTER" DfltName="Charac Collector Pointer"/>
+		</sim:Characteristic>
+		<sim:Characteristic MathType="SCALAR" ValueType="POINTER">
+			<sim:Identifier ID="ENTITY_COLLECTOR_POINTER" DfltName="Entity Collector Pointer"/>
+		</sim:Characteristic>
+		<sim:Characteristic MathType="SCALAR" ValueType="EXPRESSION">
+			<sim:Identifier ID="EXPRESSION_POINTER" DfltName="Expression Pointer"/>
+		</sim:Characteristic>
+		<sim:Characteristic MathType="SCALAR" ValueType="INTEGER">
+			<sim:Identifier ID="PHYSICAL_TYPE" DfltName="Physical Type"/>
+		</sim:Characteristic>
+		<sim:Characteristic MathType="SCALAR" ValueType="INTEGER">
+			<sim:Identifier ID="USER_NUMBER" DfltName="User Number"/>
+		</sim:Characteristic>
+		<sim:Characteristic MathType="SCALAR" ValueType="AXIS">
+			<sim:Identifier ID="LOCAL_AXIS" DfltName="Local Axis"/>
+		</sim:Characteristic>
+		<sim:Characteristic MathType="SCALAR" ValueType="AXIS">
+			<sim:Identifier ID="OFFSET_AXIS" DfltName="Offset Axis"/>
+		</sim:Characteristic>
+		<sim:Characteristic MathType="VECTOR" ValueType="REAL" Unit="LENGTH" Dimension="3">
+			<sim:Identifier ID="ORIENTATION_VECTOR" DfltName="Orientation Vector"/>
+		</sim:Characteristic>
+		<sim:Characteristic MathType="VECTOR" ValueType="REAL" Unit="LENGTH" Dimension="3">
+			<sim:Identifier ID="ORIENTATION_POINT" DfltName="Orientation Point"/>
+		</sim:Characteristic>
+		<sim:Characteristic MathType="SCALAR" ValueType="NODE">
+			<sim:Identifier ID="ORIENTATION_NODE" DfltName="Orientation Node"/>
+		</sim:Characteristic>
+	</sim:PhysicalDescriptionPackage>
+	<sim:PhysicalDescriptionPackage PackageName="Public PhysicalDescriptionPackage">
+		<sim:Set Category="UNDEFINED">
+			<sim:Identifier ID="FEM" DfltName="Finite Element Model"/>
+			<sim:Child ID="FEM_NODE" Mandatory="true"/>
+			<sim:Child ID="TEMPORARY_JOINTS" Mandatory="true"/>
+			<sim:Child ID="MESH_SET_ANA" Cardinality="[0,1]"/>
+			<sim:Child ID="MODE_LOAD_GRAV" Mandatory="true"/>
+		</sim:Set>
+		<sim:Set Category="UNDEFINED">
+			<sim:Identifier ID="MESHPART" DfltName="Mesh Part"/>
+			<sim:Child ID="FEM" Mandatory="true"/>
+			<sim:Child ID="TRANSFORMATION" Mandatory="true"/>
+			<sim:Child ID="MP_NODE" Mandatory="true"/>
+			<sim:Child ID="TPS_SET" Cardinality="[0,1]"/>
+		</sim:Set>
+		<sim:Set Category="UNDEFINED">
+			<sim:Identifier ID="MESHPARTS" DfltName="Mesh Part Set"/>
+			<sim:Child ID="MESHPART" Mandatory="true"/>
+			<sim:Child ID="MESHPART_VIRTUAL" Mandatory="true"/>
+		</sim:Set>
+		<sim:Set Category="UNDEFINED">
+			<sim:Identifier ID="FASTENINGS" DfltName="Fastening set"/>
+			<sim:Child ID="SPOT_WELDING" Mandatory="true"/>
+			<sim:Child ID="RIVETING" Mandatory="true"/>
+			<sim:Child ID="BOLTING" Mandatory="true"/>
+			<sim:Child ID="SPOT_GLUING" Mandatory="true"/>
+		</sim:Set>
+		<sim:Set Category="UNDEFINED">
+			<sim:Identifier ID="TPS_SET" DfltName="TPS set"/>
+			<sim:Child ID="TPS_DEVIATION" Mandatory="true"/>
+			<sim:Child ID="TPS_DEVIATION_CORRELATED" Mandatory="true"/>
+			<sim:Child ID="TPS_DISTANCE_PT_PT" Mandatory="true"/>
+			<sim:Child ID="TPS_ANALYSIS_GEOMETRIC_VARIATIONS" Mandatory="true"/>
+			<sim:Child ID="TPS_MORPHING_VARIATIONS" Mandatory="true"/>
+			<sim:Child ID="TPS_GRAVITY_ANNOTATION" Cardinality="[0,1]"/>
+		</sim:Set>
+		<sim:Set Category="UNDEFINED">
+			<sim:Identifier ID="TPS_BAG" DfltName="TPS bag"/>
+			<sim:Child ID="TPS_DEVIATION" Mandatory="true"/>
+			<sim:Child ID="TPS_DEVIATION_CORRELATED" Mandatory="true"/>
+			<sim:Child ID="TPS_DISTANCE_PT_PT" Mandatory="true"/>
+		</sim:Set>
+		<sim:Set Category="UNDEFINED">
+			<sim:Identifier ID="CHILD_ACTIVITIES" DfltName="Child activities"/>
+			<sim:Child ID="ACTIVITY" Mandatory="true"/>
+		</sim:Set>
+		<sim:Set Category="UNDEFINED">
+			<sim:Identifier ID="PREVIOUS_ACTIVITIES" DfltName="Previous activities"/>
+			<sim:Child ID="ACTIVITY" Mandatory="true"/>
+		</sim:Set>
+		<sim:Set Category="UNDEFINED">
+			<sim:Identifier ID="NEXT_ACTIVITIES" DfltName="Next activities"/>
+			<sim:Child ID="CONTROL_FLOW" Mandatory="true"/>
+		</sim:Set>
+		<sim:Set Category="UNDEFINED">
+			<sim:Identifier ID="ACTIVITIES_TO_SOLVE_WITH" DfltName="Activities to solve with"/>
+			<sim:Child ID="ACTIVITY" Mandatory="true"/>
+		</sim:Set>
+		<sim:Set Category="UNDEFINED">
+			<sim:Identifier ID="ACTIVITY" DfltName="Activity"/>       
+			<sim:Child ID="CHILD_ACTIVITIES" Cardinality="[0,1]"/>
+			<sim:Child ID="PREVIOUS_ACTIVITIES" Cardinality="[0,1]"/>
+			<sim:Child ID="NEXT_ACTIVITIES" Cardinality="[0,1]"/>
+			<sim:Child ID="ACTIVITIES_TO_SOLVE_WITH" Cardinality="[0,1]"/>
+			<sim:Child ID="POSITIONING_SYSTEM" Mandatory="true"/>
+			<sim:Child ID="STATIC_JOINT" Mandatory="true"/>
+			<sim:Child ID="SPOT_WELDING" Mandatory="true"/>
+			<sim:Child ID="RIVETING" Mandatory="true"/>
+			<sim:Child ID="SPOT_GLUING" Mandatory="true"/>
+			<sim:Child ID="BOLTING" Mandatory="true"/>
+			<sim:Child ID="VARIATION_OPERATOR" Mandatory="true"/>
+			<sim:Child ID="TPS_BAG" Mandatory="true"/>
+			<sim:Child ID="TO_SOLVE" Mandatory="true"/>
+			<sim:Child ID="REFERENCE_FRAME" Mandatory="true"/>
+			<sim:Child ID="DATUM" Mandatory="true"/>       
+			<sim:Child ID="MESHPARTS" Cardinality="[0,1]"/>
+			<sim:Child ID="CONTACT" Mandatory="true"/>
+			<sim:Child ID="GRAVITY_LOAD" Cardinality="[0,1]"/>
+		</sim:Set>
+		<sim:Set Category="UNDEFINED">
+			<sim:Identifier ID="VARIATION_OPERATOR" DfltName="Variation operator"/>       
+			<sim:Child ID="TPS_SET" Mandatory="true"/> 
+			<sim:Child ID="MESHPART" Cardinality="[0,1]"/> 
+			<sim:Child ID="MESHPART_VIRTUAL" Cardinality="[0,1]"/> 
+			<sim:Child ID="LOADING_OPERATOR" Cardinality="[0,1]"/>
+			<sim:Child ID="MESHPARTS" Cardinality="[0,1]"/>
+		</sim:Set>
+		<sim:Set Category="UNDEFINED">
+			<sim:Identifier ID="MESHPART_VIRTUAL" DfltName="Activity"/>       
+			<sim:Child ID="TRANSFORMATION" Mandatory="true"/>
+			<sim:Child ID="FEM_VIRTUAL" Mandatory="true"/>
+			<sim:Child ID="SUPPORT" Mandatory="true"/>
+			<sim:Child ID="RIVETING" Mandatory="true"/>
+			<sim:Child ID="MP_NODE_VIRTUAL" Mandatory="true"/>
+			<sim:Child ID="MESHPART" Mandatory="true"/>
+			<sim:Child ID="MESHPART_VIRTUAL" Mandatory="true"/>
+			<sim:Child ID="TPS_SET" Cardinality="[0,1]"/>
+		</sim:Set>
+		<sim:Set Category="UNDEFINED">
+			<sim:Identifier ID="FEM_VIRTUAL" DfltName="FEM virtual"/>       
+			<sim:Child ID="MESH_VIRTUAL" Cardinality="[0,1]"/>
+			<sim:Child ID="FEM_NODE_VIRTUAL" Mandatory="true"/>
+			<sim:Child ID="TEMPORARY_JOINTS" Cardinality="[0,1]"/>
+		</sim:Set>
+		<sim:Set Category="UNDEFINED">
+			<sim:Identifier ID="CONTROL_FLOW" DfltName="Control flow"/> 
+			<sim:Child ID="ACTIVITY" Mandatory="true"/>
+		</sim:Set>
+		<sim:Set Category="UNDEFINED">
+			<sim:Identifier ID="MESH_VIRTUAL" DfltName="MESH virtual"/> 
+			<sim:Child ID="FEM_ELEMENT_VIRTUAL" Mandatory="true"/>
+		</sim:Set>
+		<sim:Set Category="UNDEFINED">
+			<sim:Identifier ID="MESH_SET_ANA" DfltName="MESH set ana"/> 
+			<sim:Child ID="SPIDER_ANA" Mandatory="true"/>
+		</sim:Set>
+		<sim:Set Category="UNDEFINED">
+			<sim:Identifier ID="LINK_MANAGER" DfltName="Link manager"/> 
+			<sim:Child ID="LINK_FASTENING_CONTACTS" Mandatory="true"/>
+		</sim:Set>
+		<sim:Set Category="UNDEFINED">
+			<sim:Identifier ID="ANALYSIS_MODEL" DfltName="Analysis model"/> 
+		</sim:Set>
+		<sim:Set Category="UNDEFINED">
+			<sim:Identifier ID="CONSTRAINT_SET" DfltName="Constraint set"/> 
+			<sim:Child ID="POSITIONING_SYSTEM" Mandatory="true"/>
+			<sim:Child ID="STATIC_JOINT" Mandatory="true"/>
+		</sim:Set>
+		<sim:Set Category="UNDEFINED">
+			<sim:Identifier ID="LOADING_OPERATOR" DfltName="Loading operator"/> 
+		</sim:Set>
+		<sim:Entity>
+			<sim:Identifier ID="TRANSFORMATION" DfltName="Transformation"/>
+			<sim:Child ID="TRANSFORMATION_TYPE" Mandatory="true"/>
+			<sim:Child ID="TRANSFORMATION_TRAN"/>
+			<sim:Child ID="TRANSFORMATION_ROTA"/>
+			<sim:Child ID="TRANSFORMATION" Cardinality="[0,1]"/>
+		</sim:Entity>
+		<sim:Entity>
+			<sim:Identifier ID="MP_NODE" DfltName="MP Node"/>
+			<sim:Child ID="FEM_NODE" Mandatory="true"/>
+		</sim:Entity>
+		<sim:Entity>
+			<sim:Identifier ID="FEM_NODE" DfltName="Node"/>
+			<sim:Child ID="LOCAL_COORDINATE" Mandatory="true"/>
+			<sim:Child ID="NODE_POS" Mandatory="true"/>
+			<sim:Child ID="DDL_POS" Mandatory="true"/>
+			<sim:Child ID="EXPLICIT_TAG" Mandatory="true"/>
+			<sim:Child ID="AXIS_LOCAL" Mandatory="true"/>			
+			<sim:Child ID="DIRECTION_LOCAL"/>
+			<sim:Child ID="MSA_TN" Cardinality="[0,1]"/>
+			<sim:Child ID="MSA_TN_LOCAL" Cardinality="[0,1]"/>
+		</sim:Entity>
+		<sim:Entity>
+			<sim:Identifier ID="SPOT_WELDING" DfltName="Spot welding"/>
+			<sim:Child ID="JOINT_TYPE_BEFORE" Mandatory="true"/>
+			<sim:Child ID="STATIC_JOINT_TYPE" Mandatory="true"/>
+			<sim:Child ID="MP_NODE" Mandatory="true"/>
+			<sim:Child ID="AXIS_GLOBAL" Mandatory="true"/>
+			<sim:Child ID="LINK_FASTENING_CONTACTS" Mandatory="true"/>			
+		</sim:Entity>
+		<sim:Entity>
+			<sim:Identifier ID="RIVETING" DfltName="Riveting"/>
+			<sim:Child ID="JOINT_TYPE_BEFORE" Mandatory="true"/>
+			<sim:Child ID="STATIC_JOINT_TYPE" Mandatory="true"/>
+			<sim:Child ID="MP_NODE" Mandatory="true"/>
+			<sim:Child ID="AXIS_GLOBAL" Mandatory="true"/>
+			<sim:Child ID="LINK_FASTENING_CONTACTS" Mandatory="true"/>			
+		</sim:Entity>
+		<sim:Entity>
+			<sim:Identifier ID="BOLTING" DfltName="Bolting"/>
+			<sim:Child ID="JOINT_TYPE_BEFORE" Mandatory="true"/>
+			<sim:Child ID="STATIC_JOINT_TYPE" Mandatory="true"/>
+			<sim:Child ID="MP_NODE" Mandatory="true"/>
+			<sim:Child ID="AXIS_GLOBAL" Mandatory="true"/>
+			<sim:Child ID="LINK_FASTENING_CONTACTS" Mandatory="true"/>			
+		</sim:Entity>
+		<sim:Entity>
+			<sim:Identifier ID="SPOT_GLUING" DfltName="Spot gluing"/>
+			<sim:Child ID="JOINT_TYPE_BEFORE" Mandatory="true"/>
+			<sim:Child ID="STATIC_JOINT_TYPE" Mandatory="true"/>
+			<sim:Child ID="MP_NODE" Mandatory="true"/>
+			<sim:Child ID="AXIS_GLOBAL" Mandatory="true"/>
+			<sim:Child ID="LINK_FASTENING_CONTACTS" Mandatory="true"/>			
+		</sim:Entity>
+		<sim:Entity>
+			<sim:Identifier ID="AXIS_LOCAL" DfltName="Local axis"/>			
+			<sim:Child ID="DIRECTION_X"/>			
+			<sim:Child ID="DIRECTION_Z"/>
+			<sim:Child ID="DEGREES_OF_FREEDOM" Mandatory="true"/>
+			<sim:Child ID="AXIS_GLOBAL" Cardinality="[0,1]"/>
+			<sim:Child ID="MSA_TX" Cardinality="[0,1]"/>
+			<sim:Child ID="MSA_TY" Cardinality="[0,1]"/>
+			<sim:Child ID="MSA_TZ" Cardinality="[0,1]"/>
+			<sim:Child ID="MSA_RX" Cardinality="[0,1]"/>
+			<sim:Child ID="MSA_RY" Cardinality="[0,1]"/>
+			<sim:Child ID="MSA_RZ" Cardinality="[0,1]"/>
+		</sim:Entity>
+		<sim:Entity>
+			<sim:Identifier ID="AXIS_GLOBAL" DfltName="Global axis"/>						
+			<sim:Child ID="DIRECTION_X" Mandatory="true"/>
+			<sim:Child ID="DIRECTION_Z"/>
+		</sim:Entity>
+		<sim:Entity>
+			<sim:Identifier ID="STATIC_JOINT" DfltName="Static joint"/>						
+			<sim:Child ID="STATIC_JOINT_TYPE" Mandatory="true"/>
+			<sim:Child ID="MP_NODE" Cardinality="[0,2]"/>          
+			<sim:Child ID="MP_NODE_VIRTUAL" Cardinality="[0,1]"/>					
+			<sim:Child ID="AXIS_GLOBAL" Mandatory="true"/>
+		</sim:Entity>
+		<sim:Entity>
+			<sim:Identifier ID="CONTACT" DfltName="Contact"/>						
+			<sim:Child ID="STATIC_JOINT" Mandatory="true"/>
+		</sim:Entity>
+		<sim:Entity>
+			<sim:Identifier ID="TPS_DEVIATION" DfltName="TPS deviation"/>						
+			<sim:Child ID="DEVIATION" Mandatory="true"/>
+			<sim:Child ID="DEVIATION_LOCAL" Mandatory="true"/>
+			<sim:Child ID="POSITIONING_SYSTEM" Mandatory="true"/>
+		</sim:Entity>
+		<sim:Entity>
+			<sim:Identifier ID="TPS_DEVIATION_CORRELATED" DfltName="TPS deviation correlated"/>						
+			<sim:Child ID="DEVIATION" Mandatory="true"/>
+			<sim:Child ID="DEVIATION_LOCAL" Mandatory="true"/>
+			<sim:Child ID="POSITIONING_SYSTEM" Mandatory="true"/>
+		</sim:Entity>
+		<sim:Entity>
+			<sim:Identifier ID="TPS_DISTANCE_PT_PT" DfltName="TPS distance pt-pt"/>						
+			<sim:Child ID="DEVIATION" Cardinality="[2]"/>
+			<sim:Child ID="POSITIONING_SYSTEM" Mandatory="true"/>
+		</sim:Entity>
+		<sim:Entity>
+			<sim:Identifier ID="DEVIATION" DfltName="Deviation"/>						
+			<sim:Child ID="MP_NODE" Cardinality="[0,1]"/>
+			<sim:Child ID="MP_NODE_VIRTUAL" Cardinality="[0,1]"/>
+			<sim:Child ID="AXIS_GLOBAL" Mandatory="true"/>
+		</sim:Entity>
+		<sim:Entity>
+			<sim:Identifier ID="MSA_TX" DfltName="MSA TX"/>						
+			<sim:Child ID="PROJECTION_COEF"/>
+			<sim:Child ID="MSA_TX" Cardinality="[0,1]"/>
+			<sim:Child ID="MSA_TY" Cardinality="[0,1]"/>
+			<sim:Child ID="MSA_TZ" Cardinality="[0,1]"/>
+		</sim:Entity>
+		<sim:Entity>
+			<sim:Identifier ID="MSA_TY" DfltName="MSA TY"/>						
+			<sim:Child ID="PROJECTION_COEF"/>
+			<sim:Child ID="MSA_TX" Cardinality="[0,1]"/>
+			<sim:Child ID="MSA_TY" Cardinality="[0,1]"/>
+			<sim:Child ID="MSA_TZ" Cardinality="[0,1]"/>
+		</sim:Entity>
+		<sim:Entity>
+			<sim:Identifier ID="MSA_TZ" DfltName="MSA TZ"/>						
+			<sim:Child ID="PROJECTION_COEF"/>
+			<sim:Child ID="MSA_TX" Cardinality="[0,1]"/>
+			<sim:Child ID="MSA_TY" Cardinality="[0,1]"/>
+			<sim:Child ID="MSA_TZ" Cardinality="[0,1]"/>
+		</sim:Entity>
+		<sim:Entity>
+			<sim:Identifier ID="MSA_RX" DfltName="MSA RX"/>						
+			<sim:Child ID="PROJECTION_COEF"/>
+			<sim:Child ID="MSA_RX" Cardinality="[0,1]"/>
+			<sim:Child ID="MSA_RY" Cardinality="[0,1]"/>
+			<sim:Child ID="MSA_RZ" Cardinality="[0,1]"/>
+		</sim:Entity>
+		<sim:Entity>
+			<sim:Identifier ID="MSA_RY" DfltName="MSA RY"/>						
+			<sim:Child ID="PROJECTION_COEF"/>
+			<sim:Child ID="MSA_RX" Cardinality="[0,1]"/>
+			<sim:Child ID="MSA_RY" Cardinality="[0,1]"/>
+			<sim:Child ID="MSA_RZ" Cardinality="[0,1]"/>
+		</sim:Entity>
+		<sim:Entity>
+			<sim:Identifier ID="MSA_RZ" DfltName="MSA RZ"/>						
+			<sim:Child ID="PROJECTION_COEF"/>
+			<sim:Child ID="MSA_RX" Cardinality="[0,1]"/>
+			<sim:Child ID="MSA_RY" Cardinality="[0,1]"/>
+			<sim:Child ID="MSA_RZ" Cardinality="[0,1]"/>
+		</sim:Entity>
+		<sim:Entity>
+			<sim:Identifier ID="MSA_TN" DfltName="MSA TN"/>						
+			<sim:Child ID="PROJECTION_COEF"/>
+			<sim:Child ID="MSA_RX" Cardinality="[0,1]"/>
+			<sim:Child ID="MSA_RY" Cardinality="[0,1]"/>
+			<sim:Child ID="MSA_RZ" Cardinality="[0,1]"/>
+		</sim:Entity>
+		<sim:Entity>
+			<sim:Identifier ID="PHI_R" DfltName="PHI R"/>						
+		</sim:Entity>                           
+		<sim:Entity>
+			<sim:Identifier ID="TEMPORARY_JOINTS" DfltName="Temporary joints"/>						
+			<sim:Child ID="EXPLICIT_TAG" Mandatory="true"/>				
+			<sim:Child ID="LOCAL_COORDINATE" Mandatory="true"/>				
+			<sim:Child ID="STATIC_JOINT_TYPE" Mandatory="true"/>				
+			<sim:Child ID="PHI_R" Mandatory="true"/>				
+			<sim:Child ID="AXIS_LOCAL" Mandatory="true"/>
+		</sim:Entity>           
+		<sim:Entity>
+			<sim:Identifier ID="POSITIONING_SYSTEM" DfltName="Positioning system"/>						
+			<sim:Child ID="STATIC_JOINT" Mandatory="true"/>				
+			<sim:Child ID="TIGHTENING" Mandatory="true"/>				
+		</sim:Entity>
+		<sim:Entity>
+			<sim:Identifier ID="MP_NODE_VIRTUAL" DfltName="MP virtual node"/>						
+			<sim:Child ID="FEM_NODE_VIRTUAL" Mandatory="true"/>				
+		</sim:Entity>
+		<sim:Entity>
+			<sim:Identifier ID="FEM_NODE_VIRTUAL" DfltName="FEM virtual node"/>						
+			<sim:Child ID="NODE_POS" Mandatory="true"/>				
+			<sim:Child ID="DDL_POS" Mandatory="true"/>				
+			<sim:Child ID="LOCAL_COORDINATE" Mandatory="true"/>				
+			<sim:Child ID="AXIS_LOCAL" Mandatory="true"/>				
+			<sim:Child ID="DIRECTION_LOCAL"/>         
+			<sim:Child ID="MSA_TN" Cardinality="[0,1]"/>
+		</sim:Entity>
+		<sim:Entity>
+			<sim:Identifier ID="FEM_ELEMENT_VIRTUAL" DfltName="FEM virtual element"/>						
+			<sim:Child ID="FEM_NODE_VIRTUAL" Cardinality="[2]"/>
+			<sim:Child ID="BEAM_STIFFNESS" Mandatory="true"/>				
+			<sim:Child ID="AXIS_LOCAL" Mandatory="true"/>		
+		</sim:Entity>
+		<sim:Entity>
+			<sim:Identifier ID="SUPPORT" DfltName="Support"/>					
+			<sim:Child ID="MP_NODE_VIRTUAL" Mandatory="true"/>				
+		</sim:Entity>
+		<sim:Entity>
+			<sim:Identifier ID="LINK_FASTENING_CONTACTS" DfltName="Link fastening contacts"/>					
+			<sim:Child ID="STATIC_JOINT" Mandatory="true"/>				
+		</sim:Entity>
+		<sim:Entity>
+			<sim:Identifier ID="SPIDER_ANA" DfltName="Spider ana"/>					
+			<sim:Child ID="EXPLICIT_TAG" Mandatory="true"/>				
+		</sim:Entity>
+		<sim:Entity>
+			<sim:Identifier ID="TPS_ANALYSIS_GEOMETRIC_VARIATIONS" DfltName="TPS analysis geometric variations"/>					
+		</sim:Entity>
+		<sim:Entity>
+			<sim:Identifier ID="TOL_WITH_REF" DfltName="Tol with ref"/>					
+			<sim:Child ID="TORSOR" Mandatory="true"/>				
+			<sim:Child ID="REFERENCE_FRAME" Mandatory="true"/>				
+		</sim:Entity>
+		<sim:Entity>
+			<sim:Identifier ID="TORSOR" DfltName="Torsor"/>					
+			<sim:Child ID="TORSOR_TYPE" Mandatory="true"/>
+			<sim:Child ID="TRANSFORMATION" Cardinality="[0,1]"/>				
+			<sim:Child ID="TORSOR_COMPONENT" Mandatory="true"/>				
+		</sim:Entity>
+		<sim:Entity>
+			<sim:Identifier ID="REFERENCE_FRAME" DfltName="Reference frame"/>					
+			<sim:Child ID="TORSOR_PROCESS" Cardinality="[0,1]"/>				
+			<sim:Child ID="TOL_WITH_REF" Cardinality="[0,1]"/>				
+			<sim:Child ID="ORIENTED_DIMENSION" Cardinality="[0,1]"/>				
+			<sim:Child ID="TORSOR" Cardinality="[0,1]"/>				
+			<sim:Child ID="DATUM" Mandatory="true"/>				
+		</sim:Entity>
+		<sim:Entity>
+			<sim:Identifier ID="DATUM" DfltName="Datum"/>					
+			<sim:Child ID="TARGET" Mandatory="true"/>								
+			<sim:Child ID="TOL_WITH_REF" Cardinality="[0,1]"/>				
+			<sim:Child ID="ORIENTED_DIMENSION" Cardinality="[0,1]"/>		
+			<sim:Child ID="STATIC_JOINT_TYPE" Mandatory="true"/>					
+			<sim:Child ID="MP_NODE" Mandatory="true"/>									
+			<sim:Child ID="MP_NODE_VIRTUAL" Mandatory="true"/>									
+			<sim:Child ID="AXIS_GLOBAL" Mandatory="true"/>									
+		</sim:Entity>
+		<sim:Entity>
+			<sim:Identifier ID="TARGET" DfltName="Target"/>					
+			<sim:Child ID="STATIC_JOINT_TYPE"/>								
+			<sim:Child ID="MP_NODE" Cardinality="[0-1]"/>				
+			<sim:Child ID="MP_NODE_VIRTUAL" Cardinality="[0-1]"/>				
+			<sim:Child ID="AXIS_GLOBAL" Cardinality="[0-1]"/>
+			<sim:Child ID="STATIC_JOINT" Cardinality="[0-3]"/>								
+		</sim:Entity>
+		<sim:Entity>
+			<sim:Identifier ID="TORSOR_COMPONENT" DfltName="Torsor component"/>					
+			<sim:Child ID="COEFS" Mandatory="true"/>					
+			<sim:Child ID="TOL_WITH_REF" Cardinality="[0-3]"/>				
+			<sim:Child ID="ORIENTED_DIMENSION" Cardinality="[0-3]"/>                      
+			<sim:Child ID="TORSOR_TYPE" Mandatory="true"/>					
+		</sim:Entity>
+		<sim:Entity>
+			<sim:Identifier ID="MSA_TN_LOCAL" DfltName="MSA in local"/>					
+		</sim:Entity>     
+		<sim:Entity>
+			<sim:Identifier ID="DEVIATION_LOCAL" DfltName="Deviation local"/>					
+			<sim:Child ID="MP_NODE" Cardinality="[0,1]"/>				
+			<sim:Child ID="MP_NODE_VIRTUAL" Cardinality="[0,1]"/>                      
+			<sim:Child ID="AXIS_GLOBAL" Mandatory="true"/>					
+		</sim:Entity>
+		<sim:Entity>
+			<sim:Identifier ID="TORSOR_PROCESS" DfltName="Torsor process"/>					 
+			<sim:Child ID="TORSOR_TYPE" Mandatory="true"/>					
+			<sim:Child ID="TRANSFORMATION" Cardinality="[0,1]"/>				
+			<sim:Child ID="TORSOR_COMPONENT" Mandatory="true"/>					
+		</sim:Entity>
+		<sim:Entity>
+			<sim:Identifier ID="ORIENTED_DIMENSION" DfltName="Oriented dimension"/>					 
+			<sim:Child ID="TORSOR" Mandatory="true"/>					
+			<sim:Child ID="TORSOR_REF" Cardinality="[0,1]"/>				
+			<sim:Child ID="TORSOR_PROCESS" Cardinality="[0,1]"/>				
+		</sim:Entity>
+		<sim:Entity>
+			<sim:Identifier ID="TORSOR_REF" DfltName="Torsor ref"/>					 
+			<sim:Child ID="TORSOR_TYPE" Mandatory="true"/>					
+			<sim:Child ID="TRANSFORMATION" Cardinality="[0,1]"/>						 
+			<sim:Child ID="TORSOR_COMPONENT" Mandatory="true"/>						
+			<sim:Child ID="TOL_WITH_REF" Cardinality="[0,1]"/>								
+			<sim:Child ID="ORIENTED_DIMENSION" Cardinality="[0,1]"/>			
+		</sim:Entity>
+		<sim:Entity>
+			<sim:Identifier ID="TPS_MORPHING_VARIATIONS" DfltName="TPS morphing variations"/>		
+			<sim:Child ID="TPS_MODE" Cardinality="[0,1]"/>				
+		</sim:Entity>
+		<sim:Entity>
+			<sim:Identifier ID="TPS_MODE" DfltName="TPS mode"/>		
+		</sim:Entity>            
+		<sim:Entity>
+			<sim:Identifier ID="TPS_GRAVITY_ANNOTATION" DfltName="TPS gravity annotation"/>		
+			<sim:Child ID="MODE_LOAD_GRAV" Cardinality="[1]"/>				
+			<sim:Child ID="POSITIONING_SYSTEM" Cardinality="[0,1]"/>				
+		</sim:Entity>
+		<sim:Entity>
+			<sim:Identifier ID="GRAVITY_LOAD" DfltName="Gravity load"/>		
+			<sim:Child ID="MODE_LOAD_GRAV" Mandatory="true"/>				
+			<sim:Child ID="DIRECTION_GLOBAL" Cardinality="[0,1]"/>				
+		</sim:Entity>
+		<sim:Entity>
+			<sim:Identifier ID="MODE_LOAD_GRAV" DfltName="Mode load gravity"/>		
+			<sim:Child ID="MODE_LOAD_F" Cardinality="[1]"/>	
+			<sim:Child ID="MODE_LOAD_U" Cardinality="[1]"/>		
+			<sim:Child ID="DIRECTION_LOCAL" Cardinality="[1]"/>				
+		</sim:Entity>
+		<sim:Entity>
+			<sim:Identifier ID="MODE_LOAD_F" DfltName="Mode load F"/>		
+		</sim:Entity>
+		<sim:Entity>
+			<sim:Identifier ID="MODE_LOAD_U" DfltName="Mode load U"/>		
+		</sim:Entity>
+		<sim:Characteristic MathType="SCALAR" ValueType="INTEGER">
+			<sim:Identifier ID="TRANSFORMATION_TYPE" DfltName="Transformation Type"/>
+		</sim:Characteristic>
+		<sim:Characteristic MathType="VECTOR" ValueType="DOUBLE" Dimension="3x3">
+			<sim:Identifier ID="TRANSFORMATION_ROTA" DfltName="Rotational Transformation"/>
+		</sim:Characteristic>
+		<sim:Characteristic MathType="VECTOR" ValueType="DOUBLE" Unit="LENGTH" Dimension="3">
+			<sim:Identifier ID="TRANSFORMATION_TRAN" DfltName="Translational Transformation"/>
+		</sim:Characteristic>
+		<sim:Characteristic MathType="SCALAR" ValueType="INTEGER">
+			<sim:Identifier ID="DEGREES_OF_FREEDOM" DfltName="Degrees of freedom"/>
+		</sim:Characteristic>
+		<sim:Characteristic MathType="SCALAR" ValueType="INTEGER">
+			<sim:Identifier ID="EXPLICIT_TAG" DfltName="Explicit tag"/>
+		</sim:Characteristic>
+		<sim:Characteristic MathType="SCALAR" ValueType="INTEGER">
+			<sim:Identifier ID="NODE_POS" DfltName="Node pos"/>
+		</sim:Characteristic>
+		<sim:Characteristic MathType="SCALAR" ValueType="INTEGER">
+			<sim:Identifier ID="DDL_POS" DfltName="DDL pos"/>
+		</sim:Characteristic>
+		<sim:Characteristic MathType="VECTOR" ValueType="DOUBLE" Dimension="3">
+			<sim:Identifier ID="DIRECTION_LOCAL" DfltName="Local direction"/>
+		</sim:Characteristic>
+		<sim:Characteristic MathType="VECTOR" ValueType="DOUBLE" Dimension="3">
+			<sim:Identifier ID="DIRECTION_GLOBAL" DfltName="Global direction"/>
+		</sim:Characteristic>
+		<sim:Characteristic MathType="VECTOR" ValueType="DOUBLE" Dimension="3">
+			<sim:Identifier ID="DIRECTION_X" DfltName="X direction"/>
+		</sim:Characteristic>
+		<sim:Characteristic MathType="VECTOR" ValueType="DOUBLE" Dimension="3">
+			<sim:Identifier ID="DIRECTION_Z" DfltName="Z direction"/>
+		</sim:Characteristic>
+		<sim:Characteristic MathType="SCALAR" ValueType="INTEGER">
+			<sim:Identifier ID="STATIC_JOINT_TYPE" DfltName="Static joint type"/>
+		</sim:Characteristic>
+		<sim:Characteristic MathType="SCALAR" ValueType="INTEGER">
+			<sim:Identifier ID="JOINT_TYPE_BEFORE" DfltName="Joint type before"/>
+		</sim:Characteristic>
+		<sim:Characteristic MathType="VECTOR" ValueType="DOUBLE" Dimension="3">
+			<sim:Identifier ID="PROJECTION_COEF" DfltName="Projection coef"/>
+		</sim:Characteristic>
+		<sim:Characteristic MathType="SCALAR" ValueType="INTEGER">
+			<sim:Identifier ID="TIGHTENING" DfltName="Tightening"/>
+		</sim:Characteristic>
+		<sim:Characteristic MathType="VECTOR" ValueType="REAL" Unit="LENGTH" Dimension="3">
+			<sim:Identifier ID="MEAN_VECTOR" DfltName="Mean vector"/>
+		</sim:Characteristic>
+		<sim:Characteristic MathType="VECTOR" ValueType="REAL" Unit="LENGTH" Dimension="3x3">
+			<sim:Identifier ID="RESOLUTION_TENSOR" DfltName="Resolution tensor"/>
+		</sim:Characteristic>
+		<sim:Characteristic MathType="SCALAR" ValueType="REAL" Unit="LENGTH">
+			<sim:Identifier ID="MEAN" DfltName="Mean"/>
+		</sim:Characteristic>
+		<sim:Characteristic MathType="SCALAR" ValueType="REAL" Unit="LENGTH">
+			<sim:Identifier ID="STANDARD_DEVIATION" DfltName="Standard deviation"/>
+		</sim:Characteristic>
+		<sim:Characteristic MathType="VECTOR" ValueType="DOUBLE" Unit="LENGTH" Dimension="3">
+			<sim:Identifier ID="LOCAL_COORDINATE" DfltName="Local coordinate"/>
+		</sim:Characteristic>
+		<sim:Characteristic MathType="VECTOR" ValueType="DOUBLE" Dimension="4">
+			<sim:Identifier ID="BEAM_STIFFNESS" DfltName="Beam stiffness"/>
+		</sim:Characteristic>
+		<sim:Characteristic MathType="SCALAR" ValueType="INTEGER">
+			<sim:Identifier ID="TO_SOLVE" DfltName="To solve"/>
+		</sim:Characteristic>
+		<sim:Characteristic MathType="SCALAR" ValueType="INTEGER">
+			<sim:Identifier ID="TORSOR_TYPE" DfltName="Torsor type"/>
+		</sim:Characteristic>
+		<sim:Characteristic  MathType="SCALAR" ValueType="DOUBLE">
+			<sim:Identifier ID="COEFS" DfltName="Coefs"/>
+		</sim:Characteristic>
+	</sim:PhysicalDescriptionPackage>
+</sim:PhysicalDescriptionDirectory>

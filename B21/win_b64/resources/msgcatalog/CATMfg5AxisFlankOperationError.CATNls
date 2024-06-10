@@ -1,0 +1,305 @@
+// =====================================================================
+// Erreurs Flank Contoruing de 3000 a 
+//  Le reste est dans CATMfg5AxisOperationError
+//
+// Essayer de formater vos messages en specifiant (delimiteur = caracteres fin de ligne) :
+//       Request      (ce que l'on tentait de faire)
+//       Diagnostic   (ce qui est arrive)
+//       Advice       (...ce qu'il pourrait faire si possible)
+// ou bien
+//       Specifier vos messages avec la cle + les 3 facettes :
+//           ex: ERR_2002.Request    Reading data. 
+//               ERR_2002.Diagnostic Manufacturing software error : Access to a NULL handler.
+//               ERR_2002.Advice     Contact your local support.
+//
+// REMARK:
+// No need to type carriage-return characters at the end of your messages
+// since the panel automatically handles spaces between messages
+//
+// =====================================================================
+
+InfoTitle			= "Manufacturing Information";
+WarningTitle		= "Manufacturing Warning";
+ErrorTitle			= "Manufacturing Error";
+GeneralErrorTitle		= "Error";
+PanelTitle			= "Manufacturing Error";
+UpdateError			= "Internal error during update";
+InternalError		= "Manufacturing software error.\nError is: /p1";
+InitError			= "Error during initialization";
+ErrorNotSpecified		= "Error not specified.\nContact your local support";
+
+
+
+//====================================================================================================
+// Erreurs Flank Contouring
+//====================================================================================================
+
+ERR_3001 = "Multi-Axis Flank Contouring parameters OK.";
+ERR_3002 = "\tAxial level number: ";
+ERR_3003 = "\tRadial path number: ";
+ERR_3004 = "\tDrive element number: ";
+
+ERR_3050 = "Reference point and/or Restarting direction cannot be computed automatically.
+This may be due to a complex geometrical case, for which there is no reliable automatic computation.
+Also, there may be several mathematical solutions (for example, on half cylinders) and
+ there is no simple criteria to determine the correct one.
+You should manually select a suitable Reference point and Restarting direction.";
+
+ERR_3051 = "Manual Reference Point is not valid.
+Remove the existing point or select another one.";
+
+ERR_3060 = "Problems encountered when setting macro motions data.
+Check your parameters.";
+
+ERR_3228 = "Invalid drive surface.
+The type of geometry that was provided as the drive
+surface is not valid. For example, the part
+surface and the drive surface cannot be the same entity.";
+
+ERR_3251 = "Tool projection failed.
+The tool could not be projected onto the surface.
+It is possible that the surface has a too severe angular
+change in it.  You can try changing the motion options
+(machining tolerance, for example)\nto solve this problem.";
+
+ERR_3314 = "Invalid drive element.
+Selected geometry is not supported.";
+
+ERR_3315 = "Invalid start element.
+Selected geometry is not supported.";
+
+ERR_3316 = "Invalid stop element.
+Selected geometry is not supported.";
+
+ERR_3317 = "Initial move direction unknown.
+A forward direction has not been established.";
+
+ERR_3318 = "Invalid geometry type for Drive Surface or Start/End elements.
+The only valid geometry types for a start/end element or a
+drive element are planes and faces.";
+
+ERR_3319 = "Invalid cutter definition.
+The provided cutter parameters do not define a valid cutter.";
+
+ERR_3320 = "Unknown operation.
+You have asked the system to perform an
+operation or condition that is not supported.";
+
+ERR_3321 = "Direction components too small.
+The input vector has a magnitude that is too small to
+determine its direction.  For example, a vector of
+'0,0,.000001' is too small.";
+
+ERR_3322 = "Invalid geometry type for Part Surface
+A part surface may only be a plane, a face, a surface
+or a Rsur.";
+
+ERR_3323 = "Wrong tool axis.
+Tool axis I,J,K values are too small.
+The input vector has a magnitude that is too small to
+determine its direction.  For example, a tool axis vector
+of '0,0,.000001' is too small.";
+
+ERR_3324 = "Forward direction has changed.
+The system is not able to compute the forward direction\nalong the drive surface.
+A common reason for this is when the part surface
+becomes parallel to the drive surface.";
+
+ERR_3325 = "Forward direction has reversed.
+The system is not able to compute the forward direction\nalong the drive surface.
+A reason for this is when the tool becomes parallel to the part surface or 
+perpendicular to the drive surface. This error can also occur if the tool
+is moving in a manner such that it cannot determine the following\nsurface.";
+
+ERR_3328 = "Tool projection failed.
+An error occurred while trying to analyze a surface used
+in a machining operation. This can happen if the surface
+has a too severe angular change in it.
+In case of Start Position, try to modify the location of
+the reference point.";
+
+ERR_3329 = "Wrong Tool/Drive surface relationship.
+During the requested motion, the system was unable to
+properly apply the tool to the drive surface.";
+
+ERR_3338 = "Tool to surface application failure.
+The system could not apply the cutter to a surface.";
+
+ERR_3339 = "Invalid auxiliary guiding element.
+At least one guide cannot be evaluated on drive.
+Check that each selected Auxiliary guiding element
+can be properly projected onto one of selected drives.
+
+Try to increase tolerance or 
+decrease the parameters of discretization or the parameter Max distance between steps.";
+
+ERR_3340 = "Non contiguous drive elements.
+Please set a manual restarting direction using the contextual Local Modifications command.";
+
+ERR_3341 = "Ending position failure.
+Failure while computing initial machining position.
+Check the start element, the position and offset on it, the first drive and the parts.
+For further investigation you can try one or more of the following:
+- no thickness on elements, 
+- no multiple paths,
+- a manual reference point,
+- a simple planar part surface,
+- a planar start element normal to the drive and part, 
+- condition ON or Tangent."; 
+
+ERR_3342 = "Ending position failure.
+Failure while driving along the first drive element.
+Check the first and second drive ( end element and condition on it if single drive).
+For further investigation you can try one or more of the following:
+- no thickness on elements, 
+- no multiple paths,
+- a manual starting direction LEFT or RIGHT,
+- a simple planar part surface,
+- use a single drive element with the current second drive set \nas the end element, 
+- condition ON or Tangent,
+- remove and check auxliary guiding element.
+Verify and if needed modify Local values on drive elements."; 
+
+ERR_3343 = "Ending position failure.
+Failure while driving along the second drive element.
+Check the second and third drive (end element and condition on it if two drives).
+Verify the order of the drive elements regarding the position of the start and end elements.
+Check if the curvature and thickness of the fillet is greater than the body radius of the tool.
+For further investigation you can try one or more of the following:
+- no thickness on elements, no multiple paths,
+- a simple planar part surface,
+- use two drive elements with the current third drive set \nas the end element, condition ON or Tangent.
+- use a single drive element with the current second drive set \nas the end element, condition ON or Tangent,
+in order to check the previous motion along the first drive.
+- remove and check auxiliary guiding element.
+Verify and if needed modify Local values on drive elements.
+Verify the Close tool path check box."; 
+
+ERR_3344 = "Ending position failure.
+Failure while driving along a drive element.
+Check this drive element and the following drive (end element and condition on it \nif the failure is on the last drive).
+Check if the curvature and thickness of the fillet is greater than the body radius of the tool.
+For further investigation you can try one or more of the following:
+- no thickness on elements, no multiple paths,
+- a simple planar part surface without thickness on it,
+- keep fewer drive elements with the following drive after failure set \nas the end element, condition ON or Tangent.
+- keep fewer drive elements with the failing drive after failure set \nas the end element, condition ON or Tangent,
+in order to check the previous motion along the previous drive.
+- remove and check auxiliary guiding element.
+Verify and if needed modify Local values on drive elements.
+Verify the Close tool path check box."; 
+
+ERR_3363 = "Impossible geometry case.
+This error code can be caused by different conditions :
+* The following surface could not be found with Tanto Fan\nTool Axis Strategy.
+* The drive surface normal became parallel to the tool axis.";
+
+ERR_3372 = "Invalid type or condition on limits.
+";
+
+ERR_3455 = "Computation interrupted due to tool jump.
+During tool path computation, unacceptable tool jumps were detected.
+This may arise when there are multiple part surfaces.
+Please contact your local support.";
+
+ERR_3456 = "Impossible condition on the following drive surface.
+A problem was found in determining a final position for
+the tool in relation to the following drive surface. 
+Verify that you have not requested an impossible 
+condition for applying the tool to the surface.";
+
+ERR_3457 = "Non contiguous drive elements.
+Please set a manual stopping condition using the contextual Local Modifications command.";
+
+ERR_3462 = "Specific condition on drive surface.
+Disk cutter and tool axis fanning requires\nthe tool to be ON the Surface.
+There is no tangent point to maintain a contact with the drive element.
+One possible reason is a too small cutting length.";
+
+ERR_3463 = "Specific condition on drive surface.
+Disk cutter and tool axis fanning requires\nthe tool to be ON the Surface.";
+
+ERR_3474 = "Feedrate is zero.
+The value given for a feedrate is zero. Feedrates
+should have a value greater than zero.";
+
+ERR_3479 = "Wrong Drive or start/end element.
+TANTO FAN tool axis strategy requires a Surface,
+a Face, a RSUR or a plane as the Drive element\nand Start/End element.";
+
+ERR_3506 = "Undefined forward direction.
+Forward direction cannot be computed.";
+
+ERR_3508 = "Invalid Drive element type for TANTO or PARELM tool axis strategy.
+Supported types for Drive element are surface, face,\nRSUR or plane.";
+
+ERR_3553 = "Contact Height is too small.
+The Contact Height used along the Drive Surface\nis too small.";
+
+ERR_3554 = "Tool projection onto Drive Surface failed.
+The tool could not be projected onto the drive surface.
+It is possible that the reference position is not
+facing the drive surface. Moving the reference
+point near to the drive should solve this problem.";
+
+ERR_3559 = "Out of tolerance.
+Out of tolerance in tool motion number \p1.";
+
+ERR_3666 = "Boundary discretization failed.
+A problem was detected when processing the boundary of the 
+part, drive or start/end element. \nPlease contact your local support.";
+
+ERR_3667 = "Conditions are too severe.
+Conditions are too severe for tool axis COMBIN mode.
+The tool failed to fan either away from the starting
+location or towards the following element. This error is
+usually generated when the fanning distance is
+too small. To resolve this error you can increase the
+leave/approach distance to be greater than the tool\ndiameter.";
+
+ERR_3671  = "Memory allocation problem.
+Unable to allocate memory.";
+
+ERR_3674  = "Cornering failed.
+Please check cornering radius.";
+
+ERR_3710 = "Internal Model Error
+Incoherency detected in Internal Model.";
+
+ERR_3717 = "Impossible offset along axis.
+The reason is that the angle between the tool axis\nand the normal to the part exceeds 90 degrees.";
+
+ERR_3718 = "Impossible offset along axis.
+The reason is that the normal to the part has not\nbeen correctly evaluated during computation.";
+
+ERR_3723 = "Internal Communication Error.
+An error occurred but is not correctly transmitted to the 5 axis monitor.\nPlease contact your local support.";
+
+ERR_3724 = "Automatic direction unsuccessful.
+The software was not\nable to find Left/Right direction for the first drive surface.
+This could be due to non adjacent drive elements, or a complex geometrical case.
+Please set a manual direction under Strategy tabpage.";
+
+ERR_3726 = "Invalid Max angle value.
+This value cannot be ZERO or a multiple of 180.\nPlease modify the Max Angle Value.";
+
+ERR_3730 = "Inconsistent tool motion.
+Some geometry cannot be evaluated. Please reselect it.";
+
+ERR_3731 = "Inconsistent tool motion.
+At least one part element cannot be evaluated.
+Please reset and\nreselect all part elements.";
+
+ERR_3732 = "Inconsistent tool motion.
+The drive element cannot be evaluated. Please reselect it.";
+
+ERR_3741 = "Undefined part curve.
+No curve was provided as part for drive '/p1'.";
+
+ERR_3742 = "Undefined part curve.
+This curve is not a boundary of selected drive surfaces.";
+
+ERR_3743 = "A negative part offset is used and its absolute value is bigger than the tool body radius. 
+This type of value for part offset is not compatible with collision checking on check elements.
+If you really want to perform collision checking on checks you must use a smaller negative offset on parts. 
+Otherwise unselect check elements.";

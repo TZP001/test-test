@@ -1,0 +1,181 @@
+// Pour des infos pertinentes la signification des differentes messages :
+//
+//
+//    a- Title = Nom de la commande affiché
+//              REGLES: - Commencer par un verbe à l'infinitif
+//                      - Min/maj : chaque mot doit commencer par une majuscule.
+//                  
+//    b- Help = Help affiché an bas à gauche du Frame CATIA
+//              REGLES: - Phrase normale au niveau des min/maj.
+//
+//    c- ShortHelp = Bulle affiché sur icône.
+//              REGLES: - Phrase normale au niveau des min/maj.
+//
+//    d- LongHelp = Help affiché en selectionnant le Menu principal 'Help' + What's This ?
+//              REGLES: - Phrase normale au niveau des min/maj.
+//						- SOYEZ BAVARD !!!
+
+//========================================================
+// Name of Synchronisation Object
+//========================================================
+
+ManufacturingSynchronisation = "Synchronization";
+
+//========================================================
+// Name of Attributes of the Synchronisation Object
+//========================================================
+
+MfgSynchronisedActivity1 = "Activity n°1";
+MfgSynchronisedActivity1.LongHelp = "One of the activities which is synchronized";
+MfgSynchronisedActivity1Label = "Name : ";
+
+MfgSynchronisedActivity2 = "Activity n°2";
+MfgSynchronisedActivity2.LongHelp = "One of the activities which is synchronized";
+MfgSynchronisedActivity2Label = "Name : ";
+
+MfgPositionOfActivity1   = "Position";
+MfgPositionOfActivity1.LongHelp = "Value specifying where the synchronization is inserted during the synchronized activity n°1";
+
+MfgPositionOfActivity2   = "Position";
+MfgPositionOfActivity2.LongHelp = "Value specifying where the synchronization is inserted during the synchronized activity n°2";
+
+MfgMaster = "Master";
+MfgMaster.LongHelp = "Select the turret which will drive the spindle speed.\nThis option is accessible only when synchronizing:
+* Turning operations,
+* Turning Drilling on Spindle axis or
+* PP Instructions";
+
+NoMaster = "None";
+
+//========================================================
+// Synchronisation Editor
+//========================================================
+
+SynchronisationEditor = "Synchronization Editor";
+_pLatheSynchroEditor  = "By choosing one of the options, you can insert a synchronization:";
+
+//========================================================================================
+// Name of the Default Object for Positions of the Synchronisation and its options
+//========================================================================================
+
+MfgStartOfActivity = "Start of activity";
+MfgStartOfActivity.LongHelp = "\n* before the first point of the tool path";
+MfgEndOfActivity   = "End of activity";
+MfgEndOfActivity.LongHelp = "\n* after the last point of the tool path";
+
+ApproachTraject = "After approach macro";
+ApproachTraject.LongHelp = "\n* between the last point of the approach macro and the first point of the machining tool path";
+RetractTraject  = "Before retract macro";
+RetractTraject.LongHelp = "\n* between the last point of the machining tool path and the first point of the retract macro";
+
+//=========================
+// Messages for Gantt Chart
+//=========================
+
+GanttChartTitle = "Machining Gantt Chart : ";
+GanttChart.LongHelp = "Activities :
+* Non computed operations are represented by a small triangle at their start time.
+* Color of operations can be modified in the properties editor or in the Graphic properties toolbar.
+* Indexes for Copy Operations, Machining Axis System Changes are not represented.
+* Durations :
+  + Calculated time is used for Machining operations with toolpath and Copy Orders.
+  + Specified time is used for Tool Changes, PP Instructions and Machine Rotations.
+    It can be modified in the properties editor (Multi-edition possible).
+
+Synchronisations :
+* On the synchronization representation, the master is symbolised by a red circle.";
+
+Edit                 = "Definition";
+Delete               = "Delete";
+TimeScale            = "Time Scale : ";
+TimeScale.LongHelp   = "Set to a bigger value to shrink time scale in the Machining Gantt Chart.\nSet a smaller value to expand it.";
+Reframe.ShortHelp    = "Reframe Machining Gantt Chart in viewer.";
+Reframe.LongHelp     = "Click to reframe Machining Gantt Chart.";
+Analyse.ShortHelp    = "Update diagnostics on the Part Operation.";
+Analyse.LongHelp     = "Click to update diagnostics on the Part Operation.
+If the Part operation is not uptodate, customer needs to re-compute it";
+HideShowAnalyse.ShortHelp = "Hide or show diagnostics on the Part Operation.";
+HideShowAnalyse.LongHelp  = "Click to hide or show diagnostics on the Part Operation.";
+Refesh.ShortHelp     = "Update times.";
+Refesh.LongHelp      = "Click to update times and refresh diagnostics if necessary.";
+Diagnostics          = "Diagnostics";
+Diagnostics.LongHelp = "Diagnostic information is given in this area.
+
+Warning messages are preceded by an exclamation mark symbol.
+They alert the user to a situation or condition that may present an incompatibility in the Part Operation.   
+Examples:
+* uncomputed operations,
+* de-activated synchronizations,
+* incompatible operations (Mill/Turn or Clockwise/CounterClokwise activities). 
+
+Critical messages are preceded by a red cross symbol.
+They inform the user about a serious problem that requires an intervention or correction to do master/slave time computation. 
+Example:
+* Synchronisation \"crossing\" another one,
+* Slave tool path without definition of Master,
+* Several Master toolpaths occurring simultaneously.";
+
+TurretsTitle         = "Turrets";
+UnusedTimeMsg        = "Idle time";
+SpindleName          = "Spindle : ";
+
+// Symbols *** are replaced by the number of synchronisations
+SynchronisationMgt   = "Synchronisations ( *** )";
+
+SwitchColor          = "Use Spindle Color";
+SwitchColor.LongHelp = "By default, operation are represented with their color.
+Through this swich, you can choose to represent them with the color of their spindle 
+(available only if their are several spindles on the machine).
+If there is no spindle on the activity or if there is no color on the spindle, the color of the activity is used.";
+
+SwitchSpindleSpeedUnit   = "Toggle Spindle Speed Unit Diagram";
+SwitchSpindleSpeedUnit.LongHelp = "By default, operation are represented with their color.";
+LINEARSPINDLESPEED = "Cutting Speed";
+ANGULARSPINDLESPEED = "Rotating Spindle Speed";
+TotalTime            = "Total Duration : ";
+Close                = "Close";
+
+SynchronisationAcess = "Double click to edit or Right click to access commands";
+
+// Symbols +++ and *** are replaced by name of operations
+OperationNotComputed             = "*** is not computed";
+IncompatibleMillTurnOperations   = "*** and +++ have incompatible rotation states. Synchronize the operations.";
+IncompatibleSpindleWayOperations = "*** and +++ have incompatible spindle ways of rotation. Synchronize them or modify properties or tooling.";
+NotMasterDefinedComputed         = "Several turrets work concurrently on the same spindle with no Master definition. Add a synchronization and/or define the Master."; 
+SynchronisationDesactivated      = "Synchronization between *** and +++ is deactivated because *** is deactivated (at least).";
+SynchronisationCrossing          = "Synchronization *** crosses Synchronisation +++. Modify or delete one of them.";
+// ConcurrentSpindleSpeedNotTakenIntoAccount = "WARNING ! For now, calculated times take into account properties of operations, not the real spindle speed.";
+IncompatibleDefinitionOfMaster   = "More than one turrets work simultaneously on *** between +++ and ---. Add a synchronization and/or define the Master.";
+OperationsToCompute              = "Synchronization(s) missing. Compute tool path of +++ (choose Forced computation mode).";
+SlaveStartsBeforeMaster          = "There must be a Master defined on *** before +++. Add a synchronization and/or define the Master.";
+
+//================================
+// Short Help
+//================================
+
+StartingDate          = "Start Time            : ";
+Duration              = "Duration              : ";
+CalculatedDurationMsg = "Duration (Calculated) : ";
+SpecifiedDurationMsg  = "Duration (Specified)  : ";
+SynchronizationDate   = "Synchronization Time  : ";
+
+//========================
+// CAA LongHelp
+//========================
+
+CAAParameterName = "\n\nParameter Name : ";
+
+//========================================================================
+// Invit Message of the command CATMfgCreateSynchronisationCom
+//========================================================================
+
+SelectFirstActivity = "Select the first activity";
+SelectSecondActivity = "Select the second activity";
+
+//========================================================================
+// Invit Message of the command CATMfgGanttChartCom
+//========================================================================
+
+SelectPartOperation = "Select a Part Operation";
+CloseGanttViewer    = "Click on OK to close the Machining Gantt Chart";
+

@@ -1,0 +1,142 @@
+<!ELEMENT ImagesList ( (Image) | (ImageExtension) | (ImageByReference) )* >
+<!ATTLIST ImagesList Name CDATA #REQUIRED >
+
+<!-- Start Image Creation    -->
+
+<!ELEMENT Image ( Criterion , Attributes? ) >
+<!-- DS SubType are ( NOMINAL | LOGARITHMIC | ELASTIC | INELASTIC | THERMAL | PLASTIC )  -->
+<!ATTLIST Image Name  CDATA #REQUIRED
+          Physical    CDATA #REQUIRED
+          SubType     CDATA #IMPLIED
+          Visu        ( AVERAGE-ISO | DISCONTINUOUS-ISO | SYMBOL | FRINGE | MESH | TEXT | PATHLINE ) #REQUIRED
+          Hidden      ( YES | NO ) "NO" 
+          GroupID CDATA #IMPLIED >
+
+<!ELEMENT Criterion ( Values , ProcessList? )>
+<!ATTLIST Criterion Name CDATA #REQUIRED >
+
+<!ELEMENT Values ( DefaultPosition? , Position+ , MathType+ , MathDim* , ValueType* , Filters? ) >
+<!ATTLIST Values RefType    ( GLOBAL | LOCAL | NONE  ) #IMPLIED
+                 Combined   ( YES | NO ) #IMPLIED >
+
+<!ELEMENT DefaultPosition EMPTY >
+<!-- DS positions are ( NODE | EDGE | FACE | ELEMENT | GAUSS | CENTER | NODE_OF_ELEMENT )  -->
+<!ATTLIST DefaultPosition Name CDATA #REQUIRED >
+
+<!ELEMENT Position EMPTY >
+<!-- DS positions are ( NODE | EDGE | FACE | ELEMENT | GAUSS | CENTER | NODE_OF_ELEMENT )  -->
+<!ATTLIST Position Name CDATA #REQUIRED >
+
+<!ELEMENT MathType EMPTY >
+<!ATTLIST MathType Name ( SCALAR | VECTOR | TENSOR | EIGEN_VALUES | SYMMETRICAL_TENSOR | BIT_ARRAY) #REQUIRED >
+
+<!ELEMENT MathDim EMPTY >
+<!ATTLIST MathDim Name ( 1D | 2D | 3D ) #REQUIRED >
+
+<!ELEMENT ValueType EMPTY >
+<!ATTLIST ValueType Name ( CHARACTER | SHORT | INTEGER | REAL | DOUBLE | COMPLEX | COMPLEX_DOUBLE ) #REQUIRED >
+
+<!ELEMENT Filters ( Smi?, Lamina?, Component*, ComplexPart?, AxisSystem*) >
+
+<!ELEMENT Smi EMPTY >
+<!ATTLIST Smi Name ( UPPER | MID | LOWER | NONE | UPPER_LOWER) "UPPER" >
+
+<!ELEMENT Lamina EMPTY >
+<!ATTLIST Lamina Name CDATA #REQUIRED >
+
+<!ELEMENT Component EMPTY >
+<!ATTLIST Component Name ( C1 | C2 | C3 | C12 | C13 | C21 | C23 | C31 | C32) "C1" >
+<!ATTLIST Component ApplyOn (ALL | 1D | 2D | 3D ) "ALL" >
+
+<!ELEMENT ComplexPart EMPTY >
+<!ATTLIST ComplexPart Name ( REAL | IMAGINARY | MODULUS | PHASE ) "REAL" >
+
+<!ELEMENT AxisSystem (Origin?, X-Axis , Y-Axis, Z-Axis ) >
+<!ATTLIST AxisSystem CoordinateSystem (CARTESIAN | CYLINDRICAL | SPHERICAL ) "CARTESIAN" >
+<!ATTLIST AxisSystem ApplyOn (ALL | 1D | 2D | 3D ) "ALL" >
+
+<!ELEMENT Origin EMPTY >
+<!ATTLIST Origin X CDATA "0." >
+<!ATTLIST Origin Y CDATA "0." >
+<!ATTLIST Origin Z CDATA "0." >
+
+<!ELEMENT X-Axis EMPTY >
+<!ATTLIST X-Axis X CDATA "1." >
+<!ATTLIST X-Axis Y CDATA "0." >
+<!ATTLIST X-Axis Z CDATA "0." >
+
+<!ELEMENT Y-Axis EMPTY >
+<!ATTLIST Y-Axis X CDATA "0." >
+<!ATTLIST Y-Axis Y CDATA "1." >
+<!ATTLIST Y-Axis Z CDATA "0." >
+
+<!ELEMENT Z-Axis EMPTY >
+<!ATTLIST Z-Axis X CDATA "0." >
+<!ATTLIST Z-Axis Y CDATA "0." >
+<!ATTLIST Z-Axis Z CDATA "1." >
+
+<!ELEMENT ProcessList ( Process+ ) >
+
+<!ELEMENT Process ( IParam* , FParam* , CParam* ) >
+<!ATTLIST Process Name CDATA #REQUIRED >
+
+<!ELEMENT IParam (#PCDATA) >
+<!ELEMENT FParam (#PCDATA) >
+<!ELEMENT CParam (#PCDATA) >
+
+<!ELEMENT Attributes ( Text? , Symbol? , Display? , ColorMap? ) >
+
+<!ELEMENT Text ( FixedColor? ) >
+
+<!ELEMENT Symbol ( FixedColor? ) >
+<!ATTLIST Symbol Type          ( CUBE | TETRA | ARROW | DOUBLE-ARROW | TENSOR | PRESSURE | RESTRAINT | AXIS | POINT | BALL ) "ARROW" >
+<!ATTLIST Symbol ZoomSensitive ( YES | NO ) "YES" >
+<!ATTLIST Symbol Fixed         ( YES | NO ) "NO" >
+
+<!ELEMENT FixedColor EMPTY >
+<!ATTLIST FixedColor Red   CDATA #REQUIRED >
+<!ATTLIST FixedColor Green CDATA #REQUIRED >
+<!ATTLIST FixedColor Blue  CDATA #REQUIRED >
+<!ATTLIST FixedColor Alpha CDATA #REQUIRED >
+
+<!ELEMENT Display EMPTY >
+<!ATTLIST Display Deformed       ( YES | NO )         "NO" >
+<!ATTLIST Display DeformedMethod ( DISPLACEMENT | ALONG-LOCAL-NORMAL ) "DISPLACEMENT" >
+<!ATTLIST Display WithoutValues  ( YES | NO )         "NO" >
+<!ATTLIST Display Mode           ( FREE-FACES | ALL ) "FREE-FACES" >
+<!ATTLIST Display Shrink         CDATA #IMPLIED >
+
+<!ELEMENT ColorMap EMPTY >
+<!ATTLIST ColorMap MinMaxMode  ( FREE-FACES | ALL )   "FREE-FACES" >
+<!ATTLIST ColorMap ComputeMode ( LINEAR | HISTOGRAM | LOG ) "LINEAR" >
+<!ATTLIST ColorMap Smooth      ( YES | NO )           "NO" >
+
+<!-- End   Image Creation    -->
+
+<!-- Start Image Extension   -->
+
+<!ELEMENT ImageExtension ( AddValues? , RemoveValues? ) >
+<!ATTLIST ImageExtension Name  CDATA #REQUIRED >
+
+<!ELEMENT AddValues (DefaultPosition? , AddPosition* ) >
+
+<!ELEMENT AddPosition EMPTY >
+<!ATTLIST AddPosition Name CDATA #REQUIRED >
+
+<!ELEMENT RemoveValues ( RemovePosition* ) >
+
+<!ELEMENT RemovePosition EMPTY >
+<!ATTLIST RemovePosition Name CDATA #REQUIRED >
+
+<!-- End   Image Extension   -->
+
+<!-- Start Image ByRererence -->
+
+<!ELEMENT ImageByReference EMPTY >
+<!ATTLIST ImageByReference Reference CDATA #REQUIRED
+                           Name      CDATA #REQUIRED
+                           SubType   CDATA #IMPLIED
+                           Hidden    ( YES | NO ) "NO" 
+                           GroupID   CDATA #IMPLIED >
+
+<!-- End   Image ByRererence -->

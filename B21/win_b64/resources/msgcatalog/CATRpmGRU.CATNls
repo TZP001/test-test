@@ -1,0 +1,142 @@
+INFO_START="Starting CATReportUtility...";
+INFO_WPFullPath="Current WP Path is:";
+INFO_WPType="Current WP Type is:";
+INFO_WPOutput="Current WP Output is:";
+INFO_REPORT_Gen="WP Report has been generated successfully...";
+INFO_InputTempl="Input Template File is:";
+INFO_InputDtd="Input Dtd File is:";
+INFO_InputOutDir="Output Directory path is:";
+INFO_InputOneWP="Input Single WP is used: ";
+INFO_InputListWP="Input List WP is used: ";
+INFO_InputOneQuery="Input Single Query is used: ";
+INFO_InputListQueries="Input List Queries is used: ";
+INFO_QueryReadOK="Query used: ";
+INFO_QueryUsedKO="Query NOT used: ";
+INFO_Generation_WO_Q="Report is being generated using internal queries...";
+INFO_Generation_W_Q="Report is being generated using external queries...";
+INFO_Type="Output Report Type requested is: ";
+INFO_DTD_Reajust="Output Report XML files will be reajusted...";
+INFO_ArgV="Input --> ";
+INFO_DisconnectOK="Catia is now deconnected from ENOVIA V5 VPM...";
+INFO_ConnectCV5EV5="Starting connection between Catia and ENOVIA V5 VPM...";
+INFO_NoConnectCV5EV5="Connection between Catia and ENOVIA V5 VPM will not be set up...";
+INFO_ConnectOK="Catia is connected to ENOVIA V5 VPM...";
+INFO_Connection_User="Parameter for ENOVIA V5 VPM Connection: User =";
+INFO_Connection_Pwd="Parameter for ENOVIA V5 VPM Connection: Pwd =";
+INFO_Connection_Role="Parameter for ENOVIA V5 VPM Connection: Role =";
+INFO_Connection_Server="Parameter for ENOVIA V5 VPM Connection: Server =";
+INFO_Connection_sPwd="Parameter for ENOVIA V5 VPM Connection: Encrypted sPwd =";
+INFO_spwd_decodeOK="Encrypted password has been decoded...";
+
+ERR_QUERY_ReadKO="### ERROR -> This query can NOT be read: ";
+ERR_PARSING_Internal="### ERROR -> Internal Error while Parsing Inputs !!";
+ERR_MISS_Templ="### ERROR -> Missing Template file in Input !!";
+ERR_MISS_WP="### ERROR -> Missing WPs in Inputs !!";
+ERR_CONFLICT_WP="### ERROR Conflict -> Cannot have BOTH 1 WP and 1 List WPS in Input !!";
+ERR_CONFLICT_Queries="### ERROR Conflict -> cannot have BOTH 1 Query and 1 List of Queries in Input !!";
+ERR_GRU_Not="### ERROR -> Report can NOT be generated !!" ;
+ERR_READ_Wps="### ERROR -> Error while reading List of WPs (Check parameter file) !!";
+ERR_READ_Qs="### ERROR -> Error while reading List of Queriess (Check parameter file) !!";
+ERR_GRU_Creator="### ERROR -> Failure in ReportCompute Creator !!";
+ERR_GRU_Fail="### ERROR -> Report Generation failed !!" ;
+ERR_REPORT_NOTGen="### ERROR ->WP Report has NOT been generated !!";
+ERR_GENERATION="### ERROR -> Error during Report Generation !!";
+ERR_OPEN_DOC="### ERROR -> Error while opening the Document (cannot be opened) !!";
+ERR_INPUTNoArg="### ERROR -> No Arguments in Inputs... !!";
+ERR_INPUTNoTreated="### ERROR -> No Treated Inputs...!!";
+ERR_INPUTCheckPara="### ERROR -> Check Intput Parameter failed !!";
+ERR_INPUTMissRequired="### ERROR -> Required Input is missing in command line !!";
+ERR_INPUTMissPara="### ERROR -> Input Parameter is missing (After option). !!";
+ERR_INPUTMissArg="### ERROR -> Argument are missing !!";
+ERR_INPUTBadOption="### ERROR -> The follwing Option is NOT recognised: ";
+ERR_READ_Type="### ERROR -> The following Type is NOT recognised: ";
+ERR_READ_File="### ERROR -> The following file cannot be read: ";
+ERR_WRITE_Dir="### ERROR -> The following Directory does NOT have write access: ";
+ERR_DTD_Path="### ERROR -> The option -outAdjust can be used ONLY with type XML !";
+ERR_NO_QuerryDefined="### ERROR -> There is NO query defined (External or embbded in Template file) !";
+ERR_CONNECT_Start="### ERROR -> Cannot connect to ENOVIA V5 VPM !";
+ERR_CONNECT_Internal="### ERROR -> Error while connecting to ENOVIA V5 VPM !";
+ERR_CONNECT_GetEnv="### ERROR -> Error while getting the ENOVIA V5 VPM Environment !";
+ERR_CONNECT_noSession="### ERROR -> No Catia Session is Available !";
+ERR_DisconnectKO="### ERROR -> Pb during Disconnection of Catia from ENOVIA V5 VPM !";
+ERR_ConnectKO="### ERROR -> Pb during Connection between Catia and ENOVIA V5 VPM !";
+ERR_INPUTAlreadyTreated="### ERROR -> The following input has been declared twice : ";
+ERR_pwd_and_spwd="### ERROR -> iPwd and spwd option cannot be used together !";
+ERR_spwd_decodeKO="### ERROR -> The encrypted password cannot be decoded !";
+ERR_spwd_EmptyKO="### ERROR -> The encrypted password is an empty string !";
+ERR_OutOfMemory="### ERROR -> Memory allocation problem (reduce the number of objects and/or attributes reported on) !!";
+ERR_Connection_MissParm="### ERROR -> Some of the parameters for ENOVIA V5 VPM Connection (User,Pwd,Role,Server) are not specified !";
+
+HELP_GRU="
+--- HELP ---
+	Required
+	-----------------------------------
+		[-f]		--> Absolute Path of ONE WorkPackage
+		or
+		[-l]		--> Path of a WorkPackage List (Txt file)
+						One Absolute Path per Line
+
+		[-iTpl]		--> Absolute Path of A Template XML File
+
+		...Connection to ENOVIA V5 VPM will happen ONLY if ALL the following connection 
+		parameters are vaualted.
+
+		[-iUser]	--> ENOVIA V5 VPM user name (must have ADMIN rights)
+		[-iRole]	--> ENOVIA V5 VPM user role (ex: 'VPMADMIN.ADMIN.Default' or '+' for default)
+		[-iServer]	--> ENOVIA V5 VPM server name + port (ex: 'rs150dsa:38070')
+
+		[-iPwd]		--> ENOVIA V5 VPM user password
+		or
+		[-iSPwd]	--> ENOVIA V5 VPM Encrytped user password
+						The passord will be decrypted using 'CATIUExitCrypt' interface.
+						It needs to be encrypted prior to call the batch (cf Doc.)
+
+	Options
+	-----------------------------------
+		[-iQ]		--> Absolute Path of ONE Querry XML file
+		or
+		[-ilQ]		--> Path of a Querry List (Txt file)
+						One Absolute Path per Line
+
+		...If NO external queries are being used, Queries MUST be
+		pre-defined within the Template file.
+	
+		[-oDir]		--> Absolute Path of OutputDirectory
+						Default is Same as Input Directory
+						Do not add / or \ at the end of the path
+		[-oType]	--> Type of output Report ('htm','xls','txt' or 'xml')
+						Type by default is 'xml'
+		[-iDtd]		--> Absolute Path of a Dtd XML File (For XML Reports)
+						Path will be declared in OutputReport File.
+		[-oFixXML]	--> Comment out the line <!DOCTYPE> in the output XML File.
+						Once commented out, no need of DTD file to read the Report.
+						No arguments needed for this specific option.
+
+		[-h]		--> This HELP...";
+
+HELP_MERGE="
+--- HELP ---
+	Required
+	-----------------------------------
+		[-iTpl]		--> Absolute Path of A Template XML File
+		[-ilRpt]	--> Path of a report List (Txt file)
+						One Absolute Path per Line
+		[-oRpt]		--> Absolute Path of merged result XML File (For XML Reports)
+
+	Options
+	-----------------------------------
+		[-oLog]		--> Absolute Path of logfile
+		[-h]		--> This HELP...";
+
+INFO_Merge_START="Starting Report Merge...";
+INFO_InputListRpts="Input List of Reports is used: ";
+INFO_InputMergedRpt="Output merged report file will be:";
+
+ERR_READ_Rpts="### ERROR -> Error while reading List of Reports (Check parameter file) !!";
+ERR_MISS_MERGEDRPT="### ERROR -> Missing pathname of merged report!!";
+ERR_MISS_RPTLIST="### ERROR -> Missing List of Reports in Inputs !!";
+ERR_Merge="### ERROR -> Failure in MergeManager !!";
+ERR_DEF_INVALID="### ERROR -> Internal Error while Parsing input Template!!";
+ERR_LOGFILE="### ERROR -> Cannot access logfile: ";
+
+INFO_PartialReportCapability="WARNING: Due to memory allocation concern - GROUP-BY; SORT and SUM operations will be ignored";

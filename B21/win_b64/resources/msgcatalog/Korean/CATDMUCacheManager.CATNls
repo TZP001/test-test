@@ -1,0 +1,56 @@
+INFO_HELP="
+CATDMUCacheManager는 캐시 데이터를 관리합니다. \n
+사용법: \n
+   도움말 정보 검색:
+      CATDMUCacheManager -h\n
+   캐시 디렉토리의 컨텐츠 검색:
+      CATDMUCacheManager -content file [-g cachedir] [-s char] [-t type]\n
+   캐시 디렉토리 제거:
+      CATDMUCacheManager -purge value\n
+Windows 예제: \n
+   CATDMUCacheManager -h
+   CATDMUCacheManager -content c:\u\output.txt
+   CATDMUCacheManager -content c:\u\output.txt -t 3dmap
+   CATDMUCacheManager -purge 10\n
+Unix 예제: \n
+   CATDMUCacheManager -h
+   CATDMUCacheManager -content /u/output
+   CATDMUCacheManager -content /u/output -t 3dmap
+   CATDMUCacheManager -purge 10\n
+인수: \n
+   -h            : 도움말.
+   -content file : 캐시 파일 목록을 포함할 출력 파일.
+                   각 행에는 캐시 파일 ID, 분리 문자,
+                   원래 파일의 ID, 분리 문자 및
+                   YYYY-mm-dd-HH.MM.SS  포맷의 시각표시가 포함됩니다.
+   -g cachedir   : 스캔할 캐시 디렉토리.
+   -s char       : 입력 또는 출력 파일의 행에서
+                   필드를 분리하는 데 사용되는 문자를 정의합니다.
+                   디폴트로 공백 문자가 사용됩니다.
+   -t type       : 캐시 유형을 정의합니다(cgr, 3dmap, ...).
+                   디폴트로 cgr이 사용됩니다.
+   -purge value  : 주어진 값 크기에 도달하기 위해 가장 오래된 파일에서
+                   캐시 디렉토리를 제거합니다.
+                   크기는 MB 단위로 제공됩니다(Mo).\n
+진단: \n
+   가능한 종료 상태 값은 다음과 같습니다. \n
+      0   성공적인 완료. \n
+      1   다음으로 인해 실패:
+          - 라이센스를 사용할 수 없음
+          - 비활성화된 캐시 관리
+          - 인수 없음
+          - 유효하지 않은 매개변수
+          - 옵션 뒤에 매개변수 없음
+          - 출력 파일을 열 수 없음 \n
+      2   처리 오류. \n
+문제점 해결: \n
+   종료 상태 = 1:
+      표준 오류 파일 내에 포함된 정보를 사용하여 명령행 또는 환경을
+      수정하십시오. \n
+   종료 상태 = 2:
+      로컬 지원에 문의하십시오.
+";
+ERR_PROCESSING="오류: CATDMUCacheManager 처리에 실패했습니다.";
+ERR_CACHE_ACCESS="오류: CATDMUCacheManager가 다음 캐시 디렉토리를 액세스할 수 없습니다.";
+START_BATCH="CATDMUCacheManager 시작 위치: ";
+STOP_BATCH="CATDMUCacheManager는 다음 지속 기간 후 중지함 : ";

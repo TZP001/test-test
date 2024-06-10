@@ -1,0 +1,236 @@
+//NLS-ENGLISH VERSION
+//=======================================================================
+// MODULE :  DataExchangeInfrastructure
+//=======================================================================
+//
+//	2001-06-20 : JRX : Legende pour en-tete des fichiers .err
+//	2001-07-02 : JRX : Ajout du niveau en en-tete des .err
+//  10/07/2001: CRB: Service de gestion memoire et evitement CD
+//	2001-07-12 : JRX : Mode DEBUG
+// 2001-08-03 : YFZ: New message dans le pour afficher la tolerence et 
+//                   le Mode d'optimisation C2
+// 2001-09-27 : RNO : New Messages for Geometric Properties
+// 2002-02-27 : ARH : GVP_Part: New Messages for Geometric Properties
+// 2002-07-01 : ARH : GVP_Assembly
+// 2002-08-21 : KVL : GVP (total area, length)
+// 2003-11-04 : ARH : Ajout CentroidRead pour GVP
+// 2004-06-15 : JHH : Message d'interruption utilisateur
+// 2006-11-17 : ARH : Messages GVP Errors
+// 2006-11-30 : ARH : Messages assembly
+// 2008-01-02 : ARH : Message AVP (Assembly Validation Properties)
+// 2009-01-09 : ARH : Ajout Messages VP global status
+// 2010-11-29 : ARH : Ajout Messages VP pour UDA
+//-----------------------------------------------------------------------
+
+
+//
+//--------------------------------------
+//  Messages from CATExchangeErr
+//--------------------------------------
+// JRX - 2001-06-20
+
+CATExchangeErr.Head.Legende="============================================
+*** = Обработка нового независимого элемента
+  * = Промежуточная обработка
+!!  = Неудовлетворительный независимый элемент
+!   = Ошибка промежуточной обработки
+--------------------------------------------
+<I> = Информация
+<W> = Предупреждение
+<E> = Ошибка
+--------------------------------------------
+[0000]  = Идентификатор сообщения: 0000";
+
+
+CATExchangeErr.Head.Interface="[T=xxx] = Тип объекта : xxx
+[0000]  = Номер идентификатора объекта: 0000
+============================================";
+
+
+// JRX - 2001-07-02
+// Niveau d'affichage courant :
+
+CATExchangeErr.Level.Client="Уровень фактического отображения: Пользователь";
+
+CATExchangeErr.Level.Maintenance="Уровень фактического отображения: Обслуживание";
+
+CATExchangeErr.Level.Develop="Уровень фактического отображения: Разработчик (D)
+Уровень возможного отображения: Обслуживание (M)";
+
+CATExchangeErr.Level.Stat="Уровень фактического отображения: Статистика (S)
+Уровни возможного отображения: Обслуживание (M), Разработчик (D)";
+
+CATExchangeErr.Level.Debug="Уровень фактического отображения: <D> Отладка
+Уровни возможного отображения: Обслуживание (M), Разработчик (D), Статистика (S)";
+
+CATExchangeErr.Level.No="Уровень фактического отображения: Не определен
+Уровни отображения: Обслуживание (M), Разработчик (D), Статистика (S)";
+
+//
+//--------------------------------------
+//  Messages from CATReport
+//--------------------------------------
+
+//
+
+// Message Window
+CATReport.Msg.Input="Файл входных данных: ";
+
+
+// Message Window
+CATReport.Msg.Output="Выходной файл: ";
+
+// Message Window
+CATReport.Msg.Detail="~~~~~~~~~~~~~ПОДРОБНОСТИ ПРЕОБРАЗОВАНИЯ~~~~~~~~~~~~~~ ";
+
+// Message Window
+CATReport.Msg.Type="  Тип: ";
+
+// Message Window
+CATReport.Msg.Transferred="   Перенос выполнен корректно ";
+
+// Message Window
+CATReport.Msg.Degenerated="   Вырожденный ";
+
+// Message Window
+CATReport.Msg.Unsupported="   Не поддерживается ";
+
+// Message Window
+CATReport.Msg.NoTransferred="   Не перенесено из-за неподдерживаемого дочернего элемента ";
+
+// Message Window
+CATReport.Msg.BadTransferredTopology="   Сбой переноса топологии   ";
+
+// Message Window
+CATReport.Msg.OutSize="   Нарушение размеров модели ";
+
+// Message Window
+CATReport.Msg.BadTransferredGeometry="   Сбой переноса геометрии    ";
+
+// Message Window
+CATReport.Msg.Summary="~~~~~~~~~~~~~~~СВОДКА ПРЕОБРАЗОВАНИЯ~~~~~~~~~~~~~~~~ ";
+
+// Message Window
+CATReport.Msg.Time=" Время перезаписи в секундах: ";
+
+// Message Window
+CATReport.Msg.Invalide="   Недопустимо ";
+
+
+
+
+
+
+// Message Window
+CATReport.Msg.Column1=" Тип объекта ";
+// Message Window
+CATReport.Msg.Column2=" ОК ";
+// Message Window
+CATReport.Msg.Column3=" Сбой ";
+// Message Window
+CATReport.Msg.Column4=" NS ";
+// Message Window
+CATReport.Msg.Column5=" OUT ";
+// Message Window
+CATReport.Msg.Column6=" DEG ";
+// Message Window
+CATReport.Msg.Column7=" INV ";
+
+
+
+
+CATReport.Msg.Bilan=" Результат ";
+
+// Messages Window assembly
+CATReport.Msg.ass0="| Сборка Объект Тип  |";
+CATReport.Msg.ass1="| ИЗДЕЛИЕ               | ";
+CATReport.Msg.ass2="| КОМПОНЕНТ             | ";
+CATReport.Msg.ass3="| ЭКЗЕМПЛЯР ИЗДЕЛИЯ   | ";
+CATReport.Msg.ass4="| ЭКЗЕМПЛЯР КОМПОНЕНТА   | ";
+CATReport.Msg.ass5="| ВНЕШНЯЯ ССЫЛКА    | ";
+
+// Message Window
+CATReport.Msg.2=" OK = Перенесено ";
+// Message Window
+CATReport.Msg.3=" KO = Не перенесено ";
+// Message Window
+CATReport.Msg.4=" NS = Не поддерживается ";
+// Message Window
+CATReport.Msg.5=" OUT = Нарушение размера ";
+// Message Window
+CATReport.Msg.6=" DEG = Вырожденный ";
+// Message Window
+CATReport.Msg.7=" INV = Недопустимый ";
+// Message Window
+CATReport.Msg.8=" WAR = Предупреждение ";
+
+// Message Window join
+CATReport.Msg.Join="~~~~~~~~~~~~~~РЕЗУЛЬТАТ ОПЦИИ ОБЪЕДИНЕНИЯ~~~~~~~~~~~~~~ ";
+// Message Window join
+CATReport.Msg.joinresult=" На объединяющихся гранях созданы ОБОЛОЧКИ: ";
+// Message Window join
+CATReport.Msg.joinresultKo=" Количество сбоев при попытке объединения: ";
+
+//messages pour Layers
+CATReport.Msg.Layers="объекты, связанные с несколькими слоями, обнаруженными в данном файле, связаны со слоем:";
+
+//Service de gestion memoire et evitement CD
+CATReport.Msg.MemoryLow="Состояние недостаточного объема памяти: файл частично перенесен. Увеличьте объем памяти.";
+
+
+//message pour la tolerance et le Mode d'optimisation C2
+CATReport.Msg.Tolerance="Допуск оптимизации непрерывности C2: ";
+CATReport.Msg.Automatic="Автоматический режим для оптимизации непрерывности C2.";
+CATReport.Msg.Manuel="Ручной режим для оптимизации непрерывности C2.";
+CATReport.Msg.NoDeformation="Режим Без деформации для оптимизации непрерывности C2.";
+
+//Geometric Properties Messages  
+CATReport.Msg.ComputedProperties="Расчетные свойства: ";
+CATReport.Msg.ReadProperties="Чтение свойств      : ";
+CATReport.Msg.ValidationPropertiesOK="Проверка выполнена      : ";
+CATReport.Msg.ValidationPropertiesKO="Сбой при проверке     : ";
+CATReport.Msg.NoGVPAvailable=" Недоступно";
+CATReport.Msg.SolidVolume="Объем:";
+CATReport.Msg.Centroid="Центроид:";
+CATReport.Msg.CentroidRead="Чтение центроида:";
+CATReport.Msg.Area="Площадь:";
+CATReport.Msg.AreaTotal="Общая площадь:";
+CATReport.Msg.Length="Длина:";
+CATReport.Msg.LengthTotal="Общая длина:";
+CATReport.Msg.ErrorRatio="Доля ошибок:";
+CATReport.Msg.ErrorDistance="Ошибка положения центроида:";
+CATReport.Msg.RelativeError="Относительная ошибка:";
+CATReport.Msg.AbsoluteError="Абсолютные ошибки:";
+CATReport.Msg.BoxSize="Размеры параллелепипеда:";
+CATReport.Msg.CheckGVP="Проверка свойств допустимости геометрии:";
+CATReport.Msg.MaxErrorGVP="Максимальное количество ошибок:";
+CATReport.Msg.GVPCheckInstance="Проверка положения экземпляров изделий в сборке";
+CATReport.Msg.GVPCheckProduct="Проверка свойств допустимости изделий в сборке";
+CATReport.Msg.AVPNbChildren="Количество дочерних элементов:";
+CATReport.Msg.AVPNotionalCentroid="Условный центроид:";
+CATReport.Msg.VPGlobalStatus="Статус свойств выверки:";
+CATReport.Msg.CheckAVP="Проверка свойств допустимости геометрии:";
+CATReport.Msg.CheckFTA="Проверка свойств допустимости FTA:";
+CATReport.Msg.CheckUDA="Проверка свойств допустимости UDA:";
+
+// Interrupt button
+CATReport.Msg.Interrupt="<I> Перенос прерван пользователем.";
+
+// Message pour le scale mode
+CATReport.Msg.Scale="
+============================================
+Текуший масштаб  сессии V5 : /p1
+--------------------------------------------
+";
+
+//
+//--------------------------------------
+//  Messages for Composite Entity in CATReport
+//--------------------------------------
+CATReport.Msg.PlyGroup="Группа складок";
+CATReport.Msg.Sequence="Последовательность";
+CATReport.Msg.Ply="Складка";
+CATReport.Msg.Core="Основное";
+CATReport.Msg.Cutpiece="Вырезать фрагмент";
+
+

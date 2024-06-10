@@ -1,0 +1,62 @@
+INFO_HELP="
+CATDMUCacheLocator localise les données du cache correspondant à une liste de documents.\n
+Syntaxe : \n
+   Extraire les informations d'aide :
+      CATDMUCacheLocator -h\n
+   Localiser les données du cache :
+      CATDMUCacheLocator inputfile outputfile [-s char] [-t type] [-p dir]\n
+Exemples Windows :\n
+   CATDMUCacheLocator -h
+   CATDMUCacheLocator c:\u\input.txt c:\u\output.txt
+   CATDMUCacheLocator c:\u\input.txt c:\u\output.txt -p c:\cache -t 3dmap\n
+Exemples Unix :\n
+   CATDMUCacheLocator -h
+   CATDMUCacheLocator /u/input /u/output
+   CATDMUCacheLocator /u/input /u/output -p /u/cache -t 3dmap\n
+Arguments :\n
+   -h            : Aide.
+   inputfile     : Fichier d'entrée contenant une liste de documents.
+                   Le chemin ne peut pas contenir de DLName.
+                   Chaque ligne doit contenir l'identificateur du document,
+                   un séparateur et le timestamp du document.
+                   Pour les documents fichier, l'identificateur est le chemin du
+                   document (contenant éventuellement un DLName précédé de 'CATDLN://').
+                   Pour les documents VPM, l'identificateur est 'COID COMPID CAENV CATAB'.
+                   Le format du timestamp est AAAA-mm-jj-HH.MM.SS.
+                   Si le document existe le timestamp peut être omis.
+   outputfile    : Définit le chemin du fichier qui contiendra la liste des données
+                   de cache. Le chemin ne peut pas contenir de DLName.
+                   Chaque ligne contient l'identificateur du document, un séparateur
+                   et le chemin du cache correspondant au document.
+   -s char       : Définit le caractère de séparation dans une ligne des
+                   fichiers d'entrée ou de sortie.
+                   Par défaut le caractère blanc est utilisé.
+   -t type       : Définit le type du cache (cgr, 3dmap, ...).
+                   Par défaut le type est cgr.
+   -p dir        : Définit le répertoire du cache à utiliser à la place du répertoire
+                   défini dans les préférences. Dans ce cas, le répertoire peut ne pas exister
+                   ou être inaccessible ainsi que les fichiers de la liste.
+                   Ce répertoire ne peut pas être un DLName.\n
+Diagnostic :\n
+   Les valeurs de retours possibles sont :\n
+      0   Exécution terminée avec succès.\n
+      1   Panne due à une des causes suivantes :
+          - licence non disponible
+          - gestion du cache désactivée
+          - arguments manquants
+          - paramètre non valide
+          - paramètre manquant après une option
+          - fichier d'entrée manquant
+          - fichier introuvable
+          - ouverture d'un fichier d'entrée impossible\n
+      2   Erreur de traitement.\n
+Corrections :\n
+   Code de retour = 1 :
+      Modifier la ligne de commande ou l'environnement en utilisant les messages
+      de la sortie d'erreur standard.\n
+   Code de retour = 2 :
+      Contacter votre support local.
+";
+ERR_PROCESSING="ERREUR : CATDMUCacheLocator n'a pas pu effectuer le traitement.";
+START_BATCH="CATDMUCacheLocator démarre à :";
+STOP_BATCH="CATDMUCacheLocator se termine après une durée de :";

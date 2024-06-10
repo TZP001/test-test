@@ -1,0 +1,704 @@
+PSSaveEnoviaLCATitle="保存在 ENOVIA V5 VPM 中";
+PSSaveErrorNomad="当前文档属于 Nomad 会话，\n因此无法将其保存到 PDM 中。\n请先切换到目标 PDM 环境，再进行保存。";
+PSSaveErrorConnect="已取消保存，因为尚未建立 ENOVIA V5 VPM 连接。";
+PSSaveErrorPing="已取消保存，因为 ENOVIA V5 VPM 服务器未响应。";
+PSSaveErrorProductSpec="无法保存：会话中有产品规格\n请先将其关闭，然后再保存";
+
+ERR_PSSaveNoPersist="文档 /p1 没有 PDM 持久性。请先使用“设置 PDM 属性”功能，然后再保存。";
+ERR_PSSaveNoPersist.Generic="文档没有 PDM 持久性。";
+ERR_PSSaveNoPersist.Detail="/p1";
+ERR_PSSaveNoPersist.Suggestion="请先使用“设置 PDM 属性”功能，然后再保存。";
+
+ERR_SaveErrorBBProdToExp="文档 /p1 的 PDM 持久性设置为“保留在呈示式电子仓发布中的文档”，但却指向持久性为“未保留在呈示式电子仓结构中的文档”的文档。这是不允许的。请更改持久性。";
+ERR_SaveErrorBBProdToExp.Generic="文档的 PDM 持久性设置为“保留在呈示式电子仓发布中的文档”，但却指向持久性为“未保留在呈示式电子仓结构中的文档”的文档。这是不允许的。";
+ERR_SaveErrorBBProdToExp.Detail="/p1";
+ERR_SaveErrorBBProdToExp.Suggestion="请更改持久性。";
+
+
+// Error messages : ERR_, WRN_ or INF_ + identifier, /p1, /p2.. for parameters.
+
+WRN_PSVpmCsteLost="无法将装配约束 /p1 保存到 ENOVIA V5 VPM 中，因为它指向非持续数据。";
+WRN_PSVpmCsteLost.Generic=" 无法将装配约束保存到 ENOVIA V5 VPM 中，因为它们指向非持续数据。";
+WRN_PSVpmCsteLost.Detail="/p1";
+
+WRN_PSVpmInvalidDoc="无法在实例 /p1 上关联第二个文档。\n已忽略操作。";
+WRN_PSVpmInvalidDoc.Generic="无法在指定的实例上关联第二个文档。\n已忽略操作。";
+WRN_PSVpmInvalidDoc.Detail="/p1";
+
+WRN_PSVpmInvalidDocUp="无法在 CATPart 的子节点上\n关联文档 /p1。\n已忽略操作。";
+WRN_PSVpmInvalidDocUp.Generic="无法在 CATPart 的子节点上关联文档。\n已忽略操作。";
+WRN_PSVpmInvalidDocUp.Detail="文档 /p1。";
+
+WRN_PSVpmInvalidDocUnder="无法在 CATPart 的父节点上\n关联文档 /p1。\n已忽略操作。";
+WRN_PSVpmInvalidDocUnder.Generic="无法在 CATPart 的父节点上关联文档。\n已忽略操作";
+WRN_PSVpmInvalidDocUnder.Detail="文档 /p1";
+
+
+WRN_PSVpmInvalidReplaceOnProd="无法在装配的非叶节点上\n关联文档 /p1。\n已忽略操作。";
+WRN_PSVpmInvalidReplaceOnProd.Generic="无法在装配的非叶节点上关联文档。\n已忽略操作。";
+WRN_PSVpmInvalidReplaceOnProd.Detail="文档 /p1";
+
+WRN_PSVpmInstWithDirtyDoc="无法在关联脏文档的实例上\n关联文档 /p1。\n已忽略操作。";
+WRN_PSVpmInstWithDirtyDoc.Generic="无法在关联脏文档的实例上关联文档。\n已忽略操作。";
+WRN_PSVpmInstWithDirtyDoc.Detail="文档 /p1";
+
+WRN_PSVpmInvalidMapping="无法导入 CATPart 下的实例或文档。\n已忽略操作。";
+WRN_PSVpmInvalidMapping.Generic="无法导入 CATPart 下的实例或文档。\n已忽略操作。";
+
+WRN_PSVpmAsmOutOfContext="无法导入不在上下文中的装配节点 /p1。";
+WRN_PSVpmAsmOutOfContext.Generic="无法导入不在上下文中的装配节点。";
+WRN_PSVpmAsmOutOfContext.Detail="/p1";
+
+WRN_PSVpmCannotRetrieveDocument="无法在 ENOVIA 电子仓中检索与 /p1 相关联的文档。\n已忽略操作。将创建新部件。";
+WRN_PSVpmCannotRetrieveDocument.Generic="无法在 ENOVIA 电子仓中检索与所提及对象相关联的文档。\n已忽略操作。将创建新部件。";
+WRN_PSVpmCannotRetrieveDocument.Detail="/p1";
+
+WRN_PSVpmInvalidOper="无法导入与 /p1 相关联的文档。\n请卸载所有相关实例并重试。";
+WRN_PSVpmInvalidOper.Generic="无法导入与指定对象相关联的文档。";
+WRN_PSVpmInvalidOper.Detail="/p1";
+WRN_PSVpmInvalidOper.Suggestion="请卸载所有相关实例并重试。";
+
+WRN_PSPointedNotSaved="无法在 ENOVIA V5 VPM 中保存 /p1 装配约束中所记录的修改，因为所有被指向的产品\n实例都无法保存到 ENOVIA V5 VPM 中。";
+WRN_PSPointedNotSaved.Generic="无法在 ENOVIA V5 VPM 中保存装配约束中所记录的修改，因为所有被指向的产品\n实例都无法保存到 ENOVIA V5 VPM 中。";
+WRN_PSPointedNotSaved.Detail="/p1";
+
+INF_PSVpmDocToRename="文档 /p1 已存在于 ENOVIA V5 VPM 数据库中。\n 除非先将它重命名，否则无法保存。";
+INF_PSVpmDocToRename.Generic="此文档已存在于 ENOVIA V5 VPM 数据库中。\n 除非先将它重命名，否则无法保存。";
+INF_PSVpmDocToRename.Detail="/p1";
+INF_PSVpmDocToRename.Suggestion="请重命名文档。";
+
+INF_PSVpmProductToRename="产品 /p1 已存在于 ENOVIA V5 VPM 数据库中。\n 除非先将它重命名，否则无法保存。";
+INF_PSVpmProductToRename.Generic="产品已存在于 ENOVIA V5 VPM 数据库中。\n 除非先将它们重命名，否则无法保存。";
+INF_PSVpmProductToRename.Detail="/p1";
+INF_PSVpmProductToRename.Suggestion="请重命名产品。";
+
+INF_PSVpmPartToRename="零件 /p1 已存在于 ENOVIA V5 VPM 数据库中。\n 除非先将它重命名，否则无法保存。";
+INF_PSVpmPartToRename.Generic="零件已存在于 ENOVIA V5 VPM 数据库中。\n 除非先将它们重命名，否则无法保存。";
+INF_PSVpmPartToRename.Detail="/p1";
+INF_PSVpmPartToRename.Suggestion="请重命名零件。";
+
+WRN_PSVpmDocRenamed="文档 /p1 已存在于 ENOVIA V5 VPM 数据库中。\n 已使用新标识自动保存此文档。";
+WRN_PSVpmDocRenamed.Generic="文档已存在于 ENOVIA V5 VPM 数据库中。\n 已使用新标识自动保存这些文档。";
+WRN_PSVpmDocRenamed.Detail="/p1";
+
+ERR_PSVpmDocToRenameNotSaved="由于 ENOVIA V5 VPM 数据库中已有文档与文档 /p1 同名，因此尚未保存文档 /p1。\n ";
+ERR_PSVpmDocToRenameNotSaved.Generic="由于 ENOVIA V5 VPM 数据库中已有文档与其中一些文档同名，因此尚未保存这些文档。\n ";
+ERR_PSVpmDocToRenameNotSaved.Detail="/p1";
+ERR_PSVpmDocToRenameNotSaved.Suggestion="请重命名文档并重试。";
+
+ERR_PSVpmProductToRenameNotSaved="由于 ENOVIA V5 VPM 数据库中已有产品与产品 /p1 同名，因此尚未保存产品 /p1。\n ";
+ERR_PSVpmProductToRenameNotSaved.Generic="由于 ENOVIA V5 VPM 数据库中已有产品与其中一些产品同名，因此尚未保存这些产品。\n ";
+ERR_PSVpmProductToRenameNotSaved.Detail="/p1";
+ERR_PSVpmProductToRenameNotSaved.Suggestion="请重命名产品并重试。";
+
+ERR_PSVpmPartToRenameNotSaved="由于 ENOVIA V5 VPM 数据库中已有零件与零件 /p1 同名，因此尚未保存零件 /p1。\n ";
+ERR_PSVpmPartToRenameNotSaved.Generic="由于 ENOVIA V5 VPM 数据库中已有零件与其中一些零件同名，因此尚未保存这些零件。\n ";
+ERR_PSVpmPartToRenameNotSaved.Detail="/p1";
+ERR_PSVpmPartToRenameNotSaved.Suggestion="请重命名零件并重试。";
+
+WRN_PSVpmRefNameTruncated="参考名称的长度必须少于 40 个字符。\n /p1 \n已被自动截断以遵循 ENOVIA V5 VPM 要求。";
+WRN_PSVpmRefNameTruncated.Generic="参考名称的长度必须少于 40 个字符。\n 已自动截断某些对象以遵循 ENOVIA V5 VPM 要求。";
+WRN_PSVpmRefNameTruncated.Detail="/p1";
+
+WRN_PSVpmRefNameTruncatedTo="参考名称必须少于 /p1 个字符。\n/p2 \n已被自动截断以遵循 ENOVIA V5 VPM 要求。";
+WRN_PSVpmRefNameTruncatedTo.Generic="参考名称必须少于指定的字符。\n已自动截断某些对象以遵循 ENOVIA V5 VPM 要求。";
+WRN_PSVpmRefNameTruncatedTo.Detail="指定长度：/p1，对象名称：/p2";
+
+WRN_PSVpmProductRenamed="产品 /p1 已存在于 ENOVIA V5 VPM 数据库中。\n 已将其自动另存为 /p2";
+WRN_PSVpmProductRenamed.Generic="产品已存在于 ENOVIA V5 VPM 数据库中。\n 已使用新名称自动保存这些产品";
+WRN_PSVpmProductRenamed.Detail="原始名称：/p1，另存为：/p2";
+
+WRN_PSVpmProductPub="无法在 ENOVIA V5 VPM 的装配级别保存发布 \n应移除此发布或在详细零件上对其重新声明";
+WRN_PSVpmProductPub.Generic="无法在 ENOVIA V5 VPM 的装配级别保存发布。";
+WRN_PSVpmProductPub.Suggestion="应移除此发布或在详细零件上对其重新声明";
+
+WRN_PSVpmInputLostPub="上下文零件使用了不受支持的发布。\n无法将此信息保存到 ENOVIA V5 VPM 中（保存将失败）。";
+WRN_PSVpmInputLostPub.Generic="上下文零件使用了不受支持的发布。\n无法将此信息保存到 ENOVIA V5 VPM 中（保存将失败）。";
+WRN_PSVpmInputLostPub.Suggestion="请管理上下文关联性。";
+
+WRN_PSVpmInputWrongCtx="零件 /p1 与子装配 /p2 具有上下文关联性（在 ENOVIA V5 VPM 中不受支持）。\n请使用“更改上下文”菜单在产品级别定义上下文关联性。";
+WRN_PSVpmInputWrongCtx.Generic="零件与子装配具有上下文关联性（在 ENOVIA V5 VPM 中不受支持）。";
+WRN_PSVpmInputWrongCtx.Detail="零件名称：/p1，子装配名称：/p2";
+WRN_PSVpmInputWrongCtx.Suggestion="请使用“更改上下文”菜单在产品级别定义上下文关联性。";
+
+WRN_PSVpmPointingFromBB="零件 /p1 与子装配 /p2 具有上下文关联性（在 ENOVIA V5 VPM 中不受支持）。\n下次打开此子装配时，必须运行“定义上下文链接”命令来恢复上下文。";
+WRN_PSVpmPointingFromBB.Generic=" 零件与子装配具有上下文关联性（在 ENOVIA V5 VPM 中不受支持）。";
+WRN_PSVpmPointingFromBB.Detail="零件名称：/p1，子装配名称：/p2";
+WRN_PSVpmPointingFromBB.Suggestion="下次打开此子装配时，必须运行“定义上下文链接”命令来恢复上下文。";
+
+WRN_PSVpmInvalidRefMapping="无法导入参考 /p1，\n因为此参考附加有已导入的 CATPart。此 CATPart 与另一个参考相关联。\n已忽略操作。";
+WRN_PSVpmInvalidRefMapping.Generic="无法导入参考，因为此参考附加有已导入的 CATPart。\n此 CATPart 与另一个参考相关联。\n已忽略操作。";
+WRN_PSVpmInvalidRefMapping.Detail="参考名称：/p1。";
+
+INF_PSVpmSaveReconciliate="文件文档 /p1 提取自 ENOVIA V5 VPM。\n 已将其内容调整为与数据库中的版本保持一致。";
+INF_PSVpmSaveReconciliate.Generic="文件文档提取自 ENOVIA V5 VPM。\n 已将其内容调整为与数据库中的版本保持一致。";
+INF_PSVpmSaveReconciliate.Detail="文档名称：/p1。";
+
+INF_PSVpmSaveCreateNew="文件文档 /p1 提取自 ENOVIA V5 VPM。\n 已为该文档及其内容构造了新的数据库实体";
+INF_PSVpmSaveCreateNew.Generic="文件文档提取自 ENOVIA V5 VPM。\n 已为这些文档及其内容构造了新的数据库实体";
+INF_PSVpmSaveCreateNew.Detail="文档名称：/p1";
+
+//A1B IR-064179.Small Change in the message. 
+INF_PSVpmDocWBRenamed="文档 /p1 已存在于 ENOVIA V5 VPM 数据库中。\n 它将被自动另存为 /p2";
+INF_PSVpmDocWBRenamed.Generic="文档已存在于 ENOVIA V5 VPM 数据库中。\n 将使用新名称自动保存这些文档";
+INF_PSVpmDocWBRenamed.Detail="文档名称：/p1，另存为：/p2";
+
+INF_PSVpmDocWBTruncated="文档 /p1 的名称超过 40 个字符。\n 它将被自动另存为 /p2";
+INF_PSVpmDocWBTruncated.Generic="文档名称超过 40 个字符。\n 将使用新名称自动保存这些文档";
+INF_PSVpmDocWBTruncated.Detail="文档名称：/p1，另存为：/p2";
+
+INF_PSVpmDocWBTruncatedTo="文档 /p1 的名称超过 /p2 个字符。\n 它将被自动另存为 /p3";
+INF_PSVpmDocWBTruncatedTo.Generic="文档名称超过指定字符。\n 将使用新名称自动保存这些文档";
+INF_PSVpmDocWBTruncatedTo.Detail="文档名称：/p1，指定长度：/p2，重命名为：/p3";
+
+INF_PSVpmDocWBInvalidChar="文档 /p1 的名称包含无效字符。\n 将对它自动重命名";
+INF_PSVpmDocWBInvalidChar.Generic="文档名称包含无效字符。\n 将对它们自动重命名";
+INF_PSVpmDocWBInvalidChar.Detail="文档名称：/p1";
+INF_PSVpmDocWBInvalidChar.Suggestion="请避免在对象名称中使用无效字符。";
+
+WRN_PSVpmNoRightsToDelete_Lock="不允许删除 /p1。\n 实体已由其他用户锁定";
+WRN_PSVpmNoRightsToDelete_Lock.Generic="不允许删除对象。\n 实体已由其他用户锁定";
+WRN_PSVpmNoRightsToDelete_Lock.Detail="/p1";
+
+WRN_PSVpmNoRightsToDelete_UserRole="不允许在 /p1 中执行删除操作。\n 用户权限不足";
+WRN_PSVpmNoRightsToDelete_UserRole.Generic="不允许在对象中执行删除操作。\n 用户权限不足";
+WRN_PSVpmNoRightsToDelete_UserRole.Detail="/p1";
+
+WRN_PSVpmInvalidInitLog="不能将文档 /p1 保存到 ENOVIA V5 VPM 中。";
+WRN_PSVpmInvalidInitLog.Generic="不能将文档保存到 ENOVIA V5 VPM 中。";
+WRN_PSVpmInvalidInitLog.Detail="/p1";
+
+
+WRN_PSVpmInputLost1="无法将零件 /p1 的上下文关联性保存到 ENOVIA V5 VPM 中，\n 因为它指向已卸载的数据";
+WRN_PSVpmInputLost1.Generic="无法将零件的上下文关联性保存到 ENOVIA V5 VPM 中，\n 因为它们指向已卸载的数据";
+WRN_PSVpmInputLost1.Detail="零件名称：/p1";
+
+
+WRN_PSVpmInputLost2="无法将使用 /p2 的零件 /p1 的上下文关联性保存到 ENOVIA V5 VPM 中，\n 因为它指向已卸载的数据";
+WRN_PSVpmInputLost2.Generic="无法将使用零件 2 的零件 1 的上下文关联性保存到 ENOVIA V5 VPM 中，\n 因为它指向已卸载的数据";
+WRN_PSVpmInputLost2.Detail="零件 1 名称：/p1 ，零件 2 名称：/p2";
+
+WRN_PSVpmExtensionError="无法在 ENOVIA V5 VPM 中创建应用扩展名 /p1。\n请检查是否已正确安装数据库。";
+WRN_PSVpmExtensionError.Generic="无法在 ENOVIA V5 VPM 中创建应用扩展名。\n请检查是否已正确安装数据库。";
+WRN_PSVpmExtensionError.Detail="/p1";
+
+WRN_PSVpmConfig="无法在不可配置的 ENOVIA V5 VPM 参考 /p2 下实例化已配置的 ENOVIA V5 VPM 参考 /p1。\n 已忽略操作。\n 请修改 ENOVIA V5 VPM 设置并重试。";
+WRN_PSVpmConfig.Generic=" 无法在不可配置的 ENOVIA V5 VPM 参考下实例化已配置的 ENOVIA V5 VPM 参考。\n 已忽略操作。";
+WRN_PSVpmConfig.Detail="已配置的 ENOVIA V5 VPM 参考：/p1，不可配置的 ENOVIA V5 VPM 参考：/p2。";
+WRN_PSVpmConfig.Suggestion="请修改 ENOVIA V5 VPM 设置并重试。";
+
+WRN_PSAttrMapFileParseErr="解析 /p1 行时\n出错：/p2 列：/p3 消息：/p4。\n出现此错误后，“保存至 ENOVIA V5 VPM”将不起作用。\n请修改 xml 文件并重新启动会话。";
+WRN_PSAttrMapFileParseErr.Generic="解析 xml 文件时出错。请在受影响的对象中检查错误位置。\n出现此错误后，“保存至 ENOVIA V5 VPM”将不起作用。";
+WRN_PSAttrMapFileParseErr.Detail="XML 文件名：/p1，\n 行：/p2，列：/p3 \n消息：/p4。";
+WRN_PSAttrMapFileParseErr.Suggestion="\n请修改 xml 文件并重新启动会话。";
+
+WRN_PSUserAttributeMappingKORef="保存与零件 /p1 的参考相关联的属性时发生错误";
+WRN_PSUserAttributeMappingKORef.Generic="保存与零件的参考相关联的属性时发生错误";
+WRN_PSUserAttributeMappingKORef.Detail="零件名称：/p1";
+
+WRN_PSUserAttributeMappingKOIns="保存与零件 /p1 的实例相关联的属性时发生错误";
+WRN_PSUserAttributeMappingKOIns.Generic="保存与零件的实例相关联的属性时发生错误";
+WRN_PSUserAttributeMappingKOIns.Detail="零件名称：/p1";
+
+INF_ImportOK="导入成功";
+INF_ImportOK.Generic="导入成功";
+
+WRN_VERSIONNING_NOT_DONE="至少一个元素的版本控制无法完成";
+WRN_VERSIONNING_NOT_DONE.Generic="至少一个元素的版本控制无法完成";
+
+WRN_PSVpmOpenDocumentwithoutPV="文档 /p1 没有关联至零件版本。\n 若保存此文档，将创建新零件";
+WRN_PSVpmOpenDocumentwithoutPV.Generic="文档没有关联至任何零件版本。\n 若保存此文档，将创建新零件";
+WRN_PSVpmOpenDocumentwithoutPV.Detail="文档名称：/p1";
+
+
+INF_PSVpmOpenInBGNotAvailable="无法在背景中打开 /p1。\n 没有与当前选择相关联的文档。";
+INF_PSVpmOpenInBGNotAvailable.Generic="无法在背景中打开对象。\n 没有与当前选择相关联的文档。";
+INF_PSVpmOpenInBGNotAvailable.Detail="/p1";
+
+INF_PSVpmOpenInBGAlreadyDone="已在背景中打开 /p1。\n 此文档已在背景中的相同位置打开。";
+INF_PSVpmOpenInBGAlreadyDone.Generic="已在背景中打开对象。\n 这些文档已在背景中的相同位置打开。";
+INF_PSVpmOpenInBGAlreadyDone.Detail="/p1";
+
+
+INF_PSVpmOpenInBGWrongEditor="无法在选定的编辑器中实现“在背景中打开”。\n 关联的文档必须是 CATPart 或 CATProduct 文档。";
+INF_PSVpmOpenInBGWrongEditor.Generic="无法在选定的编辑器中实现“在背景中打开”。\n 关联的文档必须是 CATPart 或 CATProduct 文档。";
+
+INF_PSVpmOpenInBGActiveDoc="使用选定的编辑器打开文档时，无法实现“在背景中打开”。";
+INF_PSVpmOpenInBGActiveDoc.Generic="使用选定的编辑器打开文档时，无法实现“在背景中打开”。";
+
+ERR_SaveErrorPrcPrc="无法在 ENOVIA V5 VPM 中保存当前文档 /p1，\n因为它包含的 ENOVIA V5 VPM 产品 (PRC) 不是根产品";
+ERR_SaveErrorPrcPrc.Generic="无法在 ENOVIA V5 VPM 中保存文档，\n因为它包含的 ENOVIA V5 VPM 产品 (PRC) 不是根产品";
+ERR_SaveErrorPrcPrc.Detail="/p1";
+
+WRN_PSVpmLoadByNameFailed="无法从 ENOVIA V5 VPM 中加载名为 /p2 的 /p1";
+WRN_PSVpmLoadByNameFailed.Generic="无法从 ENOVIA V5 VPM 中加载名为“对象 2”的对象 1";
+WRN_PSVpmLoadByNameFailed.Detail="对象 1：/p1，对象 2：/p2";
+
+WRN_PSVpmSameRefInTwoPRCs="部件 /p1 已显示在 CATIA 产品中。无法在另一个产品中将其实例化";
+WRN_PSVpmSameRefInTwoPRCs.Generic="部件已显示在 CATIA 产品中。无法在另一个产品中将它们实例化";
+WRN_PSVpmSameRefInTwoPRCs.Detail="/p1";
+
+
+//Messages for ProductSpec
+WRN_PSProductSpecNotGranted="您没有向 CATIA 加载产品规格的权限";
+WRN_PSProductSpecNotGranted.Generic="您没有向 CATIA 加载产品规格的权限";
+
+WRN_PSProductSpecContextuality="已使用产品规格装配建立上下文关联。不允许此操作，且不能将其保存回 ENOVIA V5 VPM。";
+WRN_PSProductSpecContextuality.Generic="不允许使用产品规格设计上下文。";
+
+WRN_PSProductSpecConnection="在产品规格下，约束 /p1 已成为 /p2。不允许此操作，且不能将其保存回 ENOVIA V5 VPM。";
+WRN_PSProductSpecConnection.Generic="不允许在产品规格下对约束执行操作。";
+WRN_PSProductSpecConnection.Detail="在产品规格下，约束 /p1 已成为 /p2。 ";
+
+WRN_PSProductSpecEntity="在产品规格下，实体 /p1 已成为 /p2。不允许此操作，且不能将其保存回 ENOVIA V5 VPM。";
+WRN_PSProductSpecEntity.Generic="不允许在产品规格下对实体执行操作。";
+WRN_PSProductSpecEntity.Detail="在产品规格下，实体 /p1 已成为 /p2。";
+
+WRN_PSProductSpecInstance="实体 /p1 是新的产品规格实例。不支持创建此实体，且不能将其保存回 ENOVIA V5 VPM。";
+WRN_PSProductSpecInstance.Generic="不允许在 CATIA 中实例化产品规格。";
+WRN_PSProductSpecInstance.Detail="实体 /p1 是新的产品规格实例。";
+
+WRN_PSProductSpecMoveOnly="除了移动操作，不允许修改产品规格内容";
+WRN_PSProductSpecMoveOnly.Generic="除了移动操作，不允许修改产品规格内容";
+
+WRN_PSPRCofProdSpecInSession="当产品规格 /p1 的根产品 /p2 也在 CATIA 中时，不能加载此产品规格";
+WRN_PSPRCofProdSpecInSession.Generic="当产品规格的根产品已在 CATIA 中打开时，不能加载此产品规格。";
+WRN_PSPRCofProdSpecInSession.Detail="实体 /p1 是已在 CATIA 中打开的根产品 /p2 的产品规格";
+
+WRN_PSProdSpecofPRCInSession="当根产品 /p1 的某个产品规格也在 CATIA 中时，不能加载此根产品";
+WRN_PSProdSpecofPRCInSession.Generic="当根产品的某个产品规格也在 CATIA 中时，不能加载这些根产品";
+WRN_PSProdSpecofPRCInSession.Detail="根产品名称：/p1";
+
+WRN_PSGetDomainFail="尝试获取应存储零件或文档的 ENOVIA V5 VPM 自定义域失败";
+WRN_PSGetDomainFail.Generic="尝试获取应存储零件或文档的 ENOVIA V5 VPM 自定义域失败";
+
+ERR_PSInsNameTooLong="实例名称 xxx /p1 太长（超过 40 个字符）。由于实例名称会影响多模型链接，因此请将其重命名。";
+ERR_PSInsNameTooLong.Generic="实例名称太长（超过 40 个字符）。";
+ERR_PSInsNameTooLong.Detail="/p1";
+ERR_PSInsNameTooLong.Suggestion="由于实例名称会影响多模型链接，因此请将其重命名。";
+
+ERR_PSInsNameTooLong1="实例名称 xxx /p1 太长（超过 80 个字符）。由于实例名称会影响多模型链接，因此请将其重命名。";
+ERR_PSInsNameTooLong1.Generic="实例名称太长（超过 80 个字符）。";
+ERR_PSInsNameTooLong1.Detail="/p1";
+ERR_PSInsNameTooLong1.Suggestion="由于实例名称会影响多模型链接，因此请将其重命名。";
+
+WRN_PSPROtherVersionInSession="无法加载 /p1：CATIA 中已加载其他版本。\n请先同步所需版本上的链接，然后再继续。";
+WRN_PSPROtherVersionInSession.Generic="无法加载对象：CATIA 中已加载其他版本。";
+WRN_PSPROtherVersionInSession.Detail="/p1";
+WRN_PSPROtherVersionInSession.Suggestion="\n请先同步所需版本上的链接，然后再继续。";
+
+
+//AVM IR 518496
+WRN_PSVpmSameNameInAssembly="由于参考 /p1 的名称与其父级名称相同，因此无法将其导入。";
+WRN_PSVpmSameNameInAssembly.Generic="由于参考名称与其父级名称相同，因此无法将其导入。";
+WRN_PSVpmSameNameInAssembly.Detail="参考名称：/p1";
+
+
+
+// SDM/07-Aug-03
+// Error messages related to business rules checking (security, lifecycle, etc...)
+
+WRN_PSBRNoPrivelege="未授权操作。\n您没有在对象 /p2 上处理 /p1 的权限";
+WRN_PSBRNoPrivelege.Generic="由于缺少权限，因此未授权操作。";
+WRN_PSBRNoPrivelege.Detail="流程名称：/p1，对象名称：/p2，对象类型：/p3";
+WRN_PSBRNoPrivelege.Suggestion="请检查授权给当前用户的权限。";
+
+WRN_PSBRNoPrivelegeUnk="未将此操作授权给对象 /p1";
+WRN_PSBRNoPrivelegeUnk.Generic="未将此操作授权给对象";
+WRN_PSBRNoPrivelegeUnk.Detail="对象名称：/p1，对象类型：/p2";
+WRN_PSBRNoPrivelegeUnk.Suggestion="请检查授权给当前用户的权限。";
+
+WRN_PSBRNotLocked="未授权操作！未锁定 /p1。";
+WRN_PSBRNotLocked.Generic="由于未锁定对象，因此未授权操作。";
+//QAR IR A0586095
+WRN_PSBRNotLocked.Detail="对象名称：/p1，对象类型：/p2";
+//WRN_PSBRNotLocked.Detail                     = "Object Name: /p1";
+WRN_PSBRNotLocked.Suggestion="请检查当前用户的已授权权限。\n用户需要锁定上述列表中受影响的对象";
+//WRN_PSBRNotLocked.Suggestion    = "Check privileges authorized to the current user.";
+
+WRN_PSBRLockedByAnother="未授权操作！/p1 已由其他用户锁定。";
+WRN_PSBRLockedByAnother.Generic="由于对象已由其他用户锁定，因此未授权操作。";
+WRN_PSBRLockedByAnother.Detail="对象名称：/p1，对象类型：/p2";
+WRN_PSBRLockedByAnother.Suggestion="对象应由相关用户解除锁定。";
+
+//ZPL for "Lock by User" HL
+WRN_PSBRLockedByAnotherUserHL="未授权操作！/p1 已由其他用户锁定。";
+WRN_PSBRLockedByAnotherUserHL.Generic="由于对象已由其他用户锁定，因此未授权操作。";
+WRN_PSBRLockedByAnotherUserHL.Detail="对象名称：/p1，对象类型：/p2，锁定者：/p3";
+WRN_PSBRLockedByAnotherUserHL.Suggestion="对象应由相关用户解除锁定。";
+
+WRN_PSBRStatusNoUpdate="未授权操作！/p1 的当前状态不可更新。";
+WRN_PSBRStatusNoUpdate.Generic="由于对象的当前状态不可更新，因此未授权操作。";
+WRN_PSBRStatusNoUpdate.Detail="对象名称：/p1，对象类型：/p2";
+WRN_PSBRStatusNoUpdate.Suggestion="请确保对象处于正确状态。";
+
+WRN_PSBRStatusReleased="未授权操作！对象 /p1 已到达最终状态。";
+WRN_PSBRStatusReleased.Generic="由于对象已到达最终状态，因此未授权操作。";
+WRN_PSBRStatusReleased.Detail="对象名称：/p1，对象类型：/p2";
+WRN_PSBRStatusReleased.Suggestion="请确保对象处于正确状态。";
+
+WRN_PSBRParentNotLocked="未授权操作！/p1 的父级未锁定。";
+//VPW IR A0619343 : spelling priviledges changed to privileges for all occurence.
+//QAR - IR 638919 : Message modified
+WRN_PSBRParentNotLocked.Generic="由于缺少对父级的操作权限，因此未授权对象上的操作。";
+WRN_PSBRParentNotLocked.Detail="对象名称：/p1，父级名称：/p2";
+//ZUF IR 25392 : Message modified
+WRN_PSBRParentNotLocked.Suggestion="检查数据库的受影响对象列表中父级对象的锁定状态。";
+
+WRN_PSBRParentLockedByAnother="未授权操作！/p1 的父级已由其他用户锁定。";
+WRN_PSBRParentLockedByAnother.Generic="由于其他用户已将对象的父级锁定，因此未授权操作。";
+WRN_PSBRParentLockedByAnother.Detail="对象名称：/p1";
+WRN_PSBRParentLockedByAnother.Suggestion="请检查对父级对象的锁定所有权。";
+
+//ZPL "Lock by User"
+WRN_PSBRParentLockedByAnotherUserHL="未授权操作！/p1 的父级已由其他用户锁定。";
+WRN_PSBRParentLockedByAnotherUserHL.Generic="由于其他用户已将对象的父级锁定，因此未授权操作。";
+WRN_PSBRParentLockedByAnotherUserHL.Detail="对象名称：/p1，父级名称|锁定者：/p2";
+WRN_PSBRParentLockedByAnotherUserHL.Suggestion="父级对象应由相关用户解除锁定。";
+
+//ZPL "Lock by User"
+WRN_PSBRParentLockedByAnotherUserHL2="未授权操作！/p1 的父级已由其他用户锁定。";
+WRN_PSBRParentLockedByAnotherUserHL2.Generic="由于其他用户已将对象的父级锁定，因此未授权操作。";
+WRN_PSBRParentLockedByAnotherUserHL2.Detail="对象名称：/p1，对象类型：/p1，父级名称|锁定者：/p3";
+WRN_PSBRParentLockedByAnotherUserHL2.Suggestion="父级对象应由相关用户解除锁定。";
+
+WRN_PSBRParentStatusNoUpdate="未授权操作！/p1 父级的状态不可更新。";
+WRN_PSBRParentStatusNoUpdate.Generic="由于对象的父级不可更新，因此未授权操作。";
+WRN_PSBRParentStatusNoUpdate.Detail="对象名称：/p1，对象类型：/p2";
+WRN_PSBRParentStatusNoUpdate.Suggestion="请确保对象的父级处于正确状态。";
+
+WRN_PSBRParentStatusReleased="未授权操作！/p1 的父级已到达最终状态。";
+WRN_PSBRParentStatusReleased.Generic="由于对象的父级已到达最终状态，因此未授权操作。";
+WRN_PSBRParentStatusReleased.Detail="对象名称：/p1，对象类型：/p2";
+WRN_PSBRParentStatusReleased.Suggestion="请确保对象的父级处于正确状态。";
+
+WRN_PSBRStatusNoDelete="未授权操作！/p1 的当前状态不可删除。";
+WRN_PSBRStatusNoDelete.Generic="由于对象的状态不可删除，因此未授权操作。";
+WRN_PSBRStatusNoDelete.Detail="对象名称：/p1";
+WRN_PSBRStatusNoDelete.Suggestion="请确保对象处于正确状态。";
+
+WRN_PSBRParentNotConfigured="未授权操作！未配置 /p1 的父级。";
+WRN_PSBRParentNotConfigured.Generic="由于未配置对象的父级，因此未授权操作。";
+WRN_PSBRParentNotConfigured.Detail="对象名称：/p1";
+WRN_PSBRParentNotConfigured.Suggestion="请配置父级以执行选定的操作。";
+
+WRN_PSBRChildLockedByAnother="未授权操作！当前用户未锁定对象 /p1 的子级。";
+WRN_PSBRChildLockedByAnother.Generic="由于当前用户未锁定对象的子级，因此未授权操作。";
+WRN_PSBRChildLockedByAnother.Detail="对象名称：/p1";
+WRN_PSBRChildLockedByAnother.Suggestion="请检查子级的锁定所有者。";
+
+//ZPL "Locked By User" HL
+WRN_PSBRChildLockedByAnotherUserHL="未授权操作！当前用户未锁定对象 /p1 的子级。";
+WRN_PSBRChildLockedByAnotherUserHL.Generic="由于当前用户未锁定对象的某些子级，因此未授权操作。";
+WRN_PSBRChildLockedByAnotherUserHL.Detail="对象名称：/p1，子级名称|锁定所有者：/p2";
+WRN_PSBRChildLockedByAnotherUserHL.Suggestion="子级对象应由相关用户解除锁定。";
+
+WRN_PSBRDelKOIIPointedByAction="未授权实际删除！至少有一个工作指令指向实例 /p1。";
+WRN_PSBRDelKOIIPointedByAction.Generic="由于至少有一个工作指令指向实例，因此未授权实际删除。";
+WRN_PSBRDelKOIIPointedByAction.Detail="实例名称：/p1";
+
+WRN_PSBRNotPreferredIter="未授权操作！所使用文档修订版不是首选";
+WRN_PSBRNotPreferredIter.Generic="未授权操作！所使用文档修订版不是首选";
+WRN_PSBRNotPreferredIter.Detail="对象名称：/p1，对象类型：/p2";
+WRN_PSBRNotPreferredIter.Suggestion="请选择文档的首选修订版";
+
+WRN_PSBRUnknownError="未授权 /p1 上的操作且原因未知！";
+WRN_PSBRUnknownError.Generic="未授权对象上的操作且原因未知";
+WRN_PSBRUnknownError.Detail="对象名称：/p1，对象类型：/p2";
+WRN_PSBRUnknownError.Suggestion="请检查对象在 ENOVIA V5 VPM 数据库中是否有效"; // VPW IR 650028
+
+
+WRN_PSBRNotBelongsToLocalSite="由于对象 /p1 不属于本地站点，因此未授权操作。";
+WRN_PSBRNotBelongsToLocalSitev.Generic="由于对象不属于本地站点，因此未授权操作。";
+WRN_PSBRNotBelongsToLocalSite.Detail="对象名称：/p1，对象类型：/p2";
+
+WRN_PSBRParentNotBelongsToSite="未授权操作！/p1 的父级不属于本地站点。";
+WRN_PSBRParentNotBelongsToSite.Generic="由于对象的父级不属于本地站点，因此未授权操作。";
+WRN_PSBRParentNotBelongsToSite.Detail="对象名称：/p1";
+
+// NFO IR-A0541479 06:06:22
+WRN_PSBROtherInstanceLockedByAnother="未授权操作！至少一个 /p1 的对等实例已由其他用户锁定。";
+WRN_PSBROtherInstanceLockedByAnother.Generic="未授权操作！至少一个对象的对等实例已由其他用户锁定。";
+WRN_PSBROtherInstanceLockedByAnother.Detail="对象名称：/p1";
+WRN_PSBROtherInstanceLockedByAnother.Suggestion="请检查对等实例的锁定所有权。";
+
+//ZPL "Locked By User" HL
+WRN_PSBROtherInstanceLockedByAnotherUserHL="未授权操作！至少一个 /p1 的对等实例已由其他用户锁定。";
+WRN_PSBROtherInstanceLockedByAnotherUserHL.Generic="未授权操作！至少一个对象的对等实例已由其他用户锁定。";
+WRN_PSBROtherInstanceLockedByAnotherUserHL.Detail="对象名称：/p1，实例|锁定所有者：/p2";
+WRN_PSBROtherInstanceLockedByAnotherUserHL.Suggestion="实例应由相关用户解除锁定。";
+
+//Message for UnloadBranch
+WRN_PSVpmUnloadFileEntity="请先将实体 /p1 保存至 ENOVIA V5 VPM，然后再卸载";
+WRN_PSVpmUnloadFileEntity.Generic="请先将实体保存至 ENOVIA V5 VPM，然后再卸载";
+WRN_PSVpmUnloadFileEntity.Detail="实体名称：/p1";
+
+WRN_PSVpmUnloadNotSavedEntity="由于修改将不保存回 ENOVIA V5 VPM，因此无法卸载 /p1。";
+WRN_PSVpmUnloadNotSavedEntity.Generic="由于修改将不保存回 ENOVIA V5 VPM，因此无法卸载对象。";
+WRN_PSVpmUnloadNotSavedEntity.Detail="/p1";
+
+WRN_PSVpmCanNotUnloadUnderBB="由于 /p1 保留在电子仓的持久文档中，因此无法卸载此实体。";
+WRN_PSVpmCanNotUnloadUnderBB.Generic="由于对象保存在电子仓的持久文档中，因此无法卸载此实体。";
+WRN_PSVpmCanNotUnloadUnderBB.Detail="/p1";
+
+WRN_PSVpmCanNotUnloadUnloaded="由于 /p1 已卸载，因此无法卸载此实体。";
+WRN_PSVpmCanNotUnloadUnloaded.Generic="由于实体已卸载，因此无法卸载这些实体。";
+WRN_PSVpmCanNotUnloadUnloaded.Detail="/p1";
+
+WRN_PSVpmCanNotUnloadNothing="/p1 的分支中没有要卸载的实体";
+WRN_PSVpmCanNotUnloadNothing.Generic="实体的分支中没有要卸载的实体";
+WRN_PSVpmCanNotUnloadNothing.Detail="实体名称：/p1";
+
+WRN_PSNoUnloadIfRefInEdition="由于已在其他版本中打开实体 /p1，因此无法卸载此实体";
+WRN_PSNoUnloadIfRefInEdition.Generic="由于已在其他版本中打开实体，因此无法卸载这些实体";
+WRN_PSNoUnloadIfRefInEdition.Detail.Suggestion="/p1";
+
+
+
+//message fo TechPack
+
+ERR_TECHPACK_ClusterLoadingOperationFailure="技术包 /p1 /p2 /p3 /p4 加载操作失败。/p5 /p6 /p7";
+ERR_TECHPACK_ClusterLoadingOperationFailure.Generic="加载操作失败。";
+// VPW IR A0600636 
+ERR_TECHPACK_ClusterLoadingOperationFailure.Detail="技术包角色：/p1，类别：/p2，版本：/p3，所有者：/p4，加载操作失败。组织：/p5，创建日期：/p6，修改日期：/p7";
+//ERR_TECHPACK_ClusterLoadingOperationFailure.Detail       = "TechPack /p1 /p2 /p3 /p4 Loading operation failed. /p5 /p6 /p7";
+
+ERR_TECHPACK_NotLocked="技术包未锁定。保存异常中止。";
+ERR_TECHPACK_NotLocked.Generic="技术包未锁定。保存异常中止。";
+
+ERR_TECHPACK_LockByAnotherUser="技术包已由其他用户锁定。保存异常中止。";
+ERR_TECHPACK_LockByAnotherUser.Generic="技术包已由其他用户锁定。保存异常中止。";
+
+ERR_TECHPACK_BelongsToNotPersistantObject="技术包属于非持久性对象。保存异常中止。";
+ERR_TECHPACK_BelongsToNotPersistantObject.Generic="技术包属于非持久性对象。保存异常中止。";
+
+ERR_TECHPACK_VaultAccessDenied="访问电子仓失败。保存异常中止。";
+ERR_TECHPACK_VaultAccessDenied.Generic="访问电子仓失败。保存异常中止。";
+
+WRN_TECHPACK_PointedDocumentNotInEnovia_ExpositionFailed="链接正指向非 PDM 文档（/p1）。此链接已保存但未呈示。";
+WRN_TECHPACK_PointedDocumentNotInEnovia_ExpositionFailed.Generic="链接正指向非 PDM 文档。此链接已保存但未呈示。";
+WRN_TECHPACK_PointedDocumentNotInEnovia_ExpositionFailed.Detail="文档名：/p1";
+
+ERR_TECHPACK_ExternalLinkNotSupported="不支持此外部链接（/p1）。";
+ERR_TECHPACK_ExternalLinkNotSupported.Generic="不支持此外部链接。";
+ERR_TECHPACK_ExternalLinkNotSupported.Detail="链接名称：/p1";
+
+PartialSave.Title="局部保存操作";
+
+PartialSave.Text="考虑到锁定、访问权限或生命周期，\n拒绝了已修改数据的子集，但保存了一个或多个所链文档。\n单击“确定”查看错误列表。";
+
+WRN_VERSINON_CREATION_FAILED="由于版本日期不在当前有效期内，因此无法创建新版本";
+WRN_VERSINON_CREATION_FAILED.Generic="由于版本日期不在当前有效期内，因此无法创建新版本";
+
+
+WRN_OldPartNotSupported1="零件在 V5.R5 级别之前创建，不支持保存。";
+WRN_OldPartNotSupported1.Generic="零件在 V5.R5 级别之前创建，不支持保存。";
+
+WRN_OldPartNotSupported2="创建新的零件和副本 - 粘贴几何图形。";
+WRN_OldPartNotSupported2.Generic="创建新的零件和副本 - 粘贴几何图形。";
+
+
+WRN_PublicationNotIntrinsic="发布：由于 /p1 的所有者产品 /p2 处于呈示式结构模式，因此尚未保存 /p1。";
+WRN_PublicationNotIntrinsic.Generic="由于发布的所有者产品处于呈示式结构模式，因此尚未保存这些发布。";
+WRN_PublicationNotIntrinsic.Detail="发布名称：/p1，所有者产品名称：/p2";
+
+WRN_PublicationNotSavedInVisuMode="发布：尚未将 /p1 保存至 ENOVIA V5 VPM 中，因为它指向已卸载的数据";
+WRN_PublicationNotSavedInVisuMode.Generic="尚未将发布保存至 ENOVIA V5 VPM 中，因为它指向已卸载的数据";
+WRN_PublicationNotSavedInVisuMode.Detail="发布名称：/p1";
+
+
+//XPN
+ERR_NotConnectedToChoosePRC=" 要将 /p1 的持久性设置为呈示式结构，必须连接至 ENOVIA V5 VPM。";
+ERR_NotConnectedToChoosePRC.Generic=" 要将对象的持久性设置为呈示式结构，必须连接至 ENOVIA V5 VPM。";
+ERR_NotConnectedToChoosePRC.Detail=" 对象名称：/p1";
+
+//BBX
+ERR_TechPackUnderPRCNotAllowed="由于 /p1 拥有技术包，因此无法将它的持久性更改为呈示式发布！";
+ERR_TechPackUnderPRCNotAllowed.Generic="由于对象拥有技术包，因此无法将它的持久性更改为呈示式发布！";
+ERR_TechPackUnderPRCNotAllowed.Detail="对象名称：/p1";
+
+//CUO BZQ - 05.24.2005 - HL R16 Product Freeze
+WRN_PSBRFrozen="未授权操作！/p1 已交付/安装。";
+WRN_PSBRFrozen.Generic="未授权操作！对象已交付/安装。";
+WRN_PSBRFrozen.Detail="对象名称：/p1，对象类型：/p2";
+
+WRN_PSBRParentFrozen="未授权操作！/p1 的父级已交付/安装。";
+WRN_PSBRParentFrozen.Generic="未授权操作！对象的父级已交付/安装。";
+WRN_PSBRParentFrozen.Detail="对象名称：/p1";
+
+
+//BZQ - 07.27.2005 - IR A0505252
+WRN_PSBRFrozenOverride="/p1 已交付/安装。用户具有覆盖权限，可以对其进行修改。";
+WRN_PSBRFrozenOverride.Generic="对象已交付/安装。用户具有覆盖权限，可以对其进行修改。";
+WRN_PSBRFrozenOverride.Detail="对象名称：/p1，对象类型：/p2";
+
+WRN_PSBRParentFrozenOverride="/p1 的父级已交付/安装。用户具有覆盖权限，可以对其进行修改。";
+WRN_PSBRParentFrozenOverride.Generic="对象的父级已交付/安装。用户具有覆盖权限，可以对其进行修改。";
+WRN_PSBRParentFrozenOverride.Detail="对象名称：/p1";
+
+WRN_PSBRUnsolvedOperations="未授权操作！无法删除具有未完成操作的 /p1。";
+WRN_PSBRUnsolvedOperations.Generic="未授权操作！无法删除具有未完成操作的 /p1。";
+WRN_PSBRUnsolvedOperations.Detail="对象名称：/p1";
+
+//AVM - IR 530248
+WRN_PSCnxBRReleased="未授权操作！父级 /p1 已到达最终状态，无法保存约束中的添加/修改/删除操作";
+WRN_PSCnxBRReleased.Generic="未授权操作！父级已到达最终状态，无法保存约束中的添加/修改/删除操作";
+WRN_PSCnxBRReleased.Detail="父级名称：/p1";
+
+ERR_SaveErrorR4SP1doc="无法将当前文档 /p1 保存到 ENOVIA V5 VPM 中，\n因为它是在 R4SP1 之前生成的文档。\n只有在 R4SP1 之后生成的文档才能保存到 ENOVIA V5 VPM 中。";
+ERR_SaveErrorR4SP1doc.Generic="无法将当前文档保存到 ENOVIA V5 VPM 中，\n因为它是在 R4SP1 之前生成的文档。";
+ERR_SaveErrorR4SP1doc.Detail=" /p1";
+ERR_SaveErrorR4SP1doc.Suggestion="只有在 R4SP1 之后生成的文档才能保存到 ENOVIA V5 VPM 中。";
+
+WRN_SaveWarningR4SP1doc="当前文档 /p1 是在 R4SP1 之前生成的文档。建议不在 ENOVIA V5 VPM 中保存此文档，\n而是新建一个文档并将几何图形复制、粘贴进去。";
+WRN_SaveWarningR4SP1doc.Generic=" 当前文档是在 R4SP1 之前生成的文档。 ";
+WRN_SaveWarningR4SP1doc.Detail=" /p1";
+WRN_SaveWarningR4SP1doc.Suggestion="建议不在 ENOVIA V5 VPM 中保存此文档，\n而是新建一个文档并将几何图形复制、粘贴进去。";
+
+ERR_SaveErrorFrozenDoc="无法将文档 /p1 保存到 ENOVIA V5 VPM 中，\n因为它已保存至 PDM 数据库并为“已冻结”状态。";
+ERR_SaveErrorFrozenDoc.Generic="无法将文档保存到 ENOVIA V5 VPM 中，\n因为它们已保存至 PDM 数据库并为“已冻结”状态。";
+ERR_SaveErrorFrozenDoc.Detail=" /p1";
+
+
+//RID IR 416546 .. Rolledback 05:09:15
+//WRN_PSNoCharacterSupportForNameDBCS = "The entity name /p1 contains unsupported DBCS character(s) /p2. Please rename before proceeding to save in ENOVIA V5 VPM.";
+//WRN_PSNoCharacterSupportForNameDBCS.Generic =  "The entity names contains unsupported DBCS character(s)..";
+//WRN_PSNoCharacterSupportForNameDBCS.Detail      = " EntityName:/p1 , DBCS chars:/p2";
+//WRN_PSNoCharacterSupportForNameDBCS.Suggestion	= "Please rename before proceeding to save in ENOVIA V5 VPM.";
+
+
+//AVM - IR 516779
+
+WRN_PSVpmForbiddenName="导入的产品包含 CATIA 所不支持的禁用字符。";
+WRN_PSVpmForbiddenName.Generic="导入的产品包含 CATIA 所不支持的禁用字符。";
+
+
+//BBX for HighLight Contextual Design in Sub Asm R17//
+
+ERR_PSVpmInputWrongCtx_NewObject="零件 /p1 与子装配 /p2 具有上下文关联性（在 ENOVIA V5 VPM 中不受支持）。\n请使用“管理产品的上下文链接”命令以自动重设上下文链接，\n或使用“更改上下文”菜单进行手动管理。";
+ERR_PSVpmInputWrongCtx_NewObject.Generic="零件与子装配具有上下文关联性（在 ENOVIA V5 VPM 中不受支持）。";
+ERR_PSVpmInputWrongCtx_NewObject.Detail="零件名称：/p1，子装配名称：/p2";
+ERR_PSVpmInputWrongCtx_NewObject.Suggestion="请使用“管理产品的上下文链接”命令自动重设上下文链接，\n或使用“更改上下文”菜单进行手动管理。";
+
+WRN_PSVpmNotReroutedInstance="/p1 不需要/未进行重设 ";
+WRN_PSVpmNotReroutedInstance.Generic="对象不需要重设，因此未进行此操作。 ";
+WRN_PSVpmNotReroutedInstance.Detail="/p1";
+
+INF_PSVpmReroutedInstance="已在 /p2 上重设实例 /p1 ";
+INF_PSVpmReroutedInstance.Generic="已在所提及的对象上重设实例。 ";
+INF_PSVpmReroutedInstance.Detail="实例名称：/p1，重设介质：/p2 ";
+
+WRN_PSVpmMultiInstanciatedInstance="由于 /p1 已经过多次实例化，因此无法重设。\n请使用“更改上下文”菜单手动管理链接。";
+WRN_PSVpmMultiInstanciatedInstance.Generic="由于对象已经过多次实例化，因此无法重设。";
+WRN_PSVpmMultiInstanciatedInstance.Detail=" /p1";
+WRN_PSVpmMultiInstanciatedInstance.Suggestion="请使用“更改上下文”菜单手动管理链接。";
+
+WRN_PSVpmOutOfContextInstance="由于 /p1 不在上下文中，因此无法重设。\n请使用“更改上下文”菜单手动管理链接。";
+WRN_PSVpmOutOfContextInstance.Generic="由于对象不在上下文中，因此无法重设。";
+WRN_PSVpmOutOfContextInstance.Detail="/p1";
+WRN_PSVpmOutOfContextInstance.Suggestion="请使用“更改上下文”菜单手动管理链接。";
+
+WRN_PSVpmLinkBrokenInstance="由于 /p1 包含断开的链接，因此无法重设。\n请使用“更改上下文”菜单手动管理链接。";
+WRN_PSVpmLinkBrokenInstance.Generic="由于对象包含断开的链接，因此无法重设。";
+WRN_PSVpmLinkBrokenInstance.Detail="/p1";
+WRN_PSVpmLinkBrokenInstance.Suggestion="请使用“更改上下文”菜单手动管理链接。";
+
+
+WRN_PSVpmRootIsPRC="只有当根为产品时才能使用“管理产品的上下文链接”命令！";
+WRN_PSVpmRootIsPRC.Generic="只有当根为产品时才能使用“管理产品的上下文链接”命令！";
+WRN_PSVpmRootIsPRC.Suggestion="检查根是否为产品。";
+
+//BBX Ends
+
+//BBX for IR A0527926//
+WRN_PSVpmOutofCtxInst="在 CATIA 会话中未找到上下文链接所使用的零件 /p1 的实例。\n请使用“更改上下文”菜单手动管理链接。";
+WRN_PSVpmOutofCtxInst.Generic="在 CATIA 会话中未找到上下文链接所使用的零件的实例。 ";
+WRN_PSVpmOutofCtxInst.Detail="零件名称：/p1";
+WRN_PSVpmOutofCtxInst.Suggestion="请使用“更改上下文”菜单手动管理链接。";
+
+//IR :637617 - Message modified 
+WRN_PSVpmBrokenLinks="零件 /p1 的实例中包含断开的上下文链接，或未在会话中加载它的上下文。\n请使用“更改上下文”菜单手动管理链接。";
+WRN_PSVpmBrokenLinks.Generic="零件的实例中包含断开的上下文链接，或未在会话中加载它们的上下文。";
+WRN_PSVpmBrokenLinks.Detail="零件名称：/p1";
+WRN_PSVpmBrokenLinks.Suggestion="请检查是否加载了要创建上下文链接的实例，并使用“更改上下文”菜单手动管理链接。";
+
+//BBX ends//
+//Message for Pub or Ctx Synchronisation at open
+WRN_PSSynchroPubAtOpen="在文档“/p2”的发布“/p1”中检测到不一致。已在会话中修复。";
+WRN_PSSynchroPubAtOpen.Generic="在文档的发布中检测到不一致。已在会话中修复。";
+WRN_PSSynchroPubAtOpen.Detail="发布名称：/p1，文档名称：/p2 ";
+
+//ZPL IR A0572465
+WRN_NotAnEnoviaObjectToHighlight="ENOVIA V5 VPM 中不存在对象 /p1。\n 您必须先将其保存到 ENOVIA V5 VPM 中。";
+WRN_NotAnEnoviaObjectToHighlight.Generic="选定对象不是 ENOVIA V5 VPM 实体。";
+WRN_NotAnEnoviaObjectToHighlight.Detail="对象名称：/p1";
+WRN_NotAnEnoviaObjectToHighlight.Suggestion="请将选定对象保存到 ENOVIA V5 VPM 中。此命令仅适用于 ENOVIA V5 VPM 对象。";
+
+// CUO 07:07:09 IR 581543
+WRN_PSProductSpecDetectedInSession="CATIA 无法从 ENOVIA V5 VPM 中加载对象，因为会话中存在 /p1 的实例。\n请在 CATIA 中使用产品规格上下文来加载它下面的对象。";
+WRN_PSProductSpecDetectedInSession.Generic="CATIA 无法从 ENOVIA V5 VPM 中加载对象，因为会话中存在产品的实例。";
+WRN_PSProductSpecDetectedInSession.Detail="/p1";
+WRN_PSProductSpecDetectedInSession.Suggestion="请在 CATIA 中使用产品规格上下文来加载它下面的对象。";
+
+//ZPL Starts IR 587852
+WRN_PSBRGCONoPrivelege="未授权操作。\n您没有在对象 /p2 上处理 /p1 的权限";
+WRN_PSBRGCONoPrivelege.Generic="由于缺少权限，因此未授权操作。";
+WRN_PSBRGCONoPrivelege.Detail="流程名称：/p1，对象名称：/p2，对象类型：/p3";
+WRN_PSBRGCONoPrivelege.Suggestion="请检查授权给当前用户的权限。";
+
+WRN_PSBRGCOStatusReleased="未授权操作！对象 /p1 已到达最终状态。";
+WRN_PSBRGCOStatusReleased.Generic="由于 GCO 已到达最终状态，因此未授权操作。";
+WRN_PSBRGCOStatusReleased.Detail="/p1";
+WRN_PSBRGCOStatusReleased.Suggestion="请确保 GCO 处于正确状态。";
+
+WRN_PSBRGCOStatusNotModifiable="无法修改 GCO /p1。\n 此 GCO 处于不可修改状态。";
+WRN_PSBRGCOStatusNotModifiable.Generic="无法修改 GCO。\n 此 GCO 处于不可修改状态";
+WRN_PSBRGCOStatusNotModifiable.Detail="/p1";
+WRN_PSBRGCOStatusNotModifiable.Suggestion="请检查 GCO 的状态。";
+
+WRN_PSBRGCOLinkInstNotLocked="未授权操作！\n 链接至 GCO 的对象 /p1 未锁定或已由其他用户锁定。";
+WRN_PSBRGCOLinkInstNotLocked.Generic="链接至 GCO 的一个或多个对象未锁定或已由其他用户锁定。";
+WRN_PSBRGCOLinkInstNotLocked.Detail="GCO 名称：/p1，对象：/p2";
+WRN_PSBRGCOLinkInstNotLocked.Suggestion="请检查链接至 GCO 的对象的锁定状态。";
+
+//ZPL "Locked By User"
+WRN_PSBRGCOLinkInstLockedByUser="未授权操作！\n 链接至 GCO /p1 的对象 /p1 已由其他用户锁定。";
+WRN_PSBRGCOLinkInstLockedByUser.Generic="链接至 GCO 的一个或多个对象已由其他用户锁定。";
+WRN_PSBRGCOLinkInstLockedByUser.Detail="GCO 名称：/p1，对象|锁定者：/p2";
+WRN_PSBRGCOLinkInstLockedByUser.Suggestion="请检查链接至 GCO 的对象的锁定所有权。";
+
+WRN_PSBRGCOBRCheckNotDone="在所使用的服务器中，GCO 的某些 BR 检查不可用。\n 此 GCO 尚未执行某些 BR 检查。";
+WRN_PSBRGCOBRCheckNotDone.Generic="GCO 尚未执行某些 BR 检查，这些检查在所使用的服务器中不可用。";
+WRN_PSBRGCOBRCheckNotDone.Detail="/p1";
+WRN_PSBRGCOBRCheckNotDone.Suggestion="请检查相关对象。";
+//ZPL Ends IR 587852
+
+// CUO - IR 623996
+ERR_PSVpmSaveStopReconciliateDoc="未正确从 ENOVIA V5 VPM 中提取文档 /p1，因此无法保存。\n ";
+ERR_PSVpmSaveStopReconciliateDoc.Generic="未正确从 ENOVIA V5 VPM 中提取文档，因此无法保存。";
+ERR_PSVpmSaveStopReconciliateDoc.Suggestion="如可能，在“文件+桌面”中启用文档协调。否则：\n要在 ENOVIA V5 VPM 中将文档另存为新文档，请 \n 1、使用 PDM 属性设置命令在 ENOVIA5 中设置目标 PDM \n 2、将文档保存到磁盘 \n 3、再次在 ENOVIA V5 VPM 中保存。\n 要使用原 ENOVIA V5 VPM 文档替换此文档，请使用“编辑链接替换”命令并再次保存。\n";
+ERR_PSVpmSaveStopReconciliateDoc.Detail="文档名称：/p1 - ENOVIA V5 VPM 文档名称：/p2";
+
+// VPW - IR 628134
+WRN_PSBRParentRefStatusReleased="未授权操作！/p1 的父级参考已到达最终状态。";
+WRN_PSBRParentRefStatusReleased.Generic="由于对象的父级参考已到达最终状态，因此未授权操作。";
+WRN_PSBRParentRefStatusReleased.Detail="对象名称：/p1，对象类型：/p2";
+WRN_PSBRParentRefStatusReleased.Suggestion="请确保对象的父级参考处于正确状态。";
+
+WRN_PSVpmUELoadProcess="执行用户出口 /p1 时出现问题。";
+WRN_PSVpmUELoadProcess.Generic="加载进程中执行用户出口失败。";
+WRN_PSVpmUELoadProcess.Detail="用户出口名称：/p1";
+
+// VPW IR 668093
+INF_PSVpmIIRenamed="同一父级 /p2 下已存在相同名称 /p1 的其它实例。\n 新实例已自动保存为 /p3";
+INF_PSVpmIIRenamed.Generic="同一父级下已存在相同名称的其它实例。\n 已使用新名称自动保存新实例";
+INF_PSVpmIIRenamed.Detail="原始名称：/p1，父级名称：/p2，另存为：/p3 ";
+
+// VVD BOEING SAVE PANEL
+INF_FurtiveToolTip="保存成功，并且无任何错误/警告";
+
+//QAR : IGM HL
+INF_PSVpmGraphicalPropSaveFail="由于缺少权限，进行图形修改的对象将不会保存在 DB 中。";
+INF_PSVpmGraphicalPropSaveFail.Generic="由于缺少权限，进行图形修改的对象将不会保存在 DB 中。";
+INF_PSVpmGraphicalPropSaveFail.Detail="实体名称：-/p1，实体类型：-/p2";
+INF_PSVpmGraphicalPropSaveFail.Suggestion="确保用户具有修改权限、数据已由当前用户锁定\n并且数据尚未到达其最终成熟度状态";

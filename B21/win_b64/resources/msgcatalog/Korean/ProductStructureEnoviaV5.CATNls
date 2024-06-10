@@ -1,0 +1,704 @@
+PSSaveEnoviaLCATitle="ENOVIA V5 VPM에 저장";
+PSSaveErrorNomad="현재 문서는 Nomad 세션에 속합니다. \n따라서 PDM에 저장할 수 없습니다. \n저장하기 전에 대상 PDM 환경으로 전환하십시오.";
+PSSaveErrorConnect="ENOVIA V5 VPM 연결이 설정되지 않았기 때문에 저장이 취소됩니다.";
+PSSaveErrorPing="ENOVIA V5 VPM 서버가 응답하지 않으므로 저장이 취소됩니다.";
+PSSaveErrorProductSpec="저장 불가능 : 프로덕트 스펙이 세션에 있습니다. \n 저장하기 전에 이를 닫으십시오.";
+
+ERR_PSSaveNoPersist="/p1 문서에 PDM 영속성이 없습니다. 저장하기 전에 SetPDMProperties 기능을 사용하십시오.";
+ERR_PSSaveNoPersist.Generic="문서에 PDM 영속성이 없습니다.";
+ERR_PSSaveNoPersist.Detail="/p1";
+ERR_PSSaveNoPersist.Suggestion="저장하기 전에 SetPDMProperties 기능을 사용하십시오.";
+
+ERR_SaveErrorBBProdToExp="/p1 문서에는 PDM 영속성이 문서 저장소 Publications Exposed에 보관된 문서로 설정되어 있으며 영속성이 문서 저장소 Structure Exposed에 보관되지 않은 문서를 가리킵니다. 이는 허용되지 않는 설정입니다. 영속성을 변경하십시오.";
+ERR_SaveErrorBBProdToExp.Generic="문서의 PDM 영속성이 문서 저장소 Publications Exposed에 보관된 문서로 설정되어 있으면서, 그 영속성이 문서 저장소 Structure Exposed에 보관되지 않은 문서에 해당하는 문서를 가리키고 있습니다. 이는 허용되지 않는 설정입니다.";
+ERR_SaveErrorBBProdToExp.Detail="/p1";
+ERR_SaveErrorBBProdToExp.Suggestion="영속성을 변경하십시오.";
+
+
+// Error messages : ERR_, WRN_ or INF_ + identifier, /p1, /p2.. for parameters.
+
+WRN_PSVpmCsteLost="/p1 어셈블리 제약조건이 비영속적 데이터를 가리키므로 ENOVIA V5 VPM으로 저장될 수 없습니다.";
+WRN_PSVpmCsteLost.Generic=" 어셈블리 제약조건이 비영속적 데이터를 가리키므로 ENOVIA V5 VPM으로 저장될 수 없습니다.";
+WRN_PSVpmCsteLost.Detail="/p1";
+
+WRN_PSVpmInvalidDoc="/p1 인스턴스에서 두 번째 문서를 연계시킬 수 없습니다. \n작업이 무시되었습니다.";
+WRN_PSVpmInvalidDoc.Generic="지정된 인스턴스에서 두 번째 문서를 연계시킬 수 없습니다.\n작업이 무시됩니다.";
+WRN_PSVpmInvalidDoc.Detail="/p1";
+
+WRN_PSVpmInvalidDocUp="CATPart의 하위 노드에서 /p1 \n문서를 연관시킬 수 없습니다. \n작업이 무시되었습니다.";
+WRN_PSVpmInvalidDocUp.Generic="CATPart의 하위 노드에서 문서를 연계할 수 없습니다. \n작업이 무시됩니다.";
+WRN_PSVpmInvalidDocUp.Detail="/p1 문서.";
+
+WRN_PSVpmInvalidDocUnder="CATPart의 상위 노드에서 /p1 \n문서를 연관시킬 수 없습니다. \n작업이 무시되었습니다.";
+WRN_PSVpmInvalidDocUnder.Generic="CATPart의 상위 노드에서 문서를 연계할 수 없습니다. \n작업이 무시됩니다.";
+WRN_PSVpmInvalidDocUnder.Detail="/p1 문서";
+
+
+WRN_PSVpmInvalidReplaceOnProd="어셈블리의 리프가 아닌 노드에서 /p1 문서를 \n연계할 수 없습니다. \n작업이 무시되었습니다.";
+WRN_PSVpmInvalidReplaceOnProd.Generic="어셈블리의 리프가 아닌 노드에서 문서를 연계할 수 없습니다. \n작업이 무시됩니다.";
+WRN_PSVpmInvalidReplaceOnProd.Detail="/p1 문서";
+
+WRN_PSVpmInstWithDirtyDoc="연계된 손상 문서가 포함된 인스턴스에서 문서 /p1을(를) \연계할 수 없습니다. \n작업이 무시되었습니다.";
+WRN_PSVpmInstWithDirtyDoc.Generic="연계된 손상 문서가 포함된 인스턴스에서 문서를 연계할 수 없습니다. \n작업이 무시됩니다.";
+WRN_PSVpmInstWithDirtyDoc.Detail="/p1 문서";
+
+WRN_PSVpmInvalidMapping="CATPart 아래 있는 인스턴스나 문서를 반입할 수 없습니다. \n작업이 무시되었습니다.";
+WRN_PSVpmInvalidMapping.Generic="CATPart 아래 있는 인스턴스나 문서를 반입할 수 없습니다. \n작업이 무시되었습니다.";
+
+WRN_PSVpmAsmOutOfContext="컨텍스트에서 어셈블리 노드 /p1을(를) 반입할 수 없습니다.";
+WRN_PSVpmAsmOutOfContext.Generic="컨텍스트 밖에 있는 어셈블리 노드를 반입할 수 없습니다.";
+WRN_PSVpmAsmOutOfContext.Detail="/p1";
+
+WRN_PSVpmCannotRetrieveDocument="ENVOIA 문서 저장소에서 /p1과(와) 연계된 문서를 검색할 수 없습니다. \n작업이 무시되었습니다.";
+WRN_PSVpmCannotRetrieveDocument.Generic="ENOVIA 문서 저장소에서 언급된 오브젝트에 연계된 문서를 검색할 수 없습니다.\n작업이 무시되고 새 컴포넌트가 작성됩니다.";
+WRN_PSVpmCannotRetrieveDocument.Detail="/p1";
+
+WRN_PSVpmInvalidOper="/p1과(와) 연계된 문서를 반입할 수 없습니다. \n관련된 모든 인스턴스를 로드 해제하고 다시 시도하십시오.";
+WRN_PSVpmInvalidOper.Generic="지정된 오브젝트에 연계된 문서를 반입할 수 없습니다.";
+WRN_PSVpmInvalidOper.Detail="/p1";
+WRN_PSVpmInvalidOper.Suggestion="관련된 인스턴스를 모두 로드 해제하고 다시 시도하십시오.";
+
+WRN_PSPointedNotSaved="지적된 모든 프로덕트 인스턴스가 ENOVIA V5 VPM에 저장될 수 없기 때문에 /p1 어셈블리 제약조건에 레코드된 \nENOVIA V5 VPM 변경사항에 저장할 수 없습니다.";
+WRN_PSPointedNotSaved.Generic="지적된 모든 프로덕트 인스턴스가 ENOVIA V5 VPM에 저장될 수 없기 때문에 \n어셈블리 제약조건에 레코드된 ENOVIA V5 VPM 변경사항에 저장할 수 없습니다.";
+WRN_PSPointedNotSaved.Detail="/p1";
+
+INF_PSVpmDocToRename="/p1 문서가 이미 ENOVIA V5 VPM 데이터베이스에 있습니다.\n 먼저 이름을 바꿔야 이 문서의 이름을 바꿀 수 있습니다.";
+INF_PSVpmDocToRename.Generic="문서가 이미 ENOVIA V5 VPM 데이터베이스에 있습니다.\n 먼저 이름을 바꿔야 이 문서를 저장할 수 있습니다.";
+INF_PSVpmDocToRename.Detail="/p1";
+INF_PSVpmDocToRename.Suggestion="문서의 이름을 바꾸십시오.";
+
+INF_PSVpmProductToRename="/p1 프로덕트가 이미 ENOVIA V5 VPM 데이터베이스에 있습니다.\n 먼저 이름을 바꿔야 이 프로덕트를 저장할 수 있습니다.";
+INF_PSVpmProductToRename.Generic="프로덕트가 이미 ENOVIA V5 VPM 데이터베이스에 있습니다.\n 먼저 이름을 바꿔야 프로덕트를 저장할 수 있습니다.";
+INF_PSVpmProductToRename.Detail="/p1";
+INF_PSVpmProductToRename.Suggestion="프로덕트의 이름을 바꾸십시오.";
+
+INF_PSVpmPartToRename="/p1 파트가 이미 ENOVIA V5 VPM 데이터베이스에 있습니다.\n 먼저 이름을 바꿔야 이 파트를 저장할 수 있습니다.";
+INF_PSVpmPartToRename.Generic="파트가 이미 ENOVIA V5 VPM 데이터베이스에 있습니다.\n 먼저 이름을 바꿔야 파트를 저장할 수 있습니다.";
+INF_PSVpmPartToRename.Detail="/p1";
+INF_PSVpmPartToRename.Suggestion="파트의 이름을 바꾸십시오.";
+
+WRN_PSVpmDocRenamed="/p1 문서가 이미 ENOVIA V5 VPM 데이터베이스에 있습니다.\n 이 문서가 새 ID로 자동 저장되었습니다.";
+WRN_PSVpmDocRenamed.Generic="문서가 이미 ENOVIA V5 VPM 데이터베이스에 있습니다.\n 새 ID와 함께 자동으로 저장되었습니다.";
+WRN_PSVpmDocRenamed.Detail="/p1";
+
+ERR_PSVpmDocToRenameNotSaved="ENOVIA V5 VPM 데이터베이스에 동일한 이름의 문서 /p1이(가) 이미 있기 때문에 문서 /p1이(가) 저장되지 않았습니다.\n ";
+ERR_PSVpmDocToRenameNotSaved.Generic="일부 문서의 이름이 ENOVIA V5 VPM 데이터베이스에 이미 존재하므로 해당 문서를 저장할 수 없습니다.\n ";
+ERR_PSVpmDocToRenameNotSaved.Detail="/p1";
+ERR_PSVpmDocToRenameNotSaved.Suggestion="문서의 이름을 바꾸고 다시 시도하십시오.";
+
+ERR_PSVpmProductToRenameNotSaved="ENOVIA V5 VPM 데이터베이스에 동일한 이름의 프로덕트 /p1이(가) 이미 있기 때문에 프로덕트 /p1이(가) 저장되지 않았습니다.\n ";
+ERR_PSVpmProductToRenameNotSaved.Generic="일부 프로덕트의 이름이 ENOVIA V5 VPM 데이터베이스에 이미 존재하므로 해당 프로덕트를 저장할 수 없습니다.\n ";
+ERR_PSVpmProductToRenameNotSaved.Detail="/p1";
+ERR_PSVpmProductToRenameNotSaved.Suggestion="프로덕트의 이름을 바꾸고 다시 시도하십시오.";
+
+ERR_PSVpmPartToRenameNotSaved="ENOVIA V5 VPM 데이터베이스에 동일한 이름의 파트 /p1이(가) 이미 있기 때문에 파트 /p1이(가) 저장되지 않았습니다.\n ";
+ERR_PSVpmPartToRenameNotSaved.Generic="일부 파트의 이름이 ENOVIA V5 VPM 데이터베이스에 이미 존재하므로 해당 파트를 저장할 수 없습니다.\n ";
+ERR_PSVpmPartToRenameNotSaved.Detail="/p1";
+ERR_PSVpmPartToRenameNotSaved.Suggestion="파트의 이름을 바꾸고 다시 시도하십시오.";
+
+WRN_PSVpmRefNameTruncated="레퍼런스 이름의 길이는 40자 미만이어야 합니다.\n /p1의 경우 \nENOVIA V5 VPM 요구사항에 따라 자동으로 잘렸습니다.";
+WRN_PSVpmRefNameTruncated.Generic="레퍼런스 이름의 길이는 40자 미만이어야 합니다.\n ENOVIA V5 VPM 요구사항에 따라 일부 오브젝트가 자동으로 잘렸습니다.";
+WRN_PSVpmRefNameTruncated.Detail="/p1";
+
+WRN_PSVpmRefNameTruncatedTo="레퍼런스 이름의 길이는 /p1자 미만이어야 합니다.\n/p2의 경우 \nENOVIA V5 VPM 요구사항에 따라 자동으로 잘렸습니다.";
+WRN_PSVpmRefNameTruncatedTo.Generic="레퍼런스 이름의 길이는 지정된 문자보다 짧아야 합니다.\nENOVIA V5 VPM 요구사항에 따라 일부 오브젝트가 자동으로 잘렸습니다.";
+WRN_PSVpmRefNameTruncatedTo.Detail="지정된 길이: /p1 , 오브젝트 이름:/p2";
+
+WRN_PSVpmProductRenamed="/p1 프로덕트가 이미 ENOVIA V5 VPM 데이터베이스에 있습니다. \n이 프로덕트는 /p2로 자동 저장되었습니다.";
+WRN_PSVpmProductRenamed.Generic="프로덕트가 이미 ENOVIA V5 VPM 데이터베이스에 있습니다.\n 새 이름과 함께 자동으로 저장되었습니다.";
+WRN_PSVpmProductRenamed.Detail="원래 이름:/p1 , 새로 저장된 이름:/p2";
+
+WRN_PSVpmProductPub="ENOVIA V5 VPM의 어셈블리 레벨에서 통지를 저장할 수 없습니다. \n이 통지는 제거되거나 세부사항 파트에서 다시 선언되어야 합니다.";
+WRN_PSVpmProductPub.Generic="ENOVIA V5 VPM의 어셈블리 레벨에서 통지를 저장할 수 없습니다.";
+WRN_PSVpmProductPub.Suggestion="이 통지는 제거되거나 세부사항 파트에서 다시 선언되어야 합니다.";
+
+WRN_PSVpmInputLostPub="contextual 파트는 지원되지 않는 통지입니다.\n이 정보는 ENOVIA V5 VPM에 저장될 수 없으며 저장할 경우 실패합니다.";
+WRN_PSVpmInputLostPub.Generic="contextual 파트는 지원되지 않는 통지입니다.\n이 정보는 ENOVIA V5 VPM에 저장될 수 없으며 저장할 경우 실패합니다.";
+WRN_PSVpmInputLostPub.Suggestion="Contextuality를 관리하십시오.";
+
+WRN_PSVpmInputWrongCtx="/p1 파트는 서브 어셈블리 /p2에 대해 contextual입니다(ENOVIA V5 VPM에서 지원되지 않음).\nPRC 레벨에서 contextuality를 정의하려면 'Change Context' 메뉴를 사용하십시오.";
+WRN_PSVpmInputWrongCtx.Generic="파트가 서브 어셈블리에 대해 contextual입니다(ENOVIA V5 VPM에서 지원되지 않음).";
+WRN_PSVpmInputWrongCtx.Detail="파트 이름: /p1 , 서브 어셈블리 이름:/p2";
+WRN_PSVpmInputWrongCtx.Suggestion="컨텍스트 변경을 사용하여 PRC 레벨에서 Contextuality를 정의하십시오.";
+
+WRN_PSVpmPointingFromBB="/p1 파트는 서브 어셈블리 /p2에 대해 contextual입니다(ENOVIA V5 VPM에서 지원되지 않음).\n다음에 이 서브 어셈블리를 열 때 Define Contextual Link 명령을 실행하여 컨텍스트를 복원해야 합니다.";
+WRN_PSVpmPointingFromBB.Generic=" 파트가 서브 어셈블리에 대해 contextual입니다(ENOVIA V5 VPM에서 지원되지 않음).";
+WRN_PSVpmPointingFromBB.Detail="파트 이름: /p1 , 서브 어셈블리 이름:/p2";
+WRN_PSVpmPointingFromBB.Suggestion="다음에 이 서브 어셈블리를 열 때는 Contextual 링크 정의 명령을 실행하여 컨텍스트를 복원해야 합니다.";
+
+WRN_PSVpmInvalidRefMapping="반입된 CATPart가 \n/p1 레퍼런스에 이미 첨부되었기 때문에 해당 레퍼런스를 반입할 수 없습니다. \n작업이 무시됩니다.";
+WRN_PSVpmInvalidRefMapping.Generic="이미 반입된 CATPart가 첨부되어 있으므로 레퍼런스를 반입할 수 없습니다.\n이 CATPart는 다른 레퍼런스에 연계되어 있습니다. \n작업이 무시됩니다.";
+WRN_PSVpmInvalidRefMapping.Detail="레퍼런스 이름:/p1.";
+
+INF_PSVpmSaveReconciliate="파일 문서 /p1이(가) ENOVIA V5 VPM에서 추출되었습니다.\n 해당 컨텐츠가 데이터베이스의 해당 버전으로 조정됩니다.";
+INF_PSVpmSaveReconciliate.Generic="파일 문서가 ENOVIA V5 VPM에서 추출되었습니다.\n 해당 컨텐츠가 데이터베이스의 버전으로 조정되었습니다.";
+INF_PSVpmSaveReconciliate.Detail="문서 이름:/p1.";
+
+INF_PSVpmSaveCreateNew="파일 문서 /p1이(가) ENOVIA V5 VPM에서 추출되었습니다.\n 새 데이터 기본 엔티티가 해당 파일 문서 및 내용에 대해 구성되었습니다.";
+INF_PSVpmSaveCreateNew.Generic="파일 문서가 ENOVIA V5 VPM에서 추출되었습니다.\n 새 데이터 기본 엔티티가 해당 파일 문서 및 그 내용에 맞게 구성되었습니다.";
+INF_PSVpmSaveCreateNew.Detail="문서 이름:/p1";
+
+//A1B IR-064179.Small Change in the message. 
+INF_PSVpmDocWBRenamed="/p1 문서가 이미 ENOVIA V5 VPM 데이터베이스에 있습니다.\n /p2 이름으로 자동 저장됩니다.";
+INF_PSVpmDocWBRenamed.Generic="문서가 이미 ENOVIA V5 VPM 데이터베이스에 있습니다.\n 새 이름과 함께 자동으로 저장됩니다.";
+INF_PSVpmDocWBRenamed.Detail="문서 이름:/p1, 새로 저장된 이름:/p2";
+
+INF_PSVpmDocWBTruncated="/p1 문서의 이름이 40자를 초과했습니다. \n /p2 이름으로 자동 저장됩니다.";
+INF_PSVpmDocWBTruncated.Generic="문서의 이름이 40자를 넘었습니다. \n 새 이름과 함께 자동으로 저장됩니다.";
+INF_PSVpmDocWBTruncated.Detail="문서 이름:/p1, 새로 저장된 이름:/p2";
+
+INF_PSVpmDocWBTruncatedTo="/p1 문서의 이름이 /p2자를 초과했습니다. \n /p3 이름으로 자동 저장됩니다.";
+INF_PSVpmDocWBTruncatedTo.Generic="문서의 이름이 지정된 문자보다 깁니다. \n 새 이름과 함께 자동으로 저장됩니다.";
+INF_PSVpmDocWBTruncatedTo.Detail="문서 이름:/p1, 지정된 길이:/p2, 바뀐 이름:/p3";
+
+INF_PSVpmDocWBInvalidChar="/p1 문서의 이름이 올바르지 않은 문자를 포함합니다. \n 이 이름이 자동으로 변경됩니다.";
+INF_PSVpmDocWBInvalidChar.Generic="문서의 이름에 유효하지 않은 문자가 있습니다.\n 이름이 자동으로 바뀝니다.";
+INF_PSVpmDocWBInvalidChar.Detail="문서 이름:/p1";
+INF_PSVpmDocWBInvalidChar.Suggestion="오브젝트 이름에 유효하지 않은 문자를 사용하지 마십시오.";
+
+WRN_PSVpmNoRightsToDelete_Lock="/p1 삭제가 허용되지 않습니다. \n 엔티티가 임의의 사용자에 의해 잠겼습니다.";
+WRN_PSVpmNoRightsToDelete_Lock.Generic="오브젝트 삭제가 허용되지 않습니다.\n 엔티티 다른 사용자에 의해 잠겼습니다.";
+WRN_PSVpmNoRightsToDelete_Lock.Detail="/p1";
+
+WRN_PSVpmNoRightsToDelete_UserRole="/p1에서 삭제가 허용되지 않습니다. \n 사용자가 충분한 권한이 가지고 있지 않습니다.";
+WRN_PSVpmNoRightsToDelete_UserRole.Generic="오브젝트 삭제가 허용되지 않습니다. \n 사용자에게 권한이 충분하지 않습니다.";
+WRN_PSVpmNoRightsToDelete_UserRole.Detail="/p1";
+
+WRN_PSVpmInvalidInitLog="/p1 문서가 ENOVIA V5 VPM에 저장될 수 없습니다.";
+WRN_PSVpmInvalidInitLog.Generic="문서를 ENOVIA V5 VPM에 저장할 수 없습니다.";
+WRN_PSVpmInvalidInitLog.Detail="/p1";
+
+
+WRN_PSVpmInputLost1="/p1 파트의 Contextuality가 로드 해제된 데이터를 가리키기 때문에 \n ENOVIA V5 VPM으로 저장될 수 없습니다.";
+WRN_PSVpmInputLost1.Generic="파트가 로드 해제된 데이터를 가리키기 때문에 해당 파트의 Contextuality를 ENOVIA V5 VPM에\n 저장할 수 없습니다.";
+WRN_PSVpmInputLost1.Detail="파트 이름:/p1";
+
+
+WRN_PSVpmInputLost2="파트 /p2을(를) 사용하는 /p1의 Contextuality가 로드 해제된 데이터를 \n 가리키기 때문에 ENOVIA V5 VPM으로 저장될 수 없습니다.";
+WRN_PSVpmInputLost2.Generic="part1이 로드 해제된 데이터를 가리키기 때문에 파트2를 사용하는 파트1의 Contextuality를 \nENOVIA V5 VPM으로 저장할 수 없습니다.";
+WRN_PSVpmInputLost2.Detail="파트1 이름:/p1 , 파트2 이름:/p2";
+
+WRN_PSVpmExtensionError="ENOVIA V5 VPM 확장 어플리케이션 /p1에 작성할 수 없습니다.\n데이터베이스가 정확하게 설치되었는지 확인하십시오.";
+WRN_PSVpmExtensionError.Generic="ENOVIA V5 VPM 확장 어플리케이션에 작성할 수 없습니다.\n데이터베이스가 정확하게 설치되었는지 확인하십시오.";
+WRN_PSVpmExtensionError.Detail="/p1";
+
+WRN_PSVpmConfig="사양 구성된 ENOVIA V5 VPM 레퍼런스 /p1은(는) 사양 구성 가능하지 않은 ENOVIA V5 VPM 레퍼런스 /p2에 인스턴스 생성될 수 없습니다.\n 작업이 무시됩니다.\n ENOVIA V5 VPM 설정을 수정하고 다시 시도하십시오.";
+WRN_PSVpmConfig.Generic=" 사양 구성된 ENOVIA V5 VPM 레퍼런스를 사양 구성할 수 없는 ENOVIA V5 VPM 레퍼런스 아래에서 인스턴스 생성할 수 없습니다.\n 작업이 무시됩니다.";
+WRN_PSVpmConfig.Detail="사양 구성된 ENOVIA V5 VPM 레퍼런스:/p1, 사양 구성할 수 없는 ENOVIA V5 VPM 레퍼런스:/p2.";
+WRN_PSVpmConfig.Suggestion="ENOVIA V5 VPM 설정을 수정하고 다시 시도하십시오.";
+
+WRN_PSAttrMapFileParseErr="/p1 \n행: /p2 컬럼: /p3 메시지: /p4을(를) 구문 분석하는 중 오류가 발생했습니다.\n이후에는 ENOVIA V5 VPM에 저장이 작동하지 않습니다.\nxml 파일을 수정한 후 세션을 다시 실행하십시오.";
+WRN_PSAttrMapFileParseErr.Generic="xml을 구문 분석하는 중 오류가 발생했습니다. 영향 받은 오브젝트에서 오류 위치를 확인하십시오.\n이후에는 ENOVIA V5 VPM에 저장이 작동되지 않습니다.";
+WRN_PSAttrMapFileParseErr.Detail="XML 파일 이름:/p1, \n 행:/p2, 컬럼:/p3 \n메시지:/p4.";
+WRN_PSAttrMapFileParseErr.Suggestion="\nxml 파일을 수정하고 세션을 다시 실행하십시오.";
+
+WRN_PSUserAttributeMappingKORef="파트 /p1의 레퍼런스와 연계된 속성을 정의하는 중에 오류가 발생했습니다.";
+WRN_PSUserAttributeMappingKORef.Generic="파트의 레퍼런스와 연계된 속성을 저장하는 중 일부 오류가 발생했습니다.";
+WRN_PSUserAttributeMappingKORef.Detail="파트 이름:/p1";
+
+WRN_PSUserAttributeMappingKOIns="파트 /p1의 인스턴스와 연계된 속성을 정의하는 중에 오류가 발생했습니다.";
+WRN_PSUserAttributeMappingKOIns.Generic="파트의 인스턴스와 연계된 속성을 저장하는 중 일부 오류가 발생했습니다.";
+WRN_PSUserAttributeMappingKOIns.Detail="파트 이름:/p1";
+
+INF_ImportOK="반입 확인";
+INF_ImportOK.Generic="반입 확인";
+
+WRN_VERSIONNING_NOT_DONE="최소한 하나의 요소 중의 버젼을 수행할 수 없습니다.";
+WRN_VERSIONNING_NOT_DONE.Generic="최소한 하나의 요소 중의 버젼을 수행할 수 없습니다.";
+
+WRN_PSVpmOpenDocumentwithoutPV="/p1 문서는 파트 버전에 연계되어 있지 않습니다. \n 문서를 저장하는 경우 새 파트가 작성됩니다.";
+WRN_PSVpmOpenDocumentwithoutPV.Generic="문서가 파트 버전에 연계되어 있지 않습니다.\n 문서를 저장하는 경우 새 파트가 작성됩니다.";
+WRN_PSVpmOpenDocumentwithoutPV.Detail="문서 이름:/p1";
+
+
+INF_PSVpmOpenInBGNotAvailable="/p1을(를) 배경에서 열 수 없습니다. \n 현재 선택사항과 연계된 문서가 없습니다.";
+INF_PSVpmOpenInBGNotAvailable.Generic="오브젝트를 배경에서 열 수 없습니다. \n 현재 선택사항과 연계된 문서가 없습니다.";
+INF_PSVpmOpenInBGNotAvailable.Detail="/p1";
+
+INF_PSVpmOpenInBGAlreadyDone="/p1이(가) 이미 배경에 열려 있습니다. \n 문서가 이미 같은 위치의 배경에 열려 있습니다.";
+INF_PSVpmOpenInBGAlreadyDone.Generic="오브젝트가 이미 배경에 열려 있습니다. \n 문서가 이미 같은 위치의 배경에 열려 있습니다.";
+INF_PSVpmOpenInBGAlreadyDone.Detail="/p1";
+
+
+INF_PSVpmOpenInBGWrongEditor="배경에서 열기가 선택된 편집기에서 사용 가능하지 않습니다. \n 연계된 문서는 CATPart 또는 CATProduct 문서여야 합니다.";
+INF_PSVpmOpenInBGWrongEditor.Generic="배경에서 열기가 선택된 편집기에서 사용 가능하지 않습니다. \n 연계된 문서는 CATPart 또는 CATProduct 문서여야 합니다.";
+
+INF_PSVpmOpenInBGActiveDoc="배경에서 열기가 선택된 편집기에서 사용 가능하지 않습니다.";
+INF_PSVpmOpenInBGActiveDoc.Generic="배경에서 열기가 선택된 편집기에서 사용 가능하지 않습니다.";
+
+ERR_SaveErrorPrcPrc="이는 루트 프로덕트가 아닌 ENOVIA V5 VPM Product(PRC)를 포함하므로 \n현재 문서 /p1을(를) ENOVIA V5 VPM에 저장할 수 없습니다.";
+ERR_SaveErrorPrcPrc.Generic="문서에 루트 프로덕트가 아닌 ENOVIA V5 VPM Product(PRC)가 포함되어 있으므로 \nENOVIA V5 VPM에 저장할 수 없습니다.";
+ERR_SaveErrorPrcPrc.Detail="/p1";
+
+WRN_PSVpmLoadByNameFailed="ENOVIA V5 VPM에서 이름 /p2의 /p1 로드에 실패했습니다.";
+WRN_PSVpmLoadByNameFailed.Generic="ENOVIA V5 VPM에서 오브젝트2라는 이름의 오브젝트1을 로드하는 데 실패했습니다.";
+WRN_PSVpmLoadByNameFailed.Detail="오브젝트1:/p1, 오브젝트2:/p2";
+
+WRN_PSVpmSameRefInTwoPRCs="/p1 컴포넌트가 CATIA 프로덕트에 이미 표시되어 있습니다. 다른 프로덕트에서 이를 인스턴스화할 수 없습니다.";
+WRN_PSVpmSameRefInTwoPRCs.Generic="컴포넌트가 이미 CATIA 프로덕트에 표시되어 있습니다. 다른 프로덕트에서 인스턴스 생성할 수 없습니다.";
+WRN_PSVpmSameRefInTwoPRCs.Detail="/p1";
+
+
+//Messages for ProductSpec
+WRN_PSProductSpecNotGranted="ProductSpec을 CATIA로 로드할 권한이 부여되지 않았습니다.";
+WRN_PSProductSpecNotGranted.Generic="ProductSpec을 CATIA로 로드할 권한이 부여되지 않았습니다.";
+
+WRN_PSProductSpecContextuality="ProductSpec 어셈블리를 사용하여 상관적 활동이 이루어졌습니다. 이는 허용되지 않으며 ENOVIA V5 VPM으로 다시 저장할 수 없습니다.";
+WRN_PSProductSpecContextuality.Generic="ProductSpec을 사용하는 Contextual 디자인이 허용되지 않습니다.";
+
+WRN_PSProductSpecConnection="/p1 제약조건은 ProductSpec 아래에서 /p2(이)였습니다. 이는 허용되지 않으며 ENOVIA V5 VPM으로 다시 저장할 수 없습니다.";
+WRN_PSProductSpecConnection.Generic="ProductSpec 아래 제약조건에서 수행된 작업은 허용되지 않습니다.";
+WRN_PSProductSpecConnection.Detail="제약조건 /p1은(는) ProductSpec 아래에서 /p2였습니다. ";
+
+WRN_PSProductSpecEntity="/p1 엔티티는 ProductSpec 아래에서 /p2(이)였습니다. 이는 허용되지 않으며 ENOVIA V5 VPM으로 다시 저장할 수 없습니다.";
+WRN_PSProductSpecEntity.Generic="ProductSpec 아래 엔티티에서 수행된 작업은 허용되지 않습니다.";
+WRN_PSProductSpecEntity.Detail="엔티티 /p1은(는) ProductSpec 아래에서 /p2였습니다.";
+
+WRN_PSProductSpecInstance="엔티티 /p1은(는) 새 ProductSpec 인스턴스입니다. 작성이 지원되지 않으며 ENOVIA V5 VPM에 다시 저장할 수 없습니다.";
+WRN_PSProductSpecInstance.Generic="CATIA의 ProductSpec 인스턴스 생성은 허용되지 않습니다.";
+WRN_PSProductSpecInstance.Detail="엔티티 /p1은(는) 새 ProductSpec 인스턴스입니다.";
+
+WRN_PSProductSpecMoveOnly="ProductSpec의 컨텐츠 수정은 이동 작업을 제외하고 허용되지 않습니다.";
+WRN_PSProductSpecMoveOnly.Generic="ProductSpec의 컨텐츠 수정은 이동 작업을 제외하고 허용되지 않습니다.";
+
+WRN_PSPRCofProdSpecInSession="해당 RootProduct /p2이(가) CATIA에 있는 경우 ProductSpec /p1을(를) 로드할 수 없습니다.";
+WRN_PSPRCofProdSpecInSession.Generic="ProductSpec은 RootProduct가 이미 CATIA에 열려 있는 경우 로드할 수 없습니다.";
+WRN_PSPRCofProdSpecInSession.Detail="엔티티 /p1은(는) 이미 CATIA에 열려 있는 RootProduct /p2에서 비롯된 ProductSpec입니다.";
+
+WRN_PSProdSpecofPRCInSession="해당 ProductSpec 중 하나가 CATIA에 있는 경우 RootProduct /p1을(를) 로드할 수 없습니다.";
+WRN_PSProdSpecofPRCInSession.Generic="ProductSpec 중 하나가 CATIA에 있는 경우 RootProduct를 로드할 수 없습니다.";
+WRN_PSProdSpecofPRCInSession.Detail="RootProduct 이름:/p1";
+
+WRN_PSGetDomainFail="파트나 문서를 저장해야 하는 ENOVIA V5 VPM 사용자 정의 도메인을 확보하려 중 실패했습니다.";
+WRN_PSGetDomainFail.Generic="파트나 문서를 저장해야 하는 ENOVIA V5 VPM 사용자 정의 도메인을 확보하려 중 실패했습니다.";
+
+ERR_PSInsNameTooLong="인스턴스 이름 xxx /p1이(가) 너무 깁니다(40자 초과). 다중 모델 링크에 유효한 인스턴스 이름으로 바꾸십시오.";
+ERR_PSInsNameTooLong.Generic="인스턴스 이름이 너무 깁니다(40자 초과).";
+ERR_PSInsNameTooLong.Detail="/p1";
+ERR_PSInsNameTooLong.Suggestion="인스턴스 이름이 다중 모델 링크에 영향을 주므로 이를 바꾸십시오.";
+
+ERR_PSInsNameTooLong1="인스턴스 이름 xxx /p1이(가) 너무 깁니다(80자 초과). 다중 모델 링크에 유효한 인스턴스 이름으로 바꾸십시오.";
+ERR_PSInsNameTooLong1.Generic="인스턴스 이름이 너무 깁니다(80자 초과).";
+ERR_PSInsNameTooLong1.Detail="/p1";
+ERR_PSInsNameTooLong1.Suggestion="인스턴스 이름이 다중 모델 링크에 영향을 주므로 이를 바꾸십시오.";
+
+WRN_PSPROtherVersionInSession="/p1을(를) 로드할 수 없습니다. 다른 버전이 이미 CATIA에 로드되었습니다. \n진행하기 전에 먼저 필요한 버전의 링크를 동기화하십시오.";
+WRN_PSPROtherVersionInSession.Generic="오브젝트를 로드할 수 없습니다. 다른 버전이 이미 CATIA에 로드되어 있습니다.";
+WRN_PSPROtherVersionInSession.Detail="/p1";
+WRN_PSPROtherVersionInSession.Suggestion="\n처리하기 전에 원하는 버전에서 링크를 동기화하십시오.";
+
+
+//AVM IR 518496
+WRN_PSVpmSameNameInAssembly="레퍼런스 /p1은(는) 이름이 상위와 같기 때문에 데이터 반입할 수 없습니다.";
+WRN_PSVpmSameNameInAssembly.Generic="레퍼런스의 이름이 상위와 같기 때문에 데이터 반입할 수 없습니다.";
+WRN_PSVpmSameNameInAssembly.Detail="레퍼런스 이름:/p1";
+
+
+
+// SDM/07-Aug-03
+// Error messages related to business rules checking (security, lifecycle, etc...)
+
+WRN_PSBRNoPrivelege="작업이 부여되지 않았습니다.\n/p2 오브젝트에서 /p1 프로세스에 대한 권한이 없습니다.";
+WRN_PSBRNoPrivelege.Generic="권한이 없으므로 작업이 부여되지 않았습니다.";
+WRN_PSBRNoPrivelege.Detail="프로세스 이름: /p1 , 오브젝트 이름: /p2 , 오브젝트 유형: /p3";
+WRN_PSBRNoPrivelege.Suggestion="현재 사용자에게 부여된 권한을 확인하십시오.";
+
+WRN_PSBRNoPrivelegeUnk="오브젝트 /p1에 대해 작업이 부여되지 않았습니다.";
+WRN_PSBRNoPrivelegeUnk.Generic="오브젝트에 대해 작업이 부여되지 않았습니다.";
+WRN_PSBRNoPrivelegeUnk.Detail="오브젝트 이름: /p1 , 오브젝트 유형: /p2";
+WRN_PSBRNoPrivelegeUnk.Suggestion="현재 사용자에게 부여된 권한을 확인하십시오.";
+
+WRN_PSBRNotLocked="승인되지 않은 작업! /p1이(가) 잠겨 있지 않습니다.";
+WRN_PSBRNotLocked.Generic="오브젝트가 잠겨 있지 않으므로 작업이 승인되지 않습니다.";
+//QAR IR A0586095
+WRN_PSBRNotLocked.Detail="오브젝트 이름: /p1 , 오브젝트 유형: /p2";
+//WRN_PSBRNotLocked.Detail                     = "Object Name: /p1";
+WRN_PSBRNotLocked.Suggestion="현재 사용자에게 부여된 권한을 확인하십시오.\n사용자는 위에 나열된 영향받은 오브젝트를 잠글 수 있어야 합니다.";
+//WRN_PSBRNotLocked.Suggestion    = "Check privileges authorized to the current user.";
+
+WRN_PSBRLockedByAnother="승인되지 않은 작업! /p1이(가) 다른 사용자에 의해 잠겨 있습니다.";
+WRN_PSBRLockedByAnother.Generic="오브젝트가 다른 사용자에 의해 잠겨 있으므로 작업이 승인되지 않습니다.";
+WRN_PSBRLockedByAnother.Detail="오브젝트 이름: /p1 , 오브젝트 유형: /p2";
+WRN_PSBRLockedByAnother.Suggestion="오브젝트는 각 사용자에 의해 잠금 해제되어야 합니다.";
+
+//ZPL for "Lock by User" HL
+WRN_PSBRLockedByAnotherUserHL="승인되지 않은 작업! /p1이(가) 다른 사용자에 의해 잠겨 있습니다.";
+WRN_PSBRLockedByAnotherUserHL.Generic="오브젝트가 다른 사용자에 의해 잠겨 있으므로 작업이 승인되지 않습니다.";
+WRN_PSBRLockedByAnotherUserHL.Detail="오브젝트 이름: /p1 , 오브젝트 유형: /p2, 다음에 의해 잠김: /p3";
+WRN_PSBRLockedByAnotherUserHL.Suggestion="오브젝트는 각 사용자에 의해 잠금 해제되어야 합니다.";
+
+WRN_PSBRStatusNoUpdate="승인되지 않은 작업! /p1이(가) 현재 갱신 가능 상태가 아닙니다.";
+WRN_PSBRStatusNoUpdate.Generic="오브젝트의 현재 상태가 갱신 가능하지 않으므로 작업이 승인되지 않습니다.";
+WRN_PSBRStatusNoUpdate.Detail="오브젝트 이름: /p1 , 오브젝트 유형: /p2";
+WRN_PSBRStatusNoUpdate.Suggestion="오브젝트가 올바른 상태에 있는지 확인하십시오.";
+
+WRN_PSBRStatusReleased="승인되지 않은 작업! 오브젝트 /p1이(가) 최종 상태에 도달했습니다.";
+WRN_PSBRStatusReleased.Generic="오브젝트가 최종 상태에 도달했으므로 작업이 승인되지 않습니다.";
+WRN_PSBRStatusReleased.Detail="오브젝트 이름: /p1 , 오브젝트 유형: /p2";
+WRN_PSBRStatusReleased.Suggestion="오브젝트가 올바른 상태에 있는지 확인하십시오.";
+
+WRN_PSBRParentNotLocked="승인되지 않은 작업! /p1의 상위가 잠겨 있지 않습니다.";
+//VPW IR A0619343 : spelling priviledges changed to privileges for all occurence.
+//QAR - IR 638919 : Message modified
+WRN_PSBRParentNotLocked.Generic="상위에 권한이 없으므로 오브젝트에서 작업이 승인되지 않았습니다.";
+WRN_PSBRParentNotLocked.Detail="오브젝트 이름: /p1, 상위 이름: /p2";
+//ZUF IR 25392 : Message modified
+WRN_PSBRParentNotLocked.Suggestion="위에서 영향받은 오브젝트에 나열된 상위 오브젝트의 잠금 상태를 데이터베이스에서 확인하십시오.";
+
+WRN_PSBRParentLockedByAnother="승인되지 않은 작업! /p1의 상위가 다른 사용자에 의해 잠겨 있습니다.";
+WRN_PSBRParentLockedByAnother.Generic="오브젝트의 상위가 다른 사용자에 의해 잠겨 있으므로 작업이 승인되지 않습니다.";
+WRN_PSBRParentLockedByAnother.Detail="오브젝트 이름: /p1";
+WRN_PSBRParentLockedByAnother.Suggestion="상위 오브젝트의 잠금 소유권을 확인하십시오.";
+
+//ZPL "Lock by User"
+WRN_PSBRParentLockedByAnotherUserHL="승인되지 않은 작업! /p1의 상위가 다른 사용자에 의해 잠겨 있습니다.";
+WRN_PSBRParentLockedByAnotherUserHL.Generic="오브젝트의 상위가 다른 사용자에 의해 잠겨 있으므로 작업이 승인되지 않습니다.";
+WRN_PSBRParentLockedByAnotherUserHL.Detail="오브젝트 이름: /p1, 상위 이름|다음에 의해 잠김: /p2";
+WRN_PSBRParentLockedByAnotherUserHL.Suggestion="상위는 각 사용자에 의해 잠금 해제되어야 합니다.";
+
+//ZPL "Lock by User"
+WRN_PSBRParentLockedByAnotherUserHL2="승인되지 않은 작업! /p1의 상위가 다른 사용자에 의해 잠겨 있습니다.";
+WRN_PSBRParentLockedByAnotherUserHL2.Generic="오브젝트의 상위가 다른 사용자에 의해 잠겨 있으므로 작업이 승인되지 않습니다.";
+WRN_PSBRParentLockedByAnotherUserHL2.Detail="오브젝트 이름: /p1, 오브젝트 유형: /p2, 상위 이름|다음에 의해 잠김: /p3";
+WRN_PSBRParentLockedByAnotherUserHL2.Suggestion="상위는 각 사용자에 의해 잠금 해제되어야 합니다.";
+
+WRN_PSBRParentStatusNoUpdate="승인되지 않은 작업! /p1의 상위가 갱신 가능 상태가 아닙니다.";
+WRN_PSBRParentStatusNoUpdate.Generic="오브젝트의 상위가 갱신 가능하지 않으므로 작업이 승인되지 않습니다.";
+WRN_PSBRParentStatusNoUpdate.Detail="오브젝트 이름: /p1 , 오브젝트 유형: /p2";
+WRN_PSBRParentStatusNoUpdate.Suggestion="오브젝트의 상위가 올바른 상태에 있는지 확인하십시오.";
+
+WRN_PSBRParentStatusReleased="승인되지 않은 작업! /p1의 상위가 최종 상태에 도달했습니다.";
+WRN_PSBRParentStatusReleased.Generic="오브젝트의 상위가 최종 상태에 도달했으므로 작업이 승인되지 않습니다.";
+WRN_PSBRParentStatusReleased.Detail="오브젝트 이름: /p1 , 오브젝트 유형: /p2";
+WRN_PSBRParentStatusReleased.Suggestion="오브젝트의 상위가 올바른 상태에 있는지 확인하십시오.";
+
+WRN_PSBRStatusNoDelete="승인되지 않은 작업! /p1이(가) 현재 삭제 가능 상태가 아닙니다.";
+WRN_PSBRStatusNoDelete.Generic="오브젝트 상태가 삭제 가능하지 않으므로 작업이 승인되지 않습니다.";
+WRN_PSBRStatusNoDelete.Detail="오브젝트 이름: /p1";
+WRN_PSBRStatusNoDelete.Suggestion="오브젝트가 올바른 상태에 있는지 확인하십시오.";
+
+WRN_PSBRParentNotConfigured="승인되지 않은 작업! /p1의 상위가 구성되어 있지 않습니다.";
+WRN_PSBRParentNotConfigured.Generic="오브젝트의 상위가 구성되어 있지 않으므로 작업이 승인되지 않습니다.";
+WRN_PSBRParentNotConfigured.Detail="오브젝트 이름: /p1";
+WRN_PSBRParentNotConfigured.Suggestion="상위가 선택한 작업을 수행할 수 있도록 구성하십시오.";
+
+WRN_PSBRChildLockedByAnother="승인되지 않은 작업! 현재 사용자가 /p1 오브젝트의 하위를 잠그지 않습니다.";
+WRN_PSBRChildLockedByAnother.Generic="오브젝트의 하위가 현재 사용자에 의해 잠겨 있지 않으므로 작업이 승인되지 않습니다.";
+WRN_PSBRChildLockedByAnother.Detail="오브젝트 이름: /p1";
+WRN_PSBRChildLockedByAnother.Suggestion="하위에서 잠금 담당자를 확인하십시오.";
+
+//ZPL "Locked By User" HL
+WRN_PSBRChildLockedByAnotherUserHL="승인되지 않은 작업! 현재 사용자가 /p1 오브젝트의 하위를 잠그지 않습니다.";
+WRN_PSBRChildLockedByAnotherUserHL.Generic="오브젝트의 일부 하위가 현재 사용자에 의해 잠겨 있지 않으므로 작업이 승인되지 않습니다.";
+WRN_PSBRChildLockedByAnotherUserHL.Detail="오브젝트 이름: /p1 , 하위 이름|잠금 담당자: /p2";
+WRN_PSBRChildLockedByAnotherUserHL.Suggestion="하위는 각 사용자에 의해 잠금 해제되어야 합니다.";
+
+WRN_PSBRDelKOIIPointedByAction="승인되지 않은 실제 삭제! /p1 인스턴스가 최소한 하나의 액션으로 지적됩니다.";
+WRN_PSBRDelKOIIPointedByAction.Generic="하나 이상의 액션에 의해 인스턴스가 지시되었으므로 실제 삭제가 승인되지 않습니다.";
+WRN_PSBRDelKOIIPointedByAction.Detail="인스턴스 이름: /p1";
+
+WRN_PSBRNotPreferredIter="승인되지 않은 작업! 사용된 수정본은 선호되는 것이 아닙니다.";
+WRN_PSBRNotPreferredIter.Generic="승인되지 않은 작업! 사용된 수정본은 선호되는 것이 아닙니다.";
+WRN_PSBRNotPreferredIter.Detail="오브젝트 이름: /p1 , 오브젝트 유형: /p2";
+WRN_PSBRNotPreferredIter.Suggestion="문서의 선호 수정본을 선택하십시오.";
+
+WRN_PSBRUnknownError="/p1에서 알 수 없는 이유로 작업이 승인되지 않았습니다.!";
+WRN_PSBRUnknownError.Generic="오브젝트에서 알 수 없는 이유 때문에 작업이 승인되지 않습니다.";
+WRN_PSBRUnknownError.Detail="오브젝트 이름: /p1 , 오브젝트 유형: /p2";
+WRN_PSBRUnknownError.Suggestion="오브젝트가 ENOVIA V5 VPM 데이터베이스에서 유효한지 확인하십시오."; // VPW IR 650028
+
+
+WRN_PSBRNotBelongsToLocalSite="/p1 오브젝트가 로컬 사이트에 속하지 않으므로 작업이 승인되지 않습니다.";
+WRN_PSBRNotBelongsToLocalSitev.Generic="오브젝트가 로컬 사이트에 속하지 않으므로 작업이 승인되지 않습니다.";
+WRN_PSBRNotBelongsToLocalSite.Detail="오브젝트 이름: /p1 , 오브젝트 유형: /p2";
+
+WRN_PSBRParentNotBelongsToSite="승인되지 않은 작업! /p1의 상위가 로컬 사이트에 속하지 않습니다.";
+WRN_PSBRParentNotBelongsToSite.Generic="오브젝트의 상위가 로컬 사이트에 속하지 않으므로 작업이 승인되지 않습니다.";
+WRN_PSBRParentNotBelongsToSite.Detail="오브젝트 이름: /p1";
+
+// NFO IR-A0541479 06:06:22
+WRN_PSBROtherInstanceLockedByAnother="승인되지 않은 작업! /p1의 피어 인스턴스 중 하나 이상이 다른 사용자에 의해 잠겨 있습니다.";
+WRN_PSBROtherInstanceLockedByAnother.Generic="승인되지 않은 작업! 오브젝트의 피어 인스턴스 중 하나 이상이 다른 사용자에 의해 잠겨 있습니다.";
+WRN_PSBROtherInstanceLockedByAnother.Detail="오브젝트 이름: /p1";
+WRN_PSBROtherInstanceLockedByAnother.Suggestion="피어 인스턴스의 잠금 소유권을 확인하십시오.";
+
+//ZPL "Locked By User" HL
+WRN_PSBROtherInstanceLockedByAnotherUserHL="승인되지 않은 작업! /p1의 피어 인스턴스 중 하나 이상이 다른 사용자에 의해 잠겨 있습니다.";
+WRN_PSBROtherInstanceLockedByAnotherUserHL.Generic="승인되지 않은 작업! 오브젝트의 피어 인스턴스 중 하나 이상이 다른 사용자에 의해 잠겨 있습니다.";
+WRN_PSBROtherInstanceLockedByAnotherUserHL.Detail="오브젝트 이름: /p1, 인스턴스|잠금 담당자: /p2";
+WRN_PSBROtherInstanceLockedByAnotherUserHL.Suggestion="인스턴스는 각 사용자에 의해 잠금 해제되어야 합니다.";
+
+//Message for UnloadBranch
+WRN_PSVpmUnloadFileEntity="로드 해제하기 전에 /p1 엔티티를 ENOVIA V5 VPM에 저장해야 합니다.";
+WRN_PSVpmUnloadFileEntity.Generic="로드 해제하기 전에 엔티티를 ENOVIA V5 VPM에 먼저 저장해야 합니다.";
+WRN_PSVpmUnloadFileEntity.Detail="엔티티 이름: /p1";
+
+WRN_PSVpmUnloadNotSavedEntity="변경사항을 ENOVIA V5 VPM에 다시 저장하지 않아서 /p1을(를) 로드 해제할 수 없습니다.";
+WRN_PSVpmUnloadNotSavedEntity.Generic="변경사항을 ENOVIA V5 VPM에 다시 저장하지 않았으므로 오브젝트를 로드 해제할 수 없습니다.";
+WRN_PSVpmUnloadNotSavedEntity.Detail="/p1";
+
+WRN_PSVpmCanNotUnloadUnderBB="이 엔티티가 문서 저장소의 영속 문서 아래에 보관되어 있어서 /p1을(를) 로드 해제할 수 없습니다.";
+WRN_PSVpmCanNotUnloadUnderBB.Generic="이 엔티티가 문서 저장소의 영속 문서 아래에 보관되어 있으므로 오브젝트를 로드 해제할 수 없습니다.";
+WRN_PSVpmCanNotUnloadUnderBB.Detail="/p1";
+
+WRN_PSVpmCanNotUnloadUnloaded="이 엔티티가 이미 로드 해제되었기 때문에 /p1을(를) 로드 해제할 수 없습니다.";
+WRN_PSVpmCanNotUnloadUnloaded.Generic="이 엔티티가 이미 로드 해제되었으므로 엔티티를 로드 해제할 수 없습니다.";
+WRN_PSVpmCanNotUnloadUnloaded.Detail="/p1";
+
+WRN_PSVpmCanNotUnloadNothing="/p1의 브랜치에 로드 해제할 엔티티가 없습니다.";
+WRN_PSVpmCanNotUnloadNothing.Generic="엔티티의 브랜치에 로드 해제할 엔티티가 없습니다.";
+WRN_PSVpmCanNotUnloadNothing.Detail="엔티티 이름: /p1";
+
+WRN_PSNoUnloadIfRefInEdition="/p1 엔티티가 편집을 위해 열려 있으므로 로드 해제할 수 없습니다.";
+WRN_PSNoUnloadIfRefInEdition.Generic="엔티티가 편집을 위해 다른 곳에 열려 있으므로 로드 해제할 수 없습니다.";
+WRN_PSNoUnloadIfRefInEdition.Detail.Suggestion="/p1";
+
+
+
+//message fo TechPack
+
+ERR_TECHPACK_ClusterLoadingOperationFailure="TechPack /p1 /p2 /p3 /p4 로드 작업에 실패했습니다. p5 /p6 /p7";
+ERR_TECHPACK_ClusterLoadingOperationFailure.Generic="로드 작업에 실패했습니다.";
+// VPW IR A0600636 
+ERR_TECHPACK_ClusterLoadingOperationFailure.Detail="TechPack  역할:/p1, 카테고리:/p2, 버전:/p3, 소유자:/p4, 작업 로드 실패. 조직:/p5, 작성 날짜:/p6, 수정 날짜:/p7";
+//ERR_TECHPACK_ClusterLoadingOperationFailure.Detail       = "TechPack /p1 /p2 /p3 /p4 Loading operation failed. /p5 /p6 /p7";
+
+ERR_TECHPACK_NotLocked="TechPack이 잠겨 있지 않습니다. 저장이 중단됩니다.";
+ERR_TECHPACK_NotLocked.Generic="TechPack이 잠겨 있지 않습니다. 저장이 중단됩니다.";
+
+ERR_TECHPACK_LockByAnotherUser="다른 사용자가 TechPack을 잠궜습니다. 저장이 중단됩니다.";
+ERR_TECHPACK_LockByAnotherUser.Generic="다른 사용자가 TechPack을 잠궜습니다. 저장이 중단됩니다.";
+
+ERR_TECHPACK_BelongsToNotPersistantObject="TechPack이 비영속 오브젝트에 속해 있습니다. 저장이 중단됩니다.";
+ERR_TECHPACK_BelongsToNotPersistantObject.Generic="TechPack이 비영속 오브젝트에 속해 있습니다. 저장이 중단됩니다.";
+
+ERR_TECHPACK_VaultAccessDenied="문서 저장소에 액세스하는 중 장애가 발생했습니다. 저장이 중단됩니다.";
+ERR_TECHPACK_VaultAccessDenied.Generic="문서 저장소에 액세스하는 중 장애가 발생했습니다. 저장이 중단됩니다.";
+
+WRN_TECHPACK_PointedDocumentNotInEnovia_ExpositionFailed="링크가 비 PDM 문서( /p1 )를 가리키고 있습니다. 이 링크는 저장되지만 노출되지 않습니다.";
+WRN_TECHPACK_PointedDocumentNotInEnovia_ExpositionFailed.Generic="링크가 비 PDM 문서를 가리키고 있습니다. 이 링크는 저장되지만 노출되지 않습니다.";
+WRN_TECHPACK_PointedDocumentNotInEnovia_ExpositionFailed.Detail="문서 이름: /p1";
+
+ERR_TECHPACK_ExternalLinkNotSupported="이 외부 링크( /p1 )는 지원하지 않습니다.";
+ERR_TECHPACK_ExternalLinkNotSupported.Generic="이 외부 링크는 지원되지 않습니다.";
+ERR_TECHPACK_ExternalLinkNotSupported.Detail="링크 이름: /p1";
+
+PartialSave.Title="부분 저장 작업";
+
+PartialSave.Text="잠금, 액세스 권한 또는 라이프사이클 고려사항의 경우 \n수정된 데이터의 서브세트는 거부되지만 하나 이상의 링크된 문서는 저장되었습니다.\n오류 목록을 보려면 확인을 누르십시오.";
+
+WRN_VERSINON_CREATION_FAILED="버전 날짜가 현재 적용조건에 포함되지 않으므로 새 버전을 작성할 수 없습니다.";
+WRN_VERSINON_CREATION_FAILED.Generic="버전 날짜가 현재 적용조건에 포함되지 않으므로 새 버전을 작성할 수 없습니다.";
+
+
+WRN_OldPartNotSupported1="파트가 V5.R5 레벨 이전에 작성되었습니다. 저장이 지원되지 않습니다.";
+WRN_OldPartNotSupported1.Generic="파트가 V5.R5 레벨 이전에 작성되었습니다. 저장이 지원되지 않습니다.";
+
+WRN_OldPartNotSupported2="새 파트를 작성하고 지오메트리를 복사 - 붙여넣기하십시오.";
+WRN_OldPartNotSupported2.Generic="새 파트를 작성하고 지오메트리를 복사 - 붙여넣기하십시오.";
+
+
+WRN_PublicationNotIntrinsic="통지: /p1의 담당자 프로덕트 /p2이(가) structure exposed 모드에 있기 때문에 /p1이(가) 저장되지 않았습니다.";
+WRN_PublicationNotIntrinsic.Generic="담당자 프로덕트가 structure exposed 모드에 있으므로 통지가 저장되지 않았습니다.";
+WRN_PublicationNotIntrinsic.Detail="프로덕트 이름: /p1, 담당자 프로덕트 이름:/p2";
+
+WRN_PublicationNotSavedInVisuMode="통지: /p1이(가) 로드 해제된 데이터를 가리키므로 ENOVIA V5 VPM에 저장되지 않았습니다.";
+WRN_PublicationNotSavedInVisuMode.Generic="통지가 로드 해제된 데이터를 가리키므로 ENOVIA V5 VPM에 저장되지 않았습니다.";
+WRN_PublicationNotSavedInVisuMode.Detail="통지 이름: /p1";
+
+
+//XPN
+ERR_NotConnectedToChoosePRC=" /p1의 영속성을 Structure Exposed로 설정하려면 ENOVIA V5 VPM에 연결해야 합니다.";
+ERR_NotConnectedToChoosePRC.Generic=" 오브젝트의 영속성을 Structure Exposed로 설정하려면 ENOVIA V5 VPM에 연결해야 합니다.";
+ERR_NotConnectedToChoosePRC.Detail=" 오브젝트 이름: /p1";
+
+//BBX
+ERR_TechPackUnderPRCNotAllowed="TechPack이 있으므로 /p1의 영속성을 Publication Exposed로 변경할 수 없습니다.";
+ERR_TechPackUnderPRCNotAllowed.Generic="TechPack이 있으므로 오브젝트의 영속성을 Publication Exposed로 변경할 수 없습니다.";
+ERR_TechPackUnderPRCNotAllowed.Detail="오브젝트 이름: /p1";
+
+//CUO BZQ - 05.24.2005 - HL R16 Product Freeze
+WRN_PSBRFrozen="승인되지 않은 작업! /p1이(가) 이미 전달/설치되었습니다.";
+WRN_PSBRFrozen.Generic="승인되지 않은 작업! 오브젝트가 이미 전달/설치되었습니다.";
+WRN_PSBRFrozen.Detail="오브젝트 이름: /p1 , 오브젝트 유형: /p2";
+
+WRN_PSBRParentFrozen="승인되지 않은 작업! /p1의 상위가 이미 전달/설치되었습니다.";
+WRN_PSBRParentFrozen.Generic="승인되지 않은 작업! 오브젝트의 상위가 이미 전달/설치되었습니다.";
+WRN_PSBRParentFrozen.Detail="오브젝트 이름: /p1";
+
+
+//BZQ - 07.27.2005 - IR A0505252
+WRN_PSBRFrozenOverride="/p1이(가) 이미 전달/설치되어 있습니다. 사용자에게 이를 수정할 대체 액세스가 있습니다.";
+WRN_PSBRFrozenOverride.Generic="오브젝트가 이미 전달/설치되어 있습니다. 사용자에게 이를 수정할 대체 액세스가 있습니다.";
+WRN_PSBRFrozenOverride.Detail="오브젝트 이름: /p1 , 오브젝트 유형: /p2";
+
+WRN_PSBRParentFrozenOverride="/p1의 상위가 이미 전달/설치되었습니다. 사용자에게 이를 수정할 대체 액세스가 있습니다.";
+WRN_PSBRParentFrozenOverride.Generic="오브젝트의 상위가 이미 전달/설치되었습니다. 사용자에게 이를 수정할 대체 액세스가 있습니다.";
+WRN_PSBRParentFrozenOverride.Detail="오브젝트 이름: /p1";
+
+WRN_PSBRUnsolvedOperations="승인되지 않은 작업! 해결되지 않은 작업이 있는 /p1을(를) 삭제할 수 없습니다.";
+WRN_PSBRUnsolvedOperations.Generic="승인되지 않은 작업! 해결되지 않은 작업이 있는 오브젝트는 삭제할 수 없습니다.";
+WRN_PSBRUnsolvedOperations.Detail="오브젝트 이름: /p1";
+
+//AVM - IR 530248
+WRN_PSCnxBRReleased="승인되지 않은 작업! 상위 /p1이 최종 상태에 도달하지 않았으므로 제약조건에 있는 추가/수정/삭제는 저장될 수 없습니다.";
+WRN_PSCnxBRReleased.Generic="승인되지 않은 작업! 상위가 최종 상태에 도달하지 않았으므로 제약조건의 추가/수정/삭제를 저장할 수 없습니다.";
+WRN_PSCnxBRReleased.Detail="상위 이름: /p1";
+
+ERR_SaveErrorR4SP1doc="현재 문서 /p1은(는) R4SP1 이전에 생성된 문서이므로 ENOVIA V5 VPM에\n저장할 수 없습니다.\nR4SP1 이후 문서만 ENOVIA V5 VPM에 저장할 수 있습니다.";
+ERR_SaveErrorR4SP1doc.Generic="현재 문서가 R4SP1 이전에 생성된 문서이므로 ENOVIA V5 VPM에\n저장할 수 없습니다.";
+ERR_SaveErrorR4SP1doc.Detail=" /p1";
+ERR_SaveErrorR4SP1doc.Suggestion="R4SP1 이후 문서만 ENOVIA V5 VPM에 저장할 수 있습니다.";
+
+WRN_SaveWarningR4SP1doc="현재 문서 /p1이(가) R4SP1보다 전에 생성되었습니다. ENOVIA V5 VPM에 저장하지 않는 것이 좋습니다.\n 대신, 새 문서를 작성하고 그 안에 지오메트리를 복사하여 붙여넣으십시오.";
+WRN_SaveWarningR4SP1doc.Generic=" 현재 문서가 R4SP1보다 전에 생성되었습니다. ";
+WRN_SaveWarningR4SP1doc.Detail=" /p1";
+WRN_SaveWarningR4SP1doc.Suggestion="ENOVIA V5 VPM에 저장하지 않는 것이 좋습니다.\n 대신, 새 문서를 작성하고 그 안에 지오메트리를 복사하여 붙여넣으십시오.";
+
+ERR_SaveErrorFrozenDoc="/p1 문서가 PDM 데이터베이스 '보류된 상태'로 저장되었으므로 ENOVIA V5 VPM에\n저장할 수 없습니다.";
+ERR_SaveErrorFrozenDoc.Generic="문서가 PDM 데이터베이스 '보류된 상태'로 저장되었으므로 ENOVIA V5 VPM에\n저장할 수 없습니다.";
+ERR_SaveErrorFrozenDoc.Detail=" /p1";
+
+
+//RID IR 416546 .. Rolledback 05:09:15
+//WRN_PSNoCharacterSupportForNameDBCS = "The entity name /p1 contains unsupported DBCS character(s) /p2. Please rename before proceeding to save in ENOVIA V5 VPM.";
+//WRN_PSNoCharacterSupportForNameDBCS.Generic =  "The entity names contains unsupported DBCS character(s)..";
+//WRN_PSNoCharacterSupportForNameDBCS.Detail      = " EntityName:/p1 , DBCS chars:/p2";
+//WRN_PSNoCharacterSupportForNameDBCS.Suggestion	= "Please rename before proceeding to save in ENOVIA V5 VPM.";
+
+
+//AVM - IR 516779
+
+WRN_PSVpmForbiddenName="데이터 반입된 프로덕트가 Catia에서 지원되지 않는 금지된 문자를 포함합니다.";
+WRN_PSVpmForbiddenName.Generic="데이터 반입된 프로덕트가 Catia에서 지원되지 않는 금지된 문자를 포함합니다.";
+
+
+//BBX for HighLight Contextual Design in Sub Asm R17//
+
+ERR_PSVpmInputWrongCtx_NewObject="파트 /p1이(가) 서브 어셈블리 /p2에 대해 contextual입니다(ENOVIA V5 VPM에서 지원되지 않음).\nPRC 레벨에 대한 contextual 링크 관리 명령을 사용하여 contextual 링크를 자동으로 진로 변경하거나 \n컨텍스트 변경 메뉴를 사용하여 수동으로 관리하십시오.";
+ERR_PSVpmInputWrongCtx_NewObject.Generic="파트가 서브 어셈블리에 대해 contextual입니다(ENOVIA V5 VPM에서 지원되지 않음).";
+ERR_PSVpmInputWrongCtx_NewObject.Detail="파트 이름:/p1 , 서브 어셈블리 이름:/p2";
+ERR_PSVpmInputWrongCtx_NewObject.Suggestion="PRC 레벨에 대한 contextual 링크 관리 명령을 사용하여 contextual 링크를 자동으로 진로 변경하거나 \n컨텍스트 변경 메뉴를 사용하여 수동으로 관리하십시오.";
+
+WRN_PSVpmNotReroutedInstance="진로 변경이 필요하지 않거나 /p1에 대해 수행되지 않음 ";
+WRN_PSVpmNotReroutedInstance.Generic="진로 변경이 필요하지 않으므로 오브젝트에 대해 수행되지 않음 ";
+WRN_PSVpmNotReroutedInstance.Detail="/p1";
+
+INF_PSVpmReroutedInstance="인스턴스 /p1이(가) /p2에서 진로 변경되었습니다. ";
+INF_PSVpmReroutedInstance.Generic="언급된 오브젝트에서 인스턴스가 진로 변경되었습니다. ";
+INF_PSVpmReroutedInstance.Detail="인스턴스 이름:/p1, 진로 변경된 위치:/p2 ";
+
+WRN_PSVpmMultiInstanciatedInstance="다중 인스턴스화되어 있으므로 /p1에 대해 진로 변경이 수행되지 않습니다. \n컨텍스트 변경 메뉴를 사용하여 수동으로 링크를 관리하십시오.";
+WRN_PSVpmMultiInstanciatedInstance.Generic="오브젝트에 다중 인스턴스가 생성되었으므로 진로 변경이 수행되지 않습니다.";
+WRN_PSVpmMultiInstanciatedInstance.Detail=" /p1";
+WRN_PSVpmMultiInstanciatedInstance.Suggestion="컨텍스트 변경 메뉴를 사용하여 수동으로 링크를 관리하십시오.";
+
+WRN_PSVpmOutOfContextInstance="컨텍스트를 벗어났으므로 /p1에 대해 진로 변경이 수행되지 않습니다. \n컨텍스트 변경 메뉴를 사용하여 수동으로 링크를 관리하십시오.";
+WRN_PSVpmOutOfContextInstance.Generic="오브젝트가 컨텍스트 범위 밖에 있으므로 진로 변경이 수행되지 않습니다.";
+WRN_PSVpmOutOfContextInstance.Detail="/p1";
+WRN_PSVpmOutOfContextInstance.Suggestion="컨텍스트 변경 메뉴를 사용하여 수동으로 링크를 관리하십시오.";
+
+WRN_PSVpmLinkBrokenInstance="끊긴 링크가 있으므로 /p1에 대해 진로 변경이 수행되지 않습니다. \n컨텍스트 변경 메뉴를 사용하여 수동으로 링크를 관리하십시오.";
+WRN_PSVpmLinkBrokenInstance.Generic="오브젝트에 끊긴 링크가 있으므로 진로 변경이 수행되지 않습니다.";
+WRN_PSVpmLinkBrokenInstance.Detail="/p1";
+WRN_PSVpmLinkBrokenInstance.Suggestion="컨텍스트 변경 메뉴를 사용하여 수동으로 링크를 관리하십시오.";
+
+
+WRN_PSVpmRootIsPRC="루트가 PRC인 경우에만 PRC에 대한 contextual 링크 관리 명령이 작동합니다.";
+WRN_PSVpmRootIsPRC.Generic="루트가 PRC인 경우에만 PRC에 대한 contextual 링크 관리 명령이 작동합니다.";
+WRN_PSVpmRootIsPRC.Suggestion="루트가 PRC인지 확인하십시오.";
+
+//BBX Ends
+
+//BBX for IR A0527926//
+WRN_PSVpmOutofCtxInst="컨텍스트 링크에서 사용하는 파트 /p1의 인스턴스를 CATIA 세션에서 찾을 수 없습니다. \n 링크를 수동으로 관리하려면 컨텍스트 메뉴 변경을 사용하십시오.";
+WRN_PSVpmOutofCtxInst.Generic="contextual 링크에서 사용되는 파트의 인스턴스가 CATIA 세션에 없습니다. ";
+WRN_PSVpmOutofCtxInst.Detail="파트 이름:/p1";
+WRN_PSVpmOutofCtxInst.Suggestion="컨텍스트 변경 메뉴를 사용하여 수동으로 링크를 관리하십시오.";
+
+//IR :637617 - Message modified 
+WRN_PSVpmBrokenLinks="파트 /p1의 인스턴스에 끊어진 contextual 링크가 있거나 해당 컨텍스트가 세션에 로드되지 않았습니다.\n컨텍스트 변경 메뉴를 사용하여 링크를 수동으로 관리하십시오.";
+WRN_PSVpmBrokenLinks.Generic="파트의 인스턴스에 끊어진 contextual 링크가 있거나 해당 컨텍스트가 세션에 로드되지 않았습니다.";
+WRN_PSVpmBrokenLinks.Detail="파트 이름:/p1";
+WRN_PSVpmBrokenLinks.Suggestion="contextual 링크를 작성하는 데 사용되는 인스턴스가 로드되었는지 확인하고 컨텍스트 변경 메뉴를 사용하여 링크를 수동으로 관리하십시오.";
+
+//BBX ends//
+//Message for Pub or Ctx Synchronisation at open
+WRN_PSSynchroPubAtOpen="'/p2' 문서의 '/p1' 통지에서 불일치가 검출되었고, 세션에서 복구되었습니다.";
+WRN_PSSynchroPubAtOpen.Generic="문서의 통지에서 불일치가 검출되었고, 세션에서 복구되었습니다.";
+WRN_PSSynchroPubAtOpen.Detail="통지 이름: /p1, 문서 이름:/p2 ";
+
+//ZPL IR A0572465
+WRN_NotAnEnoviaObjectToHighlight="/p1 오브젝트가 ENOVIA V5 VPM에 없습니다.\n 먼저 ENOVIA V5 VPM으로 이 오브젝트를 저장해야 합니다.";
+WRN_NotAnEnoviaObjectToHighlight.Generic="선택한 오브젝트가 ENOVIA V5 VPM 엔티티가 아닙니다.";
+WRN_NotAnEnoviaObjectToHighlight.Detail="오브젝트 이름: /p1";
+WRN_NotAnEnoviaObjectToHighlight.Suggestion="선택한 오브젝트를 ENOVIA V5 VPM에 저장하십시오. 명령은 ENOVIA V5 VPM 오브젝트에만 사용됩니다.";
+
+// CUO 07:07:09 IR 581543
+WRN_PSProductSpecDetectedInSession="/p1의 인스턴스가 세션에 있기 때문에 CATIA가 ENOVIA V5 VPM에서 오브젝트를 로드할 수 없습니다.\nCATIA에서 그 아래에 오브젝트를 로드하려면 프로덕트 스펙 컨텍스트를 사용하십시오.";
+WRN_PSProductSpecDetectedInSession.Generic="PRC의 인스턴스가 세션에 있기 때문에 CATIA가 ENOVIA V5 VPM에서 오브젝트를 로드할 수 없습니다.";
+WRN_PSProductSpecDetectedInSession.Detail="/p1";
+WRN_PSProductSpecDetectedInSession.Suggestion="CATIA에서 그 아래에 오브젝트를 로드하려면 프로덕트 스펙 컨텍스트를 사용하십시오.";
+
+//ZPL Starts IR 587852
+WRN_PSBRGCONoPrivelege="작업이 부여되지 않았습니다.\n/p2 오브젝트에서 /p1 프로세스에 대한 권한이 없습니다.";
+WRN_PSBRGCONoPrivelege.Generic="권한이 없으므로 작업이 부여되지 않았습니다.";
+WRN_PSBRGCONoPrivelege.Detail="프로세스 이름: /p1 , 오브젝트 이름: /p2 , 오브젝트 유형: /p3";
+WRN_PSBRGCONoPrivelege.Suggestion="현재 사용자에게 부여된 권한을 확인하십시오.";
+
+WRN_PSBRGCOStatusReleased="승인되지 않은 작업! 오브젝트 /p1이(가) 최종 상태에 도달했습니다.";
+WRN_PSBRGCOStatusReleased.Generic="GCO가 최종 상태에 도달했으므로 작업이 승인되지 않습니다.";
+WRN_PSBRGCOStatusReleased.Detail="/p1";
+WRN_PSBRGCOStatusReleased.Suggestion="GCO가 올바른 상태에 있는지 확인하십시오.";
+
+WRN_PSBRGCOStatusNotModifiable="GCO /p1을(를) 수정할 수 없습니다.\n 이 GCO는 수정 가능한 상태에 있지 않습니다.";
+WRN_PSBRGCOStatusNotModifiable.Generic="GCO를 수정할 수 없습니다.\n 이 GCO는 수정 가능한 상태에 있지 않습니다.";
+WRN_PSBRGCOStatusNotModifiable.Detail="/p1";
+WRN_PSBRGCOStatusNotModifiable.Suggestion="GCO에 대한 상태를 확인하십시오.";
+
+WRN_PSBRGCOLinkInstNotLocked="승인되지 않은 작업!.\n GCO /p1에 링크된 /p1 오브젝트가 잠겨 있지 않거나 다른 사용자에 의해 잠겨 있습니다.";
+WRN_PSBRGCOLinkInstNotLocked.Generic="GCO에 링크된 하나 이상의 오브젝트가 잠겨 있지 않거나 다른 사용자에 의해 잠겨 있습니다.";
+WRN_PSBRGCOLinkInstNotLocked.Detail="GCO 이름:/p1 , 오브젝트:/p2";
+WRN_PSBRGCOLinkInstNotLocked.Suggestion="GCO에 링크된 오브젝트의 잠금 상태를 확인하십시오.";
+
+//ZPL "Locked By User"
+WRN_PSBRGCOLinkInstLockedByUser="승인되지 않은 작업!.\n GCO /p1에 링크된 /p1 오브젝트가 다른 사용자에 의해 잠겨 있습니다.";
+WRN_PSBRGCOLinkInstLockedByUser.Generic="GCO에 링크된 하나 이상의 오브젝트가 다른 사용자에 의해 잠겨 있습니다.";
+WRN_PSBRGCOLinkInstLockedByUser.Detail="GCO 이름:/p1 , 오브젝트 | 다음에 의해 잠김:/p2";
+WRN_PSBRGCOLinkInstLockedByUser.Suggestion="GCO에 링크된 오브젝트의 잠금 소유권을 확인하십시오.";
+
+WRN_PSBRGCOBRCheckNotDone="GCO에서의 일부 BR 확인은 사용된 서버에 사용할 수 없습니다.\n 이 GCO는 일부 BR 확인을 진행하지 않았습니다.";
+WRN_PSBRGCOBRCheckNotDone.Generic="GCO는 사용된 서버에 사용할 수 없는 일부 BR 확인을 진행하지 않았습니다.";
+WRN_PSBRGCOBRCheckNotDone.Detail="/p1";
+WRN_PSBRGCOBRCheckNotDone.Suggestion="관련된 오브젝트를 확인하십시오.";
+//ZPL Ends IR 587852
+
+// CUO - IR 623996
+ERR_PSVpmSaveStopReconciliateDoc="/p1 문서가 ENOVIA V5 VPM에서 잘못 추출되었으며 저장할 수 없습니다.\n ";
+ERR_PSVpmSaveStopReconciliateDoc.Generic="문서가 ENOVIA V5 VPM에서 잘못 추출되었으며 저장할 수 없습니다.";
+ERR_PSVpmSaveStopReconciliateDoc.Suggestion="사용 가능한 경우 파일 및 데스크에서 문서 조정을 실행하십시오. 그렇지 않은 경우\nENOVIA V5 VPM에 문서를 새로 저장하려면 \n   1. set PDM property 명령을 사용하여 대상 PDM을 'ENOVIA5'로 설정하십시오. \n   2. 문서를 디스크에 저장하십시오. \n   3. ENOVIA V5 VPM에 다시 저장하십시오.\n이 문서를 원래의 ENOVIA V5 VPM 문서로 교체하려면 Edit Link Replace 명령을 사용하고 다시 저장하십시오.\n";
+ERR_PSVpmSaveStopReconciliateDoc.Detail="문서 이름:/p1 - ENOVIA V5 VPM 문서 이름:/p2";
+
+// VPW - IR 628134
+WRN_PSBRParentRefStatusReleased="승인되지 않은 작업! /p1의 상위 레퍼런스가 최종 상태에 도달했습니다.";
+WRN_PSBRParentRefStatusReleased.Generic="오브젝트의 상위 레퍼런스가 최종 상태에 도달했으므로 작업이 승인되지 않았습니다.";
+WRN_PSBRParentRefStatusReleased.Detail="오브젝트 이름: /p1 , 오브젝트 유형: /p2";
+WRN_PSBRParentRefStatusReleased.Suggestion="오브젝트의 상위 레퍼런스가 올바른 상태인지 확인하십시오.";
+
+WRN_PSVpmUELoadProcess="사용자 종료 /p1을(를) 실행하는 동안 문제가 발생했습니다.";
+WRN_PSVpmUELoadProcess.Generic="로드 프로세스 중 사용자 종료를 실행하지 못했습니다.";
+WRN_PSVpmUELoadProcess.Detail="사용자 종료 이름: /p1";
+
+// VPW IR 668093
+INF_PSVpmIIRenamed="동일한 이름 /p1을(를) 사용하는 다른 인스턴스가 이미 동일한 상위 /p2에 있습니다.\n 새 인스턴스는 /p3(으)로 자동 저장되었습니다.";
+INF_PSVpmIIRenamed.Generic="동일한 이름을 사용하는 다른 인스턴스가 이미 동일한 상위에 있습니다.\n 새 인스턴스는 새 이름으로 자동 저장되었습니다.";
+INF_PSVpmIIRenamed.Detail="원래 이름:/p1 , 상위 이름:/p2 , 새로 저장된 이름:/p3 ";
+
+// VVD BOEING SAVE PANEL
+INF_FurtiveToolTip="오류/경고 없이 저장되었습니다.";
+
+//QAR : IGM HL
+INF_PSVpmGraphicalPropSaveFail="권한이 부족하여 그래픽이 수정된 오브젝트가 DB에 저장되지 않습니다.";
+INF_PSVpmGraphicalPropSaveFail.Generic="권한이 부족하여 그래픽이 수정된 오브젝트가 DB에 저장되지 않습니다.";
+INF_PSVpmGraphicalPropSaveFail.Detail="엔티티 이름:-/p1, 엔티티 유형:-/p2";
+INF_PSVpmGraphicalPropSaveFail.Suggestion="사용자에게 수정 권한이 있고 현재 사용자가 데이터를 잠갔으며 데이터가 최종 완성도 상태에 \n도달하지 않았는지 확인하십시오.";

@@ -1,0 +1,350 @@
+'====================================================================================
+' COPYRIGHT DASSAULT SYSTEMES  1999
+'====================================================================================
+'
+' PSLNomenBuildFeat.CATScript
+'
+'====================================================================================
+' Language="VBSCRIPT"
+'
+'
+' Description:
+' Build UserNomenclature.feat using CATArrangementInterfaces IDL for
+' user nomenclature management.
+'
+'====================================================================================
+' Audit Trail:
+'--------------------------------------------------------------------
+'   Author     : Vic Szeto 
+'   Date       : 8/1999
+'   Chg id     :
+'   Chg nature :
+'--------------------------------------------------------------------
+'   Modified   : Sudhi Gulur
+'   Date       : Dec 05 2001
+'   Chg id     :
+'   Chg nature : Support feat file creation in customer environments
+'====================================================================================
+
+Option Explicit
+
+'// ---------- Debug Traces
+Const intG_TRACEON = 1
+Dim strMessage
+
+'// ---------- objEXCEL Report Format
+'// Row
+Const intReportStartAfterRow = 0
+'// Column
+Const intReportIntClassName = 1
+Const intReportStartAfterColumn = 1
+
+Dim intReportCurrentRow As integer
+Dim intReportCurrentColumn As integer
+Dim intFirstNomColumn As integer
+
+'// ---------- EXCEL application objects
+Dim objEXCELapp As Object
+Dim objEXCELwkBks As Object
+Dim objEXCELwkBk As Object
+Dim objEXCELwkShs As Object
+Dim objEXCELSh As Object
+
+'// ---------- CATIAV5 application objects
+Dim objCATIAV5Document0 As Document
+Dim objCATIAV5FeatDocument As Document
+Dim objCATIAV5ArrWorkbench0 As Workbench
+Dim objCATIAV5ArrWorkbench1 As Workbench
+Dim objCATIAV5ArrNomTree1 As ArrNomenclatureTree
+Dim objCATIAV5ArrNomTopNode As ArrNomenclatures
+
+'@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+' The following environment variables for the path name must be modified
+' according to the run time environment.
+'@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+'====================================================================================
+'  Define the user nomenclature input file name here
+'====================================================================================
+Const strEXCELInputFileName = "c:\temp\PSLNomenBuildFeatInput.xls"
+
+'====================================================================================
+'  Define the user nomenclature output file (xxx.feat) name here
+'====================================================================================
+Const strCATIAV5FeatOutputFileName = "c:\temp\CATArrangementNomenclature"
+
+' Above is the GLOBAL variable declarations section
+'@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+'------------------------------------------------------------------------------------
+Sub DbgTrace (iStrMsgString, iIntYesError)
+'------------------------------------------------------------------------------------
+If (intG_TRACEON = 1) Then
+  CATIA.SystemService.Print iStrMsgString 
+  If (iIntYesError = 1) Then CATIA.SystemService.Print "Err Number = " & Err.Number
+End If
+
+End Sub '/////////////////////////////////////////////////////////// DbgTrace
+
+'------------------------------------------------------------------------------------
+Sub StartExcel ()
+'------------------------------------------------------------------------------------
+
+  Err.Clear
+  On Error Resume Next
+  Set objEXCELapp = GetObject (,"EXCEL.Application")  
+  If Err.Number <> 0 Then   
+     Err.Clear
+     Set objEXCELapp = CreateObject ("EXCEL.Application")
+  End If
+
+  objEXCELapp.Application.Visible = TRUE
+  Set objEXCELwkBks = objEXCELapp.Application.WorkBooks
+  Set objEXCELwkBk  = objEXCELwkBks.Add (strEXCELInputFileName)
+
+  If Err.Number <> 0 Then
+     Dim strMessage
+     strMessage  = "Error Loading Template File:" + strEXCELInputFileName + Chr(13)
+     strMessage  = strMessage + Chr(13) + "Check the following...." + Chr(13)
+     strMessage  = strMessage + "(1)Template File has read-write capability" + Chr(13)
+     strMessage  = strMessage + "(2)Template File path is valid"
+	   msgbox (strMessage)
+     Err.Clear
+  End If
+
+  Set objEXCELwkShs = objEXCELwkBk.Worksheets
+  Set objEXCELSh = objEXCELwkBk.Sheets ("User Nomenclature") 
+
+End Sub '/////////////////////////////////////////////////////////// StartExcel
+
+'------------------------------------------------------------------------------------
+Sub EndEXCEL ()
+'------------------------------------------------------------------------------------
+objEXCELwkBk.Close
+objEXCELapp.Quit
+
+End Sub '/////////////////////////////////////////////////////////// EndEXCEL
+
+'====================================================================================
+Function GetParent (iIntRow, iIntCol)
+'====================================================================================
+Dim oStrParent
+oStrParent = ""
+
+If (iIntCol < (intReportStartAfterColumn + 1)) Then
+   GetParent = oStrParent
+   Exit Function
+End If
+
+Dim intParentColumn As Integer
+Dim intIRow As Integer
+Dim intEndAt As Integer
+Dim intFoundAt As Integer
+
+intEndAt        = intReportStartAfterRow + 1
+intIRow         = iIntRow
+intParentColumn = iIntCol - 1
+intFoundAt      = 0
+
+If (intIRow >= intEndAt) Then
+  Do
+    oStrParent = objEXCELSh.Cells (intIRow, intParentColumn)
+    If (Len (oStrParent) > 0) Then
+	   intFoundAt = intIRow
+	End If
+    intIRow = intIRow - 1
+  Loop While ( (intIRow >= intEndAt) And (intFoundAt = 0) )
+End If
+
+GetParent = oStrParent
+
+End Function '////////////////////////////////////////////////////// GetParent
+
+'====================================================================================
+Function GetAncestorIconName (iIntRow, iIntCol)
+'====================================================================================
+Dim oStrAncestorIconName
+oStrAncestorIconName = ""
+
+DbgTrace "GetAncestorIconName ",0
+
+If (iIntCol < (intReportStartAfterColumn + 1)) Then
+   GetAncestorIconName = oStrAncestorIconName
+   Exit Function
+End If
+
+DbgTrace "intCol > ...",0
+
+Dim intParentColumn As Integer
+intParentColumn = iIntCol - 1
+
+Dim intIRow As Integer
+Dim intJCol As Integer
+Dim intColEndAt As Integer
+Dim intRowEndAt As Integer
+Dim intFoundAt As Integer
+Dim strParent 
+Dim intI
+
+intRowEndAt = intReportStartAfterRow + 1
+intColEndAt = intReportStartAfterColumn + 1
+intIRow = iIntRow
+intFoundAt = 0
+
+For intJCol = intParentColumn to intColEndAt Step -1
+   For intIRow = iIntRow to intRowEndAt Step -1
+      strParent = objEXCELSh.Cells (intIRow, intJCol)
+      If (Len (strParent) > 0) Then
+         oStrAncestorIconName = GetIconName (intIRow, intJCol)
+		 If (Len (oStrAncestorIconName) > 0) then
+            GetAncestorIconName	= oStrAncestorIconName
+			Exit Function
+		 '------ If the parent doesn't has an icon, go to its parent
+		 Else		   
+		    Exit For	    
+		 End If		 	     
+	  End If
+   Next '// intIRow
+Next '// intICol
+
+DbgTrace "Exit.....",0
+
+End Function '////////////////////////////////////////////////////// GetAncestorIconName
+
+'====================================================================================
+Function GetIconName (iIntRow, iIntCol)
+'====================================================================================
+
+'---------- Comment could have no text
+On Error Resume Next 
+
+GetIconName = ""
+
+If (iIntCol < (intReportStartAfterColumn + 1)) Then
+   Exit Function
+End If
+
+GetIconName = objEXCELSh.Cells(iIntRow,iIntCol).Comment.Text
+
+End Function '////////////////////////////////////////////////////// GetIconName
+
+'====================================================================================
+Sub StartCATIAV5 ()
+'====================================================================================
+
+Set objCATIAV5Document0 = CATIA.ActiveDocument
+DbgTrace "V5: Active Document",1
+
+'//---------- Get Arrworkbench from current document
+Set objCATIAV5ArrWorkbench0 = objCATIAV5Document0.GetWorkbench  ( "ArrWorkbench" ) 
+DbgTrace "V5: GetWorkbench0",1
+
+'//---------- Create a new .feat document 
+Set objCATIAV5FeatDocument = objCATIAV5ArrWorkbench0.CreateFeatDocument ("CATfct")
+DbgTrace "V5: CreateFeatDocument",1
+
+'//---------- Get Arrworkbench from the new ".feat" document
+Set objCATIAV5ArrWorkbench1 = objCATIAV5FeatDocument.GetWorkbench  ( "ArrWorkbench" ) 
+DbgTrace "V5: GetWorkbench1",1
+
+'//---------- Add a nomenclature hierachy tree to the .feat document 
+Set objCATIAV5ArrNomTree1 = objCATIAV5ArrWorkbench1.AddNomenclatureTree
+DbgTrace "V5: AddArrNomenclatureTree",1
+
+'//---------- Access the root of the tree
+Set objCATIAV5ArrNomTopNode = objCATIAV5ArrNomTree1.BaseNomenclatures
+DbgTrace "V5: get_BaseNomenclatures",1
+
+End Sub '////////////////////////////////////////////////////// StartCATIAV5
+
+'====================================================================================
+Sub CATMain ()
+'====================================================================================
+
+StartExcel
+StartCATIAV5
+
+Dim objURange As Range
+Dim intNBUsedRow As Integer
+Dim intNBUsedColumn As Integer
+Dim intIRow As Integer
+Dim intJCol As Integer
+Dim strFeatIntSysName
+Dim strFeatIconName
+Dim strFeatNLSName
+Dim strFeatSuperTypeName
+Dim strCellContents
+Dim strOutputFileName
+Dim objCATIAV5oArrNom As ArrNomenclature
+
+Set objURange = objEXCELSh.UsedRange
+intNBUsedColumn = objURange.Columns.Count
+intNBUsedRow = objURange.Rows.Count
+
+DbgTrace "NBUsedColumn = " & intNBUsedColumn, 0
+DbgTrace "NBUsedRow = " & intNBUsedRow, 0
+
+'//---------- For each populated cell, create the appropriate
+'//---------- nomenclature with the correctly hierachy based
+'//---------- the position of the cell
+
+intFirstNomColumn = intReportStartAfterColumn + 1
+For intJCol = intFirstNomColumn to intNBUsedColumn
+   For intIRow = 1 to intNBUsedRow
+      strFeatNLSName = objEXCELSh.Cells (intIRow, intJCol)
+	  If (Len (strFeatNLSName) > 0) Then
+    'strCellContents = "Cell(" & intIRow & "," & intJCol & "):" & strFeatNLSName
+    'DbgTrace strCellContents, 0
+
+	     '---------- The first significant column corresponds
+		 '---------- to the first class level in the hierchy
+		 '---------- tree, they are direct descendants of the
+		 '---------- root. And their internal system name
+		 '---------- must be set to those in the hidden column
+		 '---------- and cannot be overwritten by the user
+
+	     If (intJCol = intFirstNomColumn) Then
+		    strFeatSuperTypeName = ""
+			strFeatIconName = GetIconName (intIRow, intJCol)
+			strFeatIntSysName = GetParent (intIRow, intJCol) 
+		 Else
+            strFeatSuperTypeName = GetParent (intIRow, intJCol)
+		    strFeatIconName = GetIconName (intIRow, intJCol)
+			If (Len (strFeatIconName) <= 0) Then
+			  strFeatIconName = GetAncestorIconName (intIRow, intJCol)
+			End If
+        strFeatIntSysName = objEXCELSh.Cells (intIRow, intReportStartAfterColumn)
+        'strCellContents   = "InternalCellName(" & intIRow & "," & intReportStartAfterColumn & "):" & strFeatIntSysName
+        'DbgTrace strCellContents, 0
+        If (Len (strFeatIntSysName) = 0) Then
+	        strFeatIntSysName = strFeatNLSName
+        End If
+	     End If      
+
+		 strMessage = "Storing: " & " bstrName = " & strFeatIntSysName & _
+					  " bstrSuperType = " & strFeatSuperTypeName & _
+					  " bstrIconName = " & strFeatIconName
+		 DbgTrace strMessage, 0
+
+         '//----------  Create nomenclature
+         Set objCATIAV5oArrNom = objCATIAV5ArrNomTopNode.AddUserNomenclature _
+		   (strFeatIntSysName, strFeatIconName, strFeatNLSName, strFeatSuperTypeName)
+
+	  End If     
+   Next ' intIRow
+Next ' intJCol
+
+'---------- Exit EXCEL
+EndEXCEL
+
+'---------- Save the .feat document
+strOutputFileName = strCATIAV5FeatOutputFileName + ".CATfct"
+'objCATIAV5FeatDocument.SaveAs (strOutputFileName)
+'---------- Use the workbench save, so as to remove LifeCycleObject also
+objCATIAV5ArrWorkbench1.SaveFeatDocument strOutputFileName, objCATIAV5FeatDocument
+
+strMessage = strOutputFileName + " file saved" + Chr(13)
+strMessage = strMessage + "Rename " + strOutputFileName + " as " 
+strMessage = strMessage +  strCATIAV5FeatOutputFileName + ".feat"
+msgbox strMessage
+
+End Sub '/////////////////////////////////////////////////////////// CATMain

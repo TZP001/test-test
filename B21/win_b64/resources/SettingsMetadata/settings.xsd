@@ -1,0 +1,841 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2006 U (http://www.altova.com) by adt (Dassault Systemes) -->
+<!-- edited with XML Spy v4.4 U (http://www.xmlspy.com) by adt (DASSAULT SYSTEMES) -->
+<xsd:schema xmlns:tns="urn:com:dassault_systemes:settings" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:sql="urn:schemas-microsoft-com:mapping-schema" targetNamespace="urn:com:dassault_systemes:settings" elementFormDefault="qualified">
+	<xsd:complexType name="RepositoryType">
+		<xsd:sequence>
+			<xsd:element name="Description" type="tns:SettingsDescription">
+				<xsd:annotation>
+					<xsd:documentation>Global informations about the setting repository</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="attributes" type="tns:AttributesList">
+				<xsd:annotation>
+					<xsd:documentation>List of settings attributes</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="relations" type="tns:RelationsType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Element for describing relations between some attributes of the current setting repository.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="MultiCategoriesTabpages" type="tns:MultiCategoriesTabpagesType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>If the tabpage is present in multiple categories in Tools/Options, one can define in this element the other occurences.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="visibilityType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="LA"/>
+			<xsd:enumeration value="Exposed"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ConnectionBehaviorType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="PostConnection"/>
+			<xsd:enumeration value="Reloadable"/>
+			<xsd:enumeration value="Unreloadable"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="RoleType">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:string">
+				<xsd:attribute name="visibility" type="tns:visibilityType" default="Exposed"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="ReusedTabPages">
+		<xsd:attribute name="RootTabpage" type="tns:TabpageNameType" use="required"/>
+		<xsd:attribute name="ReusedAs" type="tns:TabpageNameType" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="MultiCategoriesTabpagesType">
+		<xsd:sequence>
+			<xsd:element name="Tabpage" type="tns:ReusedTabPages" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="SpecialAttrSize">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="AttrSize">
+		<xsd:union memberTypes="xsd:nonNegativeInteger tns:SpecialAttrSize"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="CheckType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="none"/>
+			<xsd:enumeration value="F_OK"/>
+			<xsd:enumeration value="R_OK"/>
+			<xsd:enumeration value="RW_OK"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="NameType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="255"/>
+			<xsd:pattern value="([^\*]*)|(\*[^\*]*)|(([^\*]*)\*)|(\*([^\*]*)\*)"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="TabpageNameType">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="(/(\w|\s|&amp;|\-|&#x5F;)*)*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="BaseTabpage">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="RootTabPage"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="TabpageNameForAttribute">
+		<xsd:union memberTypes="tns:TabpageNameType tns:BaseTabpage"/>
+	</xsd:simpleType>
+	<xsd:complexType name="CompatibilityType">
+		<xsd:sequence>
+			<xsd:element name="FullCompatibilityfromLevel" type="xsd:nonNegativeInteger">
+				<xsd:annotation>
+					<xsd:documentation>Last Level with a full compatibility </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="UpwardCompatibilityfromLevel" type="xsd:nonNegativeInteger">
+				<xsd:annotation>
+					<xsd:documentation>Last level with only an upward compatibility. All version under this one are considered as not compatible.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SettingsDescription">
+		<xsd:sequence>
+			<xsd:element name="role" type="tns:RoleType">
+				<xsd:annotation>
+					<xsd:documentation>Field for describing the usage of the setting.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="detailedRole" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Field for describing thoroughly the usage of the setting.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="RepositoryFile" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>Name of the underlying CATSettingRepository file.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="version" type="xsd:nonNegativeInteger" default="1">
+				<xsd:annotation>
+					<xsd:documentation>Version of the setting. This version number has to be modified for a new release if  the setting is updated. The modification at SP level is an exception process.The modifcation of the setting xml description is in all case under the CAA control.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="compatibility" type="tns:CompatibilityType">
+				<xsd:annotation>
+					<xsd:documentation>Compatibility state of the setting.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="DedicatedController" minOccurs="0">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="Framework_CPP" type="xsd:string"/>
+						<xsd:element name="Interface_CPP" type="xsd:string"/>
+						<xsd:element name="Framework_IDL" type="xsd:string"/>
+						<xsd:element name="Interface_IDL" type="xsd:string"/>
+						<xsd:element name="LateType" type="xsd:string"/>
+					</xsd:sequence>
+					<xsd:attribute name="PreferedForExposition" type="xsd:boolean" default="false"/>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="name" type="tns:NameType" use="required">
+			<xsd:annotation>
+				<xsd:documentation>Exposed name of the setting.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="PrimaryTabpage" type="tns:TabpageNameType" use="required">
+			<xsd:annotation>
+				<xsd:documentation>Tabpage where most of the attributes will be found. If some parameters are on different tabpages. their name can be given for each parameter.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="ConnectionBehavior" type="tns:ConnectionBehaviorType" use="optional" default="PostConnection">
+			<xsd:annotation>
+				<xsd:documentation>Connection status of the setting.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+	<xsd:complexType name="TabpagesType">
+		<xsd:sequence>
+			<xsd:element name="tabpage" type="tns:TabpageNameType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AttributesList">
+		<xsd:sequence>
+			<xsd:element name="attribute" type="tns:CATSettingAttribute" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>Description of the attribute, with name, type, size, default values and checking information.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="CATSettingAttribute">
+		<xsd:sequence>
+			<xsd:element name="role" type="tns:RoleType">
+				<xsd:annotation>
+					<xsd:documentation>Short qualification of the settings attribute. This field will be extracted in order to automaticaly generate the documentation.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="detailedRole" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Field for describing thorougly the usage of the settings attribute. This field will be extracted in order to automaticaly generate the documentation.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:choice>
+				<xsd:annotation>
+					<xsd:documentation>Type of the attribute. Most types are common to standard C types.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:element name="boolean" type="tns:BooleanType">
+					<xsd:annotation>
+						<xsd:documentation>This type is not present the setting object. The underlying storage model is an int with 2 authorized value 0 and 1.</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="double" type="tns:DoubleType"/>
+				<xsd:element name="float" type="tns:FloatType"/>
+				<xsd:element name="int" type="tns:IntType"/>
+				<xsd:element name="uint" type="tns:UIntType"/>
+				<xsd:element name="short" type="tns:ShortType"/>
+				<xsd:element name="string" type="tns:StringType">
+					<xsd:annotation>
+						<xsd:documentation>The underlying storage model is the one used for CATUnicodeString or CATString.</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="URN" type="tns:URNType">
+					<xsd:annotation>
+						<xsd:documentation>Type for specifying ressource identifier (URL, paths...). The underlying storage model is the one used for CATUnicodeString</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="DLName" type="tns:DLNameType"/>
+			</xsd:choice>
+		</xsd:sequence>
+		<xsd:attribute name="Name" type="tns:NameType" use="required">
+			<xsd:annotation>
+				<xsd:documentation>Exposed name of the attribute.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="alias" type="tns:NameType" use="optional">
+			<xsd:annotation>
+				<xsd:documentation>Alias used for compatibility in the code, if the used name is not directly exposable.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="Tabpage" type="tns:TabpageNameForAttribute" use="optional">
+			<xsd:annotation>
+				<xsd:documentation>The tabpage for the given attribute if it is not the primary tabpage defined at the repository level.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+	<xsd:complexType name="DLNameType">
+		<xsd:sequence>
+			<xsd:element name="DLName" type="xsd:string"/>
+			<xsd:element name="UnixURN" type="xsd:string"/>
+			<xsd:element name="WindowsURN" type="xsd:string"/>
+			<xsd:element name="FatherDLName" type="xsd:string" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="DoubleValueListType">
+		<xsd:sequence>
+			<xsd:element name="role" type="tns:RoleType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Short description of the settings attribute value meaning. </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="detailedRole" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Field for describing thorougly the settings attributes value meaning..</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="value" type="xsd:double" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="size" type="tns:AttrSize" use="optional" default="1"/>
+	</xsd:complexType>
+	<xsd:complexType name="DoubleValueListEnumType">
+		<xsd:sequence maxOccurs="unbounded">
+			<xsd:element name="role" type="tns:RoleType">
+				<xsd:annotation>
+					<xsd:documentation>Short description of the meaning of the value. </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="detailedRole" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Field for describing thorougly the value's meaning..</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="value" type="xsd:double" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="size" type="tns:AttrSize" use="optional" default="1"/>
+	</xsd:complexType>
+	<xsd:complexType name="DoubleType">
+		<xsd:sequence>
+			<xsd:choice minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Validation information</xsd:documentation>
+				</xsd:annotation>
+				<xsd:sequence>
+					<xsd:annotation>
+						<xsd:documentation>Range information</xsd:documentation>
+					</xsd:annotation>
+					<xsd:element name="min" type="xsd:double">
+						<xsd:annotation>
+							<xsd:documentation>minimal possible value</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="max" type="xsd:double">
+						<xsd:annotation>
+							<xsd:documentation>Maximal possible value</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="step" type="xsd:double" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation>Authorized increment</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+				<xsd:element name="enum" type="tns:DoubleValueListEnumType">
+					<xsd:annotation>
+						<xsd:documentation>List of authorized values</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+			</xsd:choice>
+			<xsd:choice>
+				<xsd:annotation>
+					<xsd:documentation>Default value for the given settings attribute.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:element name="default" type="tns:DoubleValueListType"/>
+				<xsd:sequence>
+					<xsd:element name="defaultWindows" type="tns:DoubleValueListType"/>
+					<xsd:element name="defaultUnix" type="tns:DoubleValueListType"/>
+				</xsd:sequence>
+			</xsd:choice>
+		</xsd:sequence>
+		<xsd:attribute name="size" type="tns:AttrSize" use="optional" default="1">
+			<xsd:annotation>
+				<xsd:documentation>Number of elements when the attribute is an array. If the value is * then the size of the array is variable. A specific numeric value indicates that the array is of fixed size.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+	<xsd:complexType name="FloatValueListType">
+		<xsd:sequence>
+			<xsd:element name="role" type="tns:RoleType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Short description of the settings attribute value meaning. </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="detailedRole" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Field for describing thorougly the settings attributes value meaning..</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="value" type="xsd:float" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="size" type="tns:AttrSize" use="optional" default="1"/>
+	</xsd:complexType>
+	<xsd:complexType name="FloatValueListEnumType">
+		<xsd:sequence maxOccurs="unbounded">
+			<xsd:element name="role" type="tns:RoleType">
+				<xsd:annotation>
+					<xsd:documentation>Short description of the meaning of the value. </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="detailedRole" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Field for describing thorougly the value's meaning..</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="value" type="xsd:float" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="size" type="tns:AttrSize" use="optional" default="1"/>
+	</xsd:complexType>
+	<xsd:complexType name="FloatType">
+		<xsd:sequence>
+			<xsd:choice minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Validation information</xsd:documentation>
+				</xsd:annotation>
+				<xsd:sequence>
+					<xsd:annotation>
+						<xsd:documentation>Range information</xsd:documentation>
+					</xsd:annotation>
+					<xsd:element name="min" type="xsd:float">
+						<xsd:annotation>
+							<xsd:documentation>Minimal possible value</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="max" type="xsd:float">
+						<xsd:annotation>
+							<xsd:documentation>Maximal possible value</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="step" type="xsd:float" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation>Authorized increment</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+				<xsd:element name="enum" type="tns:FloatValueListEnumType">
+					<xsd:annotation>
+						<xsd:documentation>List of authorized values</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+			</xsd:choice>
+			<xsd:choice>
+				<xsd:annotation>
+					<xsd:documentation>Default value for the given settings attribute.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:element name="default" type="tns:FloatValueListType"/>
+				<xsd:sequence>
+					<xsd:element name="defaultWindows" type="tns:FloatValueListType"/>
+					<xsd:element name="defaultUnix" type="tns:FloatValueListType"/>
+				</xsd:sequence>
+			</xsd:choice>
+		</xsd:sequence>
+		<xsd:attribute name="size" type="tns:AttrSize" use="optional" default="1">
+			<xsd:annotation>
+				<xsd:documentation>Number of elements when the attribute is an array. If the value is * then the size of the array is variable. A specific numeric value indicates that the array is of fixed size.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+	<xsd:complexType name="IntValueListType">
+		<xsd:sequence>
+			<xsd:element name="role" type="tns:RoleType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Short description of the settings attribute value meaning. </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="detailedRole" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Field for describing thorougly the settings attributes value meaning..</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="value" type="xsd:int" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="size" type="tns:AttrSize" use="optional" default="1"/>
+	</xsd:complexType>
+	<xsd:complexType name="IntValueListEnumType">
+		<xsd:sequence maxOccurs="unbounded">
+			<xsd:element name="role" type="tns:RoleType">
+				<xsd:annotation>
+					<xsd:documentation>Short description of the meaning of the value. </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="detailedRole" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Field for describing thorougly the value's meaning..</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="value" type="xsd:int" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="size" type="tns:AttrSize" use="optional" default="1"/>
+	</xsd:complexType>
+	<xsd:complexType name="IntType">
+		<xsd:sequence>
+			<xsd:choice minOccurs="0">
+				<xsd:sequence>
+					<xsd:element name="min" type="xsd:int">
+						<xsd:annotation>
+							<xsd:documentation>minimal possible value</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="max" type="xsd:int">
+						<xsd:annotation>
+							<xsd:documentation>Maximal possible value</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="step" type="xsd:int" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation>Authorized increment</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+				<xsd:element name="enum" type="tns:IntValueListEnumType">
+					<xsd:annotation>
+						<xsd:documentation>List of authorized values</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+			</xsd:choice>
+			<xsd:choice>
+				<xsd:annotation>
+					<xsd:documentation>Default value for the given settings attribute.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:element name="default" type="tns:IntValueListType"/>
+				<xsd:sequence>
+					<xsd:element name="defaultWindows" type="tns:IntValueListType"/>
+					<xsd:element name="defaultUnix" type="tns:IntValueListType"/>
+				</xsd:sequence>
+			</xsd:choice>
+		</xsd:sequence>
+		<xsd:attribute name="size" type="tns:AttrSize" use="optional" default="1">
+			<xsd:annotation>
+				<xsd:documentation>Number of elements when the attribute is an array. If the value is * then the size of the array is variable. A specific numeric value indicates that the array is of fixed size.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="StorageType" type="xsd:string" use="optional" default="int"/>
+	</xsd:complexType>
+	<xsd:complexType name="ShortValueListType">
+		<xsd:sequence>
+			<xsd:element name="role" type="tns:RoleType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Short description of the settings attribute value meaning. </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="detailedRole" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Field for describing thorougly the settings attributes value meaning..</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="value" type="xsd:short" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="size" type="tns:AttrSize" use="optional" default="1"/>
+	</xsd:complexType>
+	<xsd:complexType name="ShortValueListEnumType">
+		<xsd:sequence maxOccurs="unbounded">
+			<xsd:element name="role" type="tns:RoleType">
+				<xsd:annotation>
+					<xsd:documentation>Short description of the meaning of the value. </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="detailedRole" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Field for describing thorougly the value's meaning..</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="value" type="xsd:short" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="size" type="tns:AttrSize" use="optional" default="1"/>
+	</xsd:complexType>
+	<xsd:complexType name="ShortType">
+		<xsd:sequence>
+			<xsd:choice minOccurs="0">
+				<xsd:sequence>
+					<xsd:annotation>
+						<xsd:documentation>Range information</xsd:documentation>
+					</xsd:annotation>
+					<xsd:element name="min" type="xsd:short">
+						<xsd:annotation>
+							<xsd:documentation>Minimal possible value</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="max" type="xsd:short">
+						<xsd:annotation>
+							<xsd:documentation>Maximal possible value</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="step" type="xsd:short" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation>Authorized increment</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+				<xsd:element name="enum" type="tns:ShortValueListEnumType">
+					<xsd:annotation>
+						<xsd:documentation>List of authorized values</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+			</xsd:choice>
+			<xsd:choice>
+				<xsd:annotation>
+					<xsd:documentation>Default value for the given settings attribute.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:element name="default" type="tns:ShortValueListType"/>
+				<xsd:sequence>
+					<xsd:element name="defaultWindows" type="tns:ShortValueListType"/>
+					<xsd:element name="defaultUnix" type="tns:ShortValueListType"/>
+				</xsd:sequence>
+			</xsd:choice>
+		</xsd:sequence>
+		<xsd:attribute name="size" type="tns:AttrSize" use="optional" default="1">
+			<xsd:annotation>
+				<xsd:documentation>Number of elements when the attribute is an array. If the value is * then the size of the array is variable. A specific numeric value indicates that the array is of fixed size.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+	<xsd:complexType name="UIntValueListType">
+		<xsd:sequence>
+			<xsd:element name="role" type="tns:RoleType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Short description of the settings attribute value meaning. </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="detailedRole" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Field for describing thorougly the settings attributes value meaning..</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="value" type="xsd:nonNegativeInteger" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="size" type="tns:AttrSize" use="optional" default="1"/>
+	</xsd:complexType>
+	<xsd:complexType name="UIntValueListEnumType">
+		<xsd:sequence maxOccurs="unbounded">
+			<xsd:element name="role" type="tns:RoleType">
+				<xsd:annotation>
+					<xsd:documentation>Short description of the meaning of the value. </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="detailedRole" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Field for describing thorougly the value's meaning..</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="value" type="xsd:nonNegativeInteger" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="size" type="tns:AttrSize" use="optional" default="1"/>
+	</xsd:complexType>
+	<xsd:complexType name="UIntType">
+		<xsd:sequence>
+			<xsd:choice minOccurs="0">
+				<xsd:sequence>
+					<xsd:annotation>
+						<xsd:documentation>Range informations</xsd:documentation>
+					</xsd:annotation>
+					<xsd:element name="min" type="xsd:nonNegativeInteger">
+						<xsd:annotation>
+							<xsd:documentation>minimal possible value</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="max" type="xsd:nonNegativeInteger">
+						<xsd:annotation>
+							<xsd:documentation>Maximal possible value</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="step" type="xsd:nonNegativeInteger" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation>Authorized increment</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+				<xsd:element name="enum" type="tns:UIntValueListEnumType">
+					<xsd:annotation>
+						<xsd:documentation>List of authorized values</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+			</xsd:choice>
+			<xsd:choice>
+				<xsd:annotation>
+					<xsd:documentation>Default value for the given settings attribute.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:element name="default" type="tns:UIntValueListType"/>
+				<xsd:sequence>
+					<xsd:element name="defaultWindows" type="tns:UIntValueListType"/>
+					<xsd:element name="defaultUnix" type="tns:UIntValueListType"/>
+				</xsd:sequence>
+			</xsd:choice>
+		</xsd:sequence>
+		<xsd:attribute name="size" type="tns:AttrSize" use="optional" default="1">
+			<xsd:annotation>
+				<xsd:documentation>Number of element when the attribute is an array. If the value is * then the size of the array is variable. A specific numeric value indicates that the array is of fixed size.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="StorageType" type="xsd:string" use="optional" default="uint"/>
+	</xsd:complexType>
+	<xsd:complexType name="StringValueListType">
+		<xsd:sequence>
+			<xsd:element name="role" type="tns:RoleType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Short description of the settings attribute value meaning. </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="detailedRole" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Field for describing thorougly the settings attributes value meaning..</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="value" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="size" type="tns:AttrSize" use="optional" default="1"/>
+	</xsd:complexType>
+	<xsd:complexType name="StringValueListEnumType">
+		<xsd:sequence maxOccurs="unbounded">
+			<xsd:element name="role" type="tns:RoleType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Short description of the settings attribute value meaning. </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="detailedRole" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Field for describing thorougly the settings attributes value meaning..</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="value" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="size" type="tns:AttrSize" use="optional" default="1"/>
+	</xsd:complexType>
+	<xsd:complexType name="StringPatterns">
+		<xsd:sequence>
+			<xsd:element name="value" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="size" type="tns:AttrSize" use="optional" default="1"/>
+	</xsd:complexType>
+	<xsd:complexType name="StringType">
+		<xsd:sequence>
+			<xsd:element name="enum" type="tns:StringValueListEnumType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>List of authorized values</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:choice>
+				<xsd:element name="default" type="tns:StringValueListType"/>
+				<xsd:sequence>
+					<xsd:element name="defaultWindows" type="tns:StringValueListType"/>
+					<xsd:element name="defaultUnix" type="tns:StringValueListType"/>
+				</xsd:sequence>
+			</xsd:choice>
+			<xsd:element name="Pattern" type="tns:StringPatterns" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>List of pattern that the strings must follow. The supported patterns are only *Pattern and Pattern*</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="size" type="tns:AttrSize" use="optional" default="1">
+			<xsd:annotation>
+				<xsd:documentation>Number of elements when the attribute is an array. If the value is * then the size of the array is variable. A specific numeric value indicates that the array is of fixed size.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="Unicode" type="xsd:boolean" use="optional" default="true">
+			<xsd:annotation>
+				<xsd:documentation>False if the string is in only in ASCII US.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+	<xsd:complexType name="URNValueListType">
+		<xsd:sequence>
+			<xsd:element name="role" type="tns:RoleType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Short description of the settings attribute value meaning. </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="detailedRole" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Field for describing thorougly the settings attributes value meaning..</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="value" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="size" type="tns:AttrSize" use="optional" default="1"/>
+	</xsd:complexType>
+	<xsd:complexType name="URNValueListEnumType">
+		<xsd:sequence maxOccurs="unbounded">
+			<xsd:element name="role" type="tns:RoleType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Short description of the settings attribute value meaning. </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="detailedRole" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Field for describing thorougly the settings attributes value meaning..</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="value" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="size" type="tns:AttrSize" use="optional" default="1"/>
+	</xsd:complexType>
+	<xsd:complexType name="URNType">
+		<xsd:sequence>
+			<xsd:element name="enum" type="tns:URNValueListEnumType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>List of authorized values</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:choice>
+				<xsd:annotation>
+					<xsd:documentation>Default value for the given settings attribute.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:element name="default" type="tns:URNValueListType"/>
+				<xsd:sequence>
+					<xsd:element name="defaultWindows" type="tns:URNValueListType"/>
+					<xsd:element name="defaultUnix" type="tns:URNValueListType"/>
+				</xsd:sequence>
+			</xsd:choice>
+		</xsd:sequence>
+		<xsd:attribute name="size" type="tns:AttrSize" use="optional" default="1">
+			<xsd:annotation>
+				<xsd:documentation>Number of elements when the attribute is an array. If the value is * then the size of the array is variable. A specific numeric value indicates that the array is of fixed size.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="CheckOperation" type="tns:CheckType" use="optional" default="none"/>
+	</xsd:complexType>
+	<xsd:complexType name="BooleanValueListType">
+		<xsd:sequence>
+			<xsd:element name="role" type="tns:RoleType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Short description of the settings attribute value meaning. </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="detailedRole" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Field for describing thorougly the settings attributes value meaning..</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="value" type="xsd:boolean" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="size" type="tns:AttrSize" use="optional" default="1"/>
+	</xsd:complexType>
+	<xsd:complexType name="BooleanType">
+		<xsd:sequence>
+			<xsd:choice>
+				<xsd:annotation>
+					<xsd:documentation>Default value for the given settings attribute.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:element name="default" type="tns:BooleanValueListType"/>
+				<xsd:sequence>
+					<xsd:element name="defaultWindows" type="tns:BooleanValueListType"/>
+					<xsd:element name="defaultUnix" type="tns:BooleanValueListType"/>
+				</xsd:sequence>
+			</xsd:choice>
+		</xsd:sequence>
+		<xsd:attribute name="size" type="tns:AttrSize" use="optional" default="1">
+			<xsd:annotation>
+				<xsd:documentation>Number of elements when the attribute is an array. If the value is * then the size of the array is variable. A specific numeric value indicates that the array is of fixed size.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="StorageType" type="xsd:string" use="optional" default="int"/>
+	</xsd:complexType>
+	<xsd:complexType name="RelationsType">
+		<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+			<xsd:element name="role" type="tns:RoleType" minOccurs="0"/>
+			<xsd:element name="detailedRole" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="relation" type="tns:RelationType">
+				<xsd:annotation>
+					<xsd:documentation>A relation is an oriented link between a source attribute and a destination attribute.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="RelationKindType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="dimensionOfArray"/>
+			<xsd:enumeration value="activatorToActivated"/>
+			<xsd:enumeration value="GroupedWith"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="RelationType">
+		<xsd:sequence>
+			<xsd:element name="role" type="tns:RoleType" minOccurs="0"/>
+			<xsd:element name="detailedRole" type="xsd:string" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="src" type="tns:NameType" use="required"/>
+		<xsd:attribute name="dest" type="tns:NameType" use="required"/>
+		<xsd:attribute name="kind" type="tns:RelationKindType" use="required"/>
+	</xsd:complexType>
+	<xsd:element name="repository" type="tns:RepositoryType">
+		<xsd:key name="AttrName">
+			<xsd:annotation>
+				<xsd:documentation>In a given settings repository the name of an attribute must be unique.</xsd:documentation>
+			</xsd:annotation>
+			<xsd:selector xpath="tns:attributes/tns:attribute"/>
+			<xsd:field xpath="@Name"/>
+		</xsd:key>
+		<xsd:keyref name="relationForeignKey1" refer="tns:AttrName">
+			<xsd:selector xpath="tns:relations/tns:relation"/>
+			<xsd:field xpath="@src"/>
+		</xsd:keyref>
+		<xsd:keyref name="relationForeignKey2" refer="tns:AttrName">
+			<xsd:selector xpath="tns:relations/tns:relation"/>
+			<xsd:field xpath="@dest"/>
+		</xsd:keyref>
+	</xsd:element>
+</xsd:schema>

@@ -1,0 +1,177 @@
+// Pour des infos pertinentes la signification des differentes messages :
+//
+//
+//    a- Title = Nom de la commande affiché
+//              REGLES: - Commencer par un verbe à l'infinitif
+//                      - Min/maj : chaque mot doit commencer par une majuscule.
+//                  
+//    b- Help = Help affiché an bas à gauche du Frame CATIA
+//              REGLES: - Phrase normale au niveau des min/maj.
+//
+//    c- ShortHelp = Bulle affiché sur icône.
+//              REGLES: - Phrase normale au niveau des min/maj.
+//
+//    d- LongHelp = Help affiché en selectionnant le Menu principal 'Help' + What's This ?
+//              REGLES: - Phrase normale au niveau des min/maj.
+//						- SOYEZ BAVARD !!!
+
+//========================================================
+// Name of Synchronisation Object
+//========================================================
+
+ManufacturingSynchronisation="Synchronisation";
+
+//========================================================
+// Name of Attributes of the Synchronisation Object
+//========================================================
+
+MfgSynchronisedActivity1="1. Aktivität";
+MfgSynchronisedActivity1.LongHelp="Eine der synchronisierten Aktivitäten";
+MfgSynchronisedActivity1Label=" Name: ";
+
+MfgSynchronisedActivity2="2. Aktivität";
+MfgSynchronisedActivity2.LongHelp="Eine der synchronisierten Aktivitäten";
+MfgSynchronisedActivity2Label=" Name: ";
+
+MfgPositionOfActivity1="Position";
+MfgPositionOfActivity1.LongHelp="Wert, der angibt, an welcher Position die Synchronisation während der synchronisierten 1. Aktivität eingefügt wird";
+
+MfgPositionOfActivity2="Position";
+MfgPositionOfActivity2.LongHelp="Wert, der angibt, an welcher Position die Synchronisation während der synchronisierten 2. Aktivität eingefügt wird";
+
+MfgMaster="Master";
+MfgMaster.LongHelp="Den Revolver auswählen, der die Spindelgeschwindigkeit steuert.\nDiese Option ist nur bei der Synchronisation folgender Elemente verfügbar: * Drehoperationen, * Drehbohrungen auf der Spindelachse oder * PP-Anweisungen";
+
+NoMaster="Kein(e)";
+
+//========================================================
+// Synchronisation Editor
+//========================================================
+
+SynchronisationEditor="Synchronisationseditor";
+_pLatheSynchroEditor="Eine Synchronisation kann durch die Auswahl einer der folgenden Optionen eingefügt werden:";
+
+//========================================================================================
+// Name of the Default Object for Positions of the Synchronisation and its options
+//========================================================================================
+
+MfgStartOfActivity="Beginn der Aktivität";
+MfgStartOfActivity.LongHelp="\n* vor dem ersten Punkt der Werkzeugbahn";
+MfgEndOfActivity="Ende der Aktivität";
+MfgEndOfActivity.LongHelp="\n* nach dem letzten Punkt der Werkzeugbahn";
+
+ApproachTraject="Nach Zustellmakro";
+ApproachTraject.LongHelp="\n* zwischen dem letzten Punkt des Zustellmakros und dem ersten Punkt der Werkzeugbahn der Bearbeitung";
+RetractTraject="Vor Rückzugsmakro";
+RetractTraject.LongHelp="\n* zwischen dem letzten Punkt der Werkzeugbahn der Bearbeitung und dem ersten Punkt des Rückzugsmakros";
+
+//=========================
+// Messages for Gantt Chart
+//=========================
+
+GanttChartTitle="Gantt-Diagramm für Bearbeitung";
+GanttChart.LongHelp="Aktivitäten:
+* Nicht berechnete Operationen sind durch ein kleines Dreieck über der Startzeit gekennzeichnet.
+* Die Farbe der Operationen kann über den Eigenschafteneditor oder über die Symbolleiste 'Grafikeigenschaften' geändert werden.
+* Indizes für Kopieroperationen, Änderungen im Achsensystem der Bearbeitung werden nicht dargestellt.
+* Dauer:
+  + Berechnete Zeit wird für Bearbeitungsoperationen mit Werkzeugbahn und Kopierreihenfolgen verwendet.
+  + Angegebene Zeit wird für Werkzeugwechsel, PP-Anweisungen und Maschinendrehungen verwendet.
+    Sie kann im Eigenschafteneditor geändert werden (Mehrfachbearbeitung möglich).
+
+Synchronisationen:
+* In der Synchronisationsdarstellung ist das Masterelement durch den roten Kreis markiert.";
+
+Edit=" Definition";
+Delete="Löschen";
+TimeScale="Zeitmaßstab: ";
+TimeScale.LongHelp="Einen höheren Wert festlegen, um den der Zeitmaßstab im Gantt-Diagramm für Bearbeitung schrumpfen soll.\nEinen kleineren Wert festlegen, um den Zeitmaßstab zu erweitern.";
+Reframe.ShortHelp="Gantt-Diagramm für Bearbeitung in der Anzeigefunktion neu ausrichten.";
+Reframe.LongHelp="Klicken, um Gantt-Diagramm für Bearbeitung neu auszurichten.";
+Analyse.ShortHelp="Diagnose zur Aufspannung aktualisieren.";
+Analyse.LongHelp="Klicken, um die Diagnose zur Aufspannung zu aktualisieren.
+Wenn die Aufspannung nicht auf dem aktuellen Stand ist, muss sie neu berechnet werden";
+HideShowAnalyse.ShortHelp="Diagnose zur Aufspannung verdecken oder anzeigen.";
+HideShowAnalyse.LongHelp="Klicken, um die Diagnose zur Aufspannung zu verdecken oder anzuzeigen.";
+Refesh.ShortHelp="Zeiten aktualisieren.";
+Refesh.LongHelp="Klicken, um die Zeiten zu aktualisieren und ggf. die Diagnose zu aktualisieren.";
+Diagnostics="Diagnose";
+Diagnostics.LongHelp="Dieser Bereich enthält Diagnoseinformationen.
+
+Den Warnmeldungen ist ein Ausrufezeichen vorangestellt.
+Diese warnen den Benutzer vor einer Situation oder Bedingung, die eine Inkompatibilität in der Aufspannung mit sich bringen kann.
+Beispiele:
+* nicht berechnete Operationen,
+* inaktivierte Synchronisationen,
+* nicht kompatible Operationen (Fräsen/Drehen oder Aktivitäten im/gegen den Uhrzeigersinn).
+
+Jeder Meldung zu einer kritischen Situation ist ein rotes Kreuz vorangestellt.
+Eine solche Meldung informiert den Benutzer über ein schwer wiegendes Problem, das einen Eingriff oder eine Korrektur bei der Berechnung der übergeordneten/untergeordneten Zeit erfordern.
+Beispiele:
+* Synchronisation, die eine andere \"kreuzt\",
+* untergeordneter Werkzeugweg ohne Definition des übergeordneten Weges,
+* es gibt mehrere übergeordnete Werkzeugwege gleichzeitig.";
+
+TurretsTitle="Revolver";
+UnusedTimeMsg="Leerlaufzeit";
+SpindleName="Spindel: ";
+
+// Symbols *** are replaced by the number of synchronisations
+SynchronisationMgt="Synchronisationen ( *** )";
+
+SwitchColor="Spindelfarbe verwenden";
+SwitchColor.LongHelp="Standardmäßig wird jeder Arbeitsgang in der zugehörigen Farbe dargestellt.
+Über diesen Schalter kann festgelegt werden, dass jeder Arbeitsgang in der Farbe seiner Spindel dargestellt wird (nur verfügbar, wenn die Maschine mehrere Spindeln hat).
+Gibt es keine Spindel für die Aktivität, oder gibt es keine Farbe für die jeweilige Spindel, wird die Farbe der Aktivität verwendet.";
+
+SwitchSpindleSpeedUnit="Einheit für Spindelgeschwindigkeit wechseln - Diagramm";
+SwitchSpindleSpeedUnit.LongHelp="Standardmäßig werden Operationen farblich gekennzeichnet.";
+LINEARSPINDLESPEED="Schnittgeschwindigkeit";
+ANGULARSPINDLESPEED="Drehspindelgeschwindigkeit";
+TotalTime="Gesamtdauer: ";
+Close="Schließen";
+
+SynchronisationAcess="Zum Bearbeiten doppelt klicken/mit der rechten Maustaste klicken, um auf Befehle zuzugreifen";
+
+// Symbols +++ and *** are replaced by name of operations
+OperationNotComputed="*** ist nicht berechnet";
+IncompatibleMillTurnOperations="*** und +++ haben nicht kompatible Rotationszustände. Die Operationen müssen synchronisiert werden.";
+IncompatibleSpindleWayOperations="*** und +++ haben nicht kompatible Spindelrotationen. Die Rotationen synchronisieren oder Eigenschaften oder Werkzeugbestückung ändern.";
+NotMasterDefinedComputed="Mehrere Revolver werden gleichzeitig für dieselbe Spindel verwendet, ohne dass ein Master-Revolver definiert ist. Eine  Synchronisation hinzufügen und/oder die Master-Spindel definieren.";
+SynchronisationDesactivated="Synchronisation zwischen *** und +++ ist inaktiviert, weil (zumindest) *** inaktiviert ist.";
+SynchronisationCrossing="Synchronisation *** kreuzt Synchronisation +++. Eine der Synchronisationen ändern oder löschen.";
+// ConcurrentSpindleSpeedNotTakenIntoAccount = "WARNING ! For now, calculated times take into account properties of operations, not the real spindle speed.";
+IncompatibleDefinitionOfMaster="*** wird zwischen +++ und --- von mehreren Revolvern gleichzeitig bearbeitet. Eine Synchronisation hinzufügen und/oder den Master definieren.";
+OperationsToCompute="Synchronisation/en fehlt/fehlen. Den Werkzeugweg von +++ berechnen (Modus 'Erzwungene Berechnung').";
+SlaveStartsBeforeMaster="Es muss ein Master für *** vor +++ definiert sein. Eine Synchronisation hinzufügen und/oder den Master definieren.";
+
+//================================
+// Short Help
+//================================
+
+StartingDate="Startzeit:";
+Duration="Dauer                 : ";
+CalculatedDurationMsg="Dauer (berechnet)     : ";
+SpecifiedDurationMsg="Dauer (angegeben)     : ";
+SynchronizationDate="Synchronisationszeit: ";
+
+//========================
+// CAA LongHelp
+//========================
+
+CAAParameterName="\n\nParametername: ";
+
+//========================================================================
+// Invit Message of the command CATMfgCreateSynchronisationCom
+//========================================================================
+
+SelectFirstActivity="Erste Aktivität auswählen";
+SelectSecondActivity="Zweite Aktivität auswählen";
+
+//========================================================================
+// Invit Message of the command CATMfgGanttChartCom
+//========================================================================
+
+SelectPartOperation="Eine Aufspannung auswählen";
+CloseGanttViewer="OK anklicken, um das Gantt-Diagramm für Bearbeitung zu schließen";
+

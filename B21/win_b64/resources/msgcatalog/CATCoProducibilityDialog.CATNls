@@ -1,0 +1,822 @@
+
+
+// ===========================================================================================
+// ===========================================================================================
+// ===========================================================================================
+
+Title = "Producibility";
+DlgEntityFrame.Title = "Entity";
+NoSelection.DisplayedText = "";
+
+//DlgEntityFrame.PlyFrame.FrmPlySel.PlyLabel.Title = "Selection   : ";
+//DlgEntityFrame.PlyFrame.FrmPlySel.PlyLabel.Help = "Displays the name or the number of plies for which you want to analyze the producibility.";
+//DlgEntityFrame.PlyFrame.FrmPlySel.PlyLabel.ShortHelp = "Displays the name or the number of plies for which you want to analyze the producibility.";
+//DlgEntityFrame.PlyFrame.FrmPlySel.PlyLabel.LongHelp = "Displays the name or the number of plies for which you want to analyze the producibility. Muti-selection is available.";
+//DlgEntityFrame.PlyFrame.FrmProdType.TypeLabel.Title = "Producibility type: ";
+//DlgEntityFrame.PlyFrame.FrmProdType.TypeLabel.Help = "Enable to associate a typing to the producibility.";
+//DlgEntityFrame.PlyFrame.FrmProdType.TypeLabel.ShortHelp = "Enable to associate a typing to the producibility.";
+//DlgEntityFrame.PlyFrame.FrmProdType.TypeLabel.LongHelp = "Enable to associate a typing to the producibility. to be usable for manufacturing downstream process";
+DlgEntityFrame.PlyFrame.PlyLabel.Title = "Selection   : ";
+DlgEntityFrame.PlyFrame.PlyLabel.Help = "Displays the name or the number of plies for which you want to analyze the producibility.";
+DlgEntityFrame.PlyFrame.PlyLabel.ShortHelp = "Displays the name or the number of plies for which you want to analyze the producibility.";
+DlgEntityFrame.PlyFrame.PlyLabel.LongHelp = "Displays the name or the number of plies for which you want to analyze the producibility. Muti-selection is available.";
+
+DlgEntityFrame.WarnLimitFrame.WarnAngleFrame.WarnAngleLabel.Title = "   Warn angle: ";
+DlgEntityFrame.WarnLimitFrame.WarnAngleFrame.WarnAngleLabel.Help = "Displays the warn angle found.";
+DlgEntityFrame.WarnLimitFrame.WarnAngleFrame.WarnAngleLabel.ShortHelp = "Displays the warn angle found.";
+DlgEntityFrame.WarnLimitFrame.WarnAngleFrame.WarnAngleLabel.LongHelp = "Displays the warn angle and the limit angle found.
+The Warn Angle defines the maximum deformation and
+must be +/- 15 degrees according to the reference angle.
+The Limit Angle defines the limit deformation and
+must be +/- 30 degrees according to the reference angle.";
+
+DlgEntityFrame.WarnLimitFrame.LimitAngleFrame.LimitAngleLabel.Title = "Limit angle: ";
+DlgEntityFrame.WarnLimitFrame.LimitAngleFrame.LimitAngleLabel.Help = "Displays the limit angle found.";
+DlgEntityFrame.WarnLimitFrame.LimitAngleFrame.LimitAngleLabel.ShortHelp = "Displays the limit angle found.";
+DlgEntityFrame.WarnLimitFrame.LimitAngleFrame.LimitAngleLabel.LongHelp = "Displays the warn angle and the limit angle found.
+The Warn Angle defines the maximum deformation and
+must be +/- 15 degrees according to the reference angle.
+The Limit Angle defines the limit deformation and
+must be +/- 30 degrees according to the reference angle.";
+
+DlgEntityFrame.StrategyPointFrame.StrategyPointLabel.Title = "Seed Point: ";
+DlgEntityFrame.StrategyPointFrame.Title = "Seed point:";
+DlgEntityFrame.StrategyPointFrame.Help = "Defines the point used to start the circular propagation of the fibers.";
+DlgEntityFrame.StrategyPointFrame.ShortHelp = "Defines the point used to start the circular propagation of the fibers.";
+DlgEntityFrame.StrategyPointFrame.LongHelp = "Defines the point used to start the circular propagation of the fibers.";
+
+DlgEntityFrame.StrategyPointFrame.StrategyPointSelRB.Title = "Point selection ";
+DlgEntityFrame.StrategyPointFrame.StrategyPointSelRB.Help = "Lets you select an existing GSD point.";
+DlgEntityFrame.StrategyPointFrame.StrategyPointSelRB.ShortHelp = "Lets you select an existing GSD point.";
+DlgEntityFrame.StrategyPointFrame.StrategyPointSelRB.LongHelp = "Lets you select an existing GSD point.";
+
+DlgEntityFrame.StrategyPointFrame.StrategyPointIndRB.Title = "Point indication ";
+DlgEntityFrame.StrategyPointFrame.StrategyPointIndRB.Help = "Lets you pick a point, existing or not.";
+DlgEntityFrame.StrategyPointFrame.StrategyPointIndRB.ShortHelp = "Lets you pick a point, existing or not.";
+DlgEntityFrame.StrategyPointFrame.StrategyPointIndRB.LongHelp = "Lets you pick a point, existing or not
+(i.e. you simply pick where you would create a seed point),
+within the boundaries of the selected ply."; 
+
+
+DlgEntityFrame.StrategyCurveFrame.StrategyCurveLabel.Title = "Guide curve: ";
+DlgEntityFrame.DrapOrderFrame.DrapOrderLabel.Title = "Order of drape: ";
+
+DlgStrategyFrame.UnidirFrame.Title = "Unidirectional simulation";
+DlgStrategyFrame.UnidirFrame.MaxShearFrame.MaxShearLbl.Title   = "Maximum shearing angle:";
+DlgStrategyFrame.UnidirFrame.MaxSpreadFrame.MaxSpreadLbl.Title = "Maximum spreading:       ";
+
+DlgStrategyFrame.ThckUpdateCB.Title = "With thickness update";
+DlgStrategyFrame.ThckUpdateCB.Help = "Lets you update the thickness with the parameters below.";
+DlgStrategyFrame.ThckUpdateCB.ShortHelp = "Lets you update the thickness with the parameters below.";
+DlgStrategyFrame.ThckUpdateCB.LongHelp = "Lets you update the thickness with the parameters below:
+- Core sampling range: required depth of the core sampling.
+- Full stacking: use this option when the groups of plies are defined on the same reference shell.
+- Ply group only: use this option when groups of plies are defined on various shells, as each shell takes into account the plies defined under a group.";
+
+DlgStrategyFrame.ThckUpdateFrame.CSRangeFrame.CSLabel.Title = "Core-sampling range:";
+DlgStrategyFrame.ThckUpdateFrame.CSRangeFrame.CSLabel.Help = "The required depth of the core sampling.";
+DlgStrategyFrame.ThckUpdateFrame.CSRangeFrame.CSLabel.ShortHelp = "The required depth of the core sampling.";
+DlgStrategyFrame.ThckUpdateFrame.CSRangeFrame.CSLabel.LongHelp = "The required depth of the core sampling.";
+
+DlgStrategyFrame.ThckUpdateFrame.CSRangeFrame.StackingRB.Title = "Full stacking";
+DlgStrategyFrame.ThckUpdateFrame.CSRangeFrame.StackingRB.Help = "use this option when the groups of plies are defined on the same reference shell.";
+DlgStrategyFrame.ThckUpdateFrame.CSRangeFrame.StackingRB.ShortHelp = "use this option when the groups of plies are defined on the same reference shell.";
+DlgStrategyFrame.ThckUpdateFrame.CSRangeFrame.StackingRB.LongHelp = "use this option when the groups of plies are defined on the same reference shell.";
+
+DlgStrategyFrame.ThckUpdateFrame.CSRangeFrame.SelectedPGpRB.Title = "Ply group only";
+DlgStrategyFrame.ThckUpdateFrame.CSRangeFrame.SelectedPGpRB.Help = "use this option when groups of plies are defined on various shells.";
+DlgStrategyFrame.ThckUpdateFrame.CSRangeFrame.SelectedPGpRB.ShortHelp = "use this option when groups of plies are defined on various shells.";
+DlgStrategyFrame.ThckUpdateFrame.CSRangeFrame.SelectedPGpRB.LongHelp = "use this option when groups of plies are defined on various shells, as each shell takes into account the plies defined under a group.";
+
+DlgStrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame.CSLabel.Title = "Core-sampling range:";
+DlgStrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame.CSLabel.Help = "The required depth of the core sampling.";
+DlgStrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame.CSLabel.ShortHelp = "The required depth of the core sampling.";
+DlgStrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame.CSLabel.LongHelp = "The required depth of the core sampling.";
+
+DlgStrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame.COffLabel.Title = "Constant-offset value:      ";
+DlgStrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame.COffLabel.Help = "offset value.";
+DlgStrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame.COffLabel.ShortHelp = "offset value.";
+DlgStrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame.COffLabel.LongHelp = "offset value.";
+
+DlgStrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame1.StackingRB.Title        = "Full stacking";
+DlgStrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame1.StackingRB.Help         = "use this option when the groups of plies are defined on the same reference shell.";
+DlgStrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame1.StackingRB.ShortHelp    = "use this option when the groups of plies are defined on the same reference shell.";
+DlgStrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame1.StackingRB.LongHelp     = 
+"use this option when the groups of plies are defined on the same reference shell.";
+
+DlgStrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame1.SelectedPGpRB.Title = "Ply group only";
+DlgStrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame1.SelectedPGpRB.Help = "use this option when groups of plies are defined on various shells.";
+DlgStrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame1.SelectedPGpRB.ShortHelp = "use this option when groups of plies are defined on various shells.";
+DlgStrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame1.SelectedPGpRB.LongHelp = "use this option when groups of plies are defined on various shells, as each shell takes into account the plies defined under a group.";
+
+DisplayModeFrame.AnalysisFrame.DefDeviFrame.WarnFrame.WarnLabel.Title = "Warn angle: ";
+DisplayModeFrame.AnalysisFrame.DefDeviFrame.LimitFrame.LimitLabel.Title = "Limit angle: ";
+
+DlgStrategyFrame.Title = "Mesh Parameters";
+DlgStrategyFrame.Help = "Defines the Warp and Weft values for the fibers meshes.";
+DlgStrategyFrame.ShortHelp = "Defines the Warp and Weft values for the fibers meshes.";
+DlgStrategyFrame.LongHelp = "Defines the Warp and Weft values for the fibers meshes:
+Warp: radius used to simulate the fibers behavior along the X direction.
+Weft: radius used to simulate the fibers behavior along the Y direction.";
+
+DlgStrategyFrame.WarpFrame.WarpLabel.Title = "Warp:";
+DlgStrategyFrame.WarpFrame.WarpLabel.Help = "This is radius used to simulate the fibers behavior along the X direction.";
+DlgStrategyFrame.WarpFrame.WarpLabel.ShortHelp = "This is radius used to simulate the fibers behavior along the X direction.";
+DlgStrategyFrame.WarpFrame.WarpLabel.LongHelp = "This is radius used to simulate the fibers behavior along the X direction.";
+
+DlgStrategyFrame.WeftFrame.WeftLabel.Title = "Weft:";
+DlgStrategyFrame.WeftFrame.WeftLabel.Help = "This is radius used to simulate the fibers behavior along the Y direction.";
+DlgStrategyFrame.WeftFrame.WeftLabel.ShortHelp = "This is radius used to simulate the fibers behavior along the Y direction.";
+DlgStrategyFrame.WeftFrame.WeftLabel.LongHelp = "This is radius used to simulate the fibers behavior along the Z direction.";
+
+
+
+DlgStrategyFrame.PropTypeLabel.Title = "Propagation Type:";
+DlgStrategyFrame.PropTypeLabel.Help = "Defines the propagation type from the drop-down list.";
+DlgStrategyFrame.PropTypeLabel.ShortHelp = "Defines the propagation type from the drop-down list.";
+DlgStrategyFrame.PropTypeLabel.LongHelp = "Defines the propagation type from the drop-down list:
+- Minimum distortion: deformation computed by the system so as to minimize the distortion.
+- Symmetric: deformation computed symmetrically regarding the fiber direction. The system forces the propagation to be symmetrical.";
+
+DlgStrategyFrame.RBPropType.MinDistortionFibRB.Title = "Minimum distortion";
+DlgStrategyFrame.RBPropType.MinDistortionFibRB.Help = "deformation computed by the system so as to minimize the distortion.";
+DlgStrategyFrame.RBPropType.MinDistortionFibRB.ShortHelp = "deformation computed by the system so as to minimize the distortion.";
+DlgStrategyFrame.RBPropType.MinDistortionFibRB.LongHelp = "deformation computed by the system so as to minimize the distortion.";
+
+DlgStrategyFrame.RBPropType.SymmetricFibRB.Title = "Symmetric";
+DlgStrategyFrame.RBPropType.SymmetricFibRB.Help = "deformation computed symmetrically regarding the fiber direction.";
+DlgStrategyFrame.RBPropType.SymmetricFibRB.ShortHelp = "deformation computed symmetrically regarding the fiber direction.";
+DlgStrategyFrame.RBPropType.SymmetricFibRB.LongHelp = "deformation computed symmetrically regarding the fiber direction. The system forces the propagation to be symmetrical.";
+
+DlgStrategyFrame.RBPropType.OptimizeEnrg.Title = "Optimized Energy";
+DlgStrategyFrame.RBPropType.OptimizeShear.Title = "Optimized maxshear";
+
+DlgStrategyFrame.RBPropType.ExtSolvFrm.ExternalSolvPushB.Title = "Ext. solvers...";
+DlgStrategyFrame.RBPropType.ExtSolvFrm.ExternalSolvPushB.LongHelp = "Allows to select external solvers available (if any)";
+
+DisplayModeFrame.AnalysisFrame.DefDeviFrame.Title = "Analysis Display Mode";
+DisplayModeFrame.AnalysisFrame.DefDeviFrame.Help = "Lets you select the display mode of the analysis.";
+DisplayModeFrame.AnalysisFrame.DefDeviFrame.ShortHelp = "Lets you select the display mode of the analysis.";
+DisplayModeFrame.AnalysisFrame.DefDeviFrame.LongHelp = "Lets you select the display mode of the analysis:
+- Deformation: 
+    this is the option by default.  
+    The analysis is based on the angle between the fiber meshes.
+- Deviation option: 
+    the rosette is transferred at each point of the fiber mesh. 
+    The analysis is based on the delta between the theoretical and the actual fiber angles of each point.";
+
+DisplayModeFrame.AnalysisFrame.DefDeviFrame.DeformationRB.Title = "Deformation";
+DisplayModeFrame.AnalysisFrame.DefDeviFrame.DeformationRB.Help = "The analysis is based on the angle between the fiber meshes.";
+DisplayModeFrame.AnalysisFrame.DefDeviFrame.DeformationRB.ShortHelp = "The analysis is based on the angle between the fiber meshes.";
+DisplayModeFrame.AnalysisFrame.DefDeviFrame.DeformationRB.LongHelp = "The analysis is based on the angle between the fiber meshes.";
+
+DisplayModeFrame.AnalysisFrame.DefDeviFrame.DeviationRB.Title = "Deviation";
+DisplayModeFrame.AnalysisFrame.DefDeviFrame.DeviationRB.Help = "The analysis is based on the delta between the theoretical and the actual fiber angles of each point.";
+DisplayModeFrame.AnalysisFrame.DefDeviFrame.DeviationRB.ShortHelp = "The analysis is based on the delta between the theoretical and the actual fiber angles of each point.";
+DisplayModeFrame.AnalysisFrame.DefDeviFrame.DeviationRB.LongHelp = "The analysis is based on the delta between the theoretical and the actual fiber angles of each point
+This option requires:
+    Warn angle that defines the maximum deformation and must be +/- 5 degrees according to the reference angle.
+    Limit Angle that defines the limit deformation and must be +/- 10 degrees according to the reference angle.";
+
+
+DisplayModeFrame.InspPointsFrame.Title = "Keep";
+DisplayModeFrame.InspPointsFrame.ShortHelp = "To create an open body of producibility fiber mesh";
+DisplayModeFrame.InspPointsFrame.InspPtMulFrame.InspPointsLabel.ShortHelp = "Open body name under which producibility fiber mesh will be stored.";
+DisplayModeFrame.InspPointsFrame.InspPtMulFrame.InspPointsLabel.Title = "Name:";
+
+DisplayModeFrame.InspPointsFrame.KeepPB.Title = "Keep";
+DisplayModeFrame.InspPointsFrame.KeepPB.Help = "Stores the curves generated by the producibility analysis in a geometrical set.";
+DisplayModeFrame.InspPointsFrame.KeepPB.ShortHelp = "Stores the curves generated by the producibility analysis in a geometrical set.";
+DisplayModeFrame.InspPointsFrame.KeepPB.LongHelp = "Stores the curves generated by the producibility analysis in a geometrical set.";
+
+AnalysisFrame.RosetteTransferFrame.Title = "Rosette transfer type";
+AnalysisFrame.RosetteTransferFrame.CartesianTransferRdBtn.Title = "Cartesian";
+AnalysisFrame.RosetteTransferFrame.CylindricalTransferRdBtn.Title = "Cylindrical";
+AnalysisFrame.RosetteTransferFrame.NeutralFiberFrame.NeutralFiberLabel.Title = "Neutral fiber";
+AnalysisFrame.RosetteTransferFrame.AdvRosetteTransferRdBtn.Title = "Advanced rosette transfer";
+AnalysisFrame.RosetteTransferFrame.AdvTransfertFrame.AdvRosetteTransferLbl.Title = "Transfer Id"; 
+
+DisplayModeFrame.RosetteTransferFrame.Title = "Rosette transfer type";
+DisplayModeFrame.RosetteTransferFrame.CartesianTransferRdBtn.Title = "Cartesian";
+DisplayModeFrame.RosetteTransferFrame.CylindricalTransferRdBtn.Title = "Cylindrical";
+DisplayModeFrame.RosetteTransferFrame.NeutralFiberFrame.NeutralFiberLabel.Title = "Neutral fiber";
+
+MoreLessFrame.DispFlatCB.Title = "Display flat pattern";
+MoreLessFrame.DispFlatCB.Help = "Previews the flatten shape of the ply or of the cut-piece.";
+MoreLessFrame.DispFlatCB.ShortHelp = "Previews the flatten shape of the ply or of the cut-piece.";
+MoreLessFrame.DispFlatCB.LongHelp = "Previews the flatten shape of the ply or of the cut-piece.";
+
+DisplayModeFrame.InspectionPB.Title = "Inspection";
+AnalysisFrame.KeepFrm.InspectionPB.Title = "Inspection";
+AnalysisFrame.KeepFrm.InspectionPB.Help = "Inspection";
+AnalysisFrame.KeepFrm.InspectionPB.ShortHelp = "Inspection";
+AnalysisFrame.KeepFrm.InspectionPB.LongHelp = "Inspection";
+
+MatRollWidthFrame.DispMatRollCB.Title = " Check material width ";
+MatRollWidthFrame.DispMatRollCB.Help = "Checks whether the ply or the cut-piece geometry will fit into the material width.";
+MatRollWidthFrame.DispMatRollCB.ShortHelp = "Checks whether the ply or the cut-piece geometry will fit into the material width.";
+MatRollWidthFrame.DispMatRollCB.LongHelp = "Checks whether the ply or the cut-piece geometry will fit into the material width. 
+The material width is represented by two parallel lines, positioned either along the warp or along the weft.";
+
+MatRollWidthFrame.MatRollTypeSelFrame.AlongWarpRB.Title = " Along warp";
+MatRollWidthFrame.MatRollTypeSelFrame.AlongWeftRB.Title = " Along weft";
+
+DartCreationFrame.ContourCmdPB.Help = "Create Dart";
+DartCreationFrame.ContourCmdPB.ShortHelp = "Create Dart";
+DartCreationFrame.ContourCmdPB.LongHelp = "Create Dart";
+NoSelection.Text = "No selection";
+ExternalSolverNA.Text = "External Solver(Not Available)";
+ExternalSolver.Text = "External Solver";
+
+InspectionPB = "Inspection";
+SelEntities = " entities";
+More = "More...";
+Less = "Less...";
+PlyMultiSelDlg = "Entities";
+InsPtsMultiSelDlg = "Inspection points";
+
+// ===========================================================================================
+// ===========================================================================================
+// ===========================================================================================
+Title = "Producibility";
+
+
+//--------------------------------------------------------------------------------------------------------------
+// Ply Frame 
+//--------------------------------------------------------------------------------------------------------------
+PlyFrame.FrmPlySel.PlyLabel.Title                             = "Selection   : ";
+PlyFrame.FrmPlySel.PlyLabel.Help                              = "Displays the name or the number of plies for which you want to analyze the producibility.";
+PlyFrame.FrmPlySel.PlyLabel.ShortHelp                         = "Displays the name or the number of plies for which you want to analyze the producibility.";
+PlyFrame.PlyLabel.LongHelp                          =
+"Displays the name or the number of plies for which you want to analyze the producibility. Muti-selection is available.";
+
+PlyFrame.FrmPlySel.DartCreationFrame.ContourCmdPB.Help        = "Create Dart";
+PlyFrame.FrmPlySel.DartCreationFrame.ContourCmdPB.ShortHelp   = "Create Dart";
+PlyFrame.DartCreationFrame.ContourCmdPB.LongHelp    = 
+"Run the Dart Command in order to create contextualliy dart cuts on the plys support";
+
+PlyFrame.FrmProdType.FrmCmdModeBehavior.ModeLabel.Title      = "Mode :";
+PlyFrame.FrmProdType.FrmCmdModeBehavior.ModeLabel.Help       = "Producibility behavior when command is instanciated : create new producibility or modify exiting active one"; 
+PlyFrame.FrmProdType.FrmCmdModeBehavior.ModeLabel.ShortHelp  = "Producibility behavior when command is instanciated : create new producibility or modify exiting active one";  
+PlyFrame.FrmProdType.FrmCmdModeBehavior.ModeLabel.LongHelp   = 
+"Defines how the producibility command will behave at selection of composites entities :  stacking, plygroup, plies or a ply, 
+- If \"Create\" ,  a new producibilty object is going to be create for each ply involved in selection, 
+- If \"ModifyActive\" , the existing active producibility(ies) under ply(ies) is(are) re-used and is(are) about to be re-defined by the user";
+ 
+PlyFrame.FrmProdType.FrmCmdModeBehavior.Create.Title      = "Create";
+PlyFrame.FrmProdType.FrmCmdModeBehavior.Create.Help       = "Producibility create behavior mode"; 
+PlyFrame.FrmProdType.FrmCmdModeBehavior.Create.ShortHelp  = "Producibility create behavior mode";  
+PlyFrame.FrmProdType.FrmCmdModeBehavior.Create.LongHelp   = 
+"Defines how the producibility command will behave at selection of composites entities :  stacking, plygroup, plies or a ply, 
+- If \"Create\" ,  a new producibilty object is going to be create for each ply involved in selection, 
+- If \"ModifyActive\" , the existing active producibility(ies) under ply(ies) is(are) re-used and is(are) about to be re-defined by the user";
+ 
+PlyFrame.FrmProdType.FrmCmdModeBehavior.Modify.Title      = "ModifyActive"; 
+PlyFrame.FrmProdType.FrmCmdModeBehavior.Modify.Help       = "Producibility modify active  behavior mode"; 
+PlyFrame.FrmProdType.FrmCmdModeBehavior.Modify.ShortHelp  = "Producibility modify active behavior mode"; 
+PlyFrame.FrmProdType.FrmCmdModeBehavior.Modify.LongHelp   = 
+"Defines how the producibility command will behave at selection of composites entities :  stacking, plygroup, plies or a ply, 
+- If \"Create\" ,  a new producibilty object is going to be create for each ply involved in selection, 
+- If \"ModifyActive\" , the existing active producibility(ies) under ply(ies) is(are) re-used and is(are) about to be re-defined by the user";
+ 
+
+//--------------------------------------------------------------------------------------------------------------
+// Design 
+//--------------------------------------------------------------------------------------------------------------
+DesignFrame.Title = "Design";
+
+// Material 
+DesignFrame.MaterialFrm.Title = "Material parameters";
+
+//--Unidir 
+DesignFrame.MaterialFrm.TabDir.Title   = "TabDir";
+DesignFrame.MaterialFrm.TabDir.UniDir.Title   = "Uni-directional";
+DesignFrame.MaterialFrm.TabDir.UniDir.UniDirFrm.Title   = "Uni-directional simulation";
+DesignFrame.MaterialFrm.TabDir.UniDir.UniDirFrm.MaxShearLbl.Title       = "Max. shearing:";
+DesignFrame.MaterialFrm.TabDir.UniDir.UniDirFrm.MaxSpreadLbl.Title      = "Max. spreading:";
+DesignFrame.MaterialFrm.TabDir.UniDir.UniDirFrm.WarnSteeringLbl.Title   = "Warn steering:";
+DesignFrame.MaterialFrm.TabDir.UniDir.UniDirFrm.LimitSteeringLbl.Title  = "Limit steering:";
+
+
+//DesignFrame.MaterialFrm.TabDir.UniDir.UniDirFrm.MinLengthLbl.Title      = "Min Tape Length:";
+//DesignFrame.MaterialFrm.TabDir.UniDir.UniDirFrm.Reset.Title             = "Reset";
+//DesignFrame.MaterialFrm.MTLFrame.MinLengthLbl.Title      = "Min Tape Length:";
+//DesignFrame.MaterialFrm.MTLFrame.Reset.Title             = "Reset";
+
+
+//---Bi-Dir 
+DesignFrame.MaterialFrm.TabDir.BiDir.Title                 = "Bi-directional";
+DesignFrame.MaterialFrm.TabDir.BiDir.BiDirFrm.Title        = "Bi-directional simulation";
+DesignFrame.MaterialFrm.TabDir.BiDir.BiDirFrm.WarnAngle.Title             = "Warn angle: ";
+DesignFrame.MaterialFrm.TabDir.BiDir.BiDirFrm.WarnAngle.Help              = "Displays the warn angle found.";
+DesignFrame.MaterialFrm.TabDir.BiDir.BiDirFrm.WarnAngle.ShortHelp         = "Displays the warn angle found.";
+DesignFrame.MaterialFrm.TabDir.BiDir.BiDirFrm.WarnAngle.LongHelp          =
+"Displays the warn angle and the limit angle found.
+The Warn Angle defines the maximum deformation and
+must be +/- 15 degrees according to the reference angle.
+The Limit Angle defines the limit deformation and
+must be +/- 30 degrees according to the reference angle.";
+
+DesignFrame.MaterialFrm.TabDir.BiDir.BiDirFrm.LimitAngle.Title            = " / Limit Angle: ";
+DesignFrame.MaterialFrm.TabDir.BiDir.BiDirFrm.LimitAngle.Help             = "Displays the limit angle found.";
+DesignFrame.MaterialFrm.TabDir.BiDir.BiDirFrm.LimitAngle.ShortHelp        = "Displays the limit angle found.";
+DesignFrame.MaterialFrm.TabDir.BiDir.BiDirFrm.LimitAngle.LongHelp         = 
+"Displays the warn angle and the limit angle found.
+The Warn Angle defines the maximum deformation and
+must be +/- 15 degrees according to the reference angle.
+The Limit Angle defines the limit deformation and
+must be +/- 30 degrees according to the reference angle.";
+
+DesignFrame.MaterialFrm.TabDir.BiDir.BiDirFrm.WarpWeftAngle.Title             = "Warp/Weft angle: ";
+DesignFrame.MaterialFrm.TabDir.BiDir.BiDirFrm.WarpWeftAngle.Help              = "Displays the Warp/Weft angle of ply material.";
+DesignFrame.MaterialFrm.TabDir.BiDir.BiDirFrm.WarpWeftAngle.ShortHelp         = "Displays the Warp/Weft angle of ply material.";
+DesignFrame.MaterialFrm.TabDir.BiDir.BiDirFrm.WarpWeftAngle.LongHelp          =
+"Displays the warp/weft angle, this value is the one stored on the material associated to the ply.";
+
+
+DesignFrame.MaterialFrm.TabDir.BiDir.BiDirFrm.WarpWeftRatio.Title            = "Warp/Weft ratio: ";
+DesignFrame.MaterialFrm.TabDir.BiDir.BiDirFrm.WarpWeftRatio.Help             = "Displays the Warp/Weft ratio of ply material.";
+DesignFrame.MaterialFrm.TabDir.BiDir.BiDirFrm.WarpWeftRatio.ShortHelp        = "Displays the Warp/Weft ratio of ply material.";
+DesignFrame.MaterialFrm.TabDir.BiDir.BiDirFrm.WarpWeftRatio.LongHelp         = 
+"Displays the warp/weft ratio, this value is the one stored on the material associated to the ply.";
+
+
+
+
+// -- Geometric Ref
+//-------------------------------------------------------------------------------------------------------------------------------
+DesignFrame.GeomRefFrm.Title    = "Geometric start references";
+DesignFrame.GeomRefFrm.StrategyPointFrame.StrategyPointSelRB.Title     = "Point selection ";
+DesignFrame.GeomRefFrm.StrategyPointFrame.StrategyPointSelRB.Help      = "Lets you select an existing GSD point.";
+DesignFrame.GeomRefFrm.StrategyPointFrame.StrategyPointSelRB.ShortHelp = "Lets you select an existing GSD point.";
+DesignFrame.GeomRefFrm.StrategyPointFrame.StrategyPointSelRB.LongHelp  = 
+"Lets you select an existing GSD point.";
+
+DesignFrame.GeomRefFrm.StrategyPointFrame.StrategyPointIndRB.Title     = "Point indication ";
+DesignFrame.GeomRefFrm.StrategyPointFrame.StrategyPointIndRB.Help      = "Lets you pick a point, existing or not.";
+DesignFrame.GeomRefFrm.StrategyPointFrame.StrategyPointIndRB.ShortHelp = "Lets you pick a point, existing or not.";
+DesignFrame.GeomRefFrm.StrategyPointFrame.StrategyPointIndRB.LongHelp  = 
+"Lets you pick a point, existing or not
+(i.e. you simply pick where you would create a seed point),
+within the boundaries of the selected ply."; 
+
+DesignFrame.GeomRefFrm.StrategyPointFrame.Title                       = "Seed point:";
+DesignFrame.GeomRefFrm.StrategyPointSelector.FraEdt.Lab.Title         = "Seed Point: ";
+DesignFrame.GeomRefFrm.StrategyCurveSelector.FraEdt.Lab.Title         = "Guide curve: ";
+DesignFrame.GeomRefFrm.DrapOrderSelector.FraEdt.Lab.Title             = "Region : ";
+
+DesignFrame.GeomRefFrm.StrategyPointFrame.Title                       = "Seed point:";
+DesignFrame.GeomRefFrm.StrategyPointFrame.Help                        = "Defines the point used to start the circular propagation of the fibers.";
+DesignFrame.GeomRefFrm.StrategyPointFrame.ShortHelp                   = "Defines the point used to start the circular propagation of the fibers.";
+DesignFrame.GeomRefFrm.StrategyPointFrame.LongHelp                    = 
+"Defines the point used to start the circular propagation of the fibers.";
+//---------------------------------------
+//--------------------------------------- R20
+
+DesignFrame.GeomRefFrm.AdvancedGeomDefPB.Title   = "Advanced Sector Definition";
+DesignFrame.GeomRefFrm.AdvancedGeomDefPB.Help        = "Expand the list of sectors and allow to define advanced options";
+DesignFrame.GeomRefFrm.AdvancedGeomDefPB.ShortHelp   = "Expand the list of sectors";
+
+AdvancedGeomDefDlg.Title  = "Select the geometric elements";
+
+Column0Number   = "N°";
+Col1SeedPoint   = "Point";
+Col2SeedCurve   = "Curve";
+Col3Region      = "Region";
+Col4PropType    = "Propagation Type";
+Col5Activate    = "Activate";
+
+DefaultValueInField = "New Sector";
+DefaultNumberInField = "*";
+
+StaggerValueInField = "StaggerPoint";
+StaggerNumberInField = "*";
+AutomaticPointValueInField = "AutomaticPoint";
+AutomaticPointNumberInField = "*";
+
+ClearCellContextualMenu = "Clear the Cell";
+ClearSectorContextualMenu = "Clear the Sector";
+
+ActivationContextualMenu = "Activate";
+DeactivateContextualMenu = "Deactivate";
+IndicationOfActivation = "Yes";
+IndicationOfDeactivation = "No";
+
+DesignFrame.GeomRefFrm.GeomSelFrm.MoveSectorFrame.MoveUpSectorPB.Title         = "UP";
+DesignFrame.GeomRefFrm.GeomSelFrm.MoveSectorFrame.MoveUpSectorPB.Help          = "Move up the sector.";
+DesignFrame.GeomRefFrm.GeomSelFrm.MoveSectorFrame.MoveUpSectorPB.ShortHelp     = "Move up the sector.";
+DesignFrame.GeomRefFrm.GeomSelFrm.MoveSectorFrame.MoveDownSectorPB.Title       = "Down";
+DesignFrame.GeomRefFrm.GeomSelFrm.MoveSectorFrame.MoveDownSectorPB.Help        = "Move down the sector.";
+DesignFrame.GeomRefFrm.GeomSelFrm.MoveSectorFrame.MoveDownSectorPB.ShortHelp   = "Move down the sector.";
+
+AdvancedGeomDefDlg.GeomSelFrmExternal.MoveSectorFrame.MoveUpSectorPB.Title         = "UP";
+AdvancedGeomDefDlg.GeomSelFrmExternal.MoveSectorFrame.MoveUpSectorPB.Help          = "Move up the sector.";
+AdvancedGeomDefDlg.GeomSelFrmExternal.MoveSectorFrame.MoveUpSectorPB.ShortHelp     = "Move up the sector.";
+AdvancedGeomDefDlg.GeomSelFrmExternal.MoveSectorFrame.MoveDownSectorPB.Title       = "Down";
+AdvancedGeomDefDlg.GeomSelFrmExternal.MoveSectorFrame.MoveDownSectorPB.Help        = "Move down the sector.";
+AdvancedGeomDefDlg.GeomSelFrmExternal.MoveSectorFrame.MoveDownSectorPB.ShortHelp   = "Move down the sector.";
+
+DesignFrame.GeomRefFrm.GeomSelFrm.StrategyPointFrame.StrategyPointSelRB.Title = "Point selection ";
+DesignFrame.GeomRefFrm.GeomSelFrm.StrategyPointFrame.StrategyPointSelRB.Help = "Lets you select an existing GSD point.";
+DesignFrame.GeomRefFrm.GeomSelFrm.StrategyPointFrame.StrategyPointSelRB.ShortHelp = "Lets you select an existing GSD point.";
+DesignFrame.GeomRefFrm.GeomSelFrm.StrategyPointFrame.StrategyPointSelRB.LongHelp = "Lets you select an existing GSD point.";
+
+DesignFrame.GeomRefFrm.GeomSelFrm.StrategyPointFrame.StrategyPointIndRB.Title = "Point indication ";
+DesignFrame.GeomRefFrm.GeomSelFrm.StrategyPointFrame.StrategyPointIndRB.Help = "Lets you pick a point, existing or not.";
+DesignFrame.GeomRefFrm.GeomSelFrm.StrategyPointFrame.StrategyPointIndRB.ShortHelp = "Lets you pick a point, existing or not.";
+DesignFrame.GeomRefFrm.GeomSelFrm.StrategyPointFrame.StrategyPointIndRB.LongHelp = "Lets you pick a point, existing or not
+(i.e. you simply pick where you would create a seed point),
+within the boundaries of the selected ply.";
+
+
+//DesignFrame.GeomRefFrm.GeomSelFrm.StrategyAutoFrame.StrategyPointAutoCPRB.Title = "Automatic central point computation ";
+//DesignFrame.GeomRefFrm.GeomSelFrm.StrategyAutoFrame.StrategyPointAutoCPRB.Help = "Lets you pick a point, existing or not.";
+//DesignFrame.GeomRefFrm.GeomSelFrm.StrategyAutoFrame.StrategyPointAutoCPRB.ShortHelp = "Lets you pick a point, existing or not.";
+//DesignFrame.GeomRefFrm.GeomSelFrm.StrategyAutoFrame.StrategyPointAutoCPRB.LongHelp = "Lets you pick a point, existing or not
+//(i.e. you simply pick where you would create a seed point),
+//within the boundaries of the selected ply.";
+DesignFrame.GeomRefFrm.AutoCB.Title = "Automatic central point computation ";
+DesignFrame.GeomRefFrm.AutoCB.Help = "Automatic central point computation.";
+DesignFrame.GeomRefFrm.AutoCB.ShortHelp = "Automatic central point computation.";
+DesignFrame.GeomRefFrm.AutoCB.LongHelp = "Automatic central point computation
+(i.e. manage a calculated point),
+within the boundaries of the selected ply.";
+
+
+DesignFrame.GeomRefFrm.GeomSelFrm.StrategyStaggerFrame.StaggerOriginPreferredCB.Title = "Prefer stagger origin point when available";
+DesignFrame.GeomRefFrm.GeomSelFrm.StrategyStaggerFrame.StaggerOriginPreferredCB.Help = "Use stagger origin point in priority";
+DesignFrame.GeomRefFrm.GeomSelFrm.StrategyStaggerFrame.StaggerOriginPreferredCB.ShortHelp = "Use stagger origin point in priority";
+DesignFrame.GeomRefFrm.GeomSelFrm.StrategyStaggerFrame.StaggerOriginPreferredCB.LongHelp = "Use stagger origin point in priority";
+
+
+
+AdvancedGeomDefDlg.GeomSelFrmExternal.StrategyPointFrameExternal.StrategyPointSelRBExternal.Title = "Point selection ";
+AdvancedGeomDefDlg.GeomSelFrmExternal.StrategyPointFrameExternal.StrategyPointSelRBExternal.Help = "Lets you select an existing GSD point.";
+AdvancedGeomDefDlg.GeomSelFrmExternal.StrategyPointFrameExternal.StrategyPointSelRBExternal.ShortHelp = "Lets you select an existing GSD point.";
+AdvancedGeomDefDlg.GeomSelFrmExternal.StrategyPointFrameExternal.StrategyPointSelRBExternal.LongHelp = "Lets you select an existing GSD point.";
+
+AdvancedGeomDefDlg.GeomSelFrmExternal.StrategyPointFrameExternal.StrategyPointIndRBExternal.Title = "Point indication ";
+AdvancedGeomDefDlg.GeomSelFrmExternal.StrategyPointFrameExternal.StrategyPointIndRBExternal.Help = "Lets you pick a point, existing or not.";
+AdvancedGeomDefDlg.GeomSelFrmExternal.StrategyPointFrameExternal.StrategyPointIndRBExternal.ShortHelp = "Lets you pick a point, existing or not.";
+AdvancedGeomDefDlg.GeomSelFrmExternal.StrategyPointFrameExternal.StrategyPointIndRBExternal.LongHelp = "Lets you pick a point, existing or not
+(i.e. you simply pick where you would create a seed point),
+within the boundaries of the selected ply.";
+
+//-------------------------------------------------------------------------------------------------------------------------------
+
+
+DlgStrategyFrame.ThckUpdateCB.Title = "With thickness update";
+DlgStrategyFrame.ThckUpdateCB.Help = "Lets you update the thickness with the parameters below.";
+DlgStrategyFrame.ThckUpdateCB.ShortHelp = "Lets you update the thickness with the parameters below.";
+DlgStrategyFrame.ThckUpdateCB.LongHelp = 
+"Lets you update the thickness with the parameters below:
+- Core sampling range: required depth of the core sampling.
+- Full stacking: use this option when the groups of plies are defined on the same reference shell.
+- Ply group only: use this option when groups of plies are defined on various shells, as each shell takes into account the plies defined under a group.";
+
+DlgStrategyFrame.ThckUpdateFrame.CSRangeFrame.CSValueFrame.CSLabel.Title       = "Core-sampling range:";
+DlgStrategyFrame.ThckUpdateFrame.CSRangeFrame.CSValueFrame.CSLabel.Help        = "The required depth of the core sampling.";
+DlgStrategyFrame.ThckUpdateFrame.CSRangeFrame.CSValueFrame.CSLabel.ShortHelp   = "The required depth of the core sampling.";
+DlgStrategyFrame.ThckUpdateFrame.CSRangeFrame.CSValueFrame.CSLabel.LongHelp    = 
+"The required depth of the core sampling.";
+
+DlgStrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame.StackingRB.Title        = "Full stacking";
+DlgStrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame.StackingRB.Help         = "use this option when the groups of plies are defined on the same reference shell.";
+DlgStrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame.StackingRB.ShortHelp    = "use this option when the groups of plies are defined on the same reference shell.";
+DlgStrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame.StackingRB.LongHelp     = 
+"use this option when the groups of plies are defined on the same reference shell.";
+
+DlgStrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame.SelectedPGpRB.Title     = "Ply group only";
+DlgStrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame.SelectedPGpRB.Help      = "use this option when groups of plies are defined on various shells.";
+DlgStrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame.SelectedPGpRB.ShortHelp = "use this option when groups of plies are defined on various shells.";
+DlgStrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame.SelectedPGpRB.LongHelp  =
+ "use this option when groups of plies are defined on various shells, as each shell takes into account the plies defined under a group.";
+
+DlgStrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame.DrpSurfLabel.Title = "Drapped surface";
+DlgStrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame.DrpSurfLabel.Help = "Drapped surface.";
+DlgStrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame.DrpSurfLabel.ShortHelp = "Drapped surface.";
+DlgStrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame.DrpSurfLabel.LongHelp = "Drapped surface.";
+
+//Propag Frame 
+DesignFrame.PropagFrm.Title     = "Propagation modes";
+// -- Fiber Init 
+
+DesignFrame.PropagFrm.FiberProgLabel.Title            = "Fiber initialization:";
+DesignFrame.PropagFrm.FiberProgLabel.Help             = "Defines the fiber initialization from the drop-down list.";
+DesignFrame.PropagFrm.FiberProgLabel.ShortHelp        = "Defines the fiber initialization from the drop-down list.";
+DesignFrame.PropagFrm.FiberProgLabel.LongHelp         = 
+"Defines the fiber initialization from the drop-down list:";
+
+DesignFrame.PropagFrm.RBFiberType.ExtFiberFrm.ExternalFiberPushB.Title = "Ext. solvers...";
+DesignFrame.PropagFrm.RBFiberType.ExtFiberFrm.ExternalFiberPushB.LongHelp =
+"Allows to select external solvers available (if any)";
+
+// -- Propag Type 
+DesignFrame.PropagFrm.PropTypeLabel.Title              = "Propagation Type:";
+DesignFrame.PropagFrm.PropTypeLabel.Help               = "Defines the propagation type from the drop-down list.";
+DesignFrame.PropagFrm.PropTypeLabel.ShortHelp          = "Defines the propagation type from the drop-down list.";
+DesignFrame.PropagFrm.PropTypeLabel.LongHelp           = 
+"Defines the propagation type from the drop-down list:
+- Minimum distortion: deformation computed by the system so as to minimize the distortion.
+- Symmetric: deformation computed symmetrically regarding the fiber direction. The system forces the propagation to be symmetrical.";
+
+DesignFrame.PropagFrm.RBPropType.MinDistortionFibRB.Title        = "Minimum distortion";
+DesignFrame.PropagFrm.RBPropType.MinDistortionFibRB.Help         = "Deformation computed by the system so as to minimize the distortion.";
+DesignFrame.PropagFrm.RBPropType.MinDistortionFibRB.ShortHelp    = "Deformation computed by the system so as to minimize the distortion.";
+DesignFrame.PropagFrm.RBPropType.MinDistortionFibRB.LongHelp     = "Deformation computed by the system so as to minimize the distortion.";
+
+DesignFrame.PropagFrm.RBPropType.SymmetricFibRB.Title            = "Symmetric";
+DesignFrame.PropagFrm.RBPropType.SymmetricFibRB.Help             = "Deformation computed symmetrically regarding the fiber direction.";
+DesignFrame.PropagFrm.RBPropType.SymmetricFibRB.ShortHelp        = "Deformation computed symmetrically regarding the fiber direction.";
+DesignFrame.PropagFrm.RBPropType.SymmetricFibRB.LongHelp         = "Deformation computed symmetrically regarding the fiber direction. The system forces the propagation to be symmetrical.";
+
+DesignFrame.PropagFrm.RBPropType.OptimizeEnrg.Title              = "Optimized Energy";
+DesignFrame.PropagFrm.RBPropType.OptimizeShear.Title             = "Optimized maxshear";
+
+DesignFrame.PropagFrm.RBPropType.ExtSolvFrm.ExternalSolvPushB.Title = "Ext. solvers...";
+DesignFrame.PropagFrm.RBPropType.ExtSolvFrm.ExternalSolvPushB.LongHelp =
+"Allows to select external solvers available (if any)";
+
+
+//Mesh Parameter 
+DesignFrame.MeshParmFrm.Title   = "Mesh parameters";
+
+DesignFrame.MeshParmFrm.StrategyFrame.Title = "Mesh parameters";
+DesignFrame.MeshParmFrm.StrategyFrame.Help = "Defines the Warp and Weft values for the fibers meshes.";
+DesignFrame.MeshParmFrm.StrategyFrame.ShortHelp = "Defines the Warp and Weft values for the fibers meshes.";
+DesignFrame.MeshParmFrm.StrategyFrame.LongHelp = 
+"Defines the Warp and Weft values for the fibers meshes:
+Warp: radius used to simulate the fibers behavior along the X direction.
+Weft: radius used to simulate the fibers behavior along the Y direction.";
+
+
+DesignFrame.MeshParmFrm.StrategyFrame.WarpFrame.WarpLabel.Title = "Warp:";
+DesignFrame.MeshParmFrm.StrategyFrame.WarpFrame.WarpLabel.Help = "This is radius used to simulate the fibers behavior along the X direction.";
+DesignFrame.MeshParmFrm.StrategyFrame.WarpFrame.WarpLabel.ShortHelp = "This is radius used to simulate the fibers behavior along the X direction.";
+DesignFrame.MeshParmFrm.StrategyFrame.WarpFrame.WarpLabel.LongHelp = 
+"This is radius used to simulate the fibers behavior along the X direction.";
+
+DesignFrame.MeshParmFrm.StrategyFrame.WeftFrame.WeftLabel.Title = "Weft:";
+DesignFrame.MeshParmFrm.StrategyFrame.WeftFrame.WeftLabel.Help = "This is radius used to simulate the fibers behavior along the Y direction.";
+DesignFrame.MeshParmFrm.StrategyFrame.WeftFrame.WeftLabel.ShortHelp = "This is radius used to simulate the fibers behavior along the Y direction.";
+DesignFrame.MeshParmFrm.StrategyFrame.WeftFrame.WeftLabel.LongHelp = 
+"This is radius used to simulate the fibers behavior along the Z direction.";
+
+
+DesignFrame.MeshParmFrm.StrategyFrame.ThckUpdateCB.Title                                = "With thickness update";
+DesignFrame.MeshParmFrm.StrategyFrame.ThckUpdateCB.Help                                 = "Lets you update the thickness with the parameters below.";
+DesignFrame.MeshParmFrm.StrategyFrame.ThckUpdateCB.ShortHelp                            = "Lets you update the thickness with the parameters below.";
+DesignFrame.MeshParmFrm.StrategyFrame.ThckUpdateCB.LongHelp                             = 
+"Lets you update the thickness with the parameters below:
+- Core sampling range: required depth of the core sampling.
+- Full stacking: use this option when the groups of plies are defined on the same reference shell.
+- Ply group only: use this option when groups of plies are defined on various shells, as each shell takes into account the plies defined under a group.";
+
+DesignFrame.MeshParmFrm.StrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame.CSLabel.Title        = "Core-sampling range:";
+DesignFrame.MeshParmFrm.StrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame.CSLabel.Help         = "The required depth of the core sampling.";
+DesignFrame.MeshParmFrm.StrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame.CSLabel.ShortHelp    = "The required depth of the core sampling.";
+DesignFrame.MeshParmFrm.StrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame.CSLabel.LongHelp     = 
+"The required depth of the core sampling.";
+
+DesignFrame.MeshParmFrm.StrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame.COffLabel.Title = "Constant-offset value:      ";
+DesignFrame.MeshParmFrm.StrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame.COffLabel.Help = "offset value.";
+DesignFrame.MeshParmFrm.StrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame.COffLabel.ShortHelp = "offset value.";
+DesignFrame.MeshParmFrm.StrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame.COffLabel.LongHelp = "offset value.";
+
+DesignFrame.MeshParmFrm.StrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame.DrpSurfLabel.Title = "Drapped surface";
+DesignFrame.MeshParmFrm.StrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame.DrpSurfLabel.Help = "Drapped surface.";
+DesignFrame.MeshParmFrm.StrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame.DrpSurfLabel.ShortHelp = "Drapped surface.";
+DesignFrame.MeshParmFrm.StrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame.DrpSurfLabel.LongHelp = "Drapped surface.";
+
+
+DesignFrame.MeshParmFrm.StrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame1.StackingRB.Title        = "Full stacking";
+DesignFrame.MeshParmFrm.StrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame1.StackingRB.Help         = "use this option when the groups of plies are defined on the same reference shell.";
+DesignFrame.MeshParmFrm.StrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame1.StackingRB.ShortHelp    = "use this option when the groups of plies are defined on the same reference shell.";
+DesignFrame.MeshParmFrm.StrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame1.StackingRB.LongHelp     = 
+"use this option when the groups of plies are defined on the same reference shell.";
+
+
+DesignFrame.MeshParmFrm.StrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame1.SelectedPGpRB.Title  = "Ply group only";
+DesignFrame.MeshParmFrm.StrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame1.SelectedPGpRB.Help   = "use this option when groups of plies are defined on various shells.";
+DesignFrame.MeshParmFrm.StrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame1.SelectedPGpRB.ShortHelp = "use this option when groups of plies are defined on various shells.";
+DesignFrame.MeshParmFrm.StrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame1.SelectedPGpRB.LongHelp = "use this option when groups of plies are defined on various shells, as each shell takes into account the plies defined under a group.";
+
+
+
+
+//Partner Design 
+PartnerDesFrm.Title = "Simulation: Advanced parameters";
+
+//--------------------------------------------------------------------------------------------------------------
+// Analysis 
+//--------------------------------------------------------------------------------------------------------------
+AnalysisFrame.Title = "Analysis";
+
+// Deviation /Deformation /Other 
+
+AnalysisFrame.DefDeviFrm.Title      = "Display mode";
+AnalysisFrame.DefDeviFrm.Help       = "Lets you select the display mode of the analysis.";
+AnalysisFrame.DefDeviFrm.ShortHelp  = "Lets you select the display mode of the analysis.";
+AnalysisFrame.DefDeviFrm.LongHelp   = 
+"Lets you select the display mode of the analysis:
+- Deformation: 
+    this is the option by default.  
+    The analysis is based on the angle between the fiber meshes.
+- Deviation option: 
+    the rosette is transferred at eacFh point of the fiber mesh. 
+    The analysis is based on the delta between the theoretical and the actual fiber angles of each point.
+- other  option: 
+    the rosette is transferred with aternative strategy."; 
+    
+//--- Deformation 
+AnalysisFrame.DefDeviFrm.DeformationRB.Title              = "Deformation";
+AnalysisFrame.DefDeviFrm.DeformationRB.Help               = "The analysis is based on the angle between the fiber meshes.";
+AnalysisFrame.DefDeviFrm.DeformationRB.ShortHelp          = "The analysis is based on the angle between the fiber meshes.";
+AnalysisFrame.DefDeviFrm.DeformationRB.LongHelp           =
+"The analysis is based on the angle between the fiber meshes.";
+
+AnalysisFrame.DefDeviFrm.DeformationTypesCombo.Title    = "Deformation  analysis types";
+
+
+//--- Deviation
+AnalysisFrame.DefDeviFrm.DeviationRB.Title                = "Deviation";
+AnalysisFrame.DefDeviFrm.DeviationRB.Help                 = "The analysis is based on the delta between the theoretical and the actual fiber angles of each point.";
+AnalysisFrame.DefDeviFrm.DeviationRB.ShortHelp            = "The analysis is based on the delta between the theoretical and the actual fiber angles of each point.";
+AnalysisFrame.DefDeviFrm.DeviationRB.LongHelp             = 
+"The analysis is based on the delta between the theoretical and the actual fiber angles of each point
+This option requires:
+    Warn angle that defines the maximum deformation and must be +/- 5 degrees according to the reference angle.
+    Limit Angle that defines the limit deformation and must be +/- 10 degrees according to the reference angle.";
+
+AnalysisFrame.DefDeviFrm.WarnFrame.WarnLabel.Title       = "Warn angle: ";
+AnalysisFrame.DefDeviFrm.LimitFrame.LimitLabel.Title     = "Limit angle: ";
+
+AnalysisFrame.DefDeviFrm.OtherRB.Title                    = "Other mode";
+AnalysisFrame.DefDeviFrm.OtherRB.Help                     = "Propose other hand lay -up strategy for producibility simulation";
+AnalysisFrame.DefDeviFrm.OtherRB.ShortHelp                = "Propose other hand lay -up strategy for producibility simulation";
+AnalysisFrame.DefDeviFrm.OtherRB.LongHelp                 = 
+"Propose other hand lay -up strategy for producibility simulation
+This option requires:
+    Warn angle that defines the maximum deformation and must be +/- 5 degrees according to the reference angle.
+    Limit Angle that defines the limit deformation and must be +/- 10 degrees according to the reference angle.";
+
+
+//--- Others 
+AnalysisFrame.DefDeviFrm.OtherAnaTypesCombo.Title       = "Other analysis types";
+
+AnalysisFrame.DefDeviFrm.MTLFrame.MinLengthLbl.Title      = "Min. tape length:";
+AnalysisFrame.DefDeviFrm.MTLFrame.Reset.Title             = "Reset";
+
+
+
+//--- DisplayOther 
+
+AnalysisFrame.DefDeviFrm.DisplayFrm.DispFlatCB.Title     = "Display flat pattern";
+AnalysisFrame.DefDeviFrm.DisplayFrm.DispFlatCB.Help      = "Previews the flatten shape of the ply or of the cut-piece.";
+AnalysisFrame.DefDeviFrm.DisplayFrm.DispFlatCB.ShortHelp = "Previews the flatten shape of the ply or of the cut-piece.";
+AnalysisFrame.DefDeviFrm.DisplayFrm.DispFlatCB.LongHelp  = 
+"Previews the flatten shape of the ply or of the cut-piece.";
+
+AnalysisFrame.DefDeviFrm.DisplayFrm.MatRollWidthFrame.DispMatRollCB.Title     = "Check material width ";
+AnalysisFrame.DefDeviFrm.DisplayFrm.MatRollWidthFrame.DispMatRollCB.Help      = "Checks whether the ply or the cut-piece geometry will fit into the material width.";
+AnalysisFrame.DefDeviFrm.DisplayFrm.MatRollWidthFrame.DispMatRollCB.ShortHelp = "Checks whether the ply or the cut-piece geometry will fit into the material width.";
+AnalysisFrame.DefDeviFrm.DisplayFrm.MatRollWidthFrame.DispMatRollCB.LongHelp  = 
+"Checks whether the ply or the cut-piece geometry will fit into the material width. 
+The material width is represented by two parallel lines, positioned either along the warp or along the weft.";
+
+AnalysisFrame.DefDeviFrm.DisplayFrm.MatRollWidthFrame.MatRollTypeSelFrame.AlongWarpRB.Title = " Along warp";
+AnalysisFrame.DefDeviFrm.DisplayFrm.MatRollWidthFrame.MatRollTypeSelFrame.AlongWeftRB.Title = " Along weft";
+
+
+//====================== Keep ============================================= 
+// Inspection
+AnalysisFrame.KeepFrm.InspectionPB.Title = "Inspection";
+AnalysisFrame.KeepFrm.InspectionPB.Help = "Supplies informations on plies properties at selected points";
+
+//Name of the Geometrical Set
+//<R19
+AnalysisFrame.KeepFrm.InspPointsFrame.InspPtMulFrame.InspPointsLabel.Title		= "Name:";
+AnalysisFrame.KeepFrm.InspPointsFrame.InspPtMulFrame.InspPointsLabel.ShortHelp	= "Open body name under which producibility fiber mesh will be stored.";
+//R19
+AnalysisFrame.KeepFrm.InspPtMulFrame.GSName.Title		= "Name : ";
+AnalysisFrame.KeepFrm.InspPtMulFrame.GSName.Help		= "Name of the new Geometrical Set which will contain the curves, generated by the producibility analysis, to keep.";
+AnalysisFrame.KeepFrm.InspPtMulFrame.GSName.ShortHelp	= "Name of the new Geometrical Set which will contain the curves, generated by the producibility analysis, to keep.";
+AnalysisFrame.KeepFrm.InspPtMulFrame.GSName.LongHelp	= "Name of the new Geometrical Set which will contain the curves, generated by the producibility analysis, to keep.";
+//>R19
+AnalysisFrame.KeepFrm.GeneralInformationsForKeepFrm.InspPtMulFrame.GSName.Title		= "Geometrical Set Name: ";
+AnalysisFrame.KeepFrm.GeneralInformationsForKeepFrm.InspPtMulFrame.GSName.Help		= "Name of the new Geometrical Set which will contain the curves, generated by the producibility analysis, to keep.";
+AnalysisFrame.KeepFrm.GeneralInformationsForKeepFrm.InspPtMulFrame.GSName.ShortHelp	= "Name of the new Geometrical Set which will contain the curves, generated by the producibility analysis, to keep.";
+AnalysisFrame.KeepFrm.GeneralInformationsForKeepFrm.InspPtMulFrame.GSName.LongHelp	= "Name of the new Geometrical Set which will contain the curves, generated by the producibility analysis, to keep.";
+
+//PushButton for keep all the fibers
+//<R19
+AnalysisFrame.KeepFrm.Title			= "Keep options";
+AnalysisFrame.KeepFrm.Help			= "Manage the possibility to keep the fibers generated by the producibility analysis in a geometrical set.";
+AnalysisFrame.KeepFrm.ShortHelp     = "Manage the possibility to keep the fibers generated by the producibility analysis in a geometrical set.";
+AnalysisFrame.KeepFrm.LongHelp      = "Manage the possibility to keep the fibers generated by the producibility analysis in a geometrical set.";
+
+AnalysisFrame.KeepFrm.InspPointsFrame.Title                 = "Keep";
+AnalysisFrame.KeepFrm.InspPointsFrame.ShortHelp             = "To create an open body of producibility fiber mesh";
+
+AnalysisFrame.KeepFrm.InspPointsFrame.KeepPB.Title           = "Keep";
+AnalysisFrame.KeepFrm.InspPointsFrame.KeepPB.Help            = "Stores the curves generated by the producibility analysis in a geometrical set.";
+AnalysisFrame.KeepFrm.InspPointsFrame.KeepPB.ShortHelp       = "Stores the curves generated by the producibility analysis in a geometrical set.";
+AnalysisFrame.KeepFrm.InspPointsFrame.KeepPB.LongHelp        = "Stores the curves generated by the producibility analysis in a geometrical set.";
+//R19
+AnalysisFrame.KeepFrm.InspPtMulFrame.KeepPB.Title		= "Keep All Fibers";
+AnalysisFrame.KeepFrm.InspPtMulFrame.KeepPB.Help		= "Stores all the curves generated by the producibility analysis in a geometrical set.";
+AnalysisFrame.KeepFrm.InspPtMulFrame.KeepPB.ShortHelp	= "Stores the curves generated by the producibility analysis in a geometrical set.";
+AnalysisFrame.KeepFrm.InspPtMulFrame.KeepPB.LongHelp	= "Stores the curves generated by the producibility analysis in a geometrical set.";
+//>R19
+AnalysisFrame.KeepFrm.GeneralInformationsForKeepFrm.KeepPB.Title		= "Keep All Fibers";
+AnalysisFrame.KeepFrm.GeneralInformationsForKeepFrm.KeepPB.Help			= "Stores all the curves generated by the producibility analysis in a geometrical set.";
+AnalysisFrame.KeepFrm.GeneralInformationsForKeepFrm.KeepPB.ShortHelp	= "Stores the curves generated by the producibility analysis in a geometrical set.";
+AnalysisFrame.KeepFrm.GeneralInformationsForKeepFrm.KeepPB.LongHelp		= "Stores the curves generated by the producibility analysis in a geometrical set.";
+
+//AnalysisFrame.KeepFrm.SelectionOfRepToKeepFrame.FibersRepSelector.FraEdt.Lab.Title	= "Select Fibers to keep: ";
+
+//CheckButton for keep only some selected fibers
+//>R19
+AnalysisFrame.KeepFrm.GeneralInformationsForKeepFrm.InformationsForKeepSelectedFibersFrm.KeepSelectedFibersCB.Title		= "Keep the selected fibers";
+AnalysisFrame.KeepFrm.GeneralInformationsForKeepFrm.InformationsForKeepSelectedFibersFrm.KeepSelectedFibersCB.Help		= "Stores the selected curve, generated by the producibility analysis, in a geometrical set.";
+AnalysisFrame.KeepFrm.GeneralInformationsForKeepFrm.InformationsForKeepSelectedFibersFrm.KeepSelectedFibersCB.ShortHelp	= "Stores the selected curve, generated by the producibility analysis, in a geometrical set.";
+AnalysisFrame.KeepFrm.GeneralInformationsForKeepFrm.InformationsForKeepSelectedFibersFrm.KeepSelectedFibersCB.LongHelp	= "Stores the selected curve, generated by the producibility analysis, in a geometrical set.";
+//"Create a geometrical set in which the selected fibers will be stored."
+//"Launch the PopUp which will contain the selected fibers, generated by the producibility analysis, to store in the geometrical set.";
+
+//Check Buttons for options available only on <R19
+AnalysisFrame.KeepFrm.GeneralInformationsForKeepFrm.InformationsForKeepSelectedFibersFrm.KeepSelectedFibersOptionsFrm.SmoothOptionCB.Title		= "Smooth the fiber";
+AnalysisFrame.KeepFrm.GeneralInformationsForKeepFrm.InformationsForKeepSelectedFibersFrm.KeepSelectedFibersOptionsFrm.SmoothOptionCB.Help		= "Operate a smoothing and a simplification of the curve";
+AnalysisFrame.KeepFrm.GeneralInformationsForKeepFrm.InformationsForKeepSelectedFibersFrm.KeepSelectedFibersOptionsFrm.SmoothOptionCB.ShortHelp	= "Operate a smoothing and a simplification of the curve";
+AnalysisFrame.KeepFrm.GeneralInformationsForKeepFrm.InformationsForKeepSelectedFibersFrm.KeepSelectedFibersOptionsFrm.SmoothOptionCB.LongHelp	= "Operate a smoothing and a simplification of the curve";
+
+AnalysisFrame.KeepFrm.GeneralInformationsForKeepFrm.InformationsForKeepSelectedFibersFrm.KeepSelectedFibersOptionsFrm.ProjectionOptionCB.Title		= "Project the fiber";
+AnalysisFrame.KeepFrm.GeneralInformationsForKeepFrm.InformationsForKeepSelectedFibersFrm.KeepSelectedFibersOptionsFrm.ProjectionOptionCB.Help		= "Operate a projection of the representation of the fiber on the ply";
+AnalysisFrame.KeepFrm.GeneralInformationsForKeepFrm.InformationsForKeepSelectedFibersFrm.KeepSelectedFibersOptionsFrm.ProjectionOptionCB.ShortHelp	= "Operate a projection of the representation of the fiber on the ply";
+AnalysisFrame.KeepFrm.GeneralInformationsForKeepFrm.InformationsForKeepSelectedFibersFrm.KeepSelectedFibersOptionsFrm.ProjectionOptionCB.LongHelp	= "Operate a projection of the representation of the fiber on the ply";
+
+DesignFrame.MeshParmFrm.StrategyFrame.ThckUpdateFrame.CSRangeFrame.CSValueFrame.CSLabel.Title       = "Core-sampling range:";
+DesignFrame.MeshParmFrm.StrategyFrame.ThckUpdateFrame.CSRangeFrame.CSValueFrame.CSLabel.Help        = "The required depth of the core sampling.";
+DesignFrame.MeshParmFrm.StrategyFrame.ThckUpdateFrame.CSRangeFrame.CSValueFrame.CSLabel.ShortHelp   = "The required depth of the core sampling.";
+DesignFrame.MeshParmFrm.StrategyFrame.ThckUpdateFrame.CSRangeFrame.CSValueFrame.CSLabel.LongHelp    = 
+"The required depth of the core sampling.";
+
+DesignFrame.MeshParmFrm.StrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame.StackingRB.Title        = "Full stacking";
+DesignFrame.MeshParmFrm.StrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame.StackingRB.Help         = "use this option when the groups of plies are defined on the same reference shell.";
+DesignFrame.MeshParmFrm.StrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame.StackingRB.ShortHelp    = "use this option when the groups of plies are defined on the same reference shell.";
+DesignFrame.MeshParmFrm.StrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame.StackingRB.LongHelp     = 
+"use this option when the groups of plies are defined on the same reference shell.";
+
+DesignFrame.MeshParmFrm.StrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame.SelectedPGpRB.Title     = "Ply group only";
+DesignFrame.MeshParmFrm.StrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame.SelectedPGpRB.Help      = "use this option when groups of plies are defined on various shells.";
+DesignFrame.MeshParmFrm.StrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame.SelectedPGpRB.ShortHelp = "use this option when groups of plies are defined on various shells.";
+DesignFrame.MeshParmFrm.StrategyFrame.ThckUpdateFrame.CSRangeFrame.CSCheckFrame.SelectedPGpRB.LongHelp  =
+ "use this option when groups of plies are defined on various shells, as each shell takes into account the plies defined under a group.";
+
+
+//=========================================================================
+
+
+//Parterns Analysis Frame 
+PartnerAnaFrm.Title= "Analysis: Advanced parameters";
+
+
+// ---------------------------------------------------------------------------------------------------------
+// More/Less
+// ---------------------------------------------------------------------------------------------------------
+RunFrame.FrmProdManuf.ConsumableForManufacturing.Title      = "Use for manufacturing"; 
+RunFrame.FrmProdManuf.ConsumableForManufacturing.Help       = "Set up a design information for manufacturing downstream process on object"; 
+RunFrame.FrmProdManuf.ConsumableForManufacturing.ShortHelp  = "Set up a design information for manufacturing downstream process on object"; 
+RunFrame.FrmProdManuf.ConsumableForManufacturing.LongHelp   = 
+"Lets designer to set up a parameter for producibility design object,
+gives the information whether the object is about to be used in manufacturing process.";
+
+//IsCoProducibilityR19
+RunFrame.RPA.Title           = "Run producibility analysis"; 
+RunFrame.RPA.Help            = "Generates producibility result in 3D"; 
+RunFrame.RPA.ShortHelp       = "Generates producibility result in 3D"; 
+RunFrame.RPA.LongHelp        = 
+"Uses all stored and defined producibility parameters to generate in 3D producibility pre-visualization
+depending of process specifiied for the ply.";
+
+//IsCoProducibilityR19
+RunFrame.FrmProdRun.RPA.Title           = "Run producibility analysis"; 
+RunFrame.FrmProdRun.RPA.Help            = "Generates producibility result in 3D"; 
+RunFrame.FrmProdRun.RPA.ShortHelp       = "Generates producibility result in 3D"; 
+RunFrame.FrmProdRun.RPA.LongHelp        = 
+"Uses all stored and defined producibility parameters to generate in 3D producibility pre-visualization
+depending of process specifiied for the ply.";
+
+ 
+NoSelection.Text = "No selection";
+ExternalSolverNA.Text = "External Solver(Not Available)";
+ExternalSolver.Text = "External Solver";
+
+//InspectionPB = "Inspection";
+SelEntities = " entities";
+More = "More...";
+Less = "Less...";
+PlyMultiSelDlg = "Entities";
+//InsPtsMultiSelDlg = "Inspection points";
+
+

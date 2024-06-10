@@ -1,0 +1,103 @@
+// COPYRIGHT DASSAULT SYSTEMES 2000
+//===================================================================
+//
+// Catalog for CATKweSetOfEquationsEditorDlg class
+//
+//===================================================================
+//
+// Usage notes:
+//
+//===================================================================
+//
+//  Mar 2000  Creation:           Dmitri Ouchakov, LEDAS Ltd. (vtn1)
+//  Jul 2000  Modification (adding SetInputsButton, etc.)
+//                                Dmitri Ouchakov, LEDAS Ltd. (vtn1)
+//  Sep 2000  Correction of mistakes: D. Ouchakov, LEDAS Ltd. (vtn1)
+//  Feb 2002  Add TabOptions            W.Sidorov, LEDAS Ltd. (vtn3)
+//  Nov 2002  Add ParsePushButton and SwitchPushButton
+//                                   A.Leshchenko, LEDAS Ltd. (anz)
+//  Jun 2003
+//===================================================================
+Active.Title = "Set of Equations Editor: /P1 Active";
+Inactive.Title = "Set of Equations Editor: /P1 Inactive";
+
+text_editor.Help = "Enter body of the Set of Equations";
+text_editor.LongHelp = "Set of Equations Editor\n",
+                       "A Set of Equations enables to create constraints binding parameters.\n\n",
+                       "The following syntax should be used:\n",
+                       "PartBody\Pad.1\FirstLimit\Length * Real.5 == PartBody\Pad.1\SecondLimit\Length\n",
+                       "and\n",
+                       "PartBody\Pad.1\FirstLimit\Length * Real.5 + PartBody\Pad.1\SecondLimit\Length == 12mm\n\n",
+                       "To enter parameters names, key in their names, use the dictionary provided below, or\n",
+                       "select the 3D constraints associated to each parameter.\n",
+                       "To display the 3D constraints, select a feature in the geometry or in the specification tree.\n";
+
+
+InputsLabel.Title = "Constant parameters";
+OutputsLabel.Title = "Unknown parameters";
+
+SetInputsButton.Title="Set Inputs";
+SetInputsButton.Help="Sets input parameters for Set of Equations";
+SetInputsButton.ShortHelp="Sets input parameters";
+SetInputsButton.LongHelp="Sets input parameters for Set of Equations.\nA special dialog allows you to divide parameters on two groups: inputs (constants) and outputs(variables)";
+
+ButtonFrame.MoveToInputsPushButton.ShortHelp = "Move  to input.";
+ButtonFrame.MoveToInputsPushButton.Help = "Moves the selected parameters in the input parameters (constant).";
+ButtonFrame.MoveToInputsPushButton.LongHelp = "Moves the selected parameters in the input parameters. Input parameters are considered as constant when the set of equation is solved.";
+ButtonFrame.MoveToOutputsPushButton.ShortHelp = "Move  to output.";
+ButtonFrame.MoveToOutputsPushButton.Help = "Moves the selected parameters in the output parameters (unknown).";
+ButtonFrame.MoveToOutputsPushButton.LongHelp = "Moves the selected parameters in the output parameters. Output parameters are considered as unknown when the set of equation is solved.";
+ButtonFrame.ParsePushButton.ShortHelp = "Parse.";
+ButtonFrame.ParsePushButton.Help = "Parses the body of Set of Equations.";
+ButtonFrame.ParsePushButton.LongHelp = "Parses the body of Set of Equations.\nIdentifies variables and set them as unknown parameters.";
+ButtonFrame.SwitchPushButton.ShortHelp = "Switch input<->output.";
+ButtonFrame.SwitchPushButton.Help = "Switches input and output parameters.";
+ButtonFrame.SwitchPushButton.LongHelp = "Switches input and output parameters.\nEvery input parameter becomes output and vice versa.";
+
+
+InputsSelectorList.Help = "List of input parameters (constants).";
+InputsSelectorList.LongHelp = "This list shows the chosen input parameters for the set of equations\nThe values of output parameters are constant\n when the set of equation is solved.";
+InputsSelectorList.ColumnTitle1 = "Name";
+InputsSelectorList.ColumnTitle2 = "Value";
+
+OutputsSelectorList.Help = "List of output parameters (unknown)";
+OutputsSelectorList.LongHelp = "This list shows the chosen output parameters. \n The values of output parameters are changed\n when the set of equation is solved.";
+OutputsSelectorList.ColumnTitle1 = "Name";
+OutputsSelectorList.ColumnTitle2 = "Value";
+
+TabOptions.EpsBaseText.Title = "Precision";
+TabOptions.EpsBaseValue.Help = "Enter computation precision from the range [1e-10, 0.1]";
+TabOptions.EpsBaseValue.ShortHelp="Enter computation precision";
+TabOptions.EpsBaseValue.LongHelp = "Precision of the Set of Equations.\n",
+                       "The parameter impacts on the accuracy of a solution.\n",
+                       "The possible values of the parameter should be in the range [1e-10, 0.1].";
+
+TabOptions.GaussText.Title = "Use the Gauss method for linear equations";
+TabOptions.GaussValue.Title = "";
+
+TabOptions.StopText.Title = "Show 'Stop' dialog  ";
+TabOptions.StopValue.Title = "";
+TabOptions.TimeText.Title = "Maximal computation time (sec.)  ";
+TabOptions.TimeValue.Help = "Enter a maximal computation time";
+TabOptions.TimeValue.ShortHelp="Enter a maximal computation time";
+TabOptions.TimeValue.LongHelp = "Maximal computation time.\n",
+                       "The parameter is used to limit the computation time.\n",
+                       "If the Set of Equations works longer than the indicated time,\n",
+                       "then computations are stopped.\n",
+                       "If the parameter is equal to 0, then the computation time is unlimited.";
+
+TabOptions.SetDefault.Title = "Restore Defaults";
+TabOptions.Empty1.Title = "    ";
+ParseWarning = "The first time Apply is pushed no solving is done.";
+ParseWarning.Title = "First Apply Warning";
+
+TabOptions.ErrorsText.Title = "Generate expanded error description";
+TabOptions.ErrorsValue.Title = "";
+
+TabOptions.SolverOptionsFrame.Title = "Algorithm";
+TabOptions.StopOptionsFrame.Title   = "Termination criteria";
+
+Solve.Title = "Solve";
+Solve.Help  = "Find solutions";
+Solve.LongHelp = "Perform calculations of the model.";
+

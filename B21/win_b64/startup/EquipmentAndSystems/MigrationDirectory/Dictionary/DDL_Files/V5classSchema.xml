@@ -1,0 +1,32 @@
+<Schema xmlns="urn:schemas-microsoft-com:xml-data" xmlns:dt="urn:schemas-microsoft-com:datatypes">
+
+     <AttributeType name='Name'  dt:type='string' required='yes'/>
+     <AttributeType name='Type'  dt:type='string' required='yes'/>
+     <AttributeType name='User'  dt:type='enumeration' dt:values='User System'/>
+     <AttributeType name='Value' dt:type='string' required='no'/>
+     <AttributeType name='Parent' dt:type='string' required='no'/>
+     
+     <ElementType name='Simple' content='mixed'>
+          <attribute type='Name'  />
+          <attribute type='Type'  />
+          <attribute type='User'  />
+          <attribute type='Value' />
+     </ElementType>
+
+
+     <ElementType name='Class' content='mixed'>
+          <attribute type='Name'   />
+          <attribute type='Parent' />
+
+          <element type='Simple'   />
+          <element type='Class'    />
+     </ElementType>
+
+     <ElementType name='Package' content='mixed'>
+          <attribute type='Name'   />
+
+          <element type='Class'    />
+     </ElementType>
+
+
+</Schema>

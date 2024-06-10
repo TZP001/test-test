@@ -1,0 +1,299 @@
+//===================================================================================
+//XX  XX   XXXXXXX  XXXX     XXXXXX            XX   XX   XXXXXX    XXXX
+//XX  XX    XX   X   XX       XX  XX           XXX XXX  XX    X   XX  X
+//XX  XX    XX X     XX       XX  XX           XXXXXXX  XX       XX
+//XXXXXX    XXXX     XX       XXXXX            XX X XX   XXXXX   XX
+//XX  XX    XX X     XX       XX               XX   XX       XX  XX  XXX
+//XX  XX    XX   X   XX  XX   XX               XX   XX  X    XX   XX  XX
+//XX  XX   XXXXXXX  XXXXXXX  XXXX              XX   XX  XXXXXX     XXX X
+//====================================================================================
+SETCATENV_HELP_NT.text = "Crea un nuovo file di ambiente e le corrispondenti icone del desktop.
+
+setcatenv -e name [-d directory][-p concatenation ][-a user|global][-new yes|no][-server][-menu  yes|no]
+                  [-cf path][-icon  yes|no][-desktop yes|no][-cs product_line][-v yes|no][-tools]
+                  [-caa Module.exe][-cn CompanyName][-refresh]
+
+Opzioni generali:
+    -e environment_name : nome dell'ambiente. Opzione obbligatoria.
+    -d directory        : Cartella di risorse del file di ambiente.
+                          Valore predefinito: \"/P1\".
+    -p concatenation    : percorso di installazione. È possibile specificare diversi percorsi, utilizzare : come separatore di percorsi.
+                          Valore predefinito: \"/P2\"
+    -a user|global      : tipo di ambiente. Non è utile se è specificata l'opzione -d.
+                          user:   il file di ambiente è memorizzato in \"/P3\".
+                          global: il file di ambiente è memorizzato in \"/P4\"
+                          Valore predefinito: user
+    -new     yes|no     : Se un ambiente presenta lo stesso nome, sovrascriverlo.
+                          Valore predefinito: yes
+    -server             : Attiva la modalità server.
+                          Per gli ambienti server, i dati utente vengono memorizzati sul server e non nel
+                          file comune dell'utente.
+                          Tutte le variabili specifiche dell'utente (CATUserSetiingPath, CATTemp, CATErrorLog..) dipendono
+                          dalla variabile USER_HOME. Per gli ambienti non server (noti anche come ambienti interattivi),
+                          questa variabile viene calcolata su una cartella secondaria del profilo utente di Windows. 
+                          Per gli ambienti server, questa variabile viene calcolata su una cartella secondaria del profilo                           di Windows \"Tutti gli utenti\", su una macchina locale.
+                          Valore predefinito: non attivato.
+    -cn \"MyCompany\"     : sostituisce tutte le ricorrenze di DassaultSystemes con \"MyCompany\" nel file di ambiente.                           Questo interessa il valore USER_HOME e il nome dell'azienda visualizzato nell'intestazione del file di ambiente.
+-cf    file_path          : specifica il nome o percorso di un ambiente esistente da cui creare un nuovo ambiente.
+                          Ad esempio, il comando:   setcatenv -e MyNewEnv -cf MyFirstEnv
+                          crea il nuovo ambiente MyNewEnv da una copia di MyFirstEnv.
+                          Ciò consente di ereditare le personalizzazioni precedenti senza doverle ricreare nel nuovo ambiente.
+                          Ad esempio, la variabile CATReferenceSettingPath è spesso utilizzata per memorizzare le                                    impostazioni bloccate dall'amministratore e può concatenare vari livelli diversi di impostazioni.                           La copia di un ambiente esistente consente di risparmiare tempo in quanto non è necessario personalizzare il nuovo ambiente.
+                        Notare che se non si utilizza l'opzione \"-cf\", tutte le variabili sono impostate con i valori                           predefiniti nel nuovo ambiente. Se è specificato solo il nome nell'opzione \"-cf\", l'ambiente                              di modello viene ricercato nelle cartelle di memorizzazione predefinite (user o global).
+-v yes|no               : attiva la modalità dettagliata. Valore predefinito: yes
+    -h|-help            : questa guida.
+
+Opzioni del desktop     :
+    -icon    yes|no     : crea un'icona sul desktop di Windows. Valore predefinito: yes
+    -menu    yes|no     : crea un collegamento nel menu Start. Valore predefinito: yes
+    -desktop yes|no     : obsoleta. Valore predefinito: yes (opzioni equivalenti: -icon yes -menu yes )
+    -refresh            : aggiorna il desktop e i collegamenti del menu Start (da utilizzare dopo installazioni aggiuntive).
+    -cs    product_line : specifica una linea di prodotti per le voci del menu Start.
+                          Linee di prodotti disponibili: /P5.
+                          Valore predefinito: /P6.
+    -tools              : configura i collegamenti degli strumenti relativi ad una determinata linea di prodotti.
+                          Si tratta di un'opzione esclusiva, eseguire questo comando una sola volta, ad esempio: setcatenv -tools -cs MyProductLine.
+    -caa Module.exe     : utilizza Module.exe per i collegamenti creati.
+                          Module.exe verrà ricercato nei percorsi specificati nell'opzione -p o nella variabile PATH" ;
+
+//***************************************************************************************************************************************
+SETCATENV_HELP_UNIX.text = "Crea un nuovo file di ambiente e le corrispondenti icone del desktop.
+
+setcatenv -e name [-d directory][-p concatenation ][-a user|global][-new yes|no][-server]
+          [-cf path][-desktop yes|no][-cs product_line][-v yes|no][-regserver]
+
+Opzioni generali:
+    -e environment_name : nome dell'ambiente. Opzione obbligatoria.
+    -d directory        : Cartella di risorse del file di ambiente.
+                          Valore predefinito: \"/P1\".
+    -p concatenation    : Percorso di installazione. È possibile specificare diversi percorsi, utilizzare : come separatore di percorsi.
+                          Valore predefinito: \"/P2\"
+    -a user|global      : Tipo di ambiente. Non è utile se è specificata l'opzione -d.
+                          user:   il file di ambiente è memorizzato in \"/P3\".
+                          global: il file di ambiente è memorizzato in \"/P4\"
+                          Valore predefinito: user
+    -new     yes|no     : Se un ambiente presenta lo stesso nome, sovrascriverlo.
+                          Valore predefinito: yes
+    -server             : obsoleta.
+    -cf    file_path    : specifica il nome o il percorso di un ambiente esistente da cui creare un nuovo ambiente.
+                          Ad esempio, il comando:   setcatenv -e MyNewEnv -cf MyFirstEnv
+                          crea il nuovo ambiente MyNewEnv da una copia di MyFirstEnv.
+                          In tal modo, vengono ereditate le personalizzazioni precedenti senza dovere ricrearle nel nuovo ambiente.
+                          Ad esempio, la variabile CATReferenceSettingPath viene utilizzata frequentemente per  memorizzare le impostazioni bloccate 
+                          dall'amministratore e può concatenare diversi livelli di impostazioni. Copiando un ambiente esistente,
+                          si risparmia tempo, perché non è necessario personalizzare il nuovo ambiente.
+                          Se non si utilizza l'opzione \"-cf\", tutte le variabili vengono impostate con i relativi valori predefiniti
+                          nel nuovo ambiente. Se nell'opzione \"-cf\" viene specificato solo il nome, l'ambiente modello viene ricercato
+                          nelle cartelle di risorse predefinite (user o global).
+    -v yes|no           : attiva la modalità dettagliata. Valore predefinito: yes
+    -h|-help            : questa guida.
+
+Opzioni del desktop:
+    -desktop yes|no     : crea un collegamento sul desktop. Valore predefinito: yes
+    -regserver          : registra l'applicazione sulla stazione di lavoro, aggiungendo o modificando una serie di file                          necessari per supportare il trascinamento e il rilascio dei documenti nell'ambiente del desktop e associa                           il funzionamento quando si fa doppio clic sui documenti della Versione 5. Questa operazione deve essere eseguita per                           ciascuna linea di prodotti.
+                          Se è già installata una configurazione di base, questa opzione non è utile perché l'ambiente del                           desktop è già presente. Utilizzare solo l'opzione \"-regserver\" se non è già installata una                           configurazione di base.
+                          Deve essere utilizzata dopo avere creato un ambiente di riferimento e può essere utilizzata solo                           da un amministratore.
+-cs    product_line     : specifica una linea di prodotti per le voci del menu Start.
+                          Linee di prodotti disponibili: /P5.
+                          Valore predefinito: /P6.";
+//***************************************************************************************************************************************    
+DELCATENV_HELP_UNIX.text = "Elimina un file di ambiente e le corrispondenti icone del desktop.
+
+delcatenv -e name [-d directory][-a user|global][-desktop yes|no][-cs product_line][-v yes|no][-unregserver]
+
+Opzioni generali:
+    -e environment_name : nome dell'ambiente. Opzione obbligatoria.
+    -d directory        : Cartella di risorse del file di ambiente.
+                          Valore predefinito: \"/P1\".
+    -a user|global      : Tipo di ambiente. Non è utile se è specificata l'opzione -d.
+                          user:   il file di ambiente è memorizzato in \"/P2\".
+                          global: il file di ambiente è memorizzato in \"/P3\"
+                          Valore predefinito: user
+    -v yes|no           : attiva la modalità dettagliata. Valore predefinito: yes
+    -h|-help            : questa guida.
+
+Opzioni del desktop   :
+    -desktop yes|no     : crea un collegamento sul desktop. Valore predefinito: yes
+    -unregserver        : annulla la registrazione dell'applicazione sulla stazione di lavoro ed elimina i file desktop                             appropriati impostati dall'opzione \"-regserver\" setcatenv. L'effetto è che il trascinamento e il                          rilascio dei documenti della Versione 5 nell'ambiente del desktop e il funzionamento associato                               facendo doppio clic sui documenti della Versione 5, sono disattivati. Questa opzione deve essere                         utilizzata da sola nel modo seguente:delcatenv -unregserver -cs MyProductLine
+                        e una volta solo su una determinata  stazione di lavoro in quanto annulla la registrazione di                         tutte le installazioni della Versione 5 sulla stessa  stazione di lavoro. Questa opzione deve essere                         utilizzata con attenzione se
+                          sulla stessa stazione di lavoro sono presenti più installazioni della Versione 5.
+    -cs    product_line : specifica una linea di prodotti per le voci del menu Start.
+                          Linee di prodotti disponibili: /P4.
+                          Valore predefinito: /P5.";
+//***************************************************************************************************************************************    
+DELCATENV_HELP_NT.text = "Elimina un file di ambiente e le corrispondenti icone del desktop.
+
+delcatenv -e name [-d directory][-a user|global][-desktop yes|no][-cs product_line][-v yes|no][-unregserver]
+
+Opzioni generali:
+    -e environment_name : nome dell'ambiente. Opzione obbligatoria.
+    -d directory        : Cartella di risorse del file di ambiente.
+                          Valore predefinito: \"/P1\".
+    -a user|global      : Tipo di ambiente. Non è utile se è specificata l'opzione -d.
+                          user:   il file di ambiente è memorizzato in \"/P2\".
+                          global: il file di ambiente è memorizzato in \"/P3\"
+                          Valore predefinito: user
+    -v yes|no           : attiva la modalità dettagliata. Valore predefinito: yes
+    -h|-help            : questa guida.
+
+Opzioni del desktop     :
+    -icon    yes|no     : rimuove l'icona dal desktop di Windows. Valore predefinito: yes
+    -menu    yes|no     : rimuove il collegamento nel menu Start. Valore predefinito: yes
+    -desktop yes|no     : obsoleta. Valore predefinito: yes (equivale a -icon yes -menu yes )
+    -cs    product_line : specifica una linea di prodotti per le voci del menu Start.
+                          Linee di prodotti disponibili: /P4.
+                          Valore predefinito: /P5.
+    -tools              : elimina i collegamenti degli strumenti relativi ad una determinata linea di prodotti.
+                          Si tratta di un'opzione esclusiva. Eseguire questo comando una volta, nel seguente modo: delcatenv -tools -cs MyProductLine.";                        
+
+//***************************************************************************************************************************************
+LSCATENV_HELP.text = "Elenca gli ambienti disponibili:
+
+lscatenv   [-a user|global] [-d storage_directory_name]
+
+Opzioni:
+    -d directory        : cartella di risorse dei file dell'ambiente.
+                          Valore predefinito:\"/P1\".
+    -a user|global      : tipo di ambiente. Non è utile se è specificata l'opzione -d.
+                          user:   il file di ambiente è memorizzato in \"/P2\".
+                          global: il file di ambiente è memorizzato in \"/P3\"
+                          Valore predefinito: user";
+//***************************************************************************************************************************************
+READCATENV_HELP.text = "Visualizza il contenuto di un file di ambiente.
+
+readcatenv -e name [-d directory][-a user|global][-var variable][-short][-l]
+
+Opzioni:
+    -e environment_name : nome dell'ambiente. Opzione obbligatoria.
+    -d directory        : cartella di risorse dei file dell'ambiente.
+                          Valore predefinito: \"/P1\".
+    -a user|global      : tipo di ambiente. Non è utile se è specificata l'opzione -d.
+                          user:   il file di ambiente è memorizzato in \"/P2\".
+                          global: il file di ambiente è memorizzato in \"/P3\"
+                          Valore predefinito: user
+    -var varname        : visualizza solo il valore della variabile specificata. Se questa opzione non è impostata
+                          readcatenv visualizza tutte le variabili calcolate nel file di ambiente.
+    -short              : visualizza solo il valore della variabile.
+    -l                  : non espande il valore della variabile.";
+
+//***************************************************************************************************************************************
+CHCATENV_HELP_NT.text = "Modifica le variabili nei file di ambiente.
+
+chcatenv -e name -var variable=value [-d directory][-a user|global][-new][-com][-del]
+
+Opzioni:
+    -e environment_name : nome dell'ambiente. Opzione obbligatoria.
+    -d directory        : cartella di risorse dei file dell'ambiente.
+                          Valore predefinito: \"/P1\".
+    -a user|global      : tipo di ambiente. Non è utile se è specificata l'opzione -d.
+                          user:  il file di ambiente è memorizzato in \"/P2\".
+                          global: il file di ambiente è memorizzato in \"/P3\"
+                          Valore predefinito: user
+    -var var1=new_value : imposta la variabile var1 con new_value. Utilizzare \" per racchiudere questo argomento.
+                          Esempio: chcatenv -e MyEnv -a user -var \"CATTemp=C:\Temp\MyData\"
+                          oppure  chcatenv -e MyEnv -a user -var \"CATTemp=C:\Temp\My Data\"
+                          Se si desidera aggiornare una variabile, eseguire questo comando nel seguente modo:
+                          chcatenv -e MyEnv -a user -var \"CATInstallPath=%CATInstallPath%;C:\Temp\MyNewPath\"
+                          oppure
+                          chcatenv -e MyEnv -a user -var \"CATInstallPath=C:\Temp\MyNewPath\;%CATInstallPath%\"
+    -new                : se la variabile specificata nell'opzione -var non esiste, è necessario crearla.
+                          Esempio: chcatenv -e MyEnv -a user -var \"MyVariable=FOOBAR\" -new.
+                          Per evitare funzionamenti non richiesti, non utilizzare gli spazi nei nomi delle variabili.
+    -com \"Comment\"    : aggiunge un commento nel file di ambiente per la variabile specificata.
+                          Disponibile solo per le variabili create dall'utente.
+                          Esempio: chcatenv -e MyEnv -a user -var \"MyVariable=FOOBAR\" -com \"aggiungere i commenti in questo spazio\"
+    -del                : elimina la variabile specificata nell'opzione -var (solo per le variabili create dall'utente).
+                          Esempio: chcatenv -e MyEnv -a user -var \"MyVariable\" -del";
+
+//***************************************************************************************************************************************
+ CHCATENV_HELP_UNIX.text = "Modifica le variabili nei file di ambiente.
+
+chcatenv -e name -var variable=value [-d directory][-a user|global][-new][-com][-del]
+
+Opzioni:
+    -e environment_name : nome dell'ambiente. Opzione obbligatoria.
+    -d directory        : cartella di risorse dei file dell'ambiente.
+                          Valore predefinito: \"/P1\".
+    -a user|global      : tipo di ambiente. Non è utile se è specificata l'opzione -d.
+                          user: il file di ambiente è memorizzato in \"/P2\".
+                          global: il file di ambiente è memorizzato in \"/P3\"
+                          Valore predefinito: user
+    -var var1=new_value : Imposta la variabile var1 con new_value. Utilizzare \" per racchiudere questo argomento.
+                          Esempio: chcatenv -e MyEnv -a user -var \"CATTemp=/tmp/MyData\"
+                          Se si desidera aggiornare una variabile, eseguire questo comando nel seguente modo:
+                          chcatenv -e MyEnv -a user -var \"CATInstallPath=\$CATInstallPath:/tmp/MyNewPath\"
+                          oppure
+                          chcatenv -e MyEnv -a user -var \"CATInstallPath=/tmp/MyNewPath:\$CATInstallPath\"
+    -new                : se la variabile specificata nell'opzione -var non esiste, è necessario crearla.
+                          Esempio: chcatenv -e MyEnv -a user -var \"MyVariable=FOOBAR\" -new.
+                          Per evitare funzionamenti non richiesti, non utilizzare spazi nei nomi delle variabili.
+    -com \"Comment\"    : aggiunge un commento nel file di ambiente per la variabile specificata.
+                          Disponibile solo per le variabili create dall'utente.
+                          Esempio: chcatenv -e MyEnv -a user -var \"MyVariable=FOOBAR\" -com \"aggiungere i commenti in questo spazio\"
+    -del                : elimina la variabile specificata nell'opzione -var (solo per le variabili create dall'utente).
+                          Esempio: chcatenv -e MyEnv -a user -var \"MyVariable\" -del";                        
+//***************************************************************************************************************************************
+
+
+//***************************************************************************************************************************************
+
+
+//====================================================================================
+//XXXXXXX  XXXXXX   XXXXXX    XXXXX   XXXXXX            XX   XX   XXXXXX    XXXX
+// XX   X   XX  XX   XX  XX  XX   XX   XX  XX           XXX XXX  XX    X   XX  X
+// XX X     XX  XX   XX  XX  XX   XX   XX  XX           XXXXXXX  XX       XX
+// XXXX     XXXXX    XXXXX   XX   XX   XXXXX            XX X XX   XXXXX   XX
+// XX X     XX XX    XX XX   XX   XX   XX XX            XX   XX       XX  XX  XXX
+// XX   X   XX  XX   XX  XX  XX   XX   XX  XX           XX   XX  X    XX   XX  XX
+//XXXXXXX  XXX  XX  XXX  XX   XXXXX   XXX  XX           XX   XX  XXXXXX     XXX X
+//====================================================================================
+
+AccessPb.Text                = "Impossibile salvare il file di ambiente in \"/P1\".";
+BadFormatedVariable.Text     = "Il valore specificato nell'opzione -var non è valido.";
+BadOptions.Text				 = "Argomenti non corretti. Verificare il comando.";
+CannotDelOfficalVar.Text     = "Impossibile cancellare la variabile. È possibile cancellare solo le nuove variabili.";  
+DefaultFolderNotFound.Text   = "La cartella di risorse dell'ambiente predefinito (/P1) non è accessibile.";
+DirDoesntExist.Text          = "La directory /P1 non è accessibile.";
+DiskFull.Text                = "Impossibile salvare il file di ambiente: il disco è pieno";
+EnvCreationFailed.text       = "Creazione dell'ambiente non riuscita" ;
+EnvFileDoesntExist.Text      = "L'ambiente specificato non è stato trovato.";
+EnvFileNotFound.Text         = "File di ambiente non trovato";
+EnvNameNotSpecified.Text     = "Il nome dell'ambiente deve essere specificato nell'opzione \"-e\".";
+ErrDelEnv.Text               = "Cancellazione dell'ambiente non riuscita" ;
+ErrDelEnvUsr.Text            = "Cancellazione della rappresentazione dell'ambiente non riuscita" ;
+ErrUnset.Text                = "Annullamento dell'impostazione della stazione di lavoro non riuscito" ;
+FileAlreadyExist.Text        = "File di ambiente già esistente"; 
+GeneralFailure.Text          = "Si è verificato un errore durante l'inizializzazione di chcatenv."; 
+IconeCreationFailed.text     = "Creazione dell'icona di ambiente non riuscita" ;
+IconeCreationFailed2.text    = "Non è stato creato nessun collegamento sul desktop. Verificare che /P1 sia contenuto nella directory di installazione." ;
+InitFolderFailed.Text        = "Impossibile trovare la cartella di risorse predefinita.\nL'ambiente è stato salvato in: /P1";
+InvalidEnvModeOption.Text    = "L'opzione \"-a\" deve essere impostata su \"user\" o su \"global\".";
+InvalidEnvNameOption.Text    = "Il nome dell'ambiente deve essere specificato nell'opzione \"-e\".";
+ModifyVariableFailed.text    = "Modifica della variabile di ambiente non eseguita correttamente." ;
+MustBeSystemAdmin.Text       = "Per eseguire questa operazione sono richiesti privilegi di amministratore."; 
+NoBlankInEnvName.text        = "Il nome dell'ambiente non può contenere spazi";
+NoCommentOnOfficialVar.Text  = "È possibile commentare solo le nuove variabili.";
+NoConcatSpecified.Text       = "È necessario specificare una concatenazione";
+NoDirModeOption.Text         = "L'opzione \"-a\" deve essere impostata su \"user\" o \"global\" oppure specificare una directory di risorse mediante l'opzione \"-d\".";
+NoHome.text                  = "Impossibile trovare la variabile di ambiente \$HOME" ;
+NoNewOfficialVariable.Text   = "/P1 già esiste, selezionare un altro nome per la variabile.";
+NoReadAccessInDir.Text       = "La directory /P1 non è accessibile in lettura";
+NoSuchVariable.text          = "Variabile non trovata nel file di ambiente." ;
+NoVarSpecified.Text          = "È necessario specificare l'opzione \"-var\".";
+NoWriteAccessInDir.Text      = "L'opzione /P1 della directory non è accessibile in scrittura";
+NonValidType.Text			 = "Specificare un tipo (user o global) mediante l'opzione -a.";
+ReadFailed.text				 = "Impossibile leggere l'ambiente" ;
+ReadFailed.text				 = "Impossibile leggere l'ambiente" ;
+RefFileNotFound.Text         = "Descrittore del file di riferimento non trovato.";
+SpecifiedFolderNotFound.Text = "La directory \"/P1\" non è accessibile.";
+ToolsSetupFailed.text        = "Installazione utensili non riuscita" ;
+UnableToReadEnvFile.Text     = "Impossibile leggere il file di ambiente.";
+UnableToWriteFile.Text       = "Impossibile salvare il file di ambiente modificato.";
+UnknownOption.Text           = "Opzione non valida: /P1. ";
+UnknownProductLine.Text      = "/P1 non è una linea di prodotti valida.\nI valori autorizzati per l'opzione -cs sono: /P2";
+UpdateVariableFailed.text    = "Aggiornamento della variabile di ambiente non eseguito correttamente." ;
+VariableNotFound.Text        = "Variabile /P1 non trovata nel file di ambiente. ";
+VariableNotValued.Text       = "La variabile /P1 non è calcolata. Se si desidera impostare una stringa vuota come nuovo valore, non aggiungere nulla dopo il simbolo =.\nEsempio: chcatenv -e MyEnv -a user -var\"MyNewVar=\" ";
+WSSsetupFailed.text          = "Setup della stazione di lavoro non riuscito" ;
+
+

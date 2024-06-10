@@ -1,0 +1,62 @@
+#!/bin/ksh
+# configuration file for VPM Navigator
+#
+#. $HOME/CATEnv/DefaultEnvironment.sh
+
+
+# Orbix C++ home directory
+export ORBIXC2PATH=$CATEnvironment
+
+case `uname -s` in
+ AIX)   OS1="AIX"
+        export ORBIXC2BINPATH=$ORBIXC2PATH/code/bin
+  ;;
+ HP-UX) OS1="HPUX"
+        export ORBIXC2BINPATH=$ORBIXC2PATH/code/bin
+  ;;
+ IRIX)  OS1="IRIX"
+        export ORBIXC2BINPATH=$ORBIXC2PATH/code/bin
+  ;;
+ IRIX64)OS1="IRIX"
+        export ORBIXC2BINPATH=$ORBIXC2PATH/code/bin
+  ;;
+ SunOS) OS1="SunOS"
+        export ORBIXC2BINPATH=$ORBIXC2PATH/code/bin
+   ;;
+ *)echo "Unknown OS !!"
+   exit             ;;
+esac
+export $OS1
+
+# home directory of VPM Navigator server
+
+export SERVER_HOME=$CATEnvironment
+
+# name of the HTTP server
+
+#export SERVER_HOST=YYYY
+export SERVER_HOST=`hostname`
+
+# time out of VPM Navigator server in millisec (default value is 1 hour)
+
+export SERVER_TIMEOUT=3600000
+
+# CATIA configuration directory
+
+export CAT_CFG=ZZZZ
+
+# CATIA administrator home directory
+
+export CAT_ADM=WWWW
+
+# Color for image on the fly
+
+export BACKGROUND_COLOR="25 125 200"
+
+# *** Directory where cgr will be cached
+
+export CATN4D_CACHE=$HOME/cgr_cache
+
+
+
+

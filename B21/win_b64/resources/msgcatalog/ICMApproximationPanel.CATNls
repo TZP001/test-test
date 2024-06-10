@@ -1,0 +1,204 @@
+TabPageApprox.Title                                      = "Approximation";
+TabPageApprox.LongHelp                                   = "The Approximation settings of the result can
+be defined here. If the Tolerance cannot be
+kept no message appears.";
+CheckButtonApproximation.Title                           = "Approximation";
+
+//Automatic
+CheckButtonAutomatic.Title                               = "Automatic";
+CheckButtonAutomatic.ShortHelp                           = "Automatic setting of Smooth, Order, and Segmentation";
+CheckButtonAutomatic.LongHelp                            = "ON:
+Smoothing, Order, and Segmentation are deactivated.
+Only Tolerance and Parameterization can be specified.
+For Order and Segmentation preset default values are used.
+OFF:
+All options are available and can be modified.";
+
+//Tolerance
+FrameTolerance.Title                                     = "Tolerance";
+FrameTolerance.LongHelp                                  = "Defines the accuracy in which the output geometry should be created.
+A too small tolerance value results in a time-consuming calculation.";
+CheckButtonTolerance.Title                               = "G0: ";
+CheckButtonTolerance.ShortHelp                           = "G0 tolerance";
+CheckButtonTolerance.LongHelp                            = "ON:
+a) Provided that for Order and Segmentation the maximum and minimum
+values specified allow increasing the order, these values are
+increased iteratively until the deviation between the input geometry
+(or the theoretical results) and the approximation result exceeds
+the value of the G0 tolerance.
+b) The value of the G0 tolerance is also available for
+the computation to create the theoretical results.
+OFF:
+The value of the G0 tolerance is also available for the
+computation to create the theoretical results, i. e. the
+tolerance value can be edited in the text field and thus
+may also influence the result.";
+CheckButtonAngle.Title                                   = "G1: ";
+CheckButtonAngle.ShortHelp                               = "G1 tolerance";
+CheckButtonAngle.LongHelp                                = "The maximum angle deviation between final and
+theoretical result is specified. This shall guarantee
+that the angle between final result and selected support
+does not exceed the value of the G0 tolerance.";
+
+//Parameterization
+FrameParametrization.Title                               = "Parameterization";
+FrameParametrization.LongHelp                            = "- Standard -
+  No re-parameterization of the result is performed.
+  The parameter flow of the approximation is the
+  same as that of the input curve.
+- Adapt -
+  Similar to Standard if the selected input curve is a space curve.
+  If the selected input curve is a surface curve the parameter flow
+  will be adapted either to the parametrization of the surface curve's
+  basic surface's u- or v-direction.
+- Arc Length -
+  The curve is reapproximated with a parametrization which is computed
+  according to the arc length between parameter equidistant curve points.
+  (The curve arc length between each pair of equidistant parameters
+  (approximately) has same value.)";
+ComboParametrization.Title                               = " ";
+ComboParametrizationText.Adapt                           = "Adapt";
+ComboParametrizationText.ArcLength                       = "Arc Length";
+ComboParametrizationText.Iterative                       = "Iterative";
+ComboParametrizationText.Standard                        = "Standard";
+
+//Smoothing
+FrameSmoothing.Title                                     = "Smoothing";
+FrameSmoothing.LongHelp                                  = "The result can be smoothed.";
+CheckButtonSmoothing.Title                               = "Smoothing: ";
+//old
+CheckButtonSmoothing.ShortHelp                           = "The result can be smoothed.";
+CheckButtonSmoothing.LongHelp                            = "Allows the desired compromise between an exact
+approximation and a very smooth curve.
+The function tries to equally distribute the
+control points of the resulting geometry.";
+
+//new
+CheckButtonSmoothing2.ShortHelp                          = "The result can be smoothed.";
+CheckButtonSmoothing2.LongHelp                           = "Allows the desired compromise between an exact approximation
+and a very smooth curve. By using this option the function tries
+to equally distribute the control points of the resulting geometry.";
+SpinnerSmoothing.ShortHelp                               = "Smooth factor";
+SpinnerSmoothing.LongHelp                                = "Smooth factor";
+
+//Order
+FrameOrder.Title                                         = "Order";
+FrameOrder.LongHelp                                      = "Definition of the maximum, minimum, or fix order of the result.";
+ComboOrderU.ShortHelp                                    = "U Order";
+ComboOrderU.LongHelp                                     = "- Min. -
+  The order in U direction of the selected geometry being below
+  this value is increased until it reaches this value. For the
+  approximation the order can be increased until 7 at maximum.
+- Max. -
+  The order in U direction of the selected geometry being above
+  this value is reduced until it reaches this value. For the
+  approximation the order cannot exceed this value.
+- Fix -
+  Increase and/or decrease the order in U direction of all selected
+  elements until it meets exactly the order specified here. For the
+  approximation, the order cannot have another value than the specified one.";
+ComboOrderV.ShortHelp                                    = "V Order";
+ComboOrderV.LongHelp                                     = "- Min. -
+  The order in V direction of the selected geometry being below
+  this value is increased until it reaches this value. For the
+  approximation the order can be increased until 7 at maximum.
+- Max. -
+  The order in V direction of the selected geometry being above
+  this value is reduced until it reaches this value. For the
+  approximation the order cannot exceed this value.
+- Fix -
+  Increase and/or decrease the order in V direction of all selected
+  elements until it meets exactly the order specified here. For the
+  approximation, the order cannot have another value than the specified one.";
+LabelOrderU.Title                                        = "  U: ";
+LabelOrderU.ShortHelp                                    = "U order";
+LabelOrderU.LongHelp                                     = "Definition of maximum, minimum, or fix
+order in U direction of the result.";
+LabelOrderV.Title                                        = "  V: ";
+LabelOrderV.ShortHelp                                    = "V order";
+LabelOrderV.LongHelp                                     = "Definition of maximum, minimum, or fix
+order in V direction of the result.";
+SpinnerOrderU.LongHelp                                   = "Defined maximum/minimum/fix order in U direction.";
+SpinnerOrderU.ShortHelp                                  = "U order";
+SpinnerOrderV.LongHelp                                   = "Defined maximum/minimum/fix order in V direction.";
+SpinnerOrderV.ShortHelp                                  = "V order";
+LinkOrder.LongHelp                                       = "V value equals U value.
+V option is dimmed.";
+LinkOrder.ShortHelp                                      = "V equals U";
+
+//Segmentation
+FrameSegments.Title                                      = "Segmentation";
+FrameSegments.LongHelp                                   = "Definition of the maximum, minimum, or fix number of segments of the result.";
+ComboSegmentsU.ShortHelp                                 = "U Segmentation";
+ComboSegmentsU.LongHelp                                  = "- Min. -
+  Increase the number of segments in U direction of the selected geometry
+  which is below this value until it reaches this value. For the
+  approximation the number of segments can be arbitrarily increased.
+- Max. -
+  The number of segments in U direction of the selected geometry being
+  above this value is reduced until it reaches this value. For the
+  approximation the number of segments cannot exceed this value.
+- Fix - 
+  Increase and/or decrease the segmentation in U direction of all selected
+  elements until it meets exactly the segmentation specified here.
+  For the approximation, the number of segments cannot have
+  another value than the specified one.";
+ComboSegmentsV.ShortHelp                                 = "V Segmentation";
+ComboSegmentsV.LongHelp                                  = "- Min. -
+  Increase the number of segments in V direction of the selected geometry
+  which is below this value until it reaches this value. For the
+  approximation the number of segments can be arbitrarily increased.
+- Max. -
+  The number of segments in V direction of the selected geometry being
+  above this value is reduced until it reaches this value. For the
+  approximation the number of segments cannot exceed this value.
+- Fix - 
+  Increase and/or decrease the segmentation in V direction of all selected
+  elements until it meets exactly the segmentation specified here.
+  For the approximation, the number of segments cannot have
+  another value than the specified one.";
+LabelSegmentsU.Title                                     = "  U: ";
+LabelSegmentsU.ShortHelp                                 = "U segments";
+LabelSegmentsU.LongHelp                                  = "Number of segments in U direction";
+LabelSegmentsV.Title                                     = "  V: ";
+LabelSegmentsV.ShortHelp                                 = "V segments";
+LabelSegmentsV.LongHelp                                  = "Number of segments in V direction";
+SpinnerSegmentsU.ShortHelp                               = "U segments";
+SpinnerSegmentsU.LongHelp                                = "Defined maximum/minimum/fix number of segments in U direction.";
+SpinnerSegmentsV.ShortHelp                               = "V segments";
+SpinnerSegmentsV.LongHelp                                = "Defined maximum/minimum/fix number of segments in V direction.";
+
+ComboText.Fix                                            = "Fix";
+ComboText.Max                                            = "Max.";
+ComboText.Min                                            = "Min.";
+
+//old
+ComboTypeText.Exact                                      = "Exact";
+ComboTypeText.Manual                                     = "Manual";
+ComboTypeText.Order                                      = "Order";
+ComboTypeText.Segmentation                               = "Segmentation";
+FrameType.LongHelp                                       = "Order, Segmentation and Smoothing
+- Exact -
+  Order and number of segments are minimized.
+  The maximum order is 7.
+  Number of segments increases to keep the Tolerance.    
+- Smooth -
+  Like Exact, but with a smoother curve
+  and a greater value of Deviation.
+- Order -
+  The order is defined by the user.
+- Segmentation -
+  Number of segments is defined by the user.
+- Manual 
+  Order and number of segments are defined by the user.";
+FrameType.Title                                          = "Type";
+ParmToleranceSpinner.LongHelp                            = "A small Tolerance value results in a time-consuming calculation.
+Start with a big value and decrease it.";
+ParmToleranceSpinner.ShortHelp                           = "Tolerance value";
+
+//Internal control: body type of fused cells
+ICMApproximationPanel.BodyTypeOfFusedCellsResetMessage   = "In order to ensure a correct handling of the number of segments
+set in the approximation tab of this command, a modification of
+the cell fusion operation was necessary. Therefore, the cell structure
+of the approximation result may differ from previous results.";
+ICMApproximationPanel.BodyTypeOfFusedCellsResetTitle     = "Information";

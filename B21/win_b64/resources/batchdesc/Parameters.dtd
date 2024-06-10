@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding="UTF-8"?>
+<!-- Specify a required format for the batch parameters file -->
+
+<!-- required --> 
+<!ELEMENT inputParameters ANY>
+<!ELEMENT outputParameters ANY>
+<!ELEMENT PCList ANY> 
+<!ELEMENT LIList ANY> 
+<!ELEMENT root ANY> 
+
+<!ATTLIST root	id CDATA #IMPLIED
+			  batch_name CDATA #REQUIRED
+
+			  user CDATA #IMPLIED
+
+			  password CDATA #IMPLIED
+
+			  env CDATA #IMPLIED
+
+ 			  setting_mode CDATA #IMPLIED 
+ 			  
+ 			  version	CDATA #IMPLIED
+ 			  
+ 			  licfile	CDATA #IMPLIED>
+
+
+<!-- elements definitions -->
+<!ELEMENT file EMPTY>
+<!ELEMENT folder EMPTY>
+<!ELEMENT simple_arg EMPTY>
+<!ELEMENT PC EMPTY>
+<!ELEMENT LI EMPTY>
+
+<!ATTLIST file id CDATA #REQUIRED
+			   filePath CDATA #REQUIRED
+			   upLoadable ( RightNow|Yes|No ) 'RightNow'
+			   type ( bin|ascii ) 'bin'
+			   destination CDATA #IMPLIED
+			   automatic CDATA #IMPLIED>
+			   													 
+<!ATTLIST folder id CDATA #REQUIRED 
+				folderPath CDATA #REQUIRED
+				 upLoadable ( RightNow|Yes|No ) 'RightNow'
+			     destination CDATA #IMPLIED
+				 type ( bin|ascii ) 'bin'
+				 extension CDATA #IMPLIED
+				 automatic CDATA #IMPLIED>	 
+ 
+<!ATTLIST simple_arg id CDATA #REQUIRED
+			       value CDATA #REQUIRED>	 
+
+<!ATTLIST PC name CDATA #REQUIRED>
+
+<!ATTLIST LI type CDATA #REQUIRED
+						 name CDATA #REQUIRED
+						 buffer CDATA #REQUIRED>	
+						  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

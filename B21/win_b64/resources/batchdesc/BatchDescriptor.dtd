@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding="UTF-8"?>
+
+<!-- Specify a parameters files format for the batche PrintDrawing -->
+
+
+
+<!ELEMENT batch ANY>
+<!ELEMENT PCList ANY> 
+<!ELEMENT PC EMPTY>
+<!ELEMENT SETTList ANY>
+<!ELEMENT SETT ANY>
+<!ELEMENT flow ANY>
+<!ELEMENT tasks ANY>
+<!ELEMENT conditions ANY>
+
+
+<!ELEMENT task EMPTY>
+<!ELEMENT condition EMPTY>
+
+
+
+<!ATTLIST batch id CDATA #IMPLIED
+
+				name CDATA #REQUIRED
+
+				description	CDATA #IMPLIED
+
+				language CDATA #IMPLIED
+
+				script CDATA #IMPLIED
+
+				inputFormat CDATA #IMPLIED
+
+				category CDATA #IMPLIED
+
+				commandline CDATA #REQUIRED
+
+				UILibname CDATA #IMPLIED
+
+				NeedsVisu CDATA #IMPLIED
+				
+				catalog CDATA #IMPLIED
+				
+				keydesc CDATA #IMPLIED
+
+				remotable CDATA #IMPLIED
+				
+				catutil CDATA #IMPLIED
+				
+				server CDATA #IMPLIED
+				
+				splittable CDATA #IMPLIED
+				
+				flow	CDATA #IMPLIED
+				
+				scattered	CDATA #IMPLIED>
+
+
+<!ATTLIST SETT filename CDATA #REQUIRED>
+
+<!ATTLIST task id CDATA #REQUIRED
+					name CDATA #REQUIRED
+					cond CDATA #IMPLIED
+					while CDATA #IMPLIED>
+
+<!ATTLIST condition id CDATA #REQUIRED
+					type CDATA #REQUIRED
+					val  CDATA #REQUIRED
+					task CDATA #IMPLIED
+					spec CDATA #IMPLIED>

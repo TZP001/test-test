@@ -1,0 +1,15 @@
+<?xml encoding="US-ASCII"?>
+
+<!-- @version:  -->
+
+<!ELEMENT CATSpecs (StartUp)+>
+<!ELEMENT StartUp (AttBlock)+>
+<!ATTLIST StartUp SUType CDATA #REQUIRED>
+<!ELEMENT AttBlock (AttDesc)+>
+<!ATTLIST AttBlock Block (base|geom|techno|feedrate|user) #REQUIRED>
+<!ELEMENT AttDesc (AttVal)*>
+<!ATTLIST AttDesc 
+	Name CDATA #REQUIRED
+	Type (angle|length|time|real|integer|string|enum|linearfeedrate|angularfeedrate) "string"
+	DefaultValue CDATA #REQUIRED>
+<!ELEMENT AttVal (#PCDATA)>

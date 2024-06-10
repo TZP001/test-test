@@ -1,0 +1,66 @@
+Language="VBSCRIPT"
+
+'*****************************************************************************
+'*
+'*		Description:
+'*			Sample of a VB Script macro to export and import CATSettings
+'*                    
+'*      Pre-requisite:
+'*                Modify DirName and ImpFile before running this script.
+'*      Use:
+'*			1- Open Catia/Delmia
+'*			2- Go into "Prismatic" workbench
+'*			3- Run this script
+'*                           Created by Dassault Systemes
+'*
+'*****************************************************************************
+
+'*** Global variables
+'***
+Dim MfgDoc1 As Document
+Dim DirName As VARIANT
+Dim ImpFile As VARIANT
+Dim CATSetting As AnyObject
+Dim MachiningWorkbench  As  Workbench 
+Dim Setup1 As ManufacturingSetup
+
+
+
+'*******************************************************************************************
+'*
+'* Main Entry  Point
+'*
+'*******************************************************************************************
+
+ Sub CATMain()
+  DirName = "G:\Adele\R21\YIGMSIDevPrjR21_2\xml"
+  ImpFile = "G:\Adele\R21\YIGMSIDevPrjR21_2\xml\mod\NCMfgDisplay.xml"
+  Set MfgDoc1 = CATIA.ActiveDocument
+  Set ActivityRef = MfgDoc1.GetItem("Process")
+
+  If (ActivityRef.IsSubTypeOf("PhysicalActivity")) Then
+     Set children = ActivityRef.ChildrenActivities
+     quantity = children.Count
+     if quantity <= 0 then
+         Exit Sub
+     End if
+
+      For I=1 To quantity
+ 	     Set child = children.Item(I)
+      	 If (child.IsSubTypeOf("ManufacturingSetup")) Then
+		      Set Setup1 = child
+              Exit For
+         End if
+     Next
+
+	Setup1.ExportCATSetting DirName 
+    Setup1.ImportCATSetting ImpFile 
+
+ End if
+
+
+
+
+ End Sub
+
+

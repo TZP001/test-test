@@ -1,0 +1,63 @@
+INFO_HELP="
+CATDMUCacheSettings legge e/o modifica le impostazioni della cache.\n
+Uso:\n
+   Richiama le informazioni della guida:
+      CATDMUCacheSettings -h\n
+   Legge i valori correnti delle impostazioni della cache:
+      CATDMUCacheSettings -r outputfile [-unit string]\n
+   Modifica i valori delle impostazioni della cache:
+      CATDMUCacheSettings [-r outputfile] [-a|-d]
+                          [-u localdir] [-g reldir1[ reldir2..]]
+                          [-tscheck|-notscheck] [-size value1]
+                          [-sag value2] [-vox value3] [-unit string]\n
+Esempi Windows:\n
+   CATDMUCacheSettings -h
+   CATDMUCacheSettings -r c:\u\currentvalues.txt -unit INCH
+   CATDMUCacheSettings -a\n
+Esempi Unix:\n
+   CATDMUCacheSettings -h
+   CATDMUCacheSettings -a -u /u/local -sag 0.1
+   CATDMUCacheSettings -r /u/currentvalues -a -u /u/local -sag 0.1\n
+Argomenti:\n
+   -h            : Guida.
+   -r outputfile : Per leggere le impostazioni (prima di eventuali modifiche).
+                   Il comando viene utilizzato con le stesse opzioni.
+   -a            : Attiva la gestione della cache.
+   -d            : Disattiva la gestione della cache.
+   -u localdir   : Definisce la directory della cache locale.
+   -g reldir1 .. : Definisce le directory della cache remota.
+   -tscheck      : Verifica la registrazione data/ora.
+   -notscheck    : Non verifica la registrazione data/ora.
+   -size value1  : Definisce la dimensione massima, in MB, della cache locale.
+   -sag value2   : Genera cgr con un valore di sagitta specificato.
+   -vox value3   : Genera 3dmap con un valore di voxel specificato.
+   -unit string  : Definisce l'unità di misura per i valori di lunghezza.
+                   Può essere:
+                   - MM per i millimetri
+                   - CM per i centimetri
+                   - M per i metri
+                   - INCH per i pollici
+                   - FOOT per i piedi
+                   Per impostazione predefinita l'unità è il millimetro (MM).\n
+Diagnostica:\n
+   I possibili valori di stato sono:\n
+      0   Operazione completata.\n
+      1   Errore dovuto ad una delle seguenti cause:
+          - licenza non disponibile
+          - argomenti mancanti
+          - combinazione di opzioni non valida
+          - parametro mancante dopo un'opzione
+          - file di emissione non trovato
+          - impossibile scrivere nel file di emissione
+          - directory non valida\n
+      2   Errore di elaborazione.\n
+Determinazione dei problemi:\n
+   Stato = 1:
+      Modificare la riga di comando o l'ambiente utilizzando le informazioni
+      contenute nel file degli errori standard.\n
+   Stato = 2:
+      Contattare il supporto locale.
+";
+ERR_PROCESSING="ERRORE: Non è possibile elaborare CATDMUCacheSettings.";
+START_BATCH="CATDMUCacheSettings avviato alle:";
+STOP_BATCH="CATDMUCacheSettings arrestato dopo una durata di:";

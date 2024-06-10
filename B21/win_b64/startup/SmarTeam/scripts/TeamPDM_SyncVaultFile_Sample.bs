@@ -1,0 +1,175 @@
+	Option Explicit
+'----------------------------------------------------------------------------
+' Function Name	:   SynchronizeFileWithDB_Sample
+' Purpose		:   Synchronize the file with the Database
+'
+' Note			:	This script is just a sample to show how we can synchronize the attributes 
+'					stored in the file with the attributes of datebase
+'  ----------------------------------------------------------------------------
+
+
+Function TeamPDM_SyncVaultFile_Sample(ApplHndl As Long,Sstr As String,FirstPar As Long,SecondPar As Long,ThirdPar As Long ) As Integer
+' FirstPar  - Record List, containing all attributes of the current object
+	
+    ' ViewPort.Open
+    Print "--> TeamPDM_SyncVaultFile_Sample"		
+	'========================================================================
+	' Converting procedural script arguments into COM ones.
+	'========================================================================	
+	' Get Session from Application handle.
+	Dim SmSession As ISmSession	
+	Set SmSession = SCREXT_ObjectForInterface(ApplHndl)
+
+	Dim SmSessionUtil As ISmSessionUtil
+	Set SmSessionUtil = SmSession.GetService("SmUtil.SmSessionUtil")
+
+	' Convert Record lists to COM Representation.
+	Dim COMList01	As Object
+	Dim COMList02	As Object
+	Dim COMList03	As Object
+
+	CONV_RecListToComRecordList FirstPar,COMList01 
+	CONV_RecListToComRecordList SecondPar,COMList02
+	CONV_RecListToComRecordList ThirdPar,COMList03
+
+	'========================================================================
+	' Retrieve the selected Object.
+	'========================================================================	
+
+	' Check that if there is only one selected object 
+	Dim iRecNumb As Integer	
+	iRecNumb = COMList01.RecordCount
+	If iRecNumb > 1	Then
+		'Warning
+		MsgBox "Warning : More than one object are selected."+(Chr(13))+"Only the first object is going to be synchronized"	
+	End If
+
+	Dim i As Integer
+	Dim compObject As ISmCompositeObject
+	Set compObject = SmSession.ObjectStore.CompositeObjectFromData(COMList01, 0, true)
+	Dim OneObject As ISmObject
+	For i = 0 To compObject.Count-1
+		Set OneObject = compObject.ItemByIndex(i)
+		If OneObject.SmClass.ClassType = 2 Then ' ctSubClass
+			Exit For
+		Else
+			Set OneObject = Nothing
+		End If
+	Next i
+
+	If OneObject Is Nothing Then
+		MsgBox "Warning : No valid object is selected"
+		Print "<-- TeamPDM_SyncVaultFile_Sample"		
+		Exit Function
+	End If
+
+	Dim COMFirstSmObject As ISmObject
+	Set COMFirstSmObject = OneObject.Clone
+	COMFirstSmObject.Retrieve
+
+	' Check the retrieved SmObject 
+	' COMFirstSmObject.Data.PrintToFile "COMFirstSmObject", "C:\COMFirstSmObject.txt" 
+
+
+	'========================================================================
+	' Get CATIA Session and connect to SMARTEAM if not connected yet.
+	'========================================================================
+	On Error Resume Next									   
+	' Get CATIA Object
+	Dim CATIA As Object
+	Set CATIA = GetObject(,"CATIA.Application")
+	If Err Then
+		Err.Clear
+		Print "[I] CATIA is not launched, try to launch CATIA"
+		Set CATIA = CreateObject("CATIA.Application")
+		If Err Then
+			MsgBox "Can't launch CATIA, please launch it manually and re-try this command"
+			Print "<-- TeamPDM_SyncVaultFile_Sample"
+			Exit Function
+		End If
+	End If
+
+	' Get Engine and VB Object
+	Dim appSTI As Object
+	Set appSTI = CATIA.GetItem("CATStiVB")
+
+	Dim oTheStiEngine As Object
+    Set oTheStiEngine = CATIA.GetItem("CAIEngine")
+
+	' Connect to SMARTEAM if not yet conneted
+	'	Use Empty user name and password to connect to SMARTEAM, 
+	'	CATIA will log on the current session of SMARTEAM
+	Dim IsConnectedBefore As Boolean
+	IsConnectedBefore = oTheStiEngine.IsConnected 
+    If Not IsConnectedBefore Then
+		Print "[I] Connect to SMARTEAM"
+	    Dim snull As String
+        oTheStiEngine.Connect snull, snull
+    End If
+
+	'========================================================================
+	' Check Before performing the synchronization
+	'========================================================================
+	' Verify that the selected object is in state 'Checked In' or 'Released'	
+	Dim state As Integer
+	state = COMFirstSmObject.Data.ValueAsString("STATE") 
+	If ( state<>1 And state<>3 ) Then
+		MsgBox "Please select a object in Checked In or Released state"
+		If Not IsConnectedBefore Then
+			oTheStiEngine.Disconnect
+		End If
+		Print "<-- TeamPDM_SyncVaultFile_Sample"
+		Exit Function		
+	End If
+
+	' Verfiy that the document with the same name of the selected object is NOT opened in CATIA 
+	Dim CADRefName As String
+	Dim Document As Object
+	
+	CADRefName = COMFirstSmObject.Data.ValueAsString("CAD_REF_FILE_NAME")	
+	Set Document = CATIA.Documents.Item(CADRefName)
+ 	If Not Document Is Nothing Then
+		'Document is already opened in CATIA, display a message
+		MsgBox "A document with the same name of the selected object is opened in CATIA."& chr$(13) & chr$(10) &_
+			   "Please close this document and re-try this command"
+		'Disconnect from SMARTEAM if necessary
+		If Not IsConnectedBefore Then
+			oTheStiEngine.Disconnect
+		End If
+		Print "<-- TeamPDM_SyncVaultFile_Sample"
+		Exit Function
+	Else
+		'OK, can not get the document(it's not opened yet), clear the err log
+		If err Then 
+			Err.clear
+		End If		
+	End If
+	
+	'========================================================================
+	' Synchronizing the file with Database
+	'========================================================================
+	Dim ClassId As Integer
+	Dim ObjectId As Long
+   	
+	' Get class identifier
+	ClassId = COMFirstSmObject.Data.ValueAsInteger("CLASS_ID")
+	' Get object identifier
+	ObjectId = COMFirstSmObject.Data.ValueAsInteger("OBJECT_ID")
+	
+	' Synchronize the file with Database
+	appSTI.SynchronizeFileWithDB ClassId, ObjectId
+	If Err Then
+		MsgBox "Error during synchronizing the file with Database"
+	Else
+		MsgBox "The file has been successfully synchronized with SMARTEAM database" & chr$(13) & chr$(10) &_
+ 			   "( If there exists a copy of the selected Object in the WORK directory please delete it! ) ", 0, "Operation succeeded"
+	End If
+	
+	' Disconnect from SMARTEAM if Necessary
+	If Not IsConnectedBefore Then
+		oTheStiEngine.Disconnect
+	End If
+
+	Print "<-- TeamPDM_SyncVaultFile_Sample"
+End Function
+

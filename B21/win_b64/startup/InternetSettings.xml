@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<settings>
+
+	<!--
+	  Define proxy settings for http, https
+	<proxy HTTPHost="proxy" HTTPPort="8080" HTTPSHost="proxy" HTTPSPort="8080" BypassMask=".dsy.ds;.dassault-systemes.fr" BypassForLocalAddresses="true"/>
+	-->
+
+	<!--
+	  IBM jdk: ( add \jre\lib\ext\ibmjsse.jar to classpath )
+	<ssl ProviderClassName="com.ibm.jsse.IBMJSSEProvider" ProviderProtocol="com.ibm.net.ssl.internal.www.protocol" TrustStore="..."/>
+
+	  Sun jdk: ( add \jre\lib\jsse.jar to classpath )
+	<ssl ProviderClassName="com.sun.net.ssl.internal.ssl.Provider" ProviderProtocol="com.sun.net.ssl.internal.www.protocol" TrustStore="..."/>
+	-->
+	<ssl ProviderClassName="com.ibm.jsse.IBMJSSEProvider" ProviderProtocol="com.ibm.net.ssl.internal.www.protocol" TrustStore="c:\key.jks" Debug="true"/>
+
+	<soap UseChunkEncoding="false" KeepAlive="false" KeepAliveTimeout="60"/>
+</settings>

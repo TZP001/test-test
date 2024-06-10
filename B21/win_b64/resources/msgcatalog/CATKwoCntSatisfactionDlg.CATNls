@@ -1,0 +1,125 @@
+// COPYRIGHT DASSAULT SYSTEMES 2000
+//===================================================================
+//
+// Catalog for CATKweSetOfEquationsEditorDlg class
+//
+//===================================================================
+//
+// Usage notes:
+//
+//===================================================================
+Active.Title = "Set of Equations Editor: /P1 Active";
+Inactive.Title = "Set of Equations Editor: /P1 Inactive";
+
+text_editor.Help = "Enter the Set of Equations body";
+text_editor.LongHelp = "Set of Equations Editor\n",
+                       "A Set of Equations enables to modify constrained parameters.\n\n",
+                       "The following syntax should be used :\n",
+                       "PartBody\Pad.1\FirstLimit\Length * Real.5 == PartBody\Pad.1\SecondLimit\Length\n",
+                       "and\n",
+                       "PartBody\Pad.1\FirstLimit\Length * Real.5 + PartBody\Pad.1\SecondLimit\Length == 12mm\n\n",
+                       "To enter parameters names, key in their names, use the dictionary provided below or\n",
+                       "select the 3D constraints associated to each parameter.\n",
+                       "To display the 3D constraint, select a feature in the geometry or in the specification tree.\n";
+
+InputsLabel.Title = "Constant parameters";
+OutputsLabel.Title = "Unknown parameters";
+
+SetInputsButton.Title="Set Inputs";
+SetInputsButton.Help="Sets input parameters for Set of Equations";
+SetInputsButton.ShortHelp="Set Input Parameters";
+SetInputsButton.LongHelp="Sets input parameters for the Set of Equations.\nA special dialog box allows you to divide parameters into two groups: inputs (constants) and outputs(variables)";
+
+ButtonFrame.MoveToInputsPushButton.Help = "Moves the selected parameter(s) to the input parameters (constant)";
+ButtonFrame.MoveToInputsPushButton.LongHelp = "Moves the selected parameter(s) to the input parameters.\nInput parameters are considered as constant when the Set of Equations is solved.";
+ButtonFrame.MoveToOutputsPushButton.Help = "Moves the selected parameter(s) to the output parameters (unknown).";
+ButtonFrame.MoveToOutputsPushButton.LongHelp = "Moves the selected parameter(s) to the output parameters.\n Output parameters are considered as unknown when the Set of Equations is solved";
+
+
+InputsSelectorList.Help = "Displays the input parameters (constant)";
+InputsSelectorList.LongHelp = "Constant parameters\nShows the selected input parameters.\nThe input parameters values are constant when solving the Set of Equations.";
+InputsSelectorList.ColumnTitle1 = "Name";
+InputsSelectorList.ColumnTitle2 = "Value";
+
+OutputsSelectorList.Help = "Displays the output parameters (unknown)";
+OutputsSelectorList.LongHelp = "Unknown parameters\nShows the selected output parameters.\n The output parameters values change when solving the Set of Equations.";
+OutputsSelectorList.ColumnTitle1 = "Name";
+OutputsSelectorList.ColumnTitle2 = "Value";
+
+TabOptions.SolverOptionsFrame.Title = "Algorithm";
+TabOptions.StopOptionsFrame.Title   = "Termination criteria";
+TabOptions.BBAlgorithmsFrame.Title  = "Black boxes algorithm";
+TabOptions.BBOptionsFrame.Title     = "Black boxes parameters";
+
+TabOptions.EpsBaseText.Title = "Precision";
+TabOptions.EpsBaseValue.Help = "Enter computation precision from the range [1e-10, 0.1]";
+TabOptions.EpsBaseValue.ShortHelp="Enter computation precision";
+TabOptions.EpsBaseValue.LongHelp = "Enter the computation precision of the Set of Equations.\n",
+                       "The parameter has an impact on the accuracy of a solution.\n",
+                       "The possible values of the parameter should be in the range [1e-10, 0.1].";
+
+TabOptions.GaussText.Title = "Use Gauss method for linear equations";
+TabOptions.GaussValue.Title = "";
+
+TabOptions.StopText.Title = "Show 'Stop' dialog box";
+
+TabOptions.TimeText.Title = "Maximum computation time (sec.)  ";
+TabOptions.TimeValue.Help = "Enter a maximum computation time";
+TabOptions.TimeValue.ShortHelp="Enter Maximum Computation Time";
+TabOptions.TimeValue.LongHelp = "Enter the maximum computation time.\n",
+                       "The parameter is used to limit the computation time.\n",
+                       "If the Set of Equations computation is longer than the indicated time,\n",
+                       "then computations are stopped.\n",
+                       "If the parameter is equal to 0, then the computation time is unlimited.";
+
+TabOptions.SetDefault.Title = "Restore default settings";
+TabOptions.Empty1.Title = "    ";
+
+TabOptions.BBGradient.Title  = "Gradient";
+TabOptions.BBQuadratic.Title = "Quadratic approximation";
+
+TabOptions.BBEpsText.Title = "Precision (for black boxes)";
+TabOptions.BBEpsText.LongHelp = "Enter the computation precision for black boxes.\n",
+                       "The parameter has an impact on the data adequacy and on the accuracy of a solution.\n",
+                       "The values of the parameter should be inferior to the values of the parameter 'Precision'.";
+TabOptions.BBCallsText.Title = "Maximum number of black boxes calls";
+TabOptions.BBCallsText.LongHelp = "Enter the maximum number of black boxes calls.\n",
+                       "This parameter is used to limit the computation time.\n",
+                       "If the Set of Equations performs more black boxes calls than the indicated number,\n",
+                       "computations are stopped.\n",
+                       "If the parameter is equal to 0, the computation time is unlimited.";
+TabOptions.BBAttemptsText.Title    = "Number of attempts";
+TabOptions.BBAttemptsText.LongHelp = "Indicates the number of initial points to start the many-dimensional algorithm.\n",
+                       "The modification of the parameter can increase the data adequacy of a solution \n",
+                       "(and the computation time) for all many-dimensional black boxes.";
+TabOptions.BBUseUnimodal.Title     = "Use unimodal interval";
+TabOptions.BBUnimodalText.Title    = "         width";
+TabOptions.BBUnimodalText.LongHelp = "A wide of unimodal interval for the one-dimensional algorithm.\n",
+                       "The parameter has an impact on the data adequacy of a solution for all one-dimensional black boxes.";
+TabOptions.BBExact.Title    = "Minimize the number of black boxes calls";
+TabOptions.BBExact.LongHelp = "Minimizes the number of black boxes calls\nIf checked, the internal black box method of searching an exact solution is used.\n",
+                       "In this case the number of black boxes calls can be reduced, but the computation time can increase.";
+TabOptions.BBCacheSizeText.Title    = "Cache size";
+TabOptions.BBCacheSizeText.LongHelp = "Size of the blackboxes cache.";
+
+TabOptions.BBNHeuristicText.Title = "N- dimension Heuristic";
+TabOptions.BBNHeuristicText.LongHelp = "N- dimension Heuristic.\n",
+                       "The option selects the algorithm to evaluate the black box function.\n",
+                       "There are 2 algorithms:\n",
+                       " - 'N interval gradient'. The many-dimensional gradient algorithm. The Set of Equations are used to get exact solutions.\n",
+                       " - 'N gradient'. The many-dimensional gradient algorithm which enables to get exact solution.";
+TabOptions.BB1HeuristicText.Title = "1- dimension Heuristic";
+TabOptions.BB1HeuristicText.LongHelp = "1- dimension Heuristic.\n",
+                       "The parameter selects the algorithm to evaluate the black box function.\n",
+                       "There are 4 algorithms:\n",
+                       " - 'N interval gradient'. The many-dimensional gradient algorithm.\n",
+                       " - 'N gradient'. The many-dimensional gradient algorithm which allows to get exact solutions.\n",
+                       " - '1 gradient'. The one-dimensional gradient algorithm.\n",
+                       " - '1 quadratic'. The one-dimensional algorithm of quadratic approximation.";
+
+TabOptions.ErrorsText.Title = "Generate expanded error description";
+TabOptions.ErrorsValue.Title = "";
+
+TabOptions.WarnLvlText.Title    = "Shows additional warnings";
+TabOptions.WarnLvlText.Help     = "Shows additional warnings";
+TabOptions.WarnLvlText.LongHelp = "Shows additional warnings";

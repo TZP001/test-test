@@ -1,0 +1,578 @@
+//NLS-ENGLISH VERSION
+//=======================================================================
+// MODULE :  IgesDataExchange
+//=======================================================================
+
+// JRX 2002-08-09 : Ajout de messages d'erreur pour CATIgesConicArc
+// KVL 2002-06-04 : Creation de CATIgesImport.CATNls et refonte des anciens CATNls Iges.
+// DFB 2001-11-15 : Ajout de messages d'erreur pour la detection de trous 3D 
+//				   (CATIgesCurveOnParametricSurface et CATIgesBoundary)
+// DFB 2001-11-22 : Ajout de Bad_GetEndPPoints, Hole2DLoop et OrientPCurves
+// DFB 2001-12-11 : Ajout de Bad_ControlPoints2D
+// JRX 2001-10-24 : Ajout de messages d'erreur pour le Parsing (fsbDataTreatment)
+// MEF 2003-03-14 : Ajout de message d'erreur dans le traitement de la global data
+// mef 2004-02-05 : Ajout d'un warning si probleme de licence sur l'insert
+// CNY 2004-05-19 : Ajout d'un message info "mode CGR" pour CATIgesExportTypeManager
+// OPC 2006-06-23 : Reecriture des messages niveau Customer pour meilleure compréhension
+// wbu 28/03/2007 : ajout des messages d'erreur sur le parsing utilisable par le protocole CATIReporter et GetLastError
+
+
+// Numeros utilises : (import Iges : de [1001] a [1999]
+// [1000] a [1099] : fsb*
+// [1100] a [1149] : CATIgesCurveOnParametricSurface et CATIgesBoundary
+// [1150] a [1199] : CATIgesTrimmedParametricSurface
+// [1200] a [1299] : CATIgesElement (Actuellement utilises : 1200 a 1202) 
+// [1300] a [1399] : fileIges*
+// [1500] a [1549] : CATIgesBSplineSurface
+// [1550] a [1599] : CATIgesBSplineCurve
+// [1600] a [1649] : CATIgesCompositeCurve
+// [1650] a [1699] : CATIgesParametricSplineCurve
+// [1701] a [1750] : CATIgesConicArc
+// [1751] a [1770] : CATEIgesShapeFileSelection
+// [1800] a [1820] : CATIgesExportTypeManager
+// [1850] a [1860] : CATIgesExchangeDocu CATIgesInterface
+
+
+//--------------------------------------
+//  Messages from CATIgesExchangeDocu (CATIgesInterface.cpp)
+//--------------------------------------
+
+
+CATIgesExchangeDocu.Error.IGES = 
+"   <E> [1850] Problema nel file IGES.
+!!            La fase di analisi è stata interrotta in modo anomalo.";
+
+CATIgesExchangeDocu.Error.IGSS = 
+"   <E> [1851] Errore nella sezione di avvio.
+!!            La fase di analisi è stata interrotta in modo anomalo.";
+
+CATIgesExchangeDocu.Error.IGGS = 
+"   <E> [1852] Errore nella sezione globale.
+!!            La fase di analisi è stata interrotta in modo anomalo.";
+
+CATIgesExchangeDocu.Error.IGSPD = 
+"   <E> [1853] Errore nella sezione DE o PD.
+!!            La fase di analisi è stata interrotta in modo anomalo.";
+
+
+//--------------------------------------
+//  Messages from CATIgesInterface
+//--------------------------------------
+
+CATDXFileServices.Error.InputFileNotReadable = 
+"!! <E> [1858] Impossibile leggere il file IGES (errore PathERR_1001):
+               Il file IGES non esiste o non è leggibile.
+               Verificare l'esistenza del file e se si dispone delle autorizzazioni per leggerlo." ;
+
+CATDXFileServices.Error.InvalidName = 
+"!! <E> [1859] Il nome del file IGES da aprire non è valido (errore PathERR_1021):
+               Il nome del file contiene caratteri non ASCII o è vuoto.
+               Verificare la presenza di caratteri non validi nel nome del file. Se necessario, rinominare il file IGES ed eseguire nuovamente l'operazione.";
+
+CATIgesInterface.Error.TitreMsg =
+"\n o=====================================================o";
+
+
+
+//-----------------------------------------------
+//  Messages from CATIgesCurveOnParametricSurface
+//  Messages from CATIgesBoundary
+//-----------------------------------------------
+
+// Warning : Trou dans la loop 143 ou 144 3D du fichier iges - dfb
+CATIgesCurveOnParametricSurface.Warning.HoledLoop3D=
+"   <W> [1100] [T=/p2] [/p1] Dati non validi: il bordo 3D contiene un foro: /p4 /p3"; 
+
+// Warning : Trou dans la loop 143 ou 144 2D du fichier iges - dfb
+CATIgesCurveOnParametricSurface.Warning.HoledLoop2D =
+"   <W> [1101] [T=/p2] [/p1] Dati non validi: il bordo parametrico contiene un foro /p4 /p3"; 
+
+// Warning : Si la methode GetEndPPoints n'est pas implementee, on ne peut reorienter la loop 2D - dfb
+CATIgesCurveOnParametricSurface.Warning.Bad_GetEndPPoints =
+"   <W> [1102] [T=/p2] [/p1] Impossibile trovare gli estremi. Impossibile invertire la rappresentazione 2D del bordo /p4"; 
+
+// Warning : Mauvaise orientation des PCurves 2D  - dfb
+CATIgesCurveOnParametricSurface.Warning.OrientPCurves =
+"   <W> [1103] [T=/p2] [/p1] Il bordo contiene curve 2D invertite /p3"; 
+
+
+//-----------------------------------------------
+//  Messages from CATIgesTrimmedParametricSurface
+// [1150] a [1199]
+//-----------------------------------------------
+
+// Erreur : Pas de Surface pour cette face
+CATIgesTrimmedParametricSurface.Error.NoSurface=
+"   <E> [1150] Non vi è nessuna superficie per questa faccia. Verificare l'integrità del file IGES /p3"; 
+
+
+//--------------------------------------
+//  Messages from CATIgesElement
+//--------------------------------------
+
+
+CATIgesElement.Msg.Name_406 = 
+"   <I> [1200] [T=/p2] [/p1] Il nome dell'entità è stato specificato da un'entità 406 formato 15: /p3";
+
+CATIgesElement.Msg.Name_DE = 
+"   <I> [1201] [T=/p2] [/p1] Il nome dell'entità è stato specificato nei campi 18 e 19 di DE: /p3";
+
+CATIgesElement.Msg.Name_Undef = 
+"   <I> [1202] [T=/p2] [/p1] Per questa entità non è stato specificato nessun nome.";
+
+
+
+//--------------------------
+//  Messages from fileIges* 
+//--------------------------
+
+
+fileIGEStool.Error.IGES = 
+"   <E> [1317] Errore durante la lettura del file IGES /p1";
+
+
+fileIGEStool.Error.IGBAD = 
+"   <E> [1318] È stata utilizzata un'opzione non valida per aprire il file /p1";
+
+
+fileIGEStool.Error.IGST = 
+"   <E> [1319] Errore del file IGES: manca il record finale oppure delle righe vengono visualizzate dopo la sezione Terminate /p1";
+
+
+fileIGEStool.Error.IGGS = 
+"   <E> [1320]  Errore relativo alla sezione globale del file IGES /p1";
+
+
+fileIGEStool.Error.IGSPD = 
+"   <E> [1321] Errore relativo alla sezione PD del file IGES /p1";
+
+
+fileIGEStool.Error.EOF = 
+"   <E> [1301] Fine prematura del file durante la lettura del record PD #/p2 nel file /p1";
+
+
+fileIGEStool.Error.IncBloc = 
+"   <E> [1302] Blocco incompleto durante la lettura del record PD #/p2 nel file /p1";
+
+
+fileIGES.Error.IGFILE = "File IGES /p1 non trovato o accesso negato";
+
+
+fileIGES.Error.IGESF = 
+"   <E> [1323] Il file /p1 non è un file .igs";
+
+
+fileIGES.Error.IGESO = 
+"   <E> [1322] Impossibile aprire il file IGES /p1";
+
+
+fileIGES.Error.IGESC = "Impossibile chiudere il file IGES /p1";
+
+
+fileIGES.Msg.IGESS = 
+"   <W> [1324] Avvertenza: è necessario specificare almeno un record di inizio."; 
+
+
+fileIGES.Msg.IGProdIdSend = 
+"   <W> [1325] Errore del file IGES: problema relativo all'identificazione del prodotto dal mittente";
+
+
+fileIGES.Msg.IGFileN = 
+"   <W> [1326] Errore relativo al nome del file";
+
+
+fileIGES.Msg.IGSysId = 
+"   <W> [1327] Errore relativo all'ID del sistema nativo";
+
+
+fileIGES.Msg.IGPrepVers = 
+"   <W> [1328] Errore relativo alla versione del preprocessore";
+
+
+fileIGES.Msg.IGIntRep = 
+"   <W> [1329] Errore relativo alla rappresentazione dei valori interi";
+
+
+fileIGES.Msg.IGSingPrecMag = 
+"   <W> [1330] Errore relativo alla misura di precisione singola";
+
+
+fileIGES.Msg.IGSingPrecSig = 
+"   <W> [1331] Errore relativo al significato di precisione singola";
+
+
+fileIGES.Msg.IGDbPrecMag = 
+"   <W> [1332] Errore relativo alla misura di precisione doppia";
+
+
+fileIGES.Msg.IGDbPrecSig = 
+"   <W> [1333] Errore relativo al significato di precisione doppia";
+
+
+fileIGES.Msg.IGProdIdRec = 
+"   <W> [1312] Errore relativo all'identificazione del prodotto per il ricevitore";
+
+
+fileIGES.Msg.IGSca = 
+"   <W> [1334] Errore relativo alla scala di spazio modello";
+
+
+fileIGES.Msg.IGUnitFlg = 
+"   <W> [1335] Errore relativo al flag di unità";
+
+
+fileIGES.Msg.IGUnitNam = 
+"   <W> [1336] Errore nelle unità";
+
+
+fileIGES.Msg.IGMaxLinGrad = 
+"   <W> [1337] Errore relativo alle gradazioni di peso massimo della riga";
+
+
+fileIGES.Msg.IGMaxLinUnit = 
+"   <W> [1338] Errore relativo alla larghezza del peso massimo della riga nelle unità";
+
+
+fileIGES.Msg.IGDateGen = 
+"   <W> [1339] Errore relativo alla data e all'ora di creazione del file di scambio";
+
+
+fileIGES.Msg.IGMinUserRes = 
+"   <W> [1340] Errore relativo alla risoluzione utente minima";
+
+
+fileIGES.Msg.IGAppMaxCoord = 
+"   <W> [1341] Errore relativo all'approssimazione del valore massimo della coordinata";
+
+
+fileIGES.Msg.IGNamAut = 
+"   <W> [1342] File IGES: problema relativo all'autore";
+
+
+fileIGES.Msg.IGAutOrg = 
+"   <W> [1343] Errore relativo all'organizzazione dell'autore";
+
+
+fileIGES.Msg.IGVersNum = 
+"   <W> [1344] Errore nella numero di versione";
+
+
+fileIGES.Msg.IGDraftStd = 
+"   <W> [1345]  Errore relativo al codice standard di draft";
+
+
+fileIGES.Msg.IGDateMod = 
+"   <W> [1346]  Errore relativo alla data e all'ora di creazione o modifica del modello";
+
+
+fileIGES.Msg.IGMilSpec = 
+"   <W> [1347] Errore nella specifica MIL";
+
+
+fileIGES.Msg.defaultParameter = 
+"   <W> [1348] File IGES: i valori dei parametri sono stati impostati sui valori predefiniti";
+
+
+fileIGES.Msg.InvalidParameter = 
+"   <W> [1349] Avvertenza: i valori dei parametri successivi non sono validi";
+
+
+fileIGES.Error.IGES = 
+"   <W> [1313] Errore durante la lettura del file IGES /p1";
+
+
+fileIGES.Error.IGMissPD = 
+"   <W> [1314] Sezione PD mancante (o struttura del file errata) nel file IGES /p1";
+
+IGMissPDERR_1001.Request="Il file IGES non è conforme allo standard IGES " ;
+IGMissPDERR_1001.Diagnostic="Errore di lettura della sezione PD o sezione mancante nel file IGES " ;
+IGMissPDERR_1001.Advice="Verificare se il file contiene delle righe di 80 colonne o se le colonne da 66 a 72 in tutte le righe dei parametri contengono il numero di sequenza della prima riga in DE del numero del tipo di entità..." ;
+
+
+fileIGESelement.Msg.IGPar = 
+"   <W> [1315] Riga di parametri non valida /p1 nella sezione PD";
+
+//erb
+fileIGESelement.Msg.InvalidePD= 
+"   <W> [1316]  Sezione PD non specificata o non valida per l'entità DE: /p2 di tipo /p1";
+
+
+fileIGESelement.Msg.InvNurbsConv =  "Conversione non valida da /p1 in superficie NURBS";
+
+
+fileIGESelement.Msg.UnavailableMethod = "Il metodo /p1 per /p2 l'oggetto non è ancora disponibile.";
+
+
+fileIGESelement.Msg.ObjCreationKO = "Creazione dell'oggetto non riuscita. Impossibile creare l'oggetto della classe /p1.";
+
+
+fileIGESelement.Msg.PbInMethod =
+"   <W> [1303] Errore nel metodo /p1 dell'oggetto classe /p2.";
+
+
+fileIGES.Error.IGWrite = "Errore durante la scrittura del file IGES /p1";
+
+
+fileIGESelement.Msg.Knot="/p1 : Molteplicità non supportate per knotvector della curva Bspline";
+
+//Example of utilization of this message:
+//The entity DE=1269 of type 104 form 2 is not supported.
+fileIGESelement.Msg.MyForme=" forma ";
+
+fileIGESopenElement.Reading.Entity =
+"   <I> [1300] [T=/p2] [/p1] Parser; lettura dell'entità (/p3) <S>";
+
+
+fileIGESopenElement.error.Ptr3DCurve= "Nessun puntatore per DE della curva 3D per l'entità di tipo 142";
+
+fileIGESopenElement.Error.Traitement =
+"\nL'entità DE=/p1 di tipo /p2 non è supportata ";
+
+fileIGESopenElement.Error.dimention2 =
+"\n Avvertenza: il file contiene la geometria 2D. \n";
+
+
+fileIGEStool.Error.IgsControlChars = "Il file /p1 non è conforme alla norma: sono stati rilevati dei caratteri /p2 non consentiti durante l'accesso in lettura. Viene eseguito un tentativo di ripulitura.";
+fileIGEStool.Error.IgsNoASCIIChars=
+"   <W> [1350] Il file /p1 non è conforme alla norma: i caratteri /p2 non sono consentiti. Sono stati sostituiti.";
+
+fileIGESopenElement.Warning.Copiousdata=
+"   <W> [1304] !! Un'entità di tipo Copious Data non viene traslata per memoria insufficiente";
+
+fileIGEStool.Warning.PtrDE =
+"!! <E> [1305] [T=/p2] [#/p1] Errore del file IGES: puntatore della voce della directory non valido (/p3) nei dati dei parametri dell'entità";
+
+fileIGESopenElement.Warning.EntNonSup =
+"!! <W> [1306] [T=/p2] [#/p1] Questo tipo di entità non è supportato.";
+
+fileIGESopenElement.Warning.FormNonSup =
+"!! <W> [1307] [T=/p2] [#/p1] Questo formato di entità (/p3) non è supportato.";
+
+fileIGESopenElement.Error.MidDE =
+"!! <E> [1308] [T=/p2] [#/p1] Errore del file IGES: il puntatore dei dati dei parametri non punta al primo record del blocco di dati dei parametri dell'entità";
+
+fileIGESopenElement.Warning.ConicBadForm=
+"   <W> [1309] [T=/p2] [#/p1] Dati non validi nel file IGES: la forma di questa entità non è corretta. È stata sostituita dalla forma 0.";
+
+fileIGESelement.Msg.InterruptConversion=
+"   <W> [1310] È stato attivato il pulsante di interruzione del trasferimento: la conversione viene interrotta";
+
+fileIGES.Error.GlobalDataDefault =
+"****************************
+!! <E> [1311] Dati non validi: impossibile leggere la sezione Globale nel file IGES. I valori predefiniti sono considerati...
+****************************";
+
+
+//---------------------
+//  Messages from fsb*
+//---------------------
+
+fsb.Msg.GlobaleSection  =
+"\n ***** INFORMAZIONI SUL FILE IGES: SEZIONE GLOBALE *****";
+
+fsb.Msg.IdentificationSender =
+"\nIdentificazione del prodotto dal mittente               : ";
+
+fsb.Msg.FileName =
+"\nNome file                                        : ";
+
+fsb.Msg.SystemID =
+"\nID sistema                                      : ";
+
+fsb.Msg.Preprocessor =
+"\nVersione del preprocessore                             : ";
+
+fsb.Msg.NbBinary =
+"\nNumero di bit binari per la rappresentazione di numeri interi: ";
+
+fsb.Msg.SingleMagnitude =
+"\nMisura di precisione singola: ";
+
+fsb.Msg.SingleSignifiance =
+"\nSignificato della precisione singola                   : ";
+
+fsb.Msg.DoubleMagnitude =
+"\nMisura di precisione doppia                       : ";
+
+fsb.Msg.DoubleSignifiance =
+"\nSignificato della precisione doppia                   : ";
+
+fsb.Msg.IdentificationReceiver =
+"\nIdentificazione del prodotto per il ricevitore               : ";
+
+fsb.Msg.SpaceScale =
+"\nScala di Spazio modello: ";
+
+fsb.Msg.Flag =
+"\nFlag unità: ";
+
+fsb.Msg.Units =
+"\nUnità                                            : ";
+
+fsb.Msg.Gradations =
+"\nNumero massimo di gradazioni di peso per riga         : ";
+
+fsb.Msg.WidthUnits =
+"\nLarghezza del peso massimo della riga per unità            : ";
+
+fsb.Msg.DateTimeExchange =
+"\nData e ora di creazione del file di scambio          : ";
+
+fsb.Msg.Resolution =
+"\nRisoluzione utente minima                 : ";
+
+fsb.Msg.Coordinate =
+"\nApprossima valore massimo della coordinata             : ";
+
+fsb.Msg.Author =
+"\nAutore: ";
+
+fsb.Msg.Organization =
+"\nOrganizzazione: ";
+
+fsb.Msg.Version =
+"\nNumero di versione                                   : ";
+
+fsb.Msg.Code =
+"\nCodice standard di draft                           : ";
+
+fsb.Msg.DateTimeModif =
+"\nData e ora di creazione o modifica del modello           : ";
+
+fsb.Msg.Specification =
+"\nSpecifica multipla ( protocollo W.E.I.Y.I. )        : ";
+
+fsb.Msg.StartSection =
+"\n\n\n ***** INFORMAZIONI SUL FILE IGES: SEZIONE DI INIZIO  *****\n";
+
+fsb.Msg.Info =
+"Nessuna informazione";
+
+fsb.Msg.Error =
+"
+!! <E> [1007] Il file di immissione presenta una struttura non valida in base alla norma IGES.
+              Impossibile leggere questa sezione. Consultare il file IGES.\n";
+
+fsbDataTreatment.Warning.ThereIsInvalidData =
+"\n *****  AVVERTENZA  *****\n   <W> [1000] Questo file contiene dati non validi in base alla norma IGES: /p3\n";
+
+fsbDataTreatment.Warning.No3DCrvInLoop =
+"   <W> [1001] Alcuni loop non presentano nessuna curva 3D /p3";
+
+fsbDataTreatment.Warning.No2DCrvInLoop =
+"   <W> [1002] Alcuni loop non presentano nessuna curva parametrica /p3";
+
+fsbDataTreatement.Processtopo.Storing =
+"   <I> [1003] [T=/p2] [/p1] Parser; memorizzazione dell'entità (/p3) <D>";
+
+fsbDataTreatement.Processtopo.514Invalid =
+"   <E> [1004] [T=/p2] [/p1] Parser; il guscio non è valido: il numero di facce utilizzate è minore di 1";
+
+fsbDataTreatement.Processtopo.186Invalid =
+"   <E> [1005] [T=/p2] [/p1] Parser; oggetto B-REF del solido manifold non valido: impossibile ottenere DE del guscio esterno";
+
+fsbDataTreatment.Warning.3DCrvWithFlag2D =
+"   <W> [1006] [T=/p2] [/p1] Il flag di utilizzo dell'entità (2D) non è corretto. Non è stato preso in considerazione ";
+
+//----------------------------------------------
+//  Messages from CATIgesBSplineSurface
+//---------------------------------------------
+
+CATIgesBSplineSurface.Warning.BSplSurfMLK=
+"   <W> [1500] [T=/p2] [/p1] MLK /p3";
+
+CATIgesBSplineSurface.Warning.CopyElemTabError=
+"   <W> [1501] [T=/p2] [/p1] È stato indicato una serie non compresa nell'intervallo /p3";
+
+
+
+//-----------------------------------------------
+//  Messages from CATIgesBSplineCurve
+//-----------------------------------------------
+ 
+CATIgesBSplineCurve.Warning.ActiveSplitKO=
+"   <W> [1550] [T=/p2] [/p1] È stata rilevata un'eccezione nel taglio delle curve 3D durante l'elaborazione di /p3";
+
+CATIgesBSplineCurve.Warning.GetLimitsOnCvKO=
+"   <W> [1551] [T=/p2] [/p1] È stata rilevata un'eccezione durante il ripristino dei parametri della curva /p3";
+
+
+
+//---------------------------------------------
+//  Messages from CATIgesParametricSplineCurve
+//---------------------------------------------
+
+// Warning : Probleme sur les points de controle de la loop 2D - dfb
+CATIgesParametricSplineCurve.Warning.Bad_ControlPoints2D = 
+"   <W> [1650] [T=/p2] [/p1] La curva spline parametrica presenta dei punti di controllo non corretti, elaborazione del bordo con la rappresentazione 3D /p4"; 
+
+CATIgesParametricSplineCurve.Error.Bad_Data= 
+"   <W> [1651] [T=/p2] [/p1] Questo file contiene dati non validi /p3"; 
+
+
+//----------------------------------------------
+//  Messages from CATIgesConicArc
+//---------------------------------------------
+
+CATIgesConicArc.Error.IncorrectEllipse=
+"   <W> [1701] Dati non validi o non supportati: forma dell'arco conico /p4 non rilevata come ellisse /p3";
+
+CATIgesConicArc.Error.IncorrectHyperbola=
+"   <W> [1702] Dati non validi: forma dell'arco conico 2 non rilevata come iperbole /p3";
+
+CATIgesConicArc.Error.IncorrectParabola=
+"   <W> [1703] Dati non validi: forma dell'arco conico 3 non rilevata come parabola /p3";
+
+
+//--------------------------------------
+//  Messages from CATEIgesShapeFileSelection 
+//--------------------------------------
+
+GlobalFrame.NoLicense=
+"Per accedere a questa estensione è richiesta la licenza di MultiCad";
+
+
+//------------------------------------------
+//  Messages from CATIgesExportTypeManager 
+//------------------------------------------
+
+// Info : Import en mode CGR
+CATIgesExportTypeManager.Info.CGRMode=
+"   <I> [1800] Inizio importazione in modalità CGR"; 
+
+
+//------------------------------------------
+//  Messages for CATIReporter 
+//------------------------------------------
+
+PathERR_1001.Request="Impossibile leggere il file IGES." ;
+PathERR_1001.Diagnostic="Il file IGES non esiste o non è possibile leggerlo." ;
+PathERR_1001.Advice="Verificare l'esistenza del file e se si dispone delle autorizzazioni per leggerlo." ;
+
+PathERR_1021.Request="Il nome del file IGES da aprire non è valido." ;
+PathERR_1021.Diagnostic="Il nome del file IGES contiene caratteri non ASCII o è vuoto." ;
+PathERR_1021.Advice="Verificare la presenza di caratteri non validi nel nome del file. Rinominare il file IGES, se necessario, e provare ad aprirlo nuovamente." ;
+
+IGProdIdSend_1001.Request="Errore relativo all'identificazione del prodotto dal mittente" ;
+IGProdIdSend_1001.Diagnostic="Errore nella sezione globale del file IGES: l'identificazione del prodotto dal mittente non è corretta" ;
+IGProdIdSend_1001.Advice="Verificare l'identificazione del prodotto dal nome del mittente nella sezione globale del file IGES." ;
+
+IGProdIdSend_1001.Request="Errore relativo al nome del file" ;
+IGProdIdSend_1001.Diagnostic="Errore nella sezione globale del file IGES: errore relativo al nome del file" ;
+IGProdIdSend_1001.Advice="Verificare il nome del file nella sezione globale del file IGES." ;
+
+IGSysId_1001.Request="Errore relativo all'ID del sistema nativo" ;
+IGSysId_1001.Diagnostic="Errore nella sezione globale del file IGES: errore relativo all'ID del sistema nativo" ;
+IGSysId_1001.Advice="Verificare l'ID del sistema nativo nella sezione globale del file IGES." ;
+
+IGPrepVers_1001.Request="Errore relativo alla versione del preprocessore" ;
+IGPrepVers_1001.Diagnostic="Errore nella sezione globale del file IGES: errore relativo alla versione del preprocessore" ;
+IGPrepVers_1001.Advice="Verificare la versione del preprocessore nella sezione globale del file IGES." ;
+
+InvalidParameter_1001.Request="I valori dei parametri non sono validi" ;
+InvalidParameter_1001.Diagnostic="Errore nella sezione globale del file IGES: i valori dei parametri non sono validi. Per ulteriori informazioni, consultare il file di messaggi (*.err)" ;
+InvalidParameter_1001.Advice="Verificare i parametri nella sezione globale del file IGES." ;
+
+InvalidMandatoryParameters_1001.Request="I valori dei parametri utili non sono validi" ;
+InvalidMandatoryParameters_1001.Diagnostic="Errore nella sezione globale del file IGES: i valori dei parametri utili non sono validi. Per ulteriori informazioni, consultare il file di messaggi (*.err)" ;
+InvalidMandatoryParameters_1001.Advice="Verificare i parametri utili nella sezione globale del file IGES." ;

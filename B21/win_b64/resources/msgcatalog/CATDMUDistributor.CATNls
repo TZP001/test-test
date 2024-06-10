@@ -1,0 +1,71 @@
+INFO_HELP="
+CATDMUDistributor copies DMU data (CATProduct, related cache data and others)
+   given in a list from their current location to a distant location or computes
+   a list of files to copy.\n
+Usage:\n
+   Retrieve the help information:
+      CATDMUDistributor -h\n
+   Copy DMU data from their current location to a distant location:
+      CATDMUDistributor inputdir cachedir docdir [-s char]\n
+   Computes a list of files to copy:
+      CATDMUDistributor inputdir cachedir docdir -list file [-s char]\n
+Windows Examples:\n
+   CATDMUDistributor -h
+   CATDMUDistributor c:\input e:\cache e:\document\n
+Unix Examples:\n
+   CATDMUDistributor -h
+   CATDMUDistributor /u/input /v/cache /v/document\n
+Arguments:\n
+   -h            : Help.
+   inputdir      : To define the directory containing files which list documents.
+                   These files contain from one to many lines.
+                   Each line has to contain the identifier of a document.
+                   For file based document, the identifier is the path of the
+                   document (containing eventually a DLName preceeded by 'CATDLN://').
+                   For VPM based document, the identifier is 'COID COMPID CAENV CATAB'.
+   cachedir      : To define the distant cache directory.
+   docdir        : To define the distance directory that will contains all
+                   documents except cache data.
+                   This directory can be a DLName preceeded by 'CATDLN://'.
+   -list file    : Output file that will contains a list of documents to copy.
+                   Each line contains the path of original data and the path of
+                   the copy data separated by a blank.
+   -s char       : To define the character used to separate field on a line
+                   within input or output file.
+                   By default blank character is used.\n
+Diagnostics:\n
+   Possible exit status values are:\n
+      0   Successful completion.\n
+      1   Failure due to any of the following:
+          - licence not available
+          - cache management deactivated
+          - missing arguments
+          - invalid parameter
+          - missing of parameter after an option
+          - missing input directory
+          - missing cache directory
+          - missing docuement directory
+          - invalid directory
+          - unable to open an input file
+          - unable to write in an output file
+      2   Processing error.\n
+      3   Partially processed.\n
+Troubleshooting:\n
+   Exit status = 1:
+      Modify command line or environment using information contained within
+      the standard error file.\n
+   Exit status = 2:
+      Contact you local support.\n
+   Exit status = 3:
+      Fix the files that cause problem: their names are contained in the standard
+      error file. An interactive use of files may inform about problem.
+";
+ERR_PROCESSING="ERROR: CATDMUDistributor fails to process.";
+ERR_MISSING_INPUT_DIR="ERROR: Input directory must be defined.";
+ERR_MISSING_CACHE_DIR="ERROR: Cache directory must be defined.";
+ERR_MISSING_DOCUMENT_DIR="ERROR: Document directory must be defined.";
+ERR_COPY="ERROR: The cache data corresponding to the following document cannot be copied:";
+OK_COPY="OK: The cache data corresponding to the following document was copied:";
+NO_COPY="ERROR: There is no cache data corresponding to the following document:";
+START_BATCH="CATDMUDistributor starts at :";
+STOP_BATCH="CATDMUDistributor stops after a duration of :";

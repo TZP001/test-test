@@ -1,0 +1,88 @@
+//---------------------------------------------------------------------------
+//  WebTop Settings exchange command resources
+//---------------------------------------------------------------------------
+
+//---------------------------------------------------------------------------
+//  English Version
+//---------------------------------------------------------------------------
+
+//---------------------------------------------------------------------------
+//  Usage Message
+//---------------------------------------------------------------------------
+Usage = "Utilizzo: /P1 -db <dbURL> <dbUser> <dbPasswd> -t <dir> ",
+        "-cp <classpath> [-exportall|-importall] [-h|-help]\n",
+		"Utilità per lo scambio delle impostazioni WebTop con le impostazioni in formato WinTop (.CATSettings).\n",
+		"<dbURL>  : URL di connessione del database di impostazioni. A seconda del tipo di database:\n",
+        "           - per DB2: l'URL ha il seguente formato:\n",
+        "                jdbc:db2://<dbhost>:<dbport>/<dbname>\n",
+        "           - per ORACLE, l'URL ha il seguente formato:\n",
+        "                jdbc:oracle:thin:@<dbhost>:<dbport>:<dbname>\n",
+        "            dove:\n",
+        "                <dbhost>: è il nome host del database\n",
+        "                <dbport>: è la porta del database\n",
+        "                <dbname>: è il nome del database\n",
+        "<dbUser>  : utente per la connessione con il database.\n",
+        "<dbPasswd>: password per la connessione con il database.\n",
+        "  -t <dir>: directory di base per le impostazioni WebTop in formato .CATSettings.\n",
+        "            Nel caso di -exportall, se questa directory già esiste,\n",
+        "            è necessario che sia vuota (altrimenti, il comando non verrà eseguito e\n",
+        "            verrà stampato un messaggio di errore). Se la directory non esiste già,\n",
+        "            verrà creata.\n",
+        "  -cp <classpath> : CLASSPATH contenente i driver JDBC richiesti.\n",
+        "            - per DB2, il CLASSPATH deve presentare il seguente formato:\n",
+        "                   <path>/db2jcc.jar\n",
+        "              (i file db2jcc_license_cu.jar e db2jcc_license_cisuz.jar devono essere\n",
+        "              contenuti nella directory <path>)\n",
+        "            - per ORACLE, il CLASSPATH deve presentare il seguente formato:\n",
+        "                   <path>/ojdbc6.jar\n",
+        "  -exportall: esporta tutte le impostazioni WebTop nella directory specificata da -t <dir>\n",
+        "  -importall: importa in WebTop tutti i .CATSettings dalla directory specificata da -t <dir>\n",
+        "  -h|-help: visualizza questo messaggio della guida\n";	
+
+//---------------------------------------------------------------------------
+//  Error Messages on arguments
+//---------------------------------------------------------------------------
+ArgMissingAfterT = "ERRORE: directory mancante dopo l'argomento '-t'.";
+ArgMissingAfterCp = "ERRORE: classpath mancante dopo l'argomento '-cp'.";
+ArgMissingDBURL = "ERRORE: nome dell'URL del database mancante dopo l'argomento '-db'.";
+ArgMissingDBUser = "ERRORE: nome utente del database mancante dopo l'argomento '-db <dbURL>'.";
+ArgMissingDBPasswd = "ERRORE: password del database mancante dopo l'argomento '-db <dbURL> <dbUser>'.";
+ArgUnknown = "ERRORE: argomento non riconosciuto: /P1";
+
+ArgMissingTargetDir = "ERRORE: argomenti '-t <dir>' mancanti.";
+ArgMissingClasspath = "ERRORE: argomenti '-cp <classpath>' mancanti.";
+ArgMissingDBArgs = "ERRORE: argomenti '-db <dbURL> <dbUser> <dbPasswd>' mancanti.";
+ArgMissingCommand = "ERRORE: argomento '-exportall' o '-importall' mancante.";
+
+//---------------------------------------------------------------------------
+//  Information Messages
+//---------------------------------------------------------------------------
+ExportStarting = "INFO: avvio dell'esportazione delle impostazioni WebTop nella directory /P1,",
+	        	 " con classpath /P2' e con i seguenti parametri del database: /P3\n";
+ExportDone = "INFO: esportazione delle impostazioni WebTop completata\n";
+
+ImportStarting = "INFO: avvio dell'importazione delle impostazioni WebTop dalla directory /P1,",
+	        	 " con classpath /P2' e con i seguenti parametri del database: /P3\n";
+ImportDone = "INFO: importazione delle impostazioni WebTop completata\n";
+		   
+//---------------------------------------------------------------------------
+//  Error/Info Messages on target directory
+//---------------------------------------------------------------------------
+TargetDirNotADir = "ERRORE: la directory /P1 non è una directory";
+TargetDirNotEmpty = "ERRORE: la directory di destinazione /P1 non è vuota";
+DirCantCreate = "ERRORE: impossibile creare la directory /P1";
+CreatedDir = "INFO: la directory /P1 è stata creata";
+
+		   
+//---------------------------------------------------------------------------
+//  Error/Info Messages on the Java sub-program
+//---------------------------------------------------------------------------
+MissingJAVAHOME = "ERRORE: la variabile di ambiente obbligatoria JAVA_HOME non è impostata\n";
+MissingCATInstallPath = "ERRORE: la variabile di ambiente obbligatoria CATInstallPath non è impostata\n";
+MissingV5JarStarter = "ERRORE: file /P1 non trovato nella concatenazione\n";
+ExportXMLStart = "INFO: avvio dell'esportazione delle impostazioni in formato .CATSettings.\n";
+ExportXMLSpawn = "INFO: avvio del seguente comando: \n";
+FailedExportXML = "ERRORE: impossibile eseguire l'esportazione delle impostazioni in formato .CATSettings utilizzando il seguente comando: /P1\n";
+
+
+

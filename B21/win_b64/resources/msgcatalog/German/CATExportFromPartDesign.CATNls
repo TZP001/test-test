@@ -1,0 +1,211 @@
+//NLS-ENGLISH VERSION
+//=======================================================================
+// MODULE :  PartDataCreation 
+//=======================================================================
+// 2002-04-03: KVL: CATPartExportedBody
+// 05/04/2002: JHH: Message sur les faces en auto-intersection
+// 08/07/2002: KVL: Instrumentation sur le parsing de la CATPart
+// 18/07/2002: KVL: Instrumentation sur les algos
+// 08/12/2008: ARH: Ajout message CATPartTesselatedFTA.Warning.OrphanDimVisu
+
+// Numeros utilises :
+//[5001] a [5149] messages generaux
+//[5150] a [5170] CATPartDesignInterface
+//[5200] a [5211] CATPartExpElement
+//[5250] a [5254] CATPartExportedBody
+//[5270] a [5271] CATPartExportedTools
+//[5290] CATPartExportedNurbsPCurve
+//[5310] a [5319] CATPartExportedFace
+//[5330] a [5331] CATPartExportedSurface
+//[5350] CATPartExportedEdge
+//[5400] a [5401] CATPartExportedProperties
+//[5450] CATPartCurveTools
+//
+
+//--------------------------------------
+//  Messages generaux
+//--------------------------------------
+
+CATPartExported.Error.Create3DCurve="   <E> [5002] 3D-Kurve kann nicht aus /p1 erzeugt werden";
+
+
+//--------------------------------------
+//  Messages from CATPartInterface
+//--------------------------------------
+
+// Error Message Window
+CATPartInterface.Msg.Create3DCurve="3D-Kurve kann nicht aus /p1 erzeugt werden";
+
+//
+//--------------------------------------
+//  Messages from CATPartDesignInterface
+//--------------------------------------
+CATPartDesignInterface.Info.NbElements="   <I> [5150] Die Anzahl der übertragenen Elemente beträgt /p4 /p3";
+
+CATPartDesignInterface.Info.OpenBody="   <I> [5151] BEHANDLUNG Offener Körper /p3";
+
+CATPartDesignInterface.Info.PartBody="   <I> [5152] BEHANDLUNG Hauptkörper /p3";
+
+CATPartDesignInterface.Info.OpenBodySize="   <I> [5153] Die Anzahl der Elemente des offenen Körpers beträgt /p4 /p3";
+
+CATPartDesignInterface.Info.PartBodySize="   <I> [5154] Der Hauptkörper wird mit /p4-Skizzierer(n) übertragen /p3";
+
+CATPartDesignInterface.Info.EmpreinteFeature="   <I> [5155] Die Komponente /p4 hat einen Eindruck auf dem Volumenkörper /p3";
+
+CATPartDesignInterface.Info.NoEmpreinteFeature="   <I> [5156] Die Komponente /p4 hat keinen Eindruck auf dem Volumenkörper /p3";
+
+
+CATPartDesignInterface.Info.SolidTreatment="   <I> [5157] Behandlung des Volumenkörpers /p4 /p3";
+
+CATPartDesignInterface.Info.EmpreinteFeatureFace="   <I> [5158] Die Komponente hat einen Eindruck auf der Teilfläche /p3";
+
+CATPartDesignInterface.Info.NoEmpreinteFeatureFace="   <I> [5159] Die Komponente hat keinen Eindruck auf der Teilfläche /p3";
+
+CATPartDesignInterface.Warning.PbColorSolidTreatment="   <I> [5160] Behandlung der Farben auf der Teilfläche fehlgeschlagen /p3";
+
+CATPartDesignInterface.Warning.PbBrepSolidTreatment="   <I> [5161] BRep nicht vorhanden /p3";
+
+CATPartDesignInterface.Warning.NoElement="   <W> [5162] Kein Element zum Übertragen /p3";
+
+
+//
+//----------------------------------------------------
+//  Messages from CATPartExpElement(messages generaux)
+//----------------------------------------------------
+
+// Error Message Window
+CATPartExpElement.Msg.PbInMethod="   <W> [5200] Problem in Methode /p1 von Klassenobjekt /p2.";
+
+CATPartExpElement.Warning.PbInMethod="   <W> [5200] Problem in Methode /p1 von Klassenobjekt /p2.";
+
+// Error Message Window
+CATPartExpElement.Msg.UnavailableMethod="Die Methode /p1 für das Objekt /p2 ist noch nicht verfügbar";
+
+CATPartExpElement.Warning.UnavailableMethod="Die Methode /p1 für das Objekt /p2 ist noch nicht verfügbar";
+
+//Fitting Surface(CATPartExportedFace et Surface)
+CATPartExpElement.Info.FittingSurface="   <I> [5201] [T=/p2] [#/p4] Versuch, diese im Iges-Format exportierte Fläche anzunähern /p3";
+
+// Echec Fitting Curve
+CATPartExpElement.Warning.EchecFittingCurve="   <W> [5202] [T=/p2] [#/p4] Die (P)Kurve konnte nicht angenähert werden. /p3";
+
+// Echec Fitting Face
+CATPartExpElement.Warning.EchecFittingFace="   <W> [5203] [T=/p2] [#/p4] Die Fläche konnte nicht angenähert werden. /p3";
+
+//(CATPartExportedNurbsCurve,SplineCurve,CATPartCurveTools)
+CATPartExpElement.Info.ConvertCrvToNurbsCrv="   <I> [5204] [T=/p2] [#/p4] Konvertierung einer Kurve in eine NURBS-Kurve /p3";
+
+//Echec de ConvertCrvToNurbsCrv
+CATPartExpElement.Warning.EchecConvertCrvToNurbsCrv="   <W> [5205] [T=/p2] [#/p4] Während Konvertierung keine Lösung gefunden /p3";
+
+//(CATPartExportedPSpline, CATPartCurveTools)
+CATPartExpElement.Info.ConvertPSplineToNurbs="   <I> [5206] [T=/p2] [#/p1] Konvertierung einer PSpline-Kurve in eine NURBS-Kurve /p3";
+
+//echec inclusion->projection(CATPartExportedCurve,NurbsCurve,SplineCurve)
+CATPartExpElement.Info.CATInclusionPtCrvEchec="   <I> [5207] [T=/p2] [#/p4] Die Einschlussmethode konnte keine Lösung finden. Es wird versucht, eine Projektion durchzuführen. /p3";
+
+//echec projection
+CATPartExpElement.Warning.CATProjectionPtCrvEchec="   <W> [5208] [T=/p2] [#/p4] Die Projektion konnte keine Lösung finden. /p3";
+
+//CreateDistanceMin
+CATPartExpElement.Info.CreatedistanceMin="   <I> [5209] [T=/p2] [#/p4] Berechnung der Startposition, die auf die Kurve projiziert wird /p3";
+
+//Echec de CreateDistanceMin
+CATPartExpElement.Warning.EchecCreatedistanceMin="   <W> [5210] [T=/p2] [#/p4] Der Punkt lässt sich nicht auf die Kurve projizieren /p3";
+
+//Echec de parametrisation apres creation de la multiforme
+CATPartExpElement.Warning.EchecParametrizationOfMultiform="   <W> [5211] [T=/p2] [#/p4] Parametrisierung der Mehrfachformkurve fehlgeschlagen /p3";
+//
+//--------------------------------------
+//  Messages from CATPartExportedBody
+//--------------------------------------
+
+// Self-intersecting face
+CATPartExportedBody.Error.SelfIntersectingFace="   <E> [5250] Sich selbst schneidende Teilfläche festgestellt (M)";
+
+// CatCreateTopRegularize
+CATPartExportedBody.Info.SmallEdges="   <I> [5251] [T=/p2] Zu kleine Kanten werden unterdrückt /p1";
+
+// EchecCatCreateTopRegularize
+CATPartExportedBody.Warning.EchecSmallEdges="   <W> [5252] [T=/p2] Das Unterdrücken zu kleiner Kanten ist fehlgeschlagen /p1";
+
+// Body with small edges
+CATPartExportedBody.Warning.SmallEdges="   <W> [5253] [T=/p2] Unterdrücken von kleinen Kanten /p1";
+
+//CreateBoundedCellsIterator
+CATPartExportedBody.Info.BnddCellsIter="   <I> [5254] [T=/p2] Erzeugung einer Zelle für jede Teilfläche eines Körpers /p1";
+
+// Invalid Solid at Check
+CATPartExportedBody.Error.InvalidSolid="!! <E> [5255] [T=/p2] Ungültiger Körper; enthaltene Volumenkörper werden nicht exportier /p3";
+
+// Invalid Shell at Check
+CATPartExportedBody.Error.InvalidShell="!! <E> [5256] [T=/p2] Ungültiger Körper; enthaltene Schalenelemente werden nicht exportiert /p3";
+
+// Invalid Body at Check
+CATPartExportedBody.Warning.InvalidBody="   <W> [5257] [T=/p2] Warnung: Ein ungültiger Körper wurde gefunden /p3";
+
+// Non-manifold Body
+CATPartExportedBody.Warning.NonManifoldBody="   <W> [5258] [T=/p2]  Warnung: ein Nicht-Vielfachkörper wurde gefunden /p3";
+
+//
+//--------------------------------------
+//  Messages from CATPartExportedTools
+//--------------------------------------
+CATPartExportedTools.Info.Create3DCurve="   <I> [5270] [T=/p2] [#/p1] Eine 3D-Kurve konnte nicht mit der Iges-Methode erzeugen werden /p3";
+
+CATPartExportedTools.Warning.Create3DCurveSmall="   <W> [5271] [T=/p2] [#/p1] Die 3D-Kurve ist zu klein: /p4. Versuch mit Iges-Methode /p3";
+
+//
+//--------------------------------------
+//  Messages from CATPartExportedNurbsPCurve
+//--------------------------------------
+CATPartExportedNurbsPCurve.Info.ConvertPNurbsToNurbs="   <I> [5290] [T=/p2] [#/p1] Die NURBS-Kurve wird erneut berechnet, nachdem die Periodizität unterdrückt wurde /p3";
+
+//
+//--------------------------------------
+//  Messages from CATPartExportedFace
+//--------------------------------------
+CATPartExportedFace.Info.CreateEquivalentPCurve="   <I> [5310] [T=/p2] [#/p1] Erzeugung einer neuen parametrischen Kurve, die der Kante entspricht /p3";
+
+CATPartExportedFace.Info.CreateBoundaryIterator="   <I> [5311] [T=/p2] [#/p4] Wiederherstellung der Konturen, der Kanten jeder Kontur und ihrer Ausrichtung /p3";
+
+CATPartExportedFace.Info.Convert="   <I> [5312] [T=/p2] [#/p1] Die /p4 wurde in PNurbs konvertiert /p3";
+
+CATPartExportedFace.Error.NullArea="   <E> [5313] [T=/p2] [#/p4] Der Teilflächenbereich beträgt null: Diese Teilfläche kann nicht exportiert werden. /p3";
+
+//
+//--------------------------------------
+//  Messages from CATPartExportedSurface
+//--------------------------------------
+CATPartExportedSurface.Info.CreateParam="   <I> [5330] [T=/p2] [#/p4]  Berechnung der Parameter (U,V) eines Punkts auf der Fläche /p3";
+
+CATPartExportedSurface.Info.RecadrageParam="   <I> [5331] [T=/p2] [#/p4] Die Werte der Begrenzungsflächen wurden angepasst /p3";
+
+//
+//--------------------------------------
+//  Messages from CATPartExportedEdge
+//--------------------------------------
+CATPartExportedEdge.Info.CreatedistanceMinEdge="   <I> [5350] [T=/p2] [#/p4] Die zwei 3D-Kurven, die mit verschiedenen Methoden berechnet wurden, werden verglichen, und die bessere Kurve wird dann verwendet. /p3";
+
+CATPartExportedEdge.Warning.distance="   <W> [5351] [T=/p2] [#/p4] Der Abstand zwischen Kurve und 3D-Kurve liegt zwischen 0.002 und 0.01. Ein Konflikt kann auftreten /p3";
+
+//
+//------------------------------------------
+//  Messages from CATPartExportedProperties
+//------------------------------------------
+CATPartExportedProperties.Warning.NoProperty="   <W> [5400] Eigenschaften werden durch das zu verarbeitende Element nicht beeinflusst /p3";
+
+CATPartExportedProperties.Warning.SeveralProperty="   <W> [5401] Eigenschaften werden durch das zu verarbeitende Element beeinflusst: möglicherweise falsche Eigenschaft /p3";
+
+//
+//------------------------------------------
+//  Messages from CATPartCurveTools
+//------------------------------------------
+CATPartCurveTools.Warning.NoInvert="   <W> [5450] [T=/p2] [#/p1] Die Kurve vom Typ CATPCurveEquation lässt sich nicht umkehren /p3";
+
+//
+//------------------------------------------
+//  Messages from CATDXV53DTessellatedAnnotationRepresentation
+//------------------------------------------
+CATPartTesselatedFTA.Warning.OrphanDimVisu="   <W> [5500] Die FTA /p1 ist eine unmaßstäbliche Bemaßung, die Bestandteil einer anderen FTA sein muss";
+CATPartTesselatedFTA.Warning.TypeNotPreserved="   <W> [5510] Die FTA /p4 mit dem Typ /p1, Supertyp /p2, wird exportiert als /p3";

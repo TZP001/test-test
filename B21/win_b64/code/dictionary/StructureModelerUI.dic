@@ -1,0 +1,78 @@
+#*****************************************************************************
+# CATIA Version 5 Release 1 Framework StructureUI
+# Copyright Dassault Systemes 1996
+#*****************************************************************************
+#  Abstract:
+#  ---------
+#    
+#*****************************************************************************
+#  Usage:
+#  ------
+#    
+#*****************************************************************************
+#  Historic
+#  --------
+#
+#  Author: Alain Debuisson
+#  Date  : 16/12/97
+#  Goal  : Creation
+#
+#  Author: Frederic Crabouillet
+#  Date  : 12/03/02
+#  Goal  : Drawing production
+#
+#  Author: Keyvan Valafar
+#  Date  : 07/30/03
+#  Goal  : End-Plate
+#
+#  Author: phx
+#  Date  : 08/05/07
+#  Goal  : remove tie to CATIEdit for STRPlate and STRMember due to double impl.
+#          in both CATStructurePlateShapeUI by RPG and this FW.
+#          We keep the impl. in the CATStructurePlateShapeUI FW.
+#
+#
+#*****************************************************************************
+
+#*****************************************************************************
+# Settings
+#*****************************************************************************
+
+CATStr3DLineRep         CATI3DGeoVisu                        libCATStrModelerUI 
+CATStrMemberPreviewRep  CATI3DGeoVisu                        libCATStrModelerUI 
+CATStrObjectAgent       CATI3DGeoVisu                        libCATStrModelerUI 
+CATStrRubberBandLineDA  CATI3DGeoVisu                        libCATStrModelerUI
+
+STRMember               CATIContextualSubMenu                libCATStrSelect
+#PHX R19GA COMMENTED OUT DUE TO ARCHI ERROR
+#STRMember               CATIEdit                             libCATStrSelect
+STRPlate                CATIContextualSubMenu                libCATStrSelect
+#PHX R19GA COMMENTED OUT DUE TO ARCHI ERROR
+#STRPlate                CATIEdit                             libCATStrSelect
+CATStrFunOpening        CATIContextualSubMenu                libCATStrSelect
+CATStrPlateSystem       CATIContextualSubMenu                libCATStrSelect
+CATStrPanelSystem       CATIContextualSubMenu                libCATStrSelect
+
+# sdnf                    CATInit                              libCATStrModelerUI
+# sdnf                    CATIEditor                           libCATStrModelerUI
+# sdnf                    CATIPersistent                       libCATStrModelerUI
+# sdnf                    CATIExchangeDocument                 libCATStrModelerUI
+
+#*****************************************************************************
+# Drawing production - FCU
+#*****************************************************************************
+#STRMember            CATIDftGenRequest          libCATEStrDwgProduction
+#CATStrOpening		 CATIDftGenRequest          libCATEStrDwgProduction
+#CATStrSystem		 CATIDftGenRequest			libCATEStrDwgProduction
+#CATStrSkeleton		 CATIDftGenRequest			libCATEStrDwgProduction
+
+#CATStrFunPillar		 CATIDftGenRequest			libCATEStrDwgProduction
+#CATPipPipingPart              CATIDftGenBox3DOperand     libCATEStrDwgProduction
+
+StrShellSpline				CATIEdit						libCATStrModelerUI
+StrShellSpline				CATIIcon						libCATStrModelerUI
+#*****************************************************************************
+# End-Plate KVR
+#*****************************************************************************
+CATStructureDesign          CATIStrEndPlateUI              libCATStrModelerUI
+CATESS                      CATIStrEndPlateUI              libCATStrModelerUI

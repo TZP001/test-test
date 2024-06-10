@@ -1,0 +1,87 @@
+#######################################################################
+#  configuration file to set access permissions of each user
+#
+#  ATTENTION: *DEFAULT must be placed before other users
+#
+#######################################################################
+#
+#
+#   LIST
+
+#   U  =  USER
+#   I  =  DNC INPUT
+#   O  =  DNC OUTPUT
+#   A  =  ARCHIVE
+#
+#   0  = no permission
+#   1  = only left list allowed
+#        $1         permission from archiv.config
+#        $2         directory of left list
+#        $3         directory of right list
+#        $4         selected file (only from the left)
+#   2  = only right list allowed
+#        $1         permission from archiv.config
+#        $2         directory of left list
+#        $3         directory of right list
+#        $4         selected file (only from the left)
+#   3  = both lists allowed
+#        $1         permission from archiv.config
+#        $2         directory of left list
+#        $3         directory of right list
+#        $4         path of delected file
+#        $5         selected file (left at first, then right)
+#   4  = without selection
+#        $1         permission from archiv.config
+#        $2         directory of left list
+#        $3         directory of right list
+#   5  = exactly on file from both lists
+#        $1         permission from archiv.config
+#        $2         directory of left list
+#        $3         directory of right list
+#        $4         selected file left
+#        $5         selected file right
+#  11  = only left list, but shellscript called only once
+#        $1         permission from archiv.config
+#        $2         directory of left list
+#        $3         directory of right list
+#        $4         file names, the selected files are located in (PATH;FILE)
+#  12  = only right list,
+#        $1         permission from archiv.config
+#        $2         directory of left list
+#        $3         directory of right list
+#        $4         file names, the selected files are located in (PATH;FILE)
+#  13  = both lists, but shellscript called only once
+#        $1         permission from archiv.config
+#        $2         directory of left list
+#        $3         directory of right list
+#        $4         file names, the selected files are located in (PATH;FILE)
+#
+#   configuration to allow the following function settings
+#   1    ADD  from the left to the right
+#   2    COP  copy from the right to the left
+#   3    BRW  browse files
+#   4    CMP  compare files
+#   5    PRI  display/print contents of archive (right list)
+#   6    ERA  erase files
+#   7    INFO info
+#   8    USE  extended info
+#   9    PUT  pu files back to the archive
+#  10    GET  get files from the archive
+#  11    REN  rename files
+#  12    SEA  search files
+#
+#
+#  ATTENTION : If values are changed here, the associated shellscripts must be
+#              possibly adapted
+#
+# USER          ! LIST  !  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
+*DEFAULT        !  U-A  !  1, 2, 3, 5, 4, 1, 4,12, 1,  2,  0, 12
+*DEFAULT        !  U-I  !  0, 0, 3, 5, 0, 1, 0, 0, 0,  2,  0, 12
+*DEFAULT        !  U-O  !  1, 2, 3, 0, 0, 1, 0, 0, 0,  0,  0, 12
+*DEFAULT        !  I-A  !  0, 0, 3, 5, 4, 0, 4,12, 0,  0,  0, 12
+*DEFAULT        !  I-O  !  0, 0, 3, 0, 0, 0, 0, 0, 0,  0,  0, 12
+*DEFAULT        !  O-A  !  0, 2, 3, 5, 4, 0, 4,12, 0,  0,  0, 12
+*DEFAULT        !  O-I  !  0, 2, 3, 0, 0, 0, 0, 0, 0,  0,  0, 12
+*DEFAULT        !  O-O  !  0, 0, 0, 0, 0, 0, 0, 0, 0,  0,  0,  0
+*DEFAULT        !  I-I  !  0, 0, 0, 0, 0, 0, 0, 0, 0,  0,  0,  0
+

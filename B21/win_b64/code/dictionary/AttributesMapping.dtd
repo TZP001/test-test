@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- COPYRIGHT DASSAULT SYSTEMES 2003 -->
+
+<!ELEMENT MappingDescription (DomainDef*, AttributesMapping*)>
+<!ELEMENT MappingDescrition (DomainDef*, AttributesMapping*)>
+<!ELEMENT DomainDef EMPTY>
+<!ELEMENT AttributesMapping (Attribute+)>
+<!ELEMENT Attribute (CATIAInfo?, DBInfo?)>
+<!ELEMENT CATIAInfo EMPTY>
+<!ELEMENT DBInfo EMPTY>
+<!ATTLIST DomainDef
+	EntityType (Part | Document) #REQUIRED
+	DefinitionType (UserExit | AttrValue | FixedValue) #REQUIRED
+	Name CDATA #REQUIRED
+>
+<!ATTLIST AttributesMapping
+	EntityType (Part | Document) #REQUIRED
+	DomainName CDATA #IMPLIED
+>
+<!ATTLIST Attribute
+	Name CDATA #REQUIRED
+	Type (STRING | INT | DOUBLE | BOOLEAN) #REQUIRED
+	UEName CDATA #IMPLIED
+>
+<!ATTLIST CATIAInfo
+	Name CDATA #REQUIRED
+	Visible (Yes | No) "Yes"
+	Editable (Yes | No) "Yes"
+  DefaultValue CDATA #IMPLIED
+>
+<!ATTLIST DBInfo
+	Name CDATA #REQUIRED
+	LCASubEntity ( PM | PV | II | DM | DV ) #IMPLIED
+	Visible (Yes | No) "Yes"
+	Editable CDATA #FIXED "Yes"
+  DefaultValue CDATA #IMPLIED
+>

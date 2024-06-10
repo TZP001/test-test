@@ -1,0 +1,105 @@
+SelStrategy="Strategie auswählen...";
+MfgMachiningTabPage="Bearbeitung";
+MfgStepOverTabPage="Bahnabstand";
+MfgFinishingTabPage="Schlichten";
+MfgToolAxisTabPage="Werkzeugachse";
+MfgHSMTabPage="HSM";
+
+MfgToolAxisStrategy="Führung";
+MfgToolAxisStrategy.LongHelp="Gibt an, wie die Werkzeugachse geführt werden soll.";
+MfgContactHeight="Kontakthöhe";
+MfgContactHeight.LongHelp="Bestimmt einen Punkt auf der Randfläche, an dem die Werkzeugseite die Tangentenstetigkeitsbedingungen erfüllen muss. Die Kontakthöhe wird von der Werkzeugspitze entlang der Werkzeugachse gemessen.
+Die Position des Punkts ist so ausgewählt, dass seine Projektion vom Rand auf die Werkzeugachse die angegebene Kontakthöhe berücksichtigt.";
+Mfg5AxisUserDefinedCuttingHeightFlag="Fächerung über den Werkzeugparameter steuern";
+Mfg5AxisUserDefinedCuttingHeightFlag.LongHelp="Das Markierungsfeld auswählen, um eine sinnvolle Schnittlänge für das ausgewählte Werkzeug anzugeben.
+Andernfalls wird der Standardwert für die Schnittlänge (Lc) verwendet.";
+Mfg5AxisUserDefinedCuttingHeight="Sinnvolle Schnittlänge";
+Mfg5AxisUserDefinedCuttingHeight.LongHelp="Gibt eine benutzerdefinierte Schnitthöhe für das aktuelle Werkzeug an. Dieser Parameter ist hilfreich, um
+die Fächerung oder den Offsetabstand bei der Zustellung von Flächen mit negativen Auszugswinkeln zu steuern, ohne das Werkzeug in der Datenbank ändern
+zu müssen. Wird beispielsweise ein Rand bearbeitet und eine Hindernisfläche mit negativem Winkel zugestellt, gilt Folgendes: Je kleiner diese Länge ist,
+desto später wird das Werkzeug gefächert, um seine Stopp-Position auf dem Hindernis zu erreichen.";
+MfgLeaveDistance="Von Fächerungsabstand entfernen";
+MfgLeaveDistance.LongHelp="Gibt einen Abstand am Anfang der Operation an, mit dem die Fächerung stattfindet.";
+MfgApproachDistance="An Fächerungsabstand annähern";
+MfgApproachDistance.LongHelp="Gibt einen Abstand am Ende der Operation an, mit dem die Fächerung stattfindet.";
+Mfg5AxisDeActivateFanning="Fächerung inaktivieren";
+Mfg5AxisDeActivateFanning.LongHelp="Gibt den Fächerungsmodus für die Werkzeugachse an.";
+
+MfgReUseFirstDrive="Werkzeugbahn schließen";
+MfgReUseFirstDrive.LongHelp="Bei einer geschlossenen Kontur das Feld auswählen, um anzugeben, dass der erste Rand auch als letzter Rand verwendet werden soll.";
+MfgManualTMDir="Manuelle Richtung";
+MfgManualTMDir.LongHelp="Gibt die Richtung auf dem Rand am Anfang der Bewegung an.
+'Auto' ermöglicht es dem Algorithmus, die Richtung relativ zur Referenzposition zu erkennen.";
+Mfg5AxisMachDirMode="Weiter";
+Mfg5AxisMachDirMode.LongHelp="Ermöglicht die manuelle Angabe der Richtung des Rands.";
+
+MfgMachToler="Bearbeitungstoleranz";
+MfgMachToler.LongHelp="Das ist eine Abstandstoleranz zum Steuern der Verteilung und der Anzahl Ausgabepositionen.";
+MfgMaxDistSteps="Max. Abstand zwischen Schritten";
+MfgMaxDistSteps.LongHelp="Gibt den maximalen Abstand zwischen Punkten an. Intern wird dieser als Grad der Größe der Bewegungslänge auf einer Randfläche verwendet. Dies unterstützt den Algorithmus dabei, das Ende des Randelements zu erkennen. Wenn dieselbe geometrische Konfiguration Randflächenelemente mit sehr unterschiedlichen Größen enthält, sind die Rohteildaten des größten Elements die optimale Wahl für diese Eingabe.";
+MfgMaxDiscretizationStep="Max. Diskretisierungsschritt";
+MfgMaxDiscretizationStep.LongHelp="Gibt den maximal zulässigen Diskretisierungsschritt an, mit dem die Linearität zwischen weit entfernten Positionen sichergestellt wird. Wenn die theoretische Berechnung der Werkzeugbahn Paare benachbarter Positionen (x,y,z) angibt, deren Abstand außerhalb des durch die Maschine erreichbaren Bereichs liegt, kann die Maschine eventuell keine lineare Interpolation erzeugen. Um dies zu vermeiden, wird eine andere Berechnung durchgeführt, mit der zusätzliche Positionen ausgegeben werden.";
+MfgMaxDiscretizationAngle="Max. Diskretisierungswinkel";
+MfgMaxDiscretizationAngle.LongHelp="Gibt den maximal zulässigen Diskretisierungswinkel zwischen zwei aufeinanderfolgenden Positionen an, die die Maschine erreichen kann. Wenn die theoretische Werkzeugbahnberechnung Paare benachbarter Positionen (i,j,k) angibt, deren Winkel außerhalb des durch die Maschine erreichbaren Winkels liegt, kann die Maschine wahrscheinlich keine Interpolation erzeugen. Um dies zu vermeiden wird eine andere Berechnung durchgeführt, mit der zusätzliche Positionen ausgegeben werden.";
+
+MfgDirectionOfCut="Schnittrichtung";
+MfgDirectionOfCut.LongHelp="Gibt an, wie das Fräsen durchgeführt werden soll:
+- Gleichlauffräsen: Die vordere Seite des Vorlaufwerkzeugs (in der Bearbeitungsrichtung) schneidet zuerst in das Material
+- Gegenlauffräsen: Die hintere Seite des Vorlaufwerkzeugs (in die Bearbeitungsrichtung) schneidet zuerst in das Material";
+
+MfgMachiningMode="Bearbeitungsstrategie";
+MfgMachiningMode.LongHelp="Gibt den Schnittmodus der Operation an:
+- Zickzack: Die Bearbeitungsrichtung wird von einer Bahn zur nächsten umgekehrt
+- Eine Richtung: Von einer Bahn zur nächsten wird dieselbe Bearbeitungsrichtung verwendet.";
+MfgSequencingMode="Reihenfolge";
+MfgSequencingMode.LongHelp="Gibt die Reihenfolge an, in der die Bearbeitung durchgeführt werden soll:
+- Axial: Die axiale Bearbeitung wird vor der radialen Bearbeitung durchgeführt.
+- Radial: Die radiale Bearbeitung wird vor der axialen Bearbeitung durchgeführt.";
+
+RadialStrategyFrame="Radiale Schnittaufteilung";
+MfgDistanceBetweenPaths="Abstand zwischen Bahnen";
+MfgDistanceBetweenPaths.LongHelp="Definiert den maximalen Abstand zwischen zwei aufeinander folgenden Werkzeugbahnen in einer radialen Strategie.";
+MfgNumberOfRadialPaths="Anzahl Bahnen";
+MfgNumberOfRadialPaths.LongHelp="Definiert die Anzahl von Werkzeugbahnen in einer radialen Schnittaufteilung.";
+
+AxialStrategyFrame="Axiale Schnittaufteilung";
+Mfg5AxisMultiLevelMode="Modus";
+Mfg5AxisMultiLevelMode.LongHelp="Definiert den Berechnungsmodus für die Bahnen in axialer Richtung.";
+MfgMaxDepthOfCut="Abstand zwischen Bahnen";
+MfgMaxDepthOfCut.LongHelp="Legt den maximalen Abstand zweier aufeinander folgenden Bahnen in axialer Richtung fest.";
+MfgNumberOfLevels="Anzahl Ebenen";
+MfgNumberOfLevels.LongHelp="Definiert die Anzahl von zu bearbeitenden Ebenen in einer axialen Schnittaufteilung.";
+
+Mfg5AxisOutputType="Korrekturausgabe";
+Mfg5AxisOutputType.LongHelp="Gibt an, wie die Anweisungen für die Korrektur des Fräsers für die NC-Datenausgabe zu generieren sind:
+
+Keine
+Keine Berechnung der Korrektur.
+
+2D radiale Spitze
+Die Korrektur wird in einer Ebene berechnet, die senkrecht zur Werkzeugachse liegt, und sie wird in Bezug auf eine zu fräsende Seite aktiviert (links oder rechts).
+Dabei wird der Fräsradius korrigiert.
+Ausgabe ist die Werkzeugspitze (XT, YT, ZT).
+
+3D radial
+Die Korrektur wird entlang eines 3D-Vektors (PQR) berechnet, der senkrecht zur Randfläche liegt und die Werkzeugflanke berührt.
+Dabei wird der Fräsradius korrigiert.
+Die Ausgabe besteht aus der Werkzeugspitze (XT, YT, ZT) und der senkrechten Randfläche (PQR). Die Ausgabe des Werkzeugachsenvektors (IJK) erfolgt im Mehrfachachsensystem.";
+
+MfgLocal4XPlane="Optionale 4X-Ebene";
+SelLocal4XPlane="Klicken, um eine optionale 4-Achsenrichtung auszuwählen, \ndie für lokale Änderungen verwendet wird.";
+
+MfgToolSideOnGuideCurve="Position auf der Führungskurve";
+MfgToolSideOnGuideCurve.LongHelp="Gibt die Position des Werkzeugs auf dem zusätzlichen Führungselement \nin Bezug auf die Vorwärtsrichtung an.";
+
+MfgOffsetOnGuideCurve="Offset auf Führungskurve";
+MfgOffsetOnGuideCurve.LongHelp="Gibt den Offset an, der bei der \nPositionierung an der Seite des zusätzlichen Führungselements berücksichtigt werden muss. ";
+
+MfgUseGuideCurve="Verwendung der Führungskurve";
+MfgUseGuideCurve.LongHelp="Gibt mit dem zusätzlichen Führungselement den Werkzeugkontaktmodus an: \n- Immer.\n- Falls erforderlich (d. h. nur im Fall einer drohenden Kollision mit der Randfläche)";
+
+MfgCollisionThkStart="Neigungswinkel";
+MfgCollisionThkStart.LongHelp="Gibt den Neigungswinkel an";
+
+MfgCollisionThkEnd="Vorhaltewinkel";
+MfgCollisionThkEnd.LongHelp="Gibt den Vorhaltewinkel an";

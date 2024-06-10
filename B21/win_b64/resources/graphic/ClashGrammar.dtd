@@ -1,0 +1,49 @@
+<?xml version="1.0" ?>
+<!ELEMENT ClashResult (Date,ClashSpec,ClashResultSpec)>
+<!ELEMENT ClashSpec (Product)>
+<!ELEMENT ClashResultSpec (Interference*)>
+<!ELEMENT Interference  ((Picture)?,(Comment)?)>
+<!ELEMENT Picture        EMPTY>
+<!ELEMENT Comment  (#PCDATA)>
+<!ELEMENT Date        EMPTY>
+<!ELEMENT Product EMPTY>
+
+<!ATTLIST ClashSpec		Name	CDATA		#REQUIRED
+						SelectMode	CDATA		#REQUIRED
+						CaseOfCalc	CDATA		#REQUIRED
+						DistanceClearance	CDATA		#REQUIRED
+						TabTitle			CDATA		#REQUIRED
+						TabListTitle		CDATA		#REQUIRED
+>
+
+<!ATTLIST Product		Name1 CDATA		#REQUIRED
+					Name2 CDATA		#REQUIRED
+>
+
+<!ATTLIST ClashResult	ResultCount CDATA		#REQUIRED
+						Responsible CDATA		#REQUIRED
+						CATDocument CDATA		#REQUIRED
+		                >
+
+<!ATTLIST Date  Year CDATA		#REQUIRED
+				Day CDATA		#REQUIRED
+				Month CDATA		#REQUIRED
+				Hour CDATA		#REQUIRED
+				Minute CDATA	#REQUIRED
+				Second CDATA	#REQUIRED
+				>
+
+<!ATTLIST Title Chaine CDATA		#REQUIRED
+				>
+
+<!ATTLIST Interference	NumInterf CDATA #REQUIRED
+						Product1Name CDATA #REQUIRED
+						Product2Name CDATA #REQUIRED
+						ResultType (Clash|Contact|Clearance) "Clash"
+						Status (NotInspected|Relevant|Irrelevant) "NotInspected"
+						Value CDATA #IMPLIED
+				>
+
+<!ATTLIST Picture		HRef  CDATA  #REQUIRED 
+						Preview  CDATA  #REQUIRED 
+					>

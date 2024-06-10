@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE ROOT [
+<!ELEMENT ROOT (STATIQUE,DYNAMIQUE)*>
+<!ELEMENT STATIQUE (OPTION)*>
+<!ELEMENT DYNAMIQUE (OPTION)*>
+<!ATTLIST DYNAMIQUE
+type CDATA #REQUIRED
+>
+<!ELEMENT OPTION (INCOMPATIBILITY,FORCE,PARAM,OPTION)*>
+<!ATTLIST OPTION
+name CDATA #REQUIRED
+mode (Optionnal|Required) #IMPLIED
+nls CDATA #IMPLIED
+>
+<!ELEMENT INCOMPATIBILTY EMPTY>
+<!ATTLIST INCOMPATIBILTY
+option CDATA #REQUIRED
+>
+<!ELEMENT FORCE EMPTY>
+<!ATTLIST FORCE
+option CDATA #REQUIRED
+>
+<!ELEMENT PARAM EMPTY>
+<!ATTLIST PARAM
+type CDATA #REQUIRED
+mode (Optionnal|Required) #IMPLIED
+default CDATA #IMPLIED
+>
+
+]>
+<ROOT>
+  <STATIQUE>
+    <OPTION name="f" mode="Optionnal">
+      <PARAM type="FileRead" mode="Required">
+      </PARAM>
+    </OPTION>
+    <OPTION name="l" mode="Optionnal">
+      <PARAM type="FileRead" mode="Required">
+      </PARAM>
+    </OPTION>
+    <OPTION name="db" mode="Optionnal">
+      <PARAM name="VPM" mode="Optionnal"></PARAM>
+      <PARAM name="ENOVIA5" mode="Optionnal"></PARAM>
+      <PARAM name="TeamPLM" mode="Optionnal"></PARAM>
+      <OPTION name="coid">
+        <PARAM type="Integer" mode="Required">
+        </PARAM>  
+      </OPTION>
+      <OPTION name="compid">
+        <PARAM type="Integer" mode="Required">
+        </PARAM> 
+      </OPTION>
+      <OPTION name="cattab">
+        <PARAM type="Integer" mode="Required">
+        </PARAM>
+      </OPTION>
+      <OPTION name="catenv">
+        <PARAM type="Integer" mode="Required">
+        </PARAM>
+      </OPTION>
+      <OPTION name="UniversalId">
+        <PARAM type="Integer" mode="Required">
+        </PARAM>
+      </OPTION>
+    </OPTION>
+    <OPTION name="cache" mode="Optionnal">
+      <INCOMPATIBILITY option="targetlevel"></INCOMPATIBILITY>
+    </OPTION>
+    <OPTION name="force" mode="Optionnal">
+    </OPTION>
+  </STATIQUE>
+  <DYNAMIQUE type="general">
+    <OPTION>
+      <OPTION name="mp" nls="">
+        <INCOMPATIBILITY option="jpg"></INCOMPATIBILITY>
+        <FORCE option="cache"></FORCE>
+      </OPTION>
+      <OPTION name="process" mode="Optionnal">
+        <INCOMPATIBILITY option="jpg"></INCOMPATIBILITY>
+        <FORCE option="mp"></FORCE>
+        <PARAM type="Integer" mode="Required" default="2">
+        </PARAM>
+      </OPTION>
+      <OPTION name="timeout" mode="Optionnal">
+        <INCOMPATIBILITY option="jpg"></INCOMPATIBILITY>
+        <FORCE option="mp"></FORCE>
+        <PARAM type="Integer" mode="Required" default="10">
+        </PARAM>
+      </OPTION>
+      <OPTION name="unit">
+        <PARAM type="list{mm,cm,m,inch,foot}" mode="Required">
+        </PARAM>  
+      </OPTION>
+      <OPTION name="log">
+        <PARAM type="FileWrite" mode="Optionnal">
+        </PARAM>  
+      </OPTION>
+      <OPTION name="filter">
+        <PARAM type="FileRead" mode="Optionnal">
+        </PARAM>  
+      </OPTION>
+    </OPTION>
+  </DYNAMIQUE>
+  <DYNAMIQUE type="3D">
+    <OPTION name="cgr" mode="Optionnal">
+      <PARAM type="FileOrDirWrite" mode="Optionnal">
+      </PARAM>
+      <OPTION name="sag" mode="Optionnal">
+        <INCOMPATIBILITY option="keepsag"></INCOMPATIBILITY>
+        <PARAM type="Float" mode="Required" default="0.2">
+        </PARAM>
+      </OPTION>
+      <OPTION name="keepsag" mode="Optionnal">
+        <INCOMPATIBILITY option="sag"></INCOMPATIBILITY>
+        <FORCE option="cache"></FORCE>
+      </OPTION>
+      <OPTION name="nolod" mode="Optionnal">
+      </OPTION>
+      <OPTION name="apps" mode="Optionnal">
+        <PARAM type="String" mode="Optionnal">
+        </PARAM>  
+      </OPTION>
+      <OPTION name="targetlevel" mode="Optionnal">
+        <INCOMPATIBILITY option="cache"></INCOMPATIBILITY>
+        <PARAM type="String" mode="Required">
+        </PARAM>
+      </OPTION>
+    </OPTION>
+    <OPTION name="hcg" mode="Optionnal">
+      <PARAM type="FileOrDirWrite" mode="Optionnal">
+      </PARAM>
+    </OPTION>
+    <OPTION name="NCGM" mode="Optionnal">
+      <PARAM type="FileOrDirWrite" mode="Optionnal">
+      </PARAM>
+    </OPTION>
+    <OPTION name="wrl" mode="Optionnal">
+      <PARAM type="FileOrDirWrite" mode="Optionnal">
+      </PARAM>
+    </OPTION>
+    <OPTION name="hsf" mode="Optionnal">
+      <PARAM type="FileOrDirWrite" mode="Optionnal">
+      </PARAM>
+    </OPTION>
+    <OPTION name="vps" mode="Optionnal">
+      <INCOMPATIBILITY option="3dmap"></INCOMPATIBILITY>
+      <PARAM type="FileOrDirWrite" mode="Optionnal">
+      </PARAM>
+      <OPTION name="vox" mode="Optionnal">
+        <PARAM type="Float" mode ="Required" default="5">
+        </PARAM>
+      </OPTION>
+      <OPTION name="vpssag" mode="Optionnal">
+      </OPTION>
+    </OPTION>
+    <OPTION name="3dxml" mode="Optionnal">
+      <PARAM type="FileOrDirWrite" mode="Optionnal">
+      </PARAM>
+    </OPTION>
+  </DYNAMIQUE>
+  <DYNAMIQUE type="others">
+    <OPTION name="jpg" mode="Optionnal">
+      <INCOMPATIBILITY option="db,cache"></INCOMPATIBILITY>
+      <PARAM type="FileOrDirWrite" mode="Optionnal">
+      </PARAM>
+      <OPTION name="xsize" mode="Optionnal">
+        <PARAM type="Integer" mode="Required" default="140">
+        </PARAM>
+      </OPTION>
+      <OPTION name="ysize" mode="Optionnal">
+        <PARAM type="Integer" mode="Required" default="120">
+        </PARAM>
+      </OPTION>
+      <OPTION name="camera" mode="Optionnal">
+        <PARAM type="String" mode="Required">
+        </PARAM>
+      </OPTION>
+      <OPTION name="viewmode" mode="Optionnal">
+        <PARAM type="list{shading,shadingedges,wireframe,material}" mode="Required">
+        </PARAM>
+      </OPTION>
+      <OPTION name="bk" mode="Optionnal">
+        <PARAM type="list{0,1}" mode="Required">
+        </PARAM>
+      </OPTION>
+    </OPTION>
+    <OPTION name="3dmap" mode="Optionnal">
+      <PARAM type="FileOrDirWrite" mode="Optionnal">
+      </PARAM>
+      <OPTION name="vox" mode="Optionnal">
+        <PARAM type="Float" mode ="Required" default="20">
+        </PARAM>
+      </OPTION>
+    </OPTION>
+    <OPTION name="box" mode="Optionnal">
+      <INCOMPATIBILITY option="db,cache"></INCOMPATIBILITY>
+      <FORCE option="cgr"></FORCE>
+      <PARAM type="FileOrDirWrite" mode="Optionnal">
+      </PARAM>
+    </OPTION>
+  </DYNAMIQUE>
+</ROOT>

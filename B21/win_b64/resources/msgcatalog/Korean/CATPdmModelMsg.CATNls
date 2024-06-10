@@ -1,0 +1,556 @@
+// COPYRIGHT DASSAULT SYSTEMES 2004-2010
+
+// --- Resources for ENOVIA Reconciliator model infrastructure
+// ---  *  Name of supported environment
+
+Environment.VPM1="ENOVIA VPM V4";
+Environment.File="파일 환경";
+Environment.ENOVIA5="ENOVIA V5 VPM";
+Environment.TeamPDM="SmarTeam";
+Environment.NoVPDM="VPDM 연결 없음";
+Environment.TestPDM="TestPDM";
+
+// ---  *  To manage NLS name for and storage name
+
+Storage.Publication="Publication Exposed";
+Storage.Structure="Structure Exposed";
+Storage.Unknown="정의되지 않음";
+
+Rule.Delegate="위임";
+Rule.Overwrite="덮어쓰기";
+Rule.New="신규";
+Rule.NewFrom="새로 작성 대상";
+Rule.Reload="다시 로드";
+Rule.KeepAsExternal="외부로 유지";
+Rule.NewVersion="새 버전";
+Rule.NewRevision="새 리비젼";
+Rule.OverwriteByDelta="변경 부분 덮어쓰기";
+Rule.NewVersionByDelta="변경 부분 새 버전 생성";
+Rule.Unknown=" ";
+
+// ---  *  Manage comparison status
+
+InstanceUnknown=" 비교되지 않음 ";
+InstanceNew=" 새로 작성";
+InstanceIdentical=" 동일";
+InstanceMoved=" 이동됨";
+InstanceToBeDeleted=" 삭제 예정";
+DocumentDelegate=" 위임";
+DocumentReload=" 다시 로드";
+DocumentOverwrite=" 덮어쓰기";
+DocumentNew=" 새로 저장";
+DocumentMapped=" 맵핑됨";
+DocumentUnknown=" 알 수 없음";
+PartDelegate=" 위임";
+PartReload=" 다시 로드";
+PartOverwrite=" 덮어쓰기";
+PartOverwriteByDelta=" 변경 부분 덮어쓰기";
+PartNew=" 새로 저장";
+PartMapped=" 맵핑됨";
+PartUnknown=" 알 수 없음";
+DocumentAsNewRevision=" 새 리비젼";
+DocumentKeepExt=" 파일 문서";
+PartAsNewVersion=" 새 버전";
+PartAsNewVersionByDelta=" 변경 부분 새 버전 생성";
+VPDMObject=" 데이터베이스가 출처인 오브젝트";
+FilterVPDMObject=" 필터된 프로덕트 구조";
+
+InstanceToBeReplaced=" 교체됨";
+InstanceToBeMovedReplaced=" 이동으로 교체";
+InstanceToBeVersionned=" 버전 지정됨";
+InstanceToBeMovedVersionned=" 이동으로 버전 변경";
+InstanceToBeRevised=" 레프리젠테이션 수정";
+InstanceToBeMovedRevised=" 이동으로 레프리젠테이션 수정";
+
+MovedInhibited=" 이동이 무시됨";
+NewInhibited=" 새로 작성이 무시됨";
+DeletedInhibited=" 삭제 예정이 무시됨";
+InhibitedToBeReplaced=" 교체가 무시됨";
+InhibitedToBeMovedReplaced=" 이동으로 교체가 무시됨";
+InhibitedToBeVersionned=" 버전 변경이 무시됨";
+InhibitedToBeMovedVersionned=" 이동으로 버전 변경이 무시됨";
+InhibitedToBeRevised=" 수정된 레프리젠테이션이 무시됨";
+InhibitedToBeMovedRevised=" 이동으로 레프리젠테이션 수정이 무시됨";
+
+// ---  *  Cover Session management
+
+WRN_RecEmptyRecObjList="비어 있는 조정 오브젝트 목록. \n조정 오브젝트 생성 문제점.";
+WRN_RecEmptyRecObjList.Generic="비어 있는 조정 오브젝트 목록. \n조정 오브젝트 생성 문제점.";
+
+WRN_RecExeNotAuthorised="조정 문서 중 하나 이상에 불완전한 데이터가 있으므로 실행은 승인되지 않습니다.";
+WRN_RecExeNotAuthorised.Generic="조정 문서 중 하나 이상에 불완전한 데이터가 있으므로 실행은 승인되지 않습니다.";
+
+WRN_RecMemoryAllocation="메모리 할당에 실패했습니다.";
+WRN_RecMemoryAllocation.Generic="메모리 할당에 실패했습니다.";
+
+WRN_RecObjNoEnv="오브젝트 중 하나의 환경이 올바르게 설정되지 않았습니다.";
+WRN_RecObjNoEnv.Generic="오브젝트 중 하나의 환경이 올바르게 설정되지 않았습니다.";
+WRN_RecObjNoEnv.Suggestion="환경 설정을 다시 시도하십시오. ";
+
+WRN_DocLinkResolution="문서의 링크 분석을 강제로 저장할 수 없습니다.";
+WRN_DocLinkResolution.Generic="문서의 링크 분석을 강제로 저장할 수 없습니다.";
+
+WRN_RecInvalidDoc="조정 작업 중 CATIA 문서 정보를 검색할 수 없습니다.";
+WRN_RecInvalidDoc.Generic="조정 작업 중 CATIA 문서 정보를 검색할 수 없습니다.";
+
+WRN_RecInvalidDocEnv="실행 중 CATIDocEnvironment 인터페이스를 검색할 수 없습니다.";
+WRN_RecInvalidDocEnv.Generic="실행 중 CATIDocEnvironment 인터페이스를 검색할 수 없습니다.";
+
+WRN_RecFetchPDMReconcileIntfPb="/p1 문서 환경에서 CATIPDMReconcileScm 인터페이스를 검색할 수 없습니다.";
+WRN_RecFetchPDMReconcileIntfPb.Generic="현재 문서 환경에서 CATIPDMReconcileScm 인터페이스를 검색할 수 없습니다.";
+WRN_RecFetchPDMReconcileIntfPb.Detail="DocEnv : /p1";
+
+WRN_SynchroWpDocumentLoadFailed="PVR 동기화에 필요한 모든 문서를 로드할 수 없습니다.";
+WRN_SynchroWpDocumentLoadFailed.Generic="PVR 동기화에 필요한 모든 문서를 로드할 수 없습니다.";
+
+WRN_RecReconcileNotAuthorized="조정 기능이 승인되지 않았습니다...";
+WRN_RecReconcileNotAuthorized.Generic="조정 기능이 승인되지 않았습니다.";
+WRN_RecReconcileNotAuthorized.Suggestion="라이센스 설정을 확인하십시오.";
+
+WRN_RecDesignModePb="경고: 일부 정보가 visu 모드에서 열립니다. \n조정자가 디자인 모드에서 로드를 완료합니다.";
+WRN_RecDesignModePb.Generic="경고: 일부 정보가 visu 모드에서 열립니다. \n조정자가 디자인 모드에서 로드를 완료합니다.";
+
+WRN_RecRootDocPointedBy="경고: 조정 루트 문서가 CATIA 세션에서 /p1에 의해 지정됩니다.";
+WRN_RecRootDocPointedBy.Generic="경고: 조정 루트 문서가 CATIA 세션에서 다른 문서에 의해 지정됩니다.";
+WRN_RecRootDocPointedBy.Detail="/p1에 의해 지정";
+WRN_RecRootDocPointedBy.Suggestion="이 다른 문서로부터 조정을 시작할지 확인하십시오.";
+
+WRN_RecNoPartFound="/p1 문서에서 프로덕트 또는 파트를 찾을 수 없습니다. \n";
+WRN_RecNoPartFound.Generic="지정된 문서에서 프로덕트 또는 파트를 찾을 수 없습니다.\n";
+WRN_RecNoPartFound.Detail="/p1";
+
+WRN_PartNameConflict="경고: 여러 파트에 동일한 파트 번호 /p1이(가) 있으므로(여러 버전의 동일한 파트일 수 있음) 프로덕트 뷰 동기화가 부분적으로 실패합니다.\n";
+WRN_PartNameConflict.Generic="경고: 여러 파트에 동일한 파트 번호가 있으므로(여러 버전의 동일한 파트일 수 있음) 프로덕트 뷰 동기화가 부분적으로 실패합니다.\n";
+WRN_PartNameConflict.Detail="/p1";
+
+WRN_MappingAlreadyUsed="/p1에 맵핑을 달성할 수 없습니다. 이 PDM 맵핑이 /p2 오브젝트에 이미 사용되었습니다.\n";
+WRN_MappingAlreadyUsed.Generic="동일한 PDM 맵핑이 다른 오브젝트에 제안되었으므로 맵핑을 달성할 수 없습니다.\n";
+WRN_MappingAlreadyUsed.Detail="/p1 맵핑 거부 원인: /p2";
+
+WRN_MultipleAssembly="조정자가 같은 세션에서 복수 어셈블리를 관리할 수 없습니다.\n 두 개 이상의 어셈블리 구조(/p1 및 /p2)가 있습니다.\n
+                                     이는 다음 두 경우에 발생할 수 있습니다.\n
+									   1- 원래 컨텍스트에 없는 프로덕트 구조에 contextual 파트를 삽입하는 경우\n
+									   2- 프로덕트 구조에서 고유한 프로덕트 인스턴스를 비활성화하는 경우\n";
+WRN_MultipleAssembly.Generic="조정자가 같은 세션에서 복수 어셈블리를 관리할 수 없습니다.\n 두 개 이상의 어셈블리 구조가 있습니다.\n
+                                     이는 다음 두 경우에 발생할 수 있습니다.\n
+									   1- 원래 컨텍스트에 없는 프로덕트 구조에 contextual 파트를 삽입하는 경우\n
+									   2- 프로덕트 구조에서 고유한 프로덕트 인스턴스를 비활성화하는 경우\n";
+WRN_MultipleAssembly.Detail=" 세션의 어셈블리 구조: /p1 및 /p2";
+
+WRN_EmptyAssembly="빈 어셈블리 구조를 관리할 수 없습니다.\n";
+WRN_EmptyAssembly.Generic="빈 어셈블리 구조를 관리할 수 없습니다.\n";
+
+WRN_RecInvalidAccessToPart="파트 /p1에 대한 CATIA 정보로의 유효하지 않은 액세스 \n";
+WRN_RecInvalidAccessToPart.Generic="지정된 파트에 대한 CATIA 정보로의 유효하지 않은 액세스\n";
+WRN_RecInvalidAccessToPart.Detail="/p1";
+
+WRN_RecObjectNotFound="/p1 어셈블리 구조 파트에서 찾을 수 없습니다.\n";
+WRN_RecObjectNotFound.Generic="어셈블리 구조에서 찾을 수 없습니다.\n";
+WRN_RecObjectNotFound.Detail="/p1";
+
+WRN_ProxyButDocHere="강제 실행된 RELOAD 룰로 인해 /p1 문서가 조정 범위를 벗어나므로 저장 범위에 해당하지 않습니다.\n";
+WRN_ProxyButDocHere.Generic="강제 실행된 RELOAD 룰로 인해 문서가 조정 범위를 벗어나므로 저장 범위에 해당하지 않습니다.\n";
+WRN_ProxyButDocHere.Detail="/p1";
+WRN_ProxyButDocHere.Suggestion=" 이 문서의 조정 룰을 관리할 필요가 없습니다.";
+
+WRN_ContextProxyButDocHere="/p1 문서는 contextual 파트의 컨텍스트입니다. 이 문서는 조정 범위에서 벗어납니다.\n";
+WRN_ContextProxyButDocHere.Generic="문서는 contextual 파트의 컨텍스트입니다. 이 문서는 조정 범위에서 벗어납니다.\n";
+WRN_ContextProxyButDocHere.Detail="/p1은(는) /p2의 컨텍스트입니다.";
+WRN_ContextProxyButDocHere.Suggestion="컨텍스트에서 벗어난 contextual 파트를 조정하는 경우 다시 로드 룰만 허용됩니다.";
+
+
+WRN_RecEnvNotFound="/p1 환경에 액세스할 수 없습니다.";
+WRN_RecEnvNotFound.Generic="환경에 액세스할 수 없습니다.";
+WRN_RecEnvNotFound.Detail="/p1";
+
+WRN_RecForbidDocumentMapping="비호환 문서 유형으로 인한 문서 맵핑 금지 \n(/p1은(는) /p2과(와) 호환되지 않음) \n";
+WRN_RecForbidDocumentMapping.Generic="비호환 문서 유형 때문에 문서 맵핑이 금지됩니다.\n";
+WRN_RecForbidDocumentMapping.Detail="/p2과(와) 호환되지 않는 /p1 ";
+
+// ---  *  Generic messages used by VPDM adapters
+
+WRN_RecNoRootAsmDefined="루트 어셈블리가 완전하게 정의되지 않았습니다. \n내부 오류 \n";
+WRN_RecNoRootAsmDefined.Generic="루트 어셈블리가 완전하게 정의되지 않았습니다. \n내부 오류 \n";
+
+WRN_RecPDMObjectAccess="/p2 문서에서 /p1 조정을 위한 VPDM 정보를 찾을 수 없습니다. \n";
+WRN_RecPDMObjectAccess.Generic="지정된 문서에서 오브젝트의 조정에 대한 VPDM 정보를 찾을 수 없습니다.\n";
+WRN_RecPDMObjectAccess.Detail="오브젝트 이름:/p1 문서 이름:/p2";
+
+WRN_RecVPDMCompareFailed="CATIA 뷰 및 VPDM 뷰의 어셈블리 비교가 /p1에 대해 실패했습니다. \n";
+WRN_RecVPDMCompareFailed.Generic="제공된 오브젝트에 대해 CATIA 뷰와 VPDM 뷰의 어셈블리 비교가 실패했습니다.\n";
+WRN_RecVPDMCompareFailed.Detail="오브젝트 이름: /p1";
+
+WRN_RecErrorVPMExpand="VPDM 저장소에서 프로덕트 구조 정의를 액세스할 수 없음: \n   /p1";
+WRN_RecErrorVPMExpand.Generic="VPDM 저장소에서 프로덕트 구조 정의를 액세스할 수 없음: \n";
+WRN_RecErrorVPMExpand.Detail="/p1";
+
+WRN_RecRelationNotFound="파트 /p1에 대해 모순된 VPDM 어셈블리 구조 보기 \n";
+WRN_RecRelationNotFound.Generic="지정된 파트에 대해 불일치한 VPDM 어셈블리 구조 보기 \n";
+WRN_RecRelationNotFound.Detail="/p1";
+
+WRN_RecInvalidPDMDefinition="/p1에서 VPDM 정보를 찾을 수 없습니다. \n";
+WRN_RecInvalidPDMDefinition.Generic="지정된 오브젝트에서 VPDM 정보를 찾을 수 없습니다.\n";
+WRN_RecInvalidPDMDefinition.Detail="/p1";
+
+WRN_RecVpmNoConnection="/p1 시스템에 연결할 수 없습니다. \n이 작업을 다시 실행하기 전에 /p1에 수동으로 연결하십시오.";
+WRN_RecVpmNoConnection.Generic="지정된 시스템에 대한 연결이 없습니다.";
+WRN_RecVpmNoConnection.Detail="/p1";
+WRN_RecVpmNoConnection.Suggestion="이 작업을 다시 실행하기 전에 시스템에 수동으로 연결하십시오.";
+
+WRN_RecVpmNoRootClassForNewPRC="프로덕트 클래스 이름이 없는 경우 ENOVIA V5 VPM에서 새 PRC를 작성할 수 없습니다.\nR/T 변수 CV5_REC_EV5_ProductClassName을 사용하여 프로덕트 클래스 이름을 입력하십시오.";
+WRN_RecVpmNoRootClassForNewPRC.Generic="프로덕트 클래스 이름이 없는 경우 ENOVIA V5 VPM에서 새 PRC를 작성할 수 없습니다.";
+WRN_RecVpmNoRootClassForNewPRC.Suggestion="R/T 변수 CV5_REC_EV5_ProductClassName을 사용하여 값을 입력하십시오.";
+
+WRN_RecCurFullPubModeNotSupported="현재 사용하는 활성화된 필터링은 VPDM 시스템에서 지원되지 않거나 이 VPDM 시스템의 릴리즈 레벨이 필터링에 충분하지 않습니다. \n";
+WRN_RecCurFullPubModeNotSupported.Generic="현재 사용하는 활성화된 필터링은 VPDM 시스템에서 지원되지 않거나 이 VPDM 시스템의 릴리즈 레벨이 필터링에 충분하지 않습니다. \n";
+
+WRN_VPDMComparisonFailed="프로덕트 구조 정보에 액세스할 수 없습니다.";
+
+WRN_RecLockAccess="경고: 잠금 정보에 액세스할 수 없습니다.";
+
+WRN_RecVPDMInconsistentInExpand="VPDM 어셈블리 구조에 액세스할 수 없습니다. /p1에서 하나의 /p2 불일치가 발견되었습니다.\n";
+WRN_RecVPDMInconsistentInExpand.Generic="VPDM 어셈블리 구조에 액세스할 수 없습니다. 일부 불일치가 발견됨:\n";
+WRN_RecVPDMInconsistentInExpand.Detail="/p2에서 /p1 불일치";
+
+// ---  *  To manage NLS definition of VPDM expand inconsistencies:
+
+II_Part="인스턴스에 파트가 없음";
+Doc_FatherII="문서에 상위 파트가 없음";
+II_FatherII="인스턴스에 상위 파트가 없음";
+II_AR="인스턴스에 대한 어셈블리 관계가 없음";
+AR_FatherPart="어셈블리 관계에 상위 파트가 없음";
+AR_Part="어셈블리 관계에 파트가 없음";
+
+// ---    Coming from V5R10
+
+WRN_RecInvalidCriteriaInput="기준 목록이 유효하지 않습니다. \n조정 실행을 재시도하십시오.";
+WRN_RecInvalidCriteriaInput.Generic="기준 목록이 유효하지 않습니다.";
+WRN_RecInvalidCriteriaInput.Suggestion="조정을 다시 실행해 보십시오.";
+
+WRN_RecInvalidCharacteristicInput="특성 목록이 유효하지 않습니다. \n조정 실행을 재시도하십시오.";
+WRN_RecInvalidCharacteristicInput.Generic="특성 목록이 유효하지 않습니다.";
+WRN_RecInvalidCharacteristicInput.Suggestion="조정을 다시 실행해 보십시오.";
+
+WRN_RecObjIncomplete="조정 문서 중 하나 이상이 불완전합니다.";
+WRN_RecObjIncomplete.Generic="조정 문서 중 하나 이상이 불완전합니다.";
+
+WRN_RecNewEnvListPb="새 환경 목록을 작성할 수 없습니다. \n새 할당에 실패했습니다.";
+WRN_RecNewEnvListPb.Generic="새 환경 목록을 작성할 수 없습니다. \n새 할당에 실패했습니다.";
+
+WRN_RecResetPDMDocPb="조정 실행 중 PDM 문서 다시 설정에 대한 문제점.";
+WRN_RecResetPDMDocPb.Generic="조정 실행 중 PDM 문서 다시 설정에 대한 문제점.";
+
+WRN_RecNoDocumentAccess="/p1 문서 정보에 액세스할 수 없습니다. \n";
+WRN_RecNoDocumentAccess.Generic="지정된 문서 정보에 액세스할 수 없습니다.\n";
+WRN_RecNoDocumentAccess.Detail="/p1";
+
+WRN_RecInvalidRule="승인되지 않은 룰이 /p2(이)라는 /p1 문서에 선택되었습니다. \n";
+WRN_RecInvalidRule.Generic="승인되지 않은 룰이 문서에 선택되었습니다.\n";
+WRN_RecInvalidRule.Detail="/p1";
+
+// ---> Coming from CATRecVPM1Msg in CDMA Interoperability
+
+WRN_RecVpmInvalidRule="이 오브젝트에 유효하지 않은 룰. \n오브젝트에 선택된 조정 룰 /p1이(가) 해당 /p2 유형과 호환되지 않습니다.";
+WRN_RecVpmInvalidRule.Generic="이 오브젝트에 유효하지 않은 룰입니다. \n오브젝트에 선택한 조정 룰이 그 유형과 호환되지 않습니다. ";
+WRN_RecVpmInvalidRule.Detail="조정 룰: /p1 오브젝트 유형: /p2";
+
+WRN_RecVpmCharacDBAccessKO="특성으로의 데이터베이스 액세스에 실패했습니다. \n사용 가능한 특성의 비교가 없습니다.";
+WRN_RecVpmCharacDBAccessKO.Generic="특성으로의 데이터베이스 액세스에 실패했습니다. \n사용 가능한 특성의 비교가 없습니다.";
+
+WRN_RecVpmCharacCV5AccessKO="세션에서 특성으로의 액세스에 실패했습니다. \n사용 가능한 특성의 비교가 없습니다.";
+WRN_RecVpmCharacCV5AccessKO.Generic="세션에서 특성으로의 액세스에 실패했습니다. \n사용 가능한 특성의 비교가 없습니다.";
+
+WRN_RecVpmReloadDiffUuids="다른 문서의 재로드가 허용되지 않습니다. \n재로드 작업은 세션의 문서가 같은 원점(동일한 내부 UUID)의 \nPDM 문서로 교체된 경우에만 승인됩니다.";
+WRN_RecVpmReloadDiffUuids.Generic="다른 문서의 재로드가 허용되지 않습니다. \n재로드 작업은 세션의 문서가 같은 원점(동일한 내부 UUID)의 \nPDM 문서로 교체된 경우에만 승인됩니다.";
+
+WRN_RecVpmReloadForceDiffUuids="일관성이 없는 문서(다른 내부 uuids)로 재로드를 강제 실행하는 by-pass 옵션은 Catia 작업에서 활성화됩니다. \n현재, 세션에 있는 기존 문서 외의 다른 내부 UUID를  \n가진 /p1 문서가 PDM에서 로드되고 있습니다. \n그 결과, 재로드된 문서를 가리키는 일부 링크가 손실되고 있습니다.! \n문서 링크를 다시 작성하고 PDM에 데이터를 저장하기 전에 세션 컨텐트의 세부사항을 검토하십시오. ";
+WRN_RecVpmReloadForceDiffUuids.Generic="일관성이 없는 문서(다른 내부 uuids)로 재로드를 강제 실행하는 by-pass 옵션이 Catia 작업에서 활성화되어 있습니다. \n현재, 세션의 기존 문서와는 다른 내부 UUID를 \n가진 문서가 PDM에서 로드되고 있습니다. \n그 결과, 재로드된 문서를 가리키는 일부 링크가 손실되었을 수 있습니다.! \n문서 링크를 다시 작성하고 PDM에 데이터를 저장하기 전에 세션 컨텐트의 세부사항을 검토하십시오. ";
+WRN_RecVpmReloadForceDiffUuids.Detail="/p1";
+WRN_RecVpmReloadForceDiffUuids.Suggestion="링크를 다시 작성하고 PDM에 데이터를 저장하기 전에 세션 컨텐트의 세부사항을 검토하십시오.";
+
+WRN_RecVpmReloadDocEditorToClose="재로드가 교체된 세션에서 문서를 제거할 수 없습니다. \nFile-Desk의 접두부 RecPrepareReloadDocToClose_가 있는 이 문서는 편집기에 의해 보존되며 수동으로 닫혀야 합니다. \n이는 ENOVIA VPM의 세션을 저장하기 전에 완료하게 됩니다. ";
+WRN_RecVpmReloadDocEditorToClose.Generic="재로드가 교체된 세션에서 문서를 제거할 수 없습니다. \nFile-Desk의 접두부 RecPrepareReloadDocToClose_가 있는 이 문서는 편집기에 의해 보존되며 수동으로 닫혀야 합니다. \n이는 ENOVIA VPM의 세션을 저장하기 전에 완료하게 됩니다. ";
+WRN_RecVpmReloadDocEditorToClose.Suggestion="파일-데스크에서 접두부가 RecPrepareReloadDocToClose_인 문서를 수동으로 닫고 ENOVIA VPM에서 세션을 저장하십시오.";
+
+WRN_RecVpmInternalError="내부 오류. \n";
+WRN_RecVpmInternalError.Generic="내부 오류. \n";
+
+WRN_RecVpmSimpleQueryInvalid="이 기준은 이 유형의 엔티티에서 실행되지 않습니다.";
+WRN_RecVpmSimpleQueryInvalid.Generic="이 기준은 이 유형의 엔티티에서 실행되지 않습니다.";
+
+WRN_RecVpmNotDocumentSupported="조정으로 지원되지 않는 문서를 선택했습니다(/p1).";
+WRN_RecVpmNotDocumentSupported.Generic="조정으로 지원되지 않는 문서를 선택했습니다.";
+WRN_RecVpmNotDocumentSupported.Detail="/p1";
+
+WRN_RecVpmCriteriaNotEnoughArg="선택된 기준 요청 /p1 인수.";
+WRN_RecVpmCriteriaNotEnoughArg.Generic="선택된 기준 요청에 특정한 인수의 수";
+WRN_RecVpmCriteriaNotEnoughArg.Detail="인수의 수:/p1";
+
+WRN_RecVpmCommandAborted="ENOVIA VPM을 위한 액세스에 실패했습니다(/p1 명령이 중단됨). \nVPM 어플리케이션 또는 VPM 서버가 여전히 실행되고 있는지 확인하십시오.";
+WRN_RecVpmCommandAborted.Generic="ENOVIA VPM에 대한 액세스가 실패했습니다(제공된 명령 중단).\n VPM 어플리케이션 또는 VPM 서버가 계속 실행 중인지 확인하십시오.";
+WRN_RecVpmCommandAborted.Detail="명령: /p1";
+WRN_RecVpmCommandAborted.Suggestion="VPM 어플리케이션 또는 VPM 서버가 계속 실행 중인지 확인하십시오.";
+
+WRN_RecVpmDecodeXML="내부 오류. \nVPM 요청 /p1에 대한 XML 스트림을 디코드할 수 없습니다.";
+WRN_RecVpmDecodeXML.Generic="내부 오류입니다.\nVPM 요청에 대한 XML 스트림을 디코드할 수 없습니다.";
+WRN_RecVpmDecodeXML.Detail="/p1";
+
+// ---  *  Support of Product structure filtering
+
+WRN_RecAttributeFilter="오브젝트 유형 \p2의 \p1 속성에 대한 필터를 설정할 수 없습니다. \n";
+WRN_RecAttributeFilter.Generic="지정된 오브젝트 유형에서 특정 속성에 필터를 설정할 수 없습니다. \n";
+WRN_RecAttributeFilter.Detail="속성 이름: \p1, 오브젝트 이름: \p2";
+
+WRN_RecInvalidAccessToHistoId="ENOVIA V5 VPM 서버에 액세스하여 히스토리 정보를 확인하는 데 실패했습니다.\n서버가 계속 실행 중인지 확인하십시오.";
+WRN_RecInvalidAccessToHistoId.Generic="ENOVIA V5 VPM 서버에 액세스하여 이력 정보를 확인하는 데 실패했습니다.";
+WRN_RecInvalidAccessToHistoId.Suggestion="서버가 계속 실행 중인지 확인하십시오.";
+
+// ---  *  Support of Publication reconciliation
+
+WRN_RecInvalidAccessToPublication="ENOVIA V5 VPM 서버에 액세스하여 통지 정보에 액세스하는 데 실패했습니다.\n서버가 계속 실행 중인지 확인하십시오.";
+WRN_RecInvalidAccessToPublication.Generic="ENOVIA V5 VPM 서버에 액세스하여 통지 정보에 액세스하는 데 실패했습니다.";
+WRN_RecInvalidAccessToPublication.Suggestion="서버가 계속 실행 중인지 확인하십시오.";
+
+// ---  *  Protection against Product Specification (Product instance are not supported)
+
+WRN_RecProductSpecNotSupported="프로덕트 인스턴스가 있는 ENOVIA V5 VPML 프로덕트 구조는 조정자에서 지원되지 않음\n 어셈블리 노드 \p2이(가) 프로덕트 스펙에서 맵핑됩니다.";
+WRN_RecProductSpecNotSupported.Generic="프로덕트 인스턴스가 있는 ENOVIA V5 VPML 프로덕트 구조는 조정자에서 지원되지 않음:";
+WRN_RecProductSpecNotSupported.Detail="  . 어셈블리 노드 \p2이(가) 프로덕트 스펙에서 맵핑됩니다.";
+WRN_RecProductSpecNotSupported.Suggestion="CATIA에서 브랜치를 삭제하고 프로덕트 구조 필터링을 조정하는 데 사용하십시오.";
+
+// ---  *  Workpackage synchronization 
+
+WRN_SyncInvalidServer="ENOVIA V5 VPM 서버는 작업 패키지 동기화(V5R17SP4 이전)를 지원합니다.\n서버 코드를 상위 레벨로 갱신하십시오.";
+WRN_SyncInvalidServer.Generic="ENOVIA V5 VPM 서버는 작업 패키지 동기화(V5R17SP4 이전)를 지원합니다.";
+WRN_SyncInvalidServer.Suggestion="서버 코드를 상위 레벨로 갱신하십시오.";
+
+// ---  *  Messages dedicated to customization through XML
+
+WRN_ConvertXMLFailed="사용자 정의에 필요한 /p1 프로그램으로 XML 변환을 실행할 수 없습니다. \n";
+WRN_ConvertXMLFailed.Generic="사용자 정의에 필요한 지정 프로그램으로 XML 변환을 실행할 수 없습니다. \n";
+WRN_ConvertXMLFailed.Detail="프로그램 이름:/p1";
+
+WRN_InvalidCustomerCriterion="고객 기준 /p1이(가) 현재 정의되어 있지 않습니다. \n(모드: /p2 및 매개변수: /p3) \n";
+WRN_InvalidCustomerCriterion.Generic="고객 기준이 정확하게 정의되어 있지 않습니다.";
+WRN_InvalidCustomerCriterion.Detail="기준 값:/p1, 모드: /p2 및 매개변수: /p3";
+
+// ---  *  Messages dedicated to Workpackage synchronization
+
+WRN_SyncPublicationExposedEnv="/p1이(가) VPDM 시스템에서 작업 패키지로 저장되도록 강제 실행할 수 없습니다.\n";
+WRN_SyncPublicationExposedEnv.Generic="제공된 오브젝트가 VPDM 시스템에서 작업 패키지로 저장되도록 강제 실행할 수 없습니다.\n";
+WRN_SyncPublicationExposedEnv.Detail="/p1";
+
+WRN_SyncNoCapturePvsUuid="/p1 프로덕트에서 펼치기 캡처 정보를 기억할 수 없습니다.\n";
+WRN_SyncNoCapturePvsUuid.Generic="지정된 프로덕트에서 펼치기 캡처 정보를 기억할 수 없습니다.\n";
+WRN_SyncNoCapturePvsUuid.Detail="프로덕트 이름:/p1";
+
+WRN_SyncNoCapturePrcUuid="프로덕트 /p1의 프로덕트 루트 클래스 정보를 기억할 수 없습니다.\n";
+WRN_SyncNoCapturePrcUuid.Generic="지정된 프로덕트의 프로덕트 루트 클래스 정보를 기억할 수 없습니다.\n";
+WRN_SyncNoCapturePrcUuid.Detail="프로덕트 이름: /p1";
+
+WRN_SyncNoCapturePartUuid="/p1 프로덕트에서 파트 버전 또는 인스턴스 정보를 기억할 수 없습니다.\n";
+WRN_SyncNoCapturePartUuid.Generic="지정된 프로덕트에서 파트 버전 또는 인스턴스 정보를 기억할 수 없습니다.\n";
+WRN_SyncNoCapturePartUuid.Detail="프로덕트 이름:/p1";
+
+WRN_SyncPVRCreationFailed="프로덕트 뷰 결과 작성 명령에 실패했습니다.\n";
+WRN_SyncPVRCreationFailed.Generic="프로덕트 뷰 결과 작성 명령에 실패했습니다.\n";
+
+WRN_SyncSynchronizationFailed="프로덕트 뷰 결과 동기화에 실패했습니다.\n";
+WRN_SyncSynchronizationFailed.Generic="프로덕트 뷰 결과 동기화에 실패했습니다.\n";
+
+WRN_SyncNotAbleToAttachRep="디폴트 3D 레프리젠테이션으로 /p1 문서를 연계할 수 없습니다.\n";
+WRN_SyncNotAbleToAttachRep.Generic="디폴트 3D 레프리젠테이션으로 지정된 문서를 연계할 수 없습니다.\n";
+WRN_SyncNotAbleToAttachRep.Detail="문서 이름:/p1";
+
+WRN_SyncNotAuthorized="프로덕트 뷰 결과 동기화가 이 환경에서 승인되지 않았습니다.\n";
+WRN_SyncNotAuthorized.Generic="프로덕트 뷰 결과 동기화가 이 환경에서 승인되지 않았습니다.\n";
+WRN_SyncNotAuthorized.Suggestion="적합한 환경을 설정하십시오.\n";
+
+WRN_SyncComparisonFailed="프로덕트 뷰 결과 동기화 비교에 실패했습니다.\n";
+WRN_SyncComparisonFailed.Generic="프로덕트 뷰 결과 동기화 비교에 실패했습니다.\n";
+
+WRN_SyncNotNeeded="작업 패키지가 최신 상태이므로 동기화를 적용하지 않아도 됩니다.\n";
+WRN_SyncNotNeeded.Generic="작업 패키지가 최신 상태이므로 동기화를 적용하지 않아도 됩니다.\n";
+
+ERR_SyncFailedInLockCheck="프로덕트 뷰 결과 동기화가 /p1의 잠금 확인 시 실패했습니다.\n";
+ERR_SyncFailedInLockCheck.Generic="프로덕트 뷰 결과 동기화가 잠금 확인 시 실패했습니다.\n";
+ERR_SyncFailedInLockCheck.Detail="/p1";
+ERR_SyncFailedInLockCheck.Suggestion="중첩된 프로덕트 뷰 결과의 동기화를 수행할 것인지 확인하십시오. 중첩된 프로덕트 뷰 결과의 잠금 해제된 프로덕트를 잠그고 동기화를 다시 시도하십시오.";
+
+ERR_SyncFailedInInstanceCreation="인스턴스 작성 시 동기화에 실패했습니다.";
+ERR_SyncFailedInInstanceCreation.Generic="인스턴스 작성 시 동기화에 실패했습니다.\n";
+ERR_SyncFailedInInstanceCreation.Detail="/p1 인스턴스 작성 시 /p2에서 동기화에 실패했습니다.\n";
+ERR_SyncFailedInInstanceCreation.Suggestion="이름이 같은 새 인스턴스가 어셈블리에 이미 있지 않은지 확인하십시오.\n ";
+
+ERR_NoPVROnMaturityStatus="프로덕트 뷰 결과 동기화가 /p1에 대한 완성도 확인 시 실패했습니다.\n";
+ERR_NoPVROnMaturityStatus.Generic="프로덕트 뷰 결과 동기화가 완성도 확인 시 실패했습니다.\n";
+ERR_NoPVROnMaturityStatus.Detail="/p1";
+ERR_NoPVROnMaturityStatus.Suggestion="중첩된 프로덕트 뷰 결과의 동기화를 수행할 것인지 확인하십시오. 중첩된 프로덕트 뷰 결과의 프로덕트 완성도를 확인하고 동기화를 다시 시도하십시오.";
+
+WRN_OneFlexibleInstanceFound="하나 이상의 /p1 인스턴스가 유동적 인스턴스로 선언되어 있습니다.\n이동 작업이 이 인스턴스에 표시되지 않습니다.";
+WRN_OneFlexibleInstanceFound.Generic="일부 인스턴스가 유동적 인스턴스로 선언되어 있습니다.\n이동 작업이 이 인스턴스에 표시되지 않습니다.";
+WRN_OneFlexibleInstanceFound.Detail="* /p1 인스턴스는 /p2 인스턴스의 하위입니다.";
+WRN_OneFlexibleInstanceFound.Suggestion="정확한 위치를 알려면 유동적 인스턴스에서 고정 인스턴스로 상위 인스턴스를 전환해야 합니다.\n";
+
+WRN_SyncPVRInvalidName="유효하지 않은 프로덕트 뷰 결과 이름이므로 자동으로 이름이 바뀝니다.\n";
+WRN_SyncPVRInvalidName.Generic="유효하지 않은 프로덕트 뷰 결과 이름이므로 자동으로 이름이 바뀝니다.\n";
+WRN_SyncPVRInvalidName.Detail="/p1에서 이름 바뀜";
+
+WRN_PVSNameEmpty="프로덕트 뷰 스펙 이름의 이름이 정의되지 않았습니다.\n프로덕트 뷰 스펙 작성에 실패했습니다.";
+WRN_PVSNameEmpty.Generic="프로덕트 뷰 스펙 이름의 이름이 정의되지 않았습니다.\n프로덕트 뷰 스펙 작성에 실패했습니다.";
+
+WRN_PVRNameTooLong="프로덕트 뷰 스펙 이름으로 /p1 이름이 너무 깁니다. 이 이름은 40자를 초과할 수 없습니다. \n프로덕트 뷰 결과 작성에 실패했습니다. ";
+WRN_PVRNameTooLong.Generic="프로덕트 뷰 스펙 이름이 너무 깁니다. 이 이름은 최대 문자 수를 초과할 수 없습니다. \n프로덕트 뷰 결과 작성에 실패했습니다. ";
+WRN_PVRNameTooLong.Detail="/p1";
+WRN_PVRNameTooLong.Suggestion="짧은 프로덕트 뷰 스펙 이름을 사용하십시오!";
+
+ERR_SyncComparaisonFailedOnFilteredRoot="필터 캡처 /p3을(를) 사용하는 어셈블리 /p2에 프로덕트 뷰 결과 루트 파트 /p1이(가) 없습니다.\n";
+ERR_SyncComparaisonFailedOnFilteredRoot.Suggestion="버전 또는 필터링으로 인해 어셈블리 범위에 더 이상 프로덕트 뷰 결과의 루트 파트가 없을 것입니다.";
+
+ERR_SyncComparaisonFailedOnRoot="어셈블리 /p2에 프로덕트 뷰 결과 루트 파트 /p1이(가) 없습니다.\n";
+ERR_SyncComparaisonFailedOnRoot.Suggestion="버전으로 인해 어셈블리 범위에 더 이상 프로덕트 뷰 결과의 루트 파트가 없을 것입니다.";
+
+// --- * Message for Product view result load failed in case of PVR creation from existing one
+
+WRN_SyncPVRCreationPreparationError="프로덕트 뷰 결과 문서 작성 준비에 실패했습니다.\n";
+WRN_SyncPVRCreationPreparationError.Generic="프로덕트 뷰 결과 문서 작성 준비에 실패했습니다.\n";
+
+WRN_SyncPVRLoadError="기존 프로덕트 뷰 결과 문서 로드에 실패했습니다.\n";
+WRN_SyncPVRLoadError.Generic="기존 프로덕트 뷰 결과 문서 로드에 실패했습니다.\n";
+
+// --- * Messages for Product view result creation preparation and synchronization operation
+
+WRN_SyncPVRSynchronizationError="작성 후 프로덕트 뷰 결과 동기화에 실패했습니다.\n";
+WRN_SyncPVRSynchronizationError.Generic="작성 후 프로덕트 뷰 결과 동기화에 실패했습니다.\n";
+
+// --- * Message for Product view result save of new PVR failed at PVR creation
+
+WRN_SyncPVRSaveError="프로덕트 뷰 결과 /p1을(를) 저장할 수 없습니다.\n";
+WRN_SyncPVRSaveError.Generic="프로덕트 뷰 결과 /p1을(를) 저장할 수 없습니다.\n";
+
+// --- * Message to manage inconstency with Nested PVR during synchronization 
+
+ERR_SyncNestedPVRWithDiffPvs="PVR /p1(파트 /p2)이(가) 루트 PVR 중 하나와 다른 펼치기 캡처를 사용합니다.";
+ERR_SyncNestedPVRWithDiffPvs.Generic="최소한 하나의 중첩된 PVR이 루트 PVR 중 하나와 다른 펼치기 캡처를 사용합니다.";
+ERR_SyncNestedPVRWithDiffPvs.Detail="중첩된 PVR /p1(파트 /p2)";
+ERR_SyncNestedPVRWithDiffPvs.Suggestion="중첩된 이 PVR의 인스턴스를 잘라내고 동기화를 다시 실행하십시오.";
+
+ERR_SyncNestedPVRWithPvsOnlyOnPvr="PVR /p1(파트 /p2)이(가) 펼치기 캡처를 사용하지만 루트 PVR이 필터링되지 않았습니다.";
+ERR_SyncNestedPVRWithPvsOnlyOnPvr.Generic="최소한 하나의 중첩된 PVR이 펼치기 캡처를 사용하지만 루트 PVR이 필터링되지 않았습니다.";
+ERR_SyncNestedPVRWithPvsOnlyOnPvr.Detail="중첩된 PVR /p1(파트 /p2)";
+ERR_SyncNestedPVRWithPvsOnlyOnPvr.Suggestion="중첩된 이 PVR의 인스턴스를 잘라내고 동기화를 다시 실행하십시오.";
+
+ERR_SyncNestedPVRWithoutPvs="루트 PVR은 펼치기 필터를 사용하며 PVR /p1(파트 /p2)은(는) 이 필터를 사용하지 않습니다.";
+ERR_SyncNestedPVRWithoutPvs.Generic="루트 PVR은 펼치기 필터를 사용하며 최소한 하나의 중첩된 PVR은 이 필터를 사용하지 않습니다.";
+ERR_SyncNestedPVRWithoutPvs.Detail="중첩된 PVR /p1(파트 /p2)";
+ERR_SyncNestedPVRWithoutPvs.Suggestion="적용을 선택한 경우 이러한 중첩된 PVR을 이 루트 PVR의 현재 펼치기 필터로 링크합니다.";
+
+WRN_SyncNestedPVRWithDiffPvs="PVR /p1(파트 /p2)이(가) 루트 PVR 중 하나와 다른 펼치기 캡처를 사용합니다.";
+WRN_SyncNestedPVRWithDiffPvs.Generic="최소한 하나의 중첩된 PVR이 루트 PVR 중 하나와 다른 펼치기 캡처를 사용합니다.";
+WRN_SyncNestedPVRWithDiffPvs.Detail="중첩된 PVR /p1(파트 /p2)";
+WRN_SyncNestedPVRWithDiffPvs.Suggestion="적용을 선택한 경우 이러한 중첩된 PVR을 이 루트 PVR의 현재 펼치기 필터로 링크합니다.";
+
+WRN_SyncNestedPVRWithPvsOnlyOnPvr="PVR /p1(파트 /p2)이(가) 펼치기 캡처를 사용하지만 루트 PVR이 필터링되지 않았습니다.";
+WRN_SyncNestedPVRWithPvsOnlyOnPvr.Generic="최소한 하나의 중첩된 PVR이 펼치기 캡처를 사용하지만 루트 PVR이 필터링되지 않았습니다.";
+WRN_SyncNestedPVRWithPvsOnlyOnPvr.Detail="중첩된 PVR /p1(파트 /p2)";
+WRN_SyncNestedPVRWithPvsOnlyOnPvr.Suggestion="적용을 선택한 경우 이러한 중첩된 PVR을 이 루트 PVR의 현재 펼치기 필터로 링크합니다.";
+
+WRN_SyncNestedPVRWithoutPvs="루트 PVR은 펼치기 필터를 사용하며 PVR /p1(파트 /p2)은(는) 이 필터를 사용하지 않습니다.";
+WRN_SyncNestedPVRWithoutPvs.Generic="루트 PVR은 펼치기 필터를 사용하며 최소한 하나의 중첩된 PVR은 이 필터를 사용하지 않습니다.";
+WRN_SyncNestedPVRWithoutPvs.Detail="중첩된 PVR /p1(파트 /p2)";
+WRN_SyncNestedPVRWithoutPvs.Suggestion="적용을 선택한 경우 이러한 중첩된 PVR을 이 루트 PVR의 현재 펼치기 필터로 링크합니다.";
+
+// ---  *  Messages dedicated to print comparison results
+
+Msg_PrintRootInstance="         인스턴스: /p1\n";
+Msg_PrintInstanceNotIdentical="> 인스턴스 오류: /p1 비교: /p2\n";
+Msg_PrintIntermediateInstance="> 인스턴스: /p1 비교: /p2\n";
+
+Msg_NoPvrSynchronizationRequiredMsg="작업 패키지 어셈블리 구조가 최신 상태이므로 동기화를 적용하지 않아도 됩니다.\n";
+Msg_PvrSynchronizationOnNewVersionMsg="프로덕트 뷰 결과가 다른 파트에서 동기화됩니다.\n";
+Msg_PvrAttachToMultiplePVMsg="프로덕트 뷰 결과가 여러 파트에 링크되어 있습니다.\n (프로덕트 뷰 결과 문서를 최종 버전에서 동기화할 수 있도록 리비젼했을 수 있습니다.)\n";
+Msg_PvrNotAttachToItsPV="프로덕트 뷰 결과가 파트에 링크되지 않았습니다.";
+Msg_PvrReconciliationNotAuhorized="/p1은(는) 이 레벨에서 조정할 수 없는 프로덕트 뷰 결과입니다.";
+
+// ---  *  Operator for Product structure filtering
+
+FilteringOperator.LIKE="Like";
+FilteringOperator.EQ="=";
+FilteringOperator.NOTLIKE="Not Like";
+FilteringOperator.NOTEQ="!=";
+FilteringOperator.GT=">";
+FilteringOperator.GTEQ=">=";
+FilteringOperator.LT="<";
+FilteringOperator.LTEQ="<=";
+
+// --- Error message for XML Reporting generation
+
+WarningOutputDirPathUnknown.Message="출력 디렉토리 경로가 올바르지 않습니다.";
+WarningInputXSLPathUnknown.Message="입력 XSL 경로가 올바르지 않습니다.";
+WarningNoXLSFile.Message="입력 XSL 파일이 없습니다.";
+ErrorGeneratingReport.Message="XML 보고서 생성 중 오류 발생";
+
+// --- Warning message: Enable to advice end-user that rule is not compatible with VPDM object status.
+
+WRN_OverwriteWithNoAutomaticLock="잠기지 않은 /p1에 대해 /p2 룰을 선택했습니다(자동 잠금 획득이 금지됨).";
+WRN_OverwriteWithNoAutomaticLock.Generic="선택한 룰은 잠기지 않은 오브젝트의 ENOVIA에서의 갱신을 의미합니다(자동 잠금 획득이 금지됨).";
+WRN_OverwriteWithNoAutomaticLock.Detail="/p1 오브젝트의 /p2입니다.";
+WRN_OverwriteWithNoAutomaticLock.Suggestion="저장하기 전에 룰을 변경하거나 오브젝트를 잠그십시오.";
+
+WRN_OverwriteWithLockByOther="/p3에서 잠근 /p1에 대해 /p2 룰을 선택했습니다.";
+WRN_OverwriteWithLockByOther.Generic="선택한 룰은 다른 사용자가 잠근 오브젝트의 ENOVIA에서의 갱신을 의미합니다.";
+WRN_OverwriteWithLockByOther.Detail="/p3이(가) 잠근 /p1 오브젝트의 /p2입니다.";
+WRN_OverwriteWithLockByOther.Suggestion="룰을 변경하십시오.";
+
+WRN_NoLockInformation="잠금 정보를 사용할 수 없습니다.";
+WRN_NoLockInformation.Generic="/p1에 대해 잠금 정보를 사용할 수 없습니다.";
+WRN_NoLockInformation.Detail="/p1에 대해 잠금 정보를 사용할 수 없습니다.";
+WRN_NoLockInformation.Suggestion="다시 조회하십시오.";
+
+WRN_OverwriteWithFrozenStatus="고정된 /p1에 대해 /p2 룰을 선택했습니다.";
+WRN_OverwriteWithFrozenStatus.Generic="선택한 룰은 고정된 오브젝트의 ENOVIA에서의 갱신을 의미합니다.";
+WRN_OverwriteWithFrozenStatus.Detail="/p1 오브젝트의 /p2입니다.";
+WRN_OverwriteWithFrozenStatus.Suggestion="룰을 변경하십시오.";
+
+WRN_NoMaturityInformation="완성도 상태 정보를 사용할 수 없습니다.";
+WRN_NoMaturityInformation.Generic="/p1에 대해 완성도 상태 정보를 사용할 수 없습니다.";
+WRN_NoMaturityInformation.Detail="/p1에 대해 완성도 상태 정보를 사용할 수 없습니다.";
+WRN_NoMaturityInformation.Suggestion="다시 조회하십시오.";
+
+ERR_OverwriteWithRemoteSiteObject="현재 사이트 /p3이(가) 소유하지 않은 /p1에 대해 /p2 룰을 선택했습니다.";
+ERR_OverwriteWithRemoteSiteObject.Generic="선택한 룰은 현재 사이트가 소유하지 않은 오브젝트의 ENOVIA에서의 갱신을 의미합니다.";
+ERR_OverwriteWithRemoteSiteObject.Detail="/p3 사이트가 소유하지 않은 /p1 오브젝트의 /p2입니다.";
+ERR_OverwriteWithRemoteSiteObject.Suggestion="룰을 변경하십시오.";
+
+WRN_NoOwnershipInformation="사이트 소유권 정보를 사용할 수 없습니다.";
+WRN_NoOwnershipInformation.Generic="/p1에 대해 사이트 소유권 정보를 사용할 수 없습니다.";
+WRN_NoOwnershipInformation.Detail="/p1에 대해 사이트 소유권 정보를 사용할 수 없습니다.";
+WRN_NoOwnershipInformation.Suggestion="다시 조회하십시오.";
+
+ERR_NoPartVersionAssociatedToDoc="문서 리비젼 /p1에 연관된 파트 버전이 없습니다.";
+ERR_NoPartVersionAssociatedToDoc.Generic="문서 리비젼에 연관된 파트 버전이 없습니다.";
+ERR_NoPartVersionAssociatedToDoc.Detail="문서 리비젼 /p1에 연관된 파트 버전이 없습니다.";
+ERR_NoPartVersionAssociatedToDoc.Suggestion="문서 리비젼에 연관된 파트 버전이 없습니다.";
+
+ERR_SharedRepresentation="형상 문서 /p1을(를) 서로 다른 2개의 파트인 /p2 및 /P3에서 공유합니다.";
+ERR_SharedRepresentation.Generic="형상 문서를 서로 다른 2개의 파트가 공유합니다.";
+ERR_SharedRepresentation.Detail="/p1을(를) /p2 및 /p3에서 공유";
+ERR_SharedRepresentation.Suggestion="이러한 어셈블리는 조정할 수 없습니다. 형상을 복제하여 형상 공유를 방지하십시오.";
+
+
+WRN_RecMappingPersistMismatch="CATIA 레퍼런스 /p1은(는) Structure Exposed로 선언되었지만 PDM에서 Publication Exposed /p2에 맵핑됩니다.";
+WRN_RecMappingPersistMismatch.Generic="맵핑 영속성 불일치.";
+WRN_RecMappingPersistMismatch.Detail="/p1(Structure Exposed)이(가) /p2(Publication Exposed)에 맵핑.";
+WRN_RecMappingPersistMismatch.Suggestion="이 엔티티의 맵핑을 확인하십시오. 이러한 맵핑은 이 노드의 '다시 로드' 조정 규칙을 방지합니다.";
+
+
+ERR_NotAbleToReadPVS="현재 PVR에 연계된 필터링된 캡처를 ENOVIA에서 찾을 수 없습니다.";
+ERR_NotAbleToReadPVS.Generic="현재 PVR에 연계된 필터링된 캡처를 ENOVIA에서 찾을 수 없습니다.";
+ERR_NotAbleToReadPVS.Detail="";
+ERR_NotAbleToReadPVS.Suggestion="PVR에 연계된 필터 캡처가 삭제된 것 같습니다.";
+
+
+INF_RecRefreshARWithoutPDMId="/p2 레퍼런스 아래의 /p1 인스턴스가 CATIA에 있지만 PDM에는 없으므로 다시 로드할 수 없으며 새 항목으로 유지됩니다.";
+INF_RecRefreshARWithoutPDMId.Generic="인스턴스 중 하나가 CATIA에 있지만 PDM에는 없으므로 다시 로드할 수 없으며 새 항목으로 유지됩니다.";
+INF_RecRefreshARWithoutPDMId.Detail="첫 번째 레벨 인스턴스 /p1이(가) 레퍼런스 /p2 아래에 있습니다.";
+INF_RecRefreshARWithoutPDMId.Suggestion="다시 로드해도 상위 레퍼런스가 수정된 것으로 간주됩니다.";

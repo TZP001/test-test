@@ -1,0 +1,56 @@
+INFO_HELP="
+CATDMUCacheManagerはｷｬｯｼｭ ﾃﾞｰﾀを管理します｡ \n
+使用法: \n
+   ﾍﾙﾌﾟ情報を検索する:
+      CATDMUCacheManager -h \n
+   ｷｬｯｼｭ ﾃﾞｨﾚｸﾄﾘの内容を検索する:
+      CATDMUCacheManager -content file [-g cachedir] [-s char] [-t type] \n
+   ｷｬｯｼｭ ﾃﾞｨﾚｸﾄﾘを削除する:
+      CATDMUCacheManager -purge value \n
+Windowsの例: \n
+   CATDMUCacheManager -h
+   CATDMUCacheManager -content c:\u\output.txt
+   CATDMUCacheManager -content c:\u\output.txt -t 3dmap
+   CATDMUCacheManager -purge 10 \n
+UNIXの例: \n
+   CATDMUCacheManager -h
+   CATDMUCacheManager -content /u/output
+   CATDMUCacheManager -content /u/output -t 3dmap
+   CATDMUCacheManager -purge 10 \n
+引数: \n
+   -h            : ﾍﾙﾌﾟ｡
+   -content file : ｷｬｯｼｭ ﾌｧｲﾙのﾘｽﾄを含む出力ﾌｧｲﾙ｡
+                   各行にはｷｬｯｼｭ ﾌｧｲﾙの識別子､ｾﾊﾟﾚｰﾀ､ｵﾘｼﾞﾅﾙ ﾌｧｲﾙの識別子､
+                   ｾﾊﾟﾚｰﾀ､ﾀｲﾑ ｽﾀﾝﾌﾟ(YYYY-mm-dd-HH.MM.SS形式)
+                   が含まれます｡
+   -g cachedir   : ｽｷｬﾝするｷｬｯｼｭ ﾃﾞｨﾚｸﾄﾘ｡
+   -s char       : 入力または出力ﾌｧｲﾙ内の行にあるﾌｨｰﾙﾄﾞを区切るために
+                   使用される文字を定義する｡
+                   ﾃﾞﾌｫﾙﾄではﾌﾞﾗﾝｸ文字が使用されます｡
+   -t type       : ｷｬｯｼｭのﾀｲﾌﾟ(cgr､3dmapなど)を定義する｡
+                   ﾃﾞﾌｫﾙﾄではcgrが使用されます｡
+   -purge value  : 所定の値のｻｲｽﾞに達するように最も古いﾌｧｲﾙから
+                   ｷｬｯｼｭ ﾃﾞｨﾚｸﾄﾘを削除する｡
+                   ｻｲｽﾞはMB単位で指定されます(Mo)｡ \n
+診断: \n
+   考えられる終了状況値は次のとおりです｡ \n
+      0   正常終了｡ \n
+      1   次のいずれかの理由による失敗｡
+          - ﾗｲｾﾝｽが使用不可
+          - ｷｬｯｼｭ管理が非活動化されている
+          - 引数が不足
+          - 無効なﾊﾟﾗﾒｰﾀ
+          - ｵﾌﾟｼｮﾝの後にﾊﾟﾗﾒｰﾀがない
+          - 出力ﾌｧｲﾙを開くことができない \n
+      2   処理ｴﾗｰ｡ \n
+ﾄﾗﾌﾞﾙｼｭｰﾃｨﾝｸﾞ: \n
+   終了状況 = 1:
+      標準ｴﾗｰ ﾌｧｲﾙに含まれる情報を使用して
+      ｺﾏﾝﾄﾞ行または環境を修正する｡ \n
+   終了状況 = 2:
+      ｻﾎﾟｰﾄ担当員に連絡する｡
+";
+ERR_PROCESSING="ｴﾗｰ: CATDMUCacheManagerが処理に失敗しました｡";
+ERR_CACHE_ACCESS="ｴﾗｰ: CATDMUCacheManagerが次のｷｬｯｼｭ ﾃﾞｨﾚｸﾄﾘにｱｸｾｽできません｡";
+START_BATCH="CATDMUCacheManagerの開始日時:";
+STOP_BATCH="CATDMUCacheManagerの停止までの持続時間:";

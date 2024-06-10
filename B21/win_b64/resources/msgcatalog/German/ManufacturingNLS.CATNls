@@ -1,0 +1,2336 @@
+// Pour des infos pertinentes la signification des differentes messages :
+//
+//
+//    a- Title = Nom de la commande affiché
+//              REGLES: - Commencer par un verbe à l'infinitif
+//                      - Min/maj : chaque mot doit commencer par une majuscule.
+//                  
+//    b- Help = Help affiché an bas à gauche du Frame CATIA
+//              REGLES: - Phrase normale au niveau des min/maj.
+//
+//    c- ShortHelp = Bulle affiché sur icône.
+//              REGLES: - Commencer par un verbe à l'infinitif
+//                      - Min/maj : chaque mot doit commencer par une majuscule.
+//
+//    d- LongHelp = Help affiché en selectionnant le Menu principal 'Help' + What's This ?
+//              REGLES: - Phrase normale au niveau des min/maj.
+//						- SOYEZ BAVARD !!!
+
+DesignFeature="Konstruktionselement - Parameter können nicht geändert werden";
+MfgView="Herstellungsansicht";
+MfgDesign="Konstruktion";
+MfgHole="Bohrung";
+MfgPrismaticPocket="Prismatische Tasche";
+MfgPrismaticSlab="Prismatische Platte";
+MfgAxial="Axiale Komponente";
+MfgPrismaticSurfacing="Planbearbeitung";
+Mfg3AxisFeature="3-Achskomponente";
+MfgProfileContouringFeature="Kontur";
+MfgPtToPtFeature="Bearbeitungselement - Punkt-zu-Punkt";
+MfgCounterbore="Plansenken";
+MfgCountersink="Profilsenken";
+MfgIntThreaded="Innengewinde";
+MfgPatternDefinition="Geometrie des Musters"; // VSC: For pattern definition.
+MfgMachiningPattern="Bearbeitungsmuster";
+MfgPatternUsage="Bearbeitungsmuster";
+MfgSpotDrill="Anbohren";
+MfgCircularMill="Zirkularfräsen";
+MfgBackBore="Rückwärts Ausspindeln";
+Mfg2SidesChamfer="Beidseitiges Anfasen";
+MfgTSlot="T-Nut";
+MfgThreadMill="Gewindefräser";
+MfgChamferedHole="Angefaste Bohrung";
+MfgMachiningAxisSystem="NC-Achsensystem";
+MfgAxisSystemType="Bearbeitungsachsentyp";
+Offset="Aufmaß";
+Geometry="Geometrie";
+Tolerance="Toleranz";
+SelectedFeature="Komponente";
+Unknown="Unbekannt";
+None="Es wurde keine geometrische Komponente ausgewählt.";
+Diameter="Durchmesser";
+CBDiameter="Plansenkdurchmesser";
+Depth="Tiefe";
+CSAngle="Winkel";
+CBDepth="Plansenktiefe";
+ThreadDepth="Gewindetiefe";
+THDepth="Gewindetiefe";
+ThreadDiameter="Gewindedurchmesser";
+THDiameter="Gewindedurchmesser";
+ThreadPitch="Gewindesteigung";
+THPitch="Steigung";
+RightThreaded="Rechtsgewinde";
+LeftThreaded="Linksgewinde";
+MfgPitchSens="Gewinderichtung";
+THMode="Gewinderichtung";
+THSens="Gewinderichtung";
+Extension="Bohrungserweiterung";
+Simple="Normal";
+Tapered="Konisch";
+Counterbored="Plangesenkt";
+Countersunk="Profilgesenkt";
+Counterdrilled="Formgesenkt";
+Threaded="Gewinde";
+MfgHoleExtension="Ausdehnung";
+JumpDistance="Sicherheitsabstand";
+MFG_AXIAL_RADIAL_LINKING="Axial-radial-Verbindung";
+MfgGuidance="Werkzeugachsenstrategie";
+MfgPatternTopMode="Projektionsmodus";
+MfgPatternOrderingMode="Reihenfolgemodus";
+MfgContouringMode="Modus Konturfräsen";
+CSDiameter="Profilsenkdurchmesser";
+CSDepth="Profilsenktiefe";
+BackDepth="Hinteres Aufmaß";
+SlotDiameter="Spaltdurchmesser";
+
+//BFA,05 Nov 06 - Fix for IR 558444. Corrected the names. 
+CDDiameter="Durchmesser der Formsenkbohrung";
+CDAngle="Winkel der Formsenkbohrung";
+CDDepth="Tiefe der Formsenkbohrung";
+//End of fix
+
+CHDiameter="Fasendurchmesser";
+
+OriginOffset="Ursprungsaufmaß";
+
+MfgAxialFeature="Axiale Komponente";
+MfgMachiningFeature="Bearbeitungskomponente";
+MfgPrismaticFeature="Prismatische Komponente";
+
+// Smu : features base types
+MfgBase="Basiskomponente bei der Fertigung";
+ManufacturingFeature="Fertigungskomponente";
+MachiningFeature="Bearbeitungskomponente";
+PrismaticFeature="Prismatische Komponente";
+
+MfgMachinableAreaFeature="Bearbeitbarer Bereich";
+MfgMachinableGeomFeature="Bearbeitbare Geometrie";
+
+MfgMachinableComputedStockFeature="Bearbeitbares berechnetes Rohteil";
+MfgMaxTurnEnvelopeMachinableFeature="Max. Hüllkurve für Drehen";
+
+// Smu : Machinable features from GSSL Feature Recognition
+MfgMachinableBaseFeature="Bearbeitbare Basiskomponente";
+MfgMachinableAxialFeature="Bearbeitbare Achsenkomponente";
+FeatureType="Komponententyp";
+XAxis="X-Komponente der Ursprungsachse";
+YAxis="Y-Komponente der Ursprungsachse";
+ZAxis="Z-Komponente der Ursprungsachse";
+pX="Ursprüngliche X-Koordinate";
+pY="Ursprüngliche Y-Koordinate";
+pZ="Ursprüngliche Z-Koordinate";
+HoleType="Bohrungstyp";
+HoleBottomType="Bodentyp der Bohrung";
+HoleBottomAngle="Stirnseitiger Freiwinkel der Bohrung";
+
+// VSC: New attributes exposed for Prismatic machining area
+MfgMinimumCornerRadius="Mindesteckenradius";
+MfgMinimumChannelWidth="Mindestkanalbreite";
+MfgMaximumChannelWidth="Maximale Kanalbreite";
+MfgBottomFilletRadius="Radius der unteren Verrundung";
+
+// =====================================================================
+// NLS General
+// =====================================================================
+
+MfgIsActive="Aktiv?";
+
+// =====================================================================
+// NLS for Macros
+// =====================================================================
+
+MfgMacroDistance="Abstand";
+MfgMacroPositionningAngleA="Vertikaler Winkel";
+MfgMacroPositionningAngleB="Horizontaler Winkel";
+MfgMacroTgtDistance="Abstand";
+MfgMacroCircleAngularPositionA="Winkelsektor";
+MfgMacroCircleAngularPositionB="Winkelausrichtung";
+MfgMacroRadius="Radius";
+MfgMacroHorizontalSafetyDistance="Horizontaler Sicherheitsabstand";
+MfgMacroVerticalSafetyDistance="Vertikaler Sicherheitsabstand";
+MfgMacroRampingAngle="Makro - Eintauchwinkel";
+MfgMacroCornerValue="Makro - Eckenradius";
+MfgMacroCornized="Eckenbearbeitungsmakro";
+MfgMacroMotionsActiveStatus="Aktives Makro?";
+MfgMacroMotionsRelevant="Verwendbares Makro?";
+MfgMacroType="Makrotyp";
+MfgMacroMotion="Gruppe";
+MfgMacroClearanceMotion="Gruppe";
+MfgMacroMotions="Makro";
+MfgMacroClearanceMotions="Sicherheitsbereich";
+MfgMacroApproachMotions="Zustellung";
+MfgMacroRetractMotions="Rückzugsbewegung";
+MfgMacroBetweenFinishingPathMotions="Rückgabe - Schlichtbahn";
+MfgMacroLinkingMotions="Verbindung";
+MfgMacroReturnBetweenLevelMotions="Rückgabe zwischen Ebenen";
+MfgMacroReturnInOneLevelMotions="In eine Ebene zurückkehren";
+IsMfgRelativeRadiusTRUE="Absoluter Helixradius";
+IsMfgRelativeRadiusFALSE="Radiusunterschied und nächste Bahn";
+
+ClearanceOptionFrame="Optionen für den Sicherheitsbereich";
+MfgClearanceCorner="Eckenbearbeitungs-Sicherheitsbereich mit Radius";
+MfgClearanceCorner.LongHelp="Die Eckenbearbeitung bei Sicherheitsbereich ermöglichen";
+
+// =====================================================================
+// Types des trajets elementaires de macro
+// =====================================================================
+
+MfgMacroElementaryNormalMotion="Normal";
+MfgMacroElementaryBackMotion="Rückwärts";
+MfgMacroElementaryCircularDirMotion="Bogenförmig, manuell";
+MfgMacroElementaryBoxMotion="Kasten";
+MfgMacroElementaryPSMMotion="Verlängerte Schnittbewegung";
+MfgMacroElementaryHSMMotion="Hochgeschwindigkeitsfräsen";
+MfgMacroElementaryHMRMotion="Schruppen";
+MfgMacroElementaryHelixMotion="Spiralförmig";
+MfgMacroElementaryRampingMotion="Steigend";
+MfgMacroElementaryHorizontalMotion="Horizontal";
+MfgMacroElementaryGoToAPointMotion="Zu einem Punkt gehen";
+MfgMacroElementaryCircularMotion="Bogenförmig";
+MfgMacroElementaryToolAxisMotion="Werkzeugachse";
+MfgMacroElementaryDeltaLnDistMotion="Abstand entlang einer Linie";
+MfgMacroElementaryAxialMotion="Axial";
+MfgMacroPPWord="PP-Wort";
+MfgMacroElementaryGoToAPlaneMotion="In eine Ebene wechseln";
+
+// ===================================================
+// NLS for Copy Order
+// ============================================
+
+// PFE: Copy Order R7
+MfgNbOfCopy="Anzahl Kopien (N)";
+MfgDeltaX="Abstand entlang X";
+MfgDeltaY="Abstand entlang Y";
+MfgDeltaZ="Abstand entlang Z";
+MfgKeepAssociativity="Verknüpfungen beibehalten";
+MfgTransformationType="Umwandlungstyp";
+MfgRotationAngle="Winkel";
+
+// PFE:  ajouts Copy Order R8 
+MfgDeltaAlongAxis="Abstand entlang Richtung";
+MfgTranslationType="Verschiebungstyp";
+
+// PFE : ajouts copy order R10
+MfgPriorityType="Reihenfolge";
+MfgRotationType="Rotationstyp";
+MfgAxisMachAxis="Achse";
+
+// PCB : ajouts copy order R12
+MfgMatrixType="Matrixtyp";
+MfgAffinityFactAlongX="Faktor der Affinität entlang X";
+MfgAffinityFactAlongY="Faktor der Affinität entlang Y";
+MfgAffinityFactAlongZ="Faktor der Affinität entlang Z";
+MfgScaleFact="Faktor";
+MfgMatrixFactX1="X1";
+MfgMatrixFactY1="Y1";
+MfgMatrixFactZ1="Z1";
+MfgMatrixFactX2="X2";
+MfgMatrixFactY2="Y2";
+MfgMatrixFactZ2="Z2";
+MfgMatrixFactX3="X3";
+MfgMatrixFactY3="Y3";
+MfgMatrixFactZ3="Z3";
+MfgMatrixAlongX="Verschiebung entlang X";
+MfgMatrixAlongY="Verschiebung entlang Y";
+MfgMatrixAlongZ="Verschiebung entlang Z";
+
+// =====================================================================
+// NLS for Machinist
+// =====================================================================
+
+ToolCornerRadius="Radius";
+ToolDiameter="Durchmesser";
+ToolAngle="Winkel";
+ToolLength="Länge";
+UmaMachTol="Toleranz";
+UmaOverlap="Überlappung (% Ø)";
+UmaDepth="Tiefe";
+UmaWidth="Breite";
+UmaLength="Länge";
+PartOverThickness="Aufmaß auf Teil";
+
+M3xAccostingSide="Ursprüngliche Werkzeugposition";
+M3xApproachAndRetractMacroMotion="Arbeitsgang wird verknüpft";
+M3xApproachAndRetractRadius="Radius der Zustellung und des Rückzugs";
+M3xApproachDistance="Zustellmodus";
+M3xApproachMacroMotion="Zustellart";
+M3xApproachVectorX="Zustellung in X-Richtung";
+M3xApproachVectorY="Zustellung in Y-Richtung";
+M3xApproachVectorZ="Zustellung in Z-Richtung";
+M3xAutomatiqueStrategy="Optimierungsstrategie";
+M3xContouringMode="Kreistyp";
+M3xCornerizationRadius="Eckenradius";
+M3xCtxOverThickness="Aufmaß";
+M3xCutStrategy="Schrupptyp";
+M3xCuttingMode="Fräsmodus";
+M3xDeltaZ="Minimale Änderung der Länge";
+M3xDrillingSafetyDistance="Sicherheitsabstand beim Bohren";
+M3xEngagementMode="Eingriffsmodus";
+M3xFilterHVAngle="Mindestwinkel";
+M3xFilterHVLength="Mindestlänge";
+M3xFilterHVMode="HV-Filter";
+M3xForceCompute="Wiedergabe erzwingen";
+M3xHSMEngagementRadius="Übergangsradius";
+M3xHardDrillToolAngle="Bohrwerkzeugwinkel";
+M3xHardDrillToolDiameter="Bohrwerkzeugdurchmesser";
+M3xHardDrillToolLength="Bohrwerkzeuglänge";
+M3xHardEngagementMode="Eingriffsmodus";
+M3xHardHelixDiameter="Helixdurchmesser (% Ø)";
+M3xHardInterpolationMode="Interpolationsmodus";
+M3xHardMachiningMode="Bearbeitungsmodus";
+M3xHardOverlap="Schlichtbahnüberlappung (Verhältnis. z. Werkzeugdurchm.)";
+M3xHardStopOffset="Aufmaß stoppen (% Ø)";
+M3xHardSweepingMode="Bearbeitungsstrategie";
+M3xHighSpeed="Hochgeschwindigkeitsverarbeitung";
+M3xLengthMin="Minimale Änderung der Länge";
+M3xLinkDistance="Überspringhöhe";
+M3xLinkMode="Überspringen von Inseln";
+M3xMachiningMode="Bearbeitungsstrategie";
+M3xMachiningZone="Bearbeiteter Bereich";
+M3xMacroMotionRetractOptimization="Nicht verwendet";
+M3xMaxHorizontalSlope="Max. horizontale Steigung";
+M3xMaxWidthToMachine="Maximale zu bearbeitende Breite";
+M3xMinFrontalSlope="Min. frontale Steigung";
+M3xMinLateralSlope="Min. seitliche Steigung";
+M3xMinStepDistance="Min. Schrittabstand";
+M3xMinZoneArea="Kleinster zu bearbeitender Bereich (% Durchmesser)";
+M3xOffsetEndPlane="Aufmaß auf Endebene";
+M3xOffsetLowerPlane="Aufmaß auf Bodenebene";
+M3xOffsetSafetyPlane="Aufmaß auf Sicherheitsebene";
+M3xOffsetSide="Aufmaßseite";
+M3xOffsetStartPlane="Aufmaß auf Anfangsebene";
+M3xOffsetUpperPlane="Aufmaß auf obere Ebene";
+M3xOverShoot="Aufmaß auf Begrenzung";
+M3xOverThickness="Aufmaß auf Teil";
+M3xPartAutoLimit="Automat. Teilebegrenzung";
+M3xPlunge="Eintauchen";
+M3xRaiseDistance="Axialer Sicherheitsabstand";
+M3xRampAngle="Eintauchwinkel";
+M3xRetractDistance="Rückzugsabstand";
+M3xRetractMacroMotion="Rückzugsmodus";
+M3xRetractTpSPMode="Modus für Rückzug zu Sicherheitsebene";
+M3xRetractVectorX="Rückzug in X-Richtung";
+M3xRetractVectorY="Rückzug in Y-Richtung";
+M3xRetractVectorZ="Rückzug in Z-Richtung";
+M3xReverseToolPath="Werkzeugbahn umkehren";
+M3xSMEngagementAngle="Eingriffswinkel";
+M3xSMSBitangencyMode="Nachbesserung mit Hohlkehlenfräser";
+M3xSMSLayerModeValue="Maximale Schnitt-Tiefe";
+M3xSMSLimitOverShoot="Aufmaß auf Begrenzung";
+M3xSMSReworkStrategyAngle="Winkel für Nachbearbeitungsstrategie";
+M3xSMSStopMode="Referenz ";
+M3xSMSStopPosition="Stopp-Position";
+M3xSMSSweepingStrategyMode="Kopierfrässtrategie";
+M3xSafetyDistance="Radialer Sicherheitsabstand";
+M3xScallopHeight="Rautiefe";
+M3xSetSmartStepValue="Schrittabstand";
+M3xStepDirection="Startseite des Bahnabstands";
+M3xStepDistance="Maximaler Abstand";
+M3xStepOverMode="Nicht verwendet";
+M3xStopMode="Stoppmodus";
+M3xStopPosition="Position";
+M3xSynchronize=" Synchronisieren";
+M3xToContour="Richtung";
+M3xToolCoreDiameter="Werkzeugkerndurchmesser";
+M3xUpDownMode="Richtung der Achse";
+M3xViewDirCheck="Kollisionsprüfung";
+M3xViewDirMode="Ansichtsrichtung";
+M3xVisuMode="Auswahlmodus";
+M3xZLevelPassOverlap="Arbeitsgangüberlappung";
+
+// =====================================================================
+// NLS for times
+// =====================================================================
+MfgNonMachiningTime="Nicht-Bearbeitungszeit";
+MfgWaitingTime="Wartezeit";
+
+// =====================================================================
+// NLS for feeds & speeds
+// =====================================================================
+
+MFG_FEED_APP_VALUE="Zustellungsvorschub";
+MFG_FEED_APP_MODE="Schneller Zustellungsvorschub";
+MFG_FEED_PLUNGE_VALUE="Eintauchvorschub";
+MFG_FEED_PLUNGE_MODE="Schneller Eintauchvorschub";
+MFG_FEED_MACH_VALUE="Bearbeitungsvorschub";
+MFG_CHAMFER_FEED_VALUE="Fasen - Vorschub";
+MFG_FEED_RETRACT_VALUE="Rückzugsvorschub";
+MFG_FEED_RETRACT_MODE="Schneller Rückzugsvorschub";
+MFG_FEED_FINISH_VALUE="Schlichtvorschub";
+MfgGlobalFeedrateMagnitude="Vorschubeinheit";
+MFG_LATHE_MACH_FEED_VALUE="Bearbeitungsvorschub";
+
+MFG_SPINDLE_MACH_VALUE="Maschinenspindel";
+MFG_CHAMFER_SPINDLE_VALUE="Fasenspindel";
+MFG_SPINDLE_FINISH_VALUE="Endbearbeitungsspindel";
+MfgGlobalSpindleMagnitude="Spindeleinheit";
+
+MFG_VC="Alte Schnittgeschwindigkeit";
+MFG_VC_NEW="Schnittgeschwindigkeit";
+MFG_PP="Schnitt-Tiefe";
+MFG_SZ="Vorschub pro Schneide";
+MFG_SZ_GLOBAL="Vorschub";
+
+MFG_VC_NEW_SP="Spindelgeschwindigkeit";
+MFG_VC_FINISH="Alte Schnittgeschwindigkeit beim Schlichten";
+MFG_VC_FINISH_NEW="Schnittgeschwindigkeit beim Schlichten";
+MFG_AA_FINISH="Axiale Schnitt-Tiefe beim Schlichten";
+MFG_AR_FINISH="Radiale Schnitt-Tiefe beim Schlichten";
+MFG_SZ_FINISH="Vorschub beim Schlichten pro Schneide";
+MFG_SZ_FINISH_GLOBAL="Schlichtvorschub";
+
+MFG_VC_ROUGH="Alte Schnittgeschwindigkeit beim Schruppen";
+MFG_VC_ROUGH_NEW="Schnittgeschwindigkeit beim Schruppen";
+MFG_AA_ROUGH="Axiale Schnitt-Tiefe beim Schruppen";
+MFG_AR_ROUGH="Radiale Schnitt-Tiefe beim Schruppen";
+MFG_SZ_ROUGH="Vorschub beim Schruppen pro Schneide";
+MFG_SZ_ROUGH_GLOBAL="Schruppvorschub";
+MFG_PP_ROUGH="Schnitt-Tiefe beim Schruppen (interner Parameter)";
+
+MFG_VC_ECROUTAGE="Schnittgeschwindigkeit beim Vordrehen (interner Parameter)";
+MFG_VC_ECROUTAGE_NEW="Schnittgeschwindigkeit beim Vordrehen (interner Parameter)";
+MFG_SZ_ECROUTAGE="Vorschub beim Vordrehen (interner Parameter)";
+MFG_PP_ECROUTAGE="Schnitt-Tiefe beim Vordrehen (interner Parameter)";
+
+// Feedrate Reduction in Corners
+MFG_FEED_REDUC_CORNERS="Verkleinerung des Vorschubwerts in Ecken";
+MfgReductionRate="Verkleinerungsfaktor";
+MfgReductionAngle="Mindestwinkel";
+MfgMaximumRadius="Maximaler Radius";
+MfgDistBeforeCorner="Abstand vor Ecke";
+MfgDistAfterCorner="Abstand nach Ecke";
+
+MfgSlowdownRate="Reduzierte Geschwindigkeit";
+
+MFG_MACHINE_COMP="Maschinenkompatibilität (interner Parameter)";
+MfgUndefined="Nicht definiert";
+MfgHorizontalLatheMachine="Horizontaldrehmaschine";
+MfgVerticalLatheMachine="Vertikaldrehmaschine";
+
+// =====================================================================
+// NLS for Prismatic Machining & Multi Axis Machining
+// =====================================================================
+
+MFG_AXIAL_DEPTH="Max. Schnitt-Tiefe";
+MFG_BREAKTHROUGH="Durchbruch";
+MFG_CHAMFER_VAL="Fasendurchmesser";
+MFG_CLEAR_TIP="Zustellsicherheitsbereich";
+MFG_CLEAR_TIP_2="Zustellsicherheitsbereich 2";
+MFG_OUTPUT_MODE="Nicht verwendet";
+MFG_CYCLE_OUTPUT="Ausgabe mit Syntax CYCLE";
+MFG_CYCLE_INSTRUCTION="CYCLE - NC-Anweisung";
+MFG_CYCLE_USER_SYNTAX="CYCLE -Benutzersyntax";
+MFG_ROTABL_OUTPUT="Automatische ROTABL";
+MFG_RESULT_MACHINING="Unterschiedliche Tiefen bearbeiten";
+MFG_RESULT_THREAD_MACHINING="Unterschiedliche Gewindetiefen bearbeiten";
+MFG_DELTADEPTH_DIAMETER="Delta-Durchmesser";
+MFG_DELTADEPTH_DISTANCE="Delta-Abstand";
+MFG_DELTADEPTH_INC="Delta-Inkrement";
+MFG_DELTADEPTH_MODE="Delta-Modus";
+MFG_DELTADEPTH_OFFSET="Deltaaufmaß";
+MFG_DELTADEPTH_SHOULDER="Delta-Schulter";
+MFG_DELTADEPTH_TIP="Delta-Spitze";
+MFG_DEPTH_DEC="Dekrementrate";
+MFG_DEPTH_DIAMETER="Durchmesser";
+MFG_DEPTH_DISTANCE="Abstandstiefe";
+MFG_DEPTH_LIM="Dekrementbegrenzung";
+MFG_DEPTH_MODE="Tiefenmodus";
+MFG_DEPTH_OFFSET="Aufmaß";
+MFG_DEPTH_SHOULDER="Schultertiefe";
+MFG_DEPTH_TIP="Spitzentiefe";
+MFG_DWELL_MODE="Verweilmodus";
+MFG_DWELL_REVOL="Verweilen in Umdrehungen";
+MFG_DWELL_REVOL_DOUBLE="Verweilen in Umdrehungen";
+MFG_DWELL_TIME="Verweilen in Zeiteinheiten";
+MFG_HELIX_ANGLE="Helixwinkel";
+MFG_HELIX_MODE="Helixmodus";
+MFG_HELIX_PITCH="Helixsteigung";
+MFG_LIFT_ANGLE="Verschiebungswinkel";
+MFG_LIFT_DIST="Verschiebungsabstand";
+MFG_LIFT_MODE="Verschiebemodus";
+MFG_OFFSET_RET="Rückzugsaufmaß";
+MFG_PPWORDS="PP-Wortsyntax";
+MFG_PLUNGE_DIAMETER="Eintauchdurchmesser";
+MFG_PLUNGE_DISTANCE="Eintauchabstand";
+MFG_PLUNGE_MODE="Eintauchmodus";
+MFG_PLUNGE_OFFST="Eintauchaufmaß";
+MFG_PLUNGE_SHOULDER="Eintauchschulter";
+MFG_PLUNGE_TIP="Eintauchspitze";
+MFG_PLUNGE_FOR_CHAMFERING="Eintauchen zum Anfasen";
+MFG_RETRACT_CLEAR_TIP="Rückzugsbewegung";
+MFG_SPOTDEPTH_DIAM="Punktdurchmesser";
+MFG_SPOTDEPTH_DISTANCE="Punktabstand";
+MFG_SPOTDEPTH_MODE="Punktmodus";
+MFG_SPOTDEPTH_OFFST="Punktaufmaß";
+MFG_SPOTDEPTH_SHOULDER="Punktschulter";
+MFG_SPOTDEPTH_TIP="Punktspitze";
+MFG_TL_COMP="Erste Korrektur";
+MFG_TL_COMP.LongHelp="Gibt die in der Bearbeitungsoperation \nzu verwendende Werkzeugkorrekturkennung an.";
+MFG_TL_COMP_2="Zweite Korrektur";
+MFG_TL_COMP_2.LongHelp="Gibt die in der Bearbeitungsoperation \nzu verwendende Werkzeugkorrekturkennung an.";
+MFG_XOFF="Verschiebung entlang X";
+MFG_YOFF="Verschiebung entlang Y";
+MFG_ZOFF="Verschiebung entlang Z";
+Mfg5AxisAngleManagement="Führung der Werkzeugachse";
+Mfg5AxisCollisionAngle="Zulässiges Neigen";
+Mfg5AxisCollisionBinor="Zulässiges Neigen";
+Mfg5AxisEMToolAxisStrategy="Werkzeugachsenmodus";
+Mfg5AxisHelixAxisStrategy="Werkzeugachsenmodus";
+Mfg5AxisMachDirMode="Bahnabstand";
+Mfg5AxisRadialStrategy="Radiale Schnittaufteilung";
+Mfg5XHelixRadialStrategy="Radiale Schnittaufteilung";
+MfgApproachDistance="Zustellmodus";
+MfgApproachMode="Zustellart";
+MfgAutoContinuing="Interner Parameter";
+MfgAutoDraftAngle="Automatische Auszugsschräge";
+MfgAvoidScallopOnBottom="Rautiefen am Ende vermeiden";
+MfgAvoidScallop="Rautiefen auf allen Ebenen vermeiden";
+MfgAxialStrategy="Axiale Schnittaufteilung";
+MfgBiNormangl="Neigungswinkel";
+MfgBottomFinishPathThickness="Schlichtaufmaß am Boden";
+MfgNbSideFinishByLevel="Anzahl Seitenschlichtbahnen je Stufe";
+MfgCheckMode1="1. Begrenzung";
+MfgCheckMode2="2. Begrenzung";
+MfgCircularMillingMode="Bearbeitungsmodus";
+MfgClearanceDistance="Sicherheitsabstand";
+MfgCollisionCheckingCheck="Kollisionsgenauigkeit bei Hindernissen";
+MfgCollisionCheckingDrive="Kollisionsgenauigkeit bei Rändern";
+MfgCollisionCheckingEnd="Kollisionsgenauigkeit bei zweiter Begrenzung";
+MfgCollisionCheckingMode="Kollisionsprüfungsmodus";
+MfgCollisionCheckingPart="Kollisionsgenauigkeit bei Teilen";
+MfgCollisionCheckingStart="Kollisionsgenauigkeit bei erster Begrenzung";
+MfgCollisionDrive="Kollision auf Rand";
+MfgCollisionPart="Kollision auf Teil";
+MfgCollisionThkCheck="Zulässiges Aushöhlen prüfen";
+MfgCollisionThkDrive="Zulässiges Aushöhlen steuern";
+MfgCollisionThkEnd="Zulässiges Aushöhlen - Beenden";
+MfgCollisionThkPart="Zulässiges Aushöhlen - Teil";
+MfgCollisionThkStart="Zulässiges Aushöhlen - Starten";
+MfgCollisionTolCheck="Genauigkeit Aufmaß";
+MfgCollisionTolDrive="Genauigkeit Rand";
+MfgCollisionTolEnd="Genauigkeit - Beenden";
+MfgCollisionTolPart="Genauigkeit Teil";
+MfgCollisionTolStart="Genauigkeit - Starten";
+MfgCondDrive="Position auf Rand";
+MfgCondLim1="Start";
+MfgCondLim2="Stopp";
+MfgContactHeight="Kontakthöhe";
+MfgContourType="Konturtyp";
+MfgContouringClosedContour="Modus Konturfräsen";
+MfgContouringDrivingMode="Führungsart";
+MfgContouringModeForGC="Konturtyp";
+MfgCorneringApproachDist="Fächerung - Anfahrabstand";
+MfgCorneringFlag="Werkzeugbahn für Eckenbearbeitung";
+MfgCorneringLeaveDist="Fächerung - Auslauflänge";
+MfgCorneringRadius="Eckenradius";
+MfgCurveAxisStrategy="Führung";
+MfgCurveMachiningSU="Konturfräsen";
+MfgCutcom="Cutcom";
+MfgDirectionOfCut="Schnittrichtung";
+MfgDistanceBetweenPaths="Abstand zwischen Bahnen";
+MfgEndOfPath="Bahnende";
+MfgEndPathINOUT="Bahnende";
+MfgEndPathOverhangRatio="Überhangverhältnis";
+MfgFacingFinish="Endbearbeitungsmodus";
+MfgFC5XDrivingMode="Zu fräsende Seite";
+MfgFixtureAccuracy="Spannvorrichtungsgenauigkeit";
+MfgForcedContour="Erzwungene Kontur";
+MfgGlobalCheckOffset="Aufmaß";
+MfgGlobalDriveThickness="Aufmaß auf Kontur";
+MfgGlobalOffsetOnBottom="Aufmaß/Bodenfläche";
+MfgGlobalOffsetOnBoundary="Aufmaß auf harte Begrenzung";
+MfgGlobalOffsetOnContour="Aufmaß auf Kontur";
+MfgGlobalOffsetOnSoftBoundary="Aufmaß an offener Begrenzung";
+MfgGlobalOffsetOnTop="Aufmaß/obere Fläche";
+MfgGlobalPartOffset="Aufmaß auf Teil";
+MfgGlobalPartThickness="Aufmaß auf Teil";
+MfgGlobalSpindleOutput="Spindelausgabe";
+MfgHSMCorner="HSM-Eckenbearbeitung";
+MfgHSMCornerFinish="Eckenbearbeitung bei Seitenschlichtbahn";
+MfgHSMCornerRadius="Eckenradius";
+MfgHSMCornerRadiusFinish="Eckenradius bei Seitenschlichtbahn";
+MfgHSMExtraSegmentOverlap="Überlappung zusätzlicher Segmente";
+MfgHSMExtraSegmentOverlapFinish="Überlappung zusätzlicher Segmente bei Seitenschlichtbahn";
+MfgHSMLimitAngleFinish="Begrenzungswinkel bei Seitenschlichtbahn";
+MfgHSMMiniTransitionLength="Übergangslänge";
+MfgHSMRecoveryCoefficient="Überlappung der mittleren Bahn";
+MfgHSMTransitionAngle="Übergangswinkel";
+MfgHSMTransitionRadius="Übergangsradius";
+MfgHardnessOnBottom="Bodenfläche";
+MfgHardnessOnTop="Obere Fläche";
+MfgImposedInnerPoint="Innerer Punkt";
+MfgLeaveDistance="Auslaufabstand";
+MfgMachiningDirIndic="Bahnabstand";
+MfgMachiningMode="Bearbeitungsstrategie";
+MfgMachiningModeforFacing="Bearbeitungsstrategie - Planfräsen";
+MfgMachiningModeforPocket="Bearbeitungsstrategie - Taschenfräsen";
+MfgMachiningTolerance="Bearbeitungstoleranz";
+MfgManualTMDir="Manuelle Richtung";
+MfgMaxBiNormangl="Max. Neigungswinkel";
+MfgMaxDepth="Max. Tiefe";
+MfgMaxDepthOfCut="Maximale Schnitt-Tiefe";
+MfgMaxDiscretizationAngle="Max. Diskretisierungsschritt";
+MfgMaxDiscretizationStep="Max. Diskretisierungsschritt";
+MfgMaxDistance="Max. Abstand zwischen Bahnen";
+MfgMaxDistSteps="Max. Abstand zwischen Schritten";
+MfgMaxNormangl="Max. Vorhaltewinkel";
+MfgMinBiNormangl="Mindestneigungswinkel";
+MfgMinDepth="Mindesttiefe ";
+MfgMinNormangl="Mindestvorhaltewinkel";
+MfgMinPathLenght="Minimale Bahnlänge";
+MfgMixteHelical="Helix - innen/außen kombiniert";
+MfgNormangl="Vorhaltewinkel";
+MfgNumberOfLevels="Anzahl Ebenen";
+MfgNumberOfPathes="Anzahl Bahnen";
+MfgNumberOfPathesAlongZ="Anzahl Bahnen entlang Z";
+MfgNumberOfPathesOnSide="Anzahl Bahnen an Seite";
+MfgNumberOfRadialPaths="Anzahl Bahnen";
+MfgOffsetAlongToolAxis="Aufmaß auf Bodenfläche entlang Werkzeugachse";
+MfgOffsetAxial1="Axiales Aufmaß 1";
+MfgOffsetAxial2="Axiales Aufmaß 2";
+MfgOffsetOnRelim1="Aufmaß auf Begrenzung 1";
+MfgOffsetOnRelim2="Aufmaß auf Begrenzung 2";
+MfgOffsetRelim1="Aufmaß auf Begrenzung 1";
+MfgOffsetRelim2="Aufmaß auf Begrenzung 2";
+MfgOutputStyle="Korrekturausgabe";
+MfgOverhang="Prozentsatz Überlappung";
+MfgPtToPtOffset="Aufmaß";
+MfgRadialStrategyforPocket="Radiale Schnittaufteilung";
+MfgRampingAngle="Eintauchwinkel";
+MfgReturnMode="Rückgabemodus";
+MfgReUseFirstDrive="Erste Steuerung wiederverwenden";
+MfgScallopHeight="Rautiefe";
+MfgScallopPassRate="Rautiefe des Arbeitsgangs";
+MfgSequencingMode="Sequenzmodus";
+MfgSideAppClearance="Sicherheitsbereich der Werkzeugseitenzustellung";
+MfgSideApproachClearance="Sicherheitsbereich der Werkzeugseitenzustellung";
+MfgSideFinish="Modus für Arbeitsgang des Seitenschlichtens";
+MfgBottomThicknessOnSideFinish="Bodenaufmaß beim Seitenschlichten";
+MfgSideFinishBottomThickness="Seitenschlichtaufmaß am Boden";
+MfgSideOffsetIncrement="Inkrement - Seitenaufmaß";
+MfgSideThickness="Seitenschlichtaufmaß";
+MfgSpringPath="Federungsbahn";
+MfgStartHardness="Begrenzung beginnen";
+MfgStartOnRelim1="Bei Begrenzung 1 beginnen";
+MfgStopHardness="Begrenzung beenden";
+MfgThruElem="Nach/Von";
+MfgTipApproachClearance="Sicherheitsbereich für Annäherung der Werkzeugspitze";
+MfgToolAxis="Werkzeugachse";
+MfgToolAxis_Mode="Werkzeugachsenstrategie";
+MfgToolAxis_VectorX="Werkzeugachse - Vektor X";
+MfgToolAxis_VectorY="Werkzeugachse - Vektor Y";
+MfgToolAxis_VectorZ="Werkzeugachse - Vektor Z";
+MfgToolAxisStrategy="Werkzeugachsenstrategie";
+MfgZOffsetIncrement="Inkrement - Z-Aufmaß";
+
+// *** FTS : Debut attributs R9
+//-----------------------------
+
+// Global flank
+
+Mfg5AxisUserDefinedCuttingHeightFlag="Fächerung über den Werkzeugparameter steuern";
+Mfg5AxisUserDefinedCuttingHeight="Sinnvolle Schnittlänge";
+Mfg5AxisDeActivateFanning="Fächerung inaktivieren";
+
+// Sequential flank
+
+MfgLocalToolAxisStrategy="Führung";
+Mfg5Axis4XNormalConstraintFlag="Vier Achsen aktivieren";
+MfgLocalDriveThicknessToAdd="Hinzugefügtes Aufmaß auf Rand";
+
+// *** FTS : Fin attributs R9
+//-----------------------------
+
+
+// *** FTS : Debut attributs R10
+//------------------------------
+
+// 5X curve and flank
+
+MfgBottomFinishPathStyle="Darstellung des Schlichtbahnendes";
+
+// 5X flank
+
+Mfg5AxisOutputType="Ausgabetyp";
+
+// 5X curve
+
+MfgCurveTgtAxisStrategySubModes="Modus";
+
+// Fac iso
+
+MfgIsoparExtensionDistBeforeFirstPath="Anfangsausdehnung";
+MfgIsoparExtensionDistAfterLastPath="Endausdehnung";
+
+// Sequential flank
+
+Mfg5AxisLocalStoppingCondition="Stoppbedingung";
+Mfg5AxisLocalReStartingDirection="Richtung für erneuten Start";
+Mfg5AxisLocalSwapSideOnDS="Seite des Werkzeugs auf Rand";
+Mfg5AxisLocalSlowdownRate="Reduzierte Geschwindigkeit";
+
+// *** FTS : Fin attributs R10
+//------------------------------
+
+
+// =====================================================================
+// Modifs Post R8 and R9(jmn)
+// =====================================================================
+
+MfgPocketingStyle="Taschenfrästyp";
+MfgAllwaysStayOnBottom="Werkzeug am Boden belassen";
+MfgPercentageReduction="Abgeschnittene Übergangsbahnen";
+MfgReworkMode="Filter für den Typ des Nachbearbeitungsbereichs";
+MfgReworkOverhang="Überhang für Nachbearbeitungsbereiche";
+MfgToolOn="Werkzeugposition AUF Rand";
+MfgDriveBox="Begrenzungshüllkurve";
+
+MfgBreakthrough="Durchbruch";
+MfgPocketingFinish="Taschenfräsen - Endbearbeitungsmodus";
+MfgHSMLimitAngle="Grenzwinkel";
+
+MfgCompensationMode="Modus der Korrekturanwendung";
+MfgSequencing="Reihenfolge";
+
+Mfg5AxisTangentAxisAngle="     Zulässiges Vorhalten";
+Mfg5AxisFanningDistance="Fächerungsabstand";
+
+MfgManualStartDir="Manuelle Richtung";
+Mfg5AxisMultiLevelMode="Modus";
+MfgCorneringFinishRadius="Eckenbearbeitung bei Schlichtfräsen - Radius";
+
+MfgMinPathLength="Minimale Bahnlänge";
+Mfg5AxisMinHealDistance="Min. Abstand für Reparatur";
+Mfg5AxisSkipPath="Bahn überspringen";
+Mfg5AxisIsoparAxisStrategy="Führung";
+
+MfgLatheRoughingStrategy="Schruppmodus";
+MfgLatheMdLocation="Position";
+MfgLatheContouringMode="Teilekontur folgen";
+MfgLatheLeadInMode="Anfahren";
+// New V5R14-1
+MfgLatheLiftOffMode="Abheben";
+MfgLatheProfileOutputMode="Profilausgabe";
+MfgLatheToolHolderConstraintMode="Bedingungen des Schneidplattenhalters";
+// End New V5R14-1
+MfgLatheLiftOffMode="Rückzug";
+MfgLatheProfileOutputMode="Profilausgabe";
+MfgLatheMinMachRadius="Min. Bearbeitungsradius";
+MfgLatheMaxMachRadius="Max. Bearbeitungsradius";
+MfgLatheJawPosition="Achsenbegrenzung bei Spannbacken";
+MfgLatheChipPlungeDistance="Eintauchabstand beim Spanbrechen";
+MfgLatheChipRetractDistance="Rückzugsabstand beim Spanbrechen";
+MfgLatheChipClearDistance="Abstand bei der Spanentfernung";
+MfgLatheGougingSafetyAngle="Freiwinkel beim Einstich";
+MfgLatheRecessingStrategy="Einstechmodus";
+MfgLatheRecessAutoOutput="Automatische Ausgabe";
+MfgLatheMdOrientation="Ausrichtung";
+MfgLatheMachDirection="Bearbeitungsrichtung";
+MfgLatheContouringCornerMode="Bearbeitung an äußeren Ecken";
+MfgLatheCutcomStrategy="CUTCOM";
+MfgLatheLeadInType="Anfahren";
+MfgLatheLiftOffType="Rückzug";
+MfgLatheFirstCornerProcessing="Eingangsecke";
+MfgLatheLastCornerProcessing="Ausgangsecke";
+MfgLatheCornerProcessing="Andere Ecken";
+MfgLatheInvertStrategy="Umkehrstrategie";
+MfgLatheInvertLiftOffType="Rückzug umkehren";
+MfgLatheFirstFlankLeadInType="Anfahren - erste Flanke";
+MfgLatheLastFlankLeadInType="Anfahren - letzte Flanke";
+MfgLatheOtherFlankLeadInType="Anfahren - andere Flanke";
+MfgLatheThreadProfile="Profil";
+MfgLatheThreadOrientation="Ausrichtung";
+MfgLatheThreadUnit="Gewindeeinheit";
+MfgLatheThreadPerInchNumber="Gewinde pro Zoll";
+MfgLatheThreadNumber="Anzahl Gänge";
+MfgLatheThreadMachining="Gewindeschneidtyp";
+MfgLatheConstantsectionPassNumber="Anzahl Arbeitsgänge";
+MfgLatheMaxConstantDepthOfCut="Schnitt-Tiefe";
+MfgLatheThreadPenetration="Eintauchstrategie";
+MfgLathePenetrationAngle="Eintauchwinkel";
+MfgLatheFirstPassNumber="Anzahl der ersten Arbeitsgänge";
+MfgLatheFirstSectionRate="Schnittverhältnis bei den ersten Arbeitsgängen";
+MfgLatheLastPassNumber="Anzahl der letzten Arbeitsgänge";
+MfgLatheLastPassDepthOfCut="Schnitt-Tiefe bei den letzten Arbeitsgängen";
+MfgLatheSpringPassNumber="Anzahl Federungsbahnen";
+MfgLatheMacroMode="Makromodus";
+
+// *** LAS : Debut R9
+// Les Attributs des Seq. Motions Lathe
+//-------------------------------------
+MfgLatheSeqMotionGeomFeature="Drehen in Einzelschritten - geometrische Komponente";
+MfgLatheSeqMotionGeomFeature.LongHelp="Drehen in Einzelschritten - geometrische Komponente";
+
+// Start Up de motion
+//--------------------
+MfgSeqMotionLatheGoStd="Go-Standard";
+MfgSeqMotionLatheGoGo="Go-Standard";
+MfgSeqMotionLatheIndirv="Go-InDirv";
+MfgSeqMotionLatheDelta="Go-Delta";
+MfgSeqMotionLatheFollow="Follow";
+MfgSeqMotionPPWord="PP Word";
+
+// Types du motion
+//--------------------
+MfgLatheEOType="Bewegungstyp";
+MfgLatheEOType.LongHelp="Definiert den Typ der Werkzeugbewegung.";
+MfgLatheGoStd="Go-Standard";
+MfgLatheGoStd.LongHelp="Go-Standardbewegung auf einem Element.";
+MfgLatheGoGo="Go-Standard";
+MfgLatheGoGo.LongHelp="Go-Standardbewegung in Bezug auf zwei Elemente.";
+MfgLatheIndirv="Go-InDirv";
+MfgLatheIndirv.LongHelp="Go-Bewegung in einem Richtungsvektor.";
+MfgLatheGoDelta="Go-Delta";
+MfgLatheGoDelta.LongHelp="Go-Delta-Bewegung, die eine Verschiebung definiert.";
+MfgLatheFollow="Follow";
+MfgLatheFollow.LongHelp="Follow-Bewegung in Bezug auf ein Randelement.";
+MfgLathePP="PP-Anweisung";
+MfgLathePP.LongHelp="PP-Anweisung";
+// Speed Range
+//--------------------
+MfgLatheEOSpeedRangeNum="Geschwindigkeitsbereich";
+MfgLatheEOSpeedRangeNum.LongHelp="Definiert den Geschwindigkeitsbereich.";
+// Direction sur la drive
+//--------------------
+MfgLatheEODriveDir="Richtung des Rands";
+MfgLatheEODriveDir.LongHelp="Definiert die Richtung des Rands.";
+// xxxx
+//--------------------
+MfgLatheEOGuidingPoint="Führungspunkt";
+MfgLatheEOGuidingPoint.LongHelp="Definiert den Führungspunkt.";
+// xxxx
+//--------------------
+MfgLatheEOFirstCheckMode="1. Kontrollmodus";
+MfgLatheEOFirstCheckMode.LongHelp="Definiert den 1. Kontrollmodus.";
+// xxxx
+//--------------------
+MfgLatheEOSecondCheckMode="2. Kontrollmodus";
+MfgLatheEOSecondCheckMode.LongHelp="Definiert den 2. Kontrollmodus.";
+// Go Delta definition
+//--------------------
+MfgLatheEODeltaCheckMode="Delta Kontrollmodus";
+MfgLatheEODeltaCheckMode.LongHelp="Definiert den Go-Delta-Wert des Werkzeugbewegungsmodus.";
+MfgLatheEOValueDistance="Abstand";
+MfgLatheEOValueDistance.LongHelp="Definiert den Abstand der Werkzeugbewegung.";
+MfgLatheEODeltaAxial="Delta - axial (Z)";
+MfgLatheEODeltaAxial.LongHelp="Definiert die axiale Komponente der Werkzeugbewegung.";
+MfgLatheEODeltaRadial="Delta - radial (X)";
+MfgLatheEODeltaRadial.LongHelp="Definiert die radiale Komponente der Werkzeugbewegung.";
+// Drive Element
+//--------------------
+MfgLatheEODriveElemType="Randelementtyp";
+MfgLatheEODriveElemType.LongHelp="Definiert den Typ des Randelements.";
+// Check And Drive limit
+//--------------------
+MfgLatheEOLimitCheck="Begrenzung des ersten Hindernisses";
+MfgLatheEOLimitCheck.LongHelp="Steuert die geometrische Extrapolation für das erste Hindernis.";
+MfgLatheExtended="Erweitert";
+MfgLatheExtended.LongHelp="Das Ende des Hindernisses wird erweitert.";
+MfgLatheActual="Tatsächlich";
+MfgLatheActual.LongHelp="Das Ende des Hindernisses wird nicht erweitert.";
+MfgLatheEOLimitDrive="Begrenzung des zweiten Hindernisses";
+MfgLatheEOLimitDrive.LongHelp="Steuert die geometrische Extrapolation für das zweite Hindernis.";
+// Collision on check
+//--------------------
+MfgLatheEOCollCheck="Kollisionsvermeidung bei Hindernis";
+MfgLatheEOCollCheck.LongHelp="Legt die Vermeidung von Kollisionen bei Hindernissen fest.";
+// Collision on drive
+//--------------------
+MfgLatheEOCollDrive="Kollisionsvermeidung bei Rand";
+MfgLatheEOCollDrive.LongHelp="Legt die Vermeidung von Kollisionen bei Randelementen fest.";
+// xxxx
+//--------------------
+MfgLatheEOFollowChangeDrive="Rand ändern";
+MfgLatheEOFollowChangeDrive.LongHelp="Wenn es sich bei der nächsten Bewegung um eine Follow-Bewegung handelt, definiert diese Option, ob \ndas Hindernis das Randelement wird oder ob das Randelement beibehalten wird.";
+// xxxx
+//--------------------
+MfgLatheEOFeedrateMode="Vorschubmodus";
+MfgLatheEOFeedrateMode.LongHelp="Auswahl des Vorschubmodus aus den globalen Vorschüben.";
+MFG_LOCALFEED="Lokaler Vorschub";
+MFG_LOCALFEED.LongHelp="Definiert einen Vorschub, der lokal verwendet wird.";
+MFG_SPINDLE_MACH="Lokale Spindelgeschwindigkeit";
+MFG_SPINDLE_MACH.LongHelp="Definiert eine lokal verwendete Spindelgeschwindigkeit.";
+MFG_LOCALFEED_VALUE="Lokaler Vorschub";
+MFG_LOCALFEED_VALUE.LongHelp="Definiert einen Vorschub, der lokal verwendet wird.";
+// Sequential Feed and Speed
+//--------------------
+MfgLatheEOLocalSpindleMode="Lokaler Spindelmodus";
+MfgLatheEOLocalSpindleMode.LongHelp="Definiert den lokalen Spindelmodus.";
+Mfg_LatheGlobalSpindleMagnitude="Spindeleinheit";
+Mfg_LatheGlobalSpindleMagnitude.LongHelp="Definiert die Spindeleinheit.";
+Mfg_LatheGlobalFeedrateMagnitude="Vorschubeinheit";
+Mfg_LatheGlobalFeedrateMagnitude.LongHelp="Definiert die Vorschubeinheit.";
+// xxxx
+//--------------------
+MfgLatheEOLeftClearAngle="Folgender Sicherheitswinkel";
+MfgLatheEOLeftClearAngle.LongHelp="Definiert den folgenden Sicherheitswinkel, der der Schneidplatte in Bezug auf die Bearbeitungsrichtung hinzugefügt werden soll.";
+MfgLatheEORightClearAngle="Führender Sicherheitswinkel";
+MfgLatheEORightClearAngle.LongHelp="Definiert den führenden Sicherheitswinkel, der der Schneidplatte in Bezug auf die Bearbeitungsrichtung hinzugefügt werden soll.";
+MfgLatheEOValueAngle="Winkel";
+MfgLatheEOValueAngle.LongHelp="Definiert den Winkelwert, der der Schneidplatte hinzugefügt werden soll.";
+// xxxx
+//--------------------
+MfgLatheEOGlobalCheckThickness="Aufmaß";
+MfgLatheEOAxialCheckOffset="Axiales Aufmaß";
+MfgLatheEORadialCheckOffset="Radiales Aufmaß";
+MfgLatheEOGlobalDriveThickness="Aufmaß auf 2. Hindernis";
+MfgLatheEOAxialDriveOffset="Axiales Aufmaß";
+MfgLatheEORadialDriveOffset="Radiales Aufmaß";
+// *** LAS : FIN R9
+
+// *** JMN : DEBUT RI0335403B
+
+MfgLatheOutputPointChanged="Ausgabepunkt ändern";
+MfgLatheThreadFirstPasses="Erste Arbeitsgänge";
+MfgLatheThreadLastPasses="Letzte Arbeitsgänge";
+MfgLatheThreadSringPasses="Federungsbahnen";
+MfgLatheRecessMachining="Einstechen";
+MfgLatheMinMachMode="Minimaler Bearbeitungsradius";
+MfgLatheMaxMachMode="Maximaler Bearbeitungsradius";
+MfgLatheJawsMode="Achsenbegrenzung bei Spannbacken";
+MfgLatheUnderSpindleAxis="Bearbeitung unter der Spindelachse";
+MfgLatheFirstPlungePos="Erste Eintauchposition";
+MfgLatheNextPlungePos="Nächste Eintauchposition";
+MfgLatheGroovingContouringMode="Teilekontur folgen";
+MfgLatheGrooveByLevel="Nutdrehen nach Stufe";
+MfgLatheChipBreak="Spanbrechung";
+MfgLatheInvertClearance="Sicherheitsbereich umkehren";
+MfgLatheInvertOverlap="Überlappung umkehren";
+MfgLatheInvertThickness="Aufmaß umkehren";
+MfgLatheInvertOption="Umgekehrte Elemente zuerst bearbeiten";
+MfgLatheToolCompensation="Werkzeugkorrektur";
+CompNumber="Korrekturzahl";
+
+// *** JMN : FIN RI0335403B
+
+// *** JMN / LHX pour R9 start
+
+MfgProgressThrough="Nicht verwendet";
+MfgToolDiameterRatioChoice="Nicht verwendet";
+MfgInvertProgressionDirection="Nicht verwendet";
+MfgForceLimits="Nicht verwendet";
+MfgContouringContourCharacteristic="Nicht verwendet";
+MfgClosedContouringMatterSide="Nicht verwendet";
+MfgOpenContouringMatterSide="Nicht verwendet";
+MfgContactMode="Nicht verwendet";
+
+// *** JMN / LHX pour R9  end
+
+// *** VCS : Debut R9
+// Attributs Sequential Motions PtToPt dans code generique
+//--------------------------------------------------------
+// Start Up de motion
+//--------------------
+MfgPtToPtSiteSU="Bewegung";
+// *** VCS : Fin R9
+MfgPtToPtSite="Positionsbewegung";
+MfgPtToPtDeltaSite="Delta-Bewegung";
+
+M3xLimitLineSide="Zu bearbeitende Seite";
+M3xOvershootTolerance="Nachbearbeitung - Schwellenwert";
+M3xPocketProgressionMode="Helixförmige Bewegung";
+M3xRatioOrLengthMode="Schlichtbahnüberlappungsmodus";
+M3xHardOverlapLength="Schlichtbahnüberlappung (Länge)";
+M3xPSMLength="Länge";
+M3xPSMSafetyDistance="Sicherheitsabstand";
+M3xPSMAngle="Zeichenneigung";
+M3xMacroApproachBackTypeCoordinateMode="Definition";
+M3xMacroApproachBackTypeLength="Länge";
+M3xMacroApproachBackTypeHeight="Höhe";
+M3xMacroApproachBackTypeAngle="Vorhaltewinkel";
+M3xMacroApproachBackTypeRadius="Radius";
+M3xMacroApproachCircularVectorComputationMode="Modus für Ebenenberechnung";
+M3xMacroApproachCircularAngle="Winkel";
+M3xMacroApproachCircularRadius="Radius";
+M3xMacroApproachBoxLinkingMode="Verknüpfungsmodus";
+M3xMacroApproachBoxXLength="Abstand entlang Tangente";
+M3xMacroApproachBoxYLength="Abstand entlang Werkzeugachse";
+M3xMacroApproachBoxZLength="Abstand entlang senkrechter Achse";
+M3xMacroApproachBoxSide="Seite der senkrechten Achse";
+M3xMacroRetractBackTypeCoordinateMode="Definition";
+M3xMacroRetractBackTypeLength="Länge";
+M3xMacroRetractBackTypeHeight="Höhe";
+M3xMacroRetractBackTypeAngle="Vorhaltewinkel";
+M3xMacroRetractBackTypeRadius="Radius";
+M3xMacroRetractCircularVectorComputationMode="Modus für Ebenenberechnung";
+M3xMacroRetractCircularAngle="Winkel";
+M3xMacroRetractCircularRadius="Radius";
+M3xMacroRetractBoxLinkingMode="Verknüpfungsmodus";
+M3xMacroRetractBoxXLength="Abstand entlang Tangente";
+M3xMacroRetractBoxYLength="Abstand entlang Werkzeugachse";
+M3xMacroRetractBoxZLength="Abstand entlang senkrechter Achse";
+M3xMacroRetractBoxSide="Seite der senkrechten Achse";
+M3xLinkFeedDistance="Vorschublänge";
+M3xProgressDirectionMode="Bearbeitungsstrategie";
+M3xHorizontalZonesDetectionMode="Auswahl des horizontalen Bereichs";
+
+// =====================================================================
+// NLS for Resources
+// =====================================================================
+
+MFG_ANGLE2="Winkel 2";
+MFG_APT_ANGLE="Werkzeugwinkel";
+MFG_APT_DIAMETER="Nenndurchmesser";
+MFG_APT_HEIGHT="Höhe";
+MFG_APT_HOR_DISTANCE="Horizontaler Abstand";
+MFG_APT_RADIUS="Eckenradius";
+MFG_APT_TIP_ANGLE="Spitzenwinkel";
+MFG_APT_VER_DISTANCE="Vertikaler Abstand";
+MFG_ASS_GAGE_1="Stärke 1";
+MFG_ASS_GAGE_2="Stärke 2";
+MFG_BALL_TYPE="Kugelfräser";
+MFG_BAR_CUT_RAD="Radius des Balkenschnitts";
+MFG_BAR_LENGTH_1="1. Balkenlänge";
+MFG_BAR_LENGTH_2="2. Balkenlänge";
+MFG_BODY_DIAM="Schaftdurchmesser";
+MFG_BORE_ABILITY="Ausspindelfähigkeit";
+MFG_CHAMFR_DIAM1="Durchmesser 1";
+MFG_CHAMFR_DIAM2="Fasendurchmesser 2";
+MFG_CLEAR_ANGLE="Freiwinkel an der Hauptschneide";
+MFG_CMP_RAD_OPT="Radiuskorrektur";
+MFG_CMP_TL_DIAM="Werkzeugdurchmesser";
+MFG_COMMENT="Kommentar";
+MFG_COMPOSITION="Werkzeugart";
+MFG_COOLNT_SNTX="Kühlmittel";
+MFG_CORNER_RAD="Eckenradius";
+MFG_CORNER_RAD_2="Oberer Eckenradius";
+MFG_CUT_ANGLE="Schneidenwinkel";
+MFG_CUT_LENGTH="Schneidenlänge";
+MFG_EFFECTIVE_LENGTH="Effektive Länge";
+MFG_DESC_CODE="Beschreibungsmodus";
+MFG_DIAMETER_1="Durchmesser 1";
+MFG_DIAMETER_2="Durchmesser 2";
+MFG_DIAMETER_3="Durchmesser 3";
+MFG_DIAMETER_4="Durchmesser 4";
+MFG_DIAMETER_5="Durchmesser 5";
+MFG_DIAMETER_6="Durchmesser 6";
+MFG_ENTRY_DIAM="Anschnittdurchmesser";
+MFG_GAUGING_ANG="Gagewinkel";
+MFG_HAND_ANGLE="Handwinkel";
+MFG_HAND_STYLE="Handdarstellung";
+MFG_HOLDER_CAPAB="Halterungsfunktion";
+MFG_INIT_ROT_POS="Ausgangsposition";
+MFG_INSERT_ANGLE="Eckenwinkel";
+MFG_INSERT_LGTH="Kantenlänge";
+MFG_INSERT_MAT="Material";
+MFG_INSERT_THICK="Aufmaß";
+MFG_INSERT_WIDTH="Schneidplattenbreite einfügen";
+MFG_INT_CIRC_2D="2D-Kreisinterpolation";
+MFG_INT_CIRC_3D="3D-Kreisinterpolation";
+MFG_INT_LIN_3D="3D-Linearinterpolation";
+MFG_INT_HELICAL="Helixinterpolation";
+MFG_ISO_APPR_ANG="Zustellwinkel nach ISO";
+MFG_ISO_BAR_DIA="Balkendurchmesser nach ISO";
+MFG_ISO_BAR_TYPE="Balkentyp nach ISO";
+MFG_ISO_CLAM_SYS="Spannvorrichtung nach ISO";
+MFG_ISO_CLR_ANG="Freiwinkel nach ISO";
+MFG_ISO_CUTCOND="Zustand der Schneidplattenschneide (ISO)";
+MFG_ISO_CUT_SIZE="Schnittgröße nach ISO";
+MFG_ISO_DIR="Richtung nach ISO";
+MFG_ISO_HEIGHT="Höhe nach ISO";
+MFG_ISO_LENGTH="Länge nach ISO";
+MFG_ISO_NOSE_RAD="Schneidplatteneckenradius (ISO)";
+MFG_ISO_SHAPE="Form nach ISO";
+MFG_ISO_THICK="Schneidplattendicke (ISO)";
+MFG_ISO_TOL="Einbeschriebener Kreisdurchmesser (ISO)";
+MFG_ISO_TYPE="Schneidplattentyp (ISO)";
+MFG_ISO_WIDTH="Breite nach ISO";
+MFG_KAPPA_R="Kappa R";
+MFG_LATHE_RAD_AX="Radiale Achse";
+MFG_LATHE_AX_AX="Revolverlängsachse";
+MFG_LATHE_SPN_AX="Spindelachse";
+MFG_LEADING_ANG="Führender Winkel";
+MFG_LENGTH="Länge";
+MFG_LENGTH_1="Länge 1";
+MFG_LENGTH_2="Länge 2";
+MFG_LENGTH_NOM_DIAM="Nenndurchmesser - Position";
+MFG_LIFE_TIME="Lebensdauer";
+MFG_LNG_NUM="Längennummer";
+MFG_MACH_QUALITY="Bearbeitungsqualität";
+MFG_MACHINE_COMP="Maschinenkompatibilität";
+MFG_MAX_BOR_DPTH="Max. Ausspindeltiefe";
+MFG_MAX_CUT_DIAM="Max. Schnittdurchmesser";
+MFG_MAX_CUT_DPTH="Max. Schnitt-Tiefe";
+MFG_MAX_CUT_WDTH="Max. Schnittbreite";
+MFG_MAX_DIAMETER="Max. Durchmesser";
+MFG_MAX_MIL_LENGTH="Standlänge";
+MFG_MAX_MIL_TIME="Standzeit";
+MFG_MAX_PLNG_ANG="Max. Eintauchwinkel";
+MFG_MAX_REC_DPTH="Maximale Rec. Tiefe";
+MFG_MIN_ANGLE="Min. Diskretisierungswinkel";
+MFG_MIN_CUT_DIAM="Mindestschnittdurchmesser";
+MFG_MIN_DIAM="Mindestdurchmesser";
+MFG_MIN_DIAMETER="Min. Durchmesser";
+MFG_MIN_DISC="Min. Diskretisierungsschritt";
+MFG_NAME="Name";
+MFG_NB_OF_COMP="Anzahl Komponenten";
+MFG_NB_OF_FLUTES="Anzahl Schneiden";
+MFG_NB_OF_STAGES="Stufenzahl";
+MFG_NB_OF_THREAD="Anzahl Gänge";
+MFG_NOMINAL_DIAM="Nenndurchmesser";
+MFG_NON_CUT_DIAM="Nicht schneidender Durchmesser";
+MFG_NOSE_RADIUS="Eckenradius";
+MFG_ORIENT_ANGLE="Ausrichtung";
+MFG_ORIGINAL_ID="Quellkennung";
+MFG_OUTPUT_FRMT="Ausgabeformat";
+MFG_OUTP_PREF_1="Vorzugsausgabepunkt 1";
+MFG_OUTP_PREF_2="Vorzugsausgabepunkt 2";
+MFG_OUTP_PREF_3="Vorzugsausgabepunkt 3";
+MFG_OUTPUT_TYPE="Ausgabetyp";
+MFG_OUTSIDE_DIAM="Äußerer Durchmesser";
+MFG_OVERALL_LGTH="Gesamtlänge";
+MFG_PITCH_OF_THD="Gewindesteigung";
+MFG_PITCH_OF_THREAD="Gewindesteigung";
+MFG_PP_WORD_TBL="Postprozessor-Worttabelle";
+MFG_R_MAX_CIRC="Max. Interpolationsradius";
+MFG_R_MIN_CIRC="Min. Interpolationsradius";
+MFG_RAD_NUM="Radiusnummer";
+MFG_RADIAL_TL_RAKE_ANG="Einstellwinkel für Radialwerkzeug";
+MFG_REPOSITORY_SOURCE="Repository-Quelle";
+MFG_ROT_DIR="Rotationsrichtung";
+MFG_ROT_TYP="Rotationstyp";
+MFG_ROTARY_ANGLE="Rotationswinkel";
+MfgTableRotationAngleMode="Definition";
+MFG_ROTARY_AXIS="Drehachse";
+MFG_ROTARY_CATEGORY="Kategorie";
+MFG_ROTARY_CATEGORY.LongHelp="Kategorie der Rotation: Tisch oder Kopf";
+MFG_SHANK_HEIGHT="Schafthöhe";
+MFG_SHANK_WIDTH="Schaftbreite";
+MFG_SHK_CUT_WDTH="Schaft - Schnittbreite";
+MFG_SHK_LENGTH_1="Schaftlänge 1";
+MFG_SHK_LENGTH_2="Schaftlänge 2";
+MFG_SITE_NUM="Korrektornummer";
+MFG_SITE_TYP="Typ";
+MFG_SIZE_DESIGN="Größenbezeichnung";
+MFG_STRT_PT_SYNT="Startpunkt-Syntax";
+MFG_TAPER_ANGLE="Senkwinkel";
+MFG_THD_CLS_DESC="Beschreibung Gewindeklasse";
+MFG_THD_FRM_DESC="Beschreibung Gewindeart";
+MFG_THREAD_CLASS="Gewindeklasse";
+MFG_THREAD_FORM="Gewindeart";
+MFG_TIP_ANGLE="Spitzenwinkel";
+MFG_TIP_LENGTH="Spitzenlänge";
+MFG_TIP_RADIUS="Spitzenradius";
+MFG_TL_RAKE_ANG="Spanwinkel";
+MFG_TL_SET_LGTH="Gesamtlänge der Sets";
+MFG_TL_REF_COMP="Referenzkorrektur";
+MFG_TL_SET_X="Set X";
+MFG_TL_SET_Y="Set Y";
+MFG_TL_SET_Z="Set Z";
+MFG_TL_SETUP_ANG="Einrichtungswinkel";
+MFG_TL_TIP_LGTH="Querschneidenlänge";
+MFG_TOOL_ANGLE="Werkzeugwinkel";
+MFG_TOOL_ASS_POWER="Antrieb";
+MFG_TOOL_CATALOG="Werkzeugkatalog";
+MFG_TOOL_CORE_DIAMETER="Nicht schneidender Durchmesser";
+MFG_TOOL_INVERT="Umgekehrtes Werkzeug";
+MFG_TOOL_NUMBER="Werkzeugnummer";
+MFG_TOOTH_DES="Beschreibung Schneide";
+MFG_TOOTH_DESC="Beschreibung Schneide";
+MFG_TOOTH_MAT="Schneidstoff";
+MFG_TOOTH_MATDES="Beschreibung Schneidstoff";
+MFG_TOOTH_MATDESC="Beschreibung Schneidstoff";
+MFG_TRAILING_ANG="Abschlusswinkel";
+MFG_TRAV_PITCH="Durchquerungstiefe";
+MFG_TRAVERSE_NB="Anzahl Durchquerungen";
+MFG_TURRET_NUMBER="Revolvernummer";
+MFG_WAY_OF_ROT="Drehrichtung";
+MFG_WEIGHT_SNTX="Gewicht";
+MFG_X_HOME_POS="Homepoint X";
+MFG_X_INIT_SPNDL="Ausrichtung I";
+MFG_X_ROT_CENTER="Mittelpunkt X";
+MFG_X_TL_ORIENT="Werkzeugausrichtung I";
+MFG_X_TOOL_POS="Werkzeugwechselpunkt X";
+MFG_Y_HOME_POS="Homepoint Y";
+MFG_Y_INIT_SPNDL="Ausrichtung J";
+MFG_Y_ROT_CENTER="Mittelpunkt Y";
+MFG_Y_TL_ORIENT="Werkzeugausrichtung J";
+MFG_Y_TOOL_POS="Werkzeugwechselpunkt Y";
+MFG_Z_HOME_POS="Homepoint Z";
+MFG_Z_INIT_SPNDL="Ausrichtung K";
+MFG_Z_ROT_CENTER="Mittelpunkt Z";
+MFG_Z_TL_ORIENT="Werkzeugausrichtung K";
+MFG_Z_TOOL_POS="Werkzeugwechselpunkt Z";
+
+MfgSetUpDeltaX="SetUp Delta X";
+MfgSetUpDeltaY="SetUp Delta Y";
+MfgSetUpDeltaZ="SetUp Delta Z";
+MfgToolChangePointOnMachine="Werkzeugwechselpunkt";
+MfgToolChgX="Werkzeugwechselpunkt X";
+MfgToolChgY="Werkzeugwechselpunkt Y";
+MfgToolChgZ="Werkzeugwechselpunkt Z";
+MfgToolDiameterRatio="Prozentsatz des Werkzeugdurchmessers";
+
+MFG_AXIAL_RADIAL_MOVE="Axiale/radiale Bewegung";
+MFG_MAX_FEEDRATE="Max. Bearbeitungsvorschub";
+MFG_RAPID_FEED="Eilgang";
+MFG_CONE_DIAMETER_1="Kegeldurchmesser 1";
+MFG_CONE_DIAMETER_2="Kegeldurchmesser 2";
+MFG_CONE_DIAMETER_3="Kegeldurchmesser 3";
+MFG_CONE_DIAMETER_4="Kegeldurchmesser 4";
+MFG_CONE_DIAMETER_5="Kegeldurchmesser 5";
+MFG_CONE_LENGTH="Kegellänge";
+MFG_CONE_LENGTH_1="Kegellänge 1";
+MFG_CONE_LENGTH_2="Kegellänge 2";
+MFG_CONE_LENGTH_3="Kegellänge 3";
+MFG_HOLDER_STAGES="Halterstufen";
+//****************************************************************
+MFG_UPPER_DIAM="Durchmesser oben";
+MFG_LOWER_DIAM="Durchmesser unten";
+MFG_UPPER_ANGLE="Fasenwinkel oben";
+MFG_LOWER_ANGLE="Fasenwinkel unten";
+//***************************************************************
+
+//===================================
+//for Barrel Tool
+//===================================
+MFG_BARREL_RADIUS="Trommelradius ";
+MFG_RADIAL_DISTANCE="Radialer Abstand ";
+MFG_VERTICAL_DISTANCE="Vertikaler Abstand";
+
+
+
+
+
+MFG_X_ORIGIN_ROTARY_DIR="Referenzausrichtung X";
+MFG_Y_ORIGIN_ROTARY_DIR="Referenzausrichtung Y";
+MFG_Z_ORIGIN_ROTARY_DIR="Referenzausrichtung Z";
+
+MFG_SPLIT_CIRCLE_STRAT="Strategie zum Trennen von Kreisen";
+
+// =====================================================================
+// NLS for Lathe
+// =====================================================================
+
+// Roughing operation
+//========================
+
+MfgLatheLongRough="Schruppen";
+
+MfgLatheStockClearance="Aufmaß des Rohteils";
+MfgLatheGlobalPartThickness="Teileaufmaß";
+MfgLatheAxialPartOffset="Aufmaß des axialen Teils";
+MfgLatheRadialPartOffset="Aufmaß des radialen Teils";
+MfgLatheDepthOfCut="Max. Schnitt-Tiefe";
+MfgLatheAxialDepthOfCut="Axi. Schnitt-Tiefe";
+MfgLatheRadialDepthOfCut="Rad. Schnitt-Tiefe";
+MfgLathePlungeDistance="Abstand vor Eintauchen";
+MfgLathePlungeAngle="Winkel vor Eintauchen";
+MfgLatheLeadInDistance="Anfahrabstand";
+MfgLatheLeadInAngle="Anfahrwinkel";
+MfgLatheAttackDistance="Eingriffsabstand";
+MfgLatheLiftOffDistance="Rückzugsabstand";
+MfgLatheLiftOffAngle="Rückzugswinkel";
+MfgLatheStartLimitClearance="Aufmaß Startbegrenzung";
+MfgLatheModeStart="Startbegrenzung";
+MfgLatheEndLimitClearance="Aufmaß Endbegrenzung";
+MfgLatheModeEnd="Endbegrenzung";
+
+// Grooving operation
+//========================
+
+MfgLatheGrooving="Einstechen";
+
+MfgLatheGroovingOrientation="Ausrichtung";
+MfgLatheMaxLevelDepth="Max. Stufentiefe";
+MfgLatheMaxApproachDistance="Max. Anfahrabstand";
+MfgLatheInclineAngle="Neigungswinkel";
+
+// Profile Finishing operation
+//========================
+
+MfgLatheProfileFinish="Konturdrehen";
+
+MfgLatheLeadInRadius="Anfahrradius";
+MfgLatheLiftOffRadius="Rückzugsradius";
+MfgLatheInvertLeadInDistance="Anfahrabstand umkehren";
+MfgLatheInvertLiftOffDistance="Rückzugsabstand umkehren";
+MfgLatheInvertLiftOffRadius="Rückzugsradius umkehren";
+MfgLatheInvertLiftOffAngle="Rückzugswinkel umkehren";
+MfgLatheFirstChamferLength="Fasenlänge";
+MfgLatheFirstCornerAngle="Eckenwinkel";
+MfgLatheFirstCornerRadius="Eckenradius";
+MfgLatheLastChamferLength="Fasenlänge";
+MfgLatheLastCornerAngle="Eckenwinkel";
+MfgLatheLastCornerRadius="Eckenradius";
+MfgLatheChamferLength="Fasenlänge";
+MfgLatheCornerRadius="Eckenradius";
+
+// Recessing operation
+//========================
+
+MfgLatheRecessing="Einstechen";
+
+// Threading operation
+//========================
+
+MfgLatheThreading="Gewindedrehen";
+
+MfgLathePitch="Steigung";
+MfgLatheThreadDepth="Tiefe";
+MfgLatheThreadLength="Länge";
+MfgLatheNominalDiameter="Nenndurchm.";
+MfgLatheCrestDiameterClearance="Sicherheitsabstand bei Durchmesser der Spitze";
+
+// Groove Finishing operation
+//========================
+
+MfgLatheGrooveFinish="Einstich schlichten";
+
+MfgLatheFirstFlankLeadInDistance="Erster Anfahrabstand";
+MfgLatheFirstFlankLeadInAngle="Erster Anfahrwinkel";
+MfgLatheFirstFlankLeadInRadius="Erster Anfahrradius";
+MfgLatheLastFlankLeadInDistance="Letzter Anfahrabstand";
+MfgLatheLastFlankLeadInAngle="Letzter Anfahrwinkel";
+MfgLatheLastFlankLeadInRadius="Letzter Anfahrradius";
+MfgLatheOtherFlankLeadInDistance="Anderer Anfahrabstand";
+MfgLatheOtherFlankLeadInRadius="Anderer Anfahrradius";
+MfgLatheOtherFlankLeadInAngle="Anderer Anfahrwinkel";
+MfgLatheBottomOverlap="Überlappung";
+MfgLatheBottomClearance="Sicherheitsbereich";
+MfgLatheLeadingSafetyAngle="Führender Sicherheitswinkel";
+MfgLatheTrailingSafetyAngle="Nachlaufender Sicherheitswinkel";
+MfgLatheFixtureClearance="Aufmaß Spannelemente";
+
+MfgStartPosition="Start";
+MfgStartInside="Innen";
+MfgStartOutside="Außen";
+MfgPercentageReductionBoolean="Abgeschnittene Übergangsbahnen";
+MfgScallopPass="Konturdurchlauf";
+MfgScallopPassRatio="Faktor der Konturierung";
+MfgGuidingPoint="Führungspunkt";
+MfgOutputPoint="Nach Werkzeugspitze";
+
+DepthValue="Tiefenwert";
+MfgNoCornerChanel="Kein(e)";
+MfgCorner="Ecke";
+MfgChannel="Kanal";
+MfgCornerChanel="Ecke und Kanal";
+
+// Update R8 SP2 - 5X MOs
+//========================
+MfgCorneringFinishFlag="Eckenbearbeitung beim Schlichten - Werkzeugbahn";
+
+// Operations SMG
+//=================
+M3xSweepingSU="Kopierfräsen";
+M3xSoftMaterialSU="Kopierschruppen";
+M3xBetweenContourSU="Konturgeführtes Flächenfräsen";
+M3xZLevelSU="Fräsen in Höhenschnitten";
+M3xBitangencySU="Hohlkehlenfräsen";
+M3xHardMaterialSU="Schruppen";
+M3xSpiralMillingSU="Spiralfräsen";
+M3xPrismaticRoughingSU="Prismatisches Schruppen";
+M3xMultiPocketsSU="Mehrfach-Taschenfräsen";
+M3xMultiPocketsSU="Mehrfach-Taschenfräsen";
+Mfg5AxisMultiPocketsFlankSU="Mehrfachtaschen-Flankenkonturfräsen";
+
+
+// Surface Machining features.
+M3xFeature="Flächenkomponente";
+M3xRAFeature="Komponente des Nachbearbeitungsbereichs";
+M3xSAFeature="Komponente des Neigungsbereichs";
+M3xOffsetGroup="Offsetgruppe";
+M3xPoint="Punkt";
+M3xPlane="Ebene";
+M3xLine="Linie";
+M3xArea="Bereich";
+
+M3xOffsetImposedPlane="Aufmaß";
+
+// OLC
+MFG_FEEDRATE_AUTO_UPD="Automatische Berechnung aus Werkzeugschnittwerten";
+MFG_FEEDRATE_AUTO_UPD.LongHelp="Die automatische Berechnung von Vorschubwerten aus den Werkzeugschnittwerten aktivieren.
+Das Fertigungsattribut ist MFG_FEEDRATE_AUTO_UPD.";
+MFG_SPINDLE_SPEED_AUTO_UPD="Automatische Berechnung aus Werkzeugschnittwerten";
+MFG_SPINDLE_SPEED_AUTO_UPD.LongHelp="Die automatische Berechnung von Spindelwerten aus den Werkzeugschnittwerten aktivieren.
+Das Fertigungsattribut ist MFG_SPINDLE_AUTO_UPD.";
+
+MFG_NURBS_OUTPUT="Nurbs-Ausgabe";
+
+// RA / MA Feature
+//========================
+Mfg2DRAFeature="2.5-Achsnachbearbeitungsbereich";
+Mfg2DMAFeature="2.5-Achsbearbeitungsbereich";
+
+// Update R9 - 3X MOs
+//========================
+M3xApproachDistanceLinking="Zustellmodus";
+M3xApproachMacroMotionLinking="Zustellart";
+M3xApproachVectorXLinking="Zustellung in X-Richtung";
+M3xApproachVectorYLinking="Zustellung in Y-Richtung";
+M3xApproachVectorZLinking="Zustellung in Z-Richtung";
+M3xRetractDistanceLinking="Rückzugsabstand";
+M3xRetractMacroMotionLinking="Rückzugsmodus";
+M3xRetractVectorXLinking="Rückzug in X-Richtung";
+M3xRetractVectorYLinking="Rückzug in Y-Richtung";
+M3xRetractVectorZLinking="Rückzug in Z-Richtung";
+M3xMacroApproachBackTypeCoordinateLinkingMode="Definition für Verknüpfung (Zustellung)";
+M3xMacroApproachBackTypeLengthLinking="Länge für Verknüpfung (Zustellung)";
+M3xMacroApproachBackTypeHeightLinking="Höhe für Verknüpfung (Zustellung)";
+M3xMacroApproachBackTypeAngleLinking="Vorhaltewinkel für Verknüpfung (Zustellung)";
+M3xMacroApproachBackTypeRadiusLinking="Radius für Verknüpfung (Zustellung)";
+M3xMacroApproachCircularVectorComputationLinkingMode="Ebenenberechnungsmodus für Verknüpfung (Zustellung)";
+M3xMacroApproachCircularAngleLinking="Winkel für Verknüpfung (Zustellung)";
+M3xMacroApproachCircularRadiusLinking="Radius für Verknüpfung (Zustellung)";
+M3xMacroApproachBoxLinkingLinkingMode="Verknüpfungsmodus für Verknüpfung (Zustellung)";
+M3xMacroApproachBoxXLengthLinking="Abstand entlang Tangente für Verknüpfung (Zustellung)";
+M3xMacroApproachBoxYLengthLinking="Abstand entlang Werkzeugachse für Verknüpfung (Zustellung)";
+M3xMacroApproachBoxZLengthLinking="Abstand entlang Normalenachse für Verknüpfung (Zustellung)";
+M3xMacroApproachBoxSideLinking="Seite der Normalenachse für Verknüpfung (Zustellung)";
+M3xMacroRetractBackTypeCoordinateLinkingMode="Definition für Verknüpfung (Rückzug)";
+M3xMacroRetractBackTypeLengthLinking="Länge für Verknüpfung (Rückzug)";
+M3xMacroRetractBackTypeHeightLinking="Höhe für Verknüpfung (Rückzug)";
+M3xMacroRetractBackTypeAngleLinking="Vorhaltewinkel für Verknüpfung (Rückzug)";
+M3xMacroRetractBackTypeRadiusLinking="Radius für Verknüpfung (Rückzug)";
+M3xMacroRetractCircularVectorComputationLinkingMode="Ebenenberechnungsmodus für Verknüpfung (Rückzug)";
+M3xMacroRetractCircularAngleLinking="Winkel für Verknüpfung (Rückzug)";
+M3xMacroRetractCircularRadiusLinking="Radius für Verknüpfung (Rückzug)";
+M3xMacroRetractBoxLinkingLinkingMode="Verknüpfungsmodus für Verknüpfung (Rückzug)";
+M3xMacroRetractBoxXLengthLinking="Abstand entlang Tangente für Verknüpfung (Rückzug)";
+M3xMacroRetractBoxYLengthLinking="Abstand entlang Werkzeugachse für Verknüpfung (Rückzug)";
+M3xMacroRetractBoxZLengthLinking="Abstand entlang Normalenachse für Verknüpfung (Rückzug)";
+M3xMacroRetractBoxSideLinking="Seite der Normalenachse für Verknüpfung (Rückzug)";
+M3xBetweenPassMacroMotion="Eingriffsmodus";
+M3xClearanceMacroMode="Rückzugsmodus";
+M3xMultiPassIsActive="Mehrfachgang";
+M3xMultiPassMode="Eingabemodus für Mehrfachgang";
+M3xMultiPassNumberOfLevels="Anzahl Stufen für Mehrfachgang";
+M3xMultiPassDepthByLevels="Schnitt-Tiefe bei Mehrfach-Nutdrehen nach Stufe";
+M3xMultiPassDepthTotalHeight="Gesamthöhe für Mehrfachgang";
+M3xRapidFeedDistance="Nicht verwendet";
+M3xStockOvershoot="Überreichweite";
+M3xStockContouring="Teilekontur folgen";
+
+M3xHardStopOffsetLength="Nicht verwendet";
+M3xHardHelixDiameterLength="Nicht verwendet";
+M3xHSMCornerRadius="Nicht verwendet";
+M3xHSMLimitAngle="Nicht verwendet";
+M3xHSMExtraSegmentOverlap="Nicht verwendet";
+M3xHSMCorneringOnSideFinishPath="Nicht verwendet";
+M3xHSMCornerRadiusOnSideFinishPath="Nicht verwendet";
+M3xHSMLimitAngleOnSideFinishPath="Nicht verwendet";
+M3xHSMTransitionRadius="Nicht verwendet";
+M3xHSMTransitionAngle="Nicht verwendet";
+M3xHSMTransitionLength="Nicht verwendet";
+M3xImposedPlaneSensitivity="Nicht verwendet";
+M3xConstantOrVariableDepth="Nicht verwendet";
+M3xMachineOnlyOrderedArea="Nur sortierte Bereiche bearbeiten";
+M3xMacroRetractBoxWeight="Nicht verwendet";
+M3xMacroRetractBoxWeightLinking="Nicht verwendet";
+M3xInfiniteSafetyDistance="Komplette Sicherheit";
+
+M3xMacroApproachPSMLength="Verlängerte Bewegungslänge für Zustellung";
+M3xMacroApproachPSMSafetyDistance="Verlängerter Sicherheitsabstand bei Bewegung für Zustellung";
+M3xMacroApproachPSMAngle="Verlängerter Bewegungswinkel für Zustellung";
+M3xMacroApproachHSMEngagementRadius="HSM-Radius für Zustellung";
+M3xMacroApproachHSMEngagementAngle="HSM-Winkel für Zustellung";
+M3xMacroApproachHSMSafetyDistance="HSM-Sicherheitsabstand für Zustellung";
+M3xMacroApproachInfiniteSafetyDistance="Komplette Sicherheit für Zustellung";
+M3xMacroRetractPSMLength="Verlängerte Bewegungslänge für Rückzug";
+M3xMacroRetractPSMSafetyDistance="Verlängerter Sicherheitsabstand bei Bewegung für Rückzug";
+M3xMacroRetractPSMAngle="Verlängerter Bewegungswinkel für Rückzug";
+M3xMacroRetractHSMEngagementRadius="HSM-Radius für Rückzug";
+M3xMacroRetractHSMEngagementAngle="HSM-Winkel für Rückzug";
+M3xMacroRetractHSMSafetyDistance="HSM-Sicherheitsabstand für Rückzug";
+M3xMacroRetractInfiniteSafetyDistance="Komplette Sicherheit für Rückzug";
+
+M3xMacroApproachLinkingPSMLength="Verlängerte Bewegungslänge für Zustellungsverknüpfung";
+M3xMacroApproachLinkingPSMSafetyDistance="Verlängerter Sicherheitsabstand bei Bewegung für Zustellungsverknüpfung";
+M3xMacroApproachLinkingPSMAngle="Verlängerter Bewegungswinkel für Zustellungsverknüpfung";
+M3xMacroApproachLinkingHSMEngagementRadius="HSM-Radius für Zustellungsverknüpfung";
+M3xMacroApproachLinkingHSMEngagementAngle="HSM-Winkel für Zustellungsverknüpfung";
+M3xMacroApproachLinkingHSMSafetyDistance="HSM-Sicherheitsabstand für Zustellungsverknüpfung";
+M3xMacroApproachLinkingInfiniteSafetyDistance="Komplette Sicherheit für Zustellungsverknüpfung";
+M3xMacroRetractLinkingPSMLength="Verlängerte Bewegungslänge für Rückzugsverknüpfung";
+M3xMacroRetractLinkingPSMSafetyDistance="Verlängerter Sicherheitsabstand bei Bewegung für Rückzugsverknüpfung";
+M3xMacroRetractLinkingPSMAngle="Verlängerter Bewegungswinkel für Rückzugsverknüpfung";
+M3xMacroRetractLinkingHSMEngagementRadius="HSM-Radius für Rückzugsverknüpfung";
+M3xMacroRetractLinkingHSMEngagementAngle="HSM-Winkel für Rückzugsverknüpfung";
+M3xMacroRetractLinkingHSMSafetyDistance="HSM-Sicherheitsabstand für Rückzugsverknüpfung";
+M3xMacroRetractLinkingInfiniteSafetyDistance="Komplette Sicherheit für Rückzugsverknüpfung";
+
+M3xInvMachDir="Bearbeitungsrichtung - Seite";
+M3xInvStartDir="Startrichtung - Seite";
+M3xStayOnSurface="Nicht verwendet";
+M3xProgressDirectionOnSurface="Nicht verwendet";
+
+M3xMacroMotionSameForAll="Nicht verwendet";
+M3xReverseMA="Nicht verwendet";
+M3xOffsetSafetyPlaneLinking="Aufmaß der Sicherheitsebene für Verknüpfung";
+M3xPocketProgression="Nicht verwendet";
+
+// Update R10 - 3X MOs
+//========================
+M3xStayOnBottom="Am Ende stehen bleiben";
+M3xWithCompensation="Nicht verwendet";
+M3xBottomDetection="Erkennung horizontaler Flächen";
+M3xBottomThickness="Aufmaß am Ende";
+M3xBottomFinishThickness="Schlichtaufmaß am Ende";
+M3xBottomAngle="Max. Winkel für horizontale Flächen ";
+M3xBottomHardOverlapLength="Schlichtbahnüberlappung am Ende (Länge)";
+M3xBottomHardOverlap="Schlichtbahnüberlappung am Ende (Verhältnis)";
+M3xBottomRatioOrLengthMode="Definition der Überlappung am Ende";
+M3xDifferentThicknessOnBottom="Nicht verwendet";
+M3xIsMaxDiscretization="Definiert Diskretisierungsschritt";
+M3xMaxDiscretization="Max. Diskretisierungsschritt";
+M3xMultiPassSequencingMode="Sequenzmodus für Mehrfachdurchgang";
+M3xBetweenPassDistance="Nicht verwendet";
+
+//----------------------------------
+// NCReview
+//----------------------------------
+// For V4NCLatheStandardOperation
+//===============================
+MfgV4IsCollisionCheck="Kollisionsprüfung für Konturen";
+MfgV4CollisionCheck="Kollisionsprüfung für Linien, Kurven oder Konturen";
+MfgV4GeoRelimit="Geometrische Neubegrenzung";
+MfgV4MachTol="Bearbeitungstoleranz";
+MfgV4ThicknessDrive="Senkrechtes Aufmaß von der Randkurve";
+MfgV4AxialOffsetDrive="Axiales Aufmaß von der Randkurve";
+MfgV4RadialOffsetDrive="Radiales Aufmaß von der Randkurve";
+MfgV4ThicknessCheck="Senkrechtes Aufmaß von der Hinderniskurve";
+MfgV4AxialOffsetCheck="Axiales Aufmaß von der Hinderniskurve";
+MfgV4RadialOffsetCheck="Radiales Aufmaß von der Hinderniskurve";
+MfgV4LeftSafetyAngle="Folgender Sicherheitswinkel";
+MfgV4RightSafetyAngle="Führender Sicherheitswinkel";
+MfgV4IsFeedRAPID="Vorschub im Eilgang";
+MfgV4FeedMachLinear="Vorschub/min";
+MfgV4FeedMachAngular="Vorschub/Umdrehung";
+MfgV4SpindleMachLinear="Vorschub/min";
+MfgV4SpindleMachAngular="Vorschub in UPM";
+// For V4NCLatheCycleOperation 
+//===============================
+MfgV4LatheCycleType="Kreistyp";
+MfgV4LatheMdOrientation="Ausrichtung";
+MfgV4LatheMdLocation="Position";
+MfgV4LatheMachiningRecess="Einstechen";
+MfgV4LatheMachDirection="Bearbeitungsrichtung";
+MfgV4LatheContouringMode="Teilekonturierung";
+MfgV4SemiFinition="Teilekonturierung";
+MfgV4CorrectorChange="Ausgabepunkt ändern";
+MfgV4MultiCutConditions="Vorschub - Abweichungen";
+MfgV4ToolCompensation="CUTCOM";
+MfgV4EdgeMode="Eckenverarbeitung";
+MfgV4ClearanceOnStock="Sicherheitsbereich bei Rohteil";
+MfgV4ThicknessOnFinish="Aufmaß auf Teil";
+MfgV4AxialOffsetOnFinish="Axiales Aufmaß auf Teil";
+MfgV4RadialOffsetOnFinish="Radiales Aufmaß auf Teil";
+MfgV4PlungeLimitAngle="Abschlusswinkel";
+MfgV4PrincipalEdgeAngle="Führender Winkel";
+MfgV4LatheMinMachRadius="Mindestradius für Bearbeitung";
+MfgV4LatheMaxMachRadius="Höchstradius für Bearbeitung";
+MfgV4LatheJawPosition="Achsenbegrenzung bei Spannbacken";
+MfgV4MaxDepth="Max. Ausspindeltiefe ";
+MfgV4MaxGrooveDepth="Max. Nuttiefe";
+MfgV4MaxGrooveSlope="Ausfugwinkel";
+MfgV4LatheRadialDepthOfCut="Radiale Schnitt-Tiefe";
+MfgV4LatheAxialDepthOfCut="Axiale Schnitt-Tiefe";
+MfgV4MaxDepthPass="Max. Schnitt-Tiefe";
+MfgV4LatheFirstPlungePos="Erste Eintauchposition";
+MfgV4FirstPlungeDir="Erste Eintauchrichtung";
+MfgV4FirstPlungeRad="Erster Eintauchradius";
+MfgV4LatheMachiningDir="Bearbeitungsrichtung";
+MfgV4DiscretizationTol="Bearbeitungstoleranz";
+MfgV4LatheChamferLength="Fasenlänge";
+MfgV4LatheCornerRadius="Eckenradius";
+MfgV4FirstLatheChamferLength="Erste Fasenlänge";
+MfgV4FirstLatheCornerRadius="Erster Eckenradius";
+MfgV4LastLatheChamferLength="Letzte Fasenlänge";
+MfgV4LastLatheCornerRadius="Letzter Fasenradius";
+MfgV4RetractType="Rückzugstyp";
+MfgV4ApproachType="Zustellungstyp";
+MfgV4LatheAttackDistance="Eingriffsabstand";
+MfgV4RetractAngle="Rückzugswinkel";
+MfgV4LatheLeadInDistance="Einführungsabstand";
+MfgV4LatheLeadInAngle="Einführungswinkel";
+MfgV4LeadInDistForRecess="Abstand vor Eintauchen";
+MfgV4LeadInAngleForRecess="Winkel vor Eintauchen";
+MfgV4LatheLiftOffDistance="Rückzugsabstand";
+MfgV4AppTypeInSlowMode="Einführungstyp";
+MfgV4RetTypeInSlowMode="Rückzugstyp";
+MfgV4PosModeOnStartElem="Begrenzungsmodus starten";
+MfgV4PosModeOnCheckElem="Begrenzungsmodus beenden";
+MfgV4ClearanceOnStartElem="Begrenzung für Sicherheitsbereich starten";
+MfgV4ClearanceOnCheckElem="Begrenzung für Sicherheitsbereich beenden";
+MfgV4LatheLeadInRadius="Einführungsradius";
+MfgV4LatheLiftOffRadius="Rückzugsradius";
+MfgV4LatheFirstFlankLeadInType="Einführungstyp für die erste Flanke";
+MfgV4LatheLastFlankLeadInType="Einführungstyp für die letzte Flanke";
+MfgV4LatheOtherFlankLeadInType="Einführungstyp für die anderen Flanken";
+MfgV4LatheFirstFlankLeadInDistance="Einführungsabstand für die erste Flanke";
+MfgV4LatheLastFlankLeadInDistance="Einführungsabstand für die letzte Flanke";
+MfgV4LatheOtherFlankLeadInDistance="Einführungsabstand für die anderen Flanken";
+MfgV4LatheFirstFlankLeadInRadius="Einführungsradius für die erste Flanke";
+MfgV4LatheLastFlankLeadInRadius="Einführungsradius für die letzte Flanke";
+MfgV4OtherLastFlankLeadInRadius="Einführungsradius für die anderen Flanken";
+MfgV4LatheFirstFlankLeadInAngle="Einführungswinkel für die erste Flanke";
+MfgV4LatheLastFlankLeadInAngle="Einführungswinkel für die letzte Flanke";
+MfgV4OtherLastFlankLeadInAngle="Einführungswinkel für die anderen Flanken";
+MfgV4FeedLeadIn="Einführung";
+MfgV4FeedPlunge="Eintauchen";
+MfgV4FeedFirstPlunge="Erstes Eintauchen";
+MfgV4FeedOtherPlunge="Andere Eintauchoperation";
+MfgV4FeedAttack="Angriff";
+MfgV4FeedContour="Konturfräsen";
+MfgV4FeedLiftOff="Abheben";
+MfgV4FeedChamfer="Anfasen";
+MfgV4FeedOnFillet="Eckenbearbeitung";
+MfgV4FeedPlungeContour="Konturfräsen";
+// For V4MachiningOperation
+//=========================
+MfgV4PartSurfThickType="Aufmaßtyp der Teilefläche";
+MfgV4ContourType="Typ der Verknüpfungskontur";
+MfgV4SurfMachMode="Flächenbearbeitung";
+MfgV4DistBetweenPathType="Abstand zwischen Bahnen";
+MfgV4NumberOfLevels="Anzahl Bahnen";
+MfgV4FinishingPass="Schlichtbahn";
+MfgV4MachiningDirection="Bearbeitungsrichtung";
+MfgV4FinishingPassDir="Richtung der Schlichtbahn";
+MfgV4OptCycleMode="Optimierung im Zyklusmodus";
+MfgV4SkipPaths="Bahnen überspringen";
+MfgV4PocketBoundaryType="Taschenbegrenzungstyp";
+MfgV4CollCheck="Kollisionsprüfung";
+MfgV4ContMillingType="Typ des Kontaktfräsens";
+MfgV4Rework="Nachbearbeitungstyp";
+MfgV4PlungeType="Eintauchtyp";
+MfgV4ComputedDistance="Berechneter Abstand";
+MfgV4SideThickness="Seitenaufmaß";
+MfgV4PartSurfThickness="Aufmaß auf Teilefläche";
+MfgV4FinalPartThickness="Aufmaß auf Endteil";
+MfgV4MachiningTolerance="Bearbeitungstoleranz";
+MfgV4TiltAngle="Neigungswinkel";
+MfgV4ScallopHeight="Rautiefe";
+MfgV4OffsetAlongTLAxis="Aufmaß entlang Werkzeugachse";
+MfgV4ThickCheckSurf="Aufmaß auf Randfläche";
+MfgV4FixtureThickness="Aufmaß auf Halterungen";
+MfgV4DistBetweenPaths="Abstand zwischen Bahnen";
+MfgV4RetractHeight="Rückzugshöhe";
+MfgV4RawThickCoeff="Koeffizient des Rohaufmaßes";
+MfgV4FinishingRate="Feinzuggeschwindigkeit";
+MfgV4SlowDownRate="Reduzierte Geschwindigkeit";
+MfgV4MinDistLinkMacro="Mindestabstand für Verknüpfungsmakro";
+MfgV4OverrunDist="Überstand - Abstand";
+MfgV4ThichCheckCurve="Aufmaß auf Randkurve";
+MfgV4MaxDiscretStep="Max. Diskretisierungsschritt";
+MfgV4MaxDiscretAngle="Max. Diskretisierungsschritt";
+MfgV4PlungeAngle="Eintauchwinkel";
+MfgV4MinDiscretStep="Min. Diskretisierungsschritt";
+MfgV4MinDiscretAngle="Min. Diskretisierungswinkel";
+// Literaux
+//==========
+MfgV4_No_Valued="Ohne Wert";
+MfgV4_NO="Nein";
+MfgV4_YES="Ja";
+MfgV4_OFFOFF="AUS";
+MfgV4_ONOFF="EIN für CRV1/AUS für CRV2";
+MfgV4_OFFON="AUS für CRV1/EIN für CRV12";
+MfgV4_ONON="EIN für CRV1/EIN für CRV2";
+MfgV4_AlongNorm="Entlang Normale";
+MfgV4_AlongAxis="Entlang Achse";
+MfgV4_Circle="Kreis";
+MfgV4_Angle="Winkel";
+MfgV4_Zig_Zag="Zickzack";
+MfgV4_One_Way="Eine Richtung";
+MfgV4_Scallop="Rautiefe";
+MfgV4_MaxDist="Max. Abstand zwischen Bahnen";
+MfgV4_NBPaths="Anzahl Bahnen";
+MfgV4_CLW="CLW";
+MfgV4_CCLW="CCLW";
+MfgV4_None="Kein(e)";
+MfgV4_First="Erste(s/r)";
+MfgV4_Last="Letzte(s/r)";
+MfgV4_Both="Beide";
+MfgV4_Standard="Standard";
+MfgV4_RawMaterial="Rohmaterial";
+MfgV4_Extended="Erweitert";
+MfgV4_Same_Z="Gleiches Z";
+MfgV4_Low_Z="Niederes Z";
+MfgV4_Low_ZReverse="Niederes Z + Umgekehrt";
+MfgV4_Up="Nach oben";
+MfgV4_Down="Nach unten";
+MfgV4_OnPart="Auf Teil";
+MfgV4_OnPlane="Auf Ebene";
+MfgV4_EbauchePassesParal="";
+MfgV4_EbaucheChariotage="";
+MfgV4_EbaucheDressage="";
+MfgV4_RecessZig_Zag="";
+MfgV4_Grooving="";
+MfgV4_Finition="";
+MfgV4_FinitionOutilGorge="";
+MfgV4_Interieure="Innen";
+MfgV4_Exterieure="Außen";
+MfgV4_Frontale="Stirnseitig";
+MfgV4_Front="Stirnseite";
+MfgV4_Back="Rückseite";
+MfgV4_Each="Alle Bahnen";
+MfgV4_End="Nur letztes";
+MfgV4_Chamfer="Fase";
+MfgV4_Fillet="Ecke";
+MfgV4_LeftUp="Links - nach oben";
+MfgV4_Center="Mitte";
+MfgV4_RightDown="Rechts - nach unten";
+MfgV4_Other="Andere";
+MfgV4_Left="Links";
+MfgV4_Right="Rechts";
+MfgV4_To_spindle="Zu Spindel";
+MfgV4_From_spindle="Von Spindel";
+MfgV4_Direct="Direkt";
+MfgV4_Axial_Radial="Axial-Radial";
+MfgV4_Radial_Axial="Radial-Axial";
+MfgV4_Vector="Vektor";
+MfgV4_Circular="Bogenförmig";
+MfgV4_Radius="Radius";
+MfgV4_To="Nach";
+MfgV4_On="Auf";
+MfgV4_Past="Außerhalb";
+MfgV4_ToHeadStock_Spindle="Nach Durchgang auf Rohmaterial/Spindel";
+MfgV4_FromHeadStock_Spindle="Von Durchgang auf Rohmaterial/Spindel";
+
+MfgMacroAirCuttingFeedrate="Luftschnittvorschub";
+
+// FAP : Debut R11
+
+MFG_LATHE_MODIF_RAPID="Eilgang durch Luftschnittvorschub ersetzen";
+MFG_LATHE_RAPID_FEED="Luftschnittvorschub";
+
+//========================
+// Ramping Operations
+//========================
+MfgLatheDirection="Bearbeitungsrichtung";
+
+MfgLatheRampingReworkMode="Nachbearbeitungsmodus";
+MfgLatheMOLeadingAngle="Führender Winkel";
+MfgLatheMOTrailingAngle="Abschlusswinkel";
+MfgLatheMOGougingAngle="Ausfugwinkel";
+MfgLatheRamping1stFlankPlungeDistance="Eintauchabstand bei 1. Flanke";
+MfgLatheRamping2ndFlankPlungeDistance="Eintauchabstand bei 2. Flanke";
+MfgLatheRampingRecessingStrategy="Einstechstrategie";
+MfgLatheRampingRoughingStrategy="Schruppstrategie";
+MfgLatheStartRampingPassMode="Arbeitsgang starten";
+
+MfgLatheRampingClearance1="Sicherheitsbereich beim 1. Schnitt";
+MfgLatheRampingClearance2="Sicherheitsbereich beim 2. Schnitt";
+
+MfgLatheRampingAttackChamferLength="Angriffsfasenlänge";
+MfgLatheRampingAttackCornerRadius="Angriffseckenradius";
+MfgLatheRampingAttackCornerAngle="Angriffseckenwinkel";
+
+MfgLatheRampingPlungeDistance="Abstand vor Eintauchen bei der Nachbearbeitung";
+MfgLatheRampingPlungeAngle="Winkel vor Eintauchen bei der Nachbearbeitung";
+
+// Sequential motion geometric features
+MfgLatheSequentialFeature="Drehen in Einzelschritten - geometrische Komponente";
+MfgLatheSequentialDeltaFeature="GO-Delta - geometrische Komponente";
+MfgLatheSequentialFollowFeature="Follow - geometrische Komponente";
+MfgLatheSequentialGoStdFeature="GO-Standard - geometrische Komponente";
+MfgLatheSequentialIndirvFeature="GO-IndirV - geometrische Komponente";
+
+//========================
+// Feature géométriques
+//========================
+LatheFeature="Bearbeitbarer Bereich beim Drehen";
+MfgLatheLongRoughFeature="Schruppbereich";
+MfgLatheGroovingFeature="Einstichbereich";
+MfgLatheRecessingFeature="Hinterdrehbereich";
+MfgLatheThreadingFeature="Gewindeschneidbereich";
+MfgLatheProfileFinishFeature="Konturdrehbereich";
+MfgLatheGrooveFinishFeature="Bereich für Einstichschlichten";
+MfgLatheSequentialGlobalGeomFeature="Bereich für Drehen in Einzelschritten";
+MfgLatheRampingRoughingFeature="Bereich für Schruppdrehen mit Rampe";
+MfgLatheRampingRecessingFeature="Bereich für Einstechdrehen mit Rampe";
+
+MfgName="Name";
+MfgComment="Kommentar";
+
+MfgLatheInterruptMode="Unterbrechungsmodus";
+MfgLatheInterruptTime="Zeitpunkt der Unterbrechung";
+MfgLatheInterruptNbOfPass="Anzahl Arbeitsgänge zwischen Unterbrechungen";
+MfgLatheInterruptNbOfLevel="Anzahl Ebenen zwischen den Unterbrechungen";
+
+MFG_LATHE_FEED_STEP_NB="Anzahl Schritte bei der Zuführung";
+MFG_LATHE_LIGHT_FEED_VALUE="Vorschub mit niedriger Belastung";
+MfgLatheRampingContouringMode="Modus Konturfräsen für ansteigende Bearbeitung";
+MfgLatheThreadSpringPasses="Federungsbahnen";
+
+// FAP : Fin R11
+// AJout LHX R12
+GrooveMachiningDirection="Bearbeitungsrichtung";
+GrooveAxialStrategy="Axiale Schnittaufteilung";
+
+// ==================================================//
+// SMG - Macros - CXR12
+// ==================================================//
+MfgMacroBetweenPassesMotions="Zwischen Arbeitsgängen";
+MfgMacroAutomaticRoughingMotions="Automatisches Schruppen";
+MfgMacroHeight="Höhe";
+MfgMacroXLength="Abstand entlang Tangente";
+MfgMacroYLength="Abstand entlang Werkzeugachse";
+MfgMacroZLength="Abstand entlang senkrechter Achse";
+MfgMacroSide="Seite der senkrechten Achse";
+MfgMacroLinkingMode="Verknüpfungsmodus";
+MfgMacroZLAngle="Winkel der Zeichenneigung";
+MfgMacroZLLength="Länge der Zeichenneigung";
+MfgMacroSafetyDistance="Sicherheitsabstand";
+MfgMacroPredefinedMode="Modus";
+MfgMacroDefinedByApproachRetract="Nicht verwendet";
+// SMG END
+
+// Update R12 - 3X MOs
+M3xStockContouringPosition="Position der Teilekonturierung";
+M3xStockContouringRatio="Faktor der Teilekonturierung";
+M3xStockContouringNumberOfLevel="Anzahl Ebenen";
+M3xMachiningDirectionIsManual="Manuell";
+M3xSideThickness="Aufmaß auf Seite";
+M3xHSMCorneringOnContouringPath="Eckenbearbeitung bei Teilekonturverlauf";
+M3xHSMCornerRadiusOnContouringPath="Eckenradius bei Teilekonturverlauf";
+
+// Transition Element Feature
+//========================
+MfgTransitionElementsFeature="Übergangselement";
+
+// ==================================================//
+// SMG R13
+// ==================================================//
+MfgMacroPreRoughingMotions="Vorbewegungen";
+MfgMacroPostRoughingMotions="Nachbewegungen";
+
+M3xIgnoreFacesKO="Ungültige Teilflächen ignorieren";
+
+// Gestion du brut en cours
+//------------------------------
+
+ActualStock="Rohteil aktualisieren";
+
+ActualStock.Title="Eingaberohteil aktualisieren";
+ActualStock.ShortHelp="Eingaberohteil aktualisieren";
+ActualStock.Help="Aktualisiert das Eingaberohteil der aktuellen Operation";
+ActualStock.LongHelp="Aktualisiert das Eingaberohteil der aktuellen Operation.
+Berechnet das Eingaberohteil unter Berücksichtigung aller vorhergehenden Operationen im Drehkontext.
+Als Eingaberohteil der aktuellen Operation kann die gesamte resultierende Skizze oder ein Teil davon ausgewählt werden";
+
+InputStock="Eingaberohteil aktualisieren";
+InputStock.Title="Eingaberohteil aktualisieren";
+InputStock.ShortHelp="Eingaberohteil aktualisieren";
+InputStock.Help="Aktualisiert das Eingaberohteil der aktuellen Operation";
+InputStock.LongHelp="Aktualisiert das Eingaberohteil der aktuellen Operation.
+Berechnet das Eingaberohteil unter Berücksichtigung aller vorhergehenden Operationen.
+";
+
+OutputStock="Ausgaberohteil aktualisieren";
+OutputStock.Title="Ausgaberohteil aktualisieren";
+OutputStock.ShortHelp="Ausgaberohteil aktualisieren";
+OutputStock.Help="Aktualisiert das Ausgaberohteil der aktuellen Operation";
+OutputStock.LongHelp="Aktualisiert das Ausgaberohteil der aktuellen Operation.";
+
+IgnoreStock="Eingaberohteil ignorieren";
+IgnoreStock.Title="Eingaberohteil ignorieren";
+IgnoreStock.ShortHelp="Eingaberohteil ignorieren";
+IgnoreStock.Help="Eingaberohteil bei der Berechnung der Werkzeugbahn ignorieren";
+IgnoreStock.LongHelp="Eingaberohteil bei der Berechnung der Werkzeugbahn ignorieren.";
+
+DeactivateStock="Berechnung des Ausgaberohteils inaktivieren";
+DeactivateStock.Title="Berechnung des Ausgaberohteils inaktivieren";
+DeactivateStock.ShortHelp="Berechnung des Ausgaberohteils inaktivieren";
+DeactivateStock.Help="Berechnung des Ausgaberohteils inaktivieren";
+DeactivateStock.LongHelp="Berechnung des Ausgaberohteils inaktivieren.";
+
+// Prefix for Computed Stock
+DefaultPrefixActualStock="Körper des Eingaberohteils für";
+DefaultPrefixActualStockSketch="Skizze des Eingaberohteils für";
+
+// Prefix for Final Stock
+DefaultPrefixFinalStock="Endrohteilkörper von";
+DefaultPrefixFinalStockSketch="Endrohteilskizze von";
+
+// Default préfix for Ref axis of the Part Operation
+DefaultRefAxisNamePO="Standardreferenzachse der Bearbeitung für ";
+
+// ==================================================//
+// ISO / Video accuracy R14
+// Delete unused Features (Ajout VCS R14 le 02/12/03)//
+// ==================================================//
+MfgProgramMCDBasedSimulation="NC-Code-basierte Simulation";
+MfgProgramCompensationModeSimulation="Schneidenkorrekturmodus";
+
+MfgSetupDesignsAccuracy="Entwurfsgenauigkeit";
+MfgSetupStocksAccuracy="Rohteilegenauigkeit";
+
+Mfg5AxisStartEnd="Interner Parameter";
+MfgStart="Start";
+MfgToolSideOnGuideCurve="Position auf der Führungskurve";
+MfgToolSideOnGuideCurve.LongHelp="Gibt die Position des Werkzeugs auf dem zusätzlichen Führungselement \nin Bezug auf die Vorwärtsrichtung an.";
+MfgOffsetOnGuideCurve="Offset auf Führungskurve";
+MfgOffsetOnGuideCurve.LongHelp="Gibt den Offset an, der bei der \nPositionierung an der Seite des zusätzlichen Führungselements berücksichtigt werden muss. ";
+MfgUseGuideCurve="Verwendung der Führungskurve";
+MfgUseGuideCurve.LongHelp="Gibt mit dem zusätzlichen Führungselement den Werkzeugkontaktmodus an: \n- Immer.\n- Falls erforderlich (d. h. nur im Fall einer drohenden Kollision mit der Randfläche)";
+Mfg5XOutputType="Korrekturausgabe";
+Mfg5XOutputType.LongHelp="Gibt an, wie die Anweisungen für die Korrektur des Fräsers für die NC-Datenausgabe zu generieren sind:
+
+Keine
+Keine Berechnung der Korrektur.
+
+3D-Kontakt
+Die Korrektur wird entlang eines 3D-Vektors (XN, YN, ZN) berechnet, der senkrecht zur Teilefläche liegt und das Ende des Werkzeugs berührt.
+Dabei wird der Eckenradius korrigiert.
+Ausgabe sind der Kontaktpunkt (XC, YC, ZC) und die senkrechte Teilefläche (XN, YN, ZN).
+Die Werkzeugspitze (XT, YT, ZT) kann ebenfalls angegeben werden, wenn diese Auswahl auf der Maschine festgelegt ist.
+Die Ausgabe des Werkzeugachsenvektors (IJK) erfolgt im Mehrfachachsensystem. ";
+MfgMacroFeedrateType="Vorschubtyp";
+MfgMacroFeedrateValue="Vorschubwert";
+MfgMacroSpindleSpeedType="Spindelgeschwindigkeitstyp";
+MfgMacroSpindleSpeedValue="Spindelgeschwindigkeitswert";
+
+DeleteUnusedFeatPanelTitle="Nicht verwendete Komponenten löschen";
+DeleteUnusedFeatNbFound=" nicht verwendete Komponente(n) gefunden";
+DeleteUnusedFeatAction="Eine Unterliste aus Komponenten auswählen und/oder bestätigen/abbrechen";
+
+And="und";
+Between=" zwischen ";
+MfgApproachMacro="Makro für Zustellung";
+MfgRetractMacro="Makro für Rückzug";
+MfgReturnTwoLevelMacroApp="Makro für 'Zustellung bei Rückkehr zwischen Ebenen'";
+MfgReturnTwoLevelMacroRet="Makro für 'Rückzug bei Rückkehr zwischen Ebenen'";
+MfgReturnOneLevelMacroApp="Makro für 'Zustellung bei Rückkehr in einer Ebene'";
+MfgReturnOneLevelMacroRet="Makro für 'Rückzug bei Rückkehr in einer Ebene'";
+MfgReturnFinishPathMacroApp="Makro für 'Zustellung bei Rückkehr zu Schlichtbahnen'";
+MfgReturnFinishPathMacroRet="Makro für 'Rückzug bei Rückkehr zu Schlichtbahnen'";
+MfgLinkingMacroApp="Makro für 'Zustellung bei Verbindung'";
+MfgLinkingMacroRet="Makro für 'Rückzug bei Verbindung'";
+
+// Editor for Machining Axis System
+//=================================
+Origin="Ursprung";
+Origin.LongHelp="Gibt an, dass der Ursprung anstatt einem Bearbeitungsachsensystem angegeben werden muss";
+
+Number=" Nummer: ";
+Number.LongHelp="Gibt für bestimmte Maschinentypen die Ursprungsnummer an\nNur für Ursprünge verfügbar";
+
+Group=" Gruppe: ";
+Group.LongHelp="Gibt für bestimmte Maschinentypen die Ursprungsgruppe an\nNur für Ursprünge verfügbar";
+
+Name="Achsenname: ";
+Name.LongHelp="Gibt den Namen des Bearbeitungsachsensystems oder des Ursprungs an";
+
+NCOutputParameters="NC-Ausgabeparameter";
+
+// ==================================================//
+// Ajout Prismatic Roughing (Rcn le 08/01/04)
+// ==================================================//
+M3xLimitContinuityTol="Toleranz";
+M3xPRSweepingMode="Bearbeitungsstrategie";
+M3xLimitPosition="Stopp-Position";
+M3xTruncatedTransitionPath="Abgeschnittene Übergangsbahnen";
+
+// ==================================================//
+// Ajout (PGD le 08/01/04)
+// ==================================================//
+MfgOpposite="Entgegengesetzter Programmiermodus";
+MfgGrooveMachiningDirection="Bearbeitungsrichtung";
+MfgGrooveAxialStrategy="Axiale Schnittaufteilung";
+MfgTopFinishPathThickness="Schlichtaufmaß am Anfang/Ende";
+MFG_RELIMIT_HOLE_ORIGIN="Ursprung einer Bohrung neu begrenzen";
+MFG_INVERSE_PATTERN_ORDERING="Reihenfolge des Musters umkehren";
+MFG_MACHINE_BLIND_THROUGH="Sack-/Durchgangsbohrungen bearbeiten";
+
+MfgLmtSpindleNumber="Spindelnummer";
+MFG_LATHE_MAX_SPNDL_SPEED="Max. Spindeldrehzahl";
+MfgLmtSpiCenterX="Spindelmittelpunkt X";
+MfgLmtSpiCenterY="Spindelmittelpunkt Y";
+MfgLmtSpiCenterZ="Spindelmittelpunkt Z";
+MfgLmtSpiInitAngle="Anfängliche Winkelposition der Spindel (interner Parameter)";
+MfgLmtSpiRotaryAngle="Rotationswinkel (interner Parameter)";
+
+MfgLmtTurretNumber="Revolvernummer";
+MfgLmtTurNbToolPos="Nummer der Werkzeugposition (interner Parameter)";
+MfgLmtTurMaxToolStored="Max. Anzahl Werkzeuge (interner Parameter)";
+MfgLmtTurFirstToolNum="Erste Werkzeugnummer (interner Parameter)";
+MfgLmtTurLastToolNum="Letzte Werkzeugnummer (interner Parameter)";
+MfgLmtTurRefPtX="Revolverreferenzpunkt X";
+MfgLmtTurRefPtY="Revolverreferenzpunkt Y";
+MfgLmtTurRefPtZ="Revolverreferenzpunkt Z";
+MfgLmtTurToolChgPtX="Werkzeugwechselpunkt X";
+MfgLmtTurToolChgPtY="Werkzeugwechselpunkt Y";
+MfgLmtTurToolChgPtZ="Werkzeugwechselpunkt Z";
+
+//========================
+// LongHelp PPR Tree
+//========================
+
+MissingTurretOnProgram="/p1 ist unvollständig, \nweil seinem Programm kein Revolver zugeordnet ist";
+ProgramWithNoTurret="/p1 ist kein Revolver zugeordnet.\nWenn in ihm Drehoperationen erzeugt werden sollen,\n muss ein Revolver zugeordnet werden.";
+
+MfgProgramOptimization="Programmoptimierung";
+
+// Update R15 - 3X MOs
+M3xRepartitionMode="Verteilungsmodus";
+M3xGuideContinuityTol="Toleranzbereich des Führungselements";
+M3xConstantByFace="Verteilung nach Bereich";
+M3xStepOverModeBetweenContour="Bahnabstandsmodus";
+M3xSMSStopPosition1="Stoppposition auf Führungskurve 2";
+M3xSMSLimitOverShoot1="Aufmaß auf Führungskurve 2";
+M3xSMSGuideOffsetUpdated="Nicht verwendet";
+M3xStepOverModeZLevel="Bahnabstandsmodus";
+M3xStepOverModeSweeping="Bahnabstandsmodus";
+M3xHardDistinctMode="Unterschiedliche Strategie in Tasche";
+M3xHardComplementaryMode="Bearbeitungsstrategie in Tasche";
+M3xToolCoreDiameter1="Nicht verwendet";
+M3xPocketFilter="Filter für Taschen";
+M3xSmallPassFilter="Filter für kleine Bahnen";
+M3xMultiPocketsStrategy="Bearbeitungsstrategie";
+M3xMultiPocketsSweepingMode="Bearbeitungsstrategie";
+M3xOffsetImposedPlane2="Aufmaß auf vorgegebener Ebene 2";
+M3xSideBottomFinishThickness="Unteres Schlichtaufmaß auf der Seite";
+M3xSideMaxDepthOfCut="Maximale Schnitttiefe auf der Seite";
+
+ManufacturingSynchronisation="Synchronisation";
+MfgDefaultPositionOfSynchronisation="Position der Synchronisation";
+
+// =====================================================================
+// GVS R14
+// =====================================================================
+Mfg5AxisFanningDistanceIso="Fächerungsabstand";
+MfgCollisionCoveringCheck="Deckmodus";
+MfgCheckCollisionWithGuide="Kollisionserkennung auf Führungselementen";
+
+// =====================================================================
+// GVS R17
+// =====================================================================
+Mfg5AxisGuideDirection="Seite des Führungselements";
+Mfg5XTubeGuidingMode="Frässtrategie";
+Mfg5XTubeMachiningMode="Bearbeitungsstrategie";
+Mfg5XWayOfCutAlongGuide="Schneidweise entlang Führungselement";
+Mfg5XTubeMatSide="Schnittrichtung";
+Mfg5XTubeRadialStrategy="Bahnabstand";
+Mfg5AxisTubeAxisStrategy="Werkzeugachsenmodus";
+Mfg5AxisAllowVariableTilt="Variables Neigen zulassen";
+Mfg5XTubeAxisSelection="Modus für die Auswahl des Führungselements";
+Mfg5AxisGuidingAxis="Richtung des Führungselements";
+Mfg5AxisCurveSweepingSideToMachine="Zu bearbeitende Materialseite";
+MfgDistanceOnGuide="Abstand auf Führungselement";
+MfgWithMaxPlungingDistance="Aktiver maximaler Eintauchabstand";
+MfgMaxPlungingDistance="Max. Eintauchabstand";
+Mfg5AxisOppositeToMachiningDir="Entgegengesetzte Bearbeitungsrichtung";
+
+// =====================================================================
+// BIL R17 Thread Milling
+// =====================================================================
+MfgThreadMillingStrategy="Gewindefrässtrategie";
+MfgThreadMillingMode="Gewindefräsmodus";
+
+// =====================================================================
+// Rcn R17 (Plunge)
+// =====================================================================
+M3xBeforeCutDistance="Abstand nach erstem Schnitt";
+M3xBeforeBottomDistance="Abstand zu Boden";
+M3xLateralRetractDistance="Seitlicher Rückzugsweg";
+M3xMinPlungingDistance="Mindestlänge beim Eintauchen";
+M3xCtrDiscretizationStep="Maximaler Schnittfortschritt";
+M3xLongitudinalStep="Schritt in Längsrichtung";
+M3xTransversalStep="Maximaler Schnittfortschritt";
+M3xGrooveWidth="Nutbreite";
+M3xGrooveStep="Gitterintervall";
+M3xGridDefinitionMode="Gittertyp";
+M3xGridMachiningMode="Bearbeitungsart";
+M3xGridOWDirection="Bearbeitungsseite";
+M3xCenterNumber="Materialprüfung in Mitte";
+
+M3xAuthorizedFM="Nicht verwendet";
+M3xMaxFMDepthOfCut="Maximale Materialschnitt-Tiefe";
+M3xFMManagementMode="Maßnahmen bei vollem Werkzeugeingriff";
+M3xFMTrochoidMinDiam="Nicht verwendet";
+M3xFMTrochoidMaxDiam="Nicht verwendet";
+M3xFMTrochoidStart="Nicht verwendet";
+M3xFMTrochoidStep="Nicht verwendet";
+M3xFMTrochoidStartAngle="Nicht verwendet";
+M3xTrochoidParamMode="Nicht verwendet";
+M3xFMTrochoidMinRadDist="Minimaler Radius (Zykloide)";
+M3xFMTrochoidMaxRadDist="Nicht verwendet";
+M3xPassCorner="Hochgeschwindigkeitsfräsen";
+M3xPassCornerRadius="Eckenradius";
+
+
+//=====================================================================
+//Sequential Axial Motions
+// =====================================================================
+
+MfgSpindleSpeedMachining="Bearbeitung";
+MfgSpindleSpeedLocal="Lokale Spindel";
+MfgAngularSpindleMagnitude="Winklig";
+MfgLinearSpindleMagnitude="Linear";
+MfgSpindleCW="CLW";
+MfgSpindleCCLW="CCLW";
+
+MfgSpindleStop="Spindelstopp";
+MfgSpindleLock="Spindelsperre";
+
+MfgAxialLevelDiameter="Durchmesser";
+MfgAxialPlaneDistance="Abstand";
+
+
+// spindle speed
+MfgSpindleSpeedMachining="Bearbeitung";
+MfgSpindleSpeedLocal="Lokale Spindel";
+MfgAngularSpindleMagnitude="Winklig";
+MfgLinearSpindleMagnitude="Linear";
+MfgSpindleCLW="CLW";
+MfgSpindleCCLW="CCLW";
+
+// spindle stop/lock
+MfgSpindleStop="Spindelstopp";
+MfgSpindleLock="Spindelsperre";
+
+//delay
+MfgSpindleDwellByTimeUnit="Nach Zeit";
+MfgSpindleDwellByRevolution="Nach Rotation";
+
+// go delta go to plane to to clearance
+MfgMachiningFeedrate="Bearbeitung";
+MfgApproachFeedrate="Zustellung";
+MfgRetractFeedrate="Rückzugsbewegung";
+MfgRapidFeedrate="Eilgang";
+MfgLocalFeedrate="Lokaler Vorschub";
+MfgAngularFeedrateMagnitude="Winklig";
+MfgLinearFeedrateMagnitude="Linear";
+
+// ==================================================//
+// MfgAxialLevelPlane
+// ==================================================//
+MfgAxialLevelTopPlane="1";
+MfgAxialLevelBottomPlane="2";
+
+MfgAxialSeqStrategy="Bearbeitungsstrategie";
+MfgAxialSeqStrategy.LongHelp="Definiert Bearbeitungsstrategie";
+MfgAxialSeqBottomTop="Von unten nach oben";
+MfgAxialSeqTopBottom="Von oben nach unten";
+MfgAxialLevelOffsetOnDiameter="Aufmaß auf Durchmesser";
+MfgAxialLevelOffsetOnDiameter.LongHelp="Definiert Aufmaß auf Durchmesser";
+MfgAxialLevelDiameter="Durchmesser";
+
+MfgSeqMotionApplicationEachLevel="Jede Stufe";
+MfgSeqMotionApplicationFirstLevel="Erste Stufe";
+MfgSeqMotionApplicationLastLevel="Letzte Stufe";
+
+
+// spindle stop/lock
+MfgSpindleAngularLock="Spindel - Winkelsperre";
+MfgSpindleStop="Spindelstopp";
+MfgSpindleLock="Spindelsperre";
+MfgSeqMotionAxialSpindleStop="Spindelstopp";
+
+//delay
+MfgSpindleDwellTime="Spindel - Verweilzeit";
+MfgSpindleDwellRevolution="Spindel - Verweilzeit bei Drehung";
+MfgSpindleDwellByTimeUnit="Nach Zeit";
+MfgSpindleDwellByRevolution="Nach Rotation";
+MfgSeqMotionAxialDelay="Verzögerung";
+
+MfgAxialPlane="Axiale Ebene";
+MfgAxialPlaneGeom="Geometrie der axialen Ebene";
+MfgAxialPlaneDistance="Abstand der axialen Ebene";
+MfgAxialLevel="Axiale Stufe";
+MfgAxialLevelBottomPlane="Axiale Stufe - untere Ebene";
+MfgAxialLevelTopPlane="Stufe - obere Ebene";
+MfgAxialLevelDiameter="Axiale Stufe - Durchmesser";
+MfgAxialLevelOffsetOnDiameter="Axiale Stufe - Aufmaß auf Durchmesser";
+MfgSeqMotionApplicationMode="Anwendungsmodus ";
+MfgSeqMotionAxialSpindleSpeed="Spindelgeschwindigkeit";
+
+MfgSeqMotionAxialGoToPlane="Go-To-Ebene";
+MfgPlaneNumber="Ebenennummer";
+MfgOffsetOnPlane="Aufmaß auf Ebene";
+MfgNumberOfPlanes="Anzahl Ebenen";
+MfgSeqMotionAxialGoDelta="Go-Delta";
+MfgSeqMotionAxialGoToClearance="Go-To-Sicherheitsbereich";
+MfgSeqMotionAxialCircular="Bogenförmig";
+MfgSeqMotionAxialHelical="Spiralförmig";
+MfgSeqMotionAxialPPWord="PP Word";
+
+
+// BQA R17 UDF Creation using Technological Results
+// =====================================================================
+//Since Name was already Used in  " Editor for Machining Axis System" We are forced to Use it as UDF Name.
+
+UDFName="Name";
+
+// =====================================================================
+// GVS R17SP3 Tube Machining Evolutions
+// =====================================================================
+Mfg5XToolPosition="Steuernde Werkzeugpunkte";
+Mfg5XHardMachiningMode="Bereich";
+Mfg5XPropagationMode="Nicht verwendet";
+Mfg5AxisEndAngle="Erhöhungswinkel";
+Mfg5AxisStartAngle="Nicht verwendet";
+Mfg5AxisCavityOnStart="Nicht verwendet";
+Mfg5AxisCavityOnEnd="Nicht verwendet";
+
+// =====================================================================
+// GVS R18
+// =====================================================================
+MfgThruGuideSubMode="Modus 'Durch ein Führungselement'";
+MfgOffsetOnTiltGuide="Aufmaß auf geneigtem Führungselement";
+MfgSideOnTiltGuide="Seite des Aufmaßes auf geneigtem Führungselement";
+MfgExtrapolateTiltGuide="Geneigtes Führungselement erweitern";
+MfgMacroCircleMode="In einer Ebene";
+
+// =====================================================================
+// NES R18
+// =====================================================================
+M3xTo5xMode="Werkzeugachsenmodus";
+M3xTo5xAngle="Winkel";
+M3xTo5xAngleStepMax="Max. Diskretisierungsschritt";
+M3xTo5xLengthMin="Mindestlänge";
+M3xTo5xOffsetTool="Aufmaß auf Werkzeug";
+M3xTo5xOffsetAssembly="Aufmaß auf Werkzeugbaugruppe";
+M3xTo5xAngleMin="Mindestwinkel";
+M3xTo5xAngleMax="Maximaler Winkel";
+M3xTo5xAngleStep="Schrittwinkel ";
+
+Mfg5XSpiralMillingStyle="Bearbeitungsstrategie";
+Mfg5XHelicalMovement="Helixförmige Bewegung";
+MfgCollisionOffsetTool="Aufmaß auf Werkzeug";
+MfgCollisionOffsetToolAss="Aufmaß auf Werkzeugbaugruppe";
+MfgCollisionWithAssembly="Kollisionsprüfung für Werkzeugbaugruppe";
+Mfg5XSpiralAxisStrategy="Werkzeugachsenmodus";
+
+M3xOffsetShank="Aufmaß auf Werkzeugschaft";
+M3xMinLengthUndercut="Mindestlänge der zu entfernenden Teile";
+M3xCriterUndercut="Kriterium für Unterschnitt";
+M3xSetCriterUndercut="Kriterium für Unterschnitt festlegen";
+M3xRemoveUndercut="Teile des Arbeitsgangs entfernen, die Unterschnitte aufweisen";
+
+M5xSmLength1="Nicht verwendet"; M5xSmLength2="Nicht verwendet";
+M5xSmBool1="Nicht verwendet"; M5xSmBool2="Nicht verwendet"; 
+M5xCsLength1="Nicht verwendet"; M5xCsLength2="Nicht verwendet";
+M5xCsBool1="Nicht verwendet"; M5xCsBool2="Nicht verwendet";
+M5xCrvLength1="Nicht verwendet"; M5xCrvLength2="Nicht verwendet";
+M5xCrvBool1="Nicht verwendet"; M5xCrvBool2="Nicht verwendet";
+M5xIsoLength1="Nicht verwendet"; M5xIsoLength2="Nicht verwendet";
+M5xIsoBool1="Nicht verwendet"; M5xIsoBool2="Nicht verwendet";
+M5xBcLength1="Nicht verwendet"; M5xBcLength2="Nicht verwendet";
+M5xBcBool1="Nicht verwendet"; M5xBcBool2="Nicht verwendet";
+M5xSwLength1="Nicht verwendet"; M5xSwLength2="Nicht verwendet";
+M5xSwBool1="Nicht verwendet"; M5xSwBool2="Nicht verwendet";
+M5xTbLength1="Nicht verwendet"; M5xTbLength2="Nicht verwendet";
+M5xTbBool1="Nicht verwendet"; M5xTbBool2="Nicht verwendet";
+M5xHxLength1="Nicht verwendet"; M5xHxLength2="Nicht verwendet";
+M5xHxBool1="Nicht verwendet"; M5xHxBool2="Nicht verwendet";
+M3xBtLength1="Nicht verwendet"; M3xBtLength2="Nicht verwendet";
+M3xBtBool1="Nicht verwendet"; M3xBtBool2="Nicht verwendet";
+M3xSwLength1="Nicht verwendet"; M3xSwLength2="Nicht verwendet";
+M3xSwBool1="Nicht verwendet"; M3xSwBool2="Nicht verwendet";
+M3xSrLength1="Nicht verwendet"; M3xSrLength2="Nicht verwendet";
+M3xSrBool1="Nicht verwendet"; M3xSrBool2="Nicht verwendet";
+M3xBcLength1="Nicht verwendet"; M3xBcLength2="Nicht verwendet";
+M3xBcBool1="Nicht verwendet"; M3xBcBool2="Nicht verwendet";
+M3xSmLength1="Nicht verwendet"; M3xSmLength2="Nicht verwendet";
+M3xSmBool2="Nicht verwendet";
+M3xRgLength1="Nicht verwendet"; M3xRgLength2="Nicht verwendet";
+M3xRgBool1="Nicht verwendet"; M3xRgBool2="Nicht verwendet";
+
+MfgCmdSequenceNum="Sequenznummer";
+M3xSmBool1="R19-Parameter aktualisieren";
+
+M3xZlLength2="Nicht verwendet";
+
+M3xZlLength1="Aufmaß auf Werkzeugbahn";
+M3xZlBool1="Kreisförmige Interpolation";
+M3xZlBool2="UpgradeVersion";
+M3xCircInterpo="Kreisförmige Interpolation";
+M3xCircInterpoOptim="Näherungsweise berechnete Arbeitsgänge zum Optimieren der kreisförmigen Interpolation";
+
+// =====================================================================
+// GVS R19
+// =====================================================================
+MfgThruLeadAngle="Vorhaltewinkel";
+MfgAllowOffsetOnStops="Aufmaß bei Stopps";
+MfgMacroClearanceDiscretization="Gleichmäßige Werkzeugachsenbewegungen";
+MfgMacroClearanceDiscretization.LongHelp="Wendet den max. Diskretisierungswinkel für Bahnen an, die Sicherheitsbereiche verbinden.";
+
+MfgCheckCollision="Kollisionsprüfung aktivieren";
+MfgCheckCollisionOnPart="Kollisionsprüfung für Konstruktionsteil";
+MfgCheckCollisionOnFixture="Kollisionsprüfung für Halterungen";
+MfgCheckCollisionOnStock="Kollisionsprüfung für Eingaberohteil";
+MfgCheckCollisionOffsetTool="Aufmaß auf Werkzeugschaft";
+MfgCheckCollisionOffsetAssembly="Aufmaß auf Werkzeugbaugruppe";
+
+//===================================================================
+// NES R19
+//===================================================================
+M3xCtrFinishedStep="Fertiger Schnittfortschritt";
+M3xPlungeNbContour="Konturnummer";
+M3xPlungeOffset="Aufmaß";
+M3xOffsetContour="Aufmaß auf Kontur";
+M3xPlungeMachiningDir="Bearbeitungsrichtung";
+
+M3xUseToolAsEndMill="Verwendet das Werkzeug als Schaftfräser";
+M3xOptimizeFor3to5x="Operation optimieren, die dem 3-nach-5-Achsenumsetzer zugeordnet ist";
+
+//===================================================================
+// NES R19 : for Styli Tool
+//===================================================================
+
+MFG_CYLINDER_LENGTH="Zylinderlänge";
+MFG_BALL_LENGTH_DOWN="Kugeltasttiefe";
+
+MFG_STYLUS_TYPE="Typ";
+MFG_STYLUS_MATERIAL="Material";
+
+
+// Smu - R19 : NLS for Principal axis in MfgDirection feature in F(x) panel
+PrincipalAxis="Hauptachse";
+
+
+//===================================================================
+// MPG Flank R19
+//===================================================================
+MfgGlobalBottomThickness="Offset an Teileunterseite";
+M5xMultiPocketNoPush="Schieben des Werkzeugs vermeiden";
+M5xFixedAxisForSemiFinishing="Fixierte Werkzeugachse in Schlichtarbeitsgängen";
+Mfg5AxisMaxLeadAngle="Max. Vorhaltewinkel";
+Mfg5AxisMaxTiltAngle="Max. Neigungswinkel";
+Mfg5AxisMPFAxisStrategy="Werkzeugachsenmodus";
+MfgMaxDepthOfCutFinish="Axialer Endbearbeitungsabstand zwischen Arbeitsgängen";
+MfgMPFSideFinish="Modus für Arbeitsgang des Seitenschlichtens";
+MfgScallopHeightFinish="Axiale Rautiefe bei Endbearbeitung";
+Mfg5AxisMPGMultiLevelMode="Axialer Modus";
+Mfg5AxisFinishMultiLevelMode="Bahnabstandsmodus bei Endbearbeitung";
+Mfg5AxisRoughMultiLevelMode="Bahnabstandsmodus beim Schlichten";
+
+M5xMPFLength1="Nicht verwendet";
+M5xMPFLength2="Nicht verwendet";
+M5xMPFBool1="Nicht verwendet";
+M5xMPFBool2="Nicht verwendet";
+Mfg5AxisFinishAxialHelicalAngle="Nicht verwendet";
+Mfg5AxisFinishAxialHelicalDist="Nicht verwendet";
+Mfg5AxisFinishAxialHelicalMode="Nicht verwendet";
+Mfg5AxisRoughAxialHelicalAngle="Nicht verwendet";
+Mfg5AxisRoughAxialHelicalDist="Nicht verwendet";
+Mfg5AxisRoughAxialHelicalMode="Nicht verwendet";
+MfgCorneringSharpFlag="Nicht verwendet";
+MfgNumberOfLevelsFinish="Nicht verwendet";
+
+MfgProbingSlotElementsOffset="Aufmaß";
+
+//===================================================================
+// FAO R19SP3 Relimit Area With Checks
+//===================================================================
+MfgRelimitAreaWithCheck="Bereich mit Prüfung neu begrenzen";
+
+
+// Trochoid Milling
+MfgTrochoidDiameter="Trochoidendurchmesser";
+
+//************************************************************
+// QIH Message for NOT found NC Sets
+//************************************************************
+NCSet.Text="Liste der NC-Sets bei ReadMfgData nicht gefunden \n";
+//************************************************************
+
+//************************************************************
+// Added for DPM_MPP_IPM_GENERATION_MODE=TRUE
+//************************************************************
+IPMToolGenMode="Von Werkzeug";
+IPMGeometryGenMode="Von Geometrie";
+IPMUserSettingsGenMode="Kein";
+//************************************************************

@@ -1,0 +1,2322 @@
+dim Language as string
+Language="VBSCRIPT"
+
+'********************************************************************
+'********************************************************************
+'****     CALLING VNC from CATIA                                 ****
+'****     VBSCRIPT macro for the generation of a CLI file        ****
+'********************************************************************
+'********************************************************************
+
+'********************************************************************
+'*                                                                  *
+'* This script performs the  simulation of one NC program in VNC.   *
+'*                                                                  *
+'* It takes into account only the first program found in the        *
+'* process list.                                                    *
+'*                                                                  *
+'* The machining data are given to VNC through a CLI macro.         *
+'*                                                                  *
+'* This script creates the CLI macro and calls VNC in batch mode    *
+'* (executing the macro).                                           *
+'*                                                                  *
+'********************************************************************
+
+
+'********************************************************************
+'* Do not forget to check following variables value :               *
+'* (at the beginning of the sub CATMain)                            *
+'*                                                                  *
+'*  - FolderSeparator : separator character in a path               *
+'*                      IMPORTANT! : system dependant               *
+'*                                                                  *
+'*  - theVNCRoot : VNCLib installation folder                       *
+'*                                                                  *
+'*  - theVNCCommand : the command to start vnc in batch mode        *
+'*                                                                  *
+'*  - theTextEditorCommand : command to call a text editor          *
+'*                                                                  *
+'*  - EditMacro : to edit the generated macro when calling VNC      *
+'*                TRUE or FALSE                                     *
+'*                                                                  *
+'********************************************************************
+
+
+'====================== Globals =========================
+
+dim theFileSystem as FileSystem
+
+dim EOL as string  ' End of line for text files
+dim CRLF as string
+dim chr39 as string
+
+dim FolderSeparator as string
+
+dim theScriptCommentString as String
+
+dim theHTMLBrowserCmd as String
+
+'To edit the CLI macro when calling VNC
+dim EditMacro as Boolean
+dim theTextEditorCommand as string
+
+'Command to run VNC in batch mode
+dim theVNCCommand as string
+
+' CATIA Folder that contains V5-VNC bridge data
+dim theInstallDir as String
+
+' Name of the HTML page that is displayed when
+' the bridge isn't installed
+dim theHelpPageName as String
+
+' Delmia's products path file name
+dim theDelmiaPathFileName as string
+
+' Path to DENEB root directory
+dim theDENEBRoot as string
+
+' Path to VMAP folder
+dim theVMAPRoot as string
+
+' VNCLib root directory
+dim theVNCRoot as string
+
+' Delmia's run scripts
+dim theVNCScriptName,theV5SetupName as String
+
+' Library to use V5 server
+dim theV5ServiceLibName as String
+
+' VNC config folders
+dim theCATIAVNCLib as string
+dim theMACHINESLIB as string
+dim theMIMICSLIB as string
+dim thePARTSLIB as string
+dim thePARTSLIBforVNC as string ' Path that must contains only '/' and no '\'
+dim theCLIMACROSLIB as string
+dim thePROGRAMSLIB as string
+
+' CLI macro file name
+dim theCLIName as string
+
+' Names of files used in the CLI macro
+dim theMachineName as string
+dim theMIMICName as string
+dim theStockName as string
+dim theProgramName as string
+
+'=========================================================
+
+Sub CATMain()
+
+  on error resume next
+
+  set theFileSystem = CATIA.FileSystem
+  anError = Err.Number
+  if(anError<>0) then
+    ErrorMsg = "File system initialization error!"
+    msgbox ErrorMsg , (4096 + 48)
+    exit sub
+  end if
+
+  CreateGlobalVariables
+
+  'Test if V5-VNC is installed
+  dim ReadPathResult as Integer
+  ReadPathResult = ReadDelmiaPathFile
+
+  if(ReadPathResult<>0) then
+    dim theCATCommandPath, theBrowserCommand as String
+	theHelpPageCommand = theHTMLBrowserCmd & " "  & theInstallDir & theHelpPageName & " " & theHTMLBrowserCmd
+
+    dim aCmdResult, cmderror as integer
+	aCmdResult = CATIA.SystemService.ExecuteBackgroundProcessus (theHelpPageCommand)
+    cmderror=Err.Number
+    if (cmderror<>0) then
+      ErrorMsg = "HTML browser error" & CRLF & "Please, update the file " & theHTMLBrowserCmd
+      MsgBox ErrorMsg , (4096+48)
+    end if
+
+    if(ReadPathResult=2) then
+	  ErrorMsg = "Invalid path to DELMIA products!"
+	else
+      if(ReadPathResult=1) then
+	    ErrorMsg = "Please, install the V5-VNC bridge!"
+	  end if
+	end if
+	msgbox ErrorMsg , 4096
+
+    '!!!!!Lignes a mettre en commentaire si pas d'installation
+    dim installnow as integer
+	installnow = MsgBox ("Install the V5-VNC bridge now?", 4132, "Install?")  'boite modale
+	if(installnow=6) then
+	  dim theInstallResult as integer
+	  theInstallResult = InstallV5VNCBridge
+'	  if(theInstallResult=0) then
+'	    dim Execsample as integer
+'	    Execsample = msgbox ("Run the CATIAVNC-v-mill-3axes-demo sample?" , (4096 + 4))
+'		if(Execsample=6) then RunSample
+'	  end if
+	end if
+
+    exit sub
+
+  end if
+
+  dim anError as integer
+  dim ErrorMsg as string
+
+  'VNC folders initialization
+  '--------------------------
+  theCATIAVNCLib  = theVNCRoot & "CATIAVNC" & FolderSeparator
+  theMACHINESLIB  = theVNCRoot & "MACHINES" & FolderSeparator
+  theMIMICSLIB    = theVNCRoot & "MIMIC" & FolderSeparator
+  thePARTSLIB     = theVNCRoot & "PARTS/CATIAVNC" & FolderSeparator
+  theCLIMACROSLIB = theVNCRoot & "CLIMACROS/CATIAVNC" & FolderSeparator
+  thePROGRAMSLIB  = theVNCRoot & "PROGRAMS/CATIAVNC" & FolderSeparator
+
+  thePARTSLIBforVNC = MakePathForVNC(thePARTSLIB)
+
+  ' Creating the CLI macro with machining data
+  CreateCLIFile
+
+  anError = Err.Number
+  if(anError<>0) then
+    ErrorMsg = "Error creating CLI file!"
+    msgbox ErrorMsg , (4096 + 48)
+  end if
+
+  set theFileSystem = NOTHING
+
+  ' Starting VNC in batch mode
+  if(anError=0) then CallVNC theCLIMACROSLIB & theCLIName
+
+End Sub
+
+
+
+'---------------------------------------------------------------
+' Read the file that contains path to Delmia's products
+' This file is created by the V5-VNC bridge installation
+' It values the theVNCCommand variable.
+'---------------------------------------------------------------
+function ReadDelmiaPathFile
+
+  dim result as integer
+  result=0
+
+  dim aLine as string
+  dim aFile as File
+  dim aStream as TextStream
+  dim aFileName as String
+  dim tmpVMAPRoot,tmpVNCRoot as String
+
+  theVMAPRoot = ""
+  theVNCRoot = ""
+
+  aFileName = theInstallDir & theDelmiaPathFileName
+
+  if(NOT theFileSystem.FileExists(aFileName)) then
+    ReadDelmiaPathFile = 1
+	exit function
+  end if
+
+  set aFile = theFileSystem.GetFile (aFileName)
+  set aStream = aFile.OpenAsTextStream ("ForReading")
+
+  do
+    if(aStream.AtEndOfStream OR result<>0) then exit do
+    aLine = aStream.ReadLine
+	if(Instr(1,aLine,"VMAPPATH=",1)=1) then
+	  tmpVMAPRoot = mid(aLine,10,len(aLine)-9)
+	  if(theFileSystem.FolderExists(tmpVMAPRoot)) then
+	    theVMAPRoot = tmpVMAPRoot
+		if(mid(theVMAPRoot,len(theVMAPRoot),1)<>FolderSeparator) then theVMAPRoot = theVMAPRoot & FolderSeparator
+	  else
+	    msgbox "VMAP folder not found :" & CRLF & tmpVMAPRoot , 4096
+		result = 2
+	  end if
+	else
+	  if(Instr(1,aLine,"VNCPATH=",1)=1) then
+	    tmpVNCRoot = mid(aLine,9,len(aLine)-8)
+		if(theFileSystem.FolderExists(tmpVNCRoot)) then
+	      theVNCRoot = tmpVNCRoot
+		  if(mid(theVNCRoot,len(theVNCRoot),1)<>FolderSeparator) then theVNCRoot = theVNCRoot & FolderSeparator
+		else
+	      msgbox "VNCLib folder not found :" & CRLF & tmpVNCRoot , 4096
+		  result = 2
+	    end if
+	  end if
+	end if
+  Loop
+
+  aStream.Close
+  set aStream = NOTHING
+  set aFile = NOTHING
+
+  if(result<>0) then theFileSystem.DeleteFile aFileName
+
+  theVNCCommand = theVMAPRoot & "vnc -c <"
+
+  ReadDelmiaPathFile = result
+
+end function
+
+'---------------------------------------------------------------
+' Create the file that contains path to Delmia's products
+' This file is created by the V5-VNC bridge installation
+'---------------------------------------------------------------
+sub WriteDelmiaPathFile (VMAPPath,VNCPath)
+
+  dim aLine as string
+  dim aFile as File
+  dim aStream as TextStream
+  dim aFileName as String
+
+  aFileName = theInstallDir & theDelmiaPathFileName
+
+  set aFile = theFileSystem.CreateFile(aFileName,True)
+  set aStream = aFile.OpenAsTextStream ("ForWriting")
+
+  aLine = "VMAPPATH=" & VMAPPath
+  WriteLine aStream , aLine
+
+  aLine = "VNCPATH=" & VNCPath
+  WriteLine aStream , aLine
+
+  aStream.Close
+  set aStream = NOTHING
+  set aFile = NOTHING
+
+end sub
+
+
+'---------------------------------------------------------------
+'               Globals initialization
+'---------------------------------------------------------------
+sub CreateGlobalVariables ()
+
+  dim theStartupDir as String
+  theStartupDir = GetPath("CATStartupPath","")
+  posslash = Instr(theStartupDir, "/")
+
+  if(posslash=0) then
+    FolderSeparator = "\"  'windows
+  else
+    FolderSeparator = "/"  'unix
+  end if
+
+  if(mid(theStartupDir,len(theStartupDir),1)<>FolderSeparator) then theStartupDir = theStartupDir & FolderSeparator
+
+  theInstallDir = theStartupDir & "Manufacturing" & FolderSeparator & "Samples" & FolderSeparator & "VNC" & FolderSeparator
+
+  theDelmiaPathFileName = "DelmiaPath.txt"
+
+  theHelpPageName = "V5VNCHomePage.html"
+
+  dim theCATCommandPath as String
+  theCATCommandPath = GetPath("CATCommandPath","")
+
+  if(FolderSeparator="\") then
+    theHTMLBrowserCmd = theCATCommandPath & "broURL.bat"
+	theScriptCommentString = "rem"
+	theVNCScriptName = "vnc.bat"
+	theV5SetupName = "v5setup.bat"
+	theV5ServiceLibName = "CATV5Services.dll"
+  else
+    theHTMLBrowserCmd = theCATCommandPath & "broURL.sh"
+	theScriptCommentString = "#"
+	theVNCScriptName = "vnc"
+	theV5SetupName = "v5setup"
+	theV5ServiceLibName = "???"
+  end if
+
+  EOL = chr(10)
+  CRLF = chr(13) & chr(10)
+  chr39 = chr(39)
+
+  'For macro debugging
+  EditMacro = FALSE 'TRUE to edit the CLI macro while starting VNC
+  theTextEditorCommand = "notepad"
+
+end sub
+
+
+'--------------------------------------------------------------------------
+'  Test if the file aFileName exists in folder aFolderName.
+'  If aFileName is an absolute path, aFolderName isn'st taken into account.
+'--------------------------------------------------------------------------
+function TestFileInFolder(aFolderName,aFileName)
+
+  dim theWholePath as String
+
+  if(IsAbsolutePath(aFileName)) then
+    theWholePath = aFileName
+  else
+    if(mid(aFolderName,len(aFolderName),1)=FolderSeparator) then
+      theWholePath = aFolderName & aFileName
+    else
+      theWholePath = aFolderName & FolderSeparator & aFileName
+    end if
+  end if
+
+  if(NOT theFileSystem.FileExists(theWholePath)) then
+    msgbox theWholePath & " : File not found" , 4096
+    testFileInFolder = False
+  else
+    testFileInFolder = True
+  end if
+
+end function
+
+
+'---------------------------------------------------------------
+'   Absolute or relative path
+'---------------------------------------------------------------
+function InputAbsolutePath(aPrompt,aTitle,aDefault)
+
+  dim theInput as String
+
+  do
+
+    theInput = InputBox(aPrompt,aTitle,aDefault)
+
+    if(len(theInput)>0) then
+      if(mid(theInput,1,1)=".") then
+	    msgbox "Please, input the absolute path." , 4096
+	  else
+	    if(NOT theFileSystem.FolderExists(theInput)) then
+	      msgbox "Folder does not exist!" , 4096
+	    else
+	      exit do
+	    end if
+	  end if
+    else
+      exit do
+	end if
+
+  loop
+
+  InputAbsolutePath = theInput
+
+end function
+
+'---------------------------------------------------------------
+'   Absolute or relative path
+'---------------------------------------------------------------
+function IsAbsolutePath (aPath)
+  dim isabsolute as Boolean
+  dim lenpath as integer
+  isabsolute = False
+  lenpath = len(aPath)
+
+  if(lenpath>0) then
+    dim firstcar as String
+    firstcar = mid(aPath,1,1)
+    if(FolderSeparator="\" and lenpath>2) then
+	  if( (firstcar>="a" AND firstcar<="z") OR (firstcar>="A" AND firstcar<="Z")) then
+	    if(mid(aPath,2,1)=":" AND mid(aPath,3,1)="\") then isabsolute=True
+	  end if
+    else
+      if(firstcar=FolderSeparator) then isabsolute=True
+    end if
+  end if
+
+  IsAbsolutePath = isabsolute
+
+end function
+
+'---------------------------------------------------------------
+'     Translating a path for VNC use (no '\')
+'---------------------------------------------------------------
+Function MakePathForVNC (aPath)
+  dim i,lenpath as integer
+  dim result as string
+  dim acar as string
+
+  result = ""
+  lenpath = len(aPath)
+
+  for i=1 to lenpath
+    acar = mid(aPath,i,1)
+    if(acar="\") then
+      result = result & "/"
+    else
+      result = result & acar
+    end if
+  next
+
+  MakePathForVNC = result
+
+end function
+
+
+'-------------------------------------------------------
+'  Writing a line in a CATIATextStrean (adding the EOL)
+'-------------------------------------------------------
+sub WriteLine (aTextStream , aLine)
+  aTextStream.Write aLine & EOL
+end sub
+
+
+' ------------------------------------------------------
+' File copy
+' Returns : 0 -> No error
+'           1 -> missing source file
+'           2 -> target already exists and overwrite=False
+'           3 -> other error
+' ------------------------------------------------------
+function FileCopy (source, destination, overwrite)
+
+  dim ReturnedVal as integer
+  dim FileExist as boolean
+
+  ReturnedVal = 0
+
+  FileExist = theFileSystem.FileExists(source)
+  if(NOT FileExist) then
+    ReturnedVal = 1
+  else
+    FileExist = theFileSystem.FileExists(destination)
+    if(FileExist AND (NOT overwrite)) then
+      ReturnedVal = 2
+    else
+      on error resume next
+      theFileSystem.CopyFile source,destination,overwrite
+      dim anError as integer
+      anError=Err.Number
+      if(anError<>0) then ReturnedVal = 3
+      on error goto 0
+    end if
+  end if
+
+  FileCopy = ReturnedVal
+
+end function
+
+
+'----------------------------------------------
+' Extracting the folder name from a whole path
+'----------------------------------------------
+function ExtractFolderName (aPath)
+
+  dim theFolderName as string
+
+  dim namelength, lastslashposition, i as integer
+  dim aChar as string
+
+  lastslashposition = 0
+  namelength = len(aPath)
+  theFolderName=""
+
+  for i=1 to namelength
+    aChar = mid(aPath,i,1)
+    if(aChar="\" OR aChar="/") then lastslashposition=i
+  next
+
+  if(lastslashposition=0 or lastslashposition=namelength) then
+    theFolderName=aPath
+  else
+    theFolderName = mid(aPath,1,lastslashposition)
+  end if
+
+  ExtractFolderName = theFolderName
+
+end function
+
+
+'---------------------------------------------------------------
+' Creating a folder (complete path)
+' Returns 0 if succeed or aPath always exists.
+'---------------------------------------------------------------
+function CreateDirectory (aPath)
+
+  if (theFileSystem.FolderExists(aPath)) then
+    CreateDirectory = 0
+	exit function
+  end if
+
+  dim lnpath as Integer
+  dim i,anerror as integer
+  dim aDir as Folder
+  dim aPathName,aSubDirName as String
+
+  lnpath = len(aPath)
+
+  if(mid(aPath,lnpath,1) <> FolderSeparator) then
+    aPath = aPath & FolderSeparator
+    lnpath = lnpath+1
+  end if
+
+  if(lnpath < 2) then
+    CreateDirectory = 1
+    exit function
+  end if
+
+  if(mid(aPath,1,1)="$") then
+    for i=2 to lnpath
+      if(mid(aPath,i,1)=FolderSeparator) then
+        aPathName = ConvertEnvVar(mid(aPath,1,i-1))
+        if(i<lnpath) then aPathName = aPathName & mid(aPath,i+1,lnpath+1-i)
+        i=lnpath
+      end if
+    next
+  else
+    aPathName = aPath
+  end if
+
+  lnpath = len(aPathName)
+
+  on error resume next
+
+  for i=2 to lnpath
+    if(mid(aPathName,i,1)=FolderSeparator) then
+      aSubdirName = mid(aPathName,1,i)
+	  if(NOT theFileSystem.FolderExists(aSubdirName)) then
+        set aDir = theFileSystem.CreateFolder(aSubdirName)
+		set aDir = NOTHING
+		anerror = Err.Number
+		if(anError<>0) then
+		  CreateDirectory = 2
+		  exit function
+		end if
+	  end if
+	end if
+  next
+
+  CreateDirectory = 0
+end function
+
+
+'---------------------------------------------------------------
+' Gives a VNC config path
+'---------------------------------------------------------------
+function ConvertEnvVar (aStr)
+  select case aStr
+    case "$VMAP"
+      ConvertEnvVar = theVMAPRoot
+    case "$VNC"
+      ConvertEnvVar = theVNCRoot
+    case "$CATIAVNCLIB"
+      ConvertEnvVar = theCATIAVNCLib
+    case "$MACHINESLIB"
+      ConvertEnvVar = theMACHINESLIB
+    case "$MIMICSLIB"
+      ConvertEnvVar = theMIMICSLIB
+    case "$PARTSLIB"
+      ConvertEnvVar = thePARTSLIB
+    case "$CLIMACROSLIB"
+      ConvertEnvVar = theCLIMACROSLIB
+    case "$PROGRAMSLIB"
+      ConvertEnvVar = thePROGRAMSLIB
+    case else
+      ConvertEnvVar = ""
+  end select 
+end function
+
+
+'----------------------------------------------
+' Extracting a file name from its whole path
+'----------------------------------------------
+function ExtractFileName (aPath)
+
+  dim theFileName as string
+  dim namelength, lastslashposition, i as integer
+  dim aChar as string
+  lastslashposition = 0
+  namelength = len(aPath)
+  theFileName=""
+
+  for i=1 to namelength
+    aChar = mid(aPath,i,1)
+    if(aChar="\" OR aChar="/") then lastslashposition=i
+  next
+  if(lastslashposition=0) then
+    theFileName=aPath
+  else
+    if(lastslashposition<namelength) then
+      theFileName = mid(aPath,lastslashposition+1,namelength-lastslashposition)
+    end if
+  end if
+
+  ExtractFileName = theFileName
+
+end function
+
+
+'-------------------------------------------------------------------------------
+' CLI macro creation
+' ToolPositionDefault : 
+'   0 -> Initial tool position on T1,T2,... TAG POINTS (defined in the machine)
+'   1 -> Initial tool position on the TCP TAG POINT (created by the CLI macro)
+'-------------------------------------------------------------------------------
+
+Sub CreateCLIFile()
+
+  dim ProgramList as MfgActivities 
+  dim ActivityList as MfgActivities 
+  dim NumberOfProgram as Integer 
+  dim NumberOfActivity as Integer 	
+  dim I,J,K as Integer
+
+  dim CurrentSetup as Activity
+  dim CurrentMachine as ManufacturingMachine
+  dim CurrentProgram as ManufacturingActivity
+  dim CurrentActivity as ManufacturingActivity
+  dim CurrentTool as ManufacturingTool
+
+  dim MachineName as string
+  dim MachineError as integer
+
+  dim ActivityType as string
+
+  dim childs as Activities
+  dim quantity as Integer
+  dim aProcess as AnyObject
+
+  dim ToolNumber as Integer
+  dim ToolName as string
+
+  dim ToolPositionDefault as integer
+  ToolPositionDefault = 0
+
+  CreateGlobalVariables
+
+  dim theCLIFile, theGaugeFile as File
+  dim aTextStream, aGaugeTextStream as TextStream
+
+  dim HasGaugeFile as boolean
+  dim ToolGaugeFileName as string
+  dim lgth,l as integer,posdot
+
+  dim TheCNCProgName as string
+
+  '----------------------------------
+  ' Getting current document
+  '----------------------------------
+  Dim MfgDoc1 as Document
+  Set MfgDoc1 = CATIA.ActiveDocument
+
+  '-----------------------------------------------------
+  ' Creating the file names according the document name
+  '-----------------------------------------------------
+  CreateDefaultNames MfgDoc1
+  
+  '---------------------------------
+  ' Getting current process
+  '---------------------------------
+  Set aProcess = MfgDoc1.GetItem("Process")
+
+  dim IsPhysicalActivity as Boolean
+  IsPhysicalActivity = aProcess.IsSubTypeOf("PhysicalActivity")
+
+  if(IsPhysicalActivity) then
+
+    Set childs = aProcess.ChildrenActivities
+    quantity = childs.Count
+
+    if quantity <= 0 then
+      exit sub
+    end if
+    
+    
+    dim TabToolName()
+    dim Max as Integer
+    Max = 100
+    redim TabToolName (Max)
+
+    '------------------------------
+    ' Scanning all setups
+    '------------------------------
+
+    for I=1 to quantity
+
+      Set CurrentSetup = childs.Item(I)
+
+      dim IsManufacturingSetup as boolean
+      IsManufacturingSetup = CurrentSetup.IsSubTypeOf("ManufacturingSetup")
+      
+      if(IsManufacturingSetup) then
+
+	  'If no machine is defined -> ignore
+	  On Error Resume Next
+	  set CurrentMachine = CurrentSetup.Machine
+	  MachineError = Err.Number
+	  if(MachineError<>0) then
+	    dim ErrMsg as string
+	    ErrMsg = "No defined machine in the Part Operation!" & CRLF & "CLI file creation canceled"
+	    MsgBox ErrMsg , 4096
+	    exit sub
+	  end if
+	  
+	  '--------------------------------------------------------
+	  ' Scanning the current setup program list
+	  '--------------------------------------------------------
+	  Set ProgramList = CurrentSetup.Programs
+	  NumberOfProgram = ProgramList.Count
+	  
+	  for J=1 to NumberOfProgram
+	  
+	    Set CurrentProgram = ProgramList.GetElement(J)
+	    
+	    '-----------------------------------------------------
+	    ' Reading the CurrentProgram activities
+	    '-----------------------------------------------------
+	    
+	    Set ActivityList = CurrentProgram.Activities
+	    NumberOfActivity = ActivityList.Count
+
+	    '-------------------------------------------
+	    ' Creating and opening the CLI macro file
+	    '-------------------------------------------
+
+	    dim theCLIPath as string
+	    theCLIPath = theCLIMACROSLIB & theCLIName
+
+	    if(theFileSystem.FileExists(theCLIPath)) then
+	      theFileSystem.DeleteFile theCLIPath
+	    end if
+
+	    set theCLIFile = theFileSystem.CreateFile(theCLIPath,True)
+	    set aTextStream = theCLIFile.OpenAsTextStream ("ForWriting")
+	    
+	    theTitle = "-- " & MfgDoc1.Name
+	    WriteLine aTextStream , theTitle
+	    theTitle = "-- CATIA process simulation in VNC"
+	    WriteLine aTextStream , theTitle
+	    WriteLine aTextStream , ""
+	    WriteLine aTextStream , "SET UNITS TO MM"
+	    WriteLine aTextStream , ""
+
+	    WriteMachine aTextStream,CurrentMachine,ToolPositionDefault
+
+	    dim ErrSave as integer
+	    on error resume next
+	    SaveWorkpiece CurrentSetup,thePARTSLIB & theStockName
+	    ErrSave = Err.Number
+	    if(ErrSave=0) then
+	      dim theStockWrlName as string
+	      theStockWrlName = theStockName & ".wrl"
+	      WriteWorkpiece thePARTSLIBforVNC , theStockWrlName , aTextStream
+	    else
+	      dim WorkpieceErrorLine as string
+	      WorkpieceErrorLine = "-- Workpiece not saved"
+	      WriteLine aTextStream,WorkpieceErrorLine
+	      WriteLine aTextStream,""
+	    end if
+	    on error goto 0
+
+	    TheCNCProgName = WriteProgram(CurrentProgram,theMachineName,aTextStream)
+	    if(TheCNCProgName<>"") then
+
+	      '-------------------------------------------
+	      ' Creating and opening the tool gauge file
+	      '-------------------------------------------
+	      posdot=0
+	      lgth = len(TheCNCProgName)
+	      for l=1 to lgth
+	        if(mid(TheCNCProgName,l,1)=".") then posdot=l
+	      next
+	      if(posdot<2) then posdot = lgth+1
+	      ToolGaugeFileName = mid(TheCNCProgName,1,posdot-1) & ".OFS"
+	      set theGaugeFile = theFileSystem.CreateFile(thePROGRAMSLIB & ToolGaugeFileName,True)
+	      set aGaugeTextStream = theGaugeFile.OpenAsTextStream ("ForWriting")
+	      HasGaugeFile = True
+
+	      WriteLine aTextStream , "-- Tool Gauges file created : " & ToolGaugeFileName
+	      WriteLine aTextStream , ""
+
+	    else
+	      HasGaugeFile = False
+	    end if
+
+	    dim HasTool as boolean
+	    HasTool = FALSE
+
+	    WriteLine aTextStream , "SET UNITS TO MM"
+
+	    For K=1 To NumberOfActivity
+	      Set CurrentActivity = ActivityList.GetElement(K)
+	      ActivityType= CurrentActivity.Type
+	      
+	      '---------------------------------------------------------------
+	      ' Activity type
+	      ' Tool Change -> add the tool definition in the CLI
+	      '---------------------------------------------------------------
+
+	      if(ActivityType = "ToolChange") then
+
+	        Set CurrentTool = CurrentActivity.Tool
+		ToolNumber = CurrentTool.ToolNumber
+		ToolName=CurrentTool.Name
+		dim ToolError as integer
+		dim ToolErrorLine as string
+		if(ToolNumber>Max) then
+		  Max = ToolNumber
+		  redim preserve TabToolName(Max)
+		  TabToolName(ToolNumber) = ToolName
+		  on error resume next
+		  WriteTool CurrentTool , aTextStream , HasGaugeFile , aGaugeTextStream , ToolPositionDefault
+		  ToolError = Err.Number
+		  if(ToolError<>0) then
+		    ToolErrorLine = "-- " & ToolName & " : error"
+		    WriteLine aTextStream,ToolErrorLine
+		  else
+		    if(NOT(HasTool)) then HasTool = TRUE
+		  end if
+		  on error goto 0
+		else
+		  if(TabToolName(ToolNumber)<>ToolName) then
+		    TabToolName(ToolNumber) = ToolName
+		    on error resume next
+		    WriteTool CurrentTool , aTextStream , HasGaugeFile , aGaugeTextStream , ToolPositionDefault
+		    ToolError = Err.Number
+		    if(ToolError<>0) then
+		      ToolErrorLine = "-- " & ToolName & " : error"
+		      WriteLine aTextStream,ToolErrorLine
+		    else
+		      if(NOT(HasTool)) then HasTool = TRUE
+		    end if
+		    on error goto 0
+		  end if
+		end if
+	      End If
+
+	    Next
+	    
+	    if (NOT(HasTool)) then WriteLine aTextStream , "-- Warning : No tool!"
+	    WriteLine aTextStream , ""
+
+	    WriteLine aTextStream , "SAVE ALL POSITIONS"
+	    WriteLine aTextStream , ""
+	    WriteLine aTextStream , "TRANSFER TO MENU"
+
+            ' ------------------------------------------------------------------------
+	    ' !! End of the CLI macro creation                                      !!
+	    ' !! Only the first program found in the document is taken into account !!
+            ' ------------------------------------------------------------------------
+
+	    if(HasGaugeFile) then
+	      aTextStream.Close
+	      aGaugeTextStream.Close
+	    end if
+
+	    set aTextStream = NOTHING
+	    set theCLIFile = NOTHING
+	    set aGaugeTextStream = NOTHING
+	    set theGaugeFile = NOTHING
+
+	    exit sub
+
+	  next
+      end if
+
+    next
+
+  end if
+
+end sub
+
+
+'----------------------------------------------
+' Adding the CNC program data in the CLI macro
+'----------------------------------------------
+function WriteProgram(aProgram, aMachineName, aStream)
+
+
+  'on error resume next
+  dim aDefaultName, theProgName as string
+  aDefaultName  = ""
+  on error resume next
+  aDefaultName  = aProgram.GetNCOutputFile
+
+  on error goto 0
+
+  theProgName = InputBox("NC program name (give the whole path)","Select file", aDefaultName)
+
+  dim ProgErrorLine as string
+
+  theProgramName = ExtractFileName(theProgName)
+
+  if(theProgramName<>"") then
+
+    dim FileCopyError as integer
+
+    dim ProgLgth as integer
+    dim isCNC as boolean
+    dim theVNCProgramName as string
+
+    isCNC = False
+    ProgLgth = len(theProgramName)
+    if(ProgLgth>4) then
+      FilExt = MID(theProgramName,ProgLgth-3,4)
+      if(FilExt=".CNC" OR FilExt=".cnc") then
+        isCNC = True
+	theVNCProgramName = theProgramName
+      else
+        theVNCProgramName = theProgramName & ".cnc"
+      end if
+    end if
+
+    FileCopyError = FileCopy (theProgName,thePROGRAMSLIB & theVNCProgramName, TRUE)
+    if(FileCopyError=0) then
+      if(NOT isCNC) then
+        ProgErrorLine = "-- Warning : Program """ & theProgramName & """ copied into """ & theVNCProgramName & """ for VNC use."
+	WriteLine aStream , ProgErrorLine
+      end if
+      WriteLine aStream , "LOAD PROGRAM " & chr39 & "CATIAVNC/" & theVNCProgramName & chr39 & " INTO " & chr39 & aMachineName & chr39
+    else
+      ProgErrorLine = "-- NC program error : " & theProgramName
+      WriteLine aStream , ProgErrorLine
+    end if
+  else
+    ProgErrorLine = "-- Error : no NC program"
+    WriteLine aStream , ProgErrorLine
+  end if
+
+  WriteLine aStream , ""
+
+  WriteProgram = theVNCProgramName
+
+end function
+
+
+'---------------------------------------------------------------
+' Adding the machine and the MIMIC in the CLI macro
+'---------------------------------------------------------------
+sub WriteMachine(aStream,aMachine,ToolPositionDefault)
+
+  dim MachineOk as integer
+  MachineOK = InitMachineMIMCNames(aMachine)
+
+  'Load the machine in VNC
+  '------------------------
+  if(MachineOK=1 OR MachineOK=3) then WriteLine aStream , "-- Warning : Machine not defined!"
+  WriteLine aStream , "RETRIEVE MACHINE " & chr39 & theMachineName & chr39
+
+  if(ToolPositionDefault=1) then
+    WriteLine aStream , "CREATE DEVICE " & chr39 & "DummyDev" & chr39 & " with 1 DOF"
+    WriteLine aStream , "CREATE PATH " & chr39 & "tcp" & chr39 & " ON " & chr39 & "DummyDev" & chr39
+    WriteLine aStream , "CREATE TAG " & chr39 & "tcp1" & chr39 & " ON PATH " & chr39 & "tcp" & chr39
+  end if
+
+  'Load the MIMIC associated to the machine
+  '----------------------------------------
+  if(MachineOK>1) then WriteLine aStream , "-- Warning : MIMIC not defined!"
+  WriteLine aStream , "LOAD MIMIC " & chr39 & theMIMICName & chr39
+
+  WriteLine aStream , ""
+
+  WriteLine aStream , "SET UNITS TO MM"  'if the machine is in inches
+
+  WriteLine aStream , ""
+
+end sub
+
+
+
+'----------------------------------------------
+' Add a tool in the CLI macro
+'----------------------------------------------
+Sub WriteTool(aTool, aStream, HasGaugeFile, aGaugeStream, ToolPositionDefault)
+
+  dim ToolNumber as VARIANT
+
+  dim aLine as string
+
+  dim device_name, TagPointName as string
+
+  dim cutter_radius
+  dim num_facets,num_lateral_facets as integer
+  dim shank_length,shank_diameter
+  dim cutter_diameter,corner_radius,center_x,center_y,angle_a,angle_b,cutter_height
+  dim aGaugeLgth
+
+  ToolNumber =  aTool.ToolNumber
+
+  device_name = "T" & ToolNumber
+
+  if(ToolPositionDefault=0) then
+    TagPointName = "t" & ToolNumber
+  else
+    TagPointName = "tcp1"
+  end if
+
+  shank_length = GetToolParam (aTool,"MFG_OVERALL_LGTH") - GetToolParam (aTool,"MFG_CUT_LENGTH")
+  shank_diameter = GetToolParam (aTool,"MFG_BODY_DIAM")
+
+  dim tabparam(7)
+  aTool.GetListOfAptParameters tabparam
+
+  cutter_diameter = tabparam(0)
+  corner_radius = tabparam(1)
+  center_x = tabparam(2)
+  center_y = tabparam(3)
+  angle_a = tabparam(4)
+  angle_b = tabparam(5)
+  cutter_height = tabparam(6)
+
+  cutter_radius = cutter_diameter/2
+  if(center_x=cutter_radius) then center_x=cutter_radius-0.01
+
+  num_facets = 12
+
+  if(corner_radius>0) then
+    num_lateral_facets = 4
+  else
+    num_lateral_facets = 0
+  end if
+
+  dim theHolderPartName as string
+  theHolderPartName = CreateToolHolderCylinder (aTool , aStream)
+
+  if(theHolderPartName<>"") then
+
+    aLine = "CREATE TOOL DEVICE " & chr39 & device_name & chr39 & " APT_7_PARAMETER MILL HOLDER PART " & chr39 & theHolderPartName & chr39 & " " & num_facets
+    aLine = aLine & " , " & shank_length & " , " & shank_diameter & " , " & cutter_diameter & " , " & corner_radius & " , " & center_x & " , " & center_y & " , " & angle_a & " , " & angle_b & " , " & cutter_height & " , " & num_lateral_facets
+    WriteLine aStream , aLine
+    aLine = "ATTACH DEVICE " & chr39 & device_name & chr39 & " AT TAG "  & chr39 & TagPointName & chr39
+    WriteLine aStream , aLine
+
+    WriteLine aStream , ""
+
+    if(HasGaugeFile) then
+      aGaugeLgth = shank_length + cutter_height
+      aLine = ToolNumber & chr(9) & aGaugeLgth
+      WriteLine aGaugeStream , aLine
+    end if
+
+  else
+    aLine = "-- Warning : No holder found for the tool " & device_name
+    WriteLine aStream , aLine
+  end if
+
+End Sub
+
+
+
+'-------------------------------------------------
+' Value of a tool parameter
+' returns 0.0 if the parameter is undefined
+'-------------------------------------------------
+function GetToolParam (aTool,aParam)
+
+  dim anAttr as Parameter
+  dim anError as integer
+  dim ReturnedValue
+  ReturnedValue=0.0
+
+  on error resume next
+
+  set anAttr = aTool.GetAttribute(aParam)
+  anError=Err.Number
+  if (anError=0) then ReturnedValue = anAttr.Value
+
+  on error goto 0
+
+  GetToolParam = ReturnedValue
+
+end function
+
+
+'-------------------------------------------------------
+' Adding the workpiece creation (from stock part data)
+' in the CLI macro
+'-------------------------------------------------------
+sub WriteWorkpiece(aPath,aName,aStream)
+  WriteLine aStream , "RETRIEVE PART " & chr39 & aPath & aName & chr39
+  WriteLine aStream , "RENAME DEVICE " & chr39 & "Dummy" & chr39 & " TO " & chr39 & "WP" & chr39
+  WriteLine aStream , "MAKE WORKPIECE PART " & chr39 & "WP:" & aName & chr39
+  WriteLine aStream , "ATTACH DEVICE " & chr39 & "WP" & chr39 & " AT TAG " & chr39 & "w1" & chr39
+  WriteLine aStream , ""
+end sub
+
+
+'-------------------------------------------------------
+' Saving the stock part in a VRML file
+'-------------------------------------------------------
+sub SaveWorkpiece(aSetup,aWName)
+
+  dim cgrfilename, wrlfilename, wrlfilename1 as string
+  cgrfilename = aWName & ".cgr"
+  wrlfilename = aWName
+  wrlfilename1 = aWName & ".wrl"
+
+  if(theFileSystem.FileExists(cgrfilename)) then theFileSystem.DeleteFile(cgrfilename)
+  if(theFileSystem.FileExists(wrlfilename1)) then theFileSystem.DeleteFile(wrlfilename1)
+
+  aSetup.GetStockFromSetup cgrfilename
+
+  Dim documents1 as Documents
+  Set documents1 = CATIA.Documents
+
+  Dim productDocument1 as Document
+  Set productDocument1 = documents1.Add("Product")
+
+  Dim product1 as Product
+  Set product1 = productDocument1.Product
+
+  Dim products1 as Products
+  Set products1 = product1.Products
+
+  Dim arrayOfVariantOfBSTR1(0)
+  arrayOfVariantOfBSTR1(0) = cgrfilename
+  products1.AddComponentsFromFiles arrayOfVariantOfBSTR1, "All"
+
+  'Dim specsAndGeomWindow1 as Window
+  'Set specsAndGeomWindow1 = CATIA.ActiveWindow
+
+  'specsAndGeomWindow1.WindowState = 0
+
+  Set productDocument1 = CATIA.ActiveDocument
+  productDocument1.ExportData wrlfilename, "wrl"
+
+  productDocument1.Close
+
+  Set documents1 = NOTHING
+  Set productDocument1 = NOTHING
+  Set product1 = NOTHING
+  Set products1 = NOTHING
+  Set specsAndGeomWindow1 = NOTHING
+
+  if(theFileSystem.FileExists(cgrfilename)) then theFileSystem.DeleteFile(cgrfilename)
+
+end sub
+
+
+'-------------------------------------------------------
+' Creating default names according to the document name
+'-------------------------------------------------------
+sub CreateDefaultNames (aDoc)
+
+  dim docname as string
+  dim designation as string
+  dim lenname,i,posdot as integer
+
+  docname = aDoc.Name
+  lenname = len(docname)
+  posdot = 0
+
+  for i=1 to lenname
+    if(mid(docname,i,1)=".") then
+      posdot=i
+      exit for
+    end if
+  next
+
+  if(posdot>1) then
+    designation = mid(docname,1,posdot-1)
+  else
+    designation = "catia2nvc"
+  end if
+
+  theCLIName = designation & ".CLI"
+  theStockName = designation & "_stock"
+
+end sub
+
+
+'-------------------------------------------------------
+' Machine and MIMIC names creation
+' returns : 0 -> Ok
+'           1 -> Machine undefined
+'           2 -> MIMIC undefined
+'           3 -> both Machine and MIMIC undefined
+'-------------------------------------------------------
+function InitMachineMIMCNames (aMachine)
+
+  dim aName,aWarning as string
+  dim returnedvalue as integer
+
+  aWarning = ""
+  returnedvalue=0
+
+  theMachineName = aMachine.Name
+  theMIMICName = aMachine.Name & ".mmc"
+
+  aName = theMACHINESLIB & theMachineName
+  if(NOT(theFileSystem.FileExists(aName))) then
+    aWarning = theMachineName & CRLF & "The machine is not defined"
+    returnedvalue=returnedvalue+1
+  end if
+
+  aName = theMIMICSLIB & theMIMICName
+  if(NOT(theFileSystem.FileExists(aName))) then
+    if (returnedvalue<>0) then
+      aWarning = aWarning & CRLF & "---------------"  & CRLF
+    end if
+    aWarning = aWarning & theMIMICName & CRLF & "The MIMIC is not defined"
+    returnedvalue=returnedvalue+2
+  end if
+
+  if (returnedvalue<>0) then msgbox aWarning,(4096+48)
+
+  InitMachineMIMCNames = returnedvalue
+
+end function
+
+
+'----------------------------------------------
+' Calling VNC in batch mode and
+' aCliFileName CLI macro execution
+'----------------------------------------------
+sub CallVNC(aCliFileName)
+
+  dim theVNCCommandLine as string
+  dim theEditorCommandLine as string
+  dim ErrorMsg as string
+  dim aCmdResult as long
+  dim cmderror as integer
+
+
+  on error resume next
+
+  'For debugging information : to edit the generated CLI macro
+  'CLI macro will be edited if the EditMacro global variable is TRUE
+
+  if(EditMacro) then
+    theEditorCommandLine = theTextEditorCommand & " " & aCliFileName
+    aCmdResult = CATIA.SystemService.ExecuteBackgroundProcessus (theEditorCommandLine)
+    cmderror=Err.Number
+    if (cmderror<>0) then
+      ErrorMsg = aCliFileName & CRLF & "Error while editing the macro"
+      MsgBox ErrorMsg , (4096+48)
+    end if
+  end if
+
+  'Calling VNC
+  theVNCCommandLine = theVNCCommand & " " & aCliFileName
+
+  aCmdResult = CATIA.SystemService.ExecuteBackgroundProcessus (theVNCCommandLine)
+  cmderror=Err.Number
+  if (cmderror<>0) then
+    ErrorMsg = theVNCCommandLine & CRLF & "Error while calling VNC"
+    MsgBox ErrorMsg , (4096+48)
+  end if
+
+end sub
+
+
+'--------------------------------------
+' Reading the tool holders data file
+'--------------------------------------
+sub LectToolHolderFile
+
+  dim aTHFile as FILE
+  dim aTHStream as TextStream
+  dim ToolHolderFileName as String
+  dim aLine as string
+  dim indx,indestab as integer
+  dim aValue as double
+  dim anError as integer
+
+  ToolHolderFileName = theCATIAVNCLib & "ToolHolders.dat"
+
+  set aTHFile = theFileSystem.GetFile(ToolHolderFileName)
+  set aTHStream = aTHFile.OpenAsTextStream ("ForReading")
+
+  indx = 0
+
+  on error resume next
+
+  do
+
+    if(aTHStream.AtEndOfStream) then exit do
+
+    aLine = aTHStream.ReadLine
+
+    lenlig = len(aLine)
+    if(MID(aLine,lenlig,1)=EOL) then aLine = MID(aLine,1,lenlig-1) 'pour contourner un bug?
+
+    if(MID(aLine,1,1)="#") then
+      indx = indx+1
+      indextab=0
+    else
+      if(indx>0) then
+        indextab=indextab+1
+        if(indextab<4) then
+          aValue = CDbl(aLine)
+	  anError = Err.Number
+	  if(anError=0) then
+	    theHolderTable(indx,indextab) = aValue
+	  else
+	    indx = indx-1
+	    indextab=5
+	  end if
+        else
+          if (indextab=4) then theHolderTable(indx,4) = aLine
+        end if
+      end if
+    end if
+
+  loop
+
+
+  NbHolders = indx
+
+  aTHStream.Close
+  set aTHStream = NOTHING
+  set aTHFile = NOTHING
+
+end sub
+
+
+'---------------------------------------------------------------
+' Defining the tool holder according to the tool diameter
+' Returns 0 if no tool holder found
+'---------------------------------------------------------------
+function FindToolHolder (aToolDiameter)
+
+  dim i as integer
+  dim Dmin, Dmax as double
+
+  for i=1 to NbHolders
+    Dmin = theHolderTable(i,1)
+    Dmax = theHolderTable(i,2)
+
+    if(aToolDiameter>Dmin AND aToolDiameter<=Dmax) then
+      FindToolHolder = i
+      exit function
+    end if
+  next
+
+  FindToolHolder = 0
+
+end function
+
+
+'---------------------------------------------------------------
+' Creating a part that contains a flat cylinder which diameter
+' is the tool body diameter.
+' This part will be used as a tool holder.
+'---------------------------------------------------------------
+function CreateToolHolderCylinder (aTool , aStream)
+
+  dim thePartName, thePartFileName as string
+  dim theBodyDiameter,theBodyRadius as double
+
+  theBodyDiameter = Round(GetToolParam(aTool,"MFG_BODY_DIAM"),2)
+  theBodyRadius = theBodyDiameter / 2
+
+  thePartName = "HolderDiam" & theBodyDiameter
+
+  thePartFileName = thePARTSLIBforVNC & "TOOL_HOLDERS/" & thePartName
+
+  WriteLine aStream , "CREATE DEVICE " & chr39 & "HolderDev" & chr39 & " WITH 0 DOF"
+  WriteLine aStream , "OPEN PART " & chr39 & "HolderDev:" & thePartName & chr39
+  WriteLine aStream , "CREATE CONE " & theBodyRadius & " , " & theBodyRadius & " , 0.0 , 360.0 , 12"
+  WriteLine aStream , "SAVE PART " & chr39 & thePartName & chr39 & " " & "AS" & " " & chr39 & thePartFileName & chr39
+  WriteLine aStream , "DELETE DEVICE " & chr39 & "HolderDev" & chr39
+
+  CreateToolHolderCylinder = thePartFileName
+
+end function
+
+
+'----------------------------------------------------------------------
+' Gives the Path defined by an environment variable (anEnvVar).
+' A subfolder may be added to this path (aSubDir).
+'----------------------------------------------------------------------
+function GetPath (anEnvVar,aSubDir)
+
+  if(anEnvVar="") then
+    GetPath = ""
+    exit function
+  end if
+
+  dim EnvValue as string
+  dim ErrVal as integer
+
+  on error resume next
+  EnvValue = Catia.SystemService.Environ(anEnvVar)
+
+  ErrVal = Err.Number
+  if(ErrVal<>0) then
+    GetPath = ""
+    exit function
+  end if
+
+  dim strlength as integer
+  strlength = len(EnvValue)
+  if(strlength<1) then
+    GetPath = ""
+    exit function
+  end if
+
+  dim aFileSystem as FileSystem
+  dim issemicolon as boolean
+  dim i,prevpos as integer
+  dim aPath as string
+
+  set aFileSystem = CATIA.FileSystem
+
+  if(mid(EnvValue,strlength,1)<>";") then
+    EnvValue = EnvValue & ";"
+    strlength = strlength+1
+  end if
+
+  if(aSubDir<>"") then
+    if(mid(aSubDir,len(aSubDir),1)<>"/" and mid(aSubDir,len(aSubDir),1)<>"\") then aSubDir = aSubDir & FolderSeparator
+  end if
+
+  prevpos=0
+
+  for i=1 to strlength
+    issemicolon = (mid(EnvValue,i,1)=";")
+    if(prevpos<>0) then
+      if(issemicolon) then
+        aPath = mid(EnvValue,prevpos,i-prevpos)
+	if(mid(aPath,len(aPath),1)<>"/" and mid(aPath,len(aPath),1)<>"\") then aPath = aPath & FolderSeparator
+	aPath = aPath & aSubDir
+	if(aFileSystem.FolderExists(aPath)) then
+	  GetPath = aPath
+	  exit function
+	end if
+	prevpos=0
+      end if
+    else
+      if(NOT issemicolon) then prevpos=i
+    end if
+  next
+
+  aFileSystem = NOTHING
+
+  GetPath = "" 'Pas trouve de chemin
+
+end function
+
+
+'----------------------------------------------------------
+' Copy of the files contained in V5-VNC-BRIDGE-INSTALL.txt
+' Each line in this file is composed of :
+' - the source file name,
+' - a tabulation.
+' - the destination file name.
+' It may not have leading or ending space characters.
+'----------------------------------------------------------
+function ProcessFileList (aFileName)
+
+  dim aLine as string
+  dim theInstallContentFile as File
+  dim theInstallContentStream as TextStream
+
+  on error resume next
+
+  set theInstallContentFile = theFileSystem.GetFile (aFileName)
+  set theInstallContentStream = theInstallContentFile.OpenAsTextStream ("ForReading")
+
+  if(Err.Number<>0) then
+    msgbox "Error while opening " & aFileName , 4096
+	ProcessFileList = 1
+	exit function
+  end if
+
+  dim LineNumber as Integer
+  LineNumber = 0
+
+  do
+    if(theInstallContentStream.AtEndOfStream) then exit do
+
+    aLine = theInstallContentStream.ReadLine
+
+    LineNumber = LineNumber + 1
+
+    if(len(aLine)>0) then
+
+	  if(mid(aLine,1,1)<>"#") then
+
+        dim source,destination as String
+        dim lenline as integer
+        dim trouvesource as Boolean
+		dim postab as integer
+
+        lenline = len(aLine)
+		dim achar as string
+
+		postab = instr(aLine,chr(9))
+
+		if(postab>1 and postab<lenline) then
+		  source = mid(aLine,1,postab-1)
+		  destination = mid(aLine,postab+1,lenline-postab)
+		  source  = replace(source,"|",FolderSeparator)
+		  source  = replace(source,"/",FolderSeparator)
+		  source  = replace(source,"\",FolderSeparator)
+		  trouvesource = True
+		else
+		  destination = aLine
+		  trouvesource = False
+		end if
+
+		destination  = replace(destination,"|",FolderSeparator)
+		destination  = replace(destination,"/",FolderSeparator)
+		destination  = replace(destination,"\",FolderSeparator)
+		if(mid(destination,len(destination),1)<>FolderSeparator) then destination = destination & FolderSeparator
+
+		if(mid(destination,1,1)="$") then
+		  dim strbid as String
+		  dim theVar as String
+		  dim lendest,possep as Integer
+		  lendest = len(destination)
+		  possep=0
+		  for i=2 to lendest
+		    if(mid(destination,i,1)=FolderSeparator) then
+			  theVar = mid(destination,1,i-1)
+			  possep=i
+		      i=lendest
+		    end if
+		  next
+		  if(possep=0) then theVar = destination
+		  strbid = ConvertEnvVar(theVar)
+
+		  if(possep<lendest AND possep<>0) then strbid = strbid & mid(destination,possep+1,lendest+1-possep)
+		  destination = strbid
+		  destination  = replace(destination,"/",FolderSeparator)
+		  destination  = replace(destination,"\",FolderSeparator)
+	    end if
+
+	    dim rep as integer
+	    'DestinationFolder = ExtractFolderName (destination)
+
+		'rep = CreateDirectory(DestinationFolder)
+		rep = CreateDirectory(destination)
+		if(rep<>0) then
+		  msgbox "Error while crating folder : " & destination & CRLF & CRLF & "See the file : V5-VNC-BRIDGE-INSTALL.txt" , 4096
+		  ProcessFileList = 1
+		  exit function
+		end if
+
+		if(rep=0 AND trouvesource) then
+		  dim target as string
+		  target = destination & ExtractFileName(source)
+		  rep = FileCopy (theInstallDir & source, target, True)
+		  if(rep<>0) then
+		    msgbox "Error while copying :" & CRLF & theInstallDir & source & CRLF & "into :" & CRLF & target & CRLF & CRLF & "See the file : V5-VNC-BRIDGE-INSTALL.txt" , 4096
+			ProcessFileList = 1
+			exit function
+		  end if
+		end if
+
+	  end if
+	end if
+
+  Loop
+
+  ProcessFileList = 0
+
+end function
+
+
+'----------------------------------------------------------
+' 
+'----------------------------------------------------------
+function UpdateDelmiaScripts
+
+  dim ressetupupdate,resvncupdate as integer
+  dim theV5RootDir, theV5Level, theDelmiaLicense as String
+  dim VNCUpdated as Boolean
+
+  theV5RootDir = InputAbsolutePath("CATIA installation folder (absolute path)","Select Folder",SearchV5Root)
+
+  if(theV5RootDir<>"") then
+
+    theDefaultLevel = "V5R" & SearchV5Level(theV5RootDir)
+
+    theV5Level = InputBox("Input the CATIA V5 level :","",theDefaultLevel)
+
+	if(theV5Level<>"") then
+
+	  dim theCATServicesFolder as String
+	  theCATServicesFolder = theVMAPRoot & "V5" & FolderSeparator & theV5Level & FolderSeparator
+
+	  if(CreateDirectory(theCATServicesFolder)=0) then
+'	    rep = FileCopy (theInstallDir & theV5Level & FolderSeparator & theV5ServiceLibName, theCATServicesFolder & theV5ServiceLibName, True)
+'		if(rep<>0) then
+'		  msgbox "Error while copying :" & CRLF & theV5ServiceLibName & CRLF & "into :" & CRLF & theCATServicesFolder , 4096
+'		  UpdateDelmiaScripts = False
+'		  exit function
+'		end if
+	  else
+	  	msgbox "Error while creating " & theCATServicesFolder , 4096
+		UpdateDelmiaScripts = False
+		exit function
+	  end if
+
+	  theDelmiaLicense = SearchDelmiaLicense
+
+'	  ressetupupdate = UpdateV5Setup (theV5Level,theV5RootDir,theDelmiaLicense)
+'	  if(ressetupupdate<>0) then
+'	    msgbox "Error while updating the file " & theVMAPRoot & "V5" & FolderSeparator & theV5SetupName , 4096
+'		UpdateDelmiaScripts = False
+'		exit function
+'	  end if
+
+	  resvncupdate = UpdateVNCScript
+	  if(resvncupdate<>0) then
+	    msgbox "Error while updating the file " & theVMAPRoot & theVNCScriptName , 4096
+		UpdateDelmiaScripts = False
+		exit function
+	  end if
+
+	else
+	  UpdateDelmiaScripts = False
+	  exit function
+	end if
+
+  else
+	UpdateDelmiaScripts = False
+	exit function
+  end if
+
+  UpdateDelmiaScripts = True
+
+end function
+
+
+'----------------------------------------------------------
+' 
+'----------------------------------------------------------
+function UpdateVNCScript ()
+
+  dim apos as integer
+  dim VNCFile as File
+  dim VNCStream as textStream
+  dim VNCFileName as String
+  dim TmpFile as File
+  dim TmpStream as textStream
+  dim TmpFileName as String
+  dim aLine, aLine2Write as String
+  dim hasmodif as Boolean
+
+  VNCFileName = theVMAPRoot & theVNCScriptName
+
+  if(NOT theFileSystem.FileExists(VNCFileName)) then
+    FileCopyError = FileCopy (theInstallDir & theVNCScriptName,VNCFileName, TRUE)
+	if(FileCopyError<>0) then
+	  UpdateVNCScript = 1
+	  exit function
+	end if
+  end if
+
+  if(FolderSeparator="/") then  'No syntax problem with UNIX
+    UpdateVNCScript = 0
+	exit function
+  end if
+
+  hasmodif = False
+
+  'Use of TmpFile because of the possibility of problem in Delmia's ascii files
+  dim aDuplicateFileName as string
+  aDuplicateFileName = VNCFileName & ".copy"
+  duplicatefile VNCFileName , aDuplicateFileName
+  set VNCFile = theFileSystem.GetFile(aDuplicateFileName)
+
+  'set VNCFile = theFileSystem.GetFile(VNCFileName)
+  set VNCStream = VNCFile.OpenAsTextStream ("ForReading")
+
+  TmpFileName = GetPath("TMP","") & "TmpVNC.bat"
+  set TmpFile = theFileSystem.CreateFile(TmpFileName,True)
+  set TmpStream = TmpFile.OpenAsTextStream ("ForWriting")
+
+  WriteLine TmpStream , "rem ###########################################################################"
+  WriteLine TmpStream , "rem #                                                                         #"
+  WriteLine TmpStream , "rem # VNC starting script                                                     #"
+  WriteLine TmpStream , "rem # -------------------------------------------------------                 #"
+  WriteLine TmpStream , "rem # Modified by V5_VNC_Bridge setup                                         #"
+  WriteLine TmpStream , "rem #                                                                         #"
+  WriteLine TmpStream , "rem ###########################################################################"
+  WriteLine TmpStream , "rem"
+  WriteLine TmpStream , "rem"
+
+  do
+	if(VNCStream.AtEndOfStream) then exit do
+
+    aLine = VNCStream.ReadLine
+	aLine2Write = aLine
+
+	if(InStr(1,aLine,theScriptCommentString,1)=0) then
+
+	  if(Instr(1,aLine,"vmap.exe",1)<>0) then
+	     apos = InStr(1,aLine,"start ",1)
+		 if(apos>0) then
+		   aLine2Write = mid(aLine,apos+6)
+		   hasmodif = True
+		 end if
+	  else
+	    if(Instr(1,aLine,"DENEB_PATH=",1)<>0) then
+		  apos = InStr(1,aLine,"DENEB_PATH=",1)
+	      aLine2Write = mid(aLine,1,apos+10) & theDENEBRoot
+		  hasmodif = True
+		end if
+	  end if
+
+	end if
+
+	WriteLine TmpStream , aLine2Write
+  
+  loop
+
+  TmpStream.Close
+  set TmpStream = NOTHING
+  set TmpFile = NOTHING
+
+  VNCStream.Close
+  set VNCStream = NOTHING
+  set VNCFile = NOTHING
+
+  'Use of TmpFile because of the possibility of problem in Delmia's ascii files
+  theFileSystem.DeleteFile aDuplicateFileName
+
+  if(hasmodif) then
+    dim FileCopyError as integer
+    FileCopyError = FileCopy (VNCFileName, VNCFileName & ".ori", True)
+    FileCopyError = FileCopy (TmpFileName, VNCFileName, True)
+  end if
+
+  theFileSystem.DeleteFile TmpFileName
+
+  UpdateVNCScript = 0
+
+end function
+
+'----------------------------------------------------------
+'  Set the variables V5_CATIA_VERSION, V5_INSTALL_DIR and
+'  LM_LICENSE_FILE in V5Setup.bat
+'----------------------------------------------------------
+function UpdateV5Setup (aVersion,aV5Path,aLicenseFile)
+
+  dim V5RootPath as String
+  dim V5SetupFile as File
+  dim V5SetupStream as textStream
+  dim V5SetupFileName as String
+  dim TmpFile as File
+  dim TmpStream as textStream
+  dim TmpFileName as String
+  dim aLine as String
+  dim SetDenebPath,SetVersion,SetV5Path,SetLicense as Boolean
+  dim posvar as integer
+  dim Line2Add as String
+
+
+  if(theVMAPRoot="") then
+    UpdateV5Setup = 1
+	exit function
+  end if
+
+  if(NOT theFileSystem.FolderExists(aV5Path)) then
+	UpdateV5Setup = 2
+	exit function
+  end if
+
+  V5RootPath = theVMAPRoot & "V5" & FolderSeparator
+  V5SetupFileName = V5RootPath & theV5SetupName
+
+  if(NOT theFileSystem.FolderExists(V5RootPath)) then
+    dim FolderCreationError as integer
+    FolderCreationError = CreateDirectory(V5RootPath)
+	if(FolderCreationError<>0) then
+	  UpdateV5Setup = 4
+	  exit function
+	end if
+  end if
+
+  if(NOT theFileSystem.FileExists(V5SetupFileName)) then
+    FileCopyError = FileCopy (theInstallDir & theV5SetupName,V5SetupFileName, TRUE)
+	if(FileCopyError<>0) then
+	  UpdateV5Setup = 5
+	  exit function
+	end if
+  end if
+
+  'Use of TmpFile because of the possibility of problem in Delmia's ascii files
+  dim aDuplicateFileName as string
+  aDuplicateFileName = V5SetupFileName & ".copy"
+  duplicatefile V5SetupFileName , aDuplicateFileName
+  set V5SetupFile = theFileSystem.GetFile(aDuplicateFileName)
+
+  'set V5SetupFile = theFileSystem.GetFile(V5SetupFileName)
+  set V5SetupStream = V5SetupFile.OpenAsTextStream ("ForReading")
+
+  TmpFileName = GetPath("TMP","") & "TmpV5Setup.bat"
+
+  set TmpFile = theFileSystem.CreateFile(TmpFileName,True)
+  set TmpStream = TmpFile.OpenAsTextStream ("ForWriting")
+
+  WriteLine TmpStream , "rem ###########################################################################"
+  WriteLine TmpStream , "rem #                                                                         #"
+  WriteLine TmpStream , "rem #       Environment Setup to run CATIA V5 Direct Server fom VNC           #"
+  WriteLine TmpStream , "rem #       -------------------------------------------------------           #"
+  WriteLine TmpStream , "rem #                Modified by V5_VNC_Bridge setup                          #"
+  WriteLine TmpStream , "rem #                                                                         #"
+  WriteLine TmpStream , "rem #                                                                         #"
+  WriteLine TmpStream , "rem # Initialization of the following variables :                             #"
+  WriteLine TmpStream , "rem #                                                                         #"
+  WriteLine TmpStream , "rem # - V5_CATIA_VERSION                                                      #"
+  WriteLine TmpStream , "rem # - V5_INSTALL_DIR                                                        #"
+  WriteLine TmpStream , "rem # - LM_LICENSE_FILE                                                       #"
+  WriteLine TmpStream , "rem #                                                                         #"
+  WriteLine TmpStream , "rem ###########################################################################"
+  WriteLine TmpStream , "rem"
+  WriteLine TmpStream , "rem"
+
+  SetDenebPath = False
+  SetVersion = False
+  SetV5Path = False
+  SetLicense = False
+
+  do
+	if(V5SetupStream.AtEndOfStream) then exit do
+
+    aLine = V5SetupStream.ReadLine
+
+	if(InStr(1,aLine,theScriptCommentString,1)=0) then
+      posvar = Instr(1,aLine,"V5_CATIA_VERSION=",1)
+	  if(posvar<>0) then
+	    if(NOT SetVersion) then
+	      WriteLine TmpStream , mid(aLine,1,posvar+16) & aVersion
+		  SetVersion = True
+		end if
+	  else
+        posvar = Instr(1,aLine,"V5_INSTALL_DIR=",1)
+	    if(posvar<>0) then
+	      if(NOT SetV5Path) then
+	        WriteLine TmpStream , mid(aLine,1,posvar+14) & aV5Path
+		    SetV5Path = True
+		  end if
+	    else
+          posvar = Instr(1,aLine,"LM_LICENSE_FILE=",1)
+	      if(posvar<>0) then
+	        if(NOT SetLicense) then
+	          WriteLine TmpStream , mid(aLine,1,posvar+15) & aLicenseFile
+		      SetLicense = True
+		    end if
+	      else
+		    posvar = Instr(1,aLine,"DENEB_PATH=",1)
+			if(posvar<>0) then
+	          if(NOT SetDenebPath) then
+	            WriteLine TmpStream , mid(aLine,1,posvar+10) & theDENEBRoot
+		        SetDenebPath = True
+		      end if
+			else
+	          WriteLine TmpStream , aLine
+			end if
+	      end if
+	    end if
+	  end if
+	else
+	  WriteLine TmpStream , aLine
+	end if
+
+  loop
+
+  if(NOT SetDenebPath) then WriteLine TmpStream , "if ""%DENEB_PATH%"" == """" set DENEB_PATH=" & theDENEBRoot
+  if(NOT SetVersion) then WriteLine TmpStream , "if ""%V5_CATIA_VERSION%"" == """" set V5_CATIA_VERSION=" & aVersion
+  if(NOT SetV5Path) then WriteLine TmpStream , "if ""%V5_INSTALL_DIR%"" == """" set V5_INSTALL_DIR=" & aV5Path
+  if(NOT SetLicense) then WriteLine TmpStream , "if ""%LM_LICENSE_FILE%"" == """" set LM_LICENSE_FILE=" & aLicenseFile
+
+  TmpStream.Close
+  set TmpStream = NOTHING
+  set TmpFile = NOTHING
+
+  V5SetupStream.Close
+  set V5SetupStream = NOTHING
+  set V5SetupFile = NOTHING
+
+  'Use of TmpFile because of the possibility of problem in Delmia's ascii files
+  theFileSystem.DeleteFile aDuplicateFileName
+
+  dim FileCopyError as integer
+  FileCopyError = FileCopy (V5SetupFileName, V5SetupFileName & ".ori", True)
+  FileCopyError = FileCopy (TmpFileName, V5SetupFileName, True)
+
+  theFileSystem.DeleteFile TmpFileName
+
+  UpdateV5Setup = 0
+
+end function
+
+
+'----------------------------------------------------------
+' CATIA V5 - VNC Bridge installation
+'----------------------------------------------------------
+
+function InstallV5VNCBridge ()
+
+  dim anError as integer
+  dim ErrorMsg as string
+
+  dim CancelInstallation as boolean
+  dim VNCRootLength as integer
+  dim theStartupDir as String
+  dim posslash as integer
+
+  on error resume next
+
+  if(NOT theFileSystem.FolderExists(theInstallDir)) then
+    ErrorMsg = "CATIA-VNC Bridge folder not found in CATIA V5 installation!"
+    msgbox ErrorMsg , (4096 + 48)
+	InstallV5VNCBridge = 1
+    exit function
+  end if
+
+  theDENEBRoot = InputAbsolutePath("DENEB root installation folder (absolute path)","Select Folder","")
+
+  if(theDENEBRoot="") then
+    msgbox "Installation canceled!" , 4096
+	InstallV5VNCBridge = 1
+    exit function
+  end  if
+
+  if(mid(theDENEBRoot,len(theDENEBRoot),1)<>FolderSeparator) then theDENEBRoot = theDENEBRoot & FolderSeparator
+
+  theVMAPRoot = theDENEBRoot & "vmap" & FolderSeparator
+
+  if(NOT theFileSystem.FolderExists(theVMAPRoot)) then
+    msgbox theVMAPRoot & " : Not Found." & CRLF & "Installation canceled!" , 4096
+	InstallV5VNCBridge = 1
+    exit function
+  end  if
+
+  if(NOT TestFileInFolder(theVMAPRoot,theVNCScriptName)) then
+    msgbox "Installation canceled!" , 4096
+	InstallV5VNCBridge = 1
+    exit function
+  end if
+
+  theVNCLibDefault = CleanPath (SearchVNCLibFolder(theVMAPRoot))
+
+  theVNCRoot = InputAbsolutePath("VNCLib installation folder","Select Folder",theVNCLibDefault)
+
+  if(theVNCRoot="") then
+    msgbox "Installation canceled!" , 4096
+	InstallV5VNCBridge = 1
+    exit function
+  end  if
+
+  if(mid(theVNCRoot,len(theVNCRoot),1)<>FolderSeparator) then theVNCRoot = theVNCRoot & FolderSeparator
+
+  'VNC folders initialization
+  '--------------------------
+  theCATIAVNCLib  = theVNCRoot & "CATIAVNC" & FolderSeparator
+  theMACHINESLIB  = theVNCRoot & "MACHINES" & FolderSeparator
+  theMIMICSLIB    = theVNCRoot & "MIMIC" & FolderSeparator
+  thePARTSLIB     = theVNCRoot & "PARTS/CATIAVNC" & FolderSeparator
+  theCLIMACROSLIB = theVNCRoot & "CLIMACROS/CATIAVNC" & FolderSeparator
+  thePROGRAMSLIB  = theVNCRoot & "PROGRAMS/CATIAVNC" & FolderSeparator
+
+  dim theInstallContentFileName as String
+
+  theInstallContentFileName = theInstallDir & "V5-VNC-BRIDGE-INSTALL.txt"
+
+  rep = ProcessFileList(theInstallContentFileName)
+
+  if(rep<>0) then
+    msgbox "Installation canceled!" , 4096
+	InstallV5VNCBridge = 1
+    exit function
+  end if
+
+  if(NOT UpdateDelmiaScripts) then
+    msgbox "Installation canceled!" , 4096
+	InstallV5VNCBridge = 1
+    exit function
+  end if
+
+  WriteDelmiaPathFile theVMAPRoot , theVNCRoot
+
+  set theFileSystem = NOTHING
+
+  msgbox "Installation complete!", 4096
+
+  InstallV5VNCBridge = 0
+
+End function
+
+
+'----------------------------------------------------------
+' Searching CATIA V5 root directory
+'----------------------------------------------------------
+function SearchDelmiaLicense ()
+
+  dim strresult as String
+  dim VNCFileName as String
+  dim VNCFile as File
+  dim VNCStream as TextStream
+  dim aLine as String
+
+  strresult = ""
+
+  VNCFileName = theVMAPRoot & theVNCScriptName
+
+  if(NOT theFileSystem.FileExists(VNCFileName)) then
+    SearchDelmiaLicense = ""
+	exit function
+  end if
+
+  'Use of TmpFile because of the possibility of problem in Delmia's ascii files
+  dim aTmpFileName as string
+  aTmpFileName = VNCFileName & ".copy"
+  duplicatefile VNCFileName , aTmpFileName
+  set VNCFile = theFileSystem.GetFile(aTmpFileName)
+
+  'set VNCFile = theFileSystem.GetFile(VNCFileName)
+  set VNCStream = VNCFile.OpenAsTextStream ("ForReading")
+
+  do
+	if(VNCStream.AtEndOfStream) then exit do
+
+    aLine = VNCStream.ReadLine
+
+	if(InStr(1,aLine,theScriptCommentString,1)=0) then
+      posvar = Instr(1,aLine,"LM_LICENSE_FILE=",1)
+	  if(posvar<>0 AND posvar<len(aLine)-15 AND Instr(1,aLine,"set",1)<>0) then strresult = mid(aLine,posvar+16)
+	end if
+
+  loop
+
+
+  VNCStream.Close
+  set VNCStream = NOTHING
+  set VNCFile = NOTHING
+
+  'Use of TmpFile because of the possibility of problem in Delmia's ascii files
+  theFileSystem.DeleteFile aTmpFileName
+
+  SearchDelmiaLicense = strresult
+
+end function
+
+
+'----------------------------------------------------------
+' Searching CATIA V5 root directory
+'----------------------------------------------------------
+function SearchV5Root ()
+
+  dim strres as String
+  dim aCommPath as String
+  dim apos, apossep as integer
+
+  aCommPath = Catia.SystemService.Environ("CATCommandPath")
+
+  apos = InStr(aCommPath,"_a" & FolderSeparator & "code" & FolderSeparator & "command")
+
+  if(apos>1) then
+    apossep = InStrRev(aCommPath,FolderSeparator,apos-1)
+    SearchV5Root = mid(aCommPath,1,apossep)
+  else
+    SearchV5Root = ""
+  end if
+
+end function
+
+
+'----------------------------------------------------------
+' Searching CATIA V5 root directory
+'----------------------------------------------------------
+function SearchV5Level (aV5Root)
+
+  dim apos as integer
+  dim anumber as integer
+
+  apos = InStrRev(aV5Root,FolderSeparator & "B0",-1,1)
+
+
+  if(apos>0 AND apos+2<len(aV5Root)) then
+
+    on error resume next
+	anumber = CInt(mid(aV5Root,apos+3,1))
+	if(Err.Number<>0) then
+	  anumber=0
+	end if
+    on error goto 0
+  else
+    anumber=0
+  end if
+  
+  SearchV5Level = anumber
+end function
+
+
+'----------------------------------------------------------
+' Searching VNCLib folder in vmap config
+'----------------------------------------------------------
+function SearchVNCLibFolder (VMAPPath)
+
+  dim strresult as String
+  dim posvncroot,posegal as integer
+  dim thevalue as String
+  dim aLine as String
+  dim theVNCConfigFileName as String
+  dim theVNCConfigFile as File
+  dim theVNCConfigStream as TextStream
+  dim localVMAPPath as String
+
+  strresult = ""
+
+  if(mid(VMAPPath,len(VMAPPath),1)<>FolderSeparator) then
+    localVMAPPath = VMAPPath & FolderSeparator
+  else
+    localVMAPPath = VMAPPath
+  end if
+  theVNCConfigFileName = localVMAPPath & "Configs" & FolderSeparator & "Vnc"
+
+  if(theFileSystem.FileExists(theVNCConfigFileName)) then
+
+    'Use of TmpFile because of the possibility of problem in Delmia's ascii files
+	dim aTmpFileName as string
+	aTmpFileName = theInstallDir & "vncconfig.copy"
+	duplicatefile theVNCConfigFileName , aTmpFileName
+	set theVNCConfigFile = theFileSystem.GetFile(aTmpFileName)
+
+    'set theVNCConfigFile = theFileSystem.GetFile(theVNCConfigFileName)
+	set theVNCConfigStream = theVNCConfigFile.OpenAsTextStream ("ForReading")
+
+	do
+      if(theVNCConfigStream.AtEndOfStream) then exit do
+
+      aLine = theVNCConfigStream.ReadLine
+
+	  posvncroot = InStr(1,aLine,"ROOT$LIB",1)
+	  if(posvncroot>0) then
+	    posegal = InStr(aLine , "=")
+	    if(posegal>0) then
+	      thevalue = TRIM(mid(aLine,posegal+1))
+		  thevalue  = replace(thevalue,"/",FolderSeparator)
+		  if(IsAbsolutePath (thevalue)) then
+		    strresult = thevalue
+		  else
+		    strresult = localVMAPPath & thevalue
+		  end if
+		  exit do
+	    end if
+	  end if
+
+    loop
+
+    theVNCConfigStream.Close
+    set theVNCConfigStream = NOTHING
+    set theVNCConfigFile = NOTHING
+
+    'Use of TmpFile because of the possibility of problem in Delmia's ascii files
+	theFileSystem.DeleteFile aTmpFileName
+
+  end if
+
+  SearchVNCLibFolder = strresult
+
+end function
+
+
+'---------------------------------------------------------------
+' Path cleaning
+' Suppression of /../ , /./ , ... in an absolute folder name
+'---------------------------------------------------------------
+function CleanPath (aPath)
+
+  dim wPath as String
+  dim curdir, precdir,strend as String
+  dim posprec, poscur as integer
+
+  curdir = FolderSeparator & "."
+  precdir = FolderSeparator & ".."
+
+  wPath = aPath
+
+  if(mid(wPath,len(wPath),1)<>FolderSeparator) then wPath = wPath & FolderSeparator
+
+  do
+    posprec = instr(wPath,precdir)
+	if(posprec>0) then
+	  if(posprec+3<len(wPath)) then
+	    strend = mid(wPath,posprec+4)
+	  else
+	    strend = ""
+	  end if
+	  poslastsep = instrrev(wPath,FolderSeparator,posprec-1)
+	  if(poslastsep>0) then wPath = mid(wPath,1,poslastsep) & strend
+	else
+	  exit do
+	end if
+  loop
+
+  do
+    poscur = instr(wPath,curdir)
+	if(poscur>0) then
+	  if(poscur+2<len(wPath)) then
+	    strend = mid(wPath,poscur+3)
+	  else
+	    strend = ""
+	  end if
+	  wPath = mid(wPath,1,poscur) & strend
+	else
+	  exit do
+	end if
+  loop
+
+  CleanPath = wPath
+
+end function
+
+
+'---------------------------------------------------------------
+' Reads a source text file and writes its content in target
+'---------------------------------------------------------------
+sub duplicatefile (source , target)
+
+  dim astr as String
+  dim aSourceFile,aTargetFile as File
+  dim aSourceStream,aTargetStream as TextStream
+
+  set aSourceFile = theFileSystem.GetFile(source)
+  set aSourceStream = aSourceFile.OpenAsTextStream ("ForReading")
+  set aTargetFile = theFileSystem.CreateFile(target,True)
+  set aTargetStream = aTargetFile.OpenAsTextStream ("ForWriting")
+
+  do
+    if(aSourceStream.AtEndOfStream) then exit do
+    astr = aSourceStream.Read(1024)
+
+    if(astr<>"") then
+      atargetStream.Write astr
+      astr = ""
+    end if
+  loop
+
+
+  aTargetStream.Close
+  set aTargetStream = NOTHING
+  set aTargetFile = NOTHING
+  aSourceStream.Close
+  set aSourceStream = NOTHING
+  set aSourceFile = NOTHING
+
+end sub
+
+
+'----------------------------
+' Run a V5_VNC_Bridge sample
+'----------------------------
+sub RunSample
+
+  dim aDoc1 as AnyObject
+
+  set aDoc1 = CATIA.Documents.Open (theInstallDir & "CATIAVNC-v-mill-3axes-demo.CATProcess")
+
+  'msgbox "Doc name = " & aDoc1.Name
+
+  thePARTSLIBforVNC = MakePathForVNC(thePARTSLIB)
+  theVNCCommand = theVMAPRoot & "vnc -c <"
+
+  CreateCLIFile
+  anError = Err.Number
+
+  if(anError<>0) then
+    ErrorMsg = "Error creating CLI file!"
+    msgbox ErrorMsg , (4096 + 48)
+  else
+    CallVNC theCLIMACROSLIB & theCLIName
+  end if
+
+  set theFileSystem = NOTHING
+
+end sub

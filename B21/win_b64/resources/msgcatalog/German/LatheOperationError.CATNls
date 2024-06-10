@@ -1,0 +1,470 @@
+// =====================================================================
+//
+// Erreurs Framework 'CATLatheMach'
+// =================================
+//
+// Deux manieres de formater vos messages : 
+//
+// a- Specifier en delimitant avec le caractere '\n' :
+//       Request      (ce que l'on tentait de faire)
+//       Diagnostic   (ce qui est arrive)
+//       Advice       (...ce qu'il pourrait faire si possible)
+//
+//     Exemple :
+//       ERR_3000 = "Initializing '/p1' attribute in '/p2'.\nAttribute does not exist.\nContact your local support.";  
+//       
+//               NOTE : Le parametrage des messages se fait via SetNLSParameter
+//
+// ou bien
+//
+// b- Specifier vos messages avec la cle + les 3 facettes Request/Diagnostic/Advice
+//
+//     Exemple :
+//       ERR_3000.Request    "Initializing '/p1' attribute in '/p2'." 
+//       ERR_3000.Diagnostic "Attribute does not exist."
+//       ERR_3000.Advice     "\nContact your local support."
+// 
+//               NOTE : Le parametrage de chaque facette se fait par :
+//                         Request    : SetNLSRequestParams
+//                         Diagnostic : SetNLSDiagnosticParams
+//                         Advice     : SetNLSAdviceParams
+//
+//
+//
+// NOTE : de 8670 à 8699 = WARNING
+// 
+// V5R13 
+// Creneaux libres erreurs severes
+//          8728 a 8791
+//          8800 a 8819
+//          8823 a infini
+// V5R14 
+// 10000 19999 ERREURS 
+// 20000 29999 WARNINGS
+// =====================================================================
+
+
+//====================================================================================================
+// Erreurs Turning Operations
+//====================================================================================================
+ERR_1.Diagnostic="Störung aufgetreten.";
+
+ERR_2.Diagnostic="Störung aufgetreten.";
+
+//------------------------
+// Sequential operation 
+//------------------------
+ERR_21.Diagnostic="Potenzielle Kollision an der Position des Startpunktes.";
+
+ERR_23.Diagnostic="Die Position des Werkzeugs kann nicht bestimmt werden.";
+ERR_23.Advice="\nDie ausgewählten Geometrien und die Parameter der Werkzeugbewegungen prüfen.";
+
+ERR_27.Diagnostic="Die Werkzeugposition kann nicht mit der Begrenzung 'Tatsächlich' bestimmt werden. Das Werkzeug wurde am nächstgelegenen Extremwert des Profils positioniert.";
+
+ERR_196.Request="Werkzeugbewegung Nr. /p1 wird berechnet.";
+ERR_196.Diagnostic="Die Definition der Werkzeugbewegung führt zu keiner Veränderung der Werkzeugposition.";
+ERR_196.Advice="\nPrüfen, ob die Werkzeugbewegung korrekt definiert ist.";
+
+ERR_199.Diagnostic="Störung aufgetreten.";
+
+ERR_1000.Diagnostic="Störung aufgetreten.";
+ERR_1001.Advice="Berechnung der Werkzeugbahn mit Begrenzungselementen bei einem Werkzeug mit zwei verschiedenen Radien nicht möglich.";
+ERR_1002.Diagnostic="Die Störung ist aufgetreten, als dem Befehl '/p1' ein Wert zugewiesen wurde.";
+
+ERR_1003.Request="Werkzeugbahn berechnen";
+ERR_1003.Diagnostic="Diese Operation enthält nur eine Liste aus NC-Befehlen.";
+ERR_1003.Advice="\nEinige NC-Codeabschnitte (Punkt, Vorschub und Drehzahl) sind möglicherweise fehlerhaft.\nMindestens einen Punkt einfügen oder die NC-Befehlsaktivität verwenden.";
+
+ERR_1004.Request="";
+ERR_1004.Diagnostic="Die vom Benutzer ausgewählte Drehrichtung der Spindel ist nicht mit den Werkzeugparametern kompatibel.";
+ERR_1004.Advice="\nWerkzeugparameter ändern oder Drehrichtung der Spindel umkehren.";
+
+
+//====================================================================================================
+// Erreurs Turning Operations
+//====================================================================================================
+
+ERR_8600.Diagnostic="Die auf die Drehebene projizierte Teilegeometrie ergibt ein inkonsistentes Profil.";
+ERR_8600.Advice="\nPrüfen, ob die Teilegeometrie mit der Drehebene konsistent ist.";
+
+ERR_8601.Diagnostic="Die auf die Drehebene projizierte Geometrie des Rohteils ergibt ein inkonsistentes Profil.";
+ERR_8601.Advice="\nPrüfen, ob die Geometrie des Rohteils mit der Drehebene konsistent ist.";
+
+ERR_8647.Diagnostic="Operations- und/oder Werkzeugbestückungsparameter sind nicht mit dem Teil kompatibel.";
+ERR_8647.Advice="\nDie Operations- und Werkzeugbestückungsparameter prüfen.";
+
+ERR_8648.Diagnostic="Operations- und/oder Werkzeugbestückungsparameter sind nicht mit dem Rohteil kompatibel.";
+ERR_8648.Advice="\nDie Operations- und Werkzeugbestückungsparameter prüfen.";
+
+ERR_8649.Diagnostic="Die ausgewählten Geometrie- und die Operationsparameter führen zu einem nicht bearbeitbaren Bereich.";
+ERR_8649.Advice="\nDie folgenden Elemente prüfen:
+\na- Kompatibilität von Rohteil und Teil.
+\nb- Hauptparameter, die die erneute Begrenzung des zu bearbeitenden Bereichs beeinflussen:
+\t- 'Ausrichtung' und 'Position' der Operation.
+\t- 'Abschlusswinkel' und 'Führender Winkel' der Operation, die zu den für den Schneidplattenhalter definierten Winkeln hinzugefügt werden.
+\t- 'Einrichtungswinkel' der Werkzeugaufnahme.";
+
+ERR_8650.Diagnostic="Bei Abhebebewegung wurde Kollision festgestellt.";
+ERR_8650.Advice="\nDie Abhebeparameter prüfen.";
+
+ERR_8651.Diagnostic="Bei Einführbewegung wurde Kollision festgestellt.";
+ERR_8651.Advice="\nDie Einführungsparameter prüfen.";
+
+ERR_8652.Diagnostic="Werte der axialen und radialen Schnitt-Tiefe dürfen nicht null betragen.";
+ERR_8652.Advice="\nEinen dieser Werte ändern";
+
+ERR_8653.Diagnostic="Teileprofil wird inkonsistent, wenn Aufmaße angewendet werden.";
+ERR_8653.Advice="\nDem Teil ein kleineres Aufmaß zuordnen.";
+
+ERR_8654.Request="Anfangselement wird geprüft.";
+ERR_8654.Diagnostic="Die Position auf dem Teileprofil kann nicht bestimmt werden, wenn es sich bei der Operation und eine Fräsoperation handelt.
+Die Position auf dem Rohteilprofil kann nicht bestimmt werden, wenn es sich bei der Operation und eine Schruppdrehoperation handelt";
+ERR_8654.Advice="\nEin anderes Anfangselement auswählen.";
+
+ERR_8655.Request="Endelement wird geprüft.";
+ERR_8655.Diagnostic="Position auf Teileprofil kann nicht ermittelt werden.";
+ERR_8655.Advice="\nEin anderes Endelement auswählen.";
+
+ERR_8656.Request="Bearbeitungsrichtung wird geprüft.";
+ERR_8656.Diagnostic="Das Anfangs- oder Endelement ist nicht mit der definierten Bearbeitungsrichtung kompatibel.";
+ERR_8656.Advice="\nEinen dieser Parameter ändern.";
+
+ERR_8657.Diagnostic="Die Schneidplatte ist nicht mit dem zu bearbeitenden Teileprofil kompatibel.";
+ERR_8657.Advice="\nDie Operations- und Schneidplattenparameter prüfen.";
+
+ERR_8658.Diagnostic="Die für den Schneidplattenhalter angegebene 'Standzeit' wurde erreicht. Es können nicht alle Bahnen bearbeitet werden.";
+ERR_8658.Advice="\nDie Parameter der Operation oder des Schneidplattenhalters ändern.
+Wenn 'Beginn der Bahn' ausgewählt ist, prüfen, ob die Unterbrechung erst nach Ablauf der ersten Bahn auftritt.";
+
+ERR_8659.Diagnostic="Zu großes Aufmaß für Elemente, die in umgekehrter Richtung bearbeitet werden.";
+ERR_8659.Advice="\nDas Aufmaß (Offsetwert) ändern.";
+
+ERR_8671.Diagnostic="'Einführungsradius' ist zu klein. ";
+ERR_8671.Advice="\n'Einführungsradius' muss größer sein als der 'Eckenradius' der Schneidplatte.";
+
+ERR_8672.Diagnostic="'Abheberadius' ist zu klein.";
+ERR_8672.Advice="\n'Abheberadius' muss größer sein als der 'Eckenradius' der Schneidplatte.";
+
+ERR_8673.Diagnostic="'Letzter Einführungsradius' ist zu klein.";
+ERR_8673.Advice="\n'Letzter Einführungsradius' muss größer sein als der 'Eckenradius' der Schneidplatte.";
+
+ERR_8674.Diagnostic="'Anderer Einführungsradius' ist zu klein.";
+ERR_8674.Advice="\n'Anderer Einführungsradius' muss größer sein als der 'Eckenradius' der Schneidplatte.";
+
+ERR_8675.Diagnostic="Keine geeignete Korrektornummer für den Schneidplattenhalter definiert.";
+ERR_8675.Advice="\nDie geeignete Korrekturnummer für den Schneidplattenhalter mit Bezug auf die Parameter 'Ausrichtung' und 'Position' definieren.";
+
+ERR_8676.Diagnostic="Zwischen der Schneidplatte und dem Teileprofil wurde bei einer Bewegung im Eilgang eine Kollision festgestellt.";
+ERR_8676.Advice="\nDie Operationsparameter prüfen.";
+
+ERR_8677.Diagnostic="Zwischen der Schneidplatte und dem Teileprofil wurde bei einer Abhebebewegung eine Kollision festgestellt.";
+ERR_8677.Advice="\nDie Abhebeparameter prüfen.";
+
+ERR_8678.Diagnostic="Option 'Ausgabepunkt ändern' kann nicht berücksichtigt werden.\nFür den Schneidplattenhalter wurden keine geeigneten Korrekturnummern definiert.";
+ERR_8678.Advice="\nDie Option entweder inaktivieren oder geeignete Korrekturnummern für den Schneidplattenhalter mit Bezug auf die Ausrichtung der Werkzeugbestückung definieren.";
+
+ERR_8679.Diagnostic="Breite der Bodenfläche der Nut ist zu klein.\nDer S-Abstand der nächsten Flanke und die Überlappung sind zu groß im Vergleich zur Breite der Bodenfläche der Nut.";
+ERR_8679.Advice="\nDie Operationsparameter oder die Schneidplatte ändern.";
+
+ERR_8680.Diagnostic="Letzte Schnitt-Tiefe ist zu groß. Bei den letzten Arbeitsgängen wird das Gewinde vollständig bearbeitet.";
+ERR_8680.Advice="\nDie Operationsparameter ändern.";
+
+ERR_8681.Diagnostic="Erster Abschnitt des Schnitts ist zu groß. Bei den ersten Arbeitsgängen wird das Gewinde vollständig bearbeitet.";
+ERR_8681.Advice="\nDie Operationsparameter ändern.";
+
+ERR_8682.Diagnostic="S-Abstand ist zu groß. Die Bearbeitungsrichtung kann bei einem Element nicht umgekehrt werden.";
+ERR_8682.Advice="\nDie Operationsparameter ändern.";
+
+ERR_8683.Diagnostic="Überlappung ist zu groß. Überlappung ist größer als eines der Elemente, das in umgekehrter Richtung bearbeitet wurde.";
+ERR_8683.Advice="\nDie Operationsparameter ändern.";
+
+ERR_8684.Diagnostic="Der zu bearbeitende Bereich wurde verkleinert, da der Wert 'Max. Ausspindeltiefe' für den Schneidplattenhalter definiert wurde.";
+ERR_8684.Advice="\nDieser Wert kann bei Verwendung der Option 'Bedingungen des Schneidplattenhalters' auf Operationsebene ignoriert werden.";
+
+ERR_8685.Diagnostic="Der zu bearbeitende Bereich wurde verkleinert, da der Wert 'Max. Schnitt-Tiefe' für den Schneidplattenhalter definiert wurde.";
+ERR_8685.Advice="\nDieser Wert kann bei Verwendung der Option 'Bedingungen des Schneidplattenhalters' auf Operationsebene ignoriert werden.";
+
+ERR_8686.Diagnostic="Der für 'Min. Bearbeitungsradius' angegebene Wert hat keine Auswirkungen auf den zu bearbeitenden Bereich.";
+
+ERR_8687.Diagnostic="Der für 'Höchstradius für Bearbeitung' angegebene Wert hat keine Auswirkungen auf den zu bearbeitenden Bereich.";
+
+ERR_8688.Diagnostic="'Achsenbegrenzung bei Spannbacken' ist nicht mit dem zu bearbeitenden Teil kompatibel.";
+ERR_8688.Advice="\nDen Parameterwert prüfen.";
+
+ERR_8689.Diagnostic="Eintauchabstände sind im Vergleich zur Schnitt-Tiefe zu groß.";
+
+ERR_8690.Diagnostic="'Max. Ebenentiefe' wird verringert, da 'Max. Schnitt-Tiefe' für den Schneidplattenhalter angegeben wurde.";
+ERR_8690.Advice="\nDieser Wert kann bei Verwendung der Option 'Bedingungen des Schneidplattenhalters' auf Operationsebene ignoriert werden.";
+
+ERR_8691.Diagnostic="'Schneidplattenbreite' ist kleiner oder gleich 'Max. Schnitt-Tiefe'.\n'Max. Schnitt-Tiefe' wird verringert, damit ein zweiter Arbeitsgang generiert und die Nut vollständig bearbeitet werden kann.";
+ERR_8691.Advice="Soll kein zweiter Arbeitsgang erfolgen, muss 'Max. Schnitt-Tiefe' auf einen größeren Wert als 'Schneidplattenbreite' festgelegt werden.";
+
+ERR_8692.Diagnostic="Der Wert von 'Max. Schnitt-Tiefe' ist größer als das Doppelte des Wertes von 'Schneidplattenbreite'. Nach der Nutbearbeitung bleibt Material stehen.";
+ERR_8692.Advice="Wenn die Nut vollständig bearbeitet werden soll, muss entweder der Wert von 'Max. Schnitt-Tiefe' verringert oder eine Schneidplatte mit einer größeren Schneidplattenbreite ausgewählt werden.";
+
+ERR_8693.Diagnostic="Der Wert von 'Max. Schnittbreite' des Schneidplattenhalters ist geringer als der Wert von 'Max. Schnitt-Tiefe'.\nDer Wert von 'Max. Schnitt-Tiefe' wird mit Bezug auf den Wert von 'Max. Schnittbreite' verringert.";
+
+ERR_8694.Diagnostic="Invertierter Abheberadius ist zu klein.";
+ERR_8694.Advice="\nDer lokale, invertierte Abheberadius muss größer sein als der 'Eckenradius' des Werkzeugs.";
+
+ERR_8695.Diagnostic="Die axialen und radialen Schnitt-Tiefen sind nicht mit dem zu bearbeitenden Teil kompatibel.";
+ERR_8695.Advice="\nDie Parameterwerte ändern.";
+
+ERR_8696.Diagnostic="Beim Verarbeiten der Informationen zum Startelement ist eine Störung aufgetreten.";
+
+ERR_8697.Diagnostic="Beim Verarbeiten der Informationen zum Endelement ist eine Störung aufgetreten.";
+
+ERR_8698.Diagnostic="Die automatische Ausgabe der CUTCOM-Reihenfolge vor der Einführung ist nicht möglich.";
+ERR_8698.Advice="\nDie CUTCOM-Reihenfolge manuell in das Zustellmakro einfügen";
+
+ERR_8699.Diagnostic="'Werkzeugkompensation' ist nicht aktiviert, da die angegebene Maschine keine Drehmaschine ist.";
+ERR_8699.Advice="\nEine Drehmaschine auswählen.";
+
+ERR_8700.Diagnostic="Die ausgewählte 'Werkzeugkorrektur' ist für Schneidplattenhalter '/p1' nicht definiert.\nStandardmäßig wird Typ 'P9' berücksichtigt.";
+ERR_8700.Advice="\nFalls erforderlich, einen anderen der Typen für die Werkzeugkorrektur auswählen, die für den Schneidplattenhalter definiert sind.";
+
+ERR_8701.Diagnostic="Das Profil kann nicht mit der Operation bearbeitet werden.";
+ERR_8701.Advice="\nDas Profil trennen, und die neuen Profile bearbeiten. Dazu die Operationen 'Einstechdrehen mit Rampe' und 'Schruppdrehen mit Rampe' kombinieren.";
+
+ERR_INTERRUPT_TIM_0.Diagnostic="'Zeitpunkt der Unterbrechung' muss größer als 0 sein.";
+ERR_INTERRUPT_TIM_0.Advice="\nWenn die Option 'Rechtzeitig' verwendet werden soll, einen geeigneten Wert angeben.";
+
+ERR_COMPUTED_STOCK_NOT_UP_TO_DATE.Diagnostic="Das im Vorfeld für Operation '/p1' berechnete Eingaberohteil ist nicht mehr aktuell.";
+ERR_COMPUTED_STOCK_NOT_UP_TO_DATE.Advice="\nZum Erhalt einer aktualisierten Werkzeugbahn müssen alle manuell ausgewählten Rohteile entfernt werden.
+Das Rohteil kann entweder manuell aktualisiert oder während der Berechnung der Werkzeugbahn automatisch berechnet und ausgewählt werden.";
+
+ERR_30003.Diagnostic="Beim Verarbeiten der Informationen zum Endelement ist eine Störung beim Nutschruppen aufgetreten.
+\nNutgeometrie hat keine Flanke für den Strategieparameter der Position des ersten oder nächsten Eintauchens.";
+ERR_30003.Advice="\nEine mit einem Endelement bearbeitete Nut muss eine Flanke aufweisen. Eine Flanke für
+\nden oben genannten Strategieparameter definieren.";
+
+//====================================================================================================
+// erreurs preparation geometrie 
+//====================================================================================================
+
+ERR_8703.Diagnostic="Das Profil der Nut ist mit dem Einstechwerkzeug nicht kompatibel.";
+ERR_8703.Advice="\nEin geeignetes Werkzeug auswählen.";
+
+ERR_8704.Diagnostic="Resultierende Schnitt-Tiefe kann nicht berechnet werden.";
+ERR_8704.Advice="\nPrüfen, ob die Ausrichtung der Geometrie mit der Operation kompatibel ist.";
+
+ERR_8705.Diagnostic="Eingaberohteil kann nicht berechnet werden.";
+ERR_8705.Advice="\nEin anderes Rohteilprofil manuell auswählen. ";
+
+ERR_8706.Diagnostic="Die Stetigkeit des Rohteilprofils wird nicht berücksichtigt.";
+ERR_8706.Advice="\nEin anderes Rohteilprofil manuell auswählen. ";
+
+ERR_8707.Diagnostic="Die Ausrichtung des Rohteilprofils ist nicht konsistent.";
+ERR_8707.Advice="\nEin anderes Rohteilprofil manuell auswählen. ";
+
+ERR_8708.Diagnostic="Das Teileprofil kann nicht korrekt verarbeitet werden.";
+ERR_8708.Advice="\nTeileprofil und die globalen sowie lokalen Offsets am Teil prüfen.";
+
+ERR_8709.Diagnostic="Erweiterung des bearbeiteten Bereichs führt zu einer Inkonsistenz.";
+ERR_8709.Advice="\nRelative Position des Teile- und Rohteilprofils prüfen. ";
+
+ERR_8710.Diagnostic="Ungültiger zu bearbeitender Bereich.";
+
+ERR_8711.Diagnostic="Für diese ansteigende Operation konnte kein Arbeitsgang berechnet werden.";
+ERR_8711.Advice="\nRelative Position des Rohteils, des Teils sowie die Schnitt-Tiefe prüfen.";
+
+ERR_8712.Diagnostic="Für diese Einstechoperation konnte kein Arbeitsgang berechnet werden.";
+ERR_8712.Advice="\nRelative Position des Rohteils, des Teils sowie die Schnitt-Tiefe prüfen.";
+
+ERR_8713.Diagnostic="Für diese Zickzack-Einstechoperation konnte kein Arbeitsgang berechnet werden.";
+ERR_8713.Advice="\nRelative Position des Rohteils, des Teils sowie die Schnitt-Tiefe prüfen.";
+
+ERR_8714.Diagnostic="Für diese ansteigende Stechdrehoperation konnte kein Arbeitsgang berechnet werden.";
+ERR_8714.Advice="\nRelative Position des Rohteils, des Teils sowie die Schnitt-Tiefe prüfen.";
+
+ERR_8715.Diagnostic="Kein resultierendes Profil, das bearbeitet werden kann.";
+ERR_8715.Advice="\n1- Prüfen, ob die ausgewählte Geometrie auf der Drehebene liegt.
+\n2- Ggf. die auf das Teil angewendeten lokalen und globalen Offsets prüfen.
+\n3- Ggf. den auf das Rohteil angewendeten globalen Offset prüfen.
+\n4- Die Parameter der Werkzeugbestückung prüfen.";
+
+ERR_8716.Diagnostic="Modus 'Extern' ist nicht mit der Geometrie kompatibel.";
+ERR_8716.Advice="\nEine Geometrie auswählen, die mit dem Modus 'Extern' kompatibel ist.";
+
+ERR_8717.Diagnostic="Modus 'Intern' ist nicht mit der Geometrie kompatibel.";
+ERR_8717.Advice="\nEine Geometrie auswählen, die mit dem Modus 'Intern' kompatibel ist.";
+
+ERR_8718.Diagnostic="Modus 'Frontal' ist nicht mit der Geometrie kompatibel.";
+ERR_8718.Advice="\nEine Geometrie auswählen, die mit dem Modus 'Frontal' kompatibel ist.";
+
+ERR_8719.Diagnostic="Ausrichtungsmodus 'Sonstige' ist nicht mit der Geometrie kompatibel.";
+ERR_8719.Advice="\nEinen Modus auswählen, der mit dem Profil kompatibel ist.";
+
+ERR_8720.Diagnostic="Die Projektion des Rohteils auf die Drehebene kann nicht verarbeitet werden.";
+ERR_8720.Advice="\nDie Konsistenz zwischen Rohteil und Drehebene prüfen.";
+
+
+//====================================================================================================
+// erreurs opération sequential
+//====================================================================================================
+
+ERR_8620.Diagnostic="Startpunkt liegt auf der Kontur und kann nicht berechnet werden.";
+ERR_8620.Advice="\nEin anderes Element auswählen.";
+
+ERR_8623.Diagnostic="Die Position des Werkzeugs kann nicht bestimmt werden.";
+ERR_8623.Advice="\nDie Gültigkeit der ersten Werkzeugbewegung mit einem 'NC'-Status (nicht berechenbar) prüfen.";
+
+ERR_8624.Diagnostic="Problem mit dem Startelement.";
+ERR_8624.Advice="\nDie ausgewählte Geometrie und die Parameter der Werkzeugbewegungen prüfen.";
+
+ERR_8625.Diagnostic="Endelement der Schleife.";
+ERR_8625.Advice="\nDie ausgewählte Geometrie und die Parameter der Werkzeugbewegungen prüfen.";
+
+ERR_8727.Diagnostic="Die Berechnung der Geometrie der Werkzeugbewegung ist fehlgeschlagen. ";
+
+ERR_8792.Diagnostic="Konflikt zwischen der Schneidplatte und der zu bearbeitenden Geometrieseite.";
+ERR_8792.Advice="\nDie Kompatibilität der vorherigen Position des Werkzeugs mit der zu bearbeitenden Geometrie prüfen.";
+
+ERR_8793.Diagnostic="Kollision zwischen der linken Kante der Schneidplatte und der Geometrie festgestellt.";
+
+ERR_8794.Diagnostic="Kollision zwischen der rechten Kante der Schneidplatte und der Geometrie festgestellt.";
+
+ERR_8795.Diagnostic="Konflikt bei Schneidplatte und Geometrie im Kollisionsvermeidungsmodus.";
+
+ERR_8796.Diagnostic="Unveränderte Werkzeugposition.";
+
+ERR_8797.Diagnostic="Die Werkzeugposition ist nicht erreichbar.";
+
+ERR_8798.Diagnostic="Für die vorherigen Bewegungen war kein Rand definiert.";
+
+ERR_8799.Diagnostic="Die zur Definition der Werkzeugbewegung erforderliche Geometrie ist nicht vollständig angegeben.";
+ERR_8799.Advice="\nDie Geometrie der aktuellen Werkzeugbewegung prüfen.";
+
+ERR_8820.Diagnostic="Modus 'Begrenzungen prüfen' und 'Kollisionsvermeidung' sind nicht kompatibel.
+Dies führt zu einem Konflikt an der linken Kante der Schneidplatte.";
+ERR_8820.Advice="\nEinen der Parameter ändern.";
+
+ERR_8821.Diagnostic="Modus 'Begrenzungen prüfen' und 'Kollisionsvermeidung' sind nicht kompatibel.
+Dies führt zu einem Konflikt an der rechten Kante der Schneidplatte.";
+ERR_8821.Advice="\nEinen der Parameter ändern.";
+
+ERR_8822.Diagnostic="Modus 'Kollisionsvermeidung' oder 'Positionierung überprüfen' führt zu einer nicht bestimmten Position.";
+ERR_8822.Advice="\nEinen der Parameter ändern.";
+
+//====================================================================================================
+// warning sortie profil 8830 a 8834
+// erreurs infrastructure nc
+//====================================================================================================
+ERR_8830.Request="'Ausgabeprofil' wurde für diese Operation nicht berücksichtigt.";
+ERR_8830.Diagnostic="\nOption steht für 'Konturdrehen' und 'Schruppdrehen' in den Modi 'Frontal' und 'Längsgedreht' zur Verfügung.";
+ERR_8830.Advice="\nOption 'Ausgabeprofil' inaktivieren.";
+
+ERR_8831.Request="Ausgabeprofil ist mit der Fase oder Rundung nicht kompatibel.";
+ERR_8831.Diagnostic="\nAusgabeprofil kann mit der Fase oder Rundung nicht verarbeitet werden.";
+ERR_8831.Advice="\nDie Fase oder Rundung inaktivieren.";
+
+ERR_8832.Request="Stechdrehvorgänge werden beim Schruppen nicht mit der Option 'Ausgabeprofil' bearbeitet.";
+ERR_8832.Diagnostic="\nDie Stechdrehoption wird ignoriert, weil 'Ausgabeprofil' ausgeführt wird.";
+ERR_8832.Advice="\nStechdrehbearbeitung inaktivieren.";
+
+ERR_8833.Request="Endelement beim Schruppen wird mit Ausgabeprofil ignoriert.";
+ERR_8833.Diagnostic="\nEndelement wird ignoriert, weil das Ausgabeprofil ausgeführt wird.";
+ERR_8833.Advice="\nIm Ausgabeprofil für das Endelement die Option 'Keines' auswählen.";
+
+ERR_8834.Request="Unterbrechung beim Schruppen wird mit Ausgabeprofil ignoriert.";
+ERR_8834.Diagnostic="\nDie Unterbrechung wird ignoriert, weil das Ausgabeprofil ausgeführt wird.";
+ERR_8834.Advice="\nIm Ausgabeprofil für 'Unterbrechungsmodus' die Option 'Keiner' auswählen.";
+
+ERR_8835.Request="Der Radius der Ausgabeprofilelemente sollte größer sein als der Schneidplattenradius.";
+ERR_8835.Diagnostic="\nEiner der Radien des Ausgabeprofilelements ist kleiner als der Schneidplattenradius.";
+ERR_8835.Advice="\nDen Radius der Profilelemente bzw. der Schneidplatte ändern, um ein besseres Ergebnis zu erzielen.";
+
+ERR_8836.Request="Das Ausgabeprofil ist nicht kompatibel mit Fase/Lokales Umkehren.";
+ERR_8836.Diagnostic="\nDas Ausgabeprofil kann mit Fase/Lokales Umkehren nicht verarbeitet werden.";
+ERR_8836.Advice="\nDie Optionen für Fase/Lokales Umkehren deaktivieren oder auf Null setzen.";
+
+ERR_9701.Diagnostic="Beim Lesen von Operationsparametern ist eine Störung aufgetreten.";
+
+ERR_9702.Diagnostic="Beim Lesen der zu bearbeitenden Geometrie ist eine Störung aufgetreten.";
+
+ERR_9703.Diagnostic="Beim Lesen der Parameter der Werkzeugbestückung (Einrichtearbeit) ist eine Störung aufgetreten.";
+
+ERR_9710.Diagnostic="Bei der Verarbeitung der zu bearbeitenden Kontur ist eine Störung aufgetreten.";
+
+ERR_9735.Diagnostic="Es ist nicht genügend Speicherplatz für die Berechnung vorhanden oder eine Störung ist aufgetreten. ";
+
+ERR_9736.Diagnostic="Nicht genügend Speicherplatz für die Berechnung vorhanden.";
+
+ERR_9737.Diagnostic="Störung aufgetreten.";
+
+//====================================================================================================
+// Geometry management
+//====================================================================================================
+ERR_256.Diagnostic="Bei der Verarbeitung des zu bearbeitenden Bereichs ist eine Störung aufgetreten.";
+
+ERR_10000="Bei der Verarbeitung der Teilegeometrie ist eine Störung aufgetreten.";
+ERR_10001="Bei der Verarbeitung der Rohteilgeometrie ist eine Störung aufgetreten.";
+ERR_10002="Bei der Verarbeitung der Geometrie des Endbegrenzungselements ist eine Störung aufgetreten.";
+ERR_10003="Bei der Verarbeitung der Geometrie des Startbegrenzungselements ist eine Störung aufgetreten.";
+ERR_10004="Bei der Verarbeitung der zu bearbeitenden Geometrie ist eine Störung aufgetreten.";
+
+//====================================================================================================
+// Warnings about Multi Slide
+//====================================================================================================
+ERR_20000="Werkzeugbestückungskonfiguration und/oder Definition der Revolverachse verhindern das Bearbeiten auf der erwarteten Seite der Spindel.
+Die Werkzeugbahn verläuft auf der gegenüberliegenden Seite der Spindel. \nZum Bearbeiten der erwarteten Position Folgendes prüfen:
+a- Werkzeugbestückungskonfiguration wie Einrichtungswinkel und Handdarstellung. Die Konfiguration muss mit der zu bearbeitenden Geometrie übereinstimmen.
+b- Definition der radialen Richtung im Achsensystem des Drehwerkzeugs.
+    Die radiale Richtung sollte von der Spindel zur Außenseite des Teils verlaufen.";
+
+ERR_20001="Werkzeugbestückungskonfiguration und/oder Definition der Revolverachse verhindern das Bearbeiten auf der erwarteten Seite der Spindel.
+Die Werkzeugbahn verläuft auf der gegenüberliegenden Seite der Spindel. \nZum Bearbeiten der erwarteten Position Folgendes prüfen:
+a- Werkzeugbestückungskonfiguration wie Einrichtungswinkel und Handdarstellung. Die Konfiguration muss mit der zu bearbeitenden Geometrie übereinstimmen.
+b- Definition der radialen Richtung im Achsensystem des Drehwerkzeugs.
+    Die radiale Richtung sollte von der Spindel zur Außenseite des Teils verlaufen.";
+
+//====================================================================================================
+// More Warnings about Grooving
+//====================================================================================================
+ERR_21001.Request="'Erste Eintauchposition' nicht auf 'Rechts oben', sondern auf 'Links unten' festlegen.";
+ERR_21001.Diagnostic="\nDer Einstich (Nut) hat eine Flanke, die für 'Erste Eintauchposition' mit der Einstellung 'Links unten' oder 'Mitte' kompatibel  ist.
+\n Beim Wert 'Rechts oben' besteht die Gefahr, dass das Material entlang der Flanke nicht vollständig entfernt wird.";
+ERR_21001.Advice="\n1 - 'Erste Eintauchposition' überprüfen.
+\n2-  Wenn 'Erste Eintauchposition' richtig ist, 'Teilekonturierung' inaktivieren.";
+
+ERR_21002.Request="'Erste Eintauchposition' nicht auf 'Links  unten', sondern auf 'Rechts oben' festlegen.";
+ERR_21002.Diagnostic="\nDer Einstich (Nut) hat eine Flanke, die für 'Erste Eintauchposition' mit der Einstellung 'Rechts oben' oder 'Mitte' kompatibel ist. \n Beim Wert 'Links unten' besteht die Gefahr, dass das Material entlang der Flanke nicht vollständig entfernt wird.";
+ERR_21002.Advice="\n1 - 'Erste Eintauchposition' überprüfen.
+\n2-  Wenn 'Erste Eintauchposition' richtig ist, 'Teilekonturierung' inaktivieren.";
+
+//====================================================================================================
+// MultiTurret MultiSpindle at operation level
+//====================================================================================================
+ERR_TURRET_AXIS_ON_SPINDLE.Request="Das Achsensystem des Drehwerkzeugs '/p1' und die Spindel sind nicht kompatibel.";
+ERR_TURRET_AXIS_ON_SPINDLE.Diagnostic="Der Ursprung von '/p1' liegt auf der Spindelachse des Teileachsensystems.";
+ERR_TURRET_AXIS_ON_SPINDLE.Advice="\nDiesen Ursprung von der Spindelachse verschieben.";
+
+ERR_SPINDLE_AXIS_NOT_COLINEAR.Request="Teileachsensystem '/p1' ist nicht mit dem Hauptteileachsensystem kompatibel.";
+ERR_SPINDLE_AXIS_NOT_COLINEAR.Diagnostic="Die Achsenrichtung von '/p1' ist nicht kollinear mit der Spindel.";
+ERR_SPINDLE_AXIS_NOT_COLINEAR.Advice="\nDas Teileachsensystem ändern.";
+
+ERR_SPINDLE_AXIS_NO_SPINDLE.Request="Für die Bearbeitungsoperation '/p1' ist keine Spindel definiert. Die Hauptspindel wird verwendet.";
+ERR_SPINDLE_AXIS_NO_SPINDLE.Diagnostic="Für die Bearbeitungsoperation '/p1' wurde keine Spindel definiert. Standardmäßig wird die Hauptspindel verwendet.";
+ERR_SPINDLE_AXIS_NO_SPINDLE.Advice="\nFür diese Bearbeitungsoperation eine Spindel aus der Liste der verfügbaren Spindeln auswählen.";
+
+
+ERR_NO_SPINDLE_SELECTED.Diagnostic="Wiedergabe nicht möglich, da der Operation keine Spindel zugeordnet ist.";
+ERR_NO_SPINDLE_SELECTED.Advice="Eine Spindel auf Operationsebene auswählen.";
+
+ERR_NO_TURRET_SELECTED.Diagnostic="Wiedergabe nicht möglich, da dem Programm kein Revolver zugeordnet ist.";
+ERR_NO_TURRET_SELECTED.Advice="Einen Revolver auf Programmebene auswählen.";
+
+//====================================================================================================
+// Plane management
+//====================================================================================================
+ERR_PART_NOT_ON_LOCAL_TURNING_PLANE.Diagnostic="Die ausgewählte Teilegeometrie liegt nicht auf der aktuellen lokalen Drehebene.";
+ERR_PART_NOT_ON_LOCAL_TURNING_PLANE.Advice="\nEine Teilegeometrie auf dieser Ebene auswählen.";
+
+ERR_30000.Diagnostic="Die ausgewählte Teilegeometrie liegt nicht auf der aktuellen lokalen Drehebene.";
+ERR_30000.Advice="\nEine Teilegeometrie auf dieser Ebene auswählen.";
+
+ERR_STOCK_NOT_ON_LOCAL_TURNING_PLANE.Diagnostic="Die ausgewählte Rohteilgeometrie liegt nicht auf der aktuellen lokalen Drehebene.";
+ERR_STOCK_NOT_ON_LOCAL_TURNING_PLANE.Advice="\nEine Rohteilgeometrie auf dieser Ebene auswählen.";
+
+ERR_30001.Diagnostic="Die ausgewählte Rohteilgeometrie liegt nicht auf der aktuellen lokalen Drehebene.";
+ERR_30001.Advice="\nEine Rohteilgeometrie auf dieser Ebene auswählen.";

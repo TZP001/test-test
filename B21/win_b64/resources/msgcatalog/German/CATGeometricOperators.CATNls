@@ -1,0 +1,387 @@
+//------------------------------------------------------
+// Resource file for input geometric operators errors 
+// En_EN
+//------------------------------------------------------
+// NLD 10/07/03 GeoOpInSweepC0Point_ERR_3028
+//              GeoOpInSweepC0MeridianCurve_ERR_3029
+// NLD 03/11/03 Modification des messages 3008 et 3009
+// CCK 12/12/03 GeoOpInSpineInvalidInput_ERR_3030
+// NLD 23/12/03 GeoOpInSweepEdgeCurveCreation_ERR_3031
+// NLD 23/12/03 GeoOpInSweepDegenerateCurve_ERR_3032
+// NLD 20/02/04 GeoOpInLoftTangencyIncompatibleWithGuide_ERR_3033
+// NLD 28/04/04 GeoOpInSweepInvalidDraftAngle_ERR_3034
+// NLD 29/07/04 GeoOpInSegmentSweepImpossibleLimitation_ERR_3036
+//              GeoOpInSegmentSweepNullLength_ERR_3037
+//              GeoOpInSweepImplicitProfileDegenerated_ERR_3038
+// JSX 27/07/04 GeoOpInSweepTooComplexSurface_ERR_3039
+// NLD 22/10/04 GeoOpInInternalError_ERR_3040
+// NLD 26/07/05 GeoOpInSweepImplicitProfileEvaluation_ERR_3041
+// JSX 28/08/05 GeoOpInSweepSurfaceConstructionPatchMin_WAR_3042
+// JSX 23/01/07 GeoOpInLoft_MayExceedUsersDeviation_WAR_3043
+// NLD 27/03/07 GeoOpInSweepUnorderedAngles_ERR_3044
+// NLD 12/04/07 GeoOpInSweepImpossibleLawExtrapolation_ERR_3045
+// NLD 27/05/10 GeoOpInSweepImpossibleMVDOnClosedGuide_WAR_3046
+// JSX 14/10/10 GeoOpInLoftNonTangentSection_ERR_3016 Modification
+//              GeoOpInLoftImpossibleTangencyOnInnerGuide_WAR_3047 New
+//================================================================
+//                           INPUT
+//================================================================
+//----------------------------------Null or invalid input
+//
+GeoOpInCreation="Der Operator /p1 kann nicht erzeugt werden.
+      Das Datenverzeichnis prüfen.";
+// 
+GeoOpInIncompatibleArgument="Ungültige Eingabe: die beiden Eingaben von /p1 müssen sich auf dem selben /p2 befinden.";
+// 
+GeoOpInInvalidArgument="Ungültige Eingabe: /p1 muss bereits für die
+      Erzeugung von /p2 (/p3 Methode verwendet worden sein)";
+// 
+GeoOpInInvalidDomain="Die CATSurLimits /p1 CATSurLimits müssen sich auf der Fläche /p2 befinden.";
+// 
+GeoOpInMethodCallOrder="Ungültige Methodenaufrufreihenfolge. Die Methode /p1 muss nach /p2 aufgerufen werden.";
+// 
+GeoOpInInvalidIndicationPoint=" /p1 st kein gültiger Indizierungspunkt.";
+// 
+GeoOpInInvalidImplementation=" Die Implementierung von /p1 kann mit dem Operator /p2 nicht verwendet werden.";
+// 
+GeoOpInInvalidObject=" Unmögliche Änderung eines geometrischen Operators.
+       Bei der Definition eines Operators /p3 kann nur ein /p1 durch         durch die Methode /p2 ersetzt werden. Einen neuen Operator
+       erzeugen oder das Eingabeobjekt ändern";
+// 
+GeoOpInInvalidSupport=" Ungültiges geometrisches Stützelement bei /p1:
+       Zur Verwendung in einem Operator /p3 muss dieses auf /p2 liegen.";
+// 
+GeoOpInNonPositive=" /p1 muss positiv sein.";
+// 
+GeoOpInNullPointer=" /p1 kann mit einer Null /p2 nicht erzeugt werden.";
+// 
+GeoOpInSameArgument=" Ein Operator /p2 kann keinen /p1 mit sich selbst verwenden.";
+// 
+GeoOpInUnavailableMethod=" Die Methode /p1 kann für ein /p2 nicht aufgerufen werden.";
+//================================================================
+//                           interne
+//================================================================
+//
+GeoOpIntImpossibleParameter="Der Parameterwert kann für das Objekt /p1 nicht zur Verfügung gestellt werden.";
+// 
+GeoOpIntImpossiblePCurve="Die CATPCurve kann für die Fläche /p1 nicht zur Verfügung gestellt werden.";
+// 
+GeoOpIntMarchingStop="Ein numerisches Problem stoppt die Berechnung der Verschneidung
+      Diagnose: /p1";
+// 
+GeoOpIntSignatureError="Der Operator /p1 stoppt auf Grund einer Ausnahmebedingung.";
+// 
+GeoOpIntUnavailableImplementation="/p1 ist noch nicht implementiert.";
+//
+GeoOpIntBadGeometry="Ein interner Fehler /p1 führt zu einer falschen geometrischen Konfiguration.";
+//
+GeoOpIntMath="Fehler /P1 im mathematischen Paket.";
+//
+//  3001-3049     sweep and loft
+//  3050-3099     connect
+//  3100-3149     blend 
+//  3150-3199     evaluator
+//  3200-3249.....spiral
+//
+GeoOpInSweepInvalidSpine_ERR_3001.Request="Operator für geometrische Translation oder Loft-Operator:";
+GeoOpInSweepInvalidSpine_ERR_3001.Diagnostic="Ungültige Leitkurvenstetigkeit.";
+GeoOpInSweepInvalidSpine_ERR_3001.Advice="Die Leitkurve muss zumindest G1-stetig (tangentenstetig) sein.";
+//
+GeoOpInSweepNoIntersectionWithGuides_ERR_3002.Request="Operator für geometrische Translation oder Loft-Operator:";
+GeoOpInSweepNoIntersectionWithGuides_ERR_3002.Diagnostic="Die Verschiebungsebene (rechtwinklig zur Leitkurve) und die Führungselemente
+schneiden sich nicht immer.";
+GeoOpInSweepNoIntersectionWithGuides_ERR_3002.Advice="Mögliche Ursachen:\n
+- zu kurze Führungselemente bezogen auf die Leitkurve\n
+- Führungselemente parallel zur Verschiebungsebene\n
+- zu starke Krümmung der Leitkurve.";
+//
+GeoOpInLoftInvalidTangency_ERR_3003.Request="Geometrischer Loft-Operator:";
+GeoOpInLoftInvalidTangency_ERR_3003.Diagnostic="Die Leitkurvenrichtung
+und die Tangentenbedingungen, die durch die ersten und letzten Schnitte definiert sind, sind inkompatibel.";
+GeoOpInLoftInvalidTangency_ERR_3003.Advice="Die Tangentenbedingungen auf dem
+ersten und dem letzten Schnitt dürfen nicht rechtwinklig zur Leitkurve sein.";
+//
+GeoOpInLoftCoplanarSection_ERR_3004.Request="Geometrischer Operator mit impliziter Leitkurve:";
+GeoOpInLoftCoplanarSection_ERR_3004.Diagnostic="Das automatische Berechnen der impliziten Leitkurve ist auf Grund zweier koplanarer Schnitte nicht möglich.";
+GeoOpInLoftCoplanarSection_ERR_3004.Advice="Ein Führungselement zwischen den zwei Schnitten hinzufügen oder eine Tangentialbedingung vorgeben.";
+//
+GeoOpInLoftLinearProfile_ERR_3005.Request="Geometrischer Operator mit impliziter Leitkurve:";
+GeoOpInLoftLinearProfile_ERR_3005.Diagnostic="Das Profil ist linear.";
+GeoOpInLoftLinearProfile_ERR_3005.Advice="Ein Führungselement auswählen.";
+//
+GeoOpInSweepClosedProfile_ERR_3006.Request="Geometrischer Operator für Birail-Translation:";
+GeoOpInSweepClosedProfile_ERR_3006.Diagnostic="Das Profil ist geschlossen, so dass
+der Operator den Anfang und das Ende des Profils nicht an die jeweiligen Führungselemente anpassen kann.";
+GeoOpInSweepClosedProfile_ERR_3006.Advice="Ein offenes Profil auswählen.";
+//
+GeoOpInSweepInvalidRadius_ERR_3007.Request="Operator für kreisförmige Translation oder Verrundung";
+GeoOpInSweepInvalidRadius_ERR_3007.Diagnostic="Der Wert für den Radius ist zu gering.";
+GeoOpInSweepInvalidRadius_ERR_3007.Advice="Einen größeren Radiuswert eingeben.";
+//
+GeoOpInLoftNoIntersection_ERR_3008.Request="Geometrischer Loft-Operator:";
+GeoOpInLoftNoIntersection_ERR_3008.Diagnostic="Ein Führungselement schneidet kein Profil (bzw. keinen Schnitt).
+Dies kann auch auf die Definition der Leitkurve zurückzuführen sein:
+Nach der Neubegrenzung des Führungselements durch die zur Leitkurve rechtwinkligen Ebene schneidet das Führungselement das Profil (bzw. den Schnitt) nicht mehr.";
+GeoOpInLoftNoIntersection_ERR_3008.Advice="Führungselemente so wählen, dass jedes Führungselement jedes Profil (oder jeden Schnitt) schneidet, oder die Leitkurve ändern.";
+//
+GeoOpInLoftIdenticalGuides_ERR_3009.Request="Operator für geometrische Translation oder Loft-Operator:";
+GeoOpInLoftIdenticalGuides_ERR_3009.Diagnostic="Mehrere Führungselemente oder Profile sind geometrisch identisch.";
+GeoOpInLoftIdenticalGuides_ERR_3009.Advice="Nur Führungselemente und Profile auswählen, die sich geometrisch voneinander unterscheiden.";
+//
+GeoOpInSweepClosedProfile_ERR_3010.Request="Bi-Rail-Translationsoperator:";
+GeoOpInSweepClosedProfile_ERR_3010.Diagnostic="Im Fall eines geschlossenen Profils
+muss dieses Profil die zwei Führungselemente schneiden.";
+GeoOpInSweepClosedProfile_ERR_3010.Advice="Das Profil ändern oder die Führungselemente wechseln, um diese Bedingung
+zu erfüllen.";
+//
+GeoOpInLoftNoCoplanarIntersect_ERR_3011.Request="Geometrischer Loft-Operator:";
+GeoOpInLoftNoCoplanarIntersect_ERR_3011.Diagnostic="Die Schnittpunkte zwischen den Führungselementen und mindestens ein
+Profil sind nicht koplanar.";
+GeoOpInLoftNoCoplanarIntersect_ERR_3011.Advice="Ein ebenes Profil auswählen.";
+//
+GeoOpInLoftClosedProfile_ERR_3012.Request="Geometrischer Loft-Operator:";
+GeoOpInLoftClosedProfile_ERR_3012.Diagnostic="Das Profil ist geschlossen und die zwei Führungselemente schneiden sich auf dem Profil:\n
+Der Operator kann das Loft-Achsensystem nicht definieren.";
+GeoOpInLoftClosedProfile_ERR_3012.Advice="Ein weiteres Führungselement hinzufügen, um das Loft-Achsensystem zu definieren.";
+//
+GeoOpInSweepAlignedPoints_ERR_3013.Request="Operator für kreisförmige Translation:";
+GeoOpInSweepAlignedPoints_ERR_3013.Diagnostic="Die Verschneidung zwischen den Führungselementen und dem bewegten Dreibein resultiert in drei linear
+ausgerichteten Punkten: Der kreisförmige Abschnitt kann nicht berechnet werden.";
+GeoOpInSweepAlignedPoints_ERR_3013.Advice="Führungselemente ändern.";
+//
+GeoOpInSweepDegeneratedSurface_ERR_3014.Request="Operator für geometrische Translation oder Loft-Operator:";
+GeoOpInSweepDegeneratedSurface_ERR_3014.Diagnostic="Ein Profil (oder ein Schnitt) liegt tangential zu den Führungselementen.\n
+Die Fläche ist an den Tangentialpunkten degeneriert. ";
+GeoOpInSweepDegeneratedSurface_ERR_3014.Advice="Das Profil (oder den Schnitt) ändern.";
+//
+GeoOpInSweepReferenceSurface_ERR_3015.Request="Operator für geometrische Translation oder Loft-Operator:";
+GeoOpInSweepReferenceSurface_ERR_3015.Diagnostic="Die Normalen der Referenzfläche und die zu verschiebende Ebene sind kollinear.";
+GeoOpInSweepReferenceSurface_ERR_3015.Advice="Die Referenzfläche ändern.";
+//
+GeoOpInLoftNonTangentSection_ERR_3016.Request="Geometrischer Loft-Operator:";
+GeoOpInLoftNonTangentSection_ERR_3016.Diagnostic="Ein Schnitt berücksichtigt nicht die Tangentenstetigkeits- oder Krümmungsbedingung, die von Führungselementreferenz vorgegeben ist.";
+GeoOpInLoftNonTangentSection_ERR_3016.Advice="Verschneidung mit Führungselementen prüfen und Schnitt ändern, so dass diese Bedingung erfüllt ist.";
+//
+GeoOpInLoftSamePoints_ERR_3017.Request="Geometrischer Operator mit impliziter Leitkurve:";
+GeoOpInLoftSamePoints_ERR_3017.Diagnostic="Zwei vorgegebene Punkte sind identisch.";
+GeoOpInLoftSamePoints_ERR_3017.Advice="Da diese Punkte implizit berechnet
+werden,  \n - Ändern oder den Startpunkt der Leitkurve vorgeben \n
+- Die vorgegebenen Profile und Ebenen ändern.";
+//
+GeoOpInConicSweepInvalidTangent_ERR_3018.Request="Geometrische Translation mit Kegelschnitt:";
+GeoOpInConicSweepInvalidTangent_ERR_3018.Diagnostic="Die Tangente wird an den Punkten ausgerichtet,
+die aus der Verschneidung zwischen den Führungselementen und der Ebene des bewegten Dreibeins resultieren.";
+GeoOpInConicSweepInvalidTangent_ERR_3018.Advice="Das Führungselement oder \n
+die Referenzflächen ändern.";
+//
+GeoOpInConicSweepNullTangent_ERR_3019.Request="Geometrische Translation mit Kegelschnitt:";
+GeoOpInConicSweepNullTangent_ERR_3019.Diagnostic="Eine Tangente hat den Wert Null.";
+GeoOpInConicSweepNullTangent_ERR_3019.Advice="Die Referenzflächen ändern.";
+//
+GeoOpInConicSweepInvalidPoints_ERR_3020.Request="Geometrische Translation mit Kegelschnitt:";
+GeoOpInConicSweepInvalidPoints_ERR_3020.Diagnostic="Die Punkte befinden sich nicht auf derselben Seite der Ebene, die durch die Tangente definiert ist. Sie befinden sich \n
+auch nicht in dem durch zwei Tangenten definierten Dreieck.";
+GeoOpInConicSweepInvalidPoints_ERR_3020.Advice="Führungselemente ändern.";
+//
+GeoOpInConicSweepIdenticalPoints_ERR_3021.Request="Geometrische Translation mit Kegelschnitt:";
+GeoOpInConicSweepIdenticalPoints_ERR_3021.Diagnostic="Die Verschneidung zwischen den
+Führungselementen und der Ebene des bewegten Dreibeins resultiert in identischen Punkten.";
+GeoOpInConicSweepIdenticalPoints_ERR_3021.Advice="Führungselemente auswählen, die einander nicht schneiden.";
+//
+GeoOpInConicSweepInvalidParameter_ERR_3022.Request="Geometrische Translation mit Kegelschnitt:";
+GeoOpInConicSweepInvalidParameter_ERR_3022.Diagnostic="Der Wert des konischen Parameters lautet null.";
+GeoOpInConicSweepInvalidParameter_ERR_3022.Advice="Einen positiven Parameterwert eingeben.";
+//
+GeoOpInConicSweepColinearTangent_ERR_3023.Request="Geometrische Translation mit Kegelschnitt:";
+GeoOpInConicSweepColinearTangent_ERR_3023.Diagnostic="Zwei Tangenten sind kollinear.";
+GeoOpInConicSweepColinearTangent_ERR_3023.Advice="Das Führungselement oder \n
+die Referenzflächen ändern.";
+//
+GeoOpInSweepSmoothData_ERR_3024.Request="Geometrische Translation mit Option 'Glätten':";
+GeoOpInSweepSmoothData_ERR_3024.Diagnostic="Die Leitkurve oder eine Referenzfläche kann nicht geglättet werden.
+Dies kann eine der folgenden Ursachen haben:
+- Der Schwellenwert für Winkel ist zu klein.
+- Die Eingaben wurden nicht bereinigt.\n";
+GeoOpInSweepSmoothData_ERR_3024.Advice="- Die Stetigkeit der Leitkurve ändern oder
+- Die Stetigkeit der Referenzflächen ändern oder
+- Die Eingaben bereinigen oder
+- Den Schwellenwert für Winkel erhöhen.";
+//
+GeoOpInSweepCouplingTwist_ERR_3025.Request="Translations- oder Loft-Operator:";
+GeoOpInSweepCouplingTwist_ERR_3025.Diagnostic="Die Verschneidung zwischen einem Führungselement und dem bewegten Dreibein resultiert\n
+in mehreren Punkten: die Verbindung zwischen Leitkurven- und Führungselementparametern kann nicht berechnet werden.";
+GeoOpInSweepCouplingTwist_ERR_3025.Advice="Führungselemente so auswählen, dass alle Ebenen des bewegten Dreibeins die einzelnen Führungselemente an einem Punkt schneiden, oder die Leitkurve ändern.";
+//
+GeoOpInSweepSpineTwist_ERR_3026.Request="Translations- oder Loft- oder impliziter Leitkurvenoperator:";
+GeoOpInSweepSpineTwist_ERR_3026.Diagnostic="Die Leitkurve ist verdreht.";
+GeoOpInSweepSpineTwist_ERR_3026.Advice="Die Ausrichtung der ersten Ebene ändern.";
+//
+GeoOpInSweepMarching_ERR_3027.Request="Translations-, Loft- oder Übergangsoperator:";
+GeoOpInSweepMarching_ERR_3027.Diagnostic="Das Ergebnis enthält mindestens eine ungültige Fläche.";
+GeoOpInSweepMarching_ERR_3027.Advice="Ausrichtungen und Regeln überprüfen.";
+//
+GeoOpInSweepC0Point_ERR_3028.Request="Translation oder Loft:";
+GeoOpInSweepC0Point_ERR_3028.Diagnostic="Der Kantenschnittpunkt kann am Punkt der Tangentenunstetigkeit nicht berechnet werden.";
+GeoOpInSweepC0Point_ERR_3028.Advice="Leitkurvenstetigkeit überprüfen.";
+//
+GeoOpInSweepC0MeridianCurve_ERR_3029.Request="Translation oder Loft:";
+GeoOpInSweepC0MeridianCurve_ERR_3029.Diagnostic="Die meridionale Kurve durch den Flächenschnittpunkt kann am Punkt der Tangentenunstetigkeit nicht berechnet werden.";
+GeoOpInSweepC0MeridianCurve_ERR_3029.Advice="Leitkurvenstetigkeit überprüfen.";
+//
+GeoOpInSpineInvalidInput_ERR_3030.Request="Leitkurvenoperator:";
+GeoOpInSpineInvalidInput_ERR_3030.Diagnostic="Die Leitkurve kann nicht berechnet werden.";
+GeoOpInSpineInvalidInput_ERR_3030.Advice="Die Eingabedaten ändern \n
+oder einen Startpunkt auswählen.";
+//
+GeoOpInSweepEdgeCurveCreation_ERR_3031.Request="Extrusions-, Translations-, Loft- oder Übergangsoperator:";
+GeoOpInSweepEdgeCurveCreation_ERR_3031.Diagnostic="Die Randkurve zwischen zwei Flächen kann nicht berechnet werden.";
+GeoOpInSweepEdgeCurveCreation_ERR_3031.Advice="Die Eingabedaten ändern.";
+//
+GeoOpInSweepDegeneratedCurve_ERR_3032.Request="Extrusions-, Translations-, Loft- oder Übergangsoperator:";
+GeoOpInSweepDegeneratedCurve_ERR_3032.Diagnostic="Eine Randkurve wird degeneriert.";
+GeoOpInSweepDegeneratedCurve_ERR_3032.Advice="Die Eingabedaten ändern.";
+//
+GeoOpInLoftTangencyIncompatibleWithGuide_ERR_3033.Request="Geometrischer Loft-Operator:";
+GeoOpInLoftTangencyIncompatibleWithGuide_ERR_3033.Diagnostic="Die Führungskurvenrichtung und die Tangentenbedingungen, die durch die ersten und letzten Schnitte definiert sind, sind inkompatibel.";
+GeoOpInLoftTangencyIncompatibleWithGuide_ERR_3033.Advice="Die Tangentenbedingungen am ersten und letzten Schnitt 
+müssen parallel zu den Führungslinien an den Schnittpunkten zwischen Führungslinien und Schnitten sein.";
+//
+GeoOpInSweepInvalidDraftAngle_ERR_3034.Request="Operator für geometrische Translation:";
+GeoOpInSweepInvalidDraftAngle_ERR_3034.Diagnostic="Der Auszugsschrägenwinkel ist nicht kompatibel mit Leitkurventangente und Auszugsrichtung.";
+GeoOpInSweepInvalidDraftAngle_ERR_3034.Advice="Die Eingabedaten ändern.";
+//
+GeoOpInLoftInvalidNbOfGuideForAreaOption_ERR_3035.Request="Geometrischer Loft-Operator:";
+GeoOpInLoftInvalidNbOfGuideForAreaOption_ERR_3035.Diagnostic="Die Anzahl der Führungselemente ist mit der Bereichsbedingung nicht kompatibel.";
+GeoOpInLoftInvalidNbOfGuideForAreaOption_ERR_3035.Advice="Wählen Sie kein, ein oder zwei Führungselemente aus.";
+//
+GeoOpInSegmentSweepImpossibleLimitation_ERR_3036.Request="Geometrische Translation mit linearem Schnitt:";
+GeoOpInSegmentSweepImpossibleLimitation_ERR_3036.Diagnostic="Der lineare Schnitt verläuft parallel zur Begrenzungsebene und kann nicht neu begrenzt werden.";
+GeoOpInSegmentSweepImpossibleLimitation_ERR_3036.Advice="Die Eingabedaten ändern.";
+//
+GeoOpInSegmentSweepNullLength_ERR_3037.Request="Geometrische Translation mit linearem Schnitt:";
+GeoOpInSegmentSweepNullLength_ERR_3037.Diagnostic="Bewerteter Schnitt weist eine Null-Länge auf.";
+GeoOpInSegmentSweepNullLength_ERR_3037.Advice="Die Eingabedaten ändern.";
+//
+GeoOpInSweepImplicitProfileDegenerated_ERR_3038.Request="Geometrische Translation mit implizitem Schnitt:";
+GeoOpInSweepImplicitProfileDegenerated_ERR_3038.Diagnostic="Bewerteter Schnitt ist degeneriert.";
+GeoOpInSweepImplicitProfileDegenerated_ERR_3038.Advice="Die Eingabedaten ändern.";
+//
+GeoOpInSweepTooComplexSurface_ERR_3039.Request="Extrusions-, Translations-, Loft- oder Übergangsoperator:";
+GeoOpInSweepTooComplexSurface_ERR_3039.Diagnostic="Die Leitkurve ist zu lang oder die Geometrie zu komplex.";
+GeoOpInSweepTooComplexSurface_ERR_3039.Advice="Die Eingabedaten ändern. Die Leitkurve teilen.";
+//
+GeoOpInInternalError_ERR_3040.Request="Geometrischer Operator: interner Fehler.";
+GeoOpInInternalError_ERR_3040.Diagnostic="Die Operation kann nicht ausgeführt werden.";
+GeoOpInInternalError_ERR_3040.Advice="Die Eingabedaten ändern.";
+//
+// N.B voir aussi TopOpInSweepImplicitProfileEvaluation_ERR_7066 qui va le remplacer
+GeoOpInSweepImplicitProfileEvaluation_ERR_3041.Request="Geometrische Translation mit implizitem Schnitt:";
+GeoOpInSweepImplicitProfileEvaluation_ERR_3041.Diagnostic="Schnitt kann nicht ausgewertet werden.";
+GeoOpInSweepImplicitProfileEvaluation_ERR_3041.Advice="Die Eingabedaten ändern.";
+//
+GeoOpInSweepSurfaceConstructionPatchMin_WAR_3042.Request="Geometrische Translation, Loft oder Übergang:";
+GeoOpInSweepSurfaceConstructionPatchMin_WAR_3042.Diagnostic="Führungselement zu komplex oder zu lang. Eingabespezifikationen werden von der Fläche möglicherweise nicht eingehalten.";
+GeoOpInSweepSurfaceConstructionPatchMin_WAR_3042.Advice="Die Eingabedaten ändern. Die Länge reduzieren.";
+//
+GeoOpInLoft_MayExceedUsersDeviation_WAR_3043.Request="Fläche mit Mehrfachschnitten";
+GeoOpInLoft_MayExceedUsersDeviation_WAR_3043.Diagnostic="Lücke zwischen Schnitten und Führungslinien festgestellt. Der Abstand zwischen der Fläche und den Schnitten ist u. U. größer als die Abweichung.:";
+GeoOpInLoft_MayExceedUsersDeviation_WAR_3043.Advice="Abstand überprüfen und ggf. die Abweichung vergrößern bzw. die Lücken verkleinern.";
+//
+GeoOpInSweepUnorderedAngles_ERR_3044.Request="Operator für kreisförmige Translation:";
+GeoOpInSweepUnorderedAngles_ERR_3044.Diagnostic="Der Endwinkel muss größer sein als der Anfangswinkel: der kreisförmige Schnitt kann nicht berechnet werden.";
+GeoOpInSweepUnorderedAngles_ERR_3044.Advice="Die Eingabedaten ändern.";
+//
+// voir aussi TopOpInSweepImpossibleLawExtrapolation_ERR_7069 qui va le remplacer
+GeoOpInSweepImpossibleLawExtrapolation_ERR_3045.Request="Geometrische Translation mit implizitem Schnitt:";
+GeoOpInSweepImpossibleLawExtrapolation_ERR_3045.Diagnostic="Regel kann an den Scheitelpunkten der Tangentenunstetigkeit nicht durchgängig extrapoliert werden.";
+GeoOpInSweepImpossibleLawExtrapolation_ERR_3045.Advice="Die Eingabedaten ändern.";
+//
+GeoOpInSweepImpossibleMVDOnClosedGuide_WAR_3046.Request="Geometrische Translation:";
+GeoOpInSweepImpossibleMVDOnClosedGuide_WAR_3046.Diagnostic="Wechsel von Mehrfachansicht zu globaler Ansicht auf Grund von Winkelverschiebung beim Schließen.";
+GeoOpInSweepImpossibleMVDOnClosedGuide_WAR_3046.Advice="";
+//
+GeoOpInLoftImpossibleTangencyOnInnerGuide_WAR_3047.Request="Fläche mit Mehrfachschnitten";
+GeoOpInLoftImpossibleTangencyOnInnerGuide_WAR_3047.Diagnostic="Tangentenstetigkeitsbedingung für ein inneres Führungselement ist keine Garantie.";
+GeoOpInLoftImpossibleTangencyOnInnerGuide_WAR_3047.Advice="Profile teilen und zwei Flächen mit Mehrfachschnitten erstellen ";
+//
+//    ----- 3050-3099connect input error
+// 
+GeoOpInConnectTooLargeOffset_ERR_3050.Request="Paralleler Operator:";
+GeoOpInConnectTooLargeOffset_ERR_3050.Diagnostic="Der Offsetwert der parallelen Operation ist größer
+als der Krümmungsradius der Kurve.";
+GeoOpInConnectTooLargeOffset_ERR_3050.Advice="Offsetwert verringern.";
+//
+//    ----- 3100-3149 blend input error
+// 
+GeoOpInBlendIntersectingCurves_ERR_3100.Request="Übergangsoperator";
+GeoOpInBlendIntersectingCurves_ERR_3100.Diagnostic="Die Stützkurven des zu erstellenden
+Übergangs schneiden einander.";
+GeoOpInBlendIntersectingCurves_ERR_3100.Advice="Kurven auswählen, die einander nicht schneiden.";
+//
+GeoOpInBlendTwist_ERR_3101.Request="Übergangsoperator";
+GeoOpInBlendTwist_ERR_3101.Diagnostic="Das Ergebnis enthält mindestens eine verdrehte Fläche.";
+GeoOpInBlendTwist_ERR_3101.Advice="Die Spannung verringern oder die Richtung des Drahtmodells umkehren.";
+//
+//    ----- 3150-3199 evaluator
+// 
+GeoOpInParameterFromLength_ERR_3150.Request="Parameterberechnung aus einer Länge:";
+GeoOpInParameterFromLength_ERR_3150.Diagnostic="Die Eingabelänge führt zu einem berechneten
+Parameter, der außerhalb der maximalen Begrenzungen der Kurve oder Fläche liegt.";
+GeoOpInParameterFromLength_ERR_3150.Advice="Den Längenwert reduzieren.";
+//
+GeoOpInToNurbsConversion_ERR_3151.Request="Umwandlung Kurve in NURBS-Kurve:";
+GeoOpInToNurbsConversion_ERR_3151.Diagnostic="Die Eingabekurve kann nicht als NURBS-Kurve auf Fläche berechnet werden,\n
+da sie selbst nicht als Kurve auf Fläche definiert ist.";
+GeoOpInToNurbsConversion_ERR_3151.Advice="Eine Eingabekurve auf Fläche auswählen oder das Ergebnis direkt als
+3D-Kurve abrufen.";
+//
+GeoOpInToNurbsConversion_ERR_3152.Request="Umwandlung Kurve in NURBS-Kurve:";
+GeoOpInToNurbsConversion_ERR_3152.Diagnostic="Die Kurve kann nicht als eine 3D NURBS-Kurve
+oder eine NURBS-Kurve auf einer Fläche berechnet werden. Dies kann folgende Gründe haben:\n
+- Die zu Grunde liegende Fläche von CATPNurbs ist keine Ebene\n
+- Die 3D-Kurve liegt nicht auf einer Fläche und kann daher nicht als CATPNurbs berechnet werden\n
+- Die Bedingungen bei den zu berechnenden NURBS werden nicht erfüllt\n
+- Die Kurve kann nicht umgewandelt werden.";
+GeoOpInToNurbsConversion_ERR_3152.Advice="Die Bedingungen oder den zu berechnenden Kurventyp ändern.";
+//
+GeoOpInInvalidLimits_ERR_3153="Die aktuellen Begrenzungen liegen außerhalb der maximalen Begrenzungen (Bereich, in dem die Bewertung durchgeführt werden kann)";
+//
+GeoOpIntNonEvaluableLaw_ERR_3154="Interner Fehler: die Regel kann nicht ausgewertet werden.";
+//
+//  3200-3249.....spiral
+//
+GeoOpInSpiralPitchTooSmall_ERR_3200.Request="Spiralenoperator:";
+GeoOpInSpiralPitchTooSmall_ERR_3200.Diagnostic="Der Steigungswert der Spirale ist zu gering.";
+GeoOpInSpiralPitchTooSmall_ERR_3200.Advice="Eine Steigung auswählen, die größer ist als die Auflösung der Geometrical Factory.";
+//
+GeoOpInSpiralLengthTooSmall_ERR_3201.Request="Spiralenoperator:";
+GeoOpInSpiralLengthTooSmall_ERR_3201.Diagnostic="Die generierte Kurve ist kleiner als die Auflösung der Geometrical Factory.";
+GeoOpInSpiralLengthTooSmall_ERR_3201.Advice="Die Steigung, den Endwinkel oder den Endradius vergrößern\n
+oder den Startradius verkleinern.";
+//
+//    ----- sweep internal error
+// 
+GeoOpIntSweepInvalidError_ERR_3500="Geometrischer Translationsoperator: interner Fehler /p.";
+// 
+GeoOpIntLoftInvalidError_ERR_3501="Geometrischer Loft-Operator: interner Fehler /p.";
+// 
+GeoOpIntDistanceMin_ERR_3502="Berechnung des Mindestabstands: keine Lösung gefunden.";
+//
+GeoOpIntLoftInvalidError_ERR_3502.Request="Geometrischer Loft-Operator:";
+GeoOpIntLoftInvalidError_ERR_3502.Diagnostic="Ungültige Reihenfolge für die Profilauswahl.";
+GeoOpIntLoftInvalidError_ERR_3502.Advice="Auswahl neu ordnen.";
+// 
+GeoOpIntNurbsConversion_ERR_3503="Interner Fehler in der NURBS-Umwandlungssoftware.";
+
+// 
+GeoOpInNoProjectionForGlobalDeformation_ERR_3600.Request="Globaler Verformungsoperator:";
+GeoOpInNoProjectionForGlobalDeformation_ERR_3600.Diagnostic="Es gibt keine Projektion auf die Referenz- oder Führungsflächen. ";
+GeoOpInNoProjectionForGlobalDeformation_ERR_3600.Advice="Referenz- oder Führungsflächen extrapolieren.";
+//
+GeoOpInAdaptiveSweepInvalidCDS_Solver_ERR_3700.Request="Operator für anpassungsfähige Translation: Solver kann nicht initialisiert werden:";
+GeoOpInAdaptiveSweepInvalidCDS_Solver_ERR_3700.Diagnostic="Zu komplexe oder nicht unterstützte Bedingung in Skizze.";
+GeoOpInAdaptiveSweepInvalidCDS_Solver_ERR_3700.Advice="Skizze vereinfachen, temporäre Tangentenbedingung mit Linie verwenden.";
+//
+GeoOpInAdaptiveSweepInvalidCDS_Solver_WAR_3701.Request="Operator für anpassungsfähige Translation: Schneller Solver kann nicht initialisiert werden:";
+GeoOpInAdaptiveSweepInvalidCDS_Solver_WAR_3701.Diagnostic="Standardsolver wird verwendet, die Berechnung kann lange dauern.";
+GeoOpInAdaptiveSweepInvalidCDS_Solver_WAR_3701.Advice="Skizze vereinfachen, temporäre Tangentenbedingung mit Linie verwenden.";

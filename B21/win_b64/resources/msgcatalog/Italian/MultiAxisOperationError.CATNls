@@ -1,0 +1,599 @@
+// =====================================================================
+// Erreurs Multi Axis Operations
+// Essayer de formater vos messages en specifiant (delimiteur = caracteres fin de ligne) :
+//       Request      (ce que l'on tentait de faire)
+//       Diagnostic   (ce qui est arrive)
+//       Advice       (...ce qu'il pourrait faire si possible)
+// ou bien
+//       Specifier vos messages avec la cle + les 3 facettes :
+//           ex: ERR_2002.Request    Reading data. 
+//               ERR_2002.Diagnostic Manufacturing software error : Access to a NULL handler.
+//               ERR_2002.Advice     Contact your local support.
+//
+// REMARK:
+// No need to type carriage-return characters at the end of your messages
+// since the panel automatically handles spaces between messages
+//
+// =====================================================================
+
+InfoTitle="Informazioni sulla lavorazione";
+WarningTitle="Avvertenza sulla lavorazione";
+ErrorTitle="Errore di lavorazione";
+GeneralErrorTitle="Errore";
+PanelTitle="Errore di lavorazione";
+UpdateError="Errore interno durante l'aggiornamento";
+InternalError="Errore software nella lavorazione.\nTipo di errore: /p1";
+InitError="Errore durante l'inizializzazione";
+ErrorNotSpecified="Errore non specificato.\nRivolgersi al supporto";
+
+//====================================================================================================
+// Erreurs VERIFY
+//====================================================================================================
+
+ERR_1000="La tolleranza di lavorazione è negativa o nulla.";
+ERR_1001="L'altezza di cresta è negativa o nulla.";
+ERR_1002="La distanza tra le passate è negativa o nulla.";
+ERR_1003="Il numero di passate è negativo o nullo.";
+ERR_1004="Il passo di discretizzazione massima è negativo o nullo.";
+ERR_1005="L'angolo di discretizzazione massima è negativo o nullo.";
+ERR_1006="La lunghezza minima del percorso è negativa.";
+ERR_1007="La parte non è definita.";
+ERR_1008="La parte è uguale all'elemento di verifica.";
+ERR_1009="Viene utilizzato un offset negativo della parte il cui valore assoluto è troppo grande in confronto al raggio dell'utensile.\nModificare l'offset della parte o il diametro nominale dell'utensile.";
+ERR_1010="Viene utilizzato un offset negativo della verifica il cui valore assoluto è troppo grande in confronto al raggio dell'utensile.\nModificare l'offset della verifica o il diametro nominale dell'utensile.";
+ERR_1011="Diametro dell'utensile nullo.\nSelezionare un altro utensile.";
+ERR_1012="Il raggio di raccordo dell'utensile è negativo.\nSelezionare un altro utensile.";
+ERR_1013="La guida dell'asse utensile che usa Attacco variabile o Inclinazione variabile richiede:
+ verifica delle superfici o una richiesta dell'utente per la verifica delle collisioni sulla parte.
+ Specificare la verifica delle superfici, richiedere la verifica delle collisioni sulla parte
+ o modificare la modalità di guida.";
+ERR_1014="Viene utilizzato un offset negativo della parte il cui valore assoluto è troppo grande in confronto al raggio di raccordo dell'utensile.\nModificare l'offset della parte o il raggio del raccordo dell'utensile.";
+ERR_1015="Viene utilizzato un offset negativo della verifica il cui valore assoluto è troppo grande in confronto al raggio di raccordo dell'utensile.\nModificare l'offset della verifica o il raggio del raccordo dell'utensile.";
+ERR_1016="Un offset negativo della parte non è consentito quando si utilizza un utensile con la punta piatta.";
+ERR_1017="Un offset negativo della verifica non è consentito quando si utilizza un utensile con la punta piatta.";
+ERR_1018="La guida dell'asse utensile che usa Attacco variabile o Inclinazione variabile richiede:
+ verifica delle superfici o una richiesta dell'utente per la verifica delle collisioni sulla parte o sulle guide.
+ Specificare la verifica delle superfici, richiedere la verifica delle collisioni sulla parte o sulle guide
+ o modificare la modalità di guida.";
+ERR_1019="Intervallo non valido per l'angolo di attacco.
+  - Gli angoli di attacco minimo e massimo devono essere compresi nell'intervallo tra 0 e +90.
+  - L'angolo di attacco massimo deve essere maggiore dell'angolo di attacco minimo.";
+ERR_1020="Intervallo non corretto per la distanza di composizione minima.
+  - La distanza minima di composizione deve essere compresa tra l'angolo di composizione minimo e massimo.";
+ERR_1021="Piano di sicurezza della macro incongruente.
+Ripristinare un collegamento congruente della geometria a questo piano.";
+ERR_1022="Asse utensile sconosciuto.
+L'asse utensile non è definito.
+Selezionare un asse utensile.";
+ERR_1023="Direzione della vista sconosciuta.
+La geometria della direzione della vista potrebbe essere stata cancellata.
+Selezionare una geometria o definire un vettore manualmente.";
+ERR_1024="La distanza tra i livelli deve essere maggiore dalla tolleranza di lavorazione.";
+ERR_1025="Geometria dell'asse di interpolazione /p1 non trovata.
+Selezionare la geometria o definire manualmente un vettore.";
+ERR_1026="Gli utensili conici non sono consentiti in modalità asse tangente.\nSelezionare un altro tipo di utensile.";
+ERR_1027="L'asse di interpolazione /p1 verrà ignorato durante il calcolo\nperché è definito nella stessa posizione dell'asse /p2.";
+ERR_1028="Assi di interpolazione aggiuntivi sconosciuti.
+La geometria degli assi di interpolazione aggiuntivi potrebbe essere stata cancellata.
+Selezionare una geometria o definire un vettore manualmente.";
+
+ERR_1029="La geometria di /p1 non è più presente, il suo stato non è stato rilevato.\nEseguire nuovamente la selezione.";
+ERR_1030="Sono consentiti solo gli utensili a punta sferica nella modalità di calcolo della punta dell'utensile.";
+ERR_1031="Viene utilizzato un offset negativo della parte il cui valore assoluto è troppo grande in confronto al raggio del body dell'utensile.\nModificare l'offset della parte o il diametro del body dell'utensile.";
+ERR_1032="Viene utilizzato un offset negativo della verifica il cui valore assoluto è troppo grande in confronto al raggio del body dell'utensile.\nModificare l'offset della verifica o il diametro del body dell'utensile.";
+ERR_1033="Si consiglia di definire delle macro di collegamento per la lavorazione al di fuori del contorno di limitazione.";
+ERR_1034="Nel gruppo di lavorazioni non è definito nessun piano di sicurezza.\nSelezionare un piano di sicurezza nel gruppo di lavorazioni oppure modificare la modalità della macro di luce minima.";
+ERR_1035="Il piano di sicurezza definito nel gruppo di lavorazioni non è valido.\nRipristinare un collegamento della geometria congruente con il piano di sicurezza del gruppo di lavorazioni.";
+ERR_1036="Nella macro di luce minima non è definito nessun piano. \nSelezionare un piano oppure modificare la modalità della macro di luce minima.";
+ERR_1037="Il piano definito nella macro di luce minima non è valido.\nRipristinare un collegamento della geometria congruente con questo piano.";
+ERR_1038="I piani selezionati come verifica vengono ignorati.";
+ERR_1039="Le guide non sono definite.";
+ERR_1040="I pulsanti non sono definiti.";
+
+//====================================================================================================
+// Erreurs communes 
+//====================================================================================================
+
+ERR_1161="Le collisioni non sono state risolte:
+- verificare le collisioni su un assieme utensile valido (sufficientemente lungo)
+- oppure definire una macro di collegamento per evitare le collisioni.";
+
+ERR_1198="Codice eseguibile mancante per questo calcolo.
+Rivolgersi al supporto locale.";
+ERR_1199="Nessun elemento da fresare.
+Verificare i dati della lavorazione.";
+ERR_1227="Geometria non trovata.
+Verificare la geometria selezionata.";
+ERR_1228="Errore nel calcolo del percorso utensile.
+Rivolgersi al supporto locale.";
+ERR_1229="Errore nel calcolo del percorso utensile.\nProbabile posizione dell'errore: /p1";
+
+// Compensation
+ERR_1230="Modalità di compensazione del tagliente con contatto 3D non supportata.\nImpostare il parametro su No nell'editor di lavorazione.";
+ERR_1231="Modalità di compensazione del tagliente con contatto 3D per questa lavorazione quando è definito un gruppo offset.";
+ERR_1232="Modalità di compensazione del tagliente con contatto 3D per questa lavorazione quando è definito un offset sulla parte.";
+
+ERR_1610="Le collisioni non sono state risolte:
+- verificare le collisioni su un assieme utensile valido,
+- definire le macro di collegamento/ritorno adeguate per evitare le collisioni.";
+ERR_1611="Collisione sulla macro di avvicinamento:
+- modificare/disattivare la macro di avvicinamento,
+- verificare le collisioni su un assieme utensile valido,
+- definire una macro di collegamento per evitare la collisione.";
+ERR_1612="Collisione sulla macro di ritrazione:
+- modificare/disattivare la macro di ritrazione,
+- verificare le collisioni su un assieme utensile valido,
+- definire una macro di collegamento per evitare la collisione.";
+
+ERR_1999="Calcolo del percorso utensile.
+Calcolo interrotto.";
+ERR_27=" Dati di immissione non validi.";
+
+ERR_1233="La parte da lavorare non è valida.\nGli elementi sono nascosti o vuoti.";
+
+// Thru a guide
+ERR_1240="La guida di inclinazione non è continua.";
+ERR_1241="Offset incompatibile sulla guida di inclinazione.\nSelezionare un'altra guida o ridurre l'offset.";
+ERR_1242="La guida di inclinazione è troppo complessa e non può essere in offset.\nSelezionare una guida continua in tangenza o una guida piana.";
+
+// Selection multiple de faces
+ERR_1131="Selezione di più facce.\nVerificare la geometria ";
+
+//====================================================================================================
+// Erreurs Sweeping
+//====================================================================================================
+
+ERR_2000="Direzione di visualizzazione parallela alla direzione iniziale. \nSelezionare direzioni non parallele.";
+ERR_2001="I parametri di sweep multiassiale sono corretti.";
+ERR_2003="L'angolo di attacco deve essere compreso tra -90 e +90 gradi.";
+ERR_2004="L'angolo di attacco minimo deve essere compreso tra -90 e +90 gradi.";
+ERR_2005="L'angolo di attacco massimo deve essere compreso tra -90 e +90 gradi.";
+ERR_2006="L'angolo di inclinazione deve essere compreso tra -90 e +90 gradi.";
+ERR_2007="L'angolo di inclinazione minimo deve essere compreso tra -90 e +90 gradi.";
+ERR_2008="L'angolo di inclinazione massimo deve essere compreso tra -90 e +90 gradi.";
+ERR_2009="L'angolo di attacco massimo deve essere maggiore dell'angolo di attacco minimo.";
+ERR_2010="L'angolo di inclinazione massimo deve essere maggiore dell'angolo di inclinazione minimo.";
+ERR_2011="L'angolo di attacco deve essere compreso tra l'angolo di attacco minimo e quello massimo.";
+ERR_2012="L'angolo di inclinazione deve essere compreso tra l'angolo di inclinazione minimo e quello massimo.";
+
+//====================================================================================================
+// Erreurs Flank Contouring
+//====================================================================================================
+
+ERR_3001="I parametri di contornatura sul fianco multi-asse sono corretti.";
+ERR_3002="\tNumero livello assiale: ";
+ERR_3003="\tNumero percorso radiale: ";
+ERR_3004="\tNumero elemento guida: ";
+
+ERR_3050="Punto di riferimento automatico impossibile.
+Selezionarlo manualmente.";
+
+ERR_3060="Errori nell'impostazione dei dati di traiettoria in macro
+Verificare i parametri";
+
+ERR_3228="Superficie guida non valida
+Il tipo di geometria fornito come superficie
+guida non è valido. Ad esempio, la superficie
+della parte e la superficie guida non possono essere la stessa entità.";
+
+ERR_3251="Proiezione dell'utensile non riuscita
+L'utensile non può essere proiettato sulla superficie.
+È possibile che la superficie presenti una
+modifica angolare eccessiva. È anche possibile modificare le opzioni per la traiettoria
+(ad esempio, tolleranza di lavorazione)\nper tentare di risolvere il problema.";
+
+ERR_3314="Elemento guida.
+La geometria non è supportata.";
+
+ERR_3315="Elemento iniziale.
+La geometria non è supportata.";
+
+ERR_3316="Elemento finale.
+La geometria non è supportata.";
+
+ERR_3317="Direzione iniziale non definita
+Non è stata stabilita una direzione in avanti.";
+
+ERR_3318="Tipo di geometria non valido per Superficie guida o elementi iniziali/finali
+I soli tipi di geometria validi per una superficie iniziale/finale o una
+superficie guida sono piani o superfici.";
+
+ERR_3320="Attività sconosciuta per la sezione in movimento
+È stato chiesto al sistema di eseguire
+un'operazione non supportata.";
+
+ERR_3321="Numeri di direzione troppo piccoli
+Il vettore di immissione ha un valore troppo piccolo per
+determinare la direzione. Ad esempio, un vettore con valore
+'0,0,.000001' è troppo piccolo.";
+
+ERR_3322="Tipo di geometria non valido per Part Design
+Una superficie di parte può essere solo un piano, una faccia, una superficie
+o un Rsur.";
+
+ERR_3323="Asse utensile errato
+I valori di asse utensile I,J,K sono troppo piccoli.
+Il vettore di immissione ha un valore troppo piccolo per
+determinare la direzione. Ad esempio, un vettore di asse utensile
+con valore '0,0,.000001' è troppo piccolo.";
+
+ERR_3324="Direzione in avanti modificata
+Il sistema non è in grado di calcolare la direzione in avanti
+lungo la superficie guida.
+È possibile che la superficie della parte
+divenga parallela alla superficie guida.";
+
+ERR_3325="Direzione in avanti invertita
+Il sistema non è in grado di calcolare la direzione in avanti\nlungo la superficie guida.
+È possibile che l'utensile diventi parallelo alla superficie della parte o
+perpendicolare alla superficie guida. Questo errore può verificarsi anche se l'utensile
+si muove in un modo tale da non 'vedere' la superficie\nsuccessiva.";
+
+ERR_3328="Proiezione utensile non riuscita
+Si è verificato un errore durante l'analisi di una superficie
+utilizzata in una lavorazione. Ciò può accadere se la superficie
+presenta una modifica angolare eccessiva.
+Nel caso della posizione iniziale, provare a modificare la posizione del
+punto di riferimento.";
+
+ERR_3329="Relazione Utensile/Dispositivo errata
+Durante la traiettoria richiesta, il sistema non è stato in grado di
+applicare correttamente l'utensile alla superficie guida.";
+
+ERR_3338="Applicazione utensile a superficie non riuscita
+Il sistema non è stato in grado di applicare la lama alla superficie.";
+
+ERR_3339="Elemento guida ausiliario non valido.
+Almeno una guida non può essere calcolata.
+Verificare che ciascun elemento guida ausiliario
+possa essere proiettato correttamente su una delle guide selezionate";
+
+ERR_3340="Elementi guida non contigui.
+Impostare una direzione di riavvio manuale utilizzando il comando contestuale Modifica locale.";
+
+ERR_3341="Errore nella posizione finale
+Il sistema non è in grado di posizionare l'utensile. \nPossibili cause:
+Errore su guida 1: verificare l'elemento iniziale, tentare con un
+punto di riferimento manuale e con una direzione manuale.
+Errore su guida 2: verificare l'elemento iniziale e l'ordine delle guide.
+Errore su altra guida: la curvatura+spessore dell'angolo
+è maggiore del raggio del body dell'utensile.";
+
+ERR_3363="Caso di geometria impossibile
+Il codice di errore può essere provocato da diverse condizioni:
+* La seguente superficie non è stata trovato con - Tanto Fan -
+  Strategia dell'asse utensile.
+* La normale alla superficie di guida è diventata parallela all'asse utensile.";
+
+ERR_3455="Calcolo interrotto a causa di un passaggio di utensile.
+Durante il calcolo del percorso utensile sono stati individuati dei passaggi di utensile.
+Ciò può accadere nel caso di superfici con più parti.
+Rivolgersi al supporto.";
+
+ERR_3456="Condizione impossibile sulla seguente superficie
+Si è verificato un errore nella determinazione di una posizione finale per
+l'utensile in relazione alla seguente superficie.
+Verificare di non avere richiesto una condizione
+impossibile per applicare l'utensile alla superficie.";
+
+ERR_3457="Elementi guida non contigui.
+Impostare una direzione di arresto manuale utilizzando il comando contestuale Modifica locale.";
+
+ERR_3462="Condizione specifica su superficie
+La Lama a disco e il ventaglio dell'asse utensile richiedono\n
+che l'utensile sia SULLA superficie.
+Non esiste nessun punto tangente per mantenere il contatto con l'elemento guida.
+È possibile che la lunghezza di taglio sia troppo piccola.";
+
+ERR_3463="Condizione specifica su superficie
+La Lama a disco e il ventaglio dell'asse utensile richiedono\nche l'utensile sia SULLA superficie.";
+
+ERR_3474="La velocità di avanzamento è zero
+Il valore fornito per la velocità di avanzamento è zero. Il valore per le
+velocità di avanzamento dovrebbe essere maggiore di zero.";
+
+ERR_3479="Movimento o superficie di verifica errati
+La strategia di asse utensile - TANTO FAN - richiede una superficie,
+una faccia, un RSUR o un piano come superficie di movimento
+e superficie iniziale/finale.";
+
+ERR_3506="Direzione in avanti non definita
+Impossibile calcolare la direzione in avanti.";
+
+ERR_3508="Tipo di superficie guida non valido per - TANTO//PARELM -
+I tipi supportati per la superficie guida sono superficie, faccia,\nRSUR o piano.";
+
+ERR_3553="Altezza di contatto troppo piccola
+L'altezza di contatto utilizzata lungo la superficie di guida\nè troppo piccola.";
+
+ERR_3554="Proiezione dell'utensile su superficie guida non riuscita
+Impossibile proiettare l'utensile sulla superficie di guida.
+È possibile che la posizione di riferimento non sia
+di fronte alla superficie guida. Per risolvere il problema, spostare il punto
+di riferimento accanto alla superficie di guida.";
+
+ERR_3559="Tolleranza superata
+Tolleranza superate nel numero di traiettoria utensile \p1.";
+
+ERR_3666="Discretizzazione del bordo non eseguita correttamente
+Si è verificato un errore durante l'elaborazione del bordo della
+parte, dell'unità o della superficie di inizio/fine.\nRivolgersi al supporto.";
+
+ERR_3667="Condizioni troppo rigide
+Condizioni troppo rigide per la modalità asse utensile COMBIN.
+L'utensile non ha eseguito il fan dalla posizione
+iniziale o verso l'elemento seguente. Questo errore è
+di solito causato quando la distanza di fan è
+troppo piccola. Per risolvere l'errore, aumentare la
+distanza di ritrazione o approccio in modo che sia maggiore del\ndiametro dell'utensile.";
+
+ERR_3671="Errori nell'assegnazione della memoria.
+Errori nell'assegnazione della memoria. Impossibile assegnare memoria.";
+
+ERR_3674="Bordatura non eseguita correttamente.
+Verificare il raggio di angolo.";
+
+ERR_3710="Errore interno del modello
+Incoerenza rilevata nel modello interno.";
+
+ERR_3717="Impossibile eseguire l'offset lungo l'asse
+L'angolo tra l'asse utensile e\nla normale alla parte è maggiore di 90 gradi.";
+
+ERR_3718="Impossibile eseguire l'offset lungo l'asse
+La normale alla parte non\nè stata calcolata correttamente.";
+
+ERR_3723="Errore interno nelle comunicazioni
+Si è verificato un errore nel software CATIA ma non è\nstato trasmesso correttamente al monitor a 5 assi.\nRivolgersi al supporto locale.";
+
+ERR_3724="Direzione automatica non eseguita correttamente
+Il software non ha\nindividuato correttamente la sinistra/destra per la prima superficie di guida.
+È possibile che le superfici di guida non siano\nadiacenti o che si tratti di un caso di geometria complessa.
+Impostare una direzione manuale alla pagina della strategia.";
+
+ERR_3726="Valore di angolo massimo non valido.
+Questo valore non può essere ZERO né un multiplo di 180.\nModificare il valore nel pannello di opzioni.";
+
+ERR_3730="Traiettoria dell'utensile errata
+Una parte della geometria non è stata \ncalcolata. Selezionarla di nuovo.";
+
+ERR_3731="Traiettoria dell'utensile errata
+Almeno un elemento della parte non\npuò essere calcolato. Ripristinare e\nselezionare di nuovo tutti gli elementi della parte.";
+
+ERR_3732="Traiettoria dell'utensile errata
+L'elemento di guida non può essere\ncalcolato. Selezionarlo di nuovo.";
+
+ERR_3741="Curva della parte non definita
+Nessuna curva fornita come parte per la guida '/p1'.";
+
+ERR_3742="Curva della parte non definita
+Questa curva non è un bordo delle superfici guida selezionate.";
+
+ERR_3743="Sono stati selezionati più punti. La selezione non è valida. Riselezionare.";
+
+//====================================================================================================
+// Errors 5 Axis Curve
+//====================================================================================================
+
+ERR_4000="Nessun elemento di guida definito.
+Gli elementi di guida sono obbligatori in questo contesto.
+Selezionare degli elementi di guida.";
+
+ERR_4001="Asse utensile sconosciuto.
+L'asse utensile non è definito.
+Selezionare un asse utensile.";
+
+ERR_4002="Punto dell'asse utensile sconosciuto.
+Il punto dell'asse utensile non è definito.
+Selezionare un punto dell'asse utensile.";
+
+ERR_4003="Linea dell'asse utensile sconosciuta.
+La linea dell'asse utensile non è definita.
+Selezionare una linea dell'asse utensile.";
+
+ERR_4004="Nessun elemento ausiliario definito.
+Gli elementi ausiliari sono obbligatori in questo contesto.
+Selezionare degli elementi ausiliari.";
+
+ERR_4005="I parametri di lavorazione curvilinea multi-asse sono corretti.";
+
+ERR_4006="Nessun asse di interpolazione definito.
+Gli assi di interpolazione sono obbligatori in questo contesto.
+Selezionare gli assi di interpolazione.";
+
+ERR_4007="Strategia dell'asse utensile non valida con l'utensile sferico.
+È necessario utilizzare un utensile non sferico per utilizzare il parametro di distanza di composizione.
+Cambiare utensile oppure selezionare un'altra strategia dell'asse utensile.";
+
+ERR_4008="Nessun elemento da fresare.
+L'utensile potrebbe seguire una linea isoparametrica errata.
+Modificare l'asse utensile di riferimento o verificare i parametri.";
+
+ERR_4009="Diverse facce interne non sono connesse e non è possibile trovare gli orientamenti.\nSelezionare di nuovo le facce non connesse in successione.";
+
+ERR_4010="La guida di inclinazione non è definita.";
+
+ERR_4011="Le superfici guida non sono definite.";
+
+//====================================================================================================
+// Errors 5 Axis Contour Driven 
+//====================================================================================================
+
+ERR_5000="Nessun elemento di guida definito.
+Gli elementi di guida sono obbligatori in questo contesto.
+Selezionare degli elementi di guida.";
+
+ERR_5001="I parametri di lavorazione multi-asse guidata dal contorno sono corretti.";
+
+ERR_5002="Parametro di distanza fra le passate non consentito per la riproduzione.
+Numero di percorsi non consentito per la riproduzione nelle
+strategie Tra i contorni o Contorno della dorsale.
+Selezionare un'altra strategia radiale o guida.";
+
+ERR_5003="Intersezione su contorno.\nSelezionare un altro contorno.";
+
+ERR_5004="Impossibile elaborare il contorno poiché viene interpretato come serie di
+elementi secondari coincidenti con la direzione di visualizzazione specificata.
+Modificare la direzione di visualizzazione o selezionare un altro contorno.";
+
+ERR_5005="Contorno non continuo.\nChiudere il contorno o selezionarne un altro.";
+
+ERR_5006="Offset incompatibile sul contorno con il contorno guida.\nSelezionare un altro contorno oppure modificare l'offset";
+ERR_5007="Utensile di ripresa incompatibile con l'utensile dell'area di ripresa.\nSelezionare un altro utensile.";
+ERR_5008="Contorno guida non definito.";
+ERR_5009="Offset negativo incompatibile o posizione sul contorno con contorni di arresto.";
+
+// NE PAS UTILISER LA PLAGE JUSQU'A 5020 (futures erreurs Pattern2d)
+
+
+//====================================================================================================
+// JLN 5 Avril 2001
+// Information 5 Axis Generic
+//====================================================================================================
+ERR_6001.Request="Percorso utensile calcolato con la strategia dell'asse tangente";
+ERR_6001.Diagnostic="Superficie non rigata rilevata come guida.\nCiò può provocare la fresatura incompleta della superficie.";
+ERR_6001.Advice="La strategia di asse tangente è sconsigliata";
+
+ERR_6002.Request="Percorso utensile calcolato con la strategia dell'asse tangente";
+ERR_6002.Diagnostic="Le direzioni di rigatura non sono state rispettate su alcune posizioni dell'utensile \nrispetto al parametro di variazione di attacco consentita. \nCiò può causare la fresatura incompleta di una delle superfici guida.";
+ERR_6002.Advice="Aumentare il valore del parametro di variazione di attacco consentita";
+
+ERR_6003.Request="Percorso utensile calcolato con strategia di asse angolo di attacco dinamico";
+ERR_6003.Diagnostic="Alcune aree della parte non sono state fresate. \nL'intervallo principale corrente è [ /p1 , /p2 ] gradi";
+ERR_6003.Advice="Aumentare il parametro dell'angolo di attacco massimo se l'intervallo corrente lo consente";
+
+ERR_6004.Request="Percorso utensile calcolato con strategia di asse angolo di attacco dinamico";
+ERR_6004.Diagnostic="Tutta la parte è stata fresata. \nL'intervallo principale corrente è [ /p1 , /p2 ] gradi";
+
+ERR_6005.Request="Percorso utensile calcolato con strategia di asse angolo di inclinazione dinamico";
+ERR_6005.Diagnostic="Alcune aree della parte non sono state fresate. \nL'intervallo di inclinazione corrente è [ /p1 , /p2 ] gradi";
+ERR_6005.Advice="Aumentare il parametro della variazione di inclinazione massima se l'intervallo corrente lo consente";
+
+ERR_6006.Request="Percorso utensile calcolato con strategia di asse angolo di inclinazione dinamico";
+ERR_6006.Diagnostic="Tutta la parte è stata fresata. \nL'intervallo di inclinazione corrente è [ /p1 , /p2 ] gradi";
+
+ERR_6013.Request="Percorso utensile calcolato con strategia di asse angolo di attacco dinamico";
+ERR_6013.Diagnostic="Alcune aree della parte non sono state fresate. \nNessuna variazione di attacco";
+ERR_6013.Advice="Aumentare il parametro dell'angolo di attacco massimo se l'intervallo corrente lo consente";
+
+ERR_6014.Request="Percorso utensile calcolato con strategia di asse angolo di attacco dinamico";
+ERR_6014.Diagnostic="Tutta la parte è stata fresata. \nNessuna variazione di attacco";
+
+ERR_6015.Request="Percorso utensile calcolato con strategia di asse angolo di inclinazione dinamico";
+ERR_6015.Diagnostic="Alcune aree della parte non sono state fresate. \nNessuna variazione di inclinazione";
+ERR_6015.Advice="Aumentare il parametro della variazione di inclinazione massima se l'intervallo corrente lo consente";
+
+ERR_6016.Request="Percorso utensile calcolato con strategia di asse angolo di inclinazione dinamico";
+ERR_6016.Diagnostic="Tutta la parte è stata fresata. \nNessuna variazione di inclinazione";
+
+ERR_6007.Request="Condizione di sformo contrario locale rilevata";
+ERR_6007.Diagnostic="Alcune aree della parte non sono state fresate.\nL'orientamento relativo dell'asse utensile e la normale della parte non sono\ncompatibili localmente con la geometria degli spigoli di taglio utensile.";
+ERR_6007.Advice="Modificare l'orientamento dell'asse utensile o selezionare un altro taglio: \nStozzatrice a T o conica con angolo di taglio negativo";
+
+ERR_6008.Request="Percorso utensile calcolato con la strategia dell'asse tangente, lungo Iso-linea o normale alla curva guida";
+ERR_6008.Diagnostic="Interferenza massima misurata rispetto alle superfici guida: /p1 \nMateriale massimo rimasto misurato rispetto alle superfici guida: /p2 ";
+ERR_6008.Advice="Se uno di questi valori non è compatibile con la tolleranza attesa,\n vuol dire che le superfici guida non sono sviluppabili globalmente lungo l'asse utensile.\nUtilizzare una strategia dell'asse utensile diversa.";
+
+//====================================================================================================
+// Errors 3/5 Axis Isopar 
+//====================================================================================================
+
+ERR_7001="I parametri di lavorazione per isoparametriche sono corretti.";
+
+ERR_7010.Request="La geometria della parte deve essere completamente definita prima di selezionare gli angoli.";
+ERR_7010.Advice="Gli angoli verranno proposti per la selezione in base alla parte da lavorare.
+Selezionare tutta la geometria della parte.";
+
+ERR_7011.Request="La geometria della parte e gli angoli devono essere definiti
+prima di selezionare le aree di interpolazione.";
+ERR_7011.Advice="Gli assi di interpolazione verranno proposti per la selezione in base ai vertici candidati.
+Selezionare tutta la geometria della parte.";
+
+ERR_7012="Caso geometrico errato.
+Elementi multi-cella '/p1' selezionati come parte o interpolazione della guida non eseguita.";
+
+ERR_7013="Geometria non supportata.
+La parte /p1./p2 con meno di 3 REdges non è supportata dalla Lavorazione per isoparametriche.";
+
+ERR_7014="Geometria non supportata.
+Cintura con isole tra le parti non supportata dalla Lavorazione per isoparametriche.";
+
+ERR_7015="I raccordi devono essere selezionati sulla parte per l'operazione di calcolo.
+Essi verranno proposti per la selezione in base alla parte da lavorare.
+Selezionare i raccordi della parte.";
+
+ERR_7016="Geometria non supportata.
+Elementi selezionati come parti non una cintura.";
+
+ERR_7017="Parte '/p1'.
+La geometria non è supportata.";
+
+ERR_7018="I piani non sono supportati come elementi parte.";
+
+ERR_7019="Geometria non supportata.
+Non eseguire una selezione globale.
+Selezionare le facce desiderate una dopo l'altra in '/p1'.";
+
+ERR_7020="L'offset negativo maggiore del raggio del percorso dell'utensile funziona solo per le aree verticali e orizzontali";
+
+ERR_7021="Le configurazioni consentite per i raccordi non possono essere calcolate nella cintura /p1.
+Rimuovere la parte /p1./p2 dalla cintura.";
+
+ERR_7022="Le posizioni degli assi di interpolazione aggiuntivi non possono essere lette.\nRimuovere tutti gli assi aggiuntivi e selezionarli nuovamente.";
+ERR_7023="Gli assi di interpolazione aggiuntivi non vengono presi in considerazioni perché le posizioni non possono essere lette.\nRimuovere tutti gli assi aggiuntivi e selezionarli nuovamente.";
+
+ERR_7024="Errore interno.\nImpossibile visualizzare le interferenze.";
+ERR_7025="Gli elementi guida e le parti non sono definiti.\nLa verifica di interferenza utensile è disabilitata.";
+ERR_7026="Impossibile visualizzare l'utensile in contatto con la parte lungo questa direzione.";
+ERR_7027="La verifica di interferenza utensile non funziona sulla rappresentazione utente dell'utensile.";
+ERR_7028="Sono state rilevate interferenze utensile con offset CHECK.\nEsse non sono visualizzate.";
+ERR_7029="Sono state rilevate interferenze utensile con offset PART.\nEsse non sono visualizzate.";
+ERR_7030="Sono state rilevate interferenze utensile con offset PART e CHECK.\nEsse non sono visualizzate.";
+
+ERR_7031="Impossibile calcolare le posizioni intermedie dell'utensile.\nVerificare gli assi di interpolazione.";
+
+//====================================================================================================
+// Errors 5 Axis Helix Machining 
+//====================================================================================================
+
+ERR_8001="I parametri di lavorazione elicoidale multi-asse sono corretti.";
+
+ERR_8996="I contorni iniziali, finali, superiori e inferiori devono essere definiti
+prima di selezionare le aree di interpolazione.";
+
+ERR_8997=" Contorno iniziale, finale, superiore e inferiore non supportati.
+Selezionare dei contorni validi ";
+
+ERR_8998="Deve esistere un'intersezione tra i contorni Iniziale/Inferiore, Iniziale/Superiore, Finale/Inferiore e Finale/Superiore.
+Selezionare dei contorni validi ";
+
+//====================================================================================================
+// Errors 4 Axis Curve Sweeping
+//====================================================================================================
+
+ERR_9001="I parametri di sweep della curva multiassiale sono corretti.";
+ERR_9002="Direttrice dritta non consentita.";
+ERR_9003="La guida non è piana.";
+ERR_9004="La guida non è continua.";
+ERR_9005="La guida piana valida deve essere definita prima di selezionare le direzioni di inizio.";
+
+//====================================================================================================
+// Errors 5 Axis Tube Machining
+//====================================================================================================
+
+ERR_10001="I parametri di lavorazione tubolari multi-asse sono corretti.";
+ERR_10002="La posizione dell'asse guida non è definita.";
+ERR_10003="Nessuna area di cavità rilevata.\n Selezionare un punto per definire il centro di proiezione della cavità.";
+
+//====================================================================================================
+// Errors 5 Axis Spiral Milling
+//====================================================================================================
+
+ERR_11001="I parametri di fresatura a spirale multi-asse sono corretti.";
+ERR_11002="Faccia guida non definita.";
+
+//====================================================================================================
+// Errors Multi Pocket Flank contouring
+//====================================================================================================
+
+ERR_12001="I parametri di contornatura sul fianco multi-tasca sono corretti.";
+

@@ -1,0 +1,74 @@
+//=====================================================================================
+//                                     CNEXT - CXRn
+//                          COPYRIGHT DASSAULT SYSTEMES 2001 
+//-------------------------------------------------------------------------------------
+// FILENAME    :    CATDrwDimThreadCmd
+// LOCATION    :    DraftingIntCommands
+// AUTHOR      :    fgx
+// BUT         :    Commande de creation de cotes sur threads (top and/or side views)
+// DATE        :    07.03.2001
+//-------------------------------------------------------------------------------------
+// DESCRIPTION :    
+//-------------------------------------------------------------------------------------
+// COMMENTS    :    
+//-------------------------------------------------------------------------------------
+// MODIFICATIONS     user  date        purpose
+//    HISTORY        ----  ----        -------
+//=====================================================================================
+
+//******************************************************************************
+// Command
+//******************************************************************************
+CATDrwDimThreadCmd.Title = "Размер резьбы";
+CATDrwDimThreadCmd.UndoTitle = "Создание размера резьбы";
+
+//******************************************************************************
+// States
+//******************************************************************************
+CATDrwDimThreadCmd.waitForSelState.Message = "Выберите представление резьбы для простановки размера";
+CATDrwDimThreadCmd.waitFor2sdLineState.Message = "Выберите вторую линию 2D, параллельную первой";
+
+//******************************************************************************
+// Agents
+//******************************************************************************
+CATDrwDimThreadCmd._agentSet._elemAgent.UndoTitle = "Выбор представления резьбы";
+CATDrwDimThreadCmd._agentSet._lineAgent1.UndoTitle = "Выбор второй линии 2D";
+CATDrwDimThreadCmd._agentSet.2DPointIndication.UndoTitle = "Выбор";
+
+CATDrwDimThreadCmd.OrientBarRessource.Bar.Title="Ориентация";
+
+//******************************************************************************
+// Force dimension on element Button
+//******************************************************************************
+CATDrwDimThreadCmd.OrientBarRessource._refElem.Title = "Принудительный размер по элементу";
+CATDrwDimThreadCmd.OrientBarRessource._refElem.ShortHelp="Принудительный размер по элементу";
+CATDrwDimThreadCmd.OrientBarRessource._refElem.Help=
+"Принудительное расположение размерной линии параллельно элементу, размер которого проставляется";
+CATDrwDimThreadCmd.OrientBarRessource._refElem.LongHelp=
+"Принудительный размер по элементу
+Принудительное расположение размерной линии параллельно элементу, размер которого проставляется.";
+
+//******************************************************************************
+// Force horizontal dimension Button
+//******************************************************************************
+CATDrwDimThreadCmd.OrientBarRessource._refHori.Title = "Принудительный горизонтальный размер";
+CATDrwDimThreadCmd.OrientBarRessource._refHori.ShortHelp="Принудительный горизонтальный размер";
+CATDrwDimThreadCmd.OrientBarRessource._refHori.Help=
+"Принудительное горизонтальное расположение размерной линии";
+CATDrwDimThreadCmd.OrientBarRessource._refHori.LongHelp=
+"Принудительный горизонтальный размер
+Принудительное горизонтальное расположение размерной линии.";
+
+//******************************************************************************
+// Force vertical dimension Button
+//******************************************************************************
+CATDrwDimThreadCmd.OrientBarRessource._refVert.Title = "Принудительный вертикальный размер";
+CATDrwDimThreadCmd.OrientBarRessource._refVert.ShortHelp="Принудительный вертикальный размер";
+CATDrwDimThreadCmd.OrientBarRessource._refVert.Help=
+"Принудительное вертикальное расположение размерной линии";
+CATDrwDimThreadCmd.OrientBarRessource._refVert.LongHelp=
+"Принудительный вертикальный размер
+Принудительное вертикальное расположение размерной линии.";
+
+FakeThreadDim="Создание неассоциативного размера резьбы.";
+

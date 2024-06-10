@@ -1,0 +1,128 @@
+(* catalog of lcm core object *)
+
+@[ModElement {} struct end @]
+
+@[ModDef {} let $"New Value" = () @]
+@[ModDef @[Latetypes AUTLciIntern AUTLciModDef@] {} let $"New Value" = () @]
+@[ModDef @[Latetypes AUTLciExtern AUTLciModDef@] {} extern $"New Extern" : bool = "Host Name" @]
+@[ModDef @[Latetypes AUTLciType AUTLciModDef@] {} type $"New Type Name" = pure @]
+@[ModDef @[Latetypes AUTLciDimension AUTLciType@] {} dimension $"New Dimension" @]
+@[ModDef @[Latetypes AUTLciModulComplex AUTLciModDef@] {} module $"New Module Name" = struct end @]
+@[ModDef @[Latetypes AUTLciModul AUTLciModulComplex@] {} module $"New Module Name" = struct end @]
+@[ModDef @[Latetypes AUTLciModuleAlias AUTLciModulComplex@] {} module $"New Module Name" = $"New Alias Name" @]
+@[ModDef @[Latetypes AUTLciOpenOrInclude AUTLciModDef@] {} open $"module path" @]
+@[ModDef @[Latetypes AUTLciModuleType AUTLciModDef@] {} module type $"New Module Name" = sig end @]
+
+@[ModType {} sig end @]
+
+@[ModSig {} val $"New Value" : pure @]
+
+@[Module {} = struct end @]
+
+@[Module @[Latetypes AUTLciTopModule AUTLciModule@] {} = struct open @@Pervasives end @]
+@[Module @[Latetypes AUTLciStandardLib AUTLciTopModule @] {} = struct  end @]
+
+
+@[Module @[Latetypes AUTLciNewLibrary AUTLciModule@] {}  = @@$"new name" @]
+@[Module @[Latetypes AUTLciChildLibrary AUTLciNewLibrary@] {} = @@$"new name" @]
+
+@[Module @[Latetypes AUTLciStdLibrary AUTLciNewLibrary @] {}  = @@$"new name" @]
+
+@[ModDef @[Latetypes AUTLciOpenLibrary AUTLciOpenOrInclude@] {} open $"module path" @]
+@[ModDef @[Latetypes AUTLciIncludeLibrary AUTLciOpenOrInclude@] {} include $"module path" @]
+
+@[Latetypes AUTLciModForChild AUTLciModule@] {}
+
+@[TypeDef {} = pure @]
+
+@[Expr {} () @]
+@[Expr @[Latetypes AUTLciValuePath AUTLciExpr@] {} $"new path" @]
+@[Expr @[Latetypes AUTLciLiteral AUTLciExpr@] {} () @]
+@[Expr @[Latetypes AUTLciBlock AUTLciExpr@] {} block _ do nothing done @]
+@[Expr @[Latetypes AUTLciLadder AUTLciExpr@] {} $$ladder done @]
+@[Expr @[Latetypes AUTLciAccess AUTLciExpr@] {} $"new signal".$"new access" @]
+@[Expr @[Latetypes AUTLciApply AUTLciExpr@] {} $"new function" () @]
+@[Expr @[Latetypes AUTLciFunction AUTLciExpr@] {} function x -> x @]
+@[Expr @[Latetypes AUTLciArray AUTLciExpr@] {} [] @]
+
+@[TypeExpr {} pure @]
+@[TypeExpr @[Latetypes AUTLciTypePath AUTLciTypeExpr@] {} pure @]
+@[TypeExpr @[Latetypes AUTLciTypeArray AUTLciTypeExpr@] {} 'a[?n] @]
+@[TypeExpr @[Latetypes AUTLciTypeVar AUTLciTypeExpr@] {} 'a @]
+@[TypeExpr @[Latetypes AUTLciTypeFunction AUTLciTypeExpr@] {} pure -> pure @]
+@[TypeExpr @[Latetypes AUTLciTypeBlock AUTLciTypeExpr@] {} block <inout> pure @]
+@[TypeExpr @[Latetypes AUTLciTypeProcedure AUTLciTypeExpr@] {} procedure pure -> pure @]
+
+@[DimExpr {} 1 @]
+
+@[Port {} _ @]
+
+@[Mapping {} _ @]
+
+@[Pattern {} _ @]
+@[Pattern @[Latetypes AUTLciBlockPort AUTLciPattern@] {} _ @]
+@[Pattern @[Latetypes AUTLciBlockSignal AUTLciPattern@] {} _ @]
+@[Pattern @[Latetypes AUTLciInstancePort AUTLciPattern@] {} _ @]
+@[Pattern @[Latetypes AUTLciInstanceActivation AUTLciPattern@] {} _ @]
+@[Pattern @[Latetypes AUTLciInstanceReset AUTLciPattern@] {} _ @]
+@[Pattern @[Latetypes AUTLciLadderInput AUTLciPattern@] {} _ @]
+@[Pattern @[Latetypes AUTLciLadderOutput AUTLciPattern@] {} _ @]
+@[Pattern @[Latetypes AUTLciLadderLocal AUTLciPattern@] {} _ @]
+@[Pattern @[Latetypes AUTLciFunParam AUTLciPattern@] {} _ @]
+
+@[Direction {} inout @]
+
+@[Instruction {} nothing @]
+
+@[Step {} step $"new step name" do done@]
+
+@[Transition {} transition weak now -1 from final when false @]
+
+@[InstanceAct {} instance $"new instance name" = $"new block reference" _ @]
+@[InstanceAct @[Latetypes AUTLciInstanceMuxFun AUTLciInstanceAct@]{} instance mux = ((fun f -> block _  signal _ do
+	sustain self.y <-  f (self.x.(1), self.x.(0))
+  done) $"new function path") {x = <in> _; y = <out> _} @]
+
+(* deleted because block parameterized by block with no specified direction does not work 
+and will probably never workd*)
+(*@[InstanceAct @[Latetypes AUTLciInstanceMuxBlock AUTLciInstanceAct@]{} instance mux = ((fun b -> block _ 
+  instance b0 = b _
+  instance b1 = b _
+  signal _
+  connect self.Children.(0) with b0.Children.(0)
+  connect self.Children.(1) with b0.Children.(1)  
+  connect b0.Father with b1.Children.(0)
+  connect self.Children.(2) with b1.Children.(1)
+  connect b1.Father with self.Father
+    do $$dataflow done) $"new block path") {Father = _; Children = _} @]
+*)
+
+@[InstanceAct @[Latetypes AUTLciInstanceRendezVous AUTLciInstanceAct@]{} instance rendezvous = 
+(block {x = x; y = y}  signal _ do
+  loop ((await delayed ?x.(0) || await delayed ?x.(1)); !y)
+  done)
+ {x = (*<in>*) _; y = (*<out>*) _} @]
+
+
+@[InstanceAct @[Latetypes AUTLciInstanceMuxArray AUTLciInstanceAct@]{} instance mux_array = (block _  signal _ do
+	sustain self.y <-  [self.x.(0); self.x.(1)]
+  done) {x = (*<in>*) _; y = (*<out>*) _} @]
+
+@[InstanceAct @[Latetypes AUTLciInstanceDemuxArray AUTLciInstanceAct@]{} instance demux_array = (block _  signal _ do
+	sustain self.y.(0) <-  self.x.[0]
+||
+	sustain self.y.(1) <-  self.x.[1]
+  done) {x = (*<in>*) _; y = (*<out>*) _} 
+@]
+
+@[Connexion {} connect _ with _ @]
+
+@[LadderNode {} $"new node name" @]
+
+@[LadderRung {} $$rung signal connect @]
+
+@[LadderConnexion {} from $$left to $$right $$direct $$contact true @]
+
+@[Ident {} $"new ident" @]
+
+@[AssocData {} "empty assoc data"@]

@@ -1,0 +1,25 @@
+'
+' Space Reservation Data Export Macro
+'
+
+Language="VBSCRIPT"
+
+Sub CATMain()
+	Dim XMLFilename As String
+  Dim PreDefinedQuery As String
+  Dim PreDefinedEffectivity As String
+
+	' *** Please update the XML filename
+	XMLFilename = "E:\tmp\ExportSR.xml"
+
+  PreDefinedQuery = InputBox("Please give the PreDefined Query of the plane to Export:", "PreDefined Query", "Short")
+  PreDefinedEffectivity = InputBox("Please give the PreDefined Effectivity of the plane to Export:", "PreDefined Effectivity", "Short")
+
+	Dim CATSpaceReservation As Object
+	Set CATSpaceReservation = CATIA.GetItem("CATSpaceReservationExchange")
+	If(IsEmpty(CATSpaceReservation) = False) Then
+		CATSpaceReservation.ExportSpaceReservationDataToXMLFile CATIA.ActiveDocument, XMLFilename, PreDefinedQuery, PreDefinedEffectivity
+	End If
+
+	MsgBox "Space reservation data XML file generated"
+End Sub

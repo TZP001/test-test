@@ -1,0 +1,677 @@
+// Exemple de message :
+//
+// ERR_2000.Request    = "Vous avez additionne /p1 avec /p2";
+// ERR_2000.Diagnostic = "Un des parametres est negatif";
+// ERR_2000.Advice     = "Utilisez des parametres positifs";
+
+
+ERR_0001.Request="ｺﾈｸｼｮﾝ ﾒｯｼｭ ﾊﾟｰﾂをﾒｯｼｭ分割できません:
+/P01";
+ERR_0001.Diagnostic="/P01 には定義されたﾒｯｼｭ ﾊﾟｰﾂがありません｡";
+ERR_0001.Advice="1.ｱｾﾝﾌﾞﾘｰ解析のｺﾝﾃｷｽﾄ外:結合を行う前に形状にﾒｯｼｭ ﾊﾟｰﾂを作成する必要があります｡ \n2.ｱｾﾝﾌﾞﾘｰ解析のｺﾝﾃｷｽﾄ内: \n-活動化したCATAnalysis表現でｱｾﾝﾌﾞﾘｰ解析の構造点をﾁｪｯｸしてください(ｱｾﾝﾌﾞﾘｰ解析ﾂｰﾙﾊﾞｰを使用) \n-結合の前に形状にﾒｯｼｭ ﾊﾟｰﾂを作成してください \n3.寸法の整合性: 2D(3D)形状が2D(3D)ﾒｯｼｭ ﾊﾟｰﾂにﾘﾝｸしている必要があります";
+
+ERR_0002.Request="ｺﾈｸｼｮﾝ ﾒｯｼｭ ﾊﾟｰﾂをﾒｯｼｭ分割できません:
+/P01";
+ERR_0002.Diagnostic="形状ｻﾎﾟｰﾄに関連付けられたﾒｯｼｭが見つかりません:
+/P01";
+ERR_0002.Advice="形状ｻﾎﾟｰﾄ周囲のﾒｯｼｭが粗すぎないかﾁｪｯｸしてください｡";
+
+ERR_0003.Diagnostic="ﾒｯｼｭが失敗しました｡ﾒｯｼｭ ﾊﾟｰﾂに関連付けられた要素がありません:
+/P01";
+
+ERR_0004.Request="形状ｻﾎﾟｰﾄが見つかりません(削除された可能性があります)｡";
+ERR_0004.Diagnostic="ﾒｯｼｭ ﾊﾟｰﾂの形状ｻﾎﾟｰﾄが見つかりません:
+/P01";
+ERR_0004.Advice="ﾒｯｼｭ ﾊﾟｰﾂのｻﾎﾟｰﾄを更新するか､消去してください｡";
+
+ERR_0005.Request="形状ｻﾎﾟｰﾄの寸法が適切でありません:
+/P01";
+ERR_0005.Diagnostic="ﾒｯｼｭ ﾊﾟｰﾂの形状ｻﾎﾟｰﾄが無効です:
+/P01";
+ERR_0005.Advice="ﾒｯｼｭ ﾊﾟｰﾂのｻﾎﾟｰﾄを更新するか､消去してください｡";
+
+ERR_0006.Request="無効な形状ｻﾎﾟｰﾄ (空､または最新でない):
+/P01";
+ERR_0006.Diagnostic="ﾒｯｼｭ ﾊﾟｰﾂ:
+/P01";
+ERR_0006.Advice="ﾒｯｼｭ ﾊﾟｰﾂのｻﾎﾟｰﾄを更新するか､消去してください｡";
+
+ERR_0007.Request="ｱﾌﾟﾘｹｰｼｮﾝ ｺｰﾄﾞがありません｡";
+ERR_0007.Diagnostic="ﾒｯｼｭ ﾊﾟｰﾂを更新できません｡
+名前: /P01
+ﾀｲﾌﾟ: /P02";
+ERR_0007.Advice="前提のｱﾌﾟﾘｹｰｼｮﾝがすべてｲﾝｽﾄｰﾙ済みであることを確認してください｡";
+
+ERR_0008.Request="結合されるﾌｪｰｽは平面でなければなりません｡";
+ERR_0008.Diagnostic="ﾒｯｼｭ ﾊﾟｰﾂの形状ｻﾎﾟｰﾄが無効です:
+/P01";
+ERR_0008.Advice="ﾒｯｼｭ ﾊﾟｰﾂのｻﾎﾟｰﾄを更新するか､消去してください｡";
+
+ERR_0009.Request="結合されるﾌｪｰｽは､剛体変位に一致しなければなりません｡";
+ERR_0009.Diagnostic="ﾒｯｼｭ ﾊﾟｰﾂの形状ｻﾎﾟｰﾄが無効です: /P01";
+ERR_0009.Advice="考えられる原因: \n1.結合するﾌｪｰｽのｼｪｲﾌﾟが同じでない \n2.少なくとも1つのﾌｪｰｽに要素が見つからない \n3.形状情報による剛体変位を定義できない";
+
+ERR_0010.Request="前提条件となるﾗｲｾﾝｽがありません｡";
+ERR_0010.Diagnostic="ﾒｯｼｭ ﾊﾟｰﾂを更新できません:
+/P01";
+ERR_0010.Advice="前提条件となるﾗｲｾﾝｽをすべて有効にする必要があります｡";
+
+ERR_0011.Request="仮想ﾒｯｼｭ ﾊﾟｰﾂにﾒｯｼｭ分割できません:
+/P01";
+ERR_0011.Diagnostic="選択したｻﾎﾟｰﾄは同じ形状に属していません｡";
+ERR_0011.Advice="すべてのｻﾎﾟｰﾄ(ﾌｪｰｽ､ｴｯｼﾞ)は同じ形状のﾊﾟｰﾂでなければなりません｡";
+
+ERR_0012.Request="溶接した形状を検出できません｡";
+ERR_0012.Diagnostic="ﾒｯｼｭ ﾊﾟｰﾂの溶接定義が無効です:
+/P01";
+ERR_0012.Advice="溶接定義をﾁｪｯｸしてください｡
+溶接をｵｰﾄﾓｰﾃｨﾌﾞ･ﾎﾞﾃﾞｨ･ｲﾝ･ﾎﾜｲﾄ･ﾌｧｽﾆﾝｸﾞ ﾜｰｸﾍﾞﾝﾁで定義した場合は､
+接合接触ｿﾞｰﾝが選択されていることを確認してください";
+
+ERR_0013.Request="/P01 ﾊﾟｰﾂをﾒｯｼｭ分割できませんでした";
+
+ERR_0014.Request="ｱﾌﾟﾘｹｰｼｮﾝ ｺｰﾄﾞがありません｡";
+ERR_0014.Diagnostic="ｵﾍﾟﾚｰﾀを更新できません｡
+名前: /P01
+ﾀｲﾌﾟ: /P02";
+ERR_0014.Advice="前提のｱﾌﾟﾘｹｰｼｮﾝがすべてｲﾝｽﾄｰﾙ済みであることを確認してください｡";
+
+Mesh1DERR_0001.Request="分布を設定できません｡";
+Mesh1DERR_0001.Diagnostic="一部の引数が無効です｡";
+
+Mesh1DERR_0002.Request="ﾒｯｼｭ分割できません｡";
+Mesh1DERR_0002.Diagnostic="一部の引数が無効です｡";
+Mesh1DERR_0002.Advice="ﾒｯｼｭ ﾊﾟﾗﾒｰﾀを修正してください｡";
+
+Mesh1DERR_0003.Request="/P01 のﾒｯｼｭが失敗しました｡";
+Mesh1DERR_0003.Diagnostic="ﾒｯｼｭのない曲線があります｡";
+
+Mesh1DERR_0004.Request="曲線はﾒｯｼｭ分割できません｡";
+Mesh1DERR_0004.Diagnostic="固有のﾒｯｼｭ ｴｯｼﾞが他の曲線にすでに存在します";
+Mesh1DERR_0004.Advice="さらに密な領域をﾒｯｼｭ分割してください";
+
+SmartSurfERR_0001.Request="ﾒｯｼｭ分割できません｡";
+SmartSurfERR_0001.Diagnostic="ﾒｯｼｭ方法に対して無効なﾄﾞﾒｲﾝです｡";
+
+SmartSurfERR_0002.Request="1つ前のﾃﾞｰﾀを回復できません｡";
+SmartSurfERR_0002.Diagnostic="ﾒｯｼｭ分割された形状が変更されており､ﾄﾎﾟﾛｼﾞを復元できませんでした｡";
+
+SmartSurfERR_0003.Request="/P01 のﾒｯｼｭが失敗しました｡";
+SmartSurfERR_0003.Diagnostic="ﾒｯｼｭのないﾄﾞﾒｲﾝがあります｡";
+
+SmartSurfERR_0004.Request="1つ前のﾒｯｼｭを回復できません｡";
+SmartSurfERR_0004.Diagnostic="ﾒｯｼｭをﾏｯﾌﾟできません｡ﾄﾎﾟﾛｼﾞだけが復元されます｡";
+
+SmartSurfERR_0005.Request="1つ前のﾄﾎﾟﾛｼﾞを回復できません｡";
+SmartSurfERR_0005.Diagnostic="ﾄﾎﾟﾛｼﾞを復元できません｡";
+
+SmartSurfERR_0006.Request="ﾒｯｼｭ ﾊﾟｰﾂ形状をﾃｯｾﾚｰﾄできません";
+SmartSurfERR_0006.Advice="要素ｻｲｽﾞを変えて試行してください｡
+または､ｵﾌｾｯﾄ ﾒｯｼｭの場合はｵﾌｾｯﾄ値を小さくしてください｡";
+
+SmartSurfERR_0007.Request="ﾒｯｼｭ分割できません｡";
+SmartSurfERR_0007.Diagnostic="一部のﾊﾟﾗﾒｰﾀが無効です｡";
+SmartSurfERR_0007.Advice="以下をﾁｪｯｸしてください｡
+  - 絶対ｻｸﾞが定義されている場合､0より大きい
+  - 相対ｻｸﾞが定義されている場合､0より大きく1より小さい
+  - 最小ｻｲｽﾞが定義されている場合､0より大きくﾒｯｼｭ ｻｲｽﾞより小さい";
+
+SmartSurfERR_0100.Request="ﾎﾞﾀﾝ穴をｿｰｲﾝｸﾞできません｡";
+SmartSurfERR_0200.Request="ﾌｪｰｽを無視できません｡";
+SmartSurfERR_0300.Request="すき間をｿｰｲﾝｸﾞできません｡";
+SmartSurfERR_0400.Request="ｴｯｼﾞを拘束できません｡";
+SmartSurfERR_0500.Request="頂点を拘束できません｡";
+SmartSurfERR_0600.Request="曲線を投影できません｡";
+SmartSurfERR_0700.Request="点を投影できません｡";
+SmartSurfERR_0800.Request="分布を設定できません｡";
+SmartSurfERR_0900.Request="取り込めません｡";
+SmartSurfERR_1000.Request="分布を設定できません｡";
+
+SizeMapSurfERR_0001.Request="ﾒｯｼｭ ﾊﾟｰﾂを編集できません｡";
+SizeMapSurfERR_0001.Diagnostic="ﾒｯｼｭ ﾊﾟｰﾂが最新ではありません｡";
+SizeMapSurfERR_0001.Advice="ﾒｯｼｭ ﾊﾟｰﾂを更新してください｡";
+
+SizeMapSurfERR_0002.Request="ﾛｰｶﾙ ｻｲｽﾞがｸﾞﾛｰﾊﾞﾙ最小ｻｲｽﾞより小さい｡";
+SizeMapSurfERR_0002.Diagnostic="最小のﾛｰｶﾙ ｻｲｽﾞが /P02 で､ｸﾞﾛｰﾊﾞﾙ最小ｻｲｽﾞが /P01 です｡";
+SizeMapSurfERR_0002.Advice="すべてのﾛｰｶﾙ ｻｲｽﾞに適合するよう､ｸﾞﾛｰﾊﾞﾙ最小ｻｲｽﾞを小さくしてください｡";
+
+MappedERR_0001.Request="ﾒｯｼｭ分割できません｡";
+MappedERR_0001.Diagnostic="4つのｺｰﾅｰが見つかりませんでした｡";
+MappedERR_0001.Advice="4つのｺｰﾅｰを定義する頂点を配置してください｡";
+
+MappedERR_0002.Request="ﾒｯｼｭ分割できません｡";
+MappedERR_0002.Diagnostic="付与した節点は一部無視されます｡";
+MappedERR_0002.Advice="ﾒｯｼｭ ｻｲｽﾞを修正してください｡";
+
+MappedERR_0003.Request="ﾒｯｼｭ分割できません｡";
+MappedERR_0003.Diagnostic="反対側の節点の数が異なります｡";
+MappedERR_0003.Advice="ﾒｯｼｭ仕様ﾊﾟﾗﾒｰﾀを修正してください｡";
+
+PatBeadERR_0001.Request="ﾒｯｼｭ分割できません｡";
+PatBeadERR_0001.Diagnostic="ﾋﾞｰﾄﾞの2つの特性点が見つかりませんでした｡";
+PatBeadERR_0001.Advice="ﾋﾞｰﾄﾞ端部に頂点を配置してください｡";
+
+BoltERR_0001.Request="ﾒｯｼｭ分割できません｡";
+BoltERR_0001.Diagnostic="ﾎﾞﾙﾄに対して正しい数の節点が見つかりませんでした｡";
+BoltERR_0001.Advice="適切な個数の節点を作成してください｡";
+
+ProjectERR_0001.Request="投影できません｡";
+ProjectERR_0001.Diagnostic="境界が正しく識別できません｡";
+ProjectERR_0002.Request="投影できません｡";
+ProjectERR_0002.Diagnostic="閉じたﾄﾎﾟﾛｼﾞはｻﾎﾟｰﾄされません｡";
+ProjectERR_0003.Request="投影できません｡";
+ProjectERR_0003.Diagnostic="境界節点が正しく識別できません｡";
+ProjectERR_0004.Request="投影できません｡";
+ProjectERR_0004.Diagnostic="境界が異なる個数の節点でﾒｯｼｭ分割されています｡";
+ProjectERR_0005.Request="投影できません｡";
+ProjectERR_0005.Diagnostic="境界の数が違います｡";
+ProjectERR_0006.Request="投影できません｡";
+ProjectERR_0006.Diagnostic="ｴｯｼﾞが見つかりませんでした";
+ProjectERR_0007.Request="投影できません｡";
+ProjectERR_0007.Diagnostic="無効なﾒｯｼｭが生成されました｡";
+
+ImportERR_0001.Request="ﾌｧｲﾙを開けません｡";
+ImportERR_0001.Diagnostic="ﾒｯｼｭ ﾊﾟｰﾂ /P01 のﾒｯｼｭがﾌｧｲﾙを開けませんでした:
+/P02";
+ImportERR_0001.Advice="ﾌｧｲﾙが排他ﾓｰﾄﾞで割り振られていないこと､および削除されて
+いないことをﾁｪｯｸしてください｡";
+
+ImportERR_0002.Request="無効なﾗｲﾝ";
+ImportERR_0002.Diagnostic="ﾒｯｼｭ ﾊﾟｰﾂ /P01 のﾒｯｼｭが次のﾗｲﾝで失敗しました:
+/P02";
+ImportERR_0002.Advice="形式をﾁｪｯｸしてください";
+
+DomainMesherERR_0001.Request="ﾒｯｼｭ ｻｲｽﾞは正でなければなりません｡";
+
+DomainMesherERR_0002.Request="ﾄﾞﾒｲﾝが無効です｡";
+DomainMesherERR_0002.Diagnostic="ﾄﾞﾒｲﾝはこのﾒｯｼｭ方法では無効です｡";
+DomainMesherERR_0002.Advice="ﾄﾞﾒｲﾝを修正してください｡";
+
+DomainMesherERR_0003.Request="ﾒｯｼｭ分割できません｡";
+DomainMesherERR_0003.Diagnostic="付与された節点はｻﾎﾟｰﾄされません｡";
+DomainMesherERR_0003.Advice="付与された節点を除去してください｡";
+
+DomainMesherERR_0004.Request="ﾄﾞﾒｲﾝが無効です｡";
+DomainMesherERR_0004.Diagnostic="頂点 ( /P01 ) が予期されるｺｰﾅｰ ( /P02 ) より小さいです｡";
+DomainMesherERR_0004.Advice="ﾄﾞﾒｲﾝを修正してください｡";
+
+
+// Erreur Connection Mesher (Fastened and Periodicity) : algo
+
+ConnAlgERR_0001.Request="ｺﾈｸｼｮﾝ ﾒｯｼｭ ﾊﾟｰﾂをﾒｯｼｭ分割できません: /P01";
+ConnAlgERR_0001.Diagnostic="投影できません｡";
+ConnAlgERR_0001.Advice="考えられる原因: \n1. ｺﾈｸｼｮﾝは2つの接近した形状/ﾒｯｼｭをﾘﾝｸするように作成されます｡ \n- 投影の公差= /P01 は､ｺﾈｸｼｮﾝするﾒｯｼｭに基づく内部計算の結果です｡ \n- 形状/ﾒｯｼｭ間の距離を小さくしてｺﾈｸｼｮﾝ ﾒｯｼｭを取得してください \n2. 投影ｿｰｽが投影のﾀｰｹﾞｯﾄになっています \n3. 投影するｿｰｽがありません｡";
+
+ConnAlgERR_0002.Request="部分ﾒｯｼｭです｡";
+ConnAlgERR_0002.Diagnostic="一部の節点がｺﾝﾃﾞﾝｽされています｡生成できないｽﾊﾟｲﾀﾞがあります｡";
+ConnAlgERR_0002.Advice="考えられる原因: \n1. 結合するいずれかのﾒｯｼｭで変換ﾒｯｼｭが作成された \n2. 節点のｺﾝﾃﾞﾝｾｰｼｮﾝ";
+
+ConnAlgERR_0003.Request="ｺﾈｸｼｮﾝ ﾒｯｼｭ ﾊﾟｰﾂをﾒｯｼｭ分割できません: /P01";
+ConnAlgERR_0003.Diagnostic="複数の節点が1つの形状点に関連付けられています｡";
+ConnAlgERR_0003.Advice="考えられる原因: \n1. 結合するいずれかのﾒｯｼｭで変換ﾒｯｼｭが作成された \n2. 節点のｺﾝﾃﾞﾝｾｰｼｮﾝ";
+
+ConnAlgERR_0004.Request="ｺﾈｸｼｮﾝ ﾒｯｼｭ ﾊﾟｰﾂをﾒｯｼｭ分割できません: /P01";
+ConnAlgERR_0004.Diagnostic="ﾌｪｰｽ ﾌｪｰｽ ｺﾈｸｼｮﾝ: 結合する両ｻｲﾄﾞでﾌｪｰｽを取得できません｡";
+ConnAlgERR_0004.Advice="ｱﾅﾘｼｽ ｺﾈｸｼｮﾝの定義を修正してください｡";
+
+ConnAlgERR_0005.Request="ｺﾈｸｼｮﾝ ﾒｯｼｭ ﾊﾟｰﾂをﾒｯｼｭ分割できません: /P01";
+ConnAlgERR_0005.Diagnostic="ｺﾈｸｼｮﾝ ﾌﾟﾛﾊﾟﾃｨの開始: 検索された節点をﾒｯｼｭ分割できません｡";
+ConnAlgERR_0005.Advice="ｱﾅﾘｼｽ ｺﾈｸｼｮﾝの定義を修正してください｡";
+
+ConnAlgERR_0006.Request="ｺﾈｸｼｮﾝ ﾒｯｼｭ ﾊﾟｰﾂをﾒｯｼｭ分割できません: /P01";
+ConnAlgERR_0006.Diagnostic="ｺﾈｸｼｮﾝ ﾌﾟﾛﾊﾟﾃｨの終了: 検索された節点をﾒｯｼｭ分割できません｡";
+ConnAlgERR_0006.Advice="ｱﾅﾘｼｽ ｺﾈｸｼｮﾝの定義を修正してください｡";
+
+ConnAlgERR_0007.Request="ｺﾈｸｼｮﾝ ﾒｯｼｭ ﾊﾟｰﾂをﾒｯｼｭ分割できません: /P01";
+ConnAlgERR_0007.Diagnostic="ﾎﾞﾙﾄ構成が無効です: 回転軸を定義できません｡";
+ConnAlgERR_0007.Advice="ｱﾅﾘｼｽ ｺﾈｸｼｮﾝの定義を修正してください｡";
+
+ConnAlgERR_0008.Request="ｺﾈｸｼｮﾝ ﾒｯｼｭ ﾊﾟｰﾂをﾒｯｼｭ分割できません: /P01";
+ConnAlgERR_0008.Diagnostic="無効な構成です｡";
+ConnAlgERR_0008.Advice="ｱﾅﾘｼｽ ｺﾈｸｼｮﾝの定義を修正してください｡";
+
+ConnAlgERR_0009.Request="ｺﾈｸｼｮﾝ ﾒｯｼｭ ﾊﾟｰﾂをﾒｯｼｭ分割できません: /P01";
+ConnAlgERR_0009.Diagnostic="無効なﾎﾞﾙﾄ構成: 結合する側面の回転軸が平行ではありません｡";
+ConnAlgERR_0009.Advice="ｱﾅﾘｼｽ ｺﾈｸｼｮﾝの定義を修正してください｡";
+
+CSmoothAlgERR_0001.Request="ｺﾈｸｼｮﾝ ﾒｯｼｭ ﾊﾟｰﾂをﾒｯｼｭ分割できません: /P01";
+CSmoothAlgERR_0001.Diagnostic="中間要素:節点を1つ持つ1D要素を作成できません｡";
+CSmoothAlgERR_0001.Advice="ｱﾅﾘｼｽ ｺﾈｸｼｮﾝの定義または結合するﾒｯｼｭを修正してください｡";
+
+// Erreur Weld : commande
+
+WeldCmdERR_0001.Request="ﾒｯｼｭ ﾊﾟｰﾂが作成されませんでした｡";
+WeldCmdERR_0001.Diagnostic="選択されたすべてのｺﾈｸｼｮﾝはすでにﾒｯｼｭ分割されています｡";
+
+// Erreur Weld : algo
+
+WeldAlgERR_0001.Request="ｽﾎﾟｯﾄを投影できません｡";
+WeldAlgERR_0001.Diagnostic="最大ｷﾞｬｯﾌﾟ値が小さすぎるか､すべてのｻﾎﾟｰﾄにｽﾎﾟｯﾄを投影できません｡";
+WeldAlgERR_0001.Advice="可能な解は次の2つです｡最大ｷﾞｬｯﾌﾟを大きくするか､形状を修正して投影を行えるようにしてください｡";
+
+WeldAlgERR_0002.Request="無効な縁ｹｰｽです｡";
+WeldAlgERR_0002.Diagnostic="ｻﾎﾟｰﾄに縁を作成できません｡";
+WeldAlgERR_0002.Advice="ﾎﾞﾃﾞｨ･ｲﾝ･ﾎﾜｲﾄ･ﾌｧｽﾆﾝｸﾞのｼﾞｮｲﾝﾄを使用する場合: 縁ｵﾌﾟｼｮﾝを除去するか(不要な場合)､ｻﾎﾟｰﾄを変更してください｡ \nｱﾅﾘｼｽ ｺﾈｸｼｮﾝを使用する場合: ｻﾎﾟｰﾄを変更してください｡";
+
+WeldAlgERR_0003.Request="ﾒｯｼｭ分割できません｡";
+WeldAlgERR_0003.Diagnostic="少なくとも2つのｻﾎﾟｰﾄにｽﾎﾟｯﾄを投影する必要があります｡";
+WeldAlgERR_0003.Advice="形状を修正してください｡";
+
+WeldAlgERR_0004.Request="ﾒｯｼｭ分割できません｡";
+WeldAlgERR_0004.Diagnostic="ｽﾎﾟｯﾄ投影が縮退要素上にあります｡";
+WeldAlgERR_0004.Advice="ｻﾎﾟｰﾄ ﾒｯｼｭを修正して､この縮退要素を削除してください｡";
+
+WeldAlgERR_0005.Request="部分ﾒｯｼｭです｡";
+WeldAlgERR_0005.Diagnostic="低品質の要素(Jacobianが負またはNULL)の生成は許可されません｡";
+WeldAlgERR_0005.Advice="考えられる原因: \n1. ｻﾎﾟｰﾄが交差している \n2. 結合するﾌｪｰｽが同一";
+
+WeldAlgERR_0006.Request="ｺﾈｸｼｮﾝ ﾒｯｼｭ ﾊﾟｰﾂをﾒｯｼｭ分割できません: /P01";
+WeldAlgERR_0006.Diagnostic="ﾊﾟﾗﾒｰﾀが無効です｡";
+WeldAlgERR_0006.Advice="すべてのﾊﾟﾗﾒｰﾀがNULL値以外に設定されているか確認してください｡";
+
+WeldAlgERR_0007.Request="ｺﾈｸｼｮﾝ ﾒｯｼｭ ﾊﾟｰﾂをﾒｯｼｭ分割できません: /P01";
+WeldAlgERR_0007.Diagnostic="結合するｻﾎﾟｰﾄがｱﾅﾘｼｽ ｺﾈｸｼｮﾝに2回現れています｡";
+WeldAlgERR_0007.Advice="ｻﾎﾟｰﾄとﾒｯｼｭをﾁｪｯｸしてください｡";
+
+// Erreur Spot Weld: algo
+
+SpotWeldAlgERR_0001.Request="ﾒｯｼｭ分割できません｡";
+SpotWeldAlgERR_0001.Diagnostic="点ｱﾅﾘｼｽ ｺﾈｸｼｮﾝは､溶接する各ｻﾎﾟｰﾄに投影される必要があります｡";
+SpotWeldAlgERR_0001.Advice="点ｱﾅﾘｼｽ ｺﾈｸｼｮﾝが各ｻﾎﾟｰﾄに投影されていることを確認してください｡ \n投影が成功していることを確認してください｡";
+
+SpotWeldAlgERR_0002.Request="ﾒｯｼｭ分割できません｡";
+SpotWeldAlgERR_0002.Diagnostic="すべてのｻﾎﾟｰﾄ上のｽﾎﾟｯﾄ投影が四角形上に位置する必要があります｡";
+SpotWeldAlgERR_0002.Advice="ｽﾎﾟｯﾄの上下に四角形が得られるようｻﾎﾟｰﾄ ﾒｯｼｭを修正してください｡";
+
+SpotWeldAlgERR_0003.Request="ﾒｯｼｭ分割できません｡";
+SpotWeldAlgERR_0003.Diagnostic="1ﾊﾟｰﾂ内で点ｱﾅﾘｼｽ ｺﾈｸｼｮﾝの適合ﾒｯｼｭはｻﾎﾟｰﾄされません｡";
+SpotWeldAlgERR_0003.Advice="非適合ﾒｯｼｭ ｵﾌﾟｼｮﾝを使用してください｡";
+
+SpotWeldAlgERR_0004.Request="ﾒｯｼｭ分割できません｡";
+SpotWeldAlgERR_0004.Diagnostic="溶接するｻﾎﾟｰﾄの節点がｺﾝﾃﾞﾝｽされます｡";
+SpotWeldAlgERR_0004.Advice="ｻﾎﾟｰﾄ ﾒｯｼｭを修正してください｡";
+
+// Erreur Seam Weld: algo
+
+SeamWeldAlgERR_0001.Request="ﾒｯｼｭ分割できません｡";
+SeamWeldAlgERR_0001.Diagnostic="非多様の線ｱﾅﾘｼｽ ｺﾈｸｼｮﾝはｻﾎﾟｰﾄされません｡";
+SeamWeldAlgERR_0001.Advice="線ｱﾅﾘｼｽ ｺﾈｸｼｮﾝのｴｯｼﾞを修正します｡";
+
+SeamWeldAlgERR_0002.Request="ﾒｯｼｭ分割できません｡";
+SeamWeldAlgERR_0002.Diagnostic="切断されたｴｯｼﾞから作成された線ｱﾅﾘｼｽ ｺﾈｸｼｮﾝはｻﾎﾟｰﾄされていません｡";
+SeamWeldAlgERR_0002.Advice="線ｱﾅﾘｼｽ ｺﾈｸｼｮﾝのｴｯｼﾞを修正します｡";
+
+SeamWeldAlgERR_0003.Request="ﾒｯｼｭ分割できません｡";
+SeamWeldAlgERR_0003.Diagnostic="溶接は､2つのｻﾎﾟｰﾄ間または1ﾊﾟｰﾂ内でのみ許可されます｡";
+SeamWeldAlgERR_0003.Advice="ｼﾞｮｲﾝﾄ ﾎﾞﾃﾞｨｰからｻﾎﾟｰﾄを削除してください｡";
+
+SeamWeldAlgERR_0004.Request="ﾒｯｼｭ分割できません｡";
+SeamWeldAlgERR_0004.Diagnostic="適合ｼｰﾑ溶接ｺﾈｸｼｮﾝ ﾒｯｼｭは2つの異なるｻﾎﾟｰﾄ間でのみｻﾎﾟｰﾄされます｡";
+SeamWeldAlgERR_0004.Advice="ｼﾞｮｲﾝﾄ ﾎﾞﾃﾞｨｰを修正してください｡";
+
+SeamWeldAlgERR_0005.Request="ﾒｯｼｭ分割できません｡";
+SeamWeldAlgERR_0005.Diagnostic="線ｱﾅﾘｼｽ ｺﾈｸｼｮﾝは､溶接する各ｻﾎﾟｰﾄに投影される必要があります｡";
+SeamWeldAlgERR_0005.Advice="線ｱﾅﾘｼｽ ｺﾈｸｼｮﾝが各ｻﾎﾟｰﾄに投影されていることを確認してください(ｻｰﾌｪｽ ﾒｯｼｬｰ内で曲線拘束を追加してください)｡ \n投影が成功していることを確認してください｡";
+
+SeamWeldAlgERR_0006.Request="ﾒｯｼｭ分割できません｡";
+SeamWeldAlgERR_0006.Diagnostic="ｼｰﾑ溶接投影を記述する節点数が､溶接する各ｻﾎﾟｰﾄ上で同じである必要があります｡";
+SeamWeldAlgERR_0006.Advice="2番目のｻﾎﾟｰﾄの曲線拘束を追加する場合は､[ﾒｯｼｭ ｴｯｼﾞをｷｬﾌﾟﾁｬ]ｵﾌﾟｼｮﾝを使用してください｡ \n曲線の投影および節点のｷｬﾌﾟﾁｬが成功していることを確認してください｡";
+
+SeamWeldAlgERR_0007.Request="ﾒｯｼｭ分割できません｡";
+SeamWeldAlgERR_0007.Diagnostic="溶接するｻﾎﾟｰﾄの節点がｺﾝﾃﾞﾝｽされます｡";
+SeamWeldAlgERR_0007.Advice="ｻﾎﾟｰﾄ ﾒｯｼｭを修正してください｡";
+
+SeamWeldAlgERR_0008.Request="ﾒｯｼｭ分割できません｡";
+SeamWeldAlgERR_0008.Diagnostic="曲線端部が互いに向き合っている必要があります｡";
+SeamWeldAlgERR_0008.Advice="線ｱﾅﾘｼｽ ｺﾈｸｼｮﾝのｴｯｼﾞを修正します｡";
+
+SeamWeldAlgERR_0009.Request="ｽﾚｰﾌﾞ ｼｰﾑにﾏｽﾀ(最長)ｼｰﾑをﾏｯﾌﾟできません｡";
+SeamWeldAlgERR_0009.Diagnostic="ｽﾚｰﾌﾞ ｼｰﾑの方向がﾏｽﾀ ｼｰﾑの方向と異なります｡";
+SeamWeldAlgERR_0009.Advice="線ｱﾅﾘｼｽ ｺﾈｸｼｮﾝのｴｯｼﾞを修正します｡";
+
+SeamWeldAlgERR_0010.Request="ﾒｯｼｭ分割できません｡";
+SeamWeldAlgERR_0010.Diagnostic="2ｶﾞｲﾄﾞ線ｱﾅﾘｼｽ ｺﾈｸｼｮﾝの適合ﾒｯｼｭはｻﾎﾟｰﾄされません｡";
+SeamWeldAlgERR_0010.Advice="非適合ﾒｯｼｭ ｵﾌﾟｼｮﾝを使用してください｡";
+
+SeamWeldAlgERR_0011.Request="線ｱﾅﾘｼｽ ｺﾈｸｼｮﾝ分割が粗すぎます｡";
+SeamWeldAlgERR_0011.Diagnostic="閉じた線ｱﾅﾘｼｽ ｺﾈｸｼｮﾝは少なくとも3つのｴｯｼﾞで分割する必要があります｡";
+SeamWeldAlgERR_0011.Advice="ﾒｯｼｭ ｽﾃｯﾌﾟを小さくしてください｡";
+
+SeamWeldAlgERR_0012.Request="ﾒｯｼｭ分割できません｡";
+SeamWeldAlgERR_0012.Diagnostic="閉じたｴｯｼﾞから作成された2ｶﾞｲﾄﾞ線ｱﾅﾘｼｽ ｺﾈｸｼｮﾝはｻﾎﾟｰﾄされていません｡";
+SeamWeldAlgERR_0012.Advice="2ｶﾞｲﾄﾞ線ｱﾅﾘｼｽ ｺﾈｸｼｮﾝのｴｯｼﾞを修正してください｡";
+
+SeamWeldAlgERR_0013.Request="ﾒｯｼｭ分割できません｡";
+SeamWeldAlgERR_0013.Diagnostic="曲線1と曲線2の間の角度が原因です｡";
+SeamWeldAlgERR_0013.Advice="曲線間の角度を修正してください(一方の曲線の端部における接線と2つの端部のﾍﾞｸﾄﾙとの角度が5*PI/6 radを超えてはなりません)｡";
+
+SeamWeldAlgERR_0014.Request="ﾒｯｼｭ分割できません｡";
+SeamWeldAlgERR_0014.Diagnostic="適合ｴﾚﾒﾝﾄを1つのﾊﾟｰﾂで作成することはできません｡";
+SeamWeldAlgERR_0014.Advice="曲線間の結合を作成します｡";
+
+// Erreur Surf Weld: algo
+
+SurfWeldAlgERR_0001.Request="ｺﾈｸｼｮﾝ ﾒｯｼｭ ﾊﾟｰﾂをﾒｯｼｭ分割できません: /P01";
+SurfWeldAlgERR_0001.Diagnostic="ｻｰﾌｪｽのｻﾎﾟｰﾄが無効です｡";
+SurfWeldAlgERR_0001.Advice="ｻｰﾌｪｽ ｱﾅﾘｼｽ ｺﾈｸｼｮﾝが参照しているｻｰﾌｪｽを修正してください｡";
+
+SurfWeldAlgERR_0002.Request="ｺﾈｸｼｮﾝ ﾒｯｼｭ ﾊﾟｰﾂをﾒｯｼｭ分割できません: /P01";
+SurfWeldAlgERR_0002.Diagnostic="ｻｰﾌｪｽをﾒｯｼｭ分割できません｡";
+SurfWeldAlgERR_0002.Advice="ｻｰﾌｪｽ ｱﾅﾘｼｽ ｺﾈｸｼｮﾝが参照しているｻｰﾌｪｽを修正してください｡";
+
+WeldDataERR_0001.Request="/P01 \nｻﾎﾟｰﾄから情報を取得できません｡";
+WeldDataERR_0001.Diagnostic="ｻﾎﾟｰﾄが無効です｡";
+WeldDataERR_0001.Advice="解析の結合ｻﾎﾟｰﾄをﾁｪｯｸしてください｡";
+
+// Erreur Point Point : algo
+
+PointPointAlgERR_0001.Request="ﾒｯｼｭ分割できません｡";
+PointPointAlgERR_0001.Diagnostic="ｺﾈｸｼｮﾝの構成要素 /P01 の問題:節点が点に関連付けられていません｡";
+PointPointAlgERR_0001.Advice="点を1つの節点に関連させてください([節点を移動]､[点拘束]または[ﾊｰﾌ ﾎﾟｲﾝﾄ]を使用)｡";
+
+PointPointAlgERR_0002.Request="ﾒｯｼｭ分割できません｡";
+PointPointAlgERR_0002.Diagnostic="ｺﾈｸｼｮﾝの構成要素 /P01 の問題:点に複数の節点が関連付けられています｡";
+PointPointAlgERR_0002.Advice="結合する節点を含むﾒｯｼｭ ﾊﾟｰﾂを節点-節点ｺﾈｸｼｮﾝ ﾒｯｼｭ ﾊﾟｰﾂ ﾌｨﾙﾀに掛けてください｡";
+
+PointPointAlgERR_0003.Request="ｺﾈｸｼｮﾝ ﾒｯｼｭ ﾊﾟｰﾂをﾒｯｼｭ分割できません: /P01";
+PointPointAlgERR_0003.Diagnostic="点の数が同じではありません｡";
+PointPointAlgERR_0003.Advice="ｱﾅﾘｼｽ ｺﾈｸｼｮﾝの定義を修正してください｡";
+
+PointPointAlgERR_0004.Request="ｺﾈｸｼｮﾝ ﾒｯｼｭ ﾊﾟｰﾂをﾒｯｼｭ分割できません: /P01";
+PointPointAlgERR_0004.Diagnostic="点がありません｡";
+PointPointAlgERR_0004.Advice="ｱﾅﾘｼｽ ｺﾈｸｼｮﾝの定義を修正してください｡";
+
+PointPointAlgERR_0005.Request="ﾒｯｼｭ分割できません｡";
+PointPointAlgERR_0005.Diagnostic="公差の複数の節点｡";
+PointPointAlgERR_0005.Advice="考えられる原因: \n1. 公差が大きすぎる \n2. 片側の1つの節点が､反対側の2つの節点から等距離にある";
+
+PointPointAlgERR_0006.Request="ﾒｯｼｭ分割できません｡";
+PointPointAlgERR_0006.Diagnostic="公差の節点なし｡";
+PointPointAlgERR_0006.Advice="公差を大きくしてください｡";
+
+PointPointAlgERR_0007.Request="ﾒｯｼｭ分割できません｡";
+PointPointAlgERR_0007.Diagnostic="点が同じ節点に関連付けられています｡節点が1つだけの場合､1D要素は作成できません｡";
+PointPointAlgERR_0007.Advice="ｱﾅﾘｼｽ ｺﾈｸｼｮﾝの定義を修正してください｡";
+
+// Erreur Half Point : algo
+
+HalfPointAlgERR_0001.Request="ｺﾈｸｼｮﾝ ﾒｯｼｭ ﾊﾟｰﾂをﾒｯｼｭ分割できません: /P01";
+HalfPointAlgERR_0001.Diagnostic="点がありません｡";
+HalfPointAlgERR_0001.Advice="ｱﾅﾘｼｽ ｺﾈｸｼｮﾝの定義を修正してください｡";
+
+HalfPointAlgERR_0002.Request="ﾒｯｼｭ分割できません｡";
+HalfPointAlgERR_0002.Diagnostic="公差の複数の節点または複数の点｡";
+HalfPointAlgERR_0002.Advice="考えられる原因: \n1. 公差が大きすぎる(1つの点が複数の節点に関連付けられている) \n2. 一部の点が互いに接近しすぎている(1つの節点が複数の点に関連付けられている)";
+
+HalfPointAlgERR_0003.Request="ﾒｯｼｭ分割できません｡";
+HalfPointAlgERR_0003.Diagnostic="公差の節点なし｡";
+HalfPointAlgERR_0003.Advice="公差を大きくしてください｡";
+
+HalfPointAlgERR_0004.Request="ﾒｯｼｭ分割できません｡";
+HalfPointAlgERR_0004.Diagnostic="同じ節点を2度使用して1D要素は作成できません｡";
+HalfPointAlgERR_0004.Advice="ｱﾅﾘｼｽ ｺﾈｸｼｮﾝ､関連ﾘﾝｸ､または結合するﾒｯｼｭをﾁｪｯｸしてください｡";
+
+//
+// Erreurs de la Topology 
+//
+TopoERR_0001.Request="割り当ての失敗";
+TopoERR_0002.Request="ﾄﾎﾟﾛｼﾞ演算にE_FAILを強制:";
+TopoERR_0002.Diagnostic="/P01";
+TopoERR_0003.Request="ﾄﾎﾟﾛｼﾞ演算のｴﾗｰ ﾒｯｾｰｼﾞが見つかりませんでした";
+TopoERR_0003.Diagnostic="/P01";
+
+TopoERR_0020.Request="頂点を非活動化することができません";
+TopoERR_0021.Request="輪郭作成中のｴﾗｰ:ﾎﾞﾃﾞｨｰ内のﾌﾘｰ ｴｯｼﾞ輪郭が無効です｡";
+TopoERR_0022.Request="ｴｯｼﾞを非活動化できません";
+TopoERR_0023.Request="ｴｯｼﾞを活動化できません";
+TopoERR_0024.Request="ﾌｪｰｽを非活動化できません";
+TopoERR_0025.Request="ﾌｪｰｽを活動化できません";
+
+TopoERR_0030.Request="すべての外部曲線を作成できません";
+TopoERR_0031.Request="すべての外部曲線を削除できません";
+
+TopoERR_0040.Request="分布を明示できません";
+TopoERR_0041.Request="削除する分布が見つかりません";
+TopoERR_0042.Request="分布のﾄﾎﾟﾛｼﾞ ｴｯｼﾞの状況が無効です";
+
+//
+TopoERR_0050.Request="環境が無効か初期化されていません";
+
+TopoERR_0060.Request="非多様形状をﾒｯｼｭ分割できません";
+TopoERR_0060.Diagnostic="非多様形状はこのﾒｯｼｬｰではｻﾎﾟｰﾄされていません";
+TopoERR_0060.Advice="形状をﾁｪｯｸしてください";
+
+TopoERR_0100.Request="無効な形状ｻﾎﾟｰﾄ";
+TopoERR_0101.Request="形状ｵﾌﾞｼﾞｪｸﾄが現行ﾎﾞﾃﾞｨｰにありません";
+TopoERR_0102.Request="ﾄﾎﾟﾛｼﾞ計算後の無効な呼び出し";
+TopoERR_0103.Request="ﾄﾎﾟﾛｼﾞ計算前の無効な呼び出し";
+
+TopoERR_0104.Request="CATEdgeからTopEdgeを検出できません";
+TopoERR_0105.Request="CATVertexからTopVertexを検出できません";
+
+TopoERR_0106.Request="無効なﾄﾎﾟﾛｼﾞ ｵﾌﾞｼﾞｪｸﾄ";
+TopoERR_0107.Request="無効なﾄﾎﾟﾛｼﾞ状態";
+
+TopoERR_0108.Request="CATVertexを拘束できません";
+TopoERR_0109.Request="CATEdgeを拘束できません";
+TopoERR_0110.Request="CATVertexを拘束解除できません";
+TopoERR_0111.Request="CATEdgeを拘束解除できません";
+
+TopoERR_0112.Request="TopEdgeを活動化できません";
+TopoERR_0113.Request="TopVertexを活動化できません";
+TopoERR_0114.Request="TopEdgeを非活動化できません";
+TopoERR_0115.Request="TopVertexを非活動化できません";
+
+TopoERR_0116.Request="無効なﾙｰﾌﾟ番号";
+TopoERR_0117.Request="ﾄﾞﾒｲﾝにｱｸﾃｨﾌﾞなﾙｰﾌﾟがありません";
+
+TopoERR_0120.Request="無効な区分寸法";
+TopoERR_0121.Request="区分が無効";
+
+TopoERR_0122.Request="無効なｶｯﾄ公差";
+TopoERR_0123.Request="無効なｴｯｼﾞ長さ";
+TopoERR_0124.Request="ｴｯｼﾞをｶｯﾄできません";
+TopoERR_0125.Request="ﾄﾞﾒｲﾝにｴｯｼﾞを作成できません";
+TopoERR_0126.Request="有効範囲を検出できません";
+TopoERR_0127.Request="ﾌﾟﾛﾀﾞｸﾄを検出できません";
+TopoERR_0128.Request="頂点は異なるものでなければなりません";
+
+TopoERR_0130.Request="無効なﾌｪｰｽ選択";
+
+TopoERR_0129.Request="入力頂点のﾀｸﾞが見つかりません";
+TopoERR_0131.Request="入力ﾄﾞﾒｲﾝのﾀｸﾞが見つかりません";
+TopoERR_0132.Request="入力ﾀｸﾞがﾏｲﾅｽです";
+TopoERR_0133.Request="入力ﾀｸﾞの頂点が見つかりません";
+TopoERR_0134.Request="入力ﾀｸﾞのｴｯｼﾞが見つかりません";
+TopoERR_0135.Request="入力ﾀｸﾞのﾄﾞﾒｲﾝが見つかりません";
+TopoERR_0136.Request="入力ｴｯｼﾞのﾀｸﾞが見つかりません";
+TopoERR_0137.Request="直交投影を実行できません";
+TopoERR_0138.Request="中間曲線を作成するのに無効なﾊﾟﾗﾒｰﾀです";
+TopoERR_0138.Diagnostic="ﾊﾟﾗﾒｰﾀは0.0から1.0である必要があります ";
+
+TopoERR_0140.Request="このﾌｪｰｽ選択には既に仕様が存在します";
+
+TopoERR_0150.Request="ﾒｯｼｭ ｻｲｽﾞは正でなければなりません";
+TopoERR_0151.Request="最小ｻｲｽﾞは正でなければなりません";
+TopoERR_0152.Request="拘束ｻｸﾞは正でなければなりません";
+//
+// Erreur MoveNodeOperator
+//
+MoveNodeOperatorERR_0001.Request="節点を移動できません";
+MoveNodeOperatorERR_0001.Diagnostic="公差の節点なし｡";
+
+MoveNodeOperatorERR_0002.Request="節点を移動できません";
+MoveNodeOperatorERR_0002.Diagnostic="公差の複数の節点｡";
+//
+// Mesh operator error
+//
+TopOperERR_0001.Request="ﾒｯｼｭ ﾊﾟｰﾂに分割された要素がありません:
+/P01";
+TopOperERR_0002.Request="ﾒｯｼｭ ﾊﾟｰﾂの(/P01 / /P02)四角形の要素のみ分割されています:
+/P03";
+TopOperERR_0003.Request="ﾒｯｼｭ ﾊﾟｰﾂの[四角形を分割]ｵﾍﾟﾚｰﾀが失敗しました:
+/P01";
+//
+// basic mesher error
+//
+TopoBasicERR_0001.Request="穴を活動化/非活動化できません";
+TopoBasicERR_0002.Request="穴を活動化できません";
+TopoBasicERR_0003.Request="穴を非活動化できません";
+
+TopoBasicERR_0004.Request="ｴｯｼﾞを活動化/非活動化できません";
+TopoBasicERR_0005.Request="ｴｯｼﾞを活動化できません";
+TopoBasicERR_0006.Request="ｴｯｼﾞを非活動化できません";
+
+TopoBasicERR_0007.Request="頂点を活動化/非活動化できません";
+TopoBasicERR_0008.Request="頂点を活動化できません";
+TopoBasicERR_0009.Request="頂点を非活動化することができません";
+
+TopoBasicERR_0010.Request="外部曲線を投影/投影解除できません";
+TopoBasicERR_0011.Request="曲線を投影できません";
+TopoBasicERR_0012.Request="曲線を投影解除できません";
+
+TopoBasicERR_0013.Request="外部点を投影/投影解除できません";
+TopoBasicERR_0014.Request="点を投影できません";
+TopoBasicERR_0015.Request="点を投影解除できません";
+
+TopoBasicERR_0016.Request="この仕様は､形状の修正後は復元できません";
+TopoBasicERR_0016.Diagnostic="選択したいずれかのｻﾎﾟｰﾄがBrep内部形状です";
+
+TopoBasicERR_0017.Request="この仕様は､形状の修正後は復元できません";
+TopoBasicERR_0017.Diagnostic="選択したいずれかのｻﾎﾟｰﾄのBrepが複数の形状を参照しています";
+
+//
+// Erreurs de selection de mesh domain
+//
+
+MeshFilterERR_0001.Request="無効な選択です｡";
+MeshFilterERR_0001.Diagnostic="選択されたﾒｯｼｭ ﾄﾞﾒｲﾝはｻｰﾌｪｽではないか､空です｡";
+MeshFilterERR_0002.Request="無効な選択です｡";
+MeshFilterERR_0002.Diagnostic="選択されたﾒｯｼｭ ﾄﾞﾒｲﾝは結合されていません｡";
+
+TransfoERR_0001.Request="ﾒｯｼｭ ﾊﾟｰﾂをﾒｯｼｭ変換できません:
+/P01";
+TransfoERR_0001.Diagnostic="ﾒｯｼｭ ｷｬﾌﾟﾁｬは､公差が高過ぎるために結果を予測できません｡";
+TransfoERR_0001.Advice="ｷｬﾌﾟﾁｬ公差を小さくしてください｡
+最小の要素ｴｯｼﾞよりも低くする必要があります(2次要素の半分のｴｯｼﾞ)｡";
+
+ExtrudeERR_0001.Request="ｽﾊﾟｲﾝ ﾒｯｼｭ ﾊﾟｰﾂ沿いにﾒｯｼｭ押し出しができません:
+/P01";
+ExtrudeERR_0001.Diagnostic="押し出し長さが曲線の長さを超えています｡縮退要素が作成されます｡";
+ExtrudeERR_0001.Advice="押し出し長さを小さくしてください｡";
+
+//
+// Erreurs de propagation de distribution
+//
+
+MeshAroundHoleERR_0001.Request="穴の周囲をﾒｯｼｭ分割できません｡";
+MeshAroundHoleERR_0001.Diagnostic="穴形状ｻﾎﾟｰﾄ周囲のﾒｯｼｭ \n拘束されたｴｯｼﾞと交差しています｡";
+
+MeshAroundHoleERR_0002.Request="穴の周囲をﾒｯｼｭ分割できません｡";
+MeshAroundHoleERR_0002.Diagnostic="穴の周囲をﾒｯｼｭ分割できません: \n /P01";
+
+MeshAroundHoleERR_0003.Request="不可能なﾒｯｼｭ ﾄﾞﾒｲﾝ仕様｡";
+MeshAroundHoleERR_0003.Diagnostic="ﾒｯｼｭ ﾄﾞﾒｲﾝ仕様が許可されません: \n /P01";
+
+//
+// Erreurs de propagation de distribution
+//
+
+Mapping1dERR_0001.Request="無効な伝播ﾃﾞｰﾀ｡";
+Mapping1dERR_0001.Advice="伝播ﾃﾞｰﾀを修正してください｡";
+
+Mapping1dERR_0002.Request="伝播の計算に失敗しました｡";
+Mapping1dERR_0002.Advice="伝播ﾃﾞｰﾀを修正してください｡";
+
+Mapping1dERR_0010.Request="無効な伝播ｿｰｽ｡";
+Mapping1dERR_0010.Advice="伝播ｿｰｽを修正してください｡";
+
+Mapping1dERR_0011.Request="無効な伝播ｻﾎﾟｰﾄ｡";
+Mapping1dERR_0011.Advice="伝播ｻﾎﾟｰﾄを修正してください｡";
+
+//
+// Erreurs de specs studio
+//
+
+StudioSpecERR_0001.Request="ﾒｯｼｭ仕様が無効です｡";
+StudioSpecERR_0001.Diagnostic="考えられるｹｰｽ: \n 1. - ﾊﾟﾗﾒｰﾀが無効 \n 2. - 形状ｻﾎﾟｰﾄが無効";
+StudioSpecERR_0001.Advice="ﾊﾟﾗﾒｰﾀまたは形状ｻﾎﾟｰﾄを修正してください｡";
+
+//
+// Erreur sur le sweep
+//
+
+Sweep3DERR_0001.Request="下部ﾒｯｼｭのｷｬﾌﾟﾁｬに失敗しました｡";
+Sweep3DERR_0001.Diagnostic="形状でﾒｯｼｭがｷｬﾌﾟﾁｬされません: /P01";
+Sweep3DERR_0001.Advice="ﾒｯｼｭ ﾊﾟｰﾂのｷｬﾌﾟﾁｬ ﾌｨﾙﾀおよび \nｷｬﾌﾟﾁｬの公差をﾁｪｯｸしてください｡";
+
+Sweep3DERR_0002.Request="下部ﾒｯｼｭのｷｬﾌﾟﾁｬに失敗しました｡";
+Sweep3DERR_0002.Diagnostic="形状で部分的にﾒｯｼｭをｷｬﾌﾟﾁｬしました: /P01";
+Sweep3DERR_0002.Advice="ﾒｯｼｭ ﾊﾟｰﾂのｷｬﾌﾟﾁｬ ﾌｨﾙﾀおよび \nｷｬﾌﾟﾁｬの公差をﾁｪｯｸしてください｡";
+
+Sweep3DERR_0003.Request="下部ﾒｯｼｭのｷｬﾌﾟﾁｬに失敗しました｡";
+Sweep3DERR_0003.Diagnostic="形状でｷｬﾌﾟﾁｬしたﾒｯｼｭが多すぎます: /P01";
+Sweep3DERR_0003.Advice="ﾒｯｼｭ ﾊﾟｰﾂのｷｬﾌﾟﾁｬ ﾌｨﾙﾀおよび \nｷｬﾌﾟﾁｬの公差をﾁｪｯｸしてください｡";
+
+Sweep3DERR_0006.Request="不適切な複数のﾎﾞﾃﾞｨｰ形状ｻﾎﾟｰﾄ:
+/P01";
+Sweep3DERR_0006.Diagnostic="ﾒｯｼｭ ﾊﾟｰﾂの形状ｻﾎﾟｰﾄが無効です:
+/P01";
+Sweep3DERR_0006.Advice="ﾒｯｼｭ ﾊﾟｰﾂのｻﾎﾟｰﾄを更新するか､消去してください｡";
+
+// Nls du GeomError 
+
+Sweep3DERR_0031.Request="下部ﾒｯｼｭのｷｬﾌﾟﾁｬに失敗しました｡";
+Sweep3DERR_0031.Diagnostic="形状でﾒｯｼｭがｷｬﾌﾟﾁｬされません: /P31";
+Sweep3DERR_0031.Advice="ﾒｯｼｭ ﾊﾟｰﾂのｷｬﾌﾟﾁｬ ﾌｨﾙﾀおよび \nｷｬﾌﾟﾁｬの公差をﾁｪｯｸしてください｡";
+
+Sweep3DERR_0032.Request="下部ﾒｯｼｭのｷｬﾌﾟﾁｬに失敗しました｡";
+Sweep3DERR_0032.Diagnostic="形状で部分的にﾒｯｼｭをｷｬﾌﾟﾁｬしました: /P31";
+Sweep3DERR_0032.Advice="ﾒｯｼｭ ﾊﾟｰﾂのｷｬﾌﾟﾁｬ ﾌｨﾙﾀおよび \nｷｬﾌﾟﾁｬの公差をﾁｪｯｸしてください｡";
+
+Sweep3DERR_0033.Request="下部ﾒｯｼｭのｷｬﾌﾟﾁｬに失敗しました｡";
+Sweep3DERR_0033.Diagnostic="形状でｷｬﾌﾟﾁｬしたﾒｯｼｭが多すぎます: /P31";
+Sweep3DERR_0033.Advice="ﾒｯｼｭ ﾊﾟｰﾂのｷｬﾌﾟﾁｬ ﾌｨﾙﾀおよび \nｷｬﾌﾟﾁｬの公差をﾁｪｯｸしてください｡";
+
+Sweep3DERR_0004.Request="ｶﾞｲﾄﾞが計算されていません｡";
+Sweep3DERR_0004.Diagnostic="ｶﾞｲﾄﾞの計算に失敗しました｡";
+Sweep3DERR_0004.Advice="上部または下部(あるいは両方)のﾌｪｰｽを修正してください｡";
+
+Sweep3DERR_0005.Request="ｶﾞｲﾄﾞが計算されていません｡";
+Sweep3DERR_0005.Diagnostic="ｶﾞｲﾄﾞの計算に失敗しました｡";
+Sweep3DERR_0005.Advice="角度を修正してください｡";
+
+Sweep3D_vertex="頂点";
+Sweep3D_edge="ｴｯｼﾞ";
+Sweep3D_face="ﾌｪｰｽ";
+
+// Erreur ds la Capture
+
+CaptureERR_0001.Request="ﾒｯｼｭのｷｬﾌﾟﾁｬに失敗しました｡";
+CaptureERR_0001.Diagnostic="ﾒｯｼｭ ﾊﾟｰﾂ: /P01 が最新ではありません｡";
+CaptureERR_0001.Advice="ﾒｯｼｭ ﾊﾟｰﾂを更新するか､ﾒｯｼｭ ﾊﾟｰﾂ ｷｬﾌﾟﾁｬのﾌｨﾙﾀから除去してください｡";
+
+// Erreur dans le studio
+
+StudioERR_0001.Request="無効なﾒｯｼｭ構成が位置( /P01 /P02 /P03 )で検出されました｡";
+StudioERR_0001.Diagnostic="異なる中間節点が同じｴｯｼﾞを共有しています｡";
+
+StudioERR_0002.Request="無効なﾒｯｼｭ構成が検出されました｡";
+StudioERR_0002.Diagnostic="予期される中間節点が欠落しています｡";
+
+StudioERR_0003.Request="無効なﾒｯｼｭ構成が位置( /P01 /P02 /P03 )で検出されました｡";
+StudioERR_0003.Diagnostic="節点がﾒｲﾝ節点と中間節点の両方に使用されています｡";
+
+StudioERR_0004.Request="無効なﾒｯｼｭ構成が位置( /P01 /P02 /P03 )で検出されました｡";
+StudioERR_0004.Diagnostic="中間節点が､この節点上でﾒｯｼｭ ｴｯｼﾞを共有しない異なる要素により使用されています｡";
+StudioERR_0004.Advice="考えられる原因 : \n 1. この領域でのﾒｯｼｭ ｷｬﾌﾟﾁｬが不適切 \n 2. ﾒｯｼｭがこの構成でｲﾝﾎﾟｰﾄされた";
+
+StudioERR_0005.Request="ﾒﾓﾘを割り当てられません｡";
+StudioERR_0005.Diagnostic="ｼｽﾃﾑは十分なﾒﾓﾘを割り当てられません｡";
+StudioERR_0005.Advice="考えられるｹｰｽ :\n 1. ﾒｯｼｭ ﾊﾟﾗﾒｰﾀを確認してください \n 2. 開いているｳｨﾝﾄﾞｳが多すぎます";
+
+// Proximity Checker
+
+ProximityCheckerERR_0001.Request="ﾒｯｼｭは更新できません｡";
+ProximityCheckerERR_0001.Diagnostic="入力ﾒｯｼｭにTR3以外が含まれています｡";
+ProximityCheckerERR_0001.Advice="TR3ﾒｯｼｭのみを入力として選択してください｡";

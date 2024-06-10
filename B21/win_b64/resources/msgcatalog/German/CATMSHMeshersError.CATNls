@@ -1,0 +1,662 @@
+// Exemple de message :
+//
+// ERR_2000.Request    = "Vous avez additionne /p1 avec /p2";
+// ERR_2000.Diagnostic = "Un des parametres est negatif";
+// ERR_2000.Advice     = "Utilisez des parametres positifs";
+
+
+ERR_0001.Request="Verbindung mit Vernetzungsteil kann nicht vernetzt werden: /P01";
+ERR_0001.Diagnostic="Für /P01 ist kein Vernetzungsteil definiert.";
+ERR_0001.Advice="1. Außerhalb des Kontexts der Baugruppenanalyse: Zunächst Vernetzungsteile auf Geometrien erzeugen, bevor diese verbunden werden können.\n2. Im Kontext der Baugruppenanalyse: \n - Strukturpunkte der Baugruppenanalyse bei aktivierten CATAnalysis-Darstellungen prüfen (Symbolleiste 'Baugruppenanalyse' verwenden)\n - Vernetzungsteile auf Geometrien erzeugen, bevor diese verbunden werden\n3. Bemaßungskonsistenz: 2D-/3D-Geometrien müssen mit 2D-/3D-Vernetzungsteilen verknüpft sein ";
+
+ERR_0002.Request="Verbindung mit Vernetzungsteil kann nicht vernetzt werden: /P01";
+ERR_0002.Diagnostic="Keine zugeordnete Vernetzung auf dem geometrischen Stützelement gefunden: /P01";
+ERR_0002.Advice="Prüfen, ob die Vernetzung um das geometrische Stützelement herum nicht zu grob ist.";
+
+ERR_0003.Diagnostic="Vernetzung fehlgeschlagen. Vernetzungsteil /P01 ist kein Element zugeordnet";
+
+ERR_0004.Request="Kein geometrisches Stützelement gefunden (gelöscht?).";
+ERR_0004.Diagnostic="Geometrisches Stützelement für Vernetzungsteil /P01 kann nicht gefunden werden:";
+ERR_0004.Advice="Das Stützelement des Vernetzungsteils aktualisieren oder unterdrücken.";
+
+ERR_0005.Request="Ungeeignete Bemaßung bei geometrischem Stützelement: /P01";
+ERR_0005.Diagnostic="Ungültiges geometrisches Stützelement für das Vernetzungsteil:
+/P01";
+ERR_0005.Advice="Das Stützelement des Vernetzungsteils aktualisieren oder unterdrücken.";
+
+ERR_0006.Request="Ungültiges geometrisches Stützelement (leer oder nicht aktuell): /P01";
+ERR_0006.Diagnostic="Für Vernetzungsteil: /P01";
+ERR_0006.Advice="Das Stützelement des Vernetzungsteils aktualisieren oder unterdrücken.";
+
+ERR_0007.Request="Anwendungscode fehlt.";
+ERR_0007.Diagnostic="Vernetzungsteil kann nicht aktualisiert werden.
+Name: /P01
+Typ: /P02";
+ERR_0007.Advice="Sicherstellen, dass alle erforderlichen Anwendungen installiert sind.";
+
+ERR_0008.Request="Verbundene Teilflächen müssen eben sein.";
+ERR_0008.Diagnostic="Ungültiges geometrisches Stützelement für das Vernetzungsteil:
+/P01";
+ERR_0008.Advice="Das Stützelement des Vernetzungsteils aktualisieren oder unterdrücken.";
+
+ERR_0009.Request="Verbundene Teilflächen müssen bis zu einer starren Verschiebung identisch sein.";
+ERR_0009.Diagnostic="Ungültiges geometrisches Stützelement für das Vernetzungsteil: /P01.";
+ERR_0009.Advice="Mögliche Ursachen:\n1. Die Form der zu verbindenden Teilflächen ist verschieden.\n2. In mindestens einer Teilfläche wurde kein Element gefunden.\n3. Mit den geometrischen Informationen kann keine starre Verschiebung definiert werden.";
+
+ERR_0010.Request="Erforderliche Lizenz fehlt.";
+ERR_0010.Diagnostic="Das Vernetzungsteil kann nicht aktualisiert werden:
+/P01";
+ERR_0010.Advice="Alle erforderlichen Lizenzen müssen aktiv sein.";
+
+ERR_0011.Request="Das virtuelle Vernetzungsteil kann nicht vernetzt werden:
+/P01";
+ERR_0011.Diagnostic="Ausgewähltes Stützelement gehört nicht zur selben Geometrie.";
+ERR_0011.Advice="Alle Stützelemente (Teilflächen, Kanten) müssen zur selben Geometrie gehören.";
+
+ERR_0012.Request="Die Schweißgeometrien können nicht gefunden werden";
+ERR_0012.Diagnostic="Ungültige Definition der Schweißungen für das Vernetzungsteil:
+/P01";
+ERR_0012.Advice="Auf die Definition der Schweißungen prüfen:
+Im Fall von Schweißungen, die in der Umgebung Automotive BIW Fastening definiert wurden, ist sicherzustellen, dass der zusammengefügte Kontaktbereich ausgewählt wurde";
+
+ERR_0013.Request="Das Vernetzungsteil /P01 ist fehlgeschlagen";
+
+ERR_0014.Request="Anwendungscode fehlt.";
+ERR_0014.Diagnostic="Operator kann nicht aktualisiert werden.
+Name: /P01
+Typ: /P02";
+ERR_0014.Advice="Sicherstellen, dass alle erforderlichen Anwendungen installiert sind.";
+
+Mesh1DERR_0001.Request="Die Verteilung kann nicht festgelegt werden.";
+Mesh1DERR_0001.Diagnostic="Mehrere Argumente sind ungültig.";
+
+Mesh1DERR_0002.Request="Kann nicht vernetzt werden.";
+Mesh1DERR_0002.Diagnostic="Mehrere Argumente sind ungültig.";
+Mesh1DERR_0002.Advice="Netzparameter ändern";
+
+Mesh1DERR_0003.Request="Vernetzung von /P01 fehlgeschlagen.";
+Mesh1DERR_0003.Diagnostic="Einige Kurven weisen keine Vernetzung auf.";
+
+Mesh1DERR_0004.Request="Kurve kann nicht vernetzt werden.";
+Mesh1DERR_0004.Diagnostic="Die eindeutige Netzkante ist bereits auf einer anderen Kurve vorhanden.";
+Mesh1DERR_0004.Advice="Feinere Vernetzung um den Bereich.";
+
+SmartSurfERR_0001.Request="Kann nicht vernetzt werden.";
+SmartSurfERR_0001.Diagnostic="Ungültige Domäne für diese Vernetzungsmethode.";
+
+SmartSurfERR_0002.Request="Vorherige Daten können nicht wiederhergestellt werden.";
+SmartSurfERR_0002.Diagnostic="Vernetzte Geometrie wurde geändert. Die Topologie konnte nicht wiederhergestellt werden.";
+
+SmartSurfERR_0003.Request="Vernetzung von /P01 fehlgeschlagen.";
+SmartSurfERR_0003.Diagnostic="Mehrere Domänen weisen keine Vernetzung auf.";
+
+SmartSurfERR_0004.Request="Vorherige Vernetzung kann nicht wiederhergestellt werden.";
+SmartSurfERR_0004.Diagnostic="Die Vernetzung kann nicht zugeordnet werden. Es war nur möglich, die Topologie wiederherzustellen.";
+
+SmartSurfERR_0005.Request="Die vorherige Topologie kann nicht wiederhergestellt werden.";
+SmartSurfERR_0005.Diagnostic="Die Topologie kann nicht wiederhergestellt werden.";
+
+SmartSurfERR_0006.Request="Die Geometrie des Vernetzungsteils kann nicht tesselliert werden";
+SmartSurfERR_0006.Advice="Die Tessellierung mit einer anderen Elementgröße durchführen, oder, im Fall einer Offsetvernetzung, den Offsetwert herabsetzen.";
+
+SmartSurfERR_0007.Request="Kann nicht vernetzt werden.";
+SmartSurfERR_0007.Diagnostic="Mehrere Parameter sind ungültig.";
+SmartSurfERR_0007.Advice="Folgendes prüfen:
+  - Der absolute Durchhang ist größer als 0 (sofern definiert).
+  - Der relative Durchhang ist größer als 0 und kleiner als 1 (sofern definiert).
+  - Die Mindestgröße ist größer als 0 und kleiner als die Netzgröße (sofern definiert).";
+
+SmartSurfERR_0100.Request="Das Knopfloch kann nicht genäht werden.";
+SmartSurfERR_0200.Request="Die Teilfläche kann nicht ignoriert werden.";
+SmartSurfERR_0300.Request="Der Riss kann nicht genäht werden.";
+SmartSurfERR_0400.Request="Die Kante kann nicht mit Bedingungen versehen werden.";
+SmartSurfERR_0500.Request="Der Scheitelpunkt kann nicht mit Bedingungen versehen werden.";
+SmartSurfERR_0600.Request="Die Kurve kann nicht projiziert werden.";
+SmartSurfERR_0700.Request="Der Punkt kann nicht projiziert werden.";
+SmartSurfERR_0800.Request="Die Verteilung kann nicht festgelegt werden.";
+SmartSurfERR_0900.Request="Erfassung nicht möglich.";
+SmartSurfERR_1000.Request="Die Verteilung kann nicht festgelegt werden.";
+
+SizeMapSurfERR_0001.Request="Vernetzungsteil kann nicht bearbeitet werden.";
+SizeMapSurfERR_0001.Diagnostic="Das Vernetzungsteil ist nicht auf dem aktuellen Stand.";
+SizeMapSurfERR_0001.Advice="Vernetzungsteil aktualisieren.";
+
+SizeMapSurfERR_0002.Request="Eine lokale Größe ist kleiner als die globale Mindestgröße.";
+SizeMapSurfERR_0002.Diagnostic="Die kleinste lokale Größe ist /P02, die globale Mindestgröße ist /P01.";
+SizeMapSurfERR_0002.Advice="Die globale Mindestgröße verkleinern, damit alle lokalen Größen kompatibel sind.";
+
+MappedERR_0001.Request="Kann nicht vernetzt werden.";
+MappedERR_0001.Diagnostic="Es konnten keine vier Ecken gefunden werden.";
+MappedERR_0001.Advice="Scheitelpunkte positionieren, um die vier Ecken zu definieren.";
+
+MappedERR_0002.Request="Kann nicht vernetzt werden.";
+MappedERR_0002.Diagnostic="Mehrere vorgegebene Punkte werden ignoriert.";
+MappedERR_0002.Advice="Die Netzgröße ändern.";
+
+MappedERR_0003.Request="Kann nicht vernetzt werden.";
+MappedERR_0003.Diagnostic="Unterschiedliche Anzahl von Knoten auf gegenüberliegenden Seiten";
+MappedERR_0003.Advice="Die Spezifikationsparameter für das Netz ändern.";
+
+PatBeadERR_0001.Request="Kann nicht vernetzt werden.";
+PatBeadERR_0001.Diagnostic="Es konnten keine zwei charakteristischen Punkte für die Leisten gefunden werden.";
+PatBeadERR_0001.Advice="Scheitelpunkte an den Endpunkten der Leiste positionieren.";
+
+BoltERR_0001.Request="Kann nicht vernetzt werden.";
+BoltERR_0001.Diagnostic="Die richtige Anzahl Knoten für den Bolzen konnte nicht gefunden werden.";
+BoltERR_0001.Advice="Die entsprechende Anzahl Knoten erzeugen.";
+
+ProjectERR_0001.Request="Kann nicht projiziert werden.";
+ProjectERR_0001.Diagnostic="Feststellung fehlerhafter Begrenzungen.";
+ProjectERR_0002.Request="Kann nicht projiziert werden.";
+ProjectERR_0002.Diagnostic="Geschlossene Topologie nicht unterstützt.";
+ProjectERR_0003.Request="Kann nicht projiziert werden.";
+ProjectERR_0003.Diagnostic="Feststellung fehlerhafter Begrenzungsknoten.";
+ProjectERR_0004.Request="Kann nicht projiziert werden.";
+ProjectERR_0004.Diagnostic="Begrenzung mit einer unterschiedlichen Zahl von Knoten vernetzt.";
+ProjectERR_0005.Request="Kann nicht projiziert werden.";
+ProjectERR_0005.Diagnostic="Unterschiedliche Anzahl Begrenzungen";
+ProjectERR_0006.Request="Kann nicht projiziert werden.";
+ProjectERR_0006.Diagnostic="Eine Kante konnte nicht gefunden werden";
+ProjectERR_0007.Request="Kann nicht projiziert werden.";
+ProjectERR_0007.Diagnostic="Ungültige Vernetzung generiert.";
+
+ImportERR_0001.Request="Datei kann nicht geöffnet werden.";
+ImportERR_0001.Diagnostic="Die Vernetzung des Vernetzungsteils: /P01 fehlgeschlagen bei einer offenen Datei: /P02";
+ImportERR_0001.Advice="Sicherstellen, dass die Datei keinem Exklusivmodus zugeordnet oder gelöscht ist.";
+
+ImportERR_0002.Request="Ungültige Linie";
+ImportERR_0002.Diagnostic="Die Vernetzung des Vernetzungsteils /P01 auf folgender Linie fehlgeschlagen: /P02";
+ImportERR_0002.Advice="Das Format prüfen";
+
+DomainMesherERR_0001.Request="Netzgröße muss positiven Wert aufweisen.";
+
+DomainMesherERR_0002.Request="Ungültige Domäne.";
+DomainMesherERR_0002.Diagnostic="Die Domäne ist für diese Vernetzungsmethode nicht gültig.";
+DomainMesherERR_0002.Advice="Die Domäne ändern.";
+
+DomainMesherERR_0003.Request="Kann nicht vernetzt werden.";
+DomainMesherERR_0003.Diagnostic="Die vorgegebenen Knoten werden nicht unterstützt.";
+DomainMesherERR_0003.Advice="Die vorgegebenen Knoten entfernen.";
+
+DomainMesherERR_0004.Request="Ungültige Domäne.";
+DomainMesherERR_0004.Diagnostic="Weniger Scheitelpunkte ( /P01 ) als erwartete Ecken ( /P02 ).";
+DomainMesherERR_0004.Advice="Die Domäne ändern.";
+
+
+// Erreur Connection Mesher (Fastened and Periodicity) : algo
+
+ConnAlgERR_0001.Request="Verbindung mit Vernetzungsteil kann nicht vernetzt werden: /P01";
+ConnAlgERR_0001.Diagnostic="Projektion nicht möglich.";
+ConnAlgERR_0001.Advice="Mögliche Ursachen:\n1. Die Verbindung ist für zwei nah beieinander liegende Geometrien/Vernetzungsteile vorgesehen\n - Projektionstoleranz = /P01 als Ergebnis der internen Berechnung auf der Grundlage von zu verbindenden Vernetzungsteilen\n - Den Abstand zwischen den Geometrien/Vernetzungsteilen verringern, um ein Verbindungsnetz zu erhalten\n2. Projektionsquellen sind Projektionsziele\n3. Keine zu projizierende Quelle";
+
+ConnAlgERR_0002.Request="Teilweises Netz";
+ConnAlgERR_0002.Diagnostic="Einige Knoten sind komprimiert. Möglicherweise wurden einige Spinnenelemente nicht generiert.";
+ConnAlgERR_0002.Advice="Mögliche Ursachen:\n 1. Die Knoten eines Netzes werden vom anderen Netz erfasst.\n 2. Stützelemente der Analyseverbindung sind identisch.";
+
+ConnAlgERR_0003.Request="Verbindung mit Vernetzungsteil kann nicht vernetzt werden: /P01";
+ConnAlgERR_0003.Diagnostic="Mehrere Knoten sind einem geometrischen Punkt zugeordnet.";
+ConnAlgERR_0003.Advice="Mögliche Ursachen:\n  1. Erzeugung eines Transformationsnetzes mit einem der zu verbindenden Netze.\n  2. Verdichtung von Knoten.";
+
+ConnAlgERR_0004.Request="Verbindung mit Vernetzungsteil kann nicht vernetzt werden: /P01";
+ConnAlgERR_0004.Diagnostic="Verbindung zwischen Teilflächen: auf beiden zu verbindenden Seiten kann keine Teilfläche ermittelt werden.";
+ConnAlgERR_0004.Advice="Definition der Analyseverbindung ändern.";
+
+ConnAlgERR_0005.Request="Verbindung mit Vernetzungsteil kann nicht vernetzt werden: /P01";
+ConnAlgERR_0005.Diagnostic="Start der Verbindungseigenschaft: Abgerufene/r Knoten ermöglicht/ermöglichen keine Vernetzung.";
+ConnAlgERR_0005.Advice="Definition der Analyseverbindung ändern.";
+
+ConnAlgERR_0006.Request="Verbindung mit Vernetzungsteil kann nicht vernetzt werden: /P01";
+ConnAlgERR_0006.Diagnostic="Ende der Verbindungseigenschaft: Abgerufene/r Knoten ermöglicht/ermöglichen keine Vernetzung.";
+ConnAlgERR_0006.Advice="Definition der Analyseverbindung ändern.";
+
+ConnAlgERR_0007.Request="Verbindung mit Vernetzungsteil kann nicht vernetzt werden: /P01";
+ConnAlgERR_0007.Diagnostic="Ungültige Bolzenkonfiguration: Rotationsachse kann nicht definiert werden.";
+ConnAlgERR_0007.Advice="Definition der Analyseverbindung ändern.";
+
+ConnAlgERR_0008.Request="Verbindung mit Vernetzungsteil kann nicht vernetzt werden: /P01";
+ConnAlgERR_0008.Diagnostic="Ungültige Konfiguration.";
+ConnAlgERR_0008.Advice="Definition der Analyseverbindung ändern.";
+
+ConnAlgERR_0009.Request="Verbindung mit Vernetzungsteil kann nicht vernetzt werden: /P01";
+ConnAlgERR_0009.Diagnostic="Ungültige Bolzenkonfiguration: Rotationsachsen der zu verbindenden Seiten sind nicht parallel.";
+ConnAlgERR_0009.Advice="Definition der Analyseverbindung ändern.";
+
+CSmoothAlgERR_0001.Request="Verbindung mit Vernetzungsteil kann nicht vernetzt werden: /P01";
+CSmoothAlgERR_0001.Diagnostic="Mittleres Element: Es kann kein 1D-Element mit einem Knoten erzeugt werden.";
+CSmoothAlgERR_0001.Advice="Definition der Analyseverbindung oder die zu verbindenden Vernetzungsteile ändern.";
+
+// Erreur Weld : commande
+
+WeldCmdERR_0001.Request="Kein Vernetzungsteil erzeugt.";
+WeldCmdERR_0001.Diagnostic="Alle ausgewählten Verbindungen sind bereits vernetzt.";
+
+// Erreur Weld : algo
+
+WeldAlgERR_0001.Request="Punkt kann nicht projiziert werden.";
+WeldAlgERR_0001.Diagnostic="Maximaler Abstandswert zu gering, oder der Punkt kann nicht auf alle Stützelement projiziert werden.";
+WeldAlgERR_0001.Advice="Zwei mögliche Lösungen: maximalen Abstand erhöhen oder die Geometrie ändern, um Projektion zu ermöglichen.";
+
+WeldAlgERR_0002.Request="Ungültiger Umschlagvorgang";
+WeldAlgERR_0002.Diagnostic="Das Stützelement kann nicht umgeschlagen werden.";
+WeldAlgERR_0002.Advice="Bei Verwendung einer Befestigungsverbindung der Rohkarosserie: Umschlagoption entfernen (falls nutzlos) oder Stützelement ändern.\nBei Verwendung einer Analyseverbindung: Stützelement ändern.";
+
+WeldAlgERR_0003.Request="Kann nicht vernetzt werden.";
+WeldAlgERR_0003.Diagnostic="Der/die Punkt(e) müssen auf mindestens 2 Stützelemente projiziert werden können.";
+WeldAlgERR_0003.Advice="Die Geometrie ändern.";
+
+WeldAlgERR_0004.Request="Kann nicht vernetzt werden.";
+WeldAlgERR_0004.Diagnostic="Die Projektion(en) des/der Punkte/s befinden sich auf degenerierten Elementen.";
+WeldAlgERR_0004.Advice="Stützelementenetze ändern, um die degenerierten Elemente zu unterdrücken.";
+
+WeldAlgERR_0005.Request="Teilweises Netz";
+WeldAlgERR_0005.Diagnostic="Erzeugung eines Elements schlechter Qualität (negative oder leere Jacobideterminante) nicht zulässig.";
+WeldAlgERR_0005.Advice="Mögliche Ursachen:\n1. Die Stützelemente schneiden sich u. U. gegenseitig.\n2. Die zu verbindenden Teilflächen sind identisch.";
+
+WeldAlgERR_0006.Request="Verbindung mit Vernetzungsteil kann nicht vernetzt werden: /P01.";
+WeldAlgERR_0006.Diagnostic="Ungültige Parameter.";
+WeldAlgERR_0006.Advice="Sicherstellen, dass kein Parameter einen Nullwert aufweist.";
+
+WeldAlgERR_0007.Request="Verbindung mit Vernetzungsteil kann nicht vernetzt werden: /P01.";
+WeldAlgERR_0007.Diagnostic="Ein zu verbindendes Stützelement ist in der Analyseverbindung doppelt vorhanden.";
+WeldAlgERR_0007.Advice="Stützelemente und Netze überprüfen.";
+
+// Erreur Spot Weld: algo
+
+SpotWeldAlgERR_0001.Request="Kann nicht vernetzt werden.";
+SpotWeldAlgERR_0001.Diagnostic="Analyse der Punktverbindungen muss auf jedes zu schweißende Stützelement projiziert werden.";
+SpotWeldAlgERR_0001.Advice="Prüfen, ob die Analyse der Punktverbindungen auf jedes Stützelement projiziert wurde.\nEbenfalls prüfen, ob die Projektion(en) korrekt verarbeitet wurde(n).";
+
+SpotWeldAlgERR_0002.Request="Kann nicht vernetzt werden.";
+SpotWeldAlgERR_0002.Diagnostic="Die Projektion des Punkts auf alle Stützelemente muss sich auf einem Viereck befinden.";
+SpotWeldAlgERR_0002.Advice="Stützelementenetze ändern, um Vierecke oberhalb und unterhalb des Punkts zu erhalten.";
+
+SpotWeldAlgERR_0003.Request="Kann nicht vernetzt werden.";
+SpotWeldAlgERR_0003.Diagnostic="Kompatible Netze der Analyse der Punktverbindungen in einem Teil werden nicht unterstützt.";
+SpotWeldAlgERR_0003.Advice="Option für nicht kompatible Netze verwenden.";
+
+SpotWeldAlgERR_0004.Request="Kann nicht vernetzt werden.";
+SpotWeldAlgERR_0004.Diagnostic="Knoten der zu schweißenden Stützelemente sind komprimiert.";
+SpotWeldAlgERR_0004.Advice="Stützelementenetze ändern.";
+
+// Erreur Seam Weld: algo
+
+SeamWeldAlgERR_0001.Request="Kann nicht vernetzt werden.";
+SeamWeldAlgERR_0001.Diagnostic="Analyse nicht vervielfältigter Linienverbindungen wird nicht unterstützt.";
+SeamWeldAlgERR_0001.Advice="Kanten für die Analyse der Linienverbindungen ändern.";
+
+SeamWeldAlgERR_0002.Request="Kann nicht vernetzt werden.";
+SeamWeldAlgERR_0002.Diagnostic="Analyse der Linienverbindungen, die bei getrennten Kanten vorgenommen wurde, wird nicht unterstützt.";
+SeamWeldAlgERR_0002.Advice="Kanten für die Analyse der Linienverbindungen ändern.";
+
+SeamWeldAlgERR_0003.Request="Kann nicht vernetzt werden.";
+SeamWeldAlgERR_0003.Diagnostic="Schweißen nur zwischen zwei Stützelementen oder innerhalb eines Teils zulässig.";
+SeamWeldAlgERR_0003.Advice="Stützelement(e) des Verbindungskörpers unterdrücken.";
+
+SeamWeldAlgERR_0004.Request="Kann nicht vernetzt werden.";
+SeamWeldAlgERR_0004.Diagnostic="Netz der kompatiblen Nahtschweißverbindung wird nur zwischen zwei unterschiedlichen Stützelementen unterstützt.";
+SeamWeldAlgERR_0004.Advice="Den Verbindungskörper ändern.";
+
+SeamWeldAlgERR_0005.Request="Kann nicht vernetzt werden.";
+SeamWeldAlgERR_0005.Diagnostic="Analyse der Linienverbindungen muss auf jedes zu schweißende Stützelement projiziert werden.";
+SeamWeldAlgERR_0005.Advice="Prüfen, ob die Analyse der Linienverbindungen auf jedes Stützelement projiziert wurde (Kurvenbedingung in Flächenvernetzung hinzufügen).\nEbenfalls prüfen, ob die Projektionen korrekt verarbeitet wurden.";
+
+SeamWeldAlgERR_0006.Request="Kann nicht vernetzt werden.";
+SeamWeldAlgERR_0006.Diagnostic="Die Anzahl der Knoten zur Definition der Nahtschweißungsprojektion muss auf jedem zu schweißenden Stützelement gleich sein.";
+SeamWeldAlgERR_0006.Advice="Die Option zur Erfassung von Netzkanten verwenden, wenn eine Kurvenbedingung für das zweite Stützelement hinzugefügt werden soll.\nSicherstellen, dass die Kurvenprojektion UND die Erfassung der Knoten korrekt verarbeitet wurden.";
+
+SeamWeldAlgERR_0007.Request="Kann nicht vernetzt werden.";
+SeamWeldAlgERR_0007.Diagnostic="Knoten der zu schweißenden Stützelemente sind komprimiert.";
+SeamWeldAlgERR_0007.Advice="Stützelementenetze ändern.";
+
+SeamWeldAlgERR_0008.Request="Kann nicht vernetzt werden.";
+SeamWeldAlgERR_0008.Diagnostic="Kurvenextremwerte müssen einander gegenüberliegen.";
+SeamWeldAlgERR_0008.Advice="Kanten für die Analyse der Linienverbindungen ändern.";
+
+SeamWeldAlgERR_0009.Request="Masternaht (längste) kann Slave-Naht nicht zugeordnet werden.";
+SeamWeldAlgERR_0009.Diagnostic="Richtung der Slave-Naht weicht von der Richtung der Masternaht ab.";
+SeamWeldAlgERR_0009.Advice="Kanten für die Analyse der Linienverbindungen ändern.";
+
+SeamWeldAlgERR_0010.Request="Kann nicht vernetzt werden.";
+SeamWeldAlgERR_0010.Diagnostic="Kompatible Netze von zwei Führungselementen bei der Analyse der Linienverbindungen werden nicht unterstützt.";
+SeamWeldAlgERR_0010.Advice="Option für nicht kompatible Netze verwenden.";
+
+SeamWeldAlgERR_0011.Request="Diskretisierung bei der Analyse von Linienverbindungen ist zu grob.";
+SeamWeldAlgERR_0011.Diagnostic="Geschlossene Linienverbindungen bei der Analyse müssen anhand von mindestens drei Kanten diskretisiert werden.";
+SeamWeldAlgERR_0011.Advice="Netzgröße verringern.";
+
+SeamWeldAlgERR_0012.Request="Kann nicht vernetzt werden.";
+SeamWeldAlgERR_0012.Diagnostic="Zwei Führungselemente bei der Analyse der Linienverbindungen, die aus geschlossenen Kanten bestehen, werden nicht unterstützt.";
+SeamWeldAlgERR_0012.Advice="Die Kanten dieser Führungselemente bei der Analyse der Linienverbindungen ändern.";
+
+SeamWeldAlgERR_0013.Request="Kann nicht vernetzt werden.";
+SeamWeldAlgERR_0013.Diagnostic="Der Winkel zwischen der Kurve 1 und der Kurve 2 ist zu gewichtig.";
+SeamWeldAlgERR_0013.Advice="Den Winkel zwischen den Kurven ändern (der Winkel zwischen der Tangente am Endpunkt einer Kurve und dem Vektor von zwei Endpunkten darf nicht größer als ein Bogenmaß von 5*PI/6 sein).";
+
+SeamWeldAlgERR_0014.Request="Kann nicht vernetzt werden.";
+SeamWeldAlgERR_0014.Diagnostic="Es können keine kompatiblen Elemente mit einem Teil erstellt werden.";
+SeamWeldAlgERR_0014.Advice="Verbindung von Kurve zu Kurve erstellen.";
+
+// Erreur Surf Weld: algo
+
+SurfWeldAlgERR_0001.Request="Verbindung mit Vernetzungsteil kann nicht vernetzt werden: /P01.";
+SurfWeldAlgERR_0001.Diagnostic="Das Stützelement der Fläche ist ungültig.";
+SurfWeldAlgERR_0001.Advice="Die Fläche ändern, auf die die Analyse der Flächenverbindungen verweist.";
+
+SurfWeldAlgERR_0002.Request="Verbindung mit Vernetzungsteil kann nicht vernetzt werden: /P01.";
+SurfWeldAlgERR_0002.Diagnostic="Die Fläche kann nicht vernetzt werden.";
+SurfWeldAlgERR_0002.Advice="Die Fläche ändern, auf die die Analyse der Flächenverbindungen verweist.";
+
+WeldDataERR_0001.Request="/P01\nInformationen von Stützelementen können nicht abgerufen werden.";
+WeldDataERR_0001.Diagnostic="Ungültige Stützelemente.";
+WeldDataERR_0001.Advice="Stützelemente der Analyseverbindung überprüfen.";
+
+// Erreur Point Point : algo
+
+PointPointAlgERR_0001.Request="Kann nicht vernetzt werden.";
+PointPointAlgERR_0001.Diagnostic="Problem mit der Komponente /P01 der Verbindung: Der Punkt ist keinem Knoten zugeordnet.";
+PointPointAlgERR_0001.Advice="Den Punkt einem Knoten zuordnen ('Knoten bewegen', Punktbedingung oder halben Punkt verwenden).";
+
+PointPointAlgERR_0002.Request="Kann nicht vernetzt werden.";
+PointPointAlgERR_0002.Diagnostic="Problem mit der Komponente /P01 der Verbindung: Dem Punkt sind mehrere Knoten zugeordnet.";
+PointPointAlgERR_0002.Advice="Das Vernetzungsteil, das den zu verbindenden Knoten enthält, in den Filter 'Knoten-zu-Knoten-Verbindungsnetz' einreihen.";
+
+PointPointAlgERR_0003.Request="Verbindung mit Vernetzungsteil kann nicht vernetzt werden: /P01.";
+PointPointAlgERR_0003.Diagnostic="Nicht dieselbe Anzahl Punkte.";
+PointPointAlgERR_0003.Advice="Die Definition der Analyseverbindung ändern.";
+
+PointPointAlgERR_0004.Request="Verbindung mit Vernetzungsteil kann nicht vernetzt werden: /P01.";
+PointPointAlgERR_0004.Diagnostic="Kein Punkt.";
+PointPointAlgERR_0004.Advice="Die Definition der Analyseverbindung ändern.";
+
+PointPointAlgERR_0005.Request="Kann nicht vernetzt werden.";
+PointPointAlgERR_0005.Diagnostic="Mehrere Knoten in der Toleranz.";
+PointPointAlgERR_0005.Advice="Mögliche Ursachen:\n 1.) Toleranz ist zu groß\n 2.) Ein Knoten einer Seite ist gleich weit von zwei Knoten der anderen Seite entfernt";
+
+PointPointAlgERR_0006.Request="Kann nicht vernetzt werden.";
+PointPointAlgERR_0006.Diagnostic="Kein Knoten in der Toleranz.";
+PointPointAlgERR_0006.Advice="Die Toleranz vergrößern.";
+
+PointPointAlgERR_0007.Request="Kann nicht vernetzt werden.";
+PointPointAlgERR_0007.Diagnostic="Die Punkte sind dem gleichen Knoten zugeordnet. Es ist nicht möglich, ein eindimensionales Element mit nur einem Knoten zu erzeugen.";
+PointPointAlgERR_0007.Advice="Die Definition der Analyseverbindung ändern.";
+
+// Erreur Half Point : algo
+
+HalfPointAlgERR_0001.Request="Verbindung mit Vernetzungsteil kann nicht vernetzt werden: /P01.";
+HalfPointAlgERR_0001.Diagnostic="Kein Punkt.";
+HalfPointAlgERR_0001.Advice="Die Definition der Analyseverbindung ändern.";
+
+HalfPointAlgERR_0002.Request="Kann nicht vernetzt werden.";
+HalfPointAlgERR_0002.Diagnostic="Mehrere Knoten ODER Punkte in der Toleranz.";
+HalfPointAlgERR_0002.Advice="Mögliche Ursachen:\n 1.) Toleranz ist zu groß (ein Punkt ist mehreren Knoten zugeordnet)\n 2.) Einige Punkte liegen zu dicht beieinander (ein Knoten ist mehreren Punkten zugeordnet)";
+
+HalfPointAlgERR_0003.Request="Kann nicht vernetzt werden.";
+HalfPointAlgERR_0003.Diagnostic="Kein Knoten in der Toleranz.";
+HalfPointAlgERR_0003.Advice="Die Toleranz vergrößern.";
+
+HalfPointAlgERR_0004.Request="Kann nicht vernetzt werden.";
+HalfPointAlgERR_0004.Diagnostic="1D-Element kann nicht zweimal mit demselben Knoten erzeugt werden.";
+HalfPointAlgERR_0004.Advice="Analyseverbindung und/oder Assoziativitätsverknüpfungen und/oder zu verbindende Vernetzungsteile prüfen.";
+
+//
+// Erreurs de la Topology 
+//
+TopoERR_0001.Request="Zuordnung fehlgeschlagen";
+TopoERR_0002.Request="E_FAIL für TopOperator erzwingen:";
+TopoERR_0002.Diagnostic="/P01";
+TopoERR_0003.Request="Für den folgenden topologischen Operator wurde keine Fehlernachricht gefunden: ";
+TopoERR_0003.Diagnostic="/P01";
+
+TopoERR_0020.Request="Scheitelpunkt kann nicht inaktiviert werden";
+TopoERR_0021.Request="Fehler beim Erstellen der Kontur: Ungültige Kontur mit freier Kante im Körper";
+TopoERR_0022.Request="Kante kann nicht inaktiviert werden";
+TopoERR_0023.Request="Kante kann nicht aktiviert werden";
+TopoERR_0024.Request="Teilfläche kann nicht inaktiviert werden";
+TopoERR_0025.Request="Teilfläche kann nicht aktiviert werden";
+
+TopoERR_0030.Request="Es können nicht alle externen Kurven erzeugt werden";
+TopoERR_0031.Request="Es können nicht alle externen Kurven gelöscht werden";
+
+TopoERR_0040.Request="Explizite Verteilung nicht möglich";
+TopoERR_0041.Request="Die Verteilung, die gelöscht werden soll, kann nicht gefunden werden";
+TopoERR_0042.Request="Ungültiger Status für topologische Kante in der Verteilung";
+
+//
+TopoERR_0050.Request="Umgebung ungültig oder nicht initialisiert";
+
+TopoERR_0060.Request="Die Vernetzung von nicht vielfältiger Geometrie ist nicht möglich:";
+TopoERR_0060.Diagnostic="Nicht vielfältige Geometrie wird von dieser Vernetzung nicht unterstützt.";
+TopoERR_0060.Advice="Die Geometrie prüfen";
+
+TopoERR_0100.Request="Ungültiges geometrisches Stützelement";
+TopoERR_0101.Request="Geometrisches Objekt nicht im aktuellen Körper";
+TopoERR_0102.Request="Ungültiger Aufruf nach Berechnung der Topologie";
+TopoERR_0103.Request="Ungültiger Aufruf vor Berechnung der Topologie";
+
+TopoERR_0104.Request="TopEdge kann in CATEdge nicht gefunden werden";
+TopoERR_0105.Request="TopVertex kann in CATVertex nicht gefunden werden";
+
+TopoERR_0106.Request="Ungültiges topologisches Objekt";
+TopoERR_0107.Request="Ungültiger topologischer Status";
+
+TopoERR_0108.Request="CATVertex kann nicht mit Bedingung versehen werden";
+TopoERR_0109.Request="CATEdge kann nicht mit Bedingung versehen werden";
+TopoERR_0110.Request="CATVertex zugeordnete Bedingung kann nicht mehr aufgehoben werden";
+TopoERR_0111.Request="CATEdge zugeordnete Bedingung kann nicht mehr aufgehoben werden";
+
+TopoERR_0112.Request="TopEdge kann nicht aktiviert werden";
+TopoERR_0113.Request="TopVertex kann nicht aktiviert werden";
+TopoERR_0114.Request="TopEdge kann nicht inaktiviert werden";
+TopoERR_0115.Request="TopVertex kann nicht inaktiviert werden";
+
+TopoERR_0116.Request="Ungültige Schleifennummer";
+TopoERR_0117.Request="Keine aktive Schleife in Domäne";
+
+TopoERR_0120.Request="Ungültige Aufteilungsbemaßung";
+TopoERR_0121.Request="Ungültige Aufteilung";
+
+TopoERR_0122.Request="Ungültige Schnitt-Toleranz";
+TopoERR_0123.Request="Ungültige Kantenlänge";
+TopoERR_0124.Request="Kante kann nicht geschnitten werden";
+TopoERR_0125.Request="Kante kann in Domäne nicht erzeugt werden";
+TopoERR_0126.Request="Bereich kann nicht gefunden werden";
+TopoERR_0127.Request="Produkt kann nicht gefunden werden";
+TopoERR_0128.Request="Scheitelpunkte müssen unterschiedlich sein";
+
+TopoERR_0130.Request="Ungültige Auswahl von Teilflächen";
+
+TopoERR_0129.Request="Keine Kennung für den Eingabescheitelpunkt gefunden";
+TopoERR_0131.Request="Keine Kennung für die Eingabedomäne gefunden";
+TopoERR_0132.Request="Die Eingabekennung ist negativ";
+TopoERR_0133.Request="Kein Scheitelpunkt für die Eingabekennung gefunden";
+TopoERR_0134.Request="Keine Kante für die Eingabekennung gefunden";
+TopoERR_0135.Request="Keine Domäne für die Eingabekennung gefunden";
+TopoERR_0136.Request="Keine Kennung für die Eingabekante gefunden";
+TopoERR_0137.Request="Senkrechte Projektion kann nicht ausgeführt werden.";
+TopoERR_0138.Request="Ungültiger Parameter für die Erzeugung der Mittelkurve";
+TopoERR_0138.Diagnostic="Der Parameter muss zwischen 0,0 und 1,0 liegen. ";
+
+TopoERR_0140.Request="Spezifikation für diese Teilflächenauswahl bereits vorhanden";
+
+TopoERR_0150.Request="Netzgröße muss positiven Wert aufweisen";
+TopoERR_0151.Request="Min. Größe muss positiv sein";
+TopoERR_0152.Request="Bedingungs-SAG muss positiv sein";
+//
+// Erreur MoveNodeOperator
+//
+MoveNodeOperatorERR_0001.Request="Der Knoten kann nicht verschoben werden";
+MoveNodeOperatorERR_0001.Diagnostic="Kein Knoten in der Toleranz.";
+
+MoveNodeOperatorERR_0002.Request="Der Knoten kann nicht verschoben werden";
+MoveNodeOperatorERR_0002.Diagnostic="Mehrere Knoten in der Toleranz.";
+//
+// Mesh operator error
+//
+TopOperERR_0001.Request="Kein getrenntes Element bei Vernetzungsteil:
+/P01";
+TopOperERR_0002.Request="Nur (/P01 / /P02) getrennte Viereckselemente bei Vernetzungsteil: /P03";
+TopOperERR_0003.Request="Operator 'Vierecke aufteilen' für folgendes Vernetzungsteil fehlgeschlagen:
+/P01";
+//
+// basic mesher error
+//
+TopoBasicERR_0001.Request="Bohrung(en) konnte(n) nicht aktiviert/inaktiviert werden";
+TopoBasicERR_0002.Request="Die Bohrung kann nicht aktiviert werden";
+TopoBasicERR_0003.Request="Die Bohrung kann nicht inaktiviert werden";
+
+TopoBasicERR_0004.Request="Kante(n) konnte(n) nicht aktiviert/inaktiviert werden";
+TopoBasicERR_0005.Request="Kante kann nicht aktiviert werden";
+TopoBasicERR_0006.Request="Kante kann nicht inaktiviert werden";
+
+TopoBasicERR_0007.Request="Scheitelpunkt(e) konnte(n) nicht aktiviert/inaktiviert werden";
+TopoBasicERR_0008.Request="Scheitelpunkt kann nicht aktiviert werden";
+TopoBasicERR_0009.Request="Scheitelpunkt kann nicht inaktiviert werden";
+
+TopoBasicERR_0010.Request="Fehler für externe Kurve(n): Projizieren oder Aufheben der Projektion nicht möglich";
+TopoBasicERR_0011.Request="Kurve kann nicht projiziert werden";
+TopoBasicERR_0012.Request="Projektion der Kurve kann nicht aufgehoben werden";
+
+TopoBasicERR_0013.Request="Fehler für externe(n) Punkt(e): Projizieren oder Aufheben der Projektion nicht möglich";
+TopoBasicERR_0014.Request="Punkt kann nicht projiziert werden";
+TopoBasicERR_0015.Request="Projektion des Punkts kann nicht aufgehoben werden";
+
+TopoBasicERR_0016.Request="Diese Spezifikation kann nach Geometrieänderungen nicht mehr wiederhergestellt werden";
+TopoBasicERR_0016.Diagnostic="Eines der ausgewählten Stützelemente ist eine BRep-interne Geometrie";
+
+TopoBasicERR_0017.Request="Diese Spezifikation kann nach Geometrieänderungen nicht mehr wiederhergestellt werden";
+TopoBasicERR_0017.Diagnostic="BRep eines ausgewählten Stützelements zeigt auf mehrere Geometrien";
+
+//
+// Erreurs de selection de mesh domain
+//
+
+MeshFilterERR_0001.Request="Ungültige Auswahl.";
+MeshFilterERR_0001.Diagnostic="Die ausgewählten Vernetzungsdomänen weisen keine Flächen auf oder sind leer.";
+MeshFilterERR_0002.Request="Ungültige Auswahl.";
+MeshFilterERR_0002.Diagnostic="Die ausgewählten Vernetzungsdomänen sind nicht verbunden.";
+
+TransfoERR_0001.Request="Das Vernetzungsteil der Transformation kann nicht vernetzt werden:
+/P01";
+TransfoERR_0001.Diagnostic="Erfassung der Vernetzung führt auf Grund einer zu hohen Toleranz zu unvorhersehbaren Ergebnissen. ";
+TransfoERR_0001.Advice="Die Toleranz für die Erfassung reduzieren.
+Sie muss unter der kleinsten Elementkante liegen (bei parabolischem Element die Hälfte der Kante).";
+
+ExtrudeERR_0001.Request="Extrusion kann nicht entlang der Leitkurve des Vernetzungsteils vernetzt werden: /P01";
+ExtrudeERR_0001.Diagnostic="Länge der Extrusion überschreitet Länge der Leitkurve, wodurch degenerierte Elemente entstehen.";
+ExtrudeERR_0001.Advice="Länge der Extrusion verringern.";
+
+//
+// Erreurs de propagation de distribution
+//
+
+MeshAroundHoleERR_0001.Request="Um Bohrung kann nicht vernetzt werden.";
+MeshAroundHoleERR_0001.Diagnostic="Die Vernetzung um das geometrische Stützelement der Bohrung \n verschneidet eine Kante mit Bedingungen.";
+
+MeshAroundHoleERR_0002.Request="Um Bohrung kann nicht vernetzt werden.";
+MeshAroundHoleERR_0002.Diagnostic="Vernetzung um die Bohrung ist nicht zulässig mit: \n /P01.";
+
+MeshAroundHoleERR_0003.Request="Spezifikationen von Domänen können nicht vernetzt werden.";
+MeshAroundHoleERR_0003.Diagnostic="Netzdomänenspezifikation ist nicht zulässig mit: \n /P01.";
+
+//
+// Erreurs de propagation de distribution
+//
+
+Mapping1dERR_0001.Request="Ungültige Daten für die Fortführung.";
+Mapping1dERR_0001.Advice="Die Daten der Fortführung ändern.";
+
+Mapping1dERR_0002.Request="Berechnen der Fortführung fehlgeschlagen.";
+Mapping1dERR_0002.Advice="Die Daten der Fortführung ändern.";
+
+Mapping1dERR_0010.Request="Ungültige Quellen für die Fortführung.";
+Mapping1dERR_0010.Advice="Die Quellen der Fortführung ändern.";
+
+Mapping1dERR_0011.Request="Ungültige Stützelemente für die Fortführung.";
+Mapping1dERR_0011.Advice="Die Stützelemente der Fortführung ändern.";
+
+//
+// Erreurs de specs studio
+//
+
+StudioSpecERR_0001.Request="Netzspezifikation ist nicht zulässig.";
+StudioSpecERR_0001.Diagnostic="Mögliche Ursachen: \n 1. - ungültige Parameter \n 2. - ungültige/s geometrische/s Stützelement/e";
+StudioSpecERR_0001.Advice="Parameter oder geometrische/s Stützelement/e ändern.";
+
+//
+// Erreur sur le sweep
+//
+
+Sweep3DERR_0001.Request="Erfassung des unteren Netzes fehlgeschlagen.";
+Sweep3DERR_0001.Diagnostic="In Geometrie /P01 wurde kein Netz erfasst.";
+Sweep3DERR_0001.Advice="Vernetzungsteilfilter für die Erfassung \n und die Erfassungstoleranz überprüfen.";
+
+Sweep3DERR_0002.Request="Erfassung des unteren Netzes fehlgeschlagen.";
+Sweep3DERR_0002.Diagnostic="In Geometrie /P01 wurde ein unvollständiges Netz erfasst.";
+Sweep3DERR_0002.Advice="Vernetzungsteilfilter für die Erfassung \n und die Erfassungstoleranz überprüfen.";
+
+Sweep3DERR_0003.Request="Erfassung des unteren Netzes fehlgeschlagen.";
+Sweep3DERR_0003.Diagnostic="In Geometrie /P01 wurden zu viele Netze erfasst.";
+Sweep3DERR_0003.Advice="Vernetzungsteilfilter für die Erfassung \n und die Erfassungstoleranz überprüfen.";
+
+Sweep3DERR_0006.Request="Ungeeignetes geometrisches Stützelement für Mehrfachkörper:
+/P01";
+Sweep3DERR_0006.Diagnostic="Ungültiges geometrisches Stützelement für das Vernetzungsteil:
+/P01";
+Sweep3DERR_0006.Advice="Das Stützelement des Vernetzungsteils aktualisieren oder unterdrücken.";
+
+// Nls du GeomError 
+
+Sweep3DERR_0031.Request="Erfassung des unteren Netzes fehlgeschlagen.";
+Sweep3DERR_0031.Diagnostic="In Geometrie /P31 wurde kein Netz erfasst.";
+Sweep3DERR_0031.Advice="Vernetzungsteilfilter für die Erfassung \n und die Erfassungstoleranz überprüfen.";
+
+Sweep3DERR_0032.Request="Erfassung des unteren Netzes fehlgeschlagen.";
+Sweep3DERR_0032.Diagnostic="In Geometrie /P31 wurde ein unvollständiges Netz erfasst.";
+Sweep3DERR_0032.Advice="Vernetzungsteilfilter für die Erfassung \n und die Erfassungstoleranz überprüfen.";
+
+Sweep3DERR_0033.Request="Erfassung des unteren Netzes fehlgeschlagen.";
+Sweep3DERR_0033.Diagnostic="In Geometrie /P31 wurden zu viele Netze erfasst.";
+Sweep3DERR_0033.Advice="Vernetzungsteilfilter für die Erfassung \n und die Erfassungstoleranz überprüfen.";
+
+Sweep3DERR_0004.Request="Keine Führungselemente berechnet.";
+Sweep3DERR_0004.Diagnostic="Die Berechnung der Führungselemente ist fehlgeschlagen.";
+Sweep3DERR_0004.Advice="Die oberste und/oder die unterste Teilfläche ändern.";
+
+Sweep3DERR_0005.Request="Keine Führungselemente berechnet.";
+Sweep3DERR_0005.Diagnostic="Die Berechnung der Führungselemente ist fehlgeschlagen.";
+Sweep3DERR_0005.Advice="Den Winkel ändern.";
+
+Sweep3D_vertex="Scheitelpunkt";
+Sweep3D_edge="Kante";
+Sweep3D_face="Teilfläche";
+
+// Erreur ds la Capture
+
+CaptureERR_0001.Request="Netzerfassung fehlgeschlagen.";
+CaptureERR_0001.Diagnostic="Das Vernetzungsteil /P01 ist nicht auf dem neuesten Stand.";
+CaptureERR_0001.Advice="Das Vernetzungsteil aktualisieren oder aus dem Vernetzungsteilfilter für die Erfassung entfernen.";
+
+// Erreur dans le studio
+
+StudioERR_0001.Request="Ungültige Netzkonfiguration festgestellt an Position (/P01 /P02 /P03).";
+StudioERR_0001.Diagnostic="Verschiedene Mittenknoten nutzen gemeinsam die gleiche Kante.";
+
+StudioERR_0002.Request="Ungültige Netzkonfiguration festgestellt.";
+StudioERR_0002.Diagnostic="Die erwarteten Mittenknoten fehlen";
+
+StudioERR_0003.Request="Ungültige Netzkonfiguration festgestellt an Position (/P01 /P02 /P03).";
+StudioERR_0003.Diagnostic="Der Knoten wird sowohl als Hauptknoten als auch als Zwischenknoten verwendet.";
+
+StudioERR_0004.Request="Ungültige Netzkonfiguration festgestellt an Position (/P01 /P02 /P03).";
+StudioERR_0004.Diagnostic="Der Mittenknoten wird von verschiedenen Elementen verwendet, die in diesem Knoten keine gemeinsame Netzkante aufweisen.";
+StudioERR_0004.Advice="Mögliche Ursachen:\n 1. Fehlerhafte Netzerfassung in diesem Bereich\n 2. Netzimport mit dieser Konfiguration";
+
+StudioERR_0005.Request="Speicher kann nicht zugeordnet werden.";
+StudioERR_0005.Diagnostic="Das System kann nicht genügend Speicher bereitstellen.";
+StudioERR_0005.Advice="Mögliche Ursachen:\n 1. Falsche Netzparameter \n 2. Zu viele Fenster geöffnet";
+
+// Proximity Checker
+
+ProximityCheckerERR_0001.Request="Vernetzung kann nicht aktualisiert werden.";
+ProximityCheckerERR_0001.Diagnostic="Eingabenetze enthalten nicht nur TR3-Netze.";
+ProximityCheckerERR_0001.Advice="Nur TR3-Netze für die Eingabe auswählen.";

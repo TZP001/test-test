@@ -1,0 +1,704 @@
+PSSaveEnoviaLCATitle="ENOVIA V5 VPMに保存";
+PSSaveErrorNomad="現行ﾄﾞｷｭﾒﾝﾄがﾉｰﾏｯﾄﾞ ｾｯｼｮﾝに属しているため \nPDMに保存できません｡ \nﾀｰｹﾞｯﾄPDM環境へ切り替えてから保存してください｡";
+PSSaveErrorConnect="保存はｷｬﾝｾﾙされました｡ENOVIA V5 VPM接続が確立していません｡";
+PSSaveErrorPing="ENOVIA V5 VPMｻｰﾊﾞｰが応答しないため保存はｷｬﾝｾﾙされました｡";
+PSSaveErrorProductSpec="保存できません: ﾌﾟﾛﾀﾞｸﾄ仕様はｾｯｼｮﾝ中です \n保存する前に閉じてください";
+
+ERR_PSSaveNoPersist="ﾄﾞｷｭﾒﾝﾄ /p1 にはPDM持続性がありません｡保存前にSetPDMProperties機能を使用してください｡";
+ERR_PSSaveNoPersist.Generic="ﾄﾞｷｭﾒﾝﾄにはPDM持続性がありません｡";
+ERR_PSSaveNoPersist.Detail="/p1";
+ERR_PSSaveNoPersist.Suggestion="保存前にSetPDMProperties機能を使用してください｡";
+
+ERR_SaveErrorBBProdToExp="ﾄﾞｷｭﾒﾝﾄ /p1 は､PDM持続性が[構成をﾌｧｲﾙ管理するﾎﾞｰﾙﾄにﾄﾞｷｭﾒﾝﾄを保持]に設定されているにも関わらず､持続性が[構成をﾃﾞｰﾀﾍﾞｰｽ管理するﾎﾞｰﾙﾄにﾄﾞｷｭﾒﾝﾄを保持しない]に設定されているﾄﾞｷｭﾒﾝﾄを参照しています｡これは許可されません｡持続性を変更してください｡";
+ERR_SaveErrorBBProdToExp.Generic="ﾄﾞｷｭﾒﾝﾄは､PDM持続性が[構成をﾌｧｲﾙ管理するﾎﾞｰﾙﾄにﾄﾞｷｭﾒﾝﾄを保持]に設定されているにも関わらず､持続性が[構成をﾃﾞｰﾀﾍﾞｰｽ管理するﾎﾞｰﾙﾄにﾄﾞｷｭﾒﾝﾄを保持しない]に設定されているﾄﾞｷｭﾒﾝﾄを参照しています｡これは許可されません｡";
+ERR_SaveErrorBBProdToExp.Detail="/p1";
+ERR_SaveErrorBBProdToExp.Suggestion="持続性を変更してください｡";
+
+
+// Error messages : ERR_, WRN_ or INF_ + identifier, /p1, /p2.. for parameters.
+
+WRN_PSVpmCsteLost="ｱｾﾝﾌﾞﾘｰ拘束 /p1 は永続ﾃﾞｰﾀをﾎﾟｲﾝﾄしていないためENOVIA V5 VPMに保存できません｡";
+WRN_PSVpmCsteLost.Generic=" ｱｾﾝﾌﾞﾘｰ拘束は永続ﾃﾞｰﾀをﾎﾟｲﾝﾄしていないためENOVIA LCAに保存できません..";
+WRN_PSVpmCsteLost.Detail="/p1";
+
+WRN_PSVpmInvalidDoc="2番目のﾄﾞｷｭﾒﾝﾄをｲﾝｽﾀﾝｽ /p1 に関連付けられません｡ \n操作は無視されました｡";
+WRN_PSVpmInvalidDoc.Generic="2番目のﾄﾞｷｭﾒﾝﾄを指定されたｲﾝｽﾀﾝｽに関連付けられません｡ \n操作は無視されました｡";
+WRN_PSVpmInvalidDoc.Detail="/p1";
+
+WRN_PSVpmInvalidDocUp="CATPartの下位ﾉｰﾄﾞにﾄﾞｷｭﾒﾝﾄ /p1 を \n関連付けられません｡ \n操作は無視されました｡";
+WRN_PSVpmInvalidDocUp.Generic="CATPartの下位ﾉｰﾄﾞにﾄﾞｷｭﾒﾝﾄを関連付けられません｡ \n操作は無視されました｡";
+WRN_PSVpmInvalidDocUp.Detail="ﾄﾞｷｭﾒﾝﾄ /p1 ｡";
+
+WRN_PSVpmInvalidDocUnder="CATPartの親ﾉｰﾄﾞにﾄﾞｷｭﾒﾝﾄ /p1 を \n関連付けられません｡ \n操作は無視されました｡";
+WRN_PSVpmInvalidDocUnder.Generic="CATPartの親ﾉｰﾄﾞにﾄﾞｷｭﾒﾝﾄを関連付けられません｡ \n操作は無視されました";
+WRN_PSVpmInvalidDocUnder.Detail="ﾄﾞｷｭﾒﾝﾄ /p1";
+
+
+WRN_PSVpmInvalidReplaceOnProd="ｱｾﾝﾌﾞﾘｰのﾘｰﾌでないﾉｰﾄﾞにﾄﾞｷｭﾒﾝﾄ /p1 を \n関連付けられません｡ \n操作は無視されました｡";
+WRN_PSVpmInvalidReplaceOnProd.Generic="ｱｾﾝﾌﾞﾘｰのﾘｰﾌでないﾉｰﾄﾞにﾄﾞｷｭﾒﾝﾄを関連付けられません｡ \n操作は無視されました｡";
+WRN_PSVpmInvalidReplaceOnProd.Detail="ﾄﾞｷｭﾒﾝﾄ /p1";
+
+WRN_PSVpmInstWithDirtyDoc="ﾀﾞｰﾃｨｰ ﾄﾞｷｭﾒﾝﾄが関連付けられているｲﾝｽﾀﾝｽにﾄﾞｷｭﾒﾝﾄ /p1 \ を関連付けできません｡ \n操作は無視されました｡";
+WRN_PSVpmInstWithDirtyDoc.Generic="ﾀﾞｰﾃｨｰ ﾄﾞｷｭﾒﾝﾄが関連付けられているｲﾝｽﾀﾝｽにﾄﾞｷｭﾒﾝﾄを関連付けできません｡ \n操作は無視されました｡";
+WRN_PSVpmInstWithDirtyDoc.Detail="ﾄﾞｷｭﾒﾝﾄ /p1";
+
+WRN_PSVpmInvalidMapping="CATPartの下のｲﾝｽﾀﾝｽやﾄﾞｷｭﾒﾝﾄをｲﾝﾎﾟｰﾄできません｡ \n操作は無視されました｡";
+WRN_PSVpmInvalidMapping.Generic="CATPartの下のｲﾝｽﾀﾝｽやﾄﾞｷｭﾒﾝﾄをｲﾝﾎﾟｰﾄできません｡ \n操作は無視されました｡";
+
+WRN_PSVpmAsmOutOfContext="ｱｾﾝﾌﾞﾘｰ ﾉｰﾄﾞ /p1 をｺﾝﾃｷｽﾄからｲﾝﾎﾟｰﾄできません｡";
+WRN_PSVpmAsmOutOfContext.Generic="ｱｾﾝﾌﾞﾘｰ ﾉｰﾄﾞをｺﾝﾃｷｽﾄからｲﾝﾎﾟｰﾄできません｡";
+WRN_PSVpmAsmOutOfContext.Detail="/p1";
+
+WRN_PSVpmCannotRetrieveDocument="/p1 に関連付けられたﾄﾞｷｭﾒﾝﾄをENOVIAﾎﾞｰﾙﾄから検索できません｡ \n操作は無視されました｡新しい構成要素が作成されます｡";
+WRN_PSVpmCannotRetrieveDocument.Generic="指定されたｵﾌﾞｼﾞｪｸﾄに関連付けられたﾄﾞｷｭﾒﾝﾄをENOVIAﾎﾞｰﾙﾄから検索できません｡ \n操作は無視されました｡新しい構成要素が作成されます｡";
+WRN_PSVpmCannotRetrieveDocument.Detail="/p1";
+
+WRN_PSVpmInvalidOper="/p1 に関連したﾄﾞｷｭﾒﾝﾄをｲﾝﾎﾟｰﾄできません｡ \nすべての関連したｲﾝｽﾀﾝｽをｱﾝﾛｰﾄﾞし､もう1度試行してください｡";
+WRN_PSVpmInvalidOper.Generic="指定されたｵﾌﾞｼﾞｪｸﾄに関連したﾄﾞｷｭﾒﾝﾄをｲﾝﾎﾟｰﾄできません｡";
+WRN_PSVpmInvalidOper.Detail="/p1";
+WRN_PSVpmInvalidOper.Suggestion="すべての関連したｲﾝｽﾀﾝｽをｱﾝﾛｰﾄﾞし､もう1度試行してください..";
+
+WRN_PSPointedNotSaved="/p1 ｱｾﾝﾌﾞﾘｰに記録された修正をENOVIA V5 VPMに保存できません｡すべての指示されたﾌﾟﾛﾀﾞｸﾄ ｲﾝｽﾀﾝｽ \nをENOVIAに保存できなかったためです";
+WRN_PSPointedNotSaved.Generic="ｱｾﾝﾌﾞﾘｰ拘束に記録された修正をENOVIA V5 VPMに保存できません｡すべての指示されたﾌﾟﾛﾀﾞｸﾄ ｲﾝｽﾀﾝｽ \nをENOVIA V5 VPMに保存できなかったためです｡";
+WRN_PSPointedNotSaved.Detail="/p1";
+
+INF_PSVpmDocToRename="ﾄﾞｷｭﾒﾝﾄ /p1 はすでにENOVIA V5 VPMﾃﾞｰﾀﾍﾞｰｽに存在します｡\nこのﾄﾞｷｭﾒﾝﾄは先に名前を変更しない限り保存できません｡";
+INF_PSVpmDocToRename.Generic="ﾄﾞｷｭﾒﾝﾄはすでにENOVIA V5 VPMﾃﾞｰﾀﾍﾞｰｽに存在します｡\nこのﾄﾞｷｭﾒﾝﾄは先に名前を変更しない限り保存できません｡";
+INF_PSVpmDocToRename.Detail="/p1";
+INF_PSVpmDocToRename.Suggestion="ﾄﾞｷｭﾒﾝﾄの名前を変更してください｡";
+
+INF_PSVpmProductToRename="ﾌﾟﾛﾀﾞｸﾄ /p1 はすでにENOVIA V5 VPMﾃﾞｰﾀﾍﾞｰｽに存在します｡\nこのﾌﾟﾛﾀﾞｸﾄは先に名前を変更しない限り保存できません｡";
+INF_PSVpmProductToRename.Generic="ﾌﾟﾛﾀﾞｸﾄはすでにENOVIA V5 VPMﾃﾞｰﾀﾍﾞｰｽに存在します｡ \nこのﾌﾟﾛﾀﾞｸﾄは先に名前を変更しない限り保存できません｡";
+INF_PSVpmProductToRename.Detail="/p1";
+INF_PSVpmProductToRename.Suggestion="ﾌﾟﾛﾀﾞｸﾄの名前を変更してください｡";
+
+INF_PSVpmPartToRename="ﾊﾟｰﾂ /p1 はすでにENOVIA V5 VPMﾃﾞｰﾀﾍﾞｰｽに存在します｡\nこのﾊﾟｰﾂは先に名前を変更しない限り保存できません｡";
+INF_PSVpmPartToRename.Generic="部品はすでにENOVIA V5 VPMﾃﾞｰﾀﾍﾞｰｽに存在します｡ \nこの部品は先に名前を変更しない限り保存できません｡";
+INF_PSVpmPartToRename.Detail="/p1";
+INF_PSVpmPartToRename.Suggestion="部品の名前を変更してください｡";
+
+WRN_PSVpmDocRenamed="ﾄﾞｷｭﾒﾝﾄ /p1 はすでにENOVIA V5 VPMﾃﾞｰﾀﾍﾞｰｽに存在します｡ \nこのﾄﾞｷｭﾒﾝﾄは自動的に新しい識別子で保存されました｡";
+WRN_PSVpmDocRenamed.Generic="ﾄﾞｷｭﾒﾝﾄはすでにENOVIA V5 VPMﾃﾞｰﾀﾍﾞｰｽに存在します｡ \nこのﾄﾞｷｭﾒﾝﾄは自動的に新しい識別子で保存されました｡";
+WRN_PSVpmDocRenamed.Detail="/p1";
+
+ERR_PSVpmDocToRenameNotSaved="ﾄﾞｷｭﾒﾝﾄ /p1 はすでに同じ名前でENOVIA V5 VPMﾃﾞｰﾀﾍﾞｰｽに存在しているため､ﾄﾞｷｭﾒﾝﾄ /p1 は保存されませんでした｡ \n ";
+ERR_PSVpmDocToRenameNotSaved.Generic="ﾄﾞｷｭﾒﾝﾄはすでに同じ名前でENOVIA V5 VPMﾃﾞｰﾀﾍﾞｰｽに存在しているため､保存されませんでした｡ \n ";
+ERR_PSVpmDocToRenameNotSaved.Detail="/p1";
+ERR_PSVpmDocToRenameNotSaved.Suggestion="ﾄﾞｷｭﾒﾝﾄの名前を変更してからやり直してください｡";
+
+ERR_PSVpmProductToRenameNotSaved="ﾌﾟﾛﾀﾞｸﾄ /p1 はすでに同じ名前でENOVIA V5 VPMﾃﾞｰﾀﾍﾞｰｽに存在しているため､ﾌﾟﾛﾀﾞｸﾄ /p1 は保存されませんでした｡ \n ";
+ERR_PSVpmProductToRenameNotSaved.Generic="ﾌﾟﾛﾀﾞｸﾄはすでに同じ名前でENOVIA V5 VPMﾃﾞｰﾀﾍﾞｰｽに存在しているため､保存されませんでした｡ \n ";
+ERR_PSVpmProductToRenameNotSaved.Detail="/p1";
+ERR_PSVpmProductToRenameNotSaved.Suggestion="ﾌﾟﾛﾀﾞｸﾄの名前を変更してからやり直してください｡";
+
+ERR_PSVpmPartToRenameNotSaved="部品 /p1 はすでに同じ名前でENOVIA V5 VPMﾃﾞｰﾀﾍﾞｰｽに存在しているため､部品 /p1 は保存されませんでした｡ \n ";
+ERR_PSVpmPartToRenameNotSaved.Generic="部品はすでに同じ名前でENOVIA V5 VPMﾃﾞｰﾀﾍﾞｰｽに存在しているため､保存されませんでした｡ \n ";
+ERR_PSVpmPartToRenameNotSaved.Detail="/p1";
+ERR_PSVpmPartToRenameNotSaved.Suggestion="部品の名前を変更してからやり直してください｡";
+
+WRN_PSVpmRefNameTruncated="基準名は40文字未満でなければなりません｡ \n /p1 \nはENOVIA V5 VPM要件に従い自動的に切り捨てられました｡";
+WRN_PSVpmRefNameTruncated.Generic="基準名は40文字未満でなければなりません｡ \n一部のｵﾌﾞｼﾞｪｸﾄはENOVIA V5 VPM要件に従い自動的に切り捨てられました｡";
+WRN_PSVpmRefNameTruncated.Detail="/p1";
+
+WRN_PSVpmRefNameTruncatedTo="基準名は /p1 文字未満でなければなりません｡ \n /p2 \nはENOVIA V5 VPM要件に従い自動的に切り捨てられました｡";
+WRN_PSVpmRefNameTruncatedTo.Generic="基準名は指定の文字未満でなければなりません｡ \n一部のｵﾌﾞｼﾞｪｸﾄはENOVIA V5 VPM要件に従い自動的に切り捨てられました｡";
+WRN_PSVpmRefNameTruncatedTo.Detail="指定された長さ: /p1 ､ｵﾌﾞｼﾞｪｸﾄ名: /p2";
+
+WRN_PSVpmProductRenamed="ﾌﾟﾛﾀﾞｸﾄ /p1 はすでにENOVIA V5 VPMﾃﾞｰﾀﾍﾞｰｽに存在します｡ \nこのﾌﾟﾛﾀﾞｸﾄは自動的に /p2 として保存されました｡";
+WRN_PSVpmProductRenamed.Generic="ﾌﾟﾛﾀﾞｸﾄはすでにENOVIA V5 VPMﾃﾞｰﾀﾍﾞｰｽに存在します｡ \nこのﾌﾟﾛﾀﾞｸﾄは自動的に新しい名前で保存されました";
+WRN_PSVpmProductRenamed.Detail="ｵﾘｼﾞﾅﾙ名: /p1 ､名前を付けて保存: /p2";
+
+WRN_PSVpmProductPub="ENOVIA V5 VPMのｱｾﾝﾌﾞﾘｰ ﾚﾍﾞﾙにﾊﾟﾌﾞﾘｹｰｼｮﾝを保存できません \nこのﾊﾟﾌﾞﾘｹｰｼｮﾝは除去､または詳細部品に再度宣言する必要があります";
+WRN_PSVpmProductPub.Generic="ENOVIA V5 VPMのｱｾﾝﾌﾞﾘｰ ﾚﾍﾞﾙにﾊﾟﾌﾞﾘｹｰｼｮﾝを保存できません｡";
+WRN_PSVpmProductPub.Suggestion="このﾊﾟﾌﾞﾘｹｰｼｮﾝは除去､または詳細部品に再度宣言する必要があります";
+
+WRN_PSVpmInputLostPub="ｺﾝﾃｷｽﾄ部品はｻﾎﾟｰﾄされないﾊﾟﾌﾞﾘｹｰｼｮﾝを使用しています｡ \nこの情報はENOVIA V5 VPMに保存できません(保存は失敗します)｡";
+WRN_PSVpmInputLostPub.Generic="ｺﾝﾃｷｽﾄ部品はｻﾎﾟｰﾄされないﾊﾟﾌﾞﾘｹｰｼｮﾝを使用しています｡ \nこの情報はENOVIA V5 VPMに保存できません(保存は失敗します)｡";
+WRN_PSVpmInputLostPub.Suggestion="ｺﾝﾃｷｽﾄ性を管理してください｡";
+
+WRN_PSVpmInputWrongCtx="部品 /p1 はｻﾌﾞｱｾﾝﾌﾞﾘｰ /p2 のｺﾝﾃｷｽﾄ部品です(ENOVIA V5 VPMではｻﾎﾟｰﾄされません)｡ \n製品ﾚﾍﾞﾙでｺﾝﾃｷｽﾄ性を定義するには[ｺﾝﾃｷｽﾄを変更]ﾒﾆｭｰを使用してください｡";
+WRN_PSVpmInputWrongCtx.Generic="部品はｻﾌﾞｱｾﾝﾌﾞﾘｰのｺﾝﾃｷｽﾄ部品です(ENOVIA V5 VPMではｻﾎﾟｰﾄされません)｡";
+WRN_PSVpmInputWrongCtx.Detail="部品名: /p1 ､ｻﾌﾞｱｾﾝﾌﾞﾘｰ名: /p2";
+WRN_PSVpmInputWrongCtx.Suggestion="製品ﾚﾍﾞﾙでｺﾝﾃｷｽﾄ性を定義するには[ｺﾝﾃｷｽﾄを変更]ﾒﾆｭｰを使用してください｡";
+
+WRN_PSVpmPointingFromBB="部品 /p1 はｻﾌﾞｱｾﾝﾌﾞﾘｰ /p2 のｺﾝﾃｷｽﾄ部品です(ENOVIA V5 VPMではｻﾎﾟｰﾄされません) \n次にこのｻﾌﾞｱｾﾝﾌﾞﾘｰを開く際に[ｺﾝﾃｷｽﾄ ﾘﾝｸを定義]ｺﾏﾝﾄﾞを実行してｺﾝﾃｷｽﾄを復元する必要があります｡";
+WRN_PSVpmPointingFromBB.Generic=" 部品はｻﾌﾞｱｾﾝﾌﾞﾘｰのｺﾝﾃｷｽﾄ部品です(ENOVIA V5 VPMではｻﾎﾟｰﾄされません)｡";
+WRN_PSVpmPointingFromBB.Detail="部品名: /p1 ､ｻﾌﾞｱｾﾝﾌﾞﾘｰ名: /p2";
+WRN_PSVpmPointingFromBB.Suggestion="次にこのｻﾌﾞｱｾﾝﾌﾞﾘｰを開く際に[ｺﾝﾃｷｽﾄ ﾘﾝｸを定義]ｺﾏﾝﾄﾞを実行してｺﾝﾃｷｽﾄを復元する必要があります｡";
+
+WRN_PSVpmInvalidRefMapping="参照 /p1 をｲﾝﾎﾟｰﾄできません｡ \nこれにはｲﾝﾎﾟｰﾄ済みのCATPartが接続されています｡このCATPartは他の参照に関連付けられています｡ \n操作は無視されました｡";
+WRN_PSVpmInvalidRefMapping.Generic="参照をｲﾝﾎﾟｰﾄできません｡これにはｲﾝﾎﾟｰﾄ済みのCATPartが接続されています｡ \nこのCATPartは他の参照に関連付けられています｡ \n操作は無視されました｡";
+WRN_PSVpmInvalidRefMapping.Detail="参照名: /p1 ｡";
+
+INF_PSVpmSaveReconciliate="ﾌｧｲﾙ ﾄﾞｷｭﾒﾝﾄ /p1 がENOVIA V5 VPMから取り出され､ \nその内容が､ﾃﾞｰﾀﾍﾞｰｽのﾊﾞｰｼﾞｮﾝに合わせて調整されました｡";
+INF_PSVpmSaveReconciliate.Generic="ﾌｧｲﾙ ﾄﾞｷｭﾒﾝﾄがENOVIA V5 VPMから取り出され､ \nその内容が､ﾃﾞｰﾀﾍﾞｰｽのﾊﾞｰｼﾞｮﾝに合わせて調整されました｡";
+INF_PSVpmSaveReconciliate.Detail="ﾄﾞｷｭﾒﾝﾄ名: /p1 ｡";
+
+INF_PSVpmSaveCreateNew="ﾌｧｲﾙ ﾄﾞｷｭﾒﾝﾄ /p1 がENOVIA V5 VPMから取り出され､ \nﾄﾞｷｭﾒﾝﾄおよびﾄﾞｷｭﾒﾝﾄの内容に合わせて､新しいﾃﾞｰﾀﾍﾞｰｽ ｴﾝﾃｨﾃｨが作成されます";
+INF_PSVpmSaveCreateNew.Generic="ﾌｧｲﾙ ﾄﾞｷｭﾒﾝﾄがENOVIA V5 VPMから取り出され､ \nﾄﾞｷｭﾒﾝﾄおよびﾄﾞｷｭﾒﾝﾄの内容に合わせて､新しいﾃﾞｰﾀﾍﾞｰｽ ｴﾝﾃｨﾃｨが作成されます";
+INF_PSVpmSaveCreateNew.Detail="ﾄﾞｷｭﾒﾝﾄ名: /p1";
+
+//A1B IR-064179.Small Change in the message. 
+INF_PSVpmDocWBRenamed="ﾄﾞｷｭﾒﾝﾄ /p1 はすでにENOVIA V5 VPMﾃﾞｰﾀﾍﾞｰｽに存在します｡\nこのﾄﾞｷｭﾒﾝﾄは自動的に /p2 として保存されます";
+INF_PSVpmDocWBRenamed.Generic="ﾄﾞｷｭﾒﾝﾄはすでにENOVIA V5 VPMﾃﾞｰﾀﾍﾞｰｽに存在します｡\n このﾄﾞｷｭﾒﾝﾄは自動的に新しい名前で保存されます";
+INF_PSVpmDocWBRenamed.Detail="ﾄﾞｷｭﾒﾝﾄ名: /p1 ､名前を付けて保存: /p2";
+
+INF_PSVpmDocWBTruncated="ﾄﾞｷｭﾒﾝﾄ /p1 の名前が40文字を超えています｡ \nこのﾄﾞｷｭﾒﾝﾄは自動的に /p2 として保存されます｡";
+INF_PSVpmDocWBTruncated.Generic="ﾄﾞｷｭﾒﾝﾄの名前が40文字を超えています｡ \nこのﾄﾞｷｭﾒﾝﾄは自動的に新しい名前で保存されます";
+INF_PSVpmDocWBTruncated.Detail="ﾄﾞｷｭﾒﾝﾄ名: /p1 ､名前を付けて保存: /p2";
+
+INF_PSVpmDocWBTruncatedTo="ﾄﾞｷｭﾒﾝﾄ /p1 の名前が /p2 文字を超えています｡ \nこのﾄﾞｷｭﾒﾝﾄは自動的に /p3 として保存されます｡";
+INF_PSVpmDocWBTruncatedTo.Generic="ﾄﾞｷｭﾒﾝﾄの名前が指定の文字を超えています｡ \nこのﾄﾞｷｭﾒﾝﾄは自動的に新しい名前で保存されます｡";
+INF_PSVpmDocWBTruncatedTo.Detail="ﾄﾞｷｭﾒﾝﾄ名: /p1 ､指定された長さ: /p2 ､変更した名前: /p3";
+
+INF_PSVpmDocWBInvalidChar="ﾄﾞｷｭﾒﾝﾄ /p1 の名前に無効な文字が含まれています｡ \n名前が自動的に変更されます｡";
+INF_PSVpmDocWBInvalidChar.Generic="ﾄﾞｷｭﾒﾝﾄの名前に無効な文字が含まれています｡ \n名前が自動的に変更されます";
+INF_PSVpmDocWBInvalidChar.Detail="ﾄﾞｷｭﾒﾝﾄ名: /p1";
+INF_PSVpmDocWBInvalidChar.Suggestion="ｵﾌﾞｼﾞｪｸﾄ名に無効な文字を使用しないでください｡";
+
+WRN_PSVpmNoRightsToDelete_Lock="/p1 は削除できません｡ \n他のﾕｰｻﾞｰによりｴﾝﾃｨﾃｨがﾛｯｸされています";
+WRN_PSVpmNoRightsToDelete_Lock.Generic="ｵﾌﾞｼﾞｪｸﾄは削除できません｡ \n他のﾕｰｻﾞｰによりｴﾝﾃｨﾃｨがﾛｯｸされています";
+WRN_PSVpmNoRightsToDelete_Lock.Detail="/p1";
+
+WRN_PSVpmNoRightsToDelete_UserRole="/p1 は削除できません｡ \n削除権限がありません";
+WRN_PSVpmNoRightsToDelete_UserRole.Generic="ｵﾌﾞｼﾞｪｸﾄは削除できません｡ \n削除権限がありません";
+WRN_PSVpmNoRightsToDelete_UserRole.Detail="/p1";
+
+WRN_PSVpmInvalidInitLog="ﾄﾞｷｭﾒﾝﾄ /p1 はENOVIA V5 VPMに保存できません｡";
+WRN_PSVpmInvalidInitLog.Generic="ﾄﾞｷｭﾒﾝﾄはENOVIA V5 VPMに保存できません｡";
+WRN_PSVpmInvalidInitLog.Detail="/p1";
+
+
+WRN_PSVpmInputLost1="部品 /p1 のｺﾝﾃｷｽﾄ性はｱﾝﾛｰﾄﾞされたﾃﾞｰﾀをﾎﾟｲﾝﾄしているため \nENOVIA V5 VPMに保存できません";
+WRN_PSVpmInputLost1.Generic="部品のｺﾝﾃｷｽﾄ性はｱﾝﾛｰﾄﾞされたﾃﾞｰﾀをﾎﾟｲﾝﾄしているため \nENOVIA V5 VPMに保存できません";
+WRN_PSVpmInputLost1.Detail="部品名: /p1";
+
+
+WRN_PSVpmInputLost2="/p2 を使用する部品 /p1 のｺﾝﾃｷｽﾄ性は､ｱﾝﾛｰﾄﾞされたﾃﾞｰﾀをﾎﾟｲﾝﾄしているため \nENOVIA V5 VPMに保存できません";
+WRN_PSVpmInputLost2.Generic="ﾊﾟｰﾂ2を使用するﾊﾟｰﾂ1のｺﾝﾃｷｽﾄ性は､ｱﾝﾛｰﾄﾞされたﾃﾞｰﾀをﾎﾟｲﾝﾄしているため \nENOVIA V5 VPMに保存できません";
+WRN_PSVpmInputLost2.Detail="ﾊﾟｰﾂ1の名前: /p1 ､ﾊﾟｰﾂ2の名前: /p2";
+
+WRN_PSVpmExtensionError="ENOVIAでLCA適用可能拡張子 /p1 を作成できません｡ \nﾃﾞｰﾀﾍﾞｰｽが正しくｲﾝｽﾄｰﾙされていることを確認してください｡";
+WRN_PSVpmExtensionError.Generic="ENOVIAでLCA適用可能拡張子を作成できません｡ \nﾃﾞｰﾀﾍﾞｰｽが正しくｲﾝｽﾄｰﾙされていることを確認してください｡";
+WRN_PSVpmExtensionError.Detail="/p1";
+
+WRN_PSVpmConfig="構成されたENOVIA V5 VPMの基準 /p1 は､構成できないENOVIA V5 VPMの基準 /p2 の下にｲﾝｽﾀﾝｽ化できません｡ \n操作は無視されました｡ \nENOVIA V5 VPMの設定値を修正して再試行してください｡";
+WRN_PSVpmConfig.Generic=" 構成されたENOVIA V5 VPMの基準は､構成できないENOVIA V5 VPMの基準の下にｲﾝｽﾀﾝｽ化できません｡ \n操作は無視されました｡";
+WRN_PSVpmConfig.Detail="構成されたENOVIA V5 VPMの基準:/p1 ､構成できないENOVIA V5 VPMの基準:/p2 ｡";
+WRN_PSVpmConfig.Suggestion="ENOVIA V5 VPMの設定値を修正して再試行してください｡";
+
+WRN_PSAttrMapFileParseErr="/p1 の構文解析時のｴﾗｰ \n行: /p2 列: /p3 ﾒｯｾｰｼﾞ: /p4 \nこの後にENOVIA V5 VPMに保存しても機能しません｡ \nXMLﾌｧｲﾙを修正してｾｯｼｮﾝを再起動してください｡";
+WRN_PSAttrMapFileParseErr.Generic="XMLの構文解析時のｴﾗｰ｡影響を受けるｵﾌﾞｼﾞｪｸﾄのｴﾗｰの場所を確認してください｡ \nこの後にENOVIA V5 VPMに保存しても機能しません｡";
+WRN_PSAttrMapFileParseErr.Detail="XMLﾌｧｲﾙ名: /p1 ､ \n行: /p2 ､列: /p3 \nﾒｯｾｰｼﾞ: /p4 ｡";
+WRN_PSAttrMapFileParseErr.Suggestion="\nXMLﾌｧｲﾙを修正してｾｯｼｮﾝを再起動してください｡";
+
+WRN_PSUserAttributeMappingKORef="部品 /p1 の基準に関連する属性の保存時にｴﾗｰが発生しました";
+WRN_PSUserAttributeMappingKORef.Generic="部品の基準に関連する属性の保存時にｴﾗｰが発生しました";
+WRN_PSUserAttributeMappingKORef.Detail="部品名: /p1";
+
+WRN_PSUserAttributeMappingKOIns="部品 /p1 のｲﾝｽﾀﾝｽに関連する属性の保存時にｴﾗｰが発生しました";
+WRN_PSUserAttributeMappingKOIns.Generic="部品のｲﾝｽﾀﾝｽに関連する属性の保存時にｴﾗｰが発生しました";
+WRN_PSUserAttributeMappingKOIns.Detail="部品名: /p1";
+
+INF_ImportOK="ｲﾝﾎﾟｰﾄOK";
+INF_ImportOK.Generic="ｲﾝﾎﾟｰﾄOK";
+
+WRN_VERSIONNING_NOT_DONE="少なくとも1つのｴﾚﾒﾝﾄのﾊﾞｰｼﾞｮﾝ管理を行えませんでした";
+WRN_VERSIONNING_NOT_DONE.Generic="少なくとも1つのｴﾚﾒﾝﾄのﾊﾞｰｼﾞｮﾝ管理を行えませんでした";
+
+WRN_PSVpmOpenDocumentwithoutPV="ﾄﾞｷｭﾒﾝﾄ /p1 は部品ﾊﾞｰｼﾞｮﾝに関連付けられていません｡ \n保存すると､新規部品が作成されます｡";
+WRN_PSVpmOpenDocumentwithoutPV.Generic="ﾄﾞｷｭﾒﾝﾄは部品ﾊﾞｰｼﾞｮﾝに関連付けられていません｡ \n保存すると､新規部品が作成されます";
+WRN_PSVpmOpenDocumentwithoutPV.Detail="ﾄﾞｷｭﾒﾝﾄ名: /p1";
+
+
+INF_PSVpmOpenInBGNotAvailable="/p1 をﾊﾞｯｸｸﾞﾗｳﾝﾄﾞで開けません｡ \n現行選択に関連付けられているﾄﾞｷｭﾒﾝﾄはありません｡";
+INF_PSVpmOpenInBGNotAvailable.Generic="ｵﾌﾞｼﾞｪｸﾄをﾊﾞｯｸｸﾞﾗｳﾝﾄﾞで開けません｡ \n現行選択に関連付けられているﾄﾞｷｭﾒﾝﾄはありません｡";
+INF_PSVpmOpenInBGNotAvailable.Detail="/p1";
+
+INF_PSVpmOpenInBGAlreadyDone="/p1 が既にﾊﾞｯｸｸﾞﾗｳﾝﾄﾞで開いています｡ \nﾄﾞｷｭﾒﾝﾄはすでにﾊﾞｯｸｸﾞﾗｳﾝﾄﾞで同一の位置で開いています｡";
+INF_PSVpmOpenInBGAlreadyDone.Generic="ｵﾌﾞｼﾞｪｸﾄが既にﾊﾞｯｸｸﾞﾗｳﾝﾄﾞで開いています｡ \nﾄﾞｷｭﾒﾝﾄはすでにﾊﾞｯｸｸﾞﾗｳﾝﾄﾞで同一の位置で開いています｡";
+INF_PSVpmOpenInBGAlreadyDone.Detail="/p1";
+
+
+INF_PSVpmOpenInBGWrongEditor="選択したｴﾃﾞｨﾀｰではﾊﾞｯｸｸﾞﾗｳﾝﾄﾞで開けません｡ \n関連ﾄﾞｷｭﾒﾝﾄはCATPartまたはCATProductﾄﾞｷｭﾒﾝﾄでなければなりません｡";
+INF_PSVpmOpenInBGWrongEditor.Generic="選択したｴﾃﾞｨﾀｰではﾊﾞｯｸｸﾞﾗｳﾝﾄﾞで開けません｡ \n関連ﾄﾞｷｭﾒﾝﾄはCATPartまたはCATProductﾄﾞｷｭﾒﾝﾄでなければなりません｡";
+
+INF_PSVpmOpenInBGActiveDoc="選択したｴﾃﾞｨﾀｰで開いたﾄﾞｷｭﾒﾝﾄはﾊﾞｯｸｸﾞﾗｳﾝﾄﾞで開けません｡";
+INF_PSVpmOpenInBGActiveDoc.Generic="選択したｴﾃﾞｨﾀｰで開いたﾄﾞｷｭﾒﾝﾄはﾊﾞｯｸｸﾞﾗｳﾝﾄﾞで開けません｡";
+
+ERR_SaveErrorPrcPrc="現行ﾄﾞｷｭﾒﾝﾄ /p1 は､ﾙｰﾄ ﾌﾟﾛﾀﾞｸﾄではないENOVIA V5 VPMﾌﾟﾛﾀﾞｸﾄ(PRC)を含んでいるので､ \nENOVIA V5 VPMに保存できません";
+ERR_SaveErrorPrcPrc.Generic="ﾄﾞｷｭﾒﾝﾄは､ﾙｰﾄ ﾌﾟﾛﾀﾞｸﾄではないENOVIA V5 VPMﾌﾟﾛﾀﾞｸﾄ(PRC)を含んでいるので､ \nENOVIA V5 VPMに保存できません";
+ERR_SaveErrorPrcPrc.Detail="/p1";
+
+WRN_PSVpmLoadByNameFailed="名前 /p2 の /p1 をENOVIA V5 VPMからﾛｰﾄﾞできませんでした";
+WRN_PSVpmLoadByNameFailed.Generic="名前ｵﾌﾞｼﾞｪｸﾄ2のｵﾌﾞｼﾞｪｸﾄ1をENOVIA V5 VPMからﾛｰﾄﾞできませんでした";
+WRN_PSVpmLoadByNameFailed.Detail="ｵﾌﾞｼﾞｪｸﾄ1:/p1 ､ｵﾌﾞｼﾞｪｸﾄ2:/p2";
+
+WRN_PSVpmSameRefInTwoPRCs="構成要素 /p1 はすでにCATIAﾌﾟﾛﾀﾞｸﾄ内に表示されています｡別のﾌﾟﾛﾀﾞｸﾄ内にｲﾝｽﾀﾝｽ化できません｡";
+WRN_PSVpmSameRefInTwoPRCs.Generic="構成要素はすでにCATIAﾌﾟﾛﾀﾞｸﾄ内に表示されています｡別のﾌﾟﾛﾀﾞｸﾄ内にｲﾝｽﾀﾝｽ化できません";
+WRN_PSVpmSameRefInTwoPRCs.Detail="/p1";
+
+
+//Messages for ProductSpec
+WRN_PSProductSpecNotGranted="ﾌﾟﾛﾀﾞｸﾄ仕様をCATIAにﾛｰﾄﾞする権限がありません";
+WRN_PSProductSpecNotGranted.Generic="ﾌﾟﾛﾀﾞｸﾄ仕様をCATIAにﾛｰﾄﾞする権限がありません";
+
+WRN_PSProductSpecContextuality="ﾌﾟﾛﾀﾞｸﾄ仕様ｱｾﾝﾌﾞﾘｰを使用してｺﾝﾃｷｽﾄ性が設定されています｡これは許可されません｡ENOVIA V5 VPMに戻して保存することはできません｡";
+WRN_PSProductSpecContextuality.Generic="ﾌﾟﾛﾀﾞｸﾄ仕様を使用したｺﾝﾃｷｽﾄ設計は許可されません｡";
+
+WRN_PSProductSpecConnection="拘束 /p1 はﾌﾟﾛﾀﾞｸﾄ仕様で /p2 になっています｡これは許可されません｡ENOVIA V5 VPMに戻して保存することはできません｡";
+WRN_PSProductSpecConnection.Generic="ﾌﾟﾛﾀﾞｸﾄ仕様下の拘束に実行する操作は許可されません｡";
+WRN_PSProductSpecConnection.Detail="拘束 /p1 はﾌﾟﾛﾀﾞｸﾄ仕様で /p2 になっています｡ ";
+
+WRN_PSProductSpecEntity="ｴﾝﾃｨﾃｨ /p1 はﾌﾟﾛﾀﾞｸﾄ仕様で /p2 になっています｡これは許可されません｡ENOVIA V5 VPMに戻して保存することはできません｡";
+WRN_PSProductSpecEntity.Generic="ﾌﾟﾛﾀﾞｸﾄ仕様下のｴﾝﾃｨﾃｨに実行する操作は許可されません｡";
+WRN_PSProductSpecEntity.Detail="ｴﾝﾃｨﾃｨ /p1 はﾌﾟﾛﾀﾞｸﾄ仕様で /p2 になっています｡";
+
+WRN_PSProductSpecInstance="ｴﾝﾃｨﾃｨ /p1 は新規のﾌﾟﾛﾀﾞｸﾄ仕様ｲﾝｽﾀﾝｽです｡その作成はｻﾎﾟｰﾄされません｡またENOVIA V5 VPMに戻して保存することはできません｡";
+WRN_PSProductSpecInstance.Generic="CATIA内のﾌﾟﾛﾀﾞｸﾄ仕様のｲﾝｽﾀﾝｽ化は許可されません｡";
+WRN_PSProductSpecInstance.Detail="ｴﾝﾃｨﾃｨ /p1 は新規のﾌﾟﾛﾀﾞｸﾄ仕様ｲﾝｽﾀﾝｽです｡";
+
+WRN_PSProductSpecMoveOnly="ﾌﾟﾛﾀﾞｸﾄ仕様の内容の変更は､[移動]操作以外許されません｡";
+WRN_PSProductSpecMoveOnly.Generic="ﾌﾟﾛﾀﾞｸﾄ仕様の内容の変更は､[移動]操作以外許されません｡";
+
+WRN_PSPRCofProdSpecInSession="ﾙｰﾄ ﾌﾟﾛﾀﾞｸﾄ /p2 がCATIA内にあるため､ﾌﾟﾛﾀﾞｸﾄ仕様 /p1 はﾛｰﾄﾞできませんでした｡";
+WRN_PSPRCofProdSpecInSession.Generic="ﾙｰﾄ ﾌﾟﾛﾀﾞｸﾄがCATIA内ですでに開かれているため､ﾌﾟﾛﾀﾞｸﾄ仕様はﾛｰﾄﾞできません｡";
+WRN_PSPRCofProdSpecInSession.Detail="ｴﾝﾃｨﾃｨ /p1 はCATIA内ですでに開かれているﾙｰﾄ ﾌﾟﾛﾀﾞｸﾄ /p2 のﾌﾟﾛﾀﾞｸﾄ仕様です";
+
+WRN_PSProdSpecofPRCInSession="ﾌﾟﾛﾀﾞｸﾄ仕様の1つがCATIA内にあるため､ﾙｰﾄ ﾌﾟﾛﾀﾞｸﾄ /p1 はﾛｰﾄﾞできませんでした｡";
+WRN_PSProdSpecofPRCInSession.Generic="ﾌﾟﾛﾀﾞｸﾄ仕様の1つがCATIA内にあるため､ﾙｰﾄ ﾌﾟﾛﾀﾞｸﾄはﾛｰﾄﾞできませんでした";
+WRN_PSProdSpecofPRCInSession.Detail="ﾙｰﾄ ﾌﾟﾛﾀﾞｸﾄ名: /p1";
+
+WRN_PSGetDomainFail="部品またはﾄﾞｷｭﾒﾝﾄを格納するENOVIA V5 VPMのｶｽﾀﾏｲｽﾞ ﾄﾞﾒｲﾝを入手しようとして失敗しました｡";
+WRN_PSGetDomainFail.Generic="部品またはﾄﾞｷｭﾒﾝﾄを格納するENOVIA V5 VPMのｶｽﾀﾏｲｽﾞ ﾄﾞﾒｲﾝを入手しようとして失敗しました｡";
+
+ERR_PSInsNameTooLong="ｲﾝｽﾀﾝｽ名xxx /p1 が長すぎます(40文字を超えています)｡ ﾏﾙﾁ ﾓﾃﾞﾙ ﾘﾝｸ名に影響を与えるため､ｲﾝｽﾀﾝｽ名を変更してください｡";
+ERR_PSInsNameTooLong.Generic="ｲﾝｽﾀﾝｽ名が長すぎます(40文字を超えています)｡";
+ERR_PSInsNameTooLong.Detail="/p1";
+ERR_PSInsNameTooLong.Suggestion="ﾏﾙﾁ ﾓﾃﾞﾙ ﾘﾝｸ名に影響を与えるため､ｲﾝｽﾀﾝｽ名を変更してください｡";
+
+ERR_PSInsNameTooLong1="ｲﾝｽﾀﾝｽ名xxx /p1 が長すぎます(80文字を超えています)｡ ﾏﾙﾁ ﾓﾃﾞﾙ ﾘﾝｸ名に影響を与えるため､ｲﾝｽﾀﾝｽ名を変更してください｡";
+ERR_PSInsNameTooLong1.Generic="ｲﾝｽﾀﾝｽ名が長すぎます(80文字を超えています)｡";
+ERR_PSInsNameTooLong1.Detail="/p1";
+ERR_PSInsNameTooLong1.Suggestion="ﾏﾙﾁ ﾓﾃﾞﾙ ﾘﾝｸ名に影響を与えるため､ｲﾝｽﾀﾝｽ名を変更してください｡";
+
+WRN_PSPROtherVersionInSession="/p1 をﾛｰﾄﾞできません｡別のﾊﾞｰｼﾞｮﾝがすでにCATIAにﾛｰﾄﾞ済みです｡ \n継続する前に必要なﾊﾞｰｼﾞｮﾝでﾘﾝｸを同期化してください｡";
+WRN_PSPROtherVersionInSession.Generic="ｵﾌﾞｼﾞｪｸﾄをﾛｰﾄﾞできません: 別のﾊﾞｰｼﾞｮﾝがすでにCATIAにﾛｰﾄﾞ済みです｡";
+WRN_PSPROtherVersionInSession.Detail="/p1";
+WRN_PSPROtherVersionInSession.Suggestion="\n継続する前に必要なﾊﾞｰｼﾞｮﾝでﾘﾝｸを同期化してください｡";
+
+
+//AVM IR 518496
+WRN_PSVpmSameNameInAssembly="基準 /p1 は名前が親と同一のため､ｲﾝﾎﾟｰﾄできませんでした｡";
+WRN_PSVpmSameNameInAssembly.Generic="基準は名前が親と同一のため､ｲﾝﾎﾟｰﾄできませんでした｡";
+WRN_PSVpmSameNameInAssembly.Detail="基準名: /p1";
+
+
+
+// SDM/07-Aug-03
+// Error messages related to business rules checking (security, lifecycle, etc...)
+
+WRN_PSBRNoPrivelege="操作が認可されていません｡ \nｵﾌﾞｼﾞｪｸﾄ /p2 に対して処理 /p1 を行う許可が与えられていません｡";
+WRN_PSBRNoPrivelege.Generic="操作は､権限がないために認可されません｡";
+WRN_PSBRNoPrivelege.Detail="ﾌﾟﾛｾｽ名: /p1 ､ｵﾌﾞｼﾞｪｸﾄ名: /p2 ､ｵﾌﾞｼﾞｪｸﾄ ﾀｲﾌﾟ: /p3";
+WRN_PSBRNoPrivelege.Suggestion="現行ﾕｰｻﾞｰに与えられている権限をﾁｪｯｸしてください｡";
+
+WRN_PSBRNoPrivelegeUnk="ｵﾌﾞｼﾞｪｸﾄ /p1 には操作が許可されません";
+WRN_PSBRNoPrivelegeUnk.Generic="ｵﾌﾞｼﾞｪｸﾄには操作が許可されません";
+WRN_PSBRNoPrivelegeUnk.Detail="ｵﾌﾞｼﾞｪｸﾄ名: /p1 ､ ｵﾌﾞｼﾞｪｸﾄ ﾀｲﾌﾟ: /p2";
+WRN_PSBRNoPrivelegeUnk.Suggestion="現行ﾕｰｻﾞｰに与えられている権限をﾁｪｯｸしてください｡";
+
+WRN_PSBRNotLocked="操作は許可されません! /p1 がﾛｯｸされていません｡";
+WRN_PSBRNotLocked.Generic="操作は許可されません｡ｵﾌﾞｼﾞｪｸﾄがﾛｯｸされていません｡";
+//QAR IR A0586095
+WRN_PSBRNotLocked.Detail="ｵﾌﾞｼﾞｪｸﾄ名: /p1 ､ ｵﾌﾞｼﾞｪｸﾄ ﾀｲﾌﾟ: /p2";
+//WRN_PSBRNotLocked.Detail                     = "Object Name: /p1";
+WRN_PSBRNotLocked.Suggestion="現行ﾕｰｻﾞｰに許可されている特権を確認してください｡ \n上にﾘｽﾄされた影響を受けるｵﾌﾞｼﾞｪｸﾄをﾛｯｸする必要があります";
+//WRN_PSBRNotLocked.Suggestion    = "Check privileges authorized to the current user.";
+
+WRN_PSBRLockedByAnother="操作は許可されません! /p1 が他のﾕｰｻﾞｰによりﾛｯｸされています｡";
+WRN_PSBRLockedByAnother.Generic="操作は許可されません｡ｵﾌﾞｼﾞｪｸﾄが他のﾕｰｻﾞｰによりﾛｯｸされています｡";
+WRN_PSBRLockedByAnother.Detail="ｵﾌﾞｼﾞｪｸﾄ名: /p1 ､ ｵﾌﾞｼﾞｪｸﾄ ﾀｲﾌﾟ: /p2";
+WRN_PSBRLockedByAnother.Suggestion="ｵﾌﾞｼﾞｪｸﾄはそれぞれのﾕｰｻﾞｰによりｱﾝﾛｯｸされる必要があります｡";
+
+//ZPL for "Lock by User" HL
+WRN_PSBRLockedByAnotherUserHL="操作は許可されません! /p1 が他のﾕｰｻﾞｰによりﾛｯｸされています｡";
+WRN_PSBRLockedByAnotherUserHL.Generic="操作は許可されません｡ｵﾌﾞｼﾞｪｸﾄが他のﾕｰｻﾞｰによりﾛｯｸされています｡";
+WRN_PSBRLockedByAnotherUserHL.Detail="ｵﾌﾞｼﾞｪｸﾄ名: /p1 ､ｵﾌﾞｼﾞｪｸﾄ ﾀｲﾌﾟ: /p2 ､ﾛｯｸの所有者: /p3";
+WRN_PSBRLockedByAnotherUserHL.Suggestion="ｵﾌﾞｼﾞｪｸﾄはそれぞれのﾕｰｻﾞｰによりｱﾝﾛｯｸされる必要があります｡";
+
+WRN_PSBRStatusNoUpdate="操作は許可されません! /p1 の現行状況は更新できません｡";
+WRN_PSBRStatusNoUpdate.Generic="操作は許可されません｡ｵﾌﾞｼﾞｪｸﾄの現行状況は更新できません｡";
+WRN_PSBRStatusNoUpdate.Detail="ｵﾌﾞｼﾞｪｸﾄ名: /p1 ､ ｵﾌﾞｼﾞｪｸﾄ ﾀｲﾌﾟ: /p2";
+WRN_PSBRStatusNoUpdate.Suggestion="ｵﾌﾞｼﾞｪｸﾄが正しい状態にあるか確認してください｡";
+
+WRN_PSBRStatusReleased="操作は許可されません! ｵﾌﾞｼﾞｪｸﾄ /p1 が最終状況に達しました｡";
+WRN_PSBRStatusReleased.Generic="操作は許可されません｡ｵﾌﾞｼﾞｪｸﾄが最終状況に達しました｡";
+WRN_PSBRStatusReleased.Detail="ｵﾌﾞｼﾞｪｸﾄ名: /p1 ､ ｵﾌﾞｼﾞｪｸﾄ ﾀｲﾌﾟ: /p2";
+WRN_PSBRStatusReleased.Suggestion="ｵﾌﾞｼﾞｪｸﾄが正しい状態にあるか確認してください｡";
+
+WRN_PSBRParentNotLocked="操作は許可されません! /p1 の親がﾛｯｸされていません｡";
+//VPW IR A0619343 : spelling priviledges changed to privileges for all occurence.
+//QAR - IR 638919 : Message modified
+WRN_PSBRParentNotLocked.Generic="親の特権が欠落しているため､ｵﾌﾞｼﾞｪｸﾄ上の操作は許可されません｡";
+WRN_PSBRParentNotLocked.Detail="ｵﾌﾞｼﾞｪｸﾄ名: /p1 ､親の名前: /p2";
+//ZUF IR 25392 : Message modified
+WRN_PSBRParentNotLocked.Suggestion="[影響を受けたｵﾌﾞｼﾞｪｸﾄ]として上にﾘｽﾄされたﾃﾞｰﾀﾍﾞｰｽ内の親ｵﾌﾞｼﾞｪｸﾄのﾛｯｸ状態をﾁｪｯｸしてください｡";
+
+WRN_PSBRParentLockedByAnother="操作は許可されません! /p1 の親が他のﾕｰｻﾞｰによりﾛｯｸされています｡";
+WRN_PSBRParentLockedByAnother.Generic="操作は許可されません｡ｵﾌﾞｼﾞｪｸﾄの親が他のﾕｰｻﾞｰによりﾛｯｸされています｡";
+WRN_PSBRParentLockedByAnother.Detail="ｵﾌﾞｼﾞｪｸﾄ名: /p1";
+WRN_PSBRParentLockedByAnother.Suggestion="親ｵﾌﾞｼﾞｪｸﾄのﾛｯｸ所有者をﾁｪｯｸしてください｡";
+
+//ZPL "Lock by User"
+WRN_PSBRParentLockedByAnotherUserHL="操作は許可されません! /p1 の親が他のﾕｰｻﾞｰによりﾛｯｸされています｡";
+WRN_PSBRParentLockedByAnotherUserHL.Generic="操作は許可されません｡ｵﾌﾞｼﾞｪｸﾄの親が他のﾕｰｻﾞｰによりﾛｯｸされています｡";
+WRN_PSBRParentLockedByAnotherUserHL.Detail="ｵﾌﾞｼﾞｪｸﾄ名: /p1 ､親の名前|ﾛｯｸの所有者: /p2";
+WRN_PSBRParentLockedByAnotherUserHL.Suggestion="親はそれぞれのﾕｰｻﾞｰによりｱﾝﾛｯｸされる必要があります｡";
+
+//ZPL "Lock by User"
+WRN_PSBRParentLockedByAnotherUserHL2="操作は許可されません! /p1 の親が他のﾕｰｻﾞｰによりﾛｯｸされています｡";
+WRN_PSBRParentLockedByAnotherUserHL2.Generic="操作は許可されません｡ｵﾌﾞｼﾞｪｸﾄの親が他のﾕｰｻﾞｰによりﾛｯｸされています｡";
+WRN_PSBRParentLockedByAnotherUserHL2.Detail="ｵﾌﾞｼﾞｪｸﾄ名: /p1 ､ｵﾌﾞｼﾞｪｸﾄ ﾀｲﾌﾟ: /p2 ､親の名前|ﾛｯｸの所有者: /p3";
+WRN_PSBRParentLockedByAnotherUserHL2.Suggestion="親はそれぞれのﾕｰｻﾞｰによりｱﾝﾛｯｸされる必要があります｡";
+
+WRN_PSBRParentStatusNoUpdate="操作は許可されません! /p1 の親の状況は更新できません｡";
+WRN_PSBRParentStatusNoUpdate.Generic="操作は許可されません｡ｵﾌﾞｼﾞｪｸﾄの親は更新できません｡";
+WRN_PSBRParentStatusNoUpdate.Detail="ｵﾌﾞｼﾞｪｸﾄ名: /p1 ､ ｵﾌﾞｼﾞｪｸﾄ ﾀｲﾌﾟ: /p2";
+WRN_PSBRParentStatusNoUpdate.Suggestion="ｵﾌﾞｼﾞｪｸﾄの親が正しい状態にあることを確認してください｡";
+
+WRN_PSBRParentStatusReleased="操作は許可されません! /p1 の親が最終状況に達しました｡";
+WRN_PSBRParentStatusReleased.Generic="ｵﾌﾞｼﾞｪｸﾄの親が最終状態に達したため操作は許可されません｡";
+WRN_PSBRParentStatusReleased.Detail="ｵﾌﾞｼﾞｪｸﾄ名: /p1 ､ ｵﾌﾞｼﾞｪｸﾄ ﾀｲﾌﾟ: /p2";
+WRN_PSBRParentStatusReleased.Suggestion="ｵﾌﾞｼﾞｪｸﾄの親が正しい状態にあることを確認してください｡";
+
+WRN_PSBRStatusNoDelete="操作は許可されません! /p1 の現行状況は削除できません｡";
+WRN_PSBRStatusNoDelete.Generic="操作は許可されません｡ｵﾌﾞｼﾞｪｸﾄの状況は削除できません｡";
+WRN_PSBRStatusNoDelete.Detail="ｵﾌﾞｼﾞｪｸﾄ名: /p1";
+WRN_PSBRStatusNoDelete.Suggestion="ｵﾌﾞｼﾞｪｸﾄが正しい状態にあることを確認してください｡";
+
+WRN_PSBRParentNotConfigured="操作は許可されません! /p1 の親が構成されていません｡";
+WRN_PSBRParentNotConfigured.Generic="操作は許可されません｡ｵﾌﾞｼﾞｪｸﾄの親が構成されていません｡";
+WRN_PSBRParentNotConfigured.Detail="ｵﾌﾞｼﾞｪｸﾄ名: /p1";
+WRN_PSBRParentNotConfigured.Suggestion="選択操作を実行できるように親を構成してください｡";
+
+WRN_PSBRChildLockedByAnother="操作は許可されません!ｵﾌﾞｼﾞｪｸﾄ /p1 の子は現行ﾕｰｻﾞｰによってﾛｯｸされません｡";
+WRN_PSBRChildLockedByAnother.Generic="操作は許可されません｡ｵﾌﾞｼﾞｪｸﾄの子は現行ﾕｰｻﾞｰによってﾛｯｸされません｡";
+WRN_PSBRChildLockedByAnother.Detail="ｵﾌﾞｼﾞｪｸﾄ名: /p1";
+WRN_PSBRChildLockedByAnother.Suggestion="子のﾛｯｸ所有者をﾁｪｯｸしてください｡";
+
+//ZPL "Locked By User" HL
+WRN_PSBRChildLockedByAnotherUserHL="操作は許可されません!ｵﾌﾞｼﾞｪｸﾄ /p1 の子は現行ﾕｰｻﾞｰによってﾛｯｸされません｡";
+WRN_PSBRChildLockedByAnotherUserHL.Generic="ｵﾌﾞｼﾞｪｸﾄの子が現行ﾕｰｻﾞｰによってﾛｯｸされていないため､操作は許可されません｡";
+WRN_PSBRChildLockedByAnotherUserHL.Detail="ｵﾌﾞｼﾞｪｸﾄ名: /p1 ､子の名前|ﾛｯｸの所有者: /p2";
+WRN_PSBRChildLockedByAnotherUserHL.Suggestion="子はそれぞれのﾕｰｻﾞｰによりｱﾝﾛｯｸされる必要があります｡";
+
+WRN_PSBRDelKOIIPointedByAction="実際の削除は許可されません!ｲﾝｽﾀﾝｽ /p1 が1つ以上の処理によって指し示されています｡";
+WRN_PSBRDelKOIIPointedByAction.Generic="実際の削除は許可されません｡ｲﾝｽﾀﾝｽが1つ以上の処理によって指し示されています｡";
+WRN_PSBRDelKOIIPointedByAction.Detail="ｲﾝｽﾀﾝｽ名: /p1";
+
+WRN_PSBRNotPreferredIter="操作は許可されません!使用したﾄﾞｷｭﾒﾝﾄ ｲﾃﾚｰｼｮﾝが選択されていません｡";
+WRN_PSBRNotPreferredIter.Generic="操作は許可されません!使用したﾄﾞｷｭﾒﾝﾄ ｲﾃﾚｰｼｮﾝが選択されていません｡";
+WRN_PSBRNotPreferredIter.Detail="ｵﾌﾞｼﾞｪｸﾄ名: /p1 ､ ｵﾌﾞｼﾞｪｸﾄ ﾀｲﾌﾟ: /p2";
+WRN_PSBRNotPreferredIter.Suggestion="使用したﾄﾞｷｭﾒﾝﾄ ｲﾃﾚｰｼｮﾝを選択してください";
+
+WRN_PSBRUnknownError="操作は不明な理由により /p1 では許可されません!";
+WRN_PSBRUnknownError.Generic="操作は不明な理由によりｵﾌﾞｼﾞｪｸﾄでは許可されません";
+WRN_PSBRUnknownError.Detail="ｵﾌﾞｼﾞｪｸﾄ名: /p1 ､ ｵﾌﾞｼﾞｪｸﾄ ﾀｲﾌﾟ: /p2";
+WRN_PSBRUnknownError.Suggestion="ｵﾌﾞｼﾞｪｸﾄが ENOVIA V5 VPMﾃﾞｰﾀﾍﾞｰｽで有効かどうかを確認してください"; // VPW IR 650028
+
+
+WRN_PSBRNotBelongsToLocalSite="操作は許可されません｡ｵﾌﾞｼﾞｪｸﾄ /p1 はﾛｰｶﾙ ｻｲﾄに属していません｡";
+WRN_PSBRNotBelongsToLocalSitev.Generic="操作は許可されません｡ｵﾌﾞｼﾞｪｸﾄはﾛｰｶﾙ ｻｲﾄに属していません｡";
+WRN_PSBRNotBelongsToLocalSite.Detail="ｵﾌﾞｼﾞｪｸﾄ名: /p1 ､ ｵﾌﾞｼﾞｪｸﾄ ﾀｲﾌﾟ: /p2";
+
+WRN_PSBRParentNotBelongsToSite="操作は許可されません! /p1 の親はﾛｰｶﾙ ｻｲﾄに属していません｡";
+WRN_PSBRParentNotBelongsToSite.Generic="操作は許可されません｡ｵﾌﾞｼﾞｪｸﾄの親はﾛｰｶﾙ ｻｲﾄに属していません｡";
+WRN_PSBRParentNotBelongsToSite.Detail="ｵﾌﾞｼﾞｪｸﾄ名: /p1";
+
+// NFO IR-A0541479 06:06:22
+WRN_PSBROtherInstanceLockedByAnother="操作は許可されません! /p1 の1つ以上のﾋﾟｱ ｲﾝｽﾀﾝｽが他のﾕｰｻﾞｰによりﾛｯｸされています｡";
+WRN_PSBROtherInstanceLockedByAnother.Generic="操作は許可されません!ｵﾌﾞｼﾞｪｸﾄの1つ以上のﾋﾟｱ ｲﾝｽﾀﾝｽが他のﾕｰｻﾞｰによりﾛｯｸされています｡";
+WRN_PSBROtherInstanceLockedByAnother.Detail="ｵﾌﾞｼﾞｪｸﾄ名: /p1";
+WRN_PSBROtherInstanceLockedByAnother.Suggestion="ﾋﾟｱ ｲﾝｽﾀﾝｽのﾛｯｸ所有権を確認してください｡";
+
+//ZPL "Locked By User" HL
+WRN_PSBROtherInstanceLockedByAnotherUserHL="操作は許可されません! /p1 の1つ以上のﾋﾟｱ ｲﾝｽﾀﾝｽが他のﾕｰｻﾞｰによりﾛｯｸされています｡";
+WRN_PSBROtherInstanceLockedByAnotherUserHL.Generic="操作は許可されません!ｵﾌﾞｼﾞｪｸﾄの1つ以上のﾋﾟｱ ｲﾝｽﾀﾝｽが他のﾕｰｻﾞｰによりﾛｯｸされています｡";
+WRN_PSBROtherInstanceLockedByAnotherUserHL.Detail="ｵﾌﾞｼﾞｪｸﾄ名: /p1 ､ｲﾝｽﾀﾝｽ|ﾛｯｸの所有者: /p2";
+WRN_PSBROtherInstanceLockedByAnotherUserHL.Suggestion="ｲﾝｽﾀﾝｽはそれぞれのﾕｰｻﾞｰによりｱﾝﾛｯｸされる必要があります｡";
+
+//Message for UnloadBranch
+WRN_PSVpmUnloadFileEntity="ｴﾝﾃｨﾃｨ /p1 をｱﾝﾛｰﾄﾞする前にENOVIA V5 VPMに保存する必要があります";
+WRN_PSVpmUnloadFileEntity.Generic="ｴﾝﾃｨﾃｨをｱﾝﾛｰﾄﾞする前にENOVIA V5 VPMに保存する必要があります";
+WRN_PSVpmUnloadFileEntity.Detail="ｴﾝﾃｨﾃｨ名: /p1";
+
+WRN_PSVpmUnloadNotSavedEntity="修正がENOVIA V5 VPMに保存されていないため､ /p1 をｱﾝﾛｰﾄﾞできません｡";
+WRN_PSVpmUnloadNotSavedEntity.Generic="修正がENOVIA V5 VPMに保存されていないため､ｵﾌﾞｼﾞｪｸﾄをｱﾝﾛｰﾄﾞできません｡";
+WRN_PSVpmUnloadNotSavedEntity.Detail="/p1";
+
+WRN_PSVpmCanNotUnloadUnderBB="このｴﾝﾃｨﾃｨはﾎﾞｰﾙﾄ内で永続ﾄﾞｷｭﾒﾝﾄの下に保持されているため､ /p1 をｱﾝﾛｰﾄﾞできません｡";
+WRN_PSVpmCanNotUnloadUnderBB.Generic="このｴﾝﾃｨﾃｨはﾎﾞｰﾙﾄ内で永続ﾄﾞｷｭﾒﾝﾄの下に保持されているため､ｵﾌﾞｼﾞｪｸﾄをｱﾝﾛｰﾄﾞできません｡";
+WRN_PSVpmCanNotUnloadUnderBB.Detail="/p1";
+
+WRN_PSVpmCanNotUnloadUnloaded="このｴﾝﾃｨﾃｨはすでにｱﾝﾛｰﾄﾞされているため､ /p1 をｱﾝﾛｰﾄﾞできません｡";
+WRN_PSVpmCanNotUnloadUnloaded.Generic="このｴﾝﾃｨﾃｨはすでにｱﾝﾛｰﾄﾞされているため､ｴﾝﾃｨﾃｨをｱﾝﾛｰﾄﾞできません｡";
+WRN_PSVpmCanNotUnloadUnloaded.Detail="/p1";
+
+WRN_PSVpmCanNotUnloadNothing="/p1 のﾌﾞﾗﾝﾁにはｱﾝﾛｰﾄﾞするｴﾝﾃｨﾃｨがありません";
+WRN_PSVpmCanNotUnloadNothing.Generic="ｴﾝﾃｨﾃｨのﾌﾞﾗﾝﾁにはｱﾝﾛｰﾄﾞするｴﾝﾃｨﾃｨがありません";
+WRN_PSVpmCanNotUnloadNothing.Detail="ｴﾝﾃｨﾃｨ名: /p1";
+
+WRN_PSNoUnloadIfRefInEdition="ｴﾝﾃｨﾃｨ /p1 は､他の場所で編集用に開かれているため､ｱﾝﾛｰﾄﾞできません";
+WRN_PSNoUnloadIfRefInEdition.Generic="ｴﾝﾃｨﾃｨは､他の場所で編集用に開かれているため､ｱﾝﾛｰﾄﾞできません";
+WRN_PSNoUnloadIfRefInEdition.Detail.Suggestion="/p1";
+
+
+
+//message fo TechPack
+
+ERR_TECHPACK_ClusterLoadingOperationFailure="技術ﾊﾟｯｹｰｼﾞ /p1 /p2 /p3 /p4 のﾛｰﾄﾞ操作が失敗しました｡ /p5 /p6 /p7";
+ERR_TECHPACK_ClusterLoadingOperationFailure.Generic="ﾛｰﾄﾞ操作が失敗しました｡";
+// VPW IR A0600636 
+ERR_TECHPACK_ClusterLoadingOperationFailure.Detail="技術ﾊﾟｯｹｰｼﾞ 役割: /p1 ､ｶﾃｺﾞﾘ: /p2 ､ﾊﾞｰｼﾞｮﾝ: /p3 ､所有者: /p4 ､ﾛｰﾄﾞ操作が失敗しました｡組織: /p5 ､作成日: /p6 ､修正日: /p7";
+//ERR_TECHPACK_ClusterLoadingOperationFailure.Detail       = "TechPack /p1 /p2 /p3 /p4 Loading operation failed. /p5 /p6 /p7";
+
+ERR_TECHPACK_NotLocked="技術ﾊﾟｯｹｰｼﾞはﾛｯｸされていません｡保存は中止されました｡";
+ERR_TECHPACK_NotLocked.Generic="技術ﾊﾟｯｹｰｼﾞはﾛｯｸされていません｡保存は中止されました｡";
+
+ERR_TECHPACK_LockByAnotherUser="技術ﾊﾟｯｹｰｼﾞは他のﾕｰｻﾞｰによりﾛｯｸされています｡保存は中止されました｡";
+ERR_TECHPACK_LockByAnotherUser.Generic="技術ﾊﾟｯｹｰｼﾞは他のﾕｰｻﾞｰによりﾛｯｸされています｡保存は中止されました｡";
+
+ERR_TECHPACK_BelongsToNotPersistantObject="技術ﾊﾟｯｹｰｼﾞは非永続ｵﾌﾞｼﾞｪｸﾄに属しています｡保存は中止されました｡";
+ERR_TECHPACK_BelongsToNotPersistantObject.Generic="技術ﾊﾟｯｹｰｼﾞは非永続ｵﾌﾞｼﾞｪｸﾄに属しています｡保存は中止されました｡";
+
+ERR_TECHPACK_VaultAccessDenied="ﾎﾞｰﾙﾄにｱｸｾｽしようとして失敗しました｡保存は中止されました｡";
+ERR_TECHPACK_VaultAccessDenied.Generic="ﾎﾞｰﾙﾄにｱｸｾｽしようとして失敗しました｡保存は中止されました｡";
+
+WRN_TECHPACK_PointedDocumentNotInEnovia_ExpositionFailed="ﾘﾝｸは非PDMﾄﾞｷｭﾒﾝﾄ( /p1 )をﾎﾟｲﾝﾄしています｡このﾘﾝｸは保存されますが､公開されません｡";
+WRN_TECHPACK_PointedDocumentNotInEnovia_ExpositionFailed.Generic="ﾘﾝｸは非PDMﾄﾞｷｭﾒﾝﾄをﾎﾟｲﾝﾄしています｡このﾘﾝｸは保存されますが､公開されません｡";
+WRN_TECHPACK_PointedDocumentNotInEnovia_ExpositionFailed.Detail="ﾄﾞｷｭﾒﾝﾄ名: /p1";
+
+ERR_TECHPACK_ExternalLinkNotSupported="外部ﾘﾝｸ( /p1 )はｻﾎﾟｰﾄされません｡";
+ERR_TECHPACK_ExternalLinkNotSupported.Generic="外部ﾘﾝｸはｻﾎﾟｰﾄされません｡";
+ERR_TECHPACK_ExternalLinkNotSupported.Detail="ﾘﾝｸ名: /p1";
+
+PartialSave.Title="部分保存操作";
+
+PartialSave.Text="ﾛｯｸ､ｱｸｾｽ権､またはﾗｲﾌ ｻｲｸﾙを考慮した場合､ \n修正ﾃﾞｰﾀのｻﾌﾞｾｯﾄはﾘｼﾞｪｸﾄされましたが､1つ以上のﾘﾝｸされたﾄﾞｷｭﾒﾝﾄが保存されました｡ \n[OK]をｸﾘｯｸしてｴﾗｰのﾘｽﾄを参照してください｡";
+
+WRN_VERSINON_CREATION_FAILED="ﾊﾞｰｼﾞｮﾝ日付が現行の使用条件に含まれていないので新規ﾊﾞｰｼﾞｮﾝを作成できませんでした";
+WRN_VERSINON_CREATION_FAILED.Generic="ﾊﾞｰｼﾞｮﾝ日付が現行の使用条件に含まれていないので新規ﾊﾞｰｼﾞｮﾝを作成できませんでした";
+
+
+WRN_OldPartNotSupported1="この部品はV5R5よりも前のﾚﾍﾞﾙで作成されています｡保存できません｡";
+WRN_OldPartNotSupported1.Generic="この部品はV5R5よりも前のﾚﾍﾞﾙで作成されています｡保存できません｡";
+
+WRN_OldPartNotSupported2="新しい部品を作成し､この形状をｺﾋﾟｰおよび貼り付けしてください｡";
+WRN_OldPartNotSupported2.Generic="新しい部品を作成し､この形状をｺﾋﾟｰおよび貼り付けしてください｡";
+
+
+WRN_PublicationNotIntrinsic="ﾊﾟﾌﾞﾘｯｼｭ: 所有者製品 /p2 が構成表示ﾓｰﾄﾞであるために､ /p1 は保存されませんでした｡";
+WRN_PublicationNotIntrinsic.Generic="ﾊﾟﾌﾞﾘｹｰｼｮﾝは､所有者製品が構成表示ﾓｰﾄﾞであるために保存されませんでした｡";
+WRN_PublicationNotIntrinsic.Detail="ﾊﾟﾌﾞﾘｹｰｼｮﾝ名: /p1 ､所有者製品名: /p2";
+
+WRN_PublicationNotSavedInVisuMode="ﾊﾟﾌﾞﾘｯｼｭ: /p1 はｱﾝﾛｰﾄﾞされたﾃﾞｰﾀをﾎﾟｲﾝﾄしているのでENOVIA V5 VPMに保存されませんでした";
+WRN_PublicationNotSavedInVisuMode.Generic="ﾊﾟﾌﾞﾘｹｰｼｮﾝはｱﾝﾛｰﾄﾞされたﾃﾞｰﾀをﾎﾟｲﾝﾄしているのでENOVIA V5 VPMに保存されませんでした";
+WRN_PublicationNotSavedInVisuMode.Detail="ﾊﾟﾌﾞﾘｹｰｼｮﾝ名: /p1";
+
+
+//XPN
+ERR_NotConnectedToChoosePRC=" /p1 の持続性を構成表示ﾓｰﾄﾞに設定するには､ENOVIA V5 VPMに接続する必要があります｡";
+ERR_NotConnectedToChoosePRC.Generic=" ｵﾌﾞｼﾞｪｸﾄの持続性を構成表示ﾓｰﾄﾞに設定するには､ENOVIA V5 VPMに接続する必要があります｡";
+ERR_NotConnectedToChoosePRC.Detail=" ｵﾌﾞｼﾞｪｸﾄ名: /p1";
+
+//BBX
+ERR_TechPackUnderPRCNotAllowed="/p1 の持続性をﾜｰｸﾊﾟｯｹｰｼﾞに変更できません｡これは技術ﾊﾟｯｹｰｼﾞを所有しています!";
+ERR_TechPackUnderPRCNotAllowed.Generic="ｵﾌﾞｼﾞｪｸﾄの持続性をﾜｰｸﾊﾟｯｹｰｼﾞに変更できません｡これは技術ﾊﾟｯｹｰｼﾞを所有しています!";
+ERR_TechPackUnderPRCNotAllowed.Detail="ｵﾌﾞｼﾞｪｸﾄ名: /p1";
+
+//CUO BZQ - 05.24.2005 - HL R16 Product Freeze
+WRN_PSBRFrozen="操作は許可されません! /p1 はすでに送達/ｲﾝｽﾄｰﾙされています｡";
+WRN_PSBRFrozen.Generic="操作は許可されません!ｵﾌﾞｼﾞｪｸﾄはすでに送達/ｲﾝｽﾄｰﾙされています｡";
+WRN_PSBRFrozen.Detail="ｵﾌﾞｼﾞｪｸﾄ名: /p1 ､ ｵﾌﾞｼﾞｪｸﾄ ﾀｲﾌﾟ: /p2";
+
+WRN_PSBRParentFrozen="操作は許可されません! /p1 の親はすでに送達/ｲﾝｽﾄｰﾙされています｡";
+WRN_PSBRParentFrozen.Generic="操作は許可されません! ｵﾌﾞｼﾞｪｸﾄの親はすでに送達/ｲﾝｽﾄｰﾙされています｡";
+WRN_PSBRParentFrozen.Detail="ｵﾌﾞｼﾞｪｸﾄ名: /p1";
+
+
+//BZQ - 07.27.2005 - IR A0505252
+WRN_PSBRFrozenOverride="/p1 は配布されてｲﾝｽﾄｰﾙ済みです｡ﾕｰｻﾞｰは修正のための上書きｱｸｾｽ権があります｡";
+WRN_PSBRFrozenOverride.Generic="ｵﾌﾞｼﾞｪｸﾄは配布されてｲﾝｽﾄｰﾙ済みです｡ﾕｰｻﾞｰは修正のための上書きｱｸｾｽ権があります｡";
+WRN_PSBRFrozenOverride.Detail="ｵﾌﾞｼﾞｪｸﾄ名: /p1 ､ ｵﾌﾞｼﾞｪｸﾄ ﾀｲﾌﾟ: /p2";
+
+WRN_PSBRParentFrozenOverride="/p1 の親は配布されてｲﾝｽﾄｰﾙ済みです｡ﾕｰｻﾞｰは修正のための上書きｱｸｾｽ権があります｡";
+WRN_PSBRParentFrozenOverride.Generic="ｵﾌﾞｼﾞｪｸﾄの親は配布されてｲﾝｽﾄｰﾙ済みです｡ﾕｰｻﾞｰは修正のための上書きｱｸｾｽ権があります｡";
+WRN_PSBRParentFrozenOverride.Detail="ｵﾌﾞｼﾞｪｸﾄ名: /p1";
+
+WRN_PSBRUnsolvedOperations="操作は許可されません! 未解決の操作で /p1 を削除できません｡";
+WRN_PSBRUnsolvedOperations.Generic="操作は許可されません! 未解決の操作でｵﾌﾞｼﾞｪｸﾄを削除できません｡";
+WRN_PSBRUnsolvedOperations.Detail="ｵﾌﾞｼﾞｪｸﾄ名: /p1";
+
+//AVM - IR 530248
+WRN_PSCnxBRReleased="操作は許可されません! 拘束における追加/修正/削除は最終状況に達した親 /p1 として保存することができません";
+WRN_PSCnxBRReleased.Generic="操作は許可されません! 拘束における追加/修正/削除は最終状況に達した親として保存することができません";
+WRN_PSCnxBRReleased.Detail="親の名前: /p1";
+
+ERR_SaveErrorR4SP1doc="現行ﾄﾞｷｭﾒﾝﾄ /p1 はR4SP1よりも前に生成されたﾄﾞｷｭﾒﾝﾄのため \nENOVIA V5 VPMに保存できません｡ \nR4SP1以降のﾄﾞｷｭﾒﾝﾄのみENOVIA V5 VPMに保存できます｡";
+ERR_SaveErrorR4SP1doc.Generic="現行ﾄﾞｷｭﾒﾝﾄはR4SP1よりも前に生成されたﾄﾞｷｭﾒﾝﾄのため \nENOVIA V5 VPMに保存できません｡";
+ERR_SaveErrorR4SP1doc.Detail=" /p1";
+ERR_SaveErrorR4SP1doc.Suggestion="R4SP1以降のﾄﾞｷｭﾒﾝﾄのみENOVIA V5 VPMに保存できます｡";
+
+WRN_SaveWarningR4SP1doc="現行ﾄﾞｷｭﾒﾝﾄ /p1 はR4SP1よりも前に生成されたﾄﾞｷｭﾒﾝﾄのためENOVIA V5 VPMに保存しないでください｡ \n代わりに新規のﾄﾞｷｭﾒﾝﾄを作成してこれに形状をｺﾋﾟｰし貼り付けます｡";
+WRN_SaveWarningR4SP1doc.Generic=" 現行ﾄﾞｷｭﾒﾝﾄはR4SP1よりも前に生成されました｡ ";
+WRN_SaveWarningR4SP1doc.Detail=" /p1";
+WRN_SaveWarningR4SP1doc.Suggestion="これをENOVIA V5 VPMに保存しないでください｡ \n代わりに新規のﾄﾞｷｭﾒﾝﾄを作成してこれに形状をｺﾋﾟｰし貼り付けます｡";
+
+ERR_SaveErrorFrozenDoc="ﾄﾞｷｭﾒﾝﾄ /p1 はPDMﾃﾞｰﾀﾍﾞｰｽから｢ﾌﾘｰｽﾞして｣保存されたため \nENOVIA V5 VPMに保存できません｡";
+ERR_SaveErrorFrozenDoc.Generic="ﾄﾞｷｭﾒﾝﾄはPDMﾃﾞｰﾀﾍﾞｰｽから｢ﾌﾘｰｽﾞして｣保存されたため \nENOVIA V5 VPMに保存できません｡";
+ERR_SaveErrorFrozenDoc.Detail=" /p1";
+
+
+//RID IR 416546 .. Rolledback 05:09:15
+//WRN_PSNoCharacterSupportForNameDBCS = "The entity name /p1 contains unsupported DBCS character(s) /p2. Please rename before proceeding to save in ENOVIA V5 VPM.";
+//WRN_PSNoCharacterSupportForNameDBCS.Generic =  "The entity names contains unsupported DBCS character(s)..";
+//WRN_PSNoCharacterSupportForNameDBCS.Detail      = " EntityName:/p1 , DBCS chars:/p2";
+//WRN_PSNoCharacterSupportForNameDBCS.Suggestion	= "Please rename before proceeding to save in ENOVIA V5 VPM.";
+
+
+//AVM - IR 516779
+
+WRN_PSVpmForbiddenName="ｲﾝﾎﾟｰﾄされたﾌﾟﾛﾀﾞｸﾄには､CATIAでｻﾎﾟｰﾄされない禁止文字が含まれています｡";
+WRN_PSVpmForbiddenName.Generic="ｲﾝﾎﾟｰﾄされたﾌﾟﾛﾀﾞｸﾄには､CATIAでｻﾎﾟｰﾄされない禁止文字が含まれています｡";
+
+
+//BBX for HighLight Contextual Design in Sub Asm R17//
+
+ERR_PSVpmInputWrongCtx_NewObject="部品 /p1 はｻﾌﾞｱｾﾝﾌﾞﾘｰ /p2 のｺﾝﾃｷｽﾄ部品です(ENOVIA V5 VPMではｻﾎﾟｰﾄされません)｡ \n[ｺﾝﾃｷｽﾄ ﾘﾝｸを製品ﾚﾍﾞﾙまで管理]ｺﾏﾝﾄﾞを使用してｺﾝﾃｷｽﾄ ﾘﾝｸを自動的に再経路化するか､ \n[ｺﾝﾃｷｽﾄを変更]ﾒﾆｭｰを使用して手動で管理してください｡";
+ERR_PSVpmInputWrongCtx_NewObject.Generic="部品はｻﾌﾞｱｾﾝﾌﾞﾘｰのｺﾝﾃｷｽﾄ部品です(ENOVIA V5 VPMではｻﾎﾟｰﾄされません)｡";
+ERR_PSVpmInputWrongCtx_NewObject.Detail="部品名: /p1 ､ｻﾌﾞｱｾﾝﾌﾞﾘｰ名: /p2";
+ERR_PSVpmInputWrongCtx_NewObject.Suggestion="[ｺﾝﾃｷｽﾄ ﾘﾝｸを製品ﾚﾍﾞﾙまで管理]ｺﾏﾝﾄﾞを使用してｺﾝﾃｷｽﾄ ﾘﾝｸを自動的に再経路化するか､ \n[ｺﾝﾃｷｽﾄを変更]ﾒﾆｭｰを使用して手動で管理してください｡";
+
+WRN_PSVpmNotReroutedInstance="/p1 に対して再経路化は不要であるか､または実行されません ";
+WRN_PSVpmNotReroutedInstance.Generic="ｵﾌﾞｼﾞｪｸﾄに対して再経路化は不要であるか､または実行されません｡ ";
+WRN_PSVpmNotReroutedInstance.Detail="/p1";
+
+INF_PSVpmReroutedInstance="ｲﾝｽﾀﾝｽ /p1 は /p2 上で再経路化されました ";
+INF_PSVpmReroutedInstance.Generic="ｲﾝｽﾀﾝｽは指定されたｵﾌﾞｼﾞｪｸﾄ上で再経路化されました｡ ";
+INF_PSVpmReroutedInstance.Detail="ｲﾝｽﾀﾝｽ名: /p1 ､再経路化: /p2 ";
+
+WRN_PSVpmMultiInstanciatedInstance="/p1 は複数にｲﾝｽﾀﾝｽ化されているため､この再経路化は実行されません｡ \n[ｺﾝﾃｷｽﾄを変更]ﾒﾆｭｰを使用してﾘﾝｸを手動で管理してください｡";
+WRN_PSVpmMultiInstanciatedInstance.Generic="ｵﾌﾞｼﾞｪｸﾄは複数にｲﾝｽﾀﾝｽ化されているため､この再経路化は実行されません..";
+WRN_PSVpmMultiInstanciatedInstance.Detail=" /p1";
+WRN_PSVpmMultiInstanciatedInstance.Suggestion="[ｺﾝﾃｷｽﾄを変更]ﾒﾆｭｰを使用してﾘﾝｸを手動で管理してください｡";
+
+WRN_PSVpmOutOfContextInstance="/p1 はｺﾝﾃｷｽﾄの範囲外のために､この再経路化は実行されません｡ \n[ｺﾝﾃｷｽﾄを変更]ﾒﾆｭｰを使用してﾘﾝｸを手動で管理してください｡";
+WRN_PSVpmOutOfContextInstance.Generic="ｵﾌﾞｼﾞｪｸﾄはｺﾝﾃｷｽﾄの範囲外のために､この再経路化は実行されません｡";
+WRN_PSVpmOutOfContextInstance.Detail="/p1";
+WRN_PSVpmOutOfContextInstance.Suggestion="[ｺﾝﾃｷｽﾄを変更]ﾒﾆｭｰを使用してﾘﾝｸを手動で管理してください｡";
+
+WRN_PSVpmLinkBrokenInstance="/p1 に分断されたﾘﾝｸがあるために､この再経路化は実行されません｡ \n[ｺﾝﾃｷｽﾄを変更]ﾒﾆｭｰを使用してﾘﾝｸを手動で管理してください｡";
+WRN_PSVpmLinkBrokenInstance.Generic="ｵﾌﾞｼﾞｪｸﾄに分断されたﾘﾝｸがあるために､この再経路化は実行されません｡";
+WRN_PSVpmLinkBrokenInstance.Detail="/p1";
+WRN_PSVpmLinkBrokenInstance.Suggestion="[ｺﾝﾃｷｽﾄを変更]ﾒﾆｭｰを使用してﾘﾝｸを手動で管理してください｡";
+
+
+WRN_PSVpmRootIsPRC="[ｺﾝﾃｷｽﾄ ﾘﾝｸを製品ﾚﾍﾞﾙまで管理]ｺﾏﾝﾄﾞはﾙｰﾄが製品の場合にのみ機能します!!";
+WRN_PSVpmRootIsPRC.Generic="[ｺﾝﾃｷｽﾄ ﾘﾝｸを製品ﾚﾍﾞﾙまで管理]ｺﾏﾝﾄﾞはﾙｰﾄが製品の場合にのみ機能します!!";
+WRN_PSVpmRootIsPRC.Suggestion="ﾙｰﾄが製品であるか確認してください｡";
+
+//BBX Ends
+
+//BBX for IR A0527926//
+WRN_PSVpmOutofCtxInst="ｺﾝﾃｷｽﾄ ﾘﾝｸによって使用される部品 /p1 のｲﾝｽﾀﾝｽがCATIAｾｯｼｮﾝ内で見つかりませんでした｡ \n[ｺﾝﾃｷｽﾄを変更]ﾒﾆｭｰを使用してﾘﾝｸを手動で管理してください｡";
+WRN_PSVpmOutofCtxInst.Generic="ｺﾝﾃｷｽﾄ ﾘﾝｸによって使用される部品のｲﾝｽﾀﾝｽがCATIAｾｯｼｮﾝ内で見つかりませんでした｡ ";
+WRN_PSVpmOutofCtxInst.Detail="部品名: /p1";
+WRN_PSVpmOutofCtxInst.Suggestion="[ｺﾝﾃｷｽﾄを変更]ﾒﾆｭｰを使用してﾘﾝｸを手動で管理してください｡";
+
+//IR :637617 - Message modified 
+WRN_PSVpmBrokenLinks="部品 /p1 のｲﾝｽﾀﾝｽに損傷したｺﾝﾃｷｽﾄ ﾘﾝｸがあるか､またはそのｺﾝﾃｷｽﾄがｾｯｼｮﾝにﾛｰﾄﾞされていません｡ \n[ｺﾝﾃｷｽﾄを変更]ﾒﾆｭｰを使用してﾘﾝｸを手動で管理してください｡";
+WRN_PSVpmBrokenLinks.Generic="部品のｲﾝｽﾀﾝｽに損傷したｺﾝﾃｷｽﾄ ﾘﾝｸがあるか､またはそのｺﾝﾃｷｽﾄがｾｯｼｮﾝにﾛｰﾄﾞされていません｡";
+WRN_PSVpmBrokenLinks.Detail="部品名: /p1";
+WRN_PSVpmBrokenLinks.Suggestion="ｺﾝﾃｷｽﾄ ﾘﾝｸの作成に使用したｲﾝｽﾀﾝｽがﾛｰﾄﾞされているかどうかを確認し､[ｺﾝﾃｷｽﾄを変更]ﾒﾆｭｰを使用してﾘﾝｸを手動で管理してください｡";
+
+//BBX ends//
+//Message for Pub or Ctx Synchronisation at open
+WRN_PSSynchroPubAtOpen="ﾄﾞｷｭﾒﾝﾄ｢ /p2 ｣のﾊﾟﾌﾞﾘｹｰｼｮﾝ｢ /p1 ｣で矛盾が検出されましたがｾｯｼｮﾝ内で修復されました｡";
+WRN_PSSynchroPubAtOpen.Generic="ﾄﾞｷｭﾒﾝﾄのﾊﾟﾌﾞﾘｹｰｼｮﾝで矛盾が検出されましたがｾｯｼｮﾝ内で修復されました｡";
+WRN_PSSynchroPubAtOpen.Detail="ﾊﾟﾌﾞﾘｹｰｼｮﾝ名: /p1 ､ﾄﾞｷｭﾒﾝﾄ名: /p2 ";
+
+//ZPL IR A0572465
+WRN_NotAnEnoviaObjectToHighlight="ｵﾌﾞｼﾞｪｸﾄ /p1 はENOVIA V5 VPMに存在しません｡ \n最初にENOVIA V5 VPMに保存してください｡";
+WRN_NotAnEnoviaObjectToHighlight.Generic="選択したｵﾌﾞｼﾞｪｸﾄはENOVIA V5 VPMｴﾝﾃｨﾃｨではありません｡";
+WRN_NotAnEnoviaObjectToHighlight.Detail="ｵﾌﾞｼﾞｪｸﾄ名: /p1";
+WRN_NotAnEnoviaObjectToHighlight.Suggestion="選択したｵﾌﾞｼﾞｪｸﾄをENOVIA V5 VPMに保存してください｡このｺﾏﾝﾄﾞはENOVIA V5 VPMｵﾌﾞｼﾞｪｸﾄ専用です｡";
+
+// CUO 07:07:09 IR 581543
+WRN_PSProductSpecDetectedInSession="CATIAで /p1 のｲﾝｽﾀﾝｽがｾｯｼｮﾝにあるため､ENOVIA V5 VPMからｵﾌﾞｼﾞｪｸﾄをﾛｰﾄﾞできません｡ \nﾌﾟﾛﾀﾞｸﾄ仕様のｺﾝﾃｷｽﾄを使用して､CATIAでそのｺﾝﾃｷｽﾄ以下にｵﾌﾞｼﾞｪｸﾄをﾛｰﾄﾞしてください｡";
+WRN_PSProductSpecDetectedInSession.Generic="CATIAで PRC のｲﾝｽﾀﾝｽがｾｯｼｮﾝにあるため､ENOVIA V5 VPMからｵﾌﾞｼﾞｪｸﾄをﾛｰﾄﾞできません｡";
+WRN_PSProductSpecDetectedInSession.Detail="/p1";
+WRN_PSProductSpecDetectedInSession.Suggestion="ﾌﾟﾛﾀﾞｸﾄ仕様のｺﾝﾃｷｽﾄを使用して､CATIAでそのｺﾝﾃｷｽﾄ以下にｵﾌﾞｼﾞｪｸﾄをﾛｰﾄﾞしてください｡";
+
+//ZPL Starts IR 587852
+WRN_PSBRGCONoPrivelege="操作が認可されていません｡ \nｵﾌﾞｼﾞｪｸﾄ /p2 に対して処理 /p1 を行う許可が与えられていません｡";
+WRN_PSBRGCONoPrivelege.Generic="操作は､権限がないために認可されません｡";
+WRN_PSBRGCONoPrivelege.Detail="ﾌﾟﾛｾｽ名: /p1 ､ｵﾌﾞｼﾞｪｸﾄ名: /p2 ､ｵﾌﾞｼﾞｪｸﾄ ﾀｲﾌﾟ: /p3";
+WRN_PSBRGCONoPrivelege.Suggestion="現行ﾕｰｻﾞｰに与えられている権限をﾁｪｯｸしてください｡";
+
+WRN_PSBRGCOStatusReleased="操作は許可されません! ｵﾌﾞｼﾞｪｸﾄ /p1 が最終状況に達しました｡";
+WRN_PSBRGCOStatusReleased.Generic="GCOが最終状態に達したため操作は許可されません｡";
+WRN_PSBRGCOStatusReleased.Detail="/p1";
+WRN_PSBRGCOStatusReleased.Suggestion="GCOが正しい状態にあるか確認してください｡";
+
+WRN_PSBRGCOStatusNotModifiable="GCO /p1 を修正できません｡ \nこのGCOは修正可能な状態にありません｡";
+WRN_PSBRGCOStatusNotModifiable.Generic="GCO を修正できません｡ \nこのGCOは修正可能な状態にありません";
+WRN_PSBRGCOStatusNotModifiable.Detail="/p1";
+WRN_PSBRGCOStatusNotModifiable.Suggestion="GCOの状態を確認してください｡";
+
+WRN_PSBRGCOLinkInstNotLocked="操作は許可されません! \nGCO /p1 にﾘﾝｸしたｵﾌﾞｼﾞｪｸﾄ /p1 がﾛｯｸされていないか､他のﾕｰｻﾞｰによりﾛｯｸされています｡";
+WRN_PSBRGCOLinkInstNotLocked.Generic="GCOにﾘﾝｸされた1つ以上のｵﾌﾞｼﾞｪｸﾄがﾛｯｸされていないか､他のﾕｰｻﾞｰによりﾛｯｸされています｡";
+WRN_PSBRGCOLinkInstNotLocked.Detail="GCO名: /p1 ､ｵﾌﾞｼﾞｪｸﾄ: /p2";
+WRN_PSBRGCOLinkInstNotLocked.Suggestion="GCOにﾘﾝｸされたｵﾌﾞｼﾞｪｸﾄのﾛｯｸ状態を確認してください｡";
+
+//ZPL "Locked By User"
+WRN_PSBRGCOLinkInstLockedByUser="操作は許可されません! \nGCO /p1 にﾘﾝｸしたｵﾌﾞｼﾞｪｸﾄ /p1 が他のﾕｰｻﾞｰによりﾛｯｸされています｡";
+WRN_PSBRGCOLinkInstLockedByUser.Generic="GCOにﾘﾝｸされた1つ以上のｵﾌﾞｼﾞｪｸﾄが他のﾕｰｻﾞｰによりﾛｯｸされています｡";
+WRN_PSBRGCOLinkInstLockedByUser.Detail="GCO名: /p1 ､ｵﾌﾞｼﾞｪｸﾄ | ﾛｯｸ所有者: /p2";
+WRN_PSBRGCOLinkInstLockedByUser.Suggestion="GCOにﾘﾝｸされたｵﾌﾞｼﾞｪｸﾄのﾛｯｸ所有権を確認してください｡";
+
+WRN_PSBRGCOBRCheckNotDone="使用ｻｰﾊﾞｰではGCOのBRﾁｪｯｸがいくつか使用できません｡ \nこのGCOは､一部BRﾁｪｯｸが行われていません｡";
+WRN_PSBRGCOBRCheckNotDone.Generic="使用ｻｰﾊﾞｰで使用できないいくつかのBRﾁｪｯｸがGCOで行われていません｡";
+WRN_PSBRGCOBRCheckNotDone.Detail="/p1";
+WRN_PSBRGCOBRCheckNotDone.Suggestion="関連するｵﾌﾞｼﾞｪｸﾄをﾁｪｯｸしてください｡";
+//ZPL Ends IR 587852
+
+// CUO - IR 623996
+ERR_PSVpmSaveStopReconciliateDoc="ﾄﾞｷｭﾒﾝﾄ /p1 がENOVIA V5 VPMから誤って抽出されたので保存できません｡ \n ";
+ERR_PSVpmSaveStopReconciliateDoc.Generic="ﾄﾞｷｭﾒﾝﾄがENOVIA V5 VPMから誤って抽出されたので保存できません｡";
+ERR_PSVpmSaveStopReconciliateDoc.Suggestion="[ﾌｧｲﾙ]+[ﾃﾞｽｸ]が使用可能であればﾄﾞｷｭﾒﾝﾄの ﾘｺﾝｼﾘｴｰｼｮﾝを起動してください｡ 使用不可の場合: \nﾄﾞｷｭﾒﾝﾄをENOVIA V5 VPMに新規として保存する場合は､次のようにしてください \n   1. [PDMﾌﾟﾛﾊﾟﾃｨを設定]ｺﾏﾝﾄﾞを使用して､格納先を｢ENOVIA5｣に設定する \n   2. ﾄﾞｷｭﾒﾝﾄをﾃﾞｨｽｸに保存する \n   3. 再度ENOVIA V5 VPMに保存する｡ \nこのﾄﾞｷｭﾒﾝﾄをｵﾘｼﾞﾅﾙのENOVIA V5 VPMﾄﾞｷｭﾒﾝﾄに置換する場合は､[編集]+[ﾘﾝｸ]+[置換]ｺﾏﾝﾄﾞを使用して､再度保存してください｡ \n";
+ERR_PSVpmSaveStopReconciliateDoc.Detail="ﾄﾞｷｭﾒﾝﾄ名: /p1 - ENOVIA V5 VPM ﾄﾞｷｭﾒﾝﾄ名: /p2";
+
+// VPW - IR 628134
+WRN_PSBRParentRefStatusReleased="操作は許可されません! /p1 の親参照が最終状態に達しました｡";
+WRN_PSBRParentRefStatusReleased.Generic="ｵﾌﾞｼﾞｪｸﾄの親参照が最終状態に達したため､操作は許可されません｡";
+WRN_PSBRParentRefStatusReleased.Detail="ｵﾌﾞｼﾞｪｸﾄ名: /p1 ､ ｵﾌﾞｼﾞｪｸﾄ ﾀｲﾌﾟ: /p2";
+WRN_PSBRParentRefStatusReleased.Suggestion="ｵﾌﾞｼﾞｪｸﾄの親参照が正しい状態にあることを確認してください｡";
+
+WRN_PSVpmUELoadProcess="ﾕｰｻﾞｰ出口 /p1 の実行時に問題が発生しました｡";
+WRN_PSVpmUELoadProcess.Generic="ﾛｰﾄﾞ ﾌﾟﾛｾｽで､ﾕｰｻﾞｰ出口の実行に失敗しました｡";
+WRN_PSVpmUELoadProcess.Detail="ﾕｰｻﾞｰ出口名: /p1";
+
+// VPW IR 668093
+INF_PSVpmIIRenamed="同じ名前 /p1 の別のｲﾝｽﾀﾝｽがすでに同じ親 /p2 の下にあります｡ \n 新規ｲﾝｽﾀﾝｽは /p3 として自動的に保存されました";
+INF_PSVpmIIRenamed.Generic="同じ名前の別のｲﾝｽﾀﾝｽがすでに同じ親の下にあります｡ \n 新規ｲﾝｽﾀﾝｽは新しい名前で自動的に保存されました";
+INF_PSVpmIIRenamed.Detail="ｵﾘｼﾞﾅﾙ名:/p1 ､親の名前:/p2 ､名前を付けて保存:/p3 ";
+
+// VVD BOEING SAVE PANEL
+INF_FurtiveToolTip="ｴﾗｰ/警告が生成されることなく保存が正常に行われました";
+
+//QAR : IGM HL
+INF_PSVpmGraphicalPropSaveFail="権限がないため､ｸﾞﾗﾌｨｶﾙに修正されたｵﾌﾞｼﾞｪｸﾄはﾃﾞｰﾀﾍﾞｰｽに保存されません｡";
+INF_PSVpmGraphicalPropSaveFail.Generic="権限がないため､ｸﾞﾗﾌｨｶﾙに修正されたｵﾌﾞｼﾞｪｸﾄはﾃﾞｰﾀﾍﾞｰｽに保存されません｡";
+INF_PSVpmGraphicalPropSaveFail.Detail="ｴﾝﾃｨﾃｨ名: -/p1､ｴﾝﾃｨﾃｨ ﾀｲﾌﾟ: -/p2";
+INF_PSVpmGraphicalPropSaveFail.Suggestion="ﾕｰｻﾞｰが修正権限を持っていること､現在のﾕｰｻﾞｰによってﾃﾞｰﾀがﾛｯｸされていること､およびﾃﾞｰﾀが\n最終完成度状態に達していないことを確認してください｡";

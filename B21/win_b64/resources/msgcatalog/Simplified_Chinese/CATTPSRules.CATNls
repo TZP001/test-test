@@ -1,0 +1,639 @@
+TPSRuleBaseName = "公差规则库";
+
+// Attention le .Name est utilise par le reporting comme nom
+// du fichier HTML généré. Il faut donc éviter les caractères incompatibles
+// avec la syntaxe des noms de fichiers
+
+//------------------------------------------------------------------------ TTRS
+
+TPSRuleTTRSNotBuild.Name = "未更新的公差特征。";
+TPSRuleTTRSNotBuild.Help = "用户曲面或曲面组不是最新的。";
+TPSRuleTTRSNotBuild.CorrectFunction = "请更新零件或产品。";
+
+TPSRuleTTRSVisuMode.Name = "可视化模式下的几何元素。";
+TPSRuleTTRSVisuMode.Help = "应用 3D 标注的用户曲面或曲面组中至少有一个部件处于可视化模式。只有应用标注的几何图形处于设计模式下时，才能检查此标注的有效性状态。";
+TPSRuleTTRSVisuMode.CorrectFunction = "请将相关零件或产品置于设计模式下。";
+
+TPSRuleTTRSUnresolved.Name = "未加载的几何元素。";
+TPSRuleTTRSUnresolved.Help = "应用 3D 标注的用户曲面或曲面组中至少有一个部件未在会话中加载。只有应用标注的几何图形加载到会话中后，才能检查其标注的有效性状态。";
+TPSRuleTTRSUnresolved.CorrectFunction = "请将相关零件加载到会话中。";
+
+TPSRuleTTRSInvalidComp.Name = "无效的部件。";
+TPSRuleTTRSInvalidComp.Help = "应用 3D 标注的曲面组中至少有一个无效部件。";
+TPSRuleTTRSInvalidComp.CorrectFunction = "请使用“几何图形连接管理”命令修改、替换或移除无效的部件。";
+
+TPSRuleTTRSDestroyedComp.Name = "已删除的几何部件。";
+TPSRuleTTRSDestroyedComp.Help = "应用 3D 标注的用户曲面中至少有一个部件已被删除。";
+TPSRuleTTRSDestroyedComp.CorrectFunction = "请使用“几何图形连接管理”命令替换或移除已删除的部件。";
+
+TPSRuleTTRSModifClass.Name = "数学规则更改。";
+TPSRuleTTRSModifClass.Help = "用户曲面或曲面组的数学规则发生变化（例如：以前是平面规则的曲面现在是圆柱面规则，或者以前平行的圆柱面组现在不再平行，等等）。此更改还未自动验证，不应该发生这种情况。";
+TPSRuleTTRSModifClass.CorrectFunction = "请与您当地的技术支持人员联系，告之该事件。";
+
+TPSRuleTTRSModifAssocCase.Name = "相关定位情况更改。";
+TPSRuleTTRSModifAssocCase.Help = "应用 3D 标注的两个用户曲面或曲面组的相关定位情况已经更改。此更改还未自动验证，不应该发生这种情况。";
+TPSRuleTTRSModifAssocCase.CorrectFunction = "请与您当地的技术支持人员联系，告之该事件。";
+
+TPSRuleTTRSModifAdmissibleType.Name = "曲面组类型更改。";
+TPSRuleTTRSModifAdmissibleType.Help = "曲面组的类型已更改（例如：一组孔已不再是一组孔，或一组开槽已不再是一组开槽，等等）。";
+TPSRuleTTRSModifAdmissibleType.CorrectFunction = "请使用“几何图形连接管理”命令修改、替换或移除曲面组中的部件。";
+
+TPSRuleTTRSModifSurfCanonicity.Name = "曲面规则更改。";
+TPSRuleTTRSModifSurfCanonicity.Help = "用户曲面或曲面组的曲面规则发生变化（例如：平面部件不再共面，圆柱面部件不再同轴或尺寸不再相同，或者孔不再是矩形或延长孔，等等）。此更改还未自动验证，不应该发生这种情况。";
+TPSRuleTTRSModifSurfCanonicity.CorrectFunction = "请与您当地的技术支持人员联系，告之该事件。";
+
+TPSRuleTTRSModifFoS.Name = "尺寸特征更改。";
+TPSRuleTTRSModifFoS.Help = "用户曲面或曲面组不再具有相同尺寸特征（例如：圆柱面组的部件尺寸发生变化，开槽组的部件尺寸发生变化，等等）。此更改还未自动验证，不应该发生这种情况。";
+TPSRuleTTRSModifFoS.CorrectFunction = "请与您当地的技术支持人员联系，告之该事件。";
+
+TPSRuleTTRSInvalidRepresented.Name = "无效的几何展示特征。";
+TPSRuleTTRSInvalidRepresented.Help = "用来表示用户曲面或曲面组的几何元素与其本身不一致（不应锁定任何其自由度）。";
+TPSRuleTTRSInvalidRepresented.CorrectFunction = "请通过编辑规格来更改几何展示特征，或者修改其位置，使之与所展示的几何图形一致。";
+
+TPSRuleTTRSNotPresent.Name = "无效的几何图形。";
+TPSRuleTTRSNotPresent.Help = "无几何图形与此标注关联。";
+TPSRuleTTRSNotPresent.CorrectFunction = "请销毁此标注并创建一个新标注。";
+
+//IFB IR:- 0666366 09:06:04 START
+TPSRuleTTRSIgnored.Name = "几何图形无效更改";
+TPSRuleTTRSIgnored.Help = "对 3D 标注几何图形新建的更改无效。";
+TPSRuleTTRSIgnored.CorrectFunction = "将忽略几何图形的更改。";
+//IFB IR:- 0666366 09:06:04 END
+
+TPSRuleLeaderAssocNotConnected.Name = "关联的引出线已断开连接";
+TPSRuleLeaderAssocNotConnected.Help  = "关联的引出线未指向参考的几何图形";
+TPSRuleLeaderAssocNotConnected.CorrectFunction  = "请更改标注位置以重新连接至引出线";
+
+TPSRuleTypeNotAllowedRegardingTTRS.Name = "公差类型和几何图形兼容性";
+TPSRuleTypeNotAllowedRegardingTTRS.Help  = "公差类型不能用于标注公差的几何图形";
+TPSRuleTypeNotAllowedRegardingTTRS.CorrectFunction  = "请编辑公差或几何图形";
+
+TPSRuleTypeKORegardingTTRSOrPlane.Name = "公差类型和几何图形兼容性";
+TPSRuleTypeKORegardingTTRSOrPlane.Help  = "公差类型不允许用于标注公差的几何图形和标注平面";
+TPSRuleTypeKORegardingTTRSOrPlane.CorrectFunction  = "请编辑公差或几何图形，或将标注传送到另一视图。";
+
+//----------------------------------------------------------------------- Datum
+
+TPSRuleDatumLabelUnicity.Name = "基准标注唯一性";
+TPSRuleDatumLabelUnicity.Help = "公差集中的基准标注应是唯一的";
+TPSRuleDatumLabelUnicity.CorrectFunction = "请编辑基准标注，并用尚未使用过的标注替换它";
+
+TPSRuleDatumUpperCase.Name = "基准标注大写字母";
+TPSRuleDatumUpperCase.Help = "基准标注应当仅包含大写字母（大写） ";
+TPSRuleDatumUpperCase.CorrectFunction = "请编辑基准标注，用大写字母替换相应的小写字母 ";
+
+TPSRuleDatumAuthorizedCharacter.Name = "已授权或已建议的基准标注字母";
+TPSRuleDatumAuthorizedCharacter.Help = "根据 ASME Y14.5M-1994 标准，\n基准标注中不应包含大写字母 I、O 或 Q。";
+TPSRuleDatumAuthorizedCharacter.CorrectFunction = "请编辑和替换基准标注";
+//En fait, cette règle correspond plus à un conseil informatif qu'à une interdiction
+//Il faudra donc prévoir différents niveaux de règles
+
+TPSRuleDatumIdenticalCharacter.Name = "相同的基准标注字母";
+TPSRuleDatumIdenticalCharacter.Help = "必要时，基准标注应由相同字母组成（ISO 标准） ";
+TPSRuleDatumIdenticalCharacter.CorrectFunction = "请编辑基准标注并检查字符重复情况";
+
+TPSRuleDatumLabelLength.Name = "基准标注长度";
+TPSRuleDatumLabelLength.Help = "基准标注不应多于两个字母（ASME 标准） ";
+TPSRuleDatumLabelLength.CorrectFunction = "请编辑和检查基准标注长度";
+
+TPSRuleTargetsOfDatumStatus.Name ="基准目标的状态";
+TPSRuleTargetsOfDatumStatus.Help ="仅当基准的所有目标都有效时，基准才有效";
+TPSRuleTargetsOfDatumStatus.CorrectFunction = "请编辑或修改基准目标，使其有效";
+
+TPSRuleDatumPlane.Name = "基准棱形或复形";
+TPSRuleDatumPlane.Help = "应为复形或棱形曲面基准特征定义基准平面。";
+TPSRuleDatumPlane.CorrectFunction = "请编辑和设置基准平面。";
+
+//---------------------------------------------------------------------- Target
+
+TPSRuleTargetLabelUnicity.Name = "目标标注唯一性";
+TPSRuleTargetLabelUnicity.Help = "公差集中的目标标注应是唯一的";
+TPSRuleTargetLabelUnicity.CorrectFunction = "请编辑目标标注，并用尚未使用过的标注替换它";
+
+TPSRuleTargetReference.Name = "参考现有基准标注的基准目标标注";
+TPSRuleTargetReference.Help = "基准目标标注应参考现有的基准标注";
+TPSRuleTargetReference.CorrectFunction = "请编辑基准目标标注并检查基准标注参考";
+
+TPSRuleTargetReferenceNonUnique.Name = "参考唯一基准标注的基准目标标注";
+TPSRuleTargetReferenceNonUnique.Help = "基准目标标注应参考唯一的基准标注";
+TPSRuleTargetReferenceNonUnique.CorrectFunction = "请编辑基准目标标注并检查基准标注参考";
+
+TPSRuleTargetNumber.Name = "以正数结尾的基准目标标注";
+TPSRuleTargetNumber.Help = "基准目标标注应以正数结尾 ";
+TPSRuleTargetNumber.CorrectFunction = "请编辑并检查基准目标标注的编号 ";
+
+TPSRuleTargetSequentialNumbers.Name = "基准目标序号 ";
+TPSRuleTargetSequentialNumbers.Help = "用于标识基准目标的编号应从 1 开始并且按顺序排列";
+TPSRuleTargetSequentialNumbers.CorrectFunction = "检查基准目标标注顺序是否从 1 开始";
+
+TPSRuleTargetTolValue.Name = "基准目标尺寸";
+TPSRuleTargetTolValue.Help = "必须严格保证基准目标尺寸为正。";
+TPSRuleTargetTolValue.CorrectFunction = "请编辑基准目标并正确设置尺寸";
+
+TPSRuleTargetGeomIncludedInDatum.Name = "包含在基准中的基准目标";
+TPSRuleTargetGeomIncludedInDatum.Help = "基准目标几何图形必须完全包含在基准几何图形中。";
+TPSRuleTargetGeomIncludedInDatum.CorrectFunction = "请编辑或移动基准目标或基准几何图形。";
+
+TPSRuleTargetForm.Name = "基准目标形式";
+TPSRuleTargetForm.Help = "目标几何图形（曲线或曲面）应自己定义基准目标限制区域的形式和大小。";
+TPSRuleTargetForm.CorrectFunction = "编辑或重新创建基准目标";
+
+//------------------------------------------------------------- Reference Frame
+
+TPSRuleRefFrameLabelUnicity.Name = "基准参考系标注唯一性";
+TPSRuleRefFrameLabelUnicity.Help = "公差集中的基准参考系标注应是唯一的";
+TPSRuleRefFrameLabelUnicity.CorrectFunction = "请编辑参考系";
+
+TPSRuleDatumsOfRefFrameExist.Name = "参考现有基准的基准参考系";
+TPSRuleDatumsOfRefFrameExist.Help = "基准参考系应参考现有基准";
+TPSRuleDatumsOfRefFrameExist.CorrectFunction = "请编辑基准参考系并移除 ";
+
+TPSRuleDatumsOfRefFrameStatus.Name = "基准状态";
+TPSRuleDatumsOfRefFrameStatus.Help = "仅当基准参考系的所有基准都有效时，基准参考系才有效";
+TPSRuleDatumsOfRefFrameStatus.CorrectFunction = "请编辑基准使其有效";
+
+//------------------------------------------------------ Geometrical Tolerances
+
+TPSRuleGDTPlnConsist.Name = "平面度规格与指定的几何图形之间的一致性";
+TPSRuleGDTPlnConsist.Help = "平面度规格应该应用在平面类的曲面上";
+TPSRuleGDTPlnConsist.CorrectFunction = "请指定正确的形状公差";
+
+TPSRuleGDTTolValue.Name = "正公差值";
+TPSRuleGDTTolValue.Help = "仅当指定 MMC 或 LMC 修改器时，公差值才能为空，否则公差值必须为正。";
+TPSRuleGDTTolValue.CorrectFunction = "请编辑 GDT 并正确设置公差值";
+
+//Trois points sont vérifiés dans la TPSRuleGDTTolValue . Pour la granularité prévoir 3 entités différentes :
+//TPSRuleGDTTolValue pour la vérification de positive value
+
+TPSRuleGDTTolValueNull.Name = "空公差值的使用";
+TPSRuleGDTTolValueNull.Help = " 仅当 MMC 或 LMC 修改器指定公差值为空时，公差值才能为空。 ";
+TPSRuleGDTTolValueNull.CorrectFunction = "请通过 MMC 或 LMC 修改器指定公差值为空，或如果无需修改器，则请修改公差值。 ";
+
+TPSRuleGDTTolValueRestrict.Name = "公差值范围";
+TPSRuleGDTTolValueRestrict.Help = "对复合规格而言，第二公差值应低于第一公差值 ";
+TPSRuleGDTTolValueRestrict.CorrectFunction = "请在复合 GDT 中，设置第二公差值，使其小于第一公差值 ";
+
+TPSRuleGDTTolElemModifiers.Name = "已标注公差元素的修改器";
+TPSRuleGDTTolElemModifiers.Help = "- 对所有形状公差规格而言，都可以单独应用并指定自由状态符号。
+- 对所有形状公差规格（如线性轮廓、平面和位置规格）而言，都可以单独应用并指定最大/最小实体条件 (M/LMC)。
+- 对所有定向、定位和跳动度规格而言，若满足如下限定，则公差带允许多个修改器：
+* 第一，MMC、LMC 或 S（仅限 ASME 标准）条件
+* 第二，自由状态符号（如必要）
+* 第三，投影公差带符号（如必要）
+* 第四，统计公差符号（如必要）
+- 只能为基准元素指定 MMC、LMC 或 S（仅限 ASME 标准）条件";
+TPSRuleGDTTolElemModifiers.CorrectFunction = "请编辑 GDT 并调整修改器规格";
+
+//Sept points sont vérifiés dans la TPSRuleGDTTolElemModifiers. Pour la granularité, prévoir 6 régles suplémentaires
+//TPSRuleGDTTolElemModifiers pour any form specification, the Free State Symbol may be applied and specified alone
+
+//TPSRuleGDTTolElemFormModifier.Name = "maximum//least material condition application on form specification. ";
+//TPSRuleGDTTolElemFormModifier.Help = " For any Form specification, such as linear profile, planar and position specifications, the Maximum Material Condition (MMC) may be applied and specified alone. ";
+//TPSRuleGDTTolElemFormModifier.CorrectFunction = " Apply and specify alone the Maximum/Least Material Condition (MMC). ";
+
+//TPSRuleGDTTolElemFirstModifierOnOLR.Name = "MMC or LMC or S condition application for orientation, location and runout specifications";
+//TPSRuleGDTTolElemFirstModifierOnOLR.Help = " For any Orientation, Location and Runout specification, the first condition shall be MMC or LMC or S (ASME standard only). ";
+//TPSRuleGDTTolElemFirstModifierOnOLR.CorrectFunction = " Set first MMC or LMC or S (ASME only) condition for orientation, location and runout specifications. ";
+
+//TPSRuleGDTTolElemSecondModifierOnOLR.Name = "free state symbol application for orientation, location and runout specifications";
+//TPSRuleGDTTolElemSecondModifierOnOLR.Help = " For any Orientation, Location and Runout specification, the second condition shall be the free state symbol, if necessary. ";
+//TPSRuleGDTTolElemSecondModifierOnOLR.CorrectFunction = " Set second the free state symbol, if necessary, for orientation, location and runout specifications. ";
+
+//TPSRuleGDTTolElemThirdModifierOnOLR.Name = "projected tolerance zone symbol application for orientation, location and runout specifications";
+//TPSRuleGDTTolElemThirdModifierOnOLR.Help = " For any Orientation, Location and Runout specification, the third option shall be the projected tolerance zone symbol, if necessary. ";
+//TPSRuleGDTTolElemThirdModifierOnOLR.CorrectFunction = " Set third the projected tolerance zone symbol, if necessary, for orientation, location and runout specifications. ";
+
+//TPSRuleGDTTolElemFourthModifierOnOLR.Name = "statistical tolerancing symbol application for orientation, location and runout specifications";
+//TPSRuleGDTTolElemFourthModifierOnOLR.Help = " For any Orientation, Location and Runout specification, the fourth option shall be the statistical tolerancing symbol, if necessary. ";
+//TPSRuleGDTTolElemFourthModifierOnOLR.CorrectFunction = " Set fourth the statistical tolerancing symbol, if necessary, for orientation, location and runout specifications. ";
+
+//TPSRuleDatumElemModifiers.Name = "modifier specification on datum elements";
+//TPSRuleDatumElemModifiers.Help = " Only MMC (M symbol) or LMC (L symbol) or S (ASME standard only) conditions shall be specified on datum elements. ";
+//TPSRuleDatumElemModifiers.CorrectFunction = "Specify only MMC or LMC or S modifiers on datum elements";
+
+TPSRuleGDTRefExist.Name = "GDT 中指定的基准一致性和基准唯一性";
+TPSRuleGDTRefExist.Help = "- 在参考系//GDT 中指定的基准应该在标注集中定义。
+- 在同一个参考系//GDT 中，不能多次重复指定基准";
+TPSRuleGDTRefExist.CorrectFunction = "请编辑标注以指定现有的基准和//或创建缺少的基准";
+
+//Deux points sont vérifiés dans la TPSRuleGDTRefExist . Pour la granularité, prévoir 1 régle suplémentaire
+//TPSRuleGDTRefExist pour l'existence des datums spécifiés dans le GDT (1 seule fois chacun)
+
+TPSRuleGDTDatUnicity.Name = "给定 GDT 中的唯一基准规格 ";
+TPSRuleGDTDatUnicity.Help = " 在同一个参考系/GDT 中不能多次重复指定基准";
+TPSRuleGDTDatUnicity.CorrectFunction = "请在给定 GDT 中仅指定一次基准 ";
+
+TPSRuleGDTDoubleRow.Name = "复合 GDT 的语法";
+TPSRuleGDTDoubleRow.Help = "- 任何已指定基准的定向、定位、跳动度规格和轮廓都可以组成复合规格。
+- 在第二公差框//GDT 中指定的基准应已在第一 GDT 中指定。
+- 已标注公差元素的修改器在复合 GDT 的两个规格中应相同。
+- 基准的修改器在复合 GDT 的两个规格中应相同 ";
+TPSRuleGDTDoubleRow.CorrectFunction = "请检查复合公差中的 GDT 一致性";
+
+//Quatre points sont vérifiés dans la TPSRuleGDTTolElemModifiers. Pour la granularité, prévoir 3 régles suplémentaires
+//TPSRuleGDTDoubleRow : For Any orientation, location, runout specification and profile specified with datum can be grouped into composite specifications.
+
+//TPSRuleGDTDoubleRowDatCorresp.Name = "composite GDT datum correspondance ";
+//TPSRuleGDTDoubleRowDatCorresp.Help = " For composite specifications, the datums specified in the second GDT shall be specified in the first GDT";
+//TPSRuleGDTDoubleRowDatCorresp.CorrectFunction = " Check the datum correspondance in the composite GDT ";
+
+//TPSRuleGDTDoubleRowZTModCorresp.Name= " toleranced-element modifier correspondance in composite GDT";
+//TPSRuleGDTDoubleRowZTModCorresp.Help = " For composite specifications, the modifiers on the toleranced element shall be the same in both specifications. ";
+//TPSRuleGDTDoubleRowZTModCorresp.CorrectFunction = " Check the toleranced-element modifier correspondance in composite GDT ";
+
+//TPSRuleGDTDoubleRowZTModCorresp.Name= " datum-element modifier correspondance in composite GDT";
+//TPSRuleGDTDoubleRowDatModCorresp.Help = " For composite specifications, the modifiers on datums shall be the same in both specifications ";
+//TPSRuleGDTDoubleRowDatModCorresp.CorrectFunction = " Check the datum modifier correspondance in composite GDT ";
+
+//TPSRuleGDTDoubleRowFormMod.Name = " ??? ";
+//TPSRuleGDTDoubleRowFormMod.Help = " For composite form specifications (no datum specified), the modifiers on the toleranced element may be different ";
+//TPSRuleGDTDoubleRowFormMod.CorrectFunction = " the toleranced-element modifiers may be different in composite form GDT ";
+//En fait, cette règle correspond plus à un conseil informatif qu'à une interdiction
+//Il faudra donc prévoir différents niveaux de règles
+
+TPSRuleGDTRestrictValue.Name = "公差值限制的应用";
+TPSRuleGDTRestrictValue.Help = " - 应严格保证公差值限制为正。
+- 圆度公差值限制应以角度定义。
+- 圆度的角度公差值限制应为 0 至 360 度之间的值。";
+TPSRuleGDTRestrictValue.CorrectFunction = "请编辑标注并修改公差值限制";
+
+//Trois points sont vérifiés dans la TPSRuleGDTRestrictValue. Pour la granularité, prévoir 2 régles suplémentaires
+//TPSRuleGDTRestrictValue.Help  pour : The tolerance value restriction shall be strictly positive.
+
+//TPSRuleGDTRestrictAngularValue.Name = " ??? ";
+//TPSRuleGDTRestrictAngularValue.Help = " The circularity tolerance value restriction may be defined in degree. ";
+//TPSRuleGDTRestrictAngularValue.CorrectFunction = " Set the circularity tolerance value restriction in degree, if necessary. ";
+//En fait, cette règle correspond plus à un conseil informatif qu'à une interdiction
+//Il faudra donc prévoir différents niveaux de règles
+
+//TPSRuleGDTRestrictRangeValue.Name = "Circularity angular tolerance value range ";
+//TPSRuleGDTRestrictRangeValue.Help = " The circularity tolerance value restriction shall be a 0-to-360 degree value. ";
+//TPSRuleGDTRestrictRangeValue.CorrectFunction = " Set the circularity angular tolerance value between 0° and 360°. ";
+
+//------------------------------ Geometrical Tolerances Without Reference Frame
+
+TPSRulePlaneDirection.Name = "公差带方向";
+TPSRulePlaneDirection.Help = "此公差带方向无效";
+TPSRulePlaneDirection.CorrectFunction = "请选择另一标注平面或另一方向";
+
+//--------------------------------- Geometrical Tolerances With Reference Frame
+
+TPSRuleRefFrameOfTolExist.Name = "参考现有基准参考系的形位公差";
+TPSRuleRefFrameOfTolExist.Help = "形位公差应参考现有的基准参考系";
+TPSRuleRefFrameOfTolExist.CorrectFunction = "请将另一基准参考系关联到此形位公差";
+
+TPSRuleRefFrameOfTolStatus.Name = "基准参考系状态";
+TPSRuleRefFrameOfTolStatus.Help = "只有在形位公差的基准参考系有效时，该形位公差才有效";
+TPSRuleRefFrameOfTolStatus.CorrectFunction = "更正基准参考系";
+
+//--------------------------------------------------------- Annotation Drafting
+
+TPSRuleDraftingAnnotation.Name = "定义标注";
+TPSRuleDraftingAnnotation.Help = "指定的标注已损坏";
+TPSRuleDraftingAnnotation.CorrectFunction  = "请删除并尝试重新创建标注 ";
+
+//------------------------------------------------------------------- Dimension
+
+TPSRuleLimitsOfSize.Name = "尺寸大小的公差限制";
+TPSRuleLimitsOfSize.Help = "公差上限应大于公差下限";
+TPSRuleLimitsOfSize.CorrectFunction = "请调整公差限制";
+
+TPSRuleSingleLimitSpecifiedValue.Name = "单一限制指定的值";
+TPSRuleSingleLimitSpecifiedValue.Help = "应严格保证单一限制指定的值为正";
+TPSRuleSingleLimitSpecifiedValue.CorrectFunction  = "请修改单一限制指定的值";
+
+TPSRuleDimensionValue.Name = "结果尺寸值";
+TPSRuleDimensionValue.Help = "结果尺寸值应为正";
+TPSRuleDimensionValue.CorrectFunction  = "请调整公差限制";
+
+TPSRuleStringUExist.Name = "定义参数 String_U";
+TPSRuleStringUExist.Help = "参数 string_U 应存在";
+TPSRuleStringUExist.CorrectFunction  = "请定义参数 string_U";
+
+TPSRuleStringLExist.Name = "定义参数 String_L";
+TPSRuleStringLExist.Help = "参数 string_L 应存在";
+TPSRuleStringLExist.CorrectFunction  = "请定义参数 string_L";
+
+TPSRuleStringULengthType.Name = "参数 string_U 的类型";
+TPSRuleStringULengthType.Help = "参数 string_U 应为长度类型";
+TPSRuleStringULengthType.CorrectFunction  = "请修改参数 string_U";
+
+TPSRuleStringLLengthType.Name = "参数 string_L 的类型";
+TPSRuleStringLLengthType.Help = "参数 string_L 应为长度类型";
+TPSRuleStringLLengthType.CorrectFunction  = "请修改参数 string_L";
+
+TPSRuleAlphaTolerance.Name = "定义公差";
+TPSRuleAlphaTolerance.Help = "指定的公差应按规范进行定义";
+TPSRuleAlphaTolerance.CorrectFunction  = "请选择另一公差";
+
+//------------------------------------------------------------- Basic Dimension
+
+TPSRuleFeatureLink.Name = "特征上下文有效性。";
+TPSRuleFeatureLink.Help = "采用当前带框尺寸的特征不合适或不存在。";
+TPSRuleFeatureLink.CorrectFunction = "请修改或重新创建上下文元素。";
+
+TPSRuleResAreaDatumTarget.Name = "无效的带框（基本）尺寸元素。";
+TPSRuleResAreaDatumTarget.Help = "最终必须有一个带框（基本）尺寸元素属于受限/目标几何图形。";
+TPSRuleResAreaDatumTarget.CorrectFunction  = "请使用“几何图形连接管理”命令更改或删除应用带框（基本）尺寸的几何图形。";
+
+TPSRuleDRFInSupport.Name = "无效的带框（基本）尺寸元素。";
+TPSRuleDRFInSupport.Help = "带框（基本）尺寸元素必须属于定义基准参考系的基准特征。";
+TPSRuleDRFInSupport.CorrectFunction  = "请使用“几何图形连接管理”命令更改或删除应用带框（基本）尺寸的几何图形。";
+
+TPSRuleDRFAutoInSupport.Name = "无效的带框（基本）尺寸元素。";
+TPSRuleDRFAutoInSupport.Help = "内部大小特征尺寸不能用作带框（基本）尺寸。";
+TPSRuleDRFAutoInSupport.CorrectFunction  = "请删除带框（基本）尺寸。";
+
+TPSRuleTolGeomType.Name = "形位公差无需带框（基本）尺寸。";
+TPSRuleTolGeomType.Help = "同轴度/同心度、对称、垂直、平行、圆跳动度、全跳动度、平面度、直线度、圆度（球度）
+和圆柱度形位公差无需带框（基本）尺寸。";
+TPSRuleTolGeomType.CorrectFunction  = "请删除带框（基本）尺寸。";
+
+TPSRuleTolGeomInSupport.Name = "无效的带框（基本）尺寸元素。";
+TPSRuleTolGeomInSupport.Help = "带框（基本）尺寸元素必须属于已标注公差的特征，或属于定义最终所用基准参考系的基准特征。
+它们不能只属于基准特征。";
+TPSRuleTolGeomInSupport.CorrectFunction  = "请使用“几何图形连接管理”命令更改或删除应用带框（基本）尺寸的几何图形。";
+
+TPSRuleTolGeomAutoInSupport.Name = "无效的带框（基本）尺寸元素。";
+TPSRuleTolGeomAutoInSupport.Help = "内部大小特征尺寸不能用作带框（基本）尺寸。";
+TPSRuleTolGeomAutoInSupport.CorrectFunction  = "请删除带框（基本）尺寸。";
+
+TPSRuleTolGeomAngularity.Name = "倾斜度公差的带框（基本）尺寸类型无效。";
+TPSRuleTolGeomAngularity.Help = "已标注公差的特征元素和基准特征元素之间的带框（基本）尺寸只能作为倾斜度公差的角度类型。";
+TPSRuleTolGeomAngularity.CorrectFunction  = "请删除带框（基本）尺寸。";
+
+TPSRuleFeatureUnicity.Name = "无效的带框（基本）尺寸元素。";
+TPSRuleFeatureUnicity.Help = "对特征上下文而言，带框（基本）尺寸必须是唯一的。";
+TPSRuleFeatureUnicity.CorrectFunction = "请删除带框（基本）尺寸。";
+
+//------------------------------------------------------ Constructed Geometries
+
+// Basic rules
+
+TPSRuleCGAssocCaseTTRS.Name = "几何展示与所表示的特征之间的关联无效。";
+TPSRuleCGAssocCaseTTRS.Help = 
+"用来表示用户曲面\n
+或曲面组的几何元素与其本身不一致\n
+（不应锁定其任何自由度）。";
+TPSRuleCGAssocCaseTTRS.CorrectFunction = "请修改所表示的几何图形或其位置\n
+或使用“几何图形连接管理”命令修改所表示的用户曲面\n
+或使用“构造几何图形管理”命令修改所表示的链接。";
+
+TPSRuleCGRepTTRS.Name = "所表示的用户曲面无效。";
+TPSRuleCGRepTTRS.Help =
+"表示用户曲面或曲面组\n
+的几何元素必须有效。";
+TPSRuleCGRepTTRS.CorrectFunction = "请修改所表示的几何图形\n
+或使用“几何图形连接管理”命令修改所表示的用户曲面\n
+或使用“构造几何图形管理”命令修改所表示的链接。";
+
+// Point rules
+
+TPSRuleCGPointCanonicity.Name = "用于定义点几何图形的上下文用户曲面规则无效。";
+TPSRuleCGPointCanonicity.Help = "不得更改上下文用户曲面规则。";
+TPSRuleCGPointCanonicity.CorrectFunction = "请修改所表示的几何图形\n
+或使用“几何图形连接管理”命令修改所表示的上下文用户曲面\n
+或使用“构造几何图形管理”命令修改所表示的链接。";
+
+TPSRuleCGInterPoint.Name = "用于定义相交点几何图形的上下文用户曲面无效。";
+TPSRuleCGInterPoint.Help =
+"上下文用户曲面必须为节点，该节点有且仅有两个部件。\n
+一个部件必须具有平面类和平面规则，另一个部件必须具有旋转曲面类或圆柱面类。\n
+而且必须相交。";
+TPSRuleCGInterPoint.CorrectFunction = "请修改所表示的几何图形\n
+或使用“几何图形连接管理”命令修改所表示的用户曲面\n
+或使用“构造几何图形管理”命令修改所表示的链接。";
+
+// Axis rules
+
+TPSRuleCGAxisClass.Name = "用于定义轴几何图形的上下文用户曲面规则无效。";
+TPSRuleCGAxisClass.Help = "不得更改上下文用户曲面规则。";
+TPSRuleCGAxisClass.CorrectFunction = "请修改所表示的几何图形\n
+或使用“几何图形连接管理”命令修改所表示的上下文用户曲面\n
+或使用“构造几何图形管理”命令修改所表示的链接。";
+
+TPSRuleCGInterAxis.Name = "用于定义相交轴几何图形的上下文用户曲面无效。";
+TPSRuleCGInterAxis.Help =
+"上下文用户曲面必须为节点，该节点有且仅有两个部件。\n
+每个部件必须具有平面类和平面规则，\n
+而且必须相交。";
+TPSRuleCGInterAxis.CorrectFunction = "请修改所表示的几何图形\n
+或使用“几何图形连接管理”命令修改所表示的用户曲面\n
+或使用“构造几何图形管理”命令修改所表示的链接。";
+
+// Circle rules
+
+TPSRuleCGCircleCanonicity.Name = "用于定义圆几何图形的上下文用户曲面规则无效。";
+TPSRuleCGCircleCanonicity.Help = "不得更改上下文用户曲面规则。";
+TPSRuleCGCircleCanonicity.CorrectFunction = "请修改所表示的几何图形\n
+或使用“几何图形连接管理”命令修改所表示的上下文用户曲面\n
+或使用“构造几何图形管理”命令修改所表示的链接。";
+
+TPSRuleCGCircleSupport.Name = "用于定义圆几何图形的上下文平面无效。";
+TPSRuleCGCircleSupport.Help = "上下文平面必须有效。";
+TPSRuleCGCircleSupport.CorrectFunction = "请检查上下文平面有效性以获得正常状态。";
+
+// Curve rules
+
+TPSRuleCGCurveDistinct.Name = "用于定义曲线几何图形的上下文点位置无效。";
+TPSRuleCGCurveDistinct.Help = "曲线定义点的位置不能相同。";
+TPSRuleCGCurveDistinct.CorrectFunction = "请修改所表示的几何图形\n
+或使用“几何图形连接管理”命令修改所表示的用户曲面\n
+或使用“构造几何图形管理”命令修改所表示的链接。";
+
+TPSRuleCGCurveElements.Name = "用于定义曲线几何图形的上下文点数无效。";
+TPSRuleCGCurveElements.Help = "曲线定义必须至少具备两个点。";
+TPSRuleCGCurveElements.CorrectFunction = "请修改所表示的几何图形\n
+或使用“几何图形连接管理”命令修改所表示的用户曲面\n
+或使用“构造几何图形管理”命令修改所表示的链接。";
+
+// Plane rules
+
+TPSRuleCGPlaneCanonicity.Name = "用于定义平面几何图形的上下文用户曲面规则无效。";
+TPSRuleCGPlaneCanonicity.Help = "不得更改上下文用户曲面规则。";
+TPSRuleCGPlaneCanonicity.CorrectFunction = "请修改所表示的几何图形\n
+或使用“几何图形连接管理”命令修改所表示的上下文用户曲面\n
+或使用“构造几何图形管理”命令修改所表示的链接。";
+
+TPSRuleCGAnglePlane.Name = "用于定义角平面几何图形的上下文用户曲面无效。";
+TPSRuleCGAnglePlane.Help =
+"上下文用户曲面必须为节点，该节点有且仅有两个部件。\n
+一个部件必须具有平面类，另一个部件必须具有旋转曲面类或圆柱面类，\n
+而且平面和直线必须平行。";
+TPSRuleCGAnglePlane.CorrectFunction = "请修改所表示的几何图形\n
+或使用“几何图形连接管理”命令修改所表示的用户曲面\n
+或使用“构造几何图形管理”命令修改所表示的链接。";
+
+TPSRuleCGMedianPlane.Name = "用于定义中间平面几何图形的上下文用户曲面无效。";
+TPSRuleCGMedianPlane.Help = 
+"上下文用户曲面必须为节点，该节点有且仅有两个部件。\n
+每个部件必须具有平面类和平面规则，\n
+而且较高级别 TTRS 必须具有棱柱面或平面类。";
+TPSRuleCGMedianPlane.CorrectFunction = "请修改所表示的几何图形\n
+或使用“几何图形连接管理”命令修改所表示的用户曲面\n
+或使用“构造几何图形管理”命令修改所表示的链接。";
+
+TPSRuleCGPassingPlane.Name = "用于定义穿越平面几何图形的上下文用户曲面无效。";
+TPSRuleCGPassingPlane.Help = "
+上下文用户曲面的所有几何部件中必须包括：\n
+1.两个共面平面\n
+2.或一个平面和一条共面直线\n
+3.或一个平面和一个共面点\n
+4.或两条平行或相交直线\n
+5.或一条直线和该直线外的一个点\n
+6.或三个点\n
+该选择将使结果穿越平面。\n
+最后要说明的是，上下文几何选择中所涉及的所有其他平面、直线和点必须共面，且包含在此结果穿越平面中。";
+TPSRuleCGPassingPlane.CorrectFunction = "请修改所表示的几何图形\n
+或使用“几何图形连接管理”命令修改所表示的用户曲面\n
+或使用“构造几何图形管理”命令修改所表示的链接。";
+
+// Thread rules
+
+TPSRuleCGThread.Name = "用于定义螺纹几何图形的上下文用户曲面无效。";
+TPSRuleCGThread.Help = 
+"上下文用户曲面必须为支持面。\n
+它必须具有圆柱面类，该类仅基于一个为零件螺纹特征的几何元素。";
+TPSRuleCGThread.CorrectFunction = "请修改所表示的几何图形\n
+或使用“几何图形连接管理”命令修改所表示的用户曲面\n
+或使用“构造几何图形管理”命令修改所表示的链接。";
+
+TPSRuleCGThreadHole.Name = "用于定义螺纹几何图形的上下文零件孔无效。";
+TPSRuleCGThreadHole.Help = "零件孔特征必须定义为螺纹孔。";
+TPSRuleCGThreadHole.CorrectFunction = "请编辑零件孔特征并设置螺纹孔行为。";
+
+TPSRuleCGThreadFeatValidity.Name = "用于定义螺纹几何图形的上下文用户曲面无效。";
+TPSRuleCGThreadFeatValidity.Help = "上下文用户曲面必须有效。";
+TPSRuleCGThreadFeatValidity.CorrectFunction = "请检查上下文用户曲面有效性以获得正常状态。";
+
+// Cylinder rules
+
+TPSRuleCGCylinder.Name = "用于定义旋转圆柱面几何图形的上下文用户曲面无效。";
+TPSRuleCGCylinder.Help =
+"对于上下文用户曲面的所有几何部件：\n
+前三条直线必须包含在全局棱柱面类中（平行直线位于公共旋转圆柱面上）。\n
+而且，上下文几何选择中的所有其他直线均为平行线，位于公共旋转圆柱面上。";
+TPSRuleCGCylinder.CorrectFunction = "请修改所表示的几何图形\n
+或使用“几何图形连接管理”命令修改所表示的用户曲面\n
+或使用“构造几何图形管理”命令修改所表示的链接。";
+
+TPSRuleCGRefCylinder.Name = "用于定义参考旋转圆柱面几何图形的上下文用户曲面无效。";
+TPSRuleCGRefCylinder.Help =
+"对于上下文用户曲面的所有几何部件：\n
+如果将第一直线作为参考：\n
+则上下文几何选择中的所有其他直线均为平行线，且位于公共旋转圆柱面上。";
+TPSRuleCGRefCylinder.CorrectFunction = "请修改所表示的几何图形\n
+或使用“几何图形连接管理”命令修改所表示的用户曲面\n
+或使用“构造几何图形管理”命令修改所表示的链接。";
+
+// ------------------------------------------------------------ Tabulated Value
+
+TPSTabulatedValue.Name = "列表值";
+TPSTabulatedValue.Help  = "字符串参数不存在。";
+TPSTabulatedValue.CorrectFunction  = "请创建一个字符串参数。";
+
+TPSBadTabulatedValue.Name = "错误的列表值";
+TPSBadTabulatedValue.Help  = "字符串参数不是长度类型。";
+TPSBadTabulatedValue.CorrectFunction  = "请创建一个长度类型的参数。";
+
+TPSUBRefinementValue.Name = "细化公差值";
+TPSUBRefinementValue.Help  = "细化公差值应该为正。
+只有指定了实体条件，细化公差值才能为空。";
+TPSUBRefinementValue.CorrectFunction  = "请通过 MMC 或 LMC 修改器指定公差值为空，
+如果无需修改器，则请修改公差值。";
+
+TPSUBRefinementValueLow.Name = "细化公差值";
+TPSUBRefinementValueLow.Help  = "细化公差值应小于主公差值。";
+TPSUBRefinementValueLow.CorrectFunction  = "请编辑 GDT 并正确设置公差值。";
+
+TPSUBLengthApplicationValue.Name = "长度应用";
+TPSUBLengthApplicationValue.Help  = "应严格保证公差的应用长度为正，
+并且小于模型无限。对于圆度公差来说，
+应严格保证公差的应用弧角度为正，
+并且小于 360°。";
+TPSUBLengthApplicationValue.CorrectFunction  = "请编辑 GDT 并正确设置应用长度。";
+
+// -------------------------------------------------------- Projected Tolerance
+
+TPSProjectedTolerance.Name = "投影公差带";
+TPSProjectedTolerance.Help  = "“投影公差带”选项不适用或不再适用于应用该选项的特征。
+此特征应由平行圆柱面组成。";
+TPSProjectedTolerance.CorrectFunction  = "请编辑公差或几何图形。";
+
+TPSProjectedToleranceReference.Name = "投影公差带";
+TPSProjectedToleranceReference.Help  = "未定义投影公差带参考。";
+TPSProjectedToleranceReference.CorrectFunction  = "请编辑公差或设置投影公差带参考。";
+
+TPSProjectedTolLength.Name = "投影公差带";
+TPSProjectedTolLength.Help  = "应严格保证公差的应用长度为正，
+并且小于模型无限。";
+TPSProjectedTolLength.CorrectFunction  = "请编辑 GDT 并正确设置长度值。";
+// ---------------------------------------------------------- Shifted Tolerance
+
+TPSShiftedTolerance.Name = "已转换的轮廓公差";
+TPSShiftedTolerance.Help  = "转换值不应等于公差值的一半，
+否则将不转换公差带，并且会使用
+一个常规公差带。";
+TPSShiftedTolerance.CorrectFunction  = "请编辑转换值。";
+
+// --------------------------------------------------------------- TangentPlane
+
+TPSTangentPlane.Name = "切线平面";
+TPSTangentPlane.Help  = "切线平面修改器不能用于非平面曲面。";
+TPSTangentPlane.CorrectFunction  = "请编辑几何图形。";
+
+// ---------------------------------------------------------------- LMC and MMC
+
+TPSReferenceFrameLMCMMC.Name = "基准特征的 LMC 或 MMC";
+TPSReferenceFrameLMCMMC.Help  = "在 LMC 或 MMC 修改器应用的每个
+公差特征元素上都应指定尺寸公差。";
+TPSReferenceFrameLMCMMC.CorrectFunction  = "请编辑 GDT 并正确设置修改器
+应用，或创建一个尺寸公差。";
+
+TPSTOLLMCMMC.Name = "公差特征的 LMC 或 MMC";
+TPSTOLLMCMMC.Help  = "在 LMC 或 MMC 修改器应用的每个
+公差特征元素上都应指定尺寸公差。";
+TPSTOLLMCMMC.CorrectFunction  = "请编辑 GDT 并正确设置修改器
+应用，或创建一个尺寸公差。";
+
+// --------------------------------------------------------------- AnnotationPlane
+
+TPSRuleAnnotationPlane.Name = "标注平面有效性";
+TPSRuleAnnotationPlane.Help = "标注平面不适用。";
+TPSRuleAnnotationPlane.CorrectFunction  = "请将此标注传送到另一视图。";
+
+// ------------------------------------------------------------- RestrictedArea
+
+TPSRuleRestrictedAreaUndefined.Name = "受限区域有效性";
+TPSRuleRestrictedAreaUndefined.Help = "限制区域未包含在受限区域内。";
+TPSRuleRestrictedAreaUndefined.CorrectFunction = "请缩小限制区域或将它投影到受限区域上。";
+
+TPSRuleRestrictedAreaDisjoined.Name = "受限区域有效性";
+TPSRuleRestrictedAreaDisjoined.Help = "限制区域未包含在受限区域内。";
+TPSRuleRestrictedAreaDisjoined.CorrectFunction = "请缩小限制区域或将它投影到受限区域上。";
+
+TPSRuleRestrictedAreaInContact.Name = "受限区域有效性";
+TPSRuleRestrictedAreaInContact.Help = "限制区域未包含在受限区域内。";
+TPSRuleRestrictedAreaInContact.CorrectFunction = "请缩小限制区域或将它投影到受限区域上。";
+
+// ------------------------------------------------------------- StandardSwitch
+
+TPSRuleStandardSwAsmeToIso.Name = "标准切换有效性";
+TPSRuleStandardSwAsmeToIso.Help = "不能将语义数据从 ASME/ANSI 标准转换到 ISO/JIS 标准。";
+TPSRuleStandardSwAsmeToIso.CorrectFunction = "请按照所需标准创建一个新标注。";
+
+TPSRuleStandardSwIsoToAsme.Name = "标准切换有效性";
+TPSRuleStandardSwIsoToAsme.Help = "不能将语义数据从 ISO/JIS 标准转换到 ASME/ANSI 标准。";
+TPSRuleStandardSwIsoToAsme.CorrectFunction = "请按照所需标准创建一个新标注。";
+
+// ------------------------------------------------------------- Teometrical Tolerance Display
+
+TPSRuleGeomTolDisplay.Name = "形位公差显示错误";
+TPSRuleGeomTolDisplay.Help = "形位公差的 3D 显示与其语义属性不一致。\n
+按照语义属性，公差带是一个圆柱面，但是\n
+在标注中并未显示直径符号。";
+TPSRuleGeomTolDisplay.CorrectFunction = "请编辑形位公差（将会自动添加直径符号），并且执行下列操作：\n
+1. 如果设计意图是要定义圆柱面形位公差带，请单击“是”按钮。\n
+2. 如果设计意图是要为 2 个平行平面定义公差带，请选择\n
+公差带方向并单击“确定”按钮。";
+

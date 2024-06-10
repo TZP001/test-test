@@ -1,0 +1,2308 @@
+// LGK Quick Revision 25/07/2002
+// LGK Revision 2	    15/10/2002
+// LGK Revision 3	    14/01/2003
+// NMB Revision 4       21/03/2003
+// NMB Revision all     24/03/2003
+
+
+DYS.Settings.Notify.Ttl.NegativeGridSpacing="Шаг";
+DYS.Settings.Notify.Msg.NegativeGridSpacing="Ввод положительного числа для задания шага сетки.";
+DYS.Settings.Notify.Ttl.NegativeGridSecStep="Деления";
+DYS.Settings.Notify.Msg.NegativeGridSecStep="Ввод положительного числа для задания делений.";
+
+DYS.SettingFrame.Title="Создание эскизов";
+
+SketcherUI.CATComDYSInit.SelectState.Message="Выбор плоскости, плоской грани или эскиза";
+
+SketcherUI.CATComDYSContour.FirstPoint.Message="Необходимо щелкнуть или выбрать начальную точку профиля";
+SketcherUI.CATComDYSContour.CreateLine.Message="Необходимо щелкнуть или выбрать конечную точку текущей прямой";
+SketcherUI.CATComDYSContour.CreateTgtArc.Message="Щелчок кнопкой мыши для создания конечной точки текущей касательной дуги";
+SketcherUI.CATComDYSContour.Create3PtsArc.Message="Щелчок кнопкой мыши для задания второй точки текущей дуги";
+SketcherUI.CATComDYSContour.Create3PtsArc.Create3PtsArcCmd.ThirdPoint.Message="Щелчок кнопкой мыши для создания конечной точки текущей дуги";
+SketcherUI.CATComDYSContour.SwitchBar.Line.Title="Линия";
+SketcherUI.CATComDYSContour.SwitchBar.Line.Help="Создание линии";
+SketcherUI.CATComDYSContour.SwitchBar.Line.LongHelp="Переход к команде Линия.";
+SketcherUI.CATComDYSContour.SwitchBar.Line.ShortHelp="Линия";
+SketcherUI.CATComDYSContour.SwitchBar.TgtArc.Title="Касательная дуга";
+SketcherUI.CATComDYSContour.SwitchBar.TgtArc.Help="Создание дуги по касательной к ранее созданной линии или дуге.Касательная дуга также может быть создана с помощью операции перетаскивания.";
+SketcherUI.CATComDYSContour.SwitchBar.TgtArc.LongHelp="Переход к команде Касательная дуга.";
+SketcherUI.CATComDYSContour.SwitchBar.TgtArc.ShortHelp="Касательная дуга";
+SketcherUI.CATComDYSContour.SwitchBar.3PtsArc.Title="Дуга по трём точкам";
+SketcherUI.CATComDYSContour.SwitchBar.3PtsArc.Help="Создание дуги путем указания на экране или выбора трех точек";
+SketcherUI.CATComDYSContour.SwitchBar.3PtsArc.LongHelp="Переход к команде Дуга по трем точкам.";
+SketcherUI.CATComDYSContour.SwitchBar.3PtsArc.ShortHelp="Дуга по трём точкам";
+// Gestion Visu Copilote
+SketcherUI.CATComDYSContour.FirstPt.Name.Title="Первая точка: ";
+SketcherUI.CATComDYSContour.FirstPt.Name.Help="Определение координат первой точки";
+SketcherUI.CATComDYSContour.FirstPt.Name.ShortHelp="Первая точка";
+SketcherUI.CATComDYSContour.FirstPt.Name.LongHelp="Определение координат первой точки.";
+SketcherUI.CATComDYSContour.FirstPt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSContour.FirstPt.ULabel.ShortHelp="Первая координата первой точки";
+SketcherUI.CATComDYSContour.FirstPt.UEditor.ShortHelp="Первая координата первой точки";
+SketcherUI.CATComDYSContour.FirstPt.VLabel.Title="В: ";
+SketcherUI.CATComDYSContour.FirstPt.VLabel.ShortHelp="Вторая координата первой точки";
+SketcherUI.CATComDYSContour.FirstPt.VEditor.ShortHelp="Вторая координата первой точки";
+
+
+SketcherUI.CATComDYSRect.FirstPoint.Message="Необходимо щелкнуть или выбрать первую точку для создания прямоугольника";
+SketcherUI.CATComDYSRect.EndPoint.Message="Необходимо щелкнуть или выбрать вторую точку для создания прямоугольника";
+// Gestion Visu Copilote
+SketcherUI.CATComDYSRect.StartPt.Name.Title="Первая точка: ";
+SketcherUI.CATComDYSRect.StartPt.Name.Help="Определение координат первой точки";
+SketcherUI.CATComDYSRect.StartPt.Name.ShortHelp="Первая точка";
+SketcherUI.CATComDYSRect.StartPt.Name.LongHelp="Определение координат первой точки.";
+SketcherUI.CATComDYSRect.StartPt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSRect.StartPt.ULabel.ShortHelp="Первая координата первой точки";
+SketcherUI.CATComDYSRect.StartPt.UEditor.ShortHelp="Первая координата первой точки";
+SketcherUI.CATComDYSRect.StartPt.VLabel.Title="В: ";
+SketcherUI.CATComDYSRect.StartPt.VLabel.ShortHelp="Вторая координата первой точки";
+SketcherUI.CATComDYSRect.StartPt.VEditor.ShortHelp="Вторая координата первой точки";
+SketcherUI.CATComDYSRect.EndPt.Name.Title="Вторая точка: ";
+SketcherUI.CATComDYSRect.EndPt.Name.Help="Определение координат второй точки";
+SketcherUI.CATComDYSRect.EndPt.Name.ShortHelp="Вторая точка";
+SketcherUI.CATComDYSRect.EndPt.Name.LongHelp="Определение координат второй точки.";
+SketcherUI.CATComDYSRect.EndPt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSRect.EndPt.ULabel.ShortHelp="Первая координата второй точки";
+SketcherUI.CATComDYSRect.EndPt.UEditor.ShortHelp="Первая координата второй точки";
+SketcherUI.CATComDYSRect.EndPt.VLabel.Title="В: ";
+SketcherUI.CATComDYSRect.EndPt.VLabel.ShortHelp="Вторая координата второй точки";
+SketcherUI.CATComDYSRect.EndPt.VEditor.ShortHelp="Вторая координата второй точки";
+SketcherUI.CATComDYSRect.Width.Dimension.EnglobingFrame.IntermediateFrame.Label.Title="Ширина: ";
+SketcherUI.CATComDYSRect.Width.Dimension.EnglobingFrame.IntermediateFrame.Label.Help="Определение ширины";
+SketcherUI.CATComDYSRect.Width.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp="Ширина";
+SketcherUI.CATComDYSRect.Width.Dimension.EnglobingFrame.IntermediateFrame.Label.LongHelp="Определение значения ширины.";
+SketcherUI.CATComDYSRect.Height.Dimension.EnglobingFrame.IntermediateFrame.Label.Title="Высота: ";
+SketcherUI.CATComDYSRect.Height.Dimension.EnglobingFrame.IntermediateFrame.Label.Help="Определение высоты";
+SketcherUI.CATComDYSRect.Height.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp="Высота";
+SketcherUI.CATComDYSRect.Height.Dimension.EnglobingFrame.IntermediateFrame.Label.LongHelp="Определение значения высоты.";
+
+SketcherUI.CATComDYSCenteredRect.initState.Message="Необходимо выбрать или щелкнуть точку для создания центра прямоугольника";
+SketcherUI.CATComDYSCenteredRect.pointSelected.Message="Необходимо щелкнуть или выбрать вторую точку для создания центрированного прямоугольника";
+SketcherUI.CATComDYSCenteredRect.StartPt.Name.Title="Первая точка: ";
+SketcherUI.CATComDYSCenteredRect.StartPt.Name.Help="Определение координат первой точки";
+SketcherUI.CATComDYSCenteredRect.StartPt.Name.ShortHelp="Первая точка";
+SketcherUI.CATComDYSCenteredRect.StartPt.Name.LongHelp="Определение координат первой точки.";
+SketcherUI.CATComDYSCenteredRect.StartPt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSCenteredRect.StartPt.ULabel.ShortHelp="Первая координата первой точки";
+SketcherUI.CATComDYSCenteredRect.StartPt.UEditor.ShortHelp="Первая координата первой точки";
+SketcherUI.CATComDYSCenteredRect.StartPt.VLabel.Title="В: ";
+SketcherUI.CATComDYSCenteredRect.StartPt.VLabel.ShortHelp="Вторая координата первой точки";
+SketcherUI.CATComDYSCenteredRect.StartPt.VEditor.ShortHelp="Вторая координата первой точки";
+SketcherUI.CATComDYSCenteredRect.EndPt.Name.Title="Вторая точка: ";
+SketcherUI.CATComDYSCenteredRect.EndPt.Name.Help="Определение второй точки";
+SketcherUI.CATComDYSCenteredRect.EndPt.Name.ShortHelp="Вторая точка";
+SketcherUI.CATComDYSCenteredRect.EndPt.Name.LongHelp="Определение координат второй точки.";
+SketcherUI.CATComDYSCenteredRect.EndPt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSCenteredRect.EndPt.ULabel.ShortHelp="Первая координата второй точки";
+SketcherUI.CATComDYSCenteredRect.EndPt.UEditor.ShortHelp="Первая координата второй точки";
+SketcherUI.CATComDYSCenteredRect.EndPt.VLabel.Title="В: ";
+SketcherUI.CATComDYSCenteredRect.EndPt.VLabel.ShortHelp="Вторая координата второй точки";
+SketcherUI.CATComDYSCenteredRect.EndPt.VEditor.ShortHelp="Вторая координата второй точки";
+SketcherUI.CATComDYSCenteredRect.Width.Dimension.EnglobingFrame.IntermediateFrame.Label.Title="Ширина: ";
+SketcherUI.CATComDYSCenteredRect.Width.Dimension.EnglobingFrame.IntermediateFrame.Label.Help="Определение ширины";
+SketcherUI.CATComDYSCenteredRect.Width.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp="Ширина";
+SketcherUI.CATComDYSCenteredRect.Width.Dimension.EnglobingFrame.IntermediateFrame.Label.LongHelp="Определение значения ширины.";
+SketcherUI.CATComDYSCenteredRect.Height.Dimension.EnglobingFrame.IntermediateFrame.Label.Title="Высота: ";
+SketcherUI.CATComDYSCenteredRect.Height.Dimension.EnglobingFrame.IntermediateFrame.Label.Help="Определение высоты";
+SketcherUI.CATComDYSCenteredRect.Height.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp="Высота";
+SketcherUI.CATComDYSCenteredRect.Height.Dimension.EnglobingFrame.IntermediateFrame.Label.LongHelp="Определение значения высоты.";
+
+SketcherUI.CATComDYSCenteredParallelogram.FirstLineState.Message="Выберите первую линию";
+SketcherUI.CATComDYSCenteredParallelogram.SecondLineState.Message="Выберите вторую линию";
+SketcherUI.CATComDYSCenteredParallelogram.MoveDimensionsState.Message="Необходимо щелкнуть или выбрать конечную точку для создания центрированного параллелограмма";
+SketcherUI.CATComDYSCenteredParallelogram.EndPt.Name.Title="Конечная точка: ";
+SketcherUI.CATComDYSCenteredParallelogram.EndPt.Name.Help="Определение координат конечной точки";
+SketcherUI.CATComDYSCenteredParallelogram.EndPt.Name.ShortHelp="Конечная точка";
+SketcherUI.CATComDYSCenteredParallelogram.EndPt.Name.LongHelp="Определение координат конечной точки.";
+SketcherUI.CATComDYSCenteredParallelogram.EndPt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSCenteredParallelogram.EndPt.ULabel.ShortHelp="Первая координата конечной точки";
+SketcherUI.CATComDYSCenteredParallelogram.EndPt.UEditor.ShortHelp="Первая координата конечной точки";
+SketcherUI.CATComDYSCenteredParallelogram.EndPt.VLabel.Title="В: ";
+SketcherUI.CATComDYSCenteredParallelogram.EndPt.VLabel.ShortHelp="Вторая координата конечной точки";
+SketcherUI.CATComDYSCenteredParallelogram.EndPt.VEditor.ShortHelp="Вторая координата конечной точки";
+SketcherUI.CATComDYSCenteredParallelogram.Height.Dimension.EnglobingFrame.IntermediateFrame.Label.Title="Высота: ";
+SketcherUI.CATComDYSCenteredParallelogram.Height.Dimension.EnglobingFrame.IntermediateFrame.Label.Help="Определение высоты";
+SketcherUI.CATComDYSCenteredParallelogram.Height.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp="Высота";
+SketcherUI.CATComDYSCenteredParallelogram.Height.Dimension.EnglobingFrame.IntermediateFrame.Label.LongHelp="Определение значения высоты.";
+SketcherUI.CATComDYSCenteredParallelogram.Width.Dimension.EnglobingFrame.IntermediateFrame.Label.Title="Ширина: ";
+SketcherUI.CATComDYSCenteredParallelogram.Width.Dimension.EnglobingFrame.IntermediateFrame.Label.Help="Определение ширины";
+SketcherUI.CATComDYSCenteredParallelogram.Width.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp="Ширина";
+SketcherUI.CATComDYSCenteredParallelogram.Width.Dimension.EnglobingFrame.IntermediateFrame.Label.LongHelp="Определение значения ширины.";
+
+
+SketcherUI.CATComDYSParallelogram.FirstSide.Message="Необходимо щелкнуть или выбрать точку для определения первой стороны";
+SketcherUI.CATComDYSParallelogram.LineCmd.EndPoint.Message="Необходимо щелкнуть или выбрать точку для задания положения конечной точки первой стороны";
+SketcherUI.CATComDYSParallelogram.SecondSide.Message="Необходимо щелкнуть или выбрать точку для определения второй стороны";
+// Gestion Visu Copilote
+SketcherUI.CATComDYSParallelogram.LineCmd.StartPt.Name.Title="Первый угол: ";
+SketcherUI.CATComDYSParallelogram.LineCmd.StartPt.Name.Help="Определение координат первого угла";
+SketcherUI.CATComDYSParallelogram.LineCmd.StartPt.Name.ShortHelp="Первый угол";
+SketcherUI.CATComDYSParallelogram.LineCmd.StartPt.Name.LongHelp="Определение координат первого угла.";
+SketcherUI.CATComDYSParallelogram.LineCmd.StartPt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSParallelogram.LineCmd.StartPt.ULabel.ShortHelp="Первая координата первого угла";
+SketcherUI.CATComDYSParallelogram.LineCmd.StartPt.UEditor.ShortHelp="Первая координата первого угла";
+SketcherUI.CATComDYSParallelogram.LineCmd.StartPt.VLabel.Title="В: ";
+SketcherUI.CATComDYSParallelogram.LineCmd.StartPt.VLabel.ShortHelp="Вторая координата первого угла";
+SketcherUI.CATComDYSParallelogram.LineCmd.StartPt.VEditor.ShortHelp="Вторая координата первого угла";
+SketcherUI.CATComDYSParallelogram.LineCmd.StartPt.Length_Label.Title="Ш: ";
+SketcherUI.CATComDYSParallelogram.LineCmd.StartPt.Length_Label.ShortHelp="Ширина параллелограмма";
+SketcherUI.CATComDYSParallelogram.LineCmd.StartPt.Length_Value.ShortHelp="Ширина параллелограмма";
+SketcherUI.CATComDYSParallelogram.LineCmd.StartPt.Angle_Label.Title="У: ";
+SketcherUI.CATComDYSParallelogram.LineCmd.StartPt.Angle_Label.ShortHelp="Угол между основанием параллелограмма и горизонтальным опорным элементом";
+SketcherUI.CATComDYSParallelogram.LineCmd.StartPt.Angle_Value.ShortHelp="Угол между основанием параллелограмма и горизонтальным опорным элементом";
+SketcherUI.CATComDYSParallelogram.LineCmd.EndPt.Name.Title="Второй угол: ";
+SketcherUI.CATComDYSParallelogram.LineCmd.EndPt.Name.Help="Определение второго угла";
+SketcherUI.CATComDYSParallelogram.LineCmd.EndPt.Name.ShortHelp="Второй угол";
+SketcherUI.CATComDYSParallelogram.LineCmd.EndPt.Name.LongHelp="Определение второго угла.";
+SketcherUI.CATComDYSParallelogram.LineCmd.EndPt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSParallelogram.LineCmd.EndPt.ULabel.ShortHelp="Первая координата второго угла";
+SketcherUI.CATComDYSParallelogram.LineCmd.EndPt.UEditor.ShortHelp="Первая координата второго угла";
+SketcherUI.CATComDYSParallelogram.LineCmd.EndPt.VLabel.Title="В: ";
+SketcherUI.CATComDYSParallelogram.LineCmd.EndPt.VLabel.ShortHelp="Вторая координата второго угла";
+SketcherUI.CATComDYSParallelogram.LineCmd.EndPt.VEditor.ShortHelp="Вторая координата второго угла";
+SketcherUI.CATComDYSParallelogram.LineCmd.EndPt.Length_Label.Title="Ш: ";
+SketcherUI.CATComDYSParallelogram.LineCmd.EndPt.Length_Label.ShortHelp="Ширина параллелограмма";
+SketcherUI.CATComDYSParallelogram.LineCmd.EndPt.Length_Value.ShortHelp="Ширина параллелограмма";
+SketcherUI.CATComDYSParallelogram.LineCmd.EndPt.Angle_Label.Title="У: ";
+SketcherUI.CATComDYSParallelogram.LineCmd.EndPt.Angle_Label.ShortHelp="Угол между основанием параллелограмма и горизонтальным опорным элементом";
+SketcherUI.CATComDYSParallelogram.LineCmd.EndPt.Angle_Value.ShortHelp="Угол между основанием параллелограмма и горизонтальным опорным элементом";
+SketcherUI.CATComDYSParallelogram.EndPt.Name.Title="Третья точка: ";
+SketcherUI.CATComDYSParallelogram.EndPt.Name.Help="Определение координат третьей точки";
+SketcherUI.CATComDYSParallelogram.EndPt.Name.ShortHelp="Третья точка";
+SketcherUI.CATComDYSParallelogram.EndPt.Name.LongHelp="Определение координат третьей точки.";
+SketcherUI.CATComDYSParallelogram.EndPt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSParallelogram.EndPt.ULabel.ShortHelp="Первая координата третьей точки";
+SketcherUI.CATComDYSParallelogram.EndPt.UEditor.ShortHelp="Первая координата третьей точки";
+SketcherUI.CATComDYSParallelogram.EndPt.VLabel.Title="В: ";
+SketcherUI.CATComDYSParallelogram.EndPt.VLabel.ShortHelp="Вторая координата третьей точки";
+SketcherUI.CATComDYSParallelogram.EndPt.VEditor.ShortHelp="Вторая координата третьей точки";
+SketcherUI.CATComDYSParallelogram.Height.Dimension.EnglobingFrame.IntermediateFrame.Label.Title="Высота: ";
+SketcherUI.CATComDYSParallelogram.Height.Dimension.EnglobingFrame.IntermediateFrame.Label.Help="Определение высоты";
+SketcherUI.CATComDYSParallelogram.Height.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp="Высота";
+SketcherUI.CATComDYSParallelogram.Height.Dimension.EnglobingFrame.IntermediateFrame.Label.LongHelp="Определение значения высоты.";
+SketcherUI.CATComDYSParallelogram.Angle.Dimension.EnglobingFrame.IntermediateFrame.Label.Title="Угол: ";
+SketcherUI.CATComDYSParallelogram.Angle.Dimension.EnglobingFrame.IntermediateFrame.Label.Help="Определение угла";
+SketcherUI.CATComDYSParallelogram.Angle.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp="Угол";
+SketcherUI.CATComDYSParallelogram.Angle.Dimension.EnglobingFrame.IntermediateFrame.Label.LongHelp="Определение значения угла.";
+
+
+SketcherUI.CATComDYSRectOrient.FirstSide.Message="Необходимо щелкнуть или выбрать точку для определения первой стороны";
+SketcherUI.CATComDYSRectOrient.LineCmd.EndPoint.Message="Необходимо щелкнуть или выбрать точку для задания положения конечной точки первой стороны";
+SketcherUI.CATComDYSRectOrient.SecondSide.Message="Необходимо щелкнуть или выбрать точку для определения второй стороны";
+// Gestion Visu Copilote
+SketcherUI.CATComDYSRectOrient.LineCmd.StartPt.Name.Title="Первый угол: ";
+SketcherUI.CATComDYSRectOrient.LineCmd.StartPt.Name.Help="Определение координат первого угла";
+SketcherUI.CATComDYSRectOrient.LineCmd.StartPt.Name.ShortHelp="Первый угол";
+SketcherUI.CATComDYSRectOrient.LineCmd.StartPt.Name.LongHelp="Определение координат первого угла.";
+SketcherUI.CATComDYSRectOrient.LineCmd.StartPt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSRectOrient.LineCmd.StartPt.ULabel.ShortHelp="Первая координата первого угла";
+SketcherUI.CATComDYSRectOrient.LineCmd.StartPt.UEditor.ShortHelp="Первая координата первого угла";
+SketcherUI.CATComDYSRectOrient.LineCmd.StartPt.VLabel.Title="В: ";
+SketcherUI.CATComDYSRectOrient.LineCmd.StartPt.VLabel.ShortHelp="Вторая координата первого угла";
+SketcherUI.CATComDYSRectOrient.LineCmd.StartPt.VEditor.ShortHelp="Вторая координата первого угла";
+SketcherUI.CATComDYSRectOrient.LineCmd.StartPt.Length_Label.Title="Ш: ";
+SketcherUI.CATComDYSRectOrient.LineCmd.StartPt.Length_Label.ShortHelp="Ширина прямоугольника";
+SketcherUI.CATComDYSRectOrient.LineCmd.StartPt.Length_Value.ShortHelp="Ширина прямоугольника";
+SketcherUI.CATComDYSRectOrient.LineCmd.StartPt.Angle_Label.Title="У: ";
+SketcherUI.CATComDYSRectOrient.LineCmd.StartPt.Angle_Label.ShortHelp="Угол между основанием прямоугольника и горизонтальным опорным элементом";
+SketcherUI.CATComDYSRectOrient.LineCmd.StartPt.Angle_Value.ShortHelp="Угол между основанием прямоугольника и горизонтальным опорным элементом";
+SketcherUI.CATComDYSRectOrient.LineCmd.EndPt.Name.Title="Второй угол: ";
+SketcherUI.CATComDYSRectOrient.LineCmd.EndPt.Name.Help="Определение координат второго угла";
+SketcherUI.CATComDYSRectOrient.LineCmd.EndPt.Name.ShortHelp="Второй угол";
+SketcherUI.CATComDYSRectOrient.LineCmd.EndPt.Name.LongHelp="Определение координат второго угла.";
+SketcherUI.CATComDYSRectOrient.LineCmd.EndPt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSRectOrient.LineCmd.EndPt.ULabel.ShortHelp="Первая координата второго угла";
+SketcherUI.CATComDYSRectOrient.LineCmd.EndPt.UEditor.ShortHelp="Первая координата второго угла";
+SketcherUI.CATComDYSRectOrient.LineCmd.EndPt.VLabel.Title="В: ";
+SketcherUI.CATComDYSRectOrient.LineCmd.EndPt.VLabel.ShortHelp="Вторая координата второго угла";
+SketcherUI.CATComDYSRectOrient.LineCmd.EndPt.VEditor.ShortHelp="Вторая координата второго угла";
+SketcherUI.CATComDYSRectOrient.LineCmd.EndPt.Length_Label.Title="Ш: ";
+SketcherUI.CATComDYSRectOrient.LineCmd.EndPt.Length_Label.ShortHelp="Ширина прямоугольника";
+SketcherUI.CATComDYSRectOrient.LineCmd.EndPt.Length_Value.ShortHelp="Ширина прямоугольника";
+SketcherUI.CATComDYSRectOrient.LineCmd.EndPt.Angle_Label.Title="У: ";
+SketcherUI.CATComDYSRectOrient.LineCmd.EndPt.Angle_Label.ShortHelp="Угол между основанием прямоугольника и горизонтальным опорным элементом";
+SketcherUI.CATComDYSRectOrient.LineCmd.EndPt.Angle_Value.ShortHelp="Угол между основанием прямоугольника и горизонтальным опорным элементом";
+SketcherUI.CATComDYSRectOrient.EndPt.Name.Title="Третий угол: ";
+SketcherUI.CATComDYSRectOrient.EndPt.Name.Help="Определение координат третьего угла";
+SketcherUI.CATComDYSRectOrient.EndPt.Name.ShortHelp="Третий угол:";
+SketcherUI.CATComDYSRectOrient.EndPt.Name.LongHelp="Определение координат третьего угла.";
+SketcherUI.CATComDYSRectOrient.EndPt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSRectOrient.EndPt.ULabel.ShortHelp="Первая координата третьего угла";
+SketcherUI.CATComDYSRectOrient.EndPt.UEditor.ShortHelp="Первая координата третьего угла";
+SketcherUI.CATComDYSRectOrient.EndPt.VLabel.Title="В: ";
+SketcherUI.CATComDYSRectOrient.EndPt.VLabel.ShortHelp="Вторая координата третьего угла";
+SketcherUI.CATComDYSRectOrient.EndPt.VEditor.ShortHelp="Вторая координата третьего угла";
+SketcherUI.CATComDYSRectOrient.Height.Dimension.EnglobingFrame.IntermediateFrame.Label.Title="Высота: ";
+SketcherUI.CATComDYSRectOrient.Height.Dimension.EnglobingFrame.IntermediateFrame.Label.Help="Определение высоты";
+SketcherUI.CATComDYSRectOrient.Height.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp="Высота";
+SketcherUI.CATComDYSRectOrient.Height.Dimension.EnglobingFrame.IntermediateFrame.Label.LongHelp="Определение значения высоты.";
+
+SketcherUI.CATComDYSRelimit.FirstElem.Message="Выбор элемента типа Точка или Кривая";
+SketcherUI.CATComDYSRelimit.SecondElem.Message="Выбор второго элемента типа Точка или Кривая или выбор той же кривой для определения точки обрезки";
+SketcherUI.CATComDYSRelimit.TrimElemForMSel.Message="Выбор кривой для обрезки всех выбранных элементов";
+SketcherUI.CATComDYSRelimit.LocationForMsel.Message="Необходимо щелкнуть для указания положения сохраняемой части обрезанных элементов";
+SketcherUI.CATComDYSRelimit.SwitchBar.Trim_All.Title="Обрезка всех элементов";
+SketcherUI.CATComDYSRelimit.SwitchBar.Trim_All.Help="Обрезка всех элементов";
+SketcherUI.CATComDYSRelimit.SwitchBar.Trim_All.LongHelp="Обрезка всех элементов.";
+SketcherUI.CATComDYSRelimit.SwitchBar.Trim_All.ShortHelp="Обрезка всех элементов";
+SketcherUI.CATComDYSRelimit.SwitchBar.Trim_El1.Title="Обрезка первого элемента";
+SketcherUI.CATComDYSRelimit.SwitchBar.Trim_El1.Help="Обрезка первого элемента";
+SketcherUI.CATComDYSRelimit.SwitchBar.Trim_El1.LongHelp="Обрезка только первого элемента.";
+SketcherUI.CATComDYSRelimit.SwitchBar.Trim_El1.ShortHelp="Обрезка первого элемента";
+SketcherUI.CATComDYSRelimit.NoRelimitation.Title="Обрезка";
+SketcherUI.CATComDYSRelimit.NoRelimitation.Message="Обрезка выбранного элемента не будет выполнена.\n";
+SketcherUI.CATComDYSRelimit.NonIntersected.Title="Непересекающиеся элементы";
+SketcherUI.CATComDYSRelimit.NonIntersected.Message="Выбранные элементы не пересекаются,\nони не будут обрезаны\n";
+SketcherUI.CATComDYSRelimit.SuperImposed.Title="Накладывающиеся элементы";
+SketcherUI.CATComDYSRelimit.SuperImposed.Message="Выбранные элементы накладываются друг на друга,\nони не будут обрезаны\n";
+SketcherUI.CATComDYSRelimit.LengthToDist.Title="Обрезка";
+SketcherUI.CATComDYSRelimit.LengthToDist.Message="Невозможна обрезка элемента с закрепленной длиной.\nПреобразовать длину в расстояние?\n";
+SketcherUI.CATComDYSRelimit.CheckMiddlePoint.Title="Обрезка";
+SketcherUI.CATComDYSRelimit.CheckMiddlePoint.Message="В результате данной операции будет изменено ограничение положения средней точки.\nПодтвердите данное изменение.";
+
+
+SketcherUI.CATComDYSQuickTrim.Elem.Message="Выбор криволинейного элемента";
+SketcherUI.CATComDYSQuickTrim.SwitchBar.RubberIn.Title="Стирание внутри";
+SketcherUI.CATComDYSQuickTrim.SwitchBar.RubberIn.Help="Удаление выбранной части элемента";
+SketcherUI.CATComDYSQuickTrim.SwitchBar.RubberIn.LongHelp="Удаление выбранной части элемента.";
+SketcherUI.CATComDYSQuickTrim.SwitchBar.RubberIn.ShortHelp="Разбиение и стирание внутри";
+SketcherUI.CATComDYSQuickTrim.SwitchBar.RubberOut.Title="Стирание снаружи";
+SketcherUI.CATComDYSQuickTrim.SwitchBar.RubberOut.Help="Сохранение выбранной части элемента";
+SketcherUI.CATComDYSQuickTrim.SwitchBar.RubberOut.LongHelp="Сохранение выбранной части элемента.";
+SketcherUI.CATComDYSQuickTrim.SwitchBar.RubberOut.ShortHelp="Разбиение и стирание снаружи";
+SketcherUI.CATComDYSQuickTrim.SwitchBar.Keep.Title="Сохранение";
+SketcherUI.CATComDYSQuickTrim.SwitchBar.Keep.Help="Разбиение выбранной части элемента";
+SketcherUI.CATComDYSQuickTrim.SwitchBar.Keep.LongHelp="Разбиение выбранной части элемента.";
+SketcherUI.CATComDYSQuickTrim.SwitchBar.Keep.ShortHelp="Разбиение и сохранение";
+SketcherUI.CATComDYSQuickTrim.LengthToDist.Title="Быстрая обрезка";
+SketcherUI.CATComDYSQuickTrim.LengthToDist.Message="Невозможна обрезка элемента с закрепленной длиной.\nПреобразовать длину в расстояние?\n";
+SketcherUI.CATComDYSQuickTrim.CheckMiddlePoint.Title="Быстрая обрезка";
+SketcherUI.CATComDYSQuickTrim.CheckMiddlePoint.Message="В результате данной операции ограничение средней точки может быть изменено или даже удалено.\nПодтвердите данное изменение.";
+
+SketcherUI.CATComDYSClose.Elem.Message="Выбор криволинейного элемента";
+
+SketcherUI.CATComDYSComplementary.Elem.Message="Выбор дуги окружности или эллипса";
+
+SketcherUI.CATComDYSCorner.FirstElem.Message="Выбор первой кривой или общей точки";
+SketcherUI.CATComDYSCorner.SecondElem.Message="Выберите вторую кривую";
+SketcherUI.CATComDYSCorner.Rubber.Message="Щелчок кнопкой мыши для указания положения угла";
+SketcherUI.CATComDYSCorner.Radius.Message="Ввод радиусов углов";
+SketcherUI.CATComDYSCorner.SwitchBar.Trim_All.Title="Обрезка всех элементов";
+SketcherUI.CATComDYSCorner.SwitchBar.Trim_All.Help="Обрезка всех элементов";
+SketcherUI.CATComDYSCorner.SwitchBar.Trim_All.LongHelp="Обрезка всех элементов.";
+SketcherUI.CATComDYSCorner.SwitchBar.Trim_All.ShortHelp="Обрезка всех элементов";
+SketcherUI.CATComDYSCorner.SwitchBar.Trim_El1.Title="Обрезка первого элемента";
+SketcherUI.CATComDYSCorner.SwitchBar.Trim_El1.Help="Обрезка первого элемента";
+SketcherUI.CATComDYSCorner.SwitchBar.Trim_El1.LongHelp="Обрезка только первого элемента.";
+SketcherUI.CATComDYSCorner.SwitchBar.Trim_El1.ShortHelp="Обрезка первого элемента";
+SketcherUI.CATComDYSCorner.SwitchBar.No_Trim.Title="Без обрезки";
+SketcherUI.CATComDYSCorner.SwitchBar.No_Trim.Help="Элементы не обрезаются";
+SketcherUI.CATComDYSCorner.SwitchBar.No_Trim.LongHelp="Элементы не обрезаются.";
+SketcherUI.CATComDYSCorner.SwitchBar.No_Trim.ShortHelp="Без обрезки";
+SketcherUI.CATComDYSCorner.SwitchBar.StdLine.Title="Обрезка по стандартной линии";
+SketcherUI.CATComDYSCorner.SwitchBar.StdLine.Help="Обрезка всех элементов по стандартным линиям";
+SketcherUI.CATComDYSCorner.SwitchBar.StdLine.LongHelp="Обрезка всех элементов по стандартным линиям.";
+SketcherUI.CATComDYSCorner.SwitchBar.StdLine.ShortHelp="Обрезка по стандартным линиям";
+SketcherUI.CATComDYSCorner.SwitchBar.ConstrLine.Title="Обрезка по вспомогательной линии";
+SketcherUI.CATComDYSCorner.SwitchBar.ConstrLine.Help="Обрезка всех элементов по вспомогательным линиям";
+SketcherUI.CATComDYSCorner.SwitchBar.ConstrLine.LongHelp="Обрезка всех элементов по вспомогательным линиям.";
+SketcherUI.CATComDYSCorner.SwitchBar.ConstrLine.ShortHelp="Обрезка по вспомогательным линиям";
+SketcherUI.CATComDYSCorner.SwitchBar.ConstrLineNoTrim.Title="Без обрезки по вспомогательным линиям";
+SketcherUI.CATComDYSCorner.SwitchBar.ConstrLineNoTrim.Help="Разбиение всех элементов вспомогательными линиями без обрезки";
+SketcherUI.CATComDYSCorner.SwitchBar.ConstrLineNoTrim.LongHelp="Разбиение всех элементов вспомогательными линиями без обрезки.";
+SketcherUI.CATComDYSCorner.SwitchBar.ConstrLineNoTrim.ShortHelp="Без обрезки по вспомогательным линиям";
+SketcherUI.CATComDYSCorner.NoRelimitation.Title="Команда Угол";
+SketcherUI.CATComDYSCorner.NoRelimitation.Message="Обрезка выбранного элемента не будет выполнена.\n";
+SketcherUI.CATComDYSCorner.LengthToDist.Title="Команда Угол";
+SketcherUI.CATComDYSCorner.FirstLengthToDist.Message="Невозможна обрезка элемента с закрепленной длиной.\nПреобразовать длину первого выбранного элемента в расстояние?\n";
+SketcherUI.CATComDYSCorner.SecondLengthToDist.Message="Невозможна обрезка элемента с закрепленной длиной.\nПреобразовать длину второго выбранного элемента в расстояние?\n";
+SketcherUI.CATComDYSCorner.CheckMiddlePoint.Title="Команда Угол";
+SketcherUI.CATComDYSCorner.FirstCheckMiddlePoint.Message="В результате данной операции будет изменено ограничение положения средней точки первого выбранного элемента.\nПодтвердить данное изменение?";
+SketcherUI.CATComDYSCorner.SecondCheckMiddlePoint.Message="В результате данной операции будет изменено ограничение положения средней точки второго выбранного элемента.\nПодтвердить данное изменение?";
+SketcherUI.CATComDYSCorner.ImpCorner.Title="Команда Угол";
+SketcherUI.CATComDYSCorner.ImpossibleCorner.Message="Невозможно создать угол с данным значением радиуса.\n";
+SketcherUI.CATComDYSCorner.SuperImposed.Title="Накладывающиеся элементы";
+SketcherUI.CATComDYSCorner.SuperImposed.Message="Выбранные элементы накладываются друг на друга,\nугол не будет создан\n";
+SketcherUI.CATComDYSCorner.Radius.Dimension.EnglobingFrame.IntermediateFrame.Label.Title="Радиус: ";
+SketcherUI.CATComDYSCorner.Radius.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp="Радиус угла";
+
+SketcherUI.CATComDYSCorner.DefaultRadius.Check.Title="Сохранение радиуса по умолчанию для следующего";
+SketcherUI.CATComDYSCorner.DefaultRadius.Check.ShortHelp="Сохранение радиуса по умолчанию для следующего";
+SketcherUI.CATComDYSCorner.DefaultRadius.Check.Help="Сохранение значения радиуса в качестве значения по умолчанию для следующего угла";
+SketcherUI.CATComDYSCorner.DefaultRadius.Check.LongHelp="Сохранение значения радиуса в качестве значения по умолчанию для следующего выполнения операции угла";
+
+SketcherUI.CATComDYSChamfer.FirstElem.Message="Выбор первой кривой или общей точки";
+SketcherUI.CATComDYSChamfer.SecondElem.Message="Выберите вторую кривую";
+SketcherUI.CATComDYSChamfer.Rubber.Message="Щелкните кнопкой мыши для указания положения фаски";
+SketcherUI.CATComDYSChamfer.RubberL1L2.Message="Щелкните кнопкой мыши для указания положения фаски";
+SketcherUI.CATComDYSChamfer.RubberL1Ang.Message="Щелкните кнопкой мыши для указания положения фаски";
+SketcherUI.CATComDYSChamfer.LengthAndAngle.Message="Ввод длины и угла (относительно первого элемента) фаски";
+SketcherUI.CATComDYSChamfer.Length1AndLength2.Message="Ввод двух длин для определения фаски";
+SketcherUI.CATComDYSChamfer.Length1AndAngle.Message="Ввод длины по первому поддерживающему элементу и углу (относительно первого элемента) для определения фаски";
+SketcherUI.CATComDYSChamfer.SwitchBar.Trim_All.Title="Обрезка всех элементов";
+SketcherUI.CATComDYSChamfer.SwitchBar.Trim_All.Help="Обрезка всех элементов";
+SketcherUI.CATComDYSChamfer.SwitchBar.Trim_All.LongHelp="Обрезка всех выбранных элементов.";
+SketcherUI.CATComDYSChamfer.SwitchBar.Trim_All.ShortHelp="Обрезка всех элементов";
+SketcherUI.CATComDYSChamfer.SwitchBar.Trim_El1.Title="Обрезка первого элемента";
+SketcherUI.CATComDYSChamfer.SwitchBar.Trim_El1.Help="Обрезка первого элемента";
+SketcherUI.CATComDYSChamfer.SwitchBar.Trim_El1.LongHelp="Обрезка только первого элемента.";
+SketcherUI.CATComDYSChamfer.SwitchBar.Trim_El1.ShortHelp="Обрезка первого элемента";
+SketcherUI.CATComDYSChamfer.SwitchBar.No_Trim.Title="Без обрезки";
+SketcherUI.CATComDYSChamfer.SwitchBar.No_Trim.Help="Элементы не обрезаются";
+SketcherUI.CATComDYSChamfer.SwitchBar.No_Trim.LongHelp="Элементы не обрезаются.";
+SketcherUI.CATComDYSChamfer.SwitchBar.No_Trim.ShortHelp="Без обрезки";
+SketcherUI.CATComDYSChamfer.SwitchBar.StdLine.Title="Обрезка по стандартным линиям";
+SketcherUI.CATComDYSChamfer.SwitchBar.StdLine.Help="Обрезка двух элементов до их пересечения";
+SketcherUI.CATComDYSChamfer.SwitchBar.StdLine.LongHelp="Обрезка двух элементов до их пересечения.";
+SketcherUI.CATComDYSChamfer.SwitchBar.StdLine.ShortHelp="Обрезка по стандартным линиям";
+SketcherUI.CATComDYSChamfer.SwitchBar.ConstrLine.Title="Обрезка по вспомогательным линиям";
+SketcherUI.CATComDYSChamfer.SwitchBar.ConstrLine.Help="Обрезка двух элементов по вспомогательным линиям";
+SketcherUI.CATComDYSChamfer.SwitchBar.ConstrLine.LongHelp="Обрезка двух элементов по вспомогательным линиям.";
+SketcherUI.CATComDYSChamfer.SwitchBar.ConstrLine.ShortHelp="Обрезка по вспомогательным линиям";
+SketcherUI.CATComDYSChamfer.SwitchBar.ConstrLineNoTrim.Title="Без обрезки по вспомогательным линиям";
+SketcherUI.CATComDYSChamfer.SwitchBar.ConstrLineNoTrim.Help="Разбиение всех элементов вспомогательными линиями без обрезки";
+SketcherUI.CATComDYSChamfer.SwitchBar.ConstrLineNoTrim.LongHelp="Разбиение всех элементов вспомогательными линиями без обрезки.";
+SketcherUI.CATComDYSChamfer.SwitchBar.ConstrLineNoTrim.ShortHelp="Без обрезки по вспомогательным линиям";
+SketcherUI.CATComDYSChamfer.KeyBar.AngleHyp.Title="Угол, гипотенуза";
+SketcherUI.CATComDYSChamfer.KeyBar.AngleHyp.Help="Определение угла и гипотенузы";
+SketcherUI.CATComDYSChamfer.KeyBar.AngleHyp.LongHelp="Определение угла относительно первого поддерживающего элемента фаски и его длины.";
+SketcherUI.CATComDYSChamfer.KeyBar.AngleHyp.ShortHelp="Угол и гипотенуза";
+SketcherUI.CATComDYSChamfer.KeyBar.L1L2.Title="Первая и вторая длины";
+SketcherUI.CATComDYSChamfer.KeyBar.L1L2.Help="Определение первой и второй длины";
+SketcherUI.CATComDYSChamfer.KeyBar.L1L2.LongHelp="Определение первой и второй длины для построения фаски.";
+SketcherUI.CATComDYSChamfer.KeyBar.L1L2.ShortHelp="Первая и вторая длины";
+SketcherUI.CATComDYSChamfer.KeyBar.L1Angle.Title="Угол и первая длина";
+SketcherUI.CATComDYSChamfer.KeyBar.L1Angle.Help="Определение угла и первой длины";
+SketcherUI.CATComDYSChamfer.KeyBar.L1Angle.LongHelp="Определение угла относительно первого элемента и первой длины для построения фаски.";
+SketcherUI.CATComDYSChamfer.KeyBar.L1Angle.ShortHelp="Угол и первая длина";
+SketcherUI.CATComDYSChamfer.NoRelimitation.Title="Команда Фаска";
+SketcherUI.CATComDYSChamfer.NoRelimitation.Message="Обрезка выбранного элемента не будет выполнена.\n";
+SketcherUI.CATComDYSChamfer.LengthToDist.Title="Команда Фаска";
+SketcherUI.CATComDYSChamfer.FirstLengthToDist.Message="Невозможна обрезка элемента с закрепленной длиной.\nПреобразовать длину первого выбранного элемента в расстояние?\n";
+SketcherUI.CATComDYSChamfer.SecondLengthToDist.Message="Невозможна обрезка элемента с закрепленной длиной.\nПреобразовать длину второго выбранного элемента в расстояние?\n";
+SketcherUI.CATComDYSChamfer.CheckMiddlePoint.Title="Команда Фаска";
+SketcherUI.CATComDYSChamfer.FirstCheckMiddlePoint.Message="В результате данной операции будет изменено ограничение положения средней точки первого выбранного элемента.\nПодтвердить данное изменение?";
+SketcherUI.CATComDYSChamfer.SecondCheckMiddlePoint.Message="В результате данной операции будет изменено ограничение положения средней точки второго выбранного элемента.\nПодтвердить данное изменение?";
+SketcherUI.CATComDYSChamfer.SuperImposed.Title="Накладывающиеся элементы";
+SketcherUI.CATComDYSChamfer.SuperImposed.Message="Выбранные элементы накладываются друг на друга,\nфаска не будет создана\n";
+SketcherUI.CATComDYSChamfer.ImpChamfer.Title="Команда Фаска";
+SketcherUI.CATComDYSChamfer.ImpossibleChamfer.Message="Невозможно создание фаски с данными значениями длины и угла.\n";
+SketcherUI.CATComDYSChamfer.ImpossibleChamferL1L2.Message="Невозможно создание фаски с данными значениями длин.\n";
+SketcherUI.CATComDYSChamfer.Length.Dimension.EnglobingFrame.IntermediateFrame.Label.Title="Длина: ";
+SketcherUI.CATComDYSChamfer.Length.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp="Длина";
+SketcherUI.CATComDYSChamfer.Length.Dimension.EnglobingFrame.IntermediateFrame.Label.Help="Определение длины фаски";
+SketcherUI.CATComDYSChamfer.FirstLength.Dimension.EnglobingFrame.IntermediateFrame.Label.Title="Первая длина: ";
+SketcherUI.CATComDYSChamfer.FirstLength.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp="Первая длина";
+SketcherUI.CATComDYSChamfer.FirstLength.Dimension.EnglobingFrame.IntermediateFrame.Label.Help="Определение длины по первому элементу";
+SketcherUI.CATComDYSChamfer.SecondLength.Dimension.EnglobingFrame.IntermediateFrame.Label.Title="Вторая длина: ";
+SketcherUI.CATComDYSChamfer.SecondLength.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp="Вторая длина";
+SketcherUI.CATComDYSChamfer.SecondLength.Dimension.EnglobingFrame.IntermediateFrame.Label.Help="Определение длины по второму элементу";
+SketcherUI.CATComDYSChamfer.Angle.Dimension.EnglobingFrame.IntermediateFrame.Label.Title="Угол: ";
+SketcherUI.CATComDYSChamfer.Angle.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp="Угол";
+SketcherUI.CATComDYSChamfer.Angle.Dimension.EnglobingFrame.IntermediateFrame.Label.Help="Определение угла между фаской и первым поддерживающим элементом";
+
+
+SketcherUI.CATComDYSLine.CreateLine.Message="Выберите точку или нажмите кнопку мыши для указания положения начальной точки";
+SketcherUI.CATComDYSCenterLine.CreateCenterLine.Message="Выберите точку или нажмите кнопку мыши для указания положения начальной точки";
+SketcherUI.CATComDYSCenterLine.ModifyLine.Title="Создание оси";
+SketcherUI.CATComDYSCenterLine.ModifyLine.Message="Выбранная линия будет преобразована в ось.\nПодтвердить преобразование данной линии?";
+
+SketcherUI.CATComDYSGenericLine.StartPoint.Message="Выберите точку или нажмите кнопку мыши для указания положения начальной точки";
+SketcherUI.CATComDYSGenericLine.EndPoint.Message="Выберите точку или нажмите кнопку мыши для указания положения конечной точки.";
+// Gestion Visu Copilote
+SketcherUI.CATComDYSGenericLine.StartPt.Name.Title="Начальная точка: ";
+SketcherUI.CATComDYSGenericLine.StartPt.Name.Help="Определение координат начальной точки";
+SketcherUI.CATComDYSGenericLine.StartPt.Name.ShortHelp="Начальная точка";
+SketcherUI.CATComDYSGenericLine.StartPt.Name.LongHelp="Определение координат начальной точки.";
+SketcherUI.CATComDYSGenericLine.StartPt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSGenericLine.StartPt.ULabel.ShortHelp="Первая координата начальной точки";
+SketcherUI.CATComDYSGenericLine.StartPt.UEditor.ShortHelp="Первая координата начальной точки";
+SketcherUI.CATComDYSGenericLine.StartPt.VLabel.Title="В: ";
+SketcherUI.CATComDYSGenericLine.StartPt.VLabel.ShortHelp="Вторая координата начальной точки";
+SketcherUI.CATComDYSGenericLine.StartPt.VEditor.ShortHelp="Вторая координата начальной точки";
+SketcherUI.CATComDYSGenericLine.StartPt.Length_Label.Title="Д: ";
+SketcherUI.CATComDYSGenericLine.StartPt.Length_Label.ShortHelp="Длина отрезка";
+SketcherUI.CATComDYSGenericLine.StartPt.Length_Value.ShortHelp="Длина отрезка";
+SketcherUI.CATComDYSGenericLine.StartPt.Angle_Label.Title="У: ";
+SketcherUI.CATComDYSGenericLine.StartPt.Angle_Label.ShortHelp="Угол между линией и горизонтальным опорным элементом";
+SketcherUI.CATComDYSGenericLine.StartPt.Angle_Value.ShortHelp="Угол между линией и горизонтальным опорным элементом";
+SketcherUI.CATComDYSGenericLine.EndPt.Name.Title="Конечная точка: ";
+SketcherUI.CATComDYSGenericLine.EndPt.Name.Help="Определение конечной точки";
+SketcherUI.CATComDYSGenericLine.EndPt.Name.ShortHelp="Конечная точка";
+SketcherUI.CATComDYSGenericLine.EndPt.Name.LongHelp="Определение координат конечной точки.";
+SketcherUI.CATComDYSGenericLine.EndPt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSGenericLine.EndPt.ULabel.ShortHelp="Первая координата конечной точки";
+SketcherUI.CATComDYSGenericLine.EndPt.UEditor.ShortHelp="Первая координата конечной точки";
+SketcherUI.CATComDYSGenericLine.EndPt.VLabel.Title="В: ";
+SketcherUI.CATComDYSGenericLine.EndPt.VLabel.ShortHelp="Вторая координата конечной точки";
+SketcherUI.CATComDYSGenericLine.EndPt.VEditor.ShortHelp="Вторая координата конечной точки";
+SketcherUI.CATComDYSGenericLine.EndPt.Length_Label.Title="Д: ";
+SketcherUI.CATComDYSGenericLine.EndPt.Length_Label.ShortHelp="Длина отрезка";
+SketcherUI.CATComDYSGenericLine.EndPt.Length_Value.ShortHelp="Длина отрезка";
+SketcherUI.CATComDYSGenericLine.EndPt.Angle_Label.Title="У: ";
+SketcherUI.CATComDYSGenericLine.EndPt.Angle_Label.ShortHelp="Угол между линией и горизонтальным опорным элементом";
+SketcherUI.CATComDYSGenericLine.EndPt.Angle_Value.ShortHelp="Угол между линией и горизонтальным опорным элементом";
+
+
+SketcherUI.CATComDYSSpline.FirstPoint.Message="Необходимо щелкнуть или выбрать первую управляющую точку сплайна";
+SketcherUI.CATComDYSSpline.NextPoint.Message="Необходимо щелкнуть или выбрать следующую точку сплайна.Необходимо дважды щелкнуть кнопкой мыши для завершения сплайна.";
+// Gestion Visu Copilote
+SketcherUI.CATComDYSSpline.ControlPt.Name.Title="Управляющая точка: ";
+SketcherUI.CATComDYSSpline.ControlPt.Name.Help="Определение координат управляющей точки";
+SketcherUI.CATComDYSSpline.ControlPt.Name.ShortHelp="Управляющая точка";
+SketcherUI.CATComDYSSpline.ControlPt.Name.LongHelp="Определение координат управляющей точки.";
+SketcherUI.CATComDYSSpline.ControlPt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSSpline.ControlPt.ULabel.ShortHelp="Первая координата управляющей точки";
+SketcherUI.CATComDYSSpline.ControlPt.UEditor.ShortHelp="Первая координата управляющей точки";
+SketcherUI.CATComDYSSpline.ControlPt.VLabel.Title="В: ";
+SketcherUI.CATComDYSSpline.ControlPt.VLabel.ShortHelp="Вторая координата управляющей точки";
+SketcherUI.CATComDYSSpline.ControlPt.VEditor.ShortHelp="Вторая координата управляющей точки";
+SketcherUI.CATComDYSSpline.CloseSpline="Замыкание сплайна";
+
+SketcherUI.CATComDYSSpline2.FirstPoint.Message="Необходимо щелкнуть или выбрать первую управляющую точку сплайна";
+SketcherUI.CATComDYSSpline2.NextPoint.Message="Необходимо щелкнуть или выбрать следующую точку сплайна.Необходимо дважды щелкнуть кнопкой мыши для завершения сплайна.";
+SketcherUI.CATComDYSSpline2.TangentDir.Message="Необходимо щелкнуть или выбрать точку для указания положения касательной";
+SketcherUI.CATComDYSSpline2.ControlPt.Name.Title="Управляющая точка: ";
+SketcherUI.CATComDYSSpline2.ControlPt.Name.Help="Определение управляющей точки";
+SketcherUI.CATComDYSSpline2.ControlPt.Name.ShortHelp="Управляющая точка";
+SketcherUI.CATComDYSSpline2.ControlPt.Name.LongHelp="Определение координат управляющей точки.";
+SketcherUI.CATComDYSSpline2.ControlPt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSSpline2.ControlPt.ULabel.ShortHelp="Первая координата управляющей точки";
+SketcherUI.CATComDYSSpline2.ControlPt.UEditor.ShortHelp="Первая координата управляющей точки";
+SketcherUI.CATComDYSSpline2.ControlPt.VLabel.Title="В: ";
+SketcherUI.CATComDYSSpline2.ControlPt.VLabel.ShortHelp="Вторая координата управляющей точки";
+SketcherUI.CATComDYSSpline2.ControlPt.VEditor.ShortHelp="Вторая координата управляющей точки";
+SketcherUI.CATComDYSSpline2.TgtCopilot.Name.Title="Координаты точки: ";
+SketcherUI.CATComDYSSpline2.TgtCopilot.Name.Help="Определение координат точки";
+SketcherUI.CATComDYSSpline2.TgtCopilot.Name.ShortHelp="Координаты точки";
+SketcherUI.CATComDYSSpline2.TgtCopilot.Name.LongHelp="Определение координат точки.";
+SketcherUI.CATComDYSSpline2.TgtCopilot.ULabel.Title="Г: ";
+SketcherUI.CATComDYSSpline2.TgtCopilot.ULabel.ShortHelp="Первая координата точки";
+SketcherUI.CATComDYSSpline2.TgtCopilot.UEditor.ShortHelp="Первая координата точки";
+SketcherUI.CATComDYSSpline2.TgtCopilot.VLabel.Title="В: ";
+SketcherUI.CATComDYSSpline2.TgtCopilot.VLabel.ShortHelp="Вторая координата точки";
+SketcherUI.CATComDYSSpline2.TgtCopilot.VEditor.ShortHelp="Вторая координата точки";
+SketcherUI.CATComDYSSpline2.CloseSpline="Замыкание сплайна";
+SketcherUI.CATComDYSSpline2.CheckAgent.Check.Title="Соединение с ограничивающей точкой";
+SketcherUI.CATComDYSSpline2.CheckAgent.Check.Help="Соединение с ограничивающей точкой кривой";
+SketcherUI.CATComDYSSpline2.CheckAgent.Check.LongHelp="Соединение с ограничивающей точкой кривой.";
+SketcherUI.CATComDYSSpline2.CheckAgent.Check.ShortHelp="Соединение с ограничивающей точкой";
+SketcherUI.CATComDYSSpline2.ContinuitySwitchBar.Continuity0.Title="C0";
+SketcherUI.CATComDYSSpline2.ContinuitySwitchBar.Continuity0.ShortHelp="Непрерывность в точке";
+SketcherUI.CATComDYSSpline2.ContinuitySwitchBar.Continuity1.Title="C1";
+SketcherUI.CATComDYSSpline2.ContinuitySwitchBar.Continuity1.ShortHelp="Непрерывность по касательной";
+SketcherUI.CATComDYSSpline2.ContinuitySwitchBar.Continuity2.Title="C2";
+SketcherUI.CATComDYSSpline2.ContinuitySwitchBar.Continuity2.ShortHelp="Непрерывность по кривизне";
+SketcherUI.CATComDYSSpline2.Tension.Dimension.EnglobingFrame.IntermediateFrame.Label.Title="Натяжение: ";
+SketcherUI.CATComDYSSpline2.Tension.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp="Натяжение в точке касания";
+SketcherUI.CATComDYSSpline2.TangencyAngle.Dimension.EnglobingFrame.IntermediateFrame.Label.Title="Угол: ";
+SketcherUI.CATComDYSSpline2.TangencyAngle.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp="Угол в точке касания";
+SketcherUI.CATComDYSSpline2.TangencySwitchBar.Parallel.Title="Параллельный";
+SketcherUI.CATComDYSSpline2.TangencySwitchBar.Parallel.ShortHelp="Параллельное касание";
+SketcherUI.CATComDYSSpline2.TangencySwitchBar.Perpendicular.Title="Перпендикулярность";
+SketcherUI.CATComDYSSpline2.TangencySwitchBar.Perpendicular.ShortHelp="Перпендикулярное касание";
+SketcherUI.CATComDYSSpline2.TangencySwitchBar.Horizontal.Title="Горизонтальное";
+SketcherUI.CATComDYSSpline2.TangencySwitchBar.Horizontal.ShortHelp="Горизонтальное касание";
+SketcherUI.CATComDYSSpline2.TangencySwitchBar.Vertical.Title="Вертикальное";
+SketcherUI.CATComDYSSpline2.TangencySwitchBar.Vertical.ShortHelp="Вертикальное касание";
+
+SketcherUI.CATComDYSConnect.FirstElem.Message="Выбор первого элемента для присоединения";
+SketcherUI.CATComDYSConnect.SecondElem.Message="Выбор последнего элемента для присоединения";
+SketcherUI.CATComDYSConnect.SwitchBar.Spline.Title="Соединение кривой";
+SketcherUI.CATComDYSConnect.SwitchBar.Spline.Help="Соединение сплайном";
+SketcherUI.CATComDYSConnect.SwitchBar.Spline.LongHelp="Соединение двух элементов с помощью сплайна.";
+SketcherUI.CATComDYSConnect.SwitchBar.Spline.ShortHelp="Соединение сплайном";
+SketcherUI.CATComDYSConnect.SwitchBar.Circle.Title="Соединение дугой";
+SketcherUI.CATComDYSConnect.SwitchBar.Circle.Help="Соединение дугой";
+SketcherUI.CATComDYSConnect.SwitchBar.Circle.LongHelp="Соединение двух элементов с помощью дуги.";
+SketcherUI.CATComDYSConnect.SwitchBar.Circle.ShortHelp="Соединение дугой";
+SketcherUI.CATComDYSConnect.ContinuitySwitchBar.Continuity0.Title="C0";
+SketcherUI.CATComDYSConnect.ContinuitySwitchBar.Continuity0.ShortHelp="Непрерывность в точке";
+SketcherUI.CATComDYSConnect.ContinuitySwitchBar.Continuity1.Title="C1";
+SketcherUI.CATComDYSConnect.ContinuitySwitchBar.Continuity1.ShortHelp="Непрерывность по касательной";
+SketcherUI.CATComDYSConnect.ContinuitySwitchBar.Continuity2.Title="C2";
+SketcherUI.CATComDYSConnect.ContinuitySwitchBar.Continuity2.ShortHelp="Непрерывность по кривизне";
+SketcherUI.CATComDYSConnect.Tension.Dimension.EnglobingFrame.IntermediateFrame.Label.Title="Натяжение: ";
+SketcherUI.CATComDYSConnect.Tension.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp="Натяжение в точке касания";
+SketcherUI.CATComDYSConnect.NoSolution.Title="Соединение";
+SketcherUI.CATComDYSConnect.NoSolution.Message="Невозможно создание соединительной кривой с помощью выбранных элементов.\n\nПри выборе первого и второго элементов важно учесть следующее:\nсоздание соединительной кривой зависит от точки щелчка мыши.\nТочки касания и крайние точки создаются так близко, насколько это возможно к точкам,\nуказанным на двух выбранных элементах.";
+
+SketcherUI.CATComEdit2DConnect.ErrorPoint.Title="Предупреждение";
+SketcherUI.CATComEdit2DConnect.ErrorPoint.Message="Точка должна относиться к кривой или находиться на кривой.";
+
+SketcherUI.CATComEdit2DConnect.DefinitionConnectCurve.Message="Выбор поля для изменения определения соединительной кривой";
+SketcherUI.CATComEdit2DConnect.SelectionFirstPoint.Message="Необходимо щелкнуть или выбрать точку для указания положения первой конечной точки соединительной кривой";
+SketcherUI.CATComEdit2DConnect.SelectionSecondPoint.Message="Необходимо щелкнуть или выбрать точку для указания положения второй конечной точки соединительной кривой";
+SketcherUI.CATComEdit2DConnect.SelectionFirstCurve.Message="Выбор кривой для определения касания или кривизны в первой конечной точке соединительной кривой";
+SketcherUI.CATComEdit2DConnect.SelectionSecondCurve.Message="Выбор кривой для определения касания или кривизны во второй конечной точке соединительной кривой";
+
+SketcherUI.CATComDYSCircleCtrRds.CreateCircle.Message="Выберите точку или щелкните, чтобы определить центр";
+SketcherUI.CATComDYSArcCtrRds.CreateArc.Message="Выберите точку или щелкните, чтобы определить центр";
+SketcherUI.CATComDYSArcCtrRds.ArcCmd.Center.Name.Title="Центр дуги: ";
+// ------------------------------------------------------------------------------------------------------------------
+// Cercle ferme Centre + Rayon
+SketcherUI.CATComDYSGenericCircleCtrRds.SetCenter.Message="Необходимо щелкнуть или выбрать точку для определения центра окружности";
+SketcherUI.CATComDYSGenericCircleCtrRds.SetRadius.Message="Необходимо щелкнуть или выбрать точку для определения радиуса окружности";
+// Copilot
+SketcherUI.CATComDYSGenericCircleCtrRds.Center.Name.Title="Центр окружности: ";
+SketcherUI.CATComDYSGenericCircleCtrRds.Center.Name.Help="Определение координат центра окружности";
+SketcherUI.CATComDYSGenericCircleCtrRds.Center.Name.ShortHelp="Центр окружности";
+SketcherUI.CATComDYSGenericCircleCtrRds.Center.Name.LongHelp="Определение координат центра окружности.";
+SketcherUI.CATComDYSGenericCircleCtrRds.Center.ULabel.Title="Г: ";
+SketcherUI.CATComDYSGenericCircleCtrRds.Center.ULabel.ShortHelp="Первая координата центра окружности";
+SketcherUI.CATComDYSGenericCircleCtrRds.Center.UEditor.ShortHelp="Первая координата центра окружности";
+SketcherUI.CATComDYSGenericCircleCtrRds.Center.VLabel.Title="В: ";
+SketcherUI.CATComDYSGenericCircleCtrRds.Center.VLabel.ShortHelp="Вторая координата центра окружности";
+SketcherUI.CATComDYSGenericCircleCtrRds.Center.VEditor.ShortHelp="Вторая координата центра окружности";
+SketcherUI.CATComDYSGenericCircleCtrRds.Center.Radius_Label.Title="Р: ";
+SketcherUI.CATComDYSGenericCircleCtrRds.Center.Radius_Label.ShortHelp="Радиус окружности";
+SketcherUI.CATComDYSGenericCircleCtrRds.Center.Radius_Value.ShortHelp="Радиус окружности";
+SketcherUI.CATComDYSGenericCircleCtrRds.Center.StartAngle_Label.Title="У: ";
+SketcherUI.CATComDYSGenericCircleCtrRds.Center.StartAngle_Label.ShortHelp="Угол между начальной точкой дуги и горизонтальным опорным элементом";
+SketcherUI.CATComDYSGenericCircleCtrRds.Center.StartAngle_Value.ShortHelp="Угол между начальной точкой дуги и горизонтальным опорным элементом";
+SketcherUI.CATComDYSGenericCircleCtrRds.Center.SectorAngle_Label.Title="С: ";
+SketcherUI.CATComDYSGenericCircleCtrRds.Center.SectorAngle_Label.ShortHelp="Ориентированный угол";
+SketcherUI.CATComDYSGenericCircleCtrRds.Center.SectorAngle_Value.ShortHelp="Ориентированный угол";
+SketcherUI.CATComDYSGenericCircleCtrRds.Radius.Name.Title="Точка на окружности: ";
+SketcherUI.CATComDYSGenericCircleCtrRds.Radius.Name.Help="Определение координат точки, через которую пройдет окружность";
+SketcherUI.CATComDYSGenericCircleCtrRds.Radius.Name.ShortHelp="Точка на окружности";
+SketcherUI.CATComDYSGenericCircleCtrRds.Radius.Name.LongHelp="Определение координат точки, через которую пройдет окружность.";
+SketcherUI.CATComDYSGenericCircleCtrRds.Radius.ULabel.Title="Г: ";
+SketcherUI.CATComDYSGenericCircleCtrRds.Radius.UName.ShortHelp="Ненужное значение";
+SketcherUI.CATComDYSGenericCircleCtrRds.Radius.UEditor.ShortHelp="Ненужное значение";
+SketcherUI.CATComDYSGenericCircleCtrRds.Radius.VLabel.Title="В: ";
+SketcherUI.CATComDYSGenericCircleCtrRds.Radius.VName.ShortHelp="Ненужное значение";
+SketcherUI.CATComDYSGenericCircleCtrRds.Radius.VEditor.ShortHelp="Ненужное значение";
+SketcherUI.CATComDYSGenericCircleCtrRds.Radius.Radius_Label.Title="Р: ";
+SketcherUI.CATComDYSGenericCircleCtrRds.Radius.Radius_Label.ShortHelp="Радиус окружности";
+SketcherUI.CATComDYSGenericCircleCtrRds.Radius.Radius_Value.ShortHelp="Радиус окружности";
+// ------------------------------------------------------------------------------------------------------------------
+// Arc relimite Centre + Rayon
+SketcherUI.CATComDYSGenericCircleCtrRds.SetArcStart.Message="Необходимо щелкнуть или выбрать точку для определения радиуса и начальной точки дуги";
+SketcherUI.CATComDYSGenericCircleCtrRds.SetArcEnd.Message="Необходимо переместить курсор и щелкнуть для завершения дуги";
+// Copilot
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcStart.Name.Title="Начальная точка: ";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcStart.Name.Help="Определение координат начальной точки дуги: ";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcStart.Name.ShortHelp="Начальная точка";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcStart.Name.LongHelp="Определение начальной точки окружности.";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcStart.ULabel.Title="Г: ";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcStart.UName.ShortHelp="Первая координата начальной точки дуги";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcStart.UEditor.ShortHelp="Первая координата начальной точки дуги";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcStart.VLabel.Title="В: ";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcStart.VName.ShortHelp="Вторая координата начальной точки дуги";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcStart.VEditor.ShortHelp="Вторая координата начальной точки дуги";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcStart.Radius_Label.Title="Р: ";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcStart.Radius_Label.ShortHelp="Радиус окружности";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcStart.Radius_Value.ShortHelp="Радиус окружности";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcStart.StartAngle_Label.Title="У: ";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcStart.StartAngle_Label.ShortHelp="Угол между начальной точкой дуги и горизонтальным опорным элементом";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcStart.StartAngle_Value.ShortHelp="Угол между начальной точкой дуги и горизонтальным опорным элементом";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcStart.SectorAngle_Label.Title="С: ";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcStart.SectorAngle_Label.ShortHelp="Ориентированный угол";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcStart.SectorAngle_Value.ShortHelp="Ориентированный угол";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcEnd.Name.Title="Конечная точка: ";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcEnd.Name.Help="Задание координат конечной точки дуги";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcEnd.Name.ShortHelp="Конечная точка";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcEnd.Name.LongHelp="Задание координат конечной точки дуги.";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcEnd.ULabel.Title="Г: ";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcEnd.UName.ShortHelp="Первая координата конечной точки дуги";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcEnd.UEditor.ShortHelp="Первая координата конечной точки дуги";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcEnd.VLabel.Title="В: ";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcEnd.VName.ShortHelp="Вторая координата конечной точки дуги";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcEnd.VEditor.ShortHelp="Вторая координата конечной точки дуги";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcEnd.Radius_Label.Title="Р: ";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcEnd.Radius_Label.ShortHelp="Радиус окружности";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcEnd.Radius_Value.ShortHelp="Радиус окружности";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcEnd.StartAngle_Label.Title="У: ";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcEnd.StartAngle_Label.ShortHelp="Угол между начальной точкой дуги и горизонтальным опорным элементом";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcEnd.StartAngle_Value.ShortHelp="Угол между начальной точкой дуги и горизонтальным опорным элементом";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcEnd.SectorAngle_Label.Title="С: ";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcEnd.SectorAngle_Label.ShortHelp="Ориентированный угол";
+SketcherUI.CATComDYSGenericCircleCtrRds.ArcEnd.SectorAngle_Value.ShortHelp="Ориентированный угол";
+// ------------------------------------------------------------------------------------------------------------------
+
+
+SketcherUI.CATComDYSCircle3Pts.CreateCircle.Message="Необходимо щелкнуть или выбрать первую точку окружности";
+SketcherUI.CATComDYSCircle3Pts.CircleCmd.StartPt.Name.Title="Первая точка: ";
+SketcherUI.CATComDYSCircle3Pts.CircleCmd.EndPt.Name.Title="Последняя точка: ";
+SketcherUI.CATComDYSArc3Pts.CreateArc.Message="Необходимо щелкнуть или выбрать начальную точку дуги";
+SketcherUI.CATComDYSArc3Pts.ArcCmd.SecondPoint.Message="Необходимо щелкнуть или выбрать вторую точку, через которую пройдет дуга";
+SketcherUI.CATComDYSArc3Pts.ArcCmd.ThirdPoint.Message="Необходимо щелкнуть или выбрать конечную точку дуги";
+SketcherUI.CATComDYSArc3Pts.ArcCmd.StartPt.Radius_Label.ShortHelp="Радиус дуги";
+SketcherUI.CATComDYSArc3Pts.ArcCmd.StartPt.Radius_Value.ShortHelp="Радиус дуги";
+SketcherUI.CATComDYSArc3Pts.ArcCmd.MidPt.Radius_Label.ShortHelp="Радиус дуги";
+SketcherUI.CATComDYSArc3Pts.ArcCmd.MidPt.Radius_Value.ShortHelp="Радиус дуги";
+SketcherUI.CATComDYSArc3Pts.ArcCmd.EndPt.Radius_Label.ShortHelp="Радиус дуги";
+SketcherUI.CATComDYSArc3Pts.ArcCmd.EndPt.Radius_Value.ShortHelp="Радиус дуги";
+SketcherUI.CATComDYSArc3Pts132.CreateArc.Message="Необходимо щелкнуть или выбрать начальную точку дуги";
+SketcherUI.CATComDYSArc3Pts132.ArcCmd.SecondPoint.Message="Необходимо щелкнуть или выбрать конечную точку дуги";
+SketcherUI.CATComDYSArc3Pts132.ArcCmd.ThirdPoint.Message="Необходимо щелкнуть или выбрать вторую точку, через которую пройдет дуга";
+SketcherUI.CATComDYSArc3Pts132.ArcCmd.StartPt.Radius_Label.ShortHelp="Радиус дуги";
+SketcherUI.CATComDYSArc3Pts132.ArcCmd.StartPt.Radius_Value.ShortHelp="Радиус дуги";
+SketcherUI.CATComDYSArc3Pts132.ArcCmd.MidPt.Radius_Label.ShortHelp="Радиус дуги";
+SketcherUI.CATComDYSArc3Pts132.ArcCmd.MidPt.Radius_Value.ShortHelp="Радиус дуги";
+SketcherUI.CATComDYSArc3Pts132.ArcCmd.EndPt.Radius_Label.ShortHelp="Радиус дуги";
+SketcherUI.CATComDYSArc3Pts132.ArcCmd.EndPt.Radius_Value.ShortHelp="Радиус дуги";
+
+SketcherUI.CATComDYSGenericCircle3Pts.FirstPoint.Message="Необходимо щелкнуть или выбрать начальную точку окружности";
+SketcherUI.CATComDYSGenericCircle3Pts.SecondPoint.Message="Необходимо щелкнуть или выбрать вторую точку, через которую пройдет окружность";
+SketcherUI.CATComDYSGenericCircle3Pts.ThirdPoint.Message="Необходимо щелкнуть или выбрать последнюю точку окружности";
+SketcherUI.CATComDYSGenericCircle3Pts.StartPt.Name.Title="Начальная точка: ";
+SketcherUI.CATComDYSGenericCircle3Pts.StartPt.Name.Help="Определение начальной точки окружности";
+SketcherUI.CATComDYSGenericCircle3Pts.StartPt.Name.ShortHelp="Начальная точка";
+SketcherUI.CATComDYSGenericCircle3Pts.StartPt.Name.LongHelp="Определение начальной точки окружности.";
+SketcherUI.CATComDYSGenericCircle3Pts.StartPt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSGenericCircle3Pts.StartPt.ULabel.ShortHelp="Первая координата начальной точки";
+SketcherUI.CATComDYSGenericCircle3Pts.StartPt.UEditor.ShortHelp="Первая координата начальной точки";
+SketcherUI.CATComDYSGenericCircle3Pts.StartPt.VLabel.Title="В: ";
+SketcherUI.CATComDYSGenericCircle3Pts.StartPt.VLabel.ShortHelp="Вторая координата начальной точки";
+SketcherUI.CATComDYSGenericCircle3Pts.StartPt.VEditor.ShortHelp="Вторая координата начальной точки";
+SketcherUI.CATComDYSGenericCircle3Pts.StartPt.Radius_Label.Title="Р: ";
+SketcherUI.CATComDYSGenericCircle3Pts.StartPt.Radius_Label.ShortHelp="Радиус окружности";
+SketcherUI.CATComDYSGenericCircle3Pts.StartPt.Radius_Value.ShortHelp="Радиус окружности";
+SketcherUI.CATComDYSGenericCircle3Pts.MidPt.Name.Title="Вторая точка: ";
+SketcherUI.CATComDYSGenericCircle3Pts.MidPt.Name.Help="Определение второй точки";
+SketcherUI.CATComDYSGenericCircle3Pts.MidPt.Name.ShortHelp="Вторая точка";
+SketcherUI.CATComDYSGenericCircle3Pts.MidPt.Name.LongHelp="Определение второй точки окружности.";
+SketcherUI.CATComDYSGenericCircle3Pts.MidPt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSGenericCircle3Pts.MidPt.ULabel.ShortHelp="Первая координата второй точки";
+SketcherUI.CATComDYSGenericCircle3Pts.MidPt.UEditor.ShortHelp="Первая координата второй точки";
+SketcherUI.CATComDYSGenericCircle3Pts.MidPt.VLabel.Title="В: ";
+SketcherUI.CATComDYSGenericCircle3Pts.MidPt.VLabel.ShortHelp="Вторая координата второй точки";
+SketcherUI.CATComDYSGenericCircle3Pts.MidPt.VEditor.ShortHelp="Вторая координата второй точки";
+SketcherUI.CATComDYSGenericCircle3Pts.MidPt.Radius_Label.Title="Р: ";
+SketcherUI.CATComDYSGenericCircle3Pts.MidPt.Radius_Label.ShortHelp="Радиус окружности";
+SketcherUI.CATComDYSGenericCircle3Pts.MidPt.Radius_Value.ShortHelp="Радиус окружности";
+SketcherUI.CATComDYSGenericCircle3Pts.EndPt.Name.Title="Конечная точка: ";
+SketcherUI.CATComDYSGenericCircle3Pts.EndPt.Name.Help="Конечная точка";
+SketcherUI.CATComDYSGenericCircle3Pts.EndPt.Name.ShortHelp="Конечная точка";
+SketcherUI.CATComDYSGenericCircle3Pts.EndPt.Name.LongHelp="Определение конечной точки окружности.";
+SketcherUI.CATComDYSGenericCircle3Pts.EndPt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSGenericCircle3Pts.EndPt.ULabel.ShortHelp="Первая координата конечной точки";
+SketcherUI.CATComDYSGenericCircle3Pts.EndPt.UEditor.ShortHelp="Первая координата конечной точки";
+SketcherUI.CATComDYSGenericCircle3Pts.EndPt.VLabel.Title="В: ";
+SketcherUI.CATComDYSGenericCircle3Pts.EndPt.VLabel.ShortHelp="Вторая координата конечной точки";
+SketcherUI.CATComDYSGenericCircle3Pts.EndPt.VEditor.ShortHelp="Вторая координата конечной точки";
+SketcherUI.CATComDYSGenericCircle3Pts.EndPt.Radius_Label.Title="Р: ";
+SketcherUI.CATComDYSGenericCircle3Pts.EndPt.Radius_Label.ShortHelp="Радиус окружности";
+SketcherUI.CATComDYSGenericCircle3Pts.EndPt.Radius_Value.ShortHelp="Радиус окружности";
+
+// Creation Ellipse V2.0
+SketcherUI.CATComDYSEllipseCtrRds.Center.Message="Щелкните кнопкой мышки для определения центра эллипса";
+SketcherUI.CATComDYSEllipseCtrRds.MajorRadius.Message="Щелкните кнопкой мышки для определения большой оси и ориентации эллипса";
+SketcherUI.CATComDYSEllipseCtrRds.MinorRadius.Message="Щелкните кнопкой мышки для определения точки на эллипсе";
+// Gestion Visu Copilote
+SketcherUI.CATComDYSEllipseCtrRds.FirstPt.Name.Title="Центр: ";
+SketcherUI.CATComDYSEllipseCtrRds.FirstPt.Name.Help="Указание центра эллипса";
+SketcherUI.CATComDYSEllipseCtrRds.FirstPt.Name.ShortHelp="Центр эллипса";
+SketcherUI.CATComDYSEllipseCtrRds.FirstPt.Name.LongHelp="Определение центра эллипса.";
+SketcherUI.CATComDYSEllipseCtrRds.FirstPt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSEllipseCtrRds.FirstPt.ULabel.ShortHelp="Первая координата центра эллипса";
+SketcherUI.CATComDYSEllipseCtrRds.FirstPt.UEditor.ShortHelp="Первая координата центра эллипса";
+SketcherUI.CATComDYSEllipseCtrRds.FirstPt.VLabel.Title="В: ";
+SketcherUI.CATComDYSEllipseCtrRds.FirstPt.VLabel.ShortHelp="Вторая координата центра эллипса";
+SketcherUI.CATComDYSEllipseCtrRds.FirstPt.VEditor.ShortHelp="Вторая координата центра эллипса";
+SketcherUI.CATComDYSEllipseCtrRds.FirstPt.MajorRadius_Label.Title="Радиус по большой оси: ";
+SketcherUI.CATComDYSEllipseCtrRds.FirstPt.MajorRadius_Label.ShortHelp="Радиус по большой оси";
+SketcherUI.CATComDYSEllipseCtrRds.FirstPt.MajorRadius_Value.ShortHelp="Радиус по большой оси";
+SketcherUI.CATComDYSEllipseCtrRds.FirstPt.MinorRadius_Label.Title="Радиус по малой оси: ";
+SketcherUI.CATComDYSEllipseCtrRds.FirstPt.MinorRadius_Label.ShortHelp="Радиус по малой оси";
+SketcherUI.CATComDYSEllipseCtrRds.FirstPt.MinorRadius_Value.ShortHelp="Радиус по малой оси";
+SketcherUI.CATComDYSEllipseCtrRds.FirstPt.Angle_Label.Title="У: ";
+SketcherUI.CATComDYSEllipseCtrRds.FirstPt.Angle_Label.ShortHelp="Ориентация";
+SketcherUI.CATComDYSEllipseCtrRds.FirstPt.Angle_Value.ShortHelp="Ориентация";
+SketcherUI.CATComDYSEllipseCtrRds.SecondPt.Name.Title="Конечная точка большой полуоси:  ";
+SketcherUI.CATComDYSEllipseCtrRds.SecondPt.Name.Help="Определение конечной точки большой полуоси";
+SketcherUI.CATComDYSEllipseCtrRds.SecondPt.Name.ShortHelp="Конечная точка большой полуоси";
+SketcherUI.CATComDYSEllipseCtrRds.SecondPt.Name.LongHelp="Определение конечной точки большой полуоси.";
+SketcherUI.CATComDYSEllipseCtrRds.SecondPt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSEllipseCtrRds.SecondPt.ULabel.ShortHelp="Первая координата конца большой оси";
+SketcherUI.CATComDYSEllipseCtrRds.SecondPt.UEditor.ShortHelp="Первая координата конца большой оси";
+SketcherUI.CATComDYSEllipseCtrRds.SecondPt.VLabel.Title="В: ";
+SketcherUI.CATComDYSEllipseCtrRds.SecondPt.VLabel.ShortHelp="Вторая координата конца большой оси";
+SketcherUI.CATComDYSEllipseCtrRds.SecondPt.VEditor.ShortHelp="Вторая координата конца большой оси";
+SketcherUI.CATComDYSEllipseCtrRds.SecondPt.MajorRadius_Label.Title="Радиус по большой оси: ";
+SketcherUI.CATComDYSEllipseCtrRds.SecondPt.MajorRadius_Label.ShortHelp="Радиус по большой оси";
+SketcherUI.CATComDYSEllipseCtrRds.SecondPt.MajorRadius_Value.ShortHelp="Радиус по большой оси";
+SketcherUI.CATComDYSEllipseCtrRds.SecondPt.MinorRadius_Label.Title="Радиус по малой оси: ";
+SketcherUI.CATComDYSEllipseCtrRds.SecondPt.MinorRadius_Label.ShortHelp="Радиус по малой оси";
+SketcherUI.CATComDYSEllipseCtrRds.SecondPt.MinorRadius_Value.ShortHelp="Радиус по малой оси";
+SketcherUI.CATComDYSEllipseCtrRds.SecondPt.Angle_Label.Title="У: ";
+SketcherUI.CATComDYSEllipseCtrRds.SecondPt.Angle_Label.ShortHelp="Ориентация";
+SketcherUI.CATComDYSEllipseCtrRds.SecondPt.Angle_Value.ShortHelp="Ориентация";
+SketcherUI.CATComDYSEllipseCtrRds.ThirdPt.Name.Title="Конечная точка малой полуоси: ";
+SketcherUI.CATComDYSEllipseCtrRds.ThirdPt.Name.Help="Определение конечной точки малой полуоси";
+SketcherUI.CATComDYSEllipseCtrRds.ThirdPt.Name.ShortHelp="Конечная точка малой полуоси";
+SketcherUI.CATComDYSEllipseCtrRds.ThirdPt.Name.LongHelp="Определение конечной точки малой полуоси.";
+SketcherUI.CATComDYSEllipseCtrRds.ThirdPt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSEllipseCtrRds.ThirdPt.ULabel.ShortHelp="Первая координата точки";
+SketcherUI.CATComDYSEllipseCtrRds.ThirdPt.UEditor.ShortHelp="Первая координата точки";
+SketcherUI.CATComDYSEllipseCtrRds.ThirdPt.VLabel.Title="В: ";
+SketcherUI.CATComDYSEllipseCtrRds.ThirdPt.VLabel.ShortHelp="Вторая координата точки";
+SketcherUI.CATComDYSEllipseCtrRds.ThirdPt.VEditor.ShortHelp="Вторая координата точки";
+SketcherUI.CATComDYSEllipseCtrRds.ThirdPt.MajorRadius_Label.Title="Радиус по большой оси: ";
+SketcherUI.CATComDYSEllipseCtrRds.ThirdPt.MajorRadius_Label.ShortHelp="Радиус по большой оси";
+SketcherUI.CATComDYSEllipseCtrRds.ThirdPt.MajorRadius_Value.ShortHelp="Радиус по большой оси";
+SketcherUI.CATComDYSEllipseCtrRds.ThirdPt.MinorRadius_Label.Title="Радиус по малой оси: ";
+SketcherUI.CATComDYSEllipseCtrRds.ThirdPt.MinorRadius_Label.ShortHelp="Радиус по малой оси";
+SketcherUI.CATComDYSEllipseCtrRds.ThirdPt.MinorRadius_Value.ShortHelp="Радиус по малой оси";
+SketcherUI.CATComDYSEllipseCtrRds.ThirdPt.Angle_Label.Title="У: ";
+SketcherUI.CATComDYSEllipseCtrRds.ThirdPt.Angle_Label.ShortHelp="Ориентация";
+SketcherUI.CATComDYSEllipseCtrRds.ThirdPt.Angle_Value.ShortHelp="Ориентация";
+
+
+SketcherUI.CATComDYSBreak.FirstElem.Message="Выбор элемента, который следует разбить, или общей точки";
+SketcherUI.CATComDYSBreak.SecondElem.Message="Выбор элемента разбиения";
+SketcherUI.CATComDYSBreak.LengthToDist.Title="Разбиение";
+SketcherUI.CATComDYSBreak.LengthToDist.Message="Невозможно разбиение элемента с закрепленной длиной.\nПреобразовать длину в расстояние?\n";
+SketcherUI.CATComDYSBreak.CheckMiddlePoint.Title="Разбиение";
+SketcherUI.CATComDYSBreak.CheckMiddlePoint.Message="В результате данной операции ограничение средней точки может быть изменено или даже удалено.\nПодтвердите данное изменение.";
+SketcherUI.CATComDYSBreak.Explode.Title="Разбиение";
+SketcherUI.CATComDYSBreak.Explode1.Message="Выбранная точка будет изолирована.\n";
+SketcherUI.CATComDYSBreak.Explode.Message="Все выбранные точки будут изолированы.\n";
+
+
+SketcherUI.CATComDYSUseEdge.SelElem.Message="Выбор элементов 3D, которые требуется пересечь плоскостью эскиза";
+SketcherUI.CATComDYSUseEdge.NoIntBox.Title="Пересечение с плоскостью эскиза";
+SketcherUI.CATComDYSUseEdge.NoInt.Message="Сбой пересечения с плоскостью эскиза:\nпересечение не существует.\n";
+SketcherUI.CATComDYSUseEdge.Cycle.Message="Не выполнено пересечение с плоскостью эскиза:\nбудет запущен цикл обновления.\n";
+SketcherUI.CATComDYSUseEdge.PartialInt.Message="Предупреждение:Только определенные элементы, получающиеся в результате пересечения с плоскостью эскиза,\nявляются ассоциативными.(Количество неассоциативных элементов =";
+SketcherUI.CATComDYSUseEdge.NoAssInt.Message="Предупреждение:Элементы, получающиеся в результате пересечения с плоскостью эскиза,\nне являются ассоциативными.(Количество неассоциативных элементов =";
+
+
+SketcherUI.CATComDYSUseEdgeProj.SelElem.Message="Выберите элементы 3D, которые требуется спроецировать на плоскость эскиза";
+SketcherUI.CATComDYSUseEdgeProj.NoProjBox.Title="Проекция на плоскость эскиза";
+SketcherUI.CATComDYSUseEdgeProj.NoProj.Message="Сбой проецирования на плоскость эскиза:\nпроецирование выбранных элементов невозможно\n";
+SketcherUI.CATComDYSUseEdgeProj.Cycle.Message="Не выполнена проекция на плоскость эскиза:\nбудет запущен цикл обновления.\n";
+SketcherUI.CATComDYSUseEdgeProj.PartialProj.Message="Предупреждение:Только определенные элементы, получающиеся в результате проецирования на плоскость эскиза,\nявляются ассоциативными.(Количество неассоциативных элементов =";
+SketcherUI.CATComDYSUseEdgeProj.NoAssProj.Message="Предупреждение:Элементы, получающиеся в результате проецирования на плоскость эскиза,\nне являются ассоциативными.(Количество неассоциативных элементов =";
+
+
+SketcherUI.CATComDYSUseEdgeSilh.SelElem.Message="Выбор поверхностей 3D, кромки силуэтов которых будут проецироваться на плоскость эскиза";
+SketcherUI.CATComDYSUseEdgeSilh.NoProjBox.Title="Проекция кромок силуэта на плоскость эскиза";
+SketcherUI.CATComDYSUseEdgeSilh.NoProj.Message="Сбой проецирования кромок силуэта на плоскость эскиза:\nневозможно проецирование выбранных поверхностей\n";
+SketcherUI.CATComDYSUseEdgeSilh.Cycle.Message="Не выполнена проекция кромок силуэта на плоскость эскиза:\nбудет запущен цикл обновления.\n";
+SketcherUI.CATComDYSUseEdgeSilh.PartialProj.Message="Предупреждение:Только определенные элементы, получающиеся в результате проецирования кромок силуэта на плоскость эскиза,\nявляются ассоциативными.(Количество неассоциативных элементов =";
+SketcherUI.CATComDYSUseEdgeSilh.NoAssProj.Message="Предупреждение:Элементы, получающиеся в результате проецирования кромок силуэта на плоскость эскиза,\nне являются ассоциативными.(Количество неассоциативных элементов =";
+
+
+SketcherUI.CATComDYSPoint.PointCreation.Message="Щелкните кнопкой мыши для создания точки";
+SketcherUI.CATComDYSPoint.Point.Name.Title="Координаты точки: ";
+SketcherUI.CATComDYSPoint.Point.ULabel.Title="Г: ";
+SketcherUI.CATComDYSPoint.Point.ULabel.ShortHelp="Первая координата точки";
+SketcherUI.CATComDYSPoint.Point.UEditor.ShortHelp="Первая координата точки";
+SketcherUI.CATComDYSPoint.Point.VLabel.Title="В: ";
+SketcherUI.CATComDYSPoint.Point.VLabel.ShortHelp="Вторая координата точки";
+SketcherUI.CATComDYSPoint.Point.VEditor.ShortHelp="Вторая координата точки";
+SketcherUI.CATComDYSPoint.Barycenter.Title="Создание общего центра тяжести";
+SketcherUI.CATComDYSPoint.Barycenter.Message="На основании всех выбранных точек будет создан общий центр тяжести.\nПодтвердите необходимость создания данной точки.";
+
+
+SketcherUI.2DElementType.Construction.Title="Вспомогательный элемент";
+
+SketcherUI.2DPointPanel.Title="Определение точки";
+
+
+SketcherUI.2DPointEditor.CartesianPage.Title="Прямоугольная";
+SketcherUI.2DPointEditor.CartesianPage.Help="Определение прямоугольных координат точки";
+SketcherUI.2DPointEditor.CartesianPage.LongHelp="Определение прямоугольных координат точки.";
+SketcherUI.2DPointEditor.CartesianPage.H_Length.Title="Г:";
+SketcherUI.2DPointEditor.CartesianPage.X.Spinner.Title="Г";
+SketcherUI.2DPointEditor.CartesianPage.V_Length.Title="В:";
+SketcherUI.2DPointEditor.CartesianPage.Y.Spinner.Title="В";
+SketcherUI.2DPointEditor.PolarPage.Title="Полярные";
+SketcherUI.2DPointEditor.PolarPage.Help="Определение полярных координат точки";
+SketcherUI.2DPointEditor.PolarPage.LongHelp="Определение полярных координат точки.";
+SketcherUI.2DPointEditor.PolarPage.Radius_Length.Title="Радиус:";
+SketcherUI.2DPointEditor.PolarPage.Radius.Spinner.Title="Радиус";
+SketcherUI.2DPointEditor.PolarPage.Alpha_Angle.Title="Угол:";
+SketcherUI.2DPointEditor.PolarPage.Angle.Spinner.Title="Угол";
+
+SketcherUI.2DDirectionEditor.Length.Title="Длина: ";
+SketcherUI.2DDirectionEditor.Length.Spinner.Title="Длина";
+SketcherUI.2DDirectionEditor.Angle.Title="Угол:  ";
+SketcherUI.2DDirectionEditor.Angle.Spinner.Title="Угол";
+
+
+SketcherUI.CATComEdit2DCircle.PanelState.Message="Ввод определения окружности";
+SketcherUI.CATComEdit2DCstPoint.InitState.Message="Определение управляющей точки";
+SketcherUI.2DCirclePanel.Title="Определение окружности";
+SketcherUI.2DCirclePanel.Center.Title="Центральная точка";
+SketcherUI.2DCirclePanel.Radius_Length.Title="Радиус: ";
+SketcherUI.2DCirclePanel.CircleRadius.Spinner.Title="Радиус";
+
+
+SketcherUI.CATComEdit2DEllipse.PanelState.Message="Ввод определения эллипса";
+
+SketcherUI.2DEllipsePanel.Title="Определение эллипса";
+SketcherUI.2DEllipsePanel.Center.Title="Центральная точка";
+SketcherUI.2DEllipsePanel.MajorRadius_Length.Title="Радиус по большой оси: ";
+SketcherUI.2DEllipsePanel.EllipseMajorRadius.Spinner.Title="Радиус по большой оси";
+SketcherUI.2DEllipsePanel.MinorRadius_Length.Title="Радиус по малой оси: ";
+SketcherUI.2DEllipsePanel.EllipseMinorRadius.Spinner.Title="Радиус по малой оси";
+SketcherUI.2DEllipsePanel.Alpha_Angle.Title="Угол: ";
+SketcherUI.2DEllipsePanel.Angle.Spinner.Title="Угол";
+
+
+SketcherUI.CATComEdit2DLine.PanelState.Message="Ввод определения линии";
+SketcherUI.CATComEdit2DLine.ErrorModif.Title="Недопустимые значения";
+SketcherUI.CATComEdit2DLine.ErrorModif.Message="Заданные геометрические ограничения, лежащие на данной линии\nне соответствуют указанным при вводе значениям.\nНебходимо добавить или удалить ограничения для изменения данной линии.";
+
+SketcherUI.CATComEdit2DParabola.PanelState.Message="Ввод определения параболы";
+SketcherUI.CATComEdit2DParabola.ErrorModif.Title="Недопустимые значения";
+SketcherUI.CATComEdit2DParabola.ErrorModif.Message="Задание других значений для координат фокуса и вершины параболы.";
+
+SketcherUI.CATComEdit2DHyperbola.PanelState.Message="Ввод определения гиперболы";
+SketcherUI.CATComEdit2DHyperbola.ErrorModif.Title="Недопустимые значения";
+SketcherUI.CATComEdit2DHyperbola.ErrorModif.Message="Задание других значений для координат фокуса и вершины гиперболы.";
+
+SketcherUI.2DLinePanel.Title="Определение линии";
+SketcherUI.2DLinePanel.StartPoint.Title="Конечная точка 1";
+SketcherUI.2DLinePanel.EndPoint.Title="Конечная точка 2";
+SketcherUI.2DLinePanel.Parameters.Title="Параметры";
+
+
+SketcherUI.CATComEdit2DPoint.PanelState.Message="Ввод координат новой точки";
+
+SketcherUI.CATComEdit2DSpline.PanelState.Message="Выбор управляющей точки и, если требуется, задание касания и радиуса кривизны или удаление его.";
+SketcherUI.CATComEdit2DSpline.SelNewPoint.Message="Выбор новой управляющей точки";
+
+SketcherUI.2DCstPointPanel.Title="Определение управляющей точки";
+SketcherUI.2DCstPointPanel.PanelState.Message="Ввод координат новой точки и, если требуется, задание касания и радиуса кривизны.";
+SketcherUI.2DCstPointPanel.2DCstPointEditor.Help="Определение координат точки";
+SketcherUI.2DCstPointPanel.2DCstPointEditor.LongHelp="Определение координат точки.";
+
+SketcherUI.Editor2DCstTangent.TangentImposition.Title="Касание";
+SketcherUI.Editor2DCstTangent.TangentImposition.Help="Наложение касания";
+SketcherUI.Editor2DCstTangent.TangentImposition.LongHelp="Наложение касания.";
+SketcherUI.Editor2DCstTangent.InvertTangent.Title="Реверс касательной";
+SketcherUI.Editor2DCstTangent.InvertTangent.Help="Реверс касательной";
+SketcherUI.Editor2DCstTangent.InvertTangent.LongHelp="Реверс направления касания.";
+SketcherUI.Editor2DCstTangent.CurvatureImposition.Title="Радиус кривизны:";
+SketcherUI.Editor2DCstTangent.CurvatureImposition.Help="Наложение кривизны";
+SketcherUI.Editor2DCstTangent.CurvatureImposition.LongHelp="Наложение кривизны.";
+
+
+SketcherUI.CATComDYSCircleXYRds.CircleData.Message="Ввод абсолютных координат центра или, если требуется, выбор опорной точки";
+SketcherUI.CATComDYSCircleXYRds.CircleDataWithRef.Message="Ввод относительных координат центра или, если требуется, выбор другой опорной точки";
+
+SketcherUI.CATComDYSPointXY.PointData.Message="Ввод абсолютных координат новой точки или, если требуется, выбор опорной точки";
+SketcherUI.CATComDYSPointXY.PointDataWithRef.Message="Ввод относительных координат новой точки или, если требуется, выбор другой опорной точки";
+
+SketcherUI.3DPointPanel.Title="Определение точки";
+
+SketcherUI.3DPointEditor.CartesianPage.Title="Прямоугольная";
+SketcherUI.3DPointEditor.CartesianPage.Help="Определение прямоугольных координат точки";
+SketcherUI.3DPointEditor.CartesianPage.LongHelp="Определение прямоугольных координат точки.";
+SketcherUI.3DPointEditor.CartesianPage.X_Length.Title="x:     ";
+SketcherUI.3DPointEditor.CartesianPage.X.Spinner.Title="x";
+SketcherUI.3DPointEditor.CartesianPage.Y_Length.Title="y:     ";
+SketcherUI.3DPointEditor.CartesianPage.Y.Spinner.Title="y";
+SketcherUI.3DPointEditor.CartesianPage.Z_Length.Title="z:     ";
+SketcherUI.3DPointEditor.CartesianPage.Z.Spinner.Title="z";
+SketcherUI.3DPointEditor.CylindricalPage.Title="Цилиндрические";
+SketcherUI.3DPointEditor.CylindricalPage.Help="Определение цилиндрических координат точки";
+SketcherUI.3DPointEditor.CylindricalPage.LongHelp="Определение цилиндрических координат точки.";
+SketcherUI.3DPointEditor.CylindricalPage.Radius_Length.Title="Радиус:";
+SketcherUI.3DPointEditor.CylindricalPage.Radius.Spinner.Title="Радиус";
+SketcherUI.3DPointEditor.CylindricalPage.Theta_Angle.Title="Тэта: ";
+SketcherUI.3DPointEditor.CylindricalPage.Theta.Spinner.Title="Тэта";
+SketcherUI.3DPointEditor.CylindricalPage.Height_Length.Title="Высота:";
+SketcherUI.3DPointEditor.CylindricalPage.Height.Spinner.Title="Высота";
+SketcherUI.3DPointEditor.SphericalPage.Title="Сферические";
+SketcherUI.3DPointEditor.SphericalPage.Help="Определение сферических координат точки";
+SketcherUI.3DPointEditor.SphericalPage.LongHelp="Определение сферических координат точки.";
+SketcherUI.3DPointEditor.SphericalPage.Radius_Length.Title="Радиус:";
+SketcherUI.3DPointEditor.SphericalPage.Radius.Spinner.Title="Радиус";
+SketcherUI.3DPointEditor.SphericalPage.Theta_Angle.Title="Тэта: ";
+SketcherUI.3DPointEditor.SphericalPage.Theta.Spinner.Title="Тэта";
+SketcherUI.3DPointEditor.SphericalPage.Phi_Angle.Title="Фи:   ";
+SketcherUI.3DPointEditor.SphericalPage.Phi.Spinner.Title="Фи";
+
+SketcherUI.CATComEdit3DLine.PanelState.Message="Изменение определения линии";
+
+SketcherUI.CATComEdit3DPlane.PanelState.Message="Изменение определения плоскости";
+
+SketcherUI.CATComEdit3DPoint.PanelState.Message="Ввод координат точки";
+
+SketcherUI.3DPlanePanel.Title="Определение плоскости";
+SketcherUI.3DPlanePanel.Origin.Title="Начало координат";
+SketcherUI.3DPlanePanel.Origin.Help="Определение начала координат";
+SketcherUI.3DPlanePanel.Origin.LongHelp="Определение координат для начала координат плоскости.";
+SketcherUI.3DPlanePanel.Normal.Title="Перпендикулярно";
+SketcherUI.3DPlanePanel.Normal.Help="Определение перпендикуляра";
+SketcherUI.3DPlanePanel.Normal.LongHelp="Определение перпендикуляра.";
+SketcherUI.3DPlanePanel.Normal.X_Vector.Title="x:";
+SketcherUI.3DPlanePanel.Normal.UxValue.Title="Nx";
+SketcherUI.3DPlanePanel.Normal.Y_Vector.Title="y:";
+SketcherUI.3DPlanePanel.Normal.UyValue.Title="Ny";
+SketcherUI.3DPlanePanel.Normal.Z_Vector.Title="z:";
+SketcherUI.3DPlanePanel.Normal.UzValue.Title="Nz";
+
+SketcherUI.3DLinePanel.Title="Определение линии";
+SketcherUI.3DLinePanel.Origin.Title="Начало координат";
+SketcherUI.3DLinePanel.Origin.Help="Определение начала координат для линии";
+SketcherUI.3DLinePanel.Origin.LongHelp="Определение начала координат для линии.";
+SketcherUI.3DLinePanel.Direction.Title="Направление";
+SketcherUI.3DLinePanel.Direction.Help="Определение направления линии";
+SketcherUI.3DLinePanel.Direction.LongHelp="Определение направления линии.";
+SketcherUI.3DLinePanel.Direction.X_Vector.Title="x:";
+SketcherUI.3DLinePanel.Direction.UxValue.Title="Dx";
+SketcherUI.3DLinePanel.Direction.Y_Vector.Title="y:";
+SketcherUI.3DLinePanel.Direction.UyValue.Title="Dy";
+SketcherUI.3DLinePanel.Direction.Z_Vector.Title="z:";
+SketcherUI.3DLinePanel.Direction.UzValue.Title="Dz";
+
+// Symmetry Command
+SketcherUI.CATComDYSSymmetry.ElementMirror.Message="Выбор элементов для дублирования с помощью операции симметрии";
+SketcherUI.CATComDYSSymmetry.ElementSymmetry.Message="Выбор элементов, для которых требуется построить симметричные элементы";
+SketcherUI.CATComDYSSymmetry.Symmetry.Message="Выбор линии или оси, от которой элементы будут оставаться равноудаленными";
+
+// Isolate Command
+SketcherUI.CATComDYSIsolate.GetImportedGeometry.Message="Выбор проекции или пересечения, которое требуется изолировать";
+SketcherUI.CATComDYSIsolate.RerouteNeeded.Title="Предупреждение:Может потребоваться переадресация";
+SketcherUI.CATComDYSIsolate.RerouteNeeded.Message="Спецификации, связанные с изолированными элементами, потребуют переадресации";
+SketcherUI.CATComDYSIsolate.IsolateFailed.Message="Сбой операции изолирования!";
+SketcherUI.CATComDYSIsolate.IsolateFailed.Title="Предупреждение";
+SketcherUI.CATComDYSIsolate.IsolateLMGUseEdgeFailed.Message="Изолирование пользовательской кромки Эскиза LMG не разрешено!";
+SketcherUI.CATComDYSIsolate.IsolateLMGUseEdgeFailed.Title="Предупреждение";
+
+
+// Ressources NLS (CXR2 Commands)
+// AutoConstraint Command
+
+SketcherUI.CATComAutoConstraint.stateGetEltSel.Message="Выбор или отмена выбора элементов для наложения ограничений или же выбор другой опции";
+SketcherUI.CATComAutoConstraint.stateGetEltRef.Message="Выбор или отмена выбора опорных элементов или же выбор другой опции";
+SketcherUI.CATComAutoConstraint.stateGetEltSym.Message="Выбор или отмена выбора линий для симметричного отображения или же выбор другой опции";
+SketcherUI.CATComAutoConstraint.AutoConstraintPanel.Title="Автоограничение";
+SketcherUI.CATComAutoConstraint.AutoConstraintPanel.ObjectSelLabel.Title="Элементы для ограничения:";
+SketcherUI.CATComAutoConstraint.AutoConstraintPanel.ObjectSelLabel.LongHelp="Определение элементов для ограничения.";
+SketcherUI.CATComAutoConstraint.AutoConstraintPanel.ObjectRefLabel.Title="Опорные элементы:";
+SketcherUI.CATComAutoConstraint.AutoConstraintPanel.ObjectRefLabel.LongHelp="Определение опорных элементов.";
+SketcherUI.CATComAutoConstraint.AutoConstraintPanel.ObjectSymLabel.Title="Линии симметрии:";
+SketcherUI.CATComAutoConstraint.AutoConstraintPanel.ObjectSymLabel.LongHelp="Определение линий симметрии.";
+SketcherUI.CATComAutoConstraint.AutoConstraintPanel.ObjectModeLabel.Title="Режим ограничений:";
+SketcherUI.CATComAutoConstraint.AutoConstraintPanel.ObjectModeLabel.LongHelp="Определение режима создания ограничений.";
+SketcherUI.CATComAutoConstraint.AutoConstraintPanel.ObjectModeCombo.Stacked.Item="С общей размерной линией";
+SketcherUI.CATComAutoConstraint.AutoConstraintPanel.ObjectModeCombo.Chained.Item="Цепочкой";
+
+Element="Элемент";
+Element_s="Элементы";
+NoSelection="Не выбрано";
+2DLine="Линия";
+2DLine_s="Линии";
+2DPoint="Точка";
+2DPoint_s="Точки";
+2DCircle="Окружность";
+2DCircle_s="Окружности";
+2DEllipse="Эллипс";
+2DEllipse_s="Эллипсы";
+2DSplineCurve="Сплайн";
+2DSplineCurve_s="Сплайны";
+2DCstPoint="Точка Cst";
+2DCstPoint_s="Точки Cst";
+2DCstPointTangent="По касательной";
+2DCstPointTangent_s="Касательные";
+Imported3DGeometry="Импортированная геометрия";
+Imported3DGeometry_s="Импортированная геометрия ";
+CATBrpObject="Импортированная геометрия";
+CATBrpObject_s="Импортированная геометрия ";
+2DAxis_HDirection="Горизонтальное направление";
+2DAxis_VDirection="Вертикальное направление";
+CATRSurImpl="Грань";
+CATRSurImpl_s="Грани";
+R7Imported3DGeometry="Импортированная геометрия";
+R7Imported3DGeometry_s="Импортированная геометрия ";
+CATREdgeImpl="Кромка";
+CATREdgeImpl_s="Кромки";
+CATWireREdgeImpl="Кромка";
+CATWireREdgeImpl_s="Кромки";
+CATFVertexImpl="Вершина";
+CATFVertexImpl_s="Вершина";
+CATBorderFVertexImpl="Вершина";
+CATBorderFVertexImpl_s="Вершина";
+CATAxisImpl="Ось";
+CATAxisImpl_s="Ось";
+
+// Ressources NLS
+// Panel Animation Contrainte
+
+SketcherUI.CATComDimAnimate.SelCst.Message="Выбор ограничения для анимации";
+SketcherUI.CATComDimAnimate.KeyValues.Message="Ввод значений";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Title="Ограничение анимации";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Parameters.Title="Параметры";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Parameters.LongHelp="Определение параметров.";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Parameters.FirstValue.Title="Первое значение:";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Parameters.FirstValue.LongHelp="Определение первого значения.";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Parameters.LastValue.Title="Последнее значение:";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Parameters.LastValue.LongHelp="Определение последнего значения.";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Parameters.NbStep.Title="Число шагов:";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Parameters.NbStep.LongHelp="Определение количества шагов.";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Actions.Title="Операции";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Actions.LongHelp="Определение операций.";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Actions.RunReverse.Title="Обратная перемотка анимации";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Actions.RunReverse.Help="Обратная перемотка анимации";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Actions.RunReverse.ShortHelp="Обратная перемотка анимации";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Actions.RunReverse.LongHelp="Определение обратной перемотки анимации.";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Actions.Pause.Title="Пауза анимации";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Actions.Pause.Help="Пауза анимации";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Actions.Pause.ShortHelp="Пауза анимации";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Actions.Pause.LongHelp="Определение паузы в анимации.";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Actions.Stop.Title="Останов анимации";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Actions.Stop.Help="Останов анимации";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Actions.Stop.ShortHelp="Останов анимации";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Actions.Stop.LongHelp="Определение останова анимации.";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Actions.RunForward.Title="Запуск анимации";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Actions.RunForward.Help="Запуск анимации";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Actions.RunForward.ShortHelp="Запуск анимации";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.Actions.RunForward.LongHelp="Определение запуска анимации";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.RepeatOption.Title="Параметры";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.RepeatOption.OneShot.Title="Один кадр";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.RepeatOption.OneShot.Help="Определение режима одного кадра";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.RepeatOption.OneShot.ShortHelp="Один кадр";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.RepeatOption.OneShot.LongHelp="Определение режима одного кадра.";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.RepeatOption.Reverse.Title="Реверс";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.RepeatOption.Reverse.Help="Определение режима реверса";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.RepeatOption.Reverse.ShortHelp="Реверс";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.RepeatOption.Reverse.LongHelp="Определение режима реверса.";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.RepeatOption.Loop.Title="Цикл";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.RepeatOption.Loop.Help="Определение режима циклического повтора";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.RepeatOption.Loop.ShortHelp="Цикл";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.RepeatOption.Loop.LongHelp="Определение режима циклического повтора.";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.RepeatOption.Repeat.Title="Повтор";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.RepeatOption.Repeat.Help="Определение режима повтора";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.RepeatOption.Repeat.ShortHelp="Повтор";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.RepeatOption.Repeat.LongHelp="Определение режима повтора.";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.HideConstraints.Title="Скрытие ограничений";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.HideConstraints.Help="Определение режима скрытия ограничений";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.HideConstraints.ShortHelp="Скрытие ограничений";
+SketcherUI.CATComDimAnimate.AnimateConstraintPanel.HideConstraints.LongHelp="Определение режима скрытия ограничений.";
+
+//
+// keyhole profile
+//
+SketcherUI.CATCom2DKeyHole.FirstSide.Message="Определение центра большого радиуса";
+SketcherUI.CATCom2DKeyHole.Entraxe.EndPoint.Message="Определение центра малого радиуса";
+SketcherUI.CATCom2DKeyHole.SecondSide.Message="Щелкните кнопкой мыши точку профиля проточки для определения малого радиуса";
+SketcherUI.CATCom2DKeyHole.ThirdSide.Message="Щелкните кнопкой мыши точку профиля проточки для определения большого радиуса";
+SketcherUI.CATCom2DKeyHole.Radius.Message="Ввод значения радиуса";
+SketcherUI.CATCom2DKeyHole.Radius.Dimension.EnglobingFrame.IntermediateFrame.Label.Title="Радиус: ";
+SketcherUI.CATCom2DKeyHole.Radius.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp="Радиус продолговатого отверстия";
+SketcherUI.CATCom2DKeyHole.Entraxe.StartPt.Name.Title="Центр: ";
+SketcherUI.CATCom2DKeyHole.Entraxe.StartPt.Name.Help="Определение центра большого радиуса";
+SketcherUI.CATCom2DKeyHole.Entraxe.StartPt.Name.ShortHelp="Центр";
+SketcherUI.CATCom2DKeyHole.Entraxe.StartPt.Name.LongHelp="Определение центра большого радиуса.";
+SketcherUI.CATCom2DKeyHole.Entraxe.StartPt.ULabel.Title="Г: ";
+SketcherUI.CATCom2DKeyHole.Entraxe.StartPt.VLabel.Title="В: ";
+SketcherUI.CATCom2DKeyHole.Entraxe.EndPt.Name.Title="Центр: ";
+SketcherUI.CATCom2DKeyHole.Entraxe.EndPt.Name.Help="Определение центра малого радиуса";
+SketcherUI.CATCom2DKeyHole.Entraxe.EndPt.Name.ShortHelp="Центр";
+SketcherUI.CATCom2DKeyHole.Entraxe.EndPt.Name.LongHelp="Определение центра малого радиуса.";
+SketcherUI.CATCom2DKeyHole.Entraxe.EndPt.ULabel.Title="Г: ";
+SketcherUI.CATCom2DKeyHole.Entraxe.EndPt.VLabel.Title="В: ";
+SketcherUI.CATCom2DKeyHole.FirstRadius.Name.Title="Малый радиус: ";
+SketcherUI.CATCom2DKeyHole.FirstRadius.Name.Help="Определение первой точки на профиле проточки, задающей малый радиус";
+SketcherUI.CATCom2DKeyHole.FirstRadius.Name.ShortHelp="Первая точка";
+SketcherUI.CATCom2DKeyHole.FirstRadius.Name.LongHelp="Определение первой точки на профиле проточки, задающей малый радиус.";
+SketcherUI.CATCom2DKeyHole.FirstRadius.ULabel.Title="Г: ";
+SketcherUI.CATCom2DKeyHole.FirstRadius.VLabel.Title="В: ";
+SketcherUI.CATCom2DKeyHole.SecondRadius.Name.Title="Второй радиус: ";
+SketcherUI.CATCom2DKeyHole.SecondRadius.Name.Help="Определение второй точки на профиле проточки, задающей большой радиус";
+SketcherUI.CATCom2DKeyHole.SecondRadius.Name.ShortHelp="Вторая точка";
+SketcherUI.CATCom2DKeyHole.SecondRadius.Name.LongHelp="Определение второй точки на профиле проточки, задающей большой радиус.";
+SketcherUI.CATCom2DKeyHole.SecondRadius.ULabel.Title="Г: ";
+SketcherUI.CATCom2DKeyHole.SecondRadius.VLabel.Title="В: ";
+
+//
+//  Elongated hole
+//
+SketcherUI.CATCom2DTrouOblong.FirstSide.Message="Определение расстояния между центрами";
+SketcherUI.CATCom2DTrouOblong.SecondSide.Message="Щелчок кнопкой мыши для определения точки на продолговатом отверстии";
+SketcherUI.CATCom2DTrouOblong.Radius.Message="Ввод значения радиуса";
+SketcherUI.CATCom2DTrouOblong.Radius.Dimension.EnglobingFrame.IntermediateFrame.Label.Title="Радиус: ";
+SketcherUI.CATCom2DTrouOblong.Radius.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp="Радиус продолговатого отверстия";
+SketcherUI.CATCom2DTrouOblong.Entraxe.StartPt.Name.Title="Первый центр: ";
+SketcherUI.CATCom2DTrouOblong.Entraxe.StartPt.Name.Help="Определение первой точки для расстояния между центрами продолговатого отверстия";
+SketcherUI.CATCom2DTrouOblong.Entraxe.StartPt.Name.ShortHelp="Первый центр";
+SketcherUI.CATCom2DTrouOblong.Entraxe.StartPt.Name.LongHelp="Определение первой точки для расстояния между центрами продолговатого отверстия.";
+SketcherUI.CATCom2DTrouOblong.Entraxe.StartPt.ULabel.Title="Г: ";
+SketcherUI.CATCom2DTrouOblong.Entraxe.StartPt.VLabel.Title="В: ";
+SketcherUI.CATCom2DTrouOblong.Entraxe.EndPt.Name.Title="Второй центр: ";
+SketcherUI.CATCom2DTrouOblong.Entraxe.EndPt.Name.Help="Определение второй точки для расстояния между центрами продолговатого отверстия";
+SketcherUI.CATCom2DTrouOblong.Entraxe.EndPt.Name.ShortHelp="Второй центр";
+SketcherUI.CATCom2DTrouOblong.Entraxe.EndPt.Name.LongHelp="Определение второй точки для расстояния между центрами продолговатого отверстия";
+SketcherUI.CATCom2DTrouOblong.Entraxe.EndPt.ULabel.Title="Г: ";
+SketcherUI.CATCom2DTrouOblong.Entraxe.EndPt.VLabel.Title="В: ";
+SketcherUI.CATCom2DTrouOblong.EndPt.Name.Title="Точка на продолговатом отверстии: ";
+SketcherUI.CATCom2DTrouOblong.EndPt.Name.Help="Определение точки на продолговатом отверстии";
+SketcherUI.CATCom2DTrouOblong.EndPt.Name.ShortHelp="Точка на продолговатом отверстии";
+SketcherUI.CATCom2DTrouOblong.EndPt.Name.LongHelp="Определение точки на продолговатом отверстии.";
+SketcherUI.CATCom2DTrouOblong.EndPt.ULabel.Title="Г: ";
+SketcherUI.CATCom2DTrouOblong.EndPt.VLabel.Title="В: ";
+
+//
+// Cylindrical elongated hole
+//
+SketcherUI.CATCom2DTrouOblongArc.FirstSide.Message="Определение дуги между центрами";
+SketcherUI.CATCom2DTrouOblongArc.SecondSide.Message="Щелчок кнопкой мыши для определения точки на цилиндрическом продолговатом отверстии";
+SketcherUI.CATCom2DTrouOblongArc.CenterPt.Name.Title="Дуга между центрами: ";
+SketcherUI.CATCom2DTrouOblongArc.Radius.Message="Ввод значения радиуса";
+SketcherUI.CATCom2DTrouOblongArc.Radius.Dimension.EnglobingFrame.IntermediateFrame.Label.Title="Радиус: ";
+SketcherUI.CATCom2DTrouOblongArc.Radius.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp="Радиус цилиндрического продолговатого отверстия";
+SketcherUI.CATCom2DTrouOblongArc.EntraxeArc.CenterPt.Name.Title="Центр дуги: ";
+SketcherUI.CATCom2DTrouOblongArc.EntraxeArc.CenterPt.Name.Help="Определение центра цилиндрического продолговатого отверстия";
+SketcherUI.CATCom2DTrouOblongArc.EntraxeArc.CenterPt.Name.ShortHelp="Центр цилиндрического продолговатого отверстия";
+SketcherUI.CATCom2DTrouOblongArc.EntraxeArc.CenterPt.Name.LongHelp="Определение центра цилиндрического продолговатого отверстия.";
+SketcherUI.CATCom2DTrouOblongArc.EntraxeArc.CenterPt.ULabel.Title="Г: ";
+SketcherUI.CATCom2DTrouOblongArc.EntraxeArc.CenterPt.VLabel.Title="В: ";
+SketcherUI.CATCom2DTrouOblongArc.EntraxeArc.PtOn.Name.Title="Первый центр: ";
+SketcherUI.CATCom2DTrouOblongArc.EntraxeArc.PtOn.Name.Help="Определение первой точки для расстояния между центрами цилиндрического продолговатого отверстия";
+SketcherUI.CATCom2DTrouOblongArc.EntraxeArc.PtOn.Name.ShortHelp="Первая точка (расстояние между центрами)";
+SketcherUI.CATCom2DTrouOblongArc.EntraxeArc.PtOn.Name.LongHelp="Определение первой точки для расстояния между центрами цилиндрического продолговатого отверстия.";
+SketcherUI.CATCom2DTrouOblongArc.EntraxeArc.PtOn.ULabel.Title="Г: ";
+SketcherUI.CATCom2DTrouOblongArc.EntraxeArc.PtOn.VLabel.Title="В: ";
+SketcherUI.CATCom2DTrouOblongArc.EntraxeArc.EndPt.Name.Title="Второй центр: ";
+SketcherUI.CATCom2DTrouOblongArc.EntraxeArc.EndPt.Name.Help="Определение второй точки для расстояния между центрами цилиндрического продолговатого отверстия";
+SketcherUI.CATCom2DTrouOblongArc.EntraxeArc.EndPt.Name.ShortHelp="Вторая точка (расстояние между центрами)";
+SketcherUI.CATCom2DTrouOblongArc.EntraxeArc.EndPt.Name.LongHelp="Определение второй точки для расстояния между центрами цилиндрического продолговатого отверстия.";
+SketcherUI.CATCom2DTrouOblongArc.EntraxeArc.EndPt.ULabel.Title="Г: ";
+SketcherUI.CATCom2DTrouOblongArc.EntraxeArc.EndPt.VLabel.Title="В: ";
+SketcherUI.CATCom2DTrouOblongArc.EndPt.Name.Title="Точка на цилиндрическом продолговатом отверстии: ";
+SketcherUI.CATCom2DTrouOblongArc.EndPt.Name.Help="Определение точки на цилиндрическом продолговатом отверстии";
+SketcherUI.CATCom2DTrouOblongArc.EndPt.Name.ShortHelp="Точка на цилиндрическом продолговатом отверстии";
+SketcherUI.CATCom2DTrouOblongArc.EndPt.Name.LongHelp="Определение точки на цилиндрическом продолговатом отверстии.";
+SketcherUI.CATCom2DTrouOblongArc.EndPt.ULabel.Title="Г: ";
+SketcherUI.CATCom2DTrouOblongArc.EndPt.VLabel.Title="В: ";
+
+//
+// Hexagone
+//
+SketcherUI.CATCom2DHexagon.FirstPoint.Message="Необходимо щелкнуть или выбрать точку определения центра шестиугольника";
+SketcherUI.CATCom2DHexagon.EndPoint.Message="Необходимо выбрать или щелкнуть для определения точки на шестиугольнике";
+// Gestion Visu Copilote
+SketcherUI.CATCom2DHexagon.StartPt.Name.Title="Центр шестиугольника: ";
+SketcherUI.CATCom2DHexagon.StartPt.Name.Help="Определение координат центра шестиугольника";
+SketcherUI.CATCom2DHexagon.StartPt.Name.ShortHelp="Центр шестиугольника";
+SketcherUI.CATCom2DHexagon.StartPt.Name.LongHelp="Определение координат центра шестиугольника.";
+SketcherUI.CATCom2DHexagon.StartPt.ULabel.Title="Г: ";
+SketcherUI.CATCom2DHexagon.StartPt.ULabel.ShortHelp="Первая координата центральной точки";
+SketcherUI.CATCom2DHexagon.StartPt.UEditor.ShortHelp="Первая координата центральной точки";
+SketcherUI.CATCom2DHexagon.StartPt.VLabel.Title="В: ";
+SketcherUI.CATCom2DHexagon.StartPt.VLabel.ShortHelp="Вторая координата центральной точки";
+SketcherUI.CATCom2DHexagon.StartPt.VEditor.ShortHelp="Вторая координата центральной точки";
+SketcherUI.CATCom2DHexagon.EndPt.Name.Title="Точка на шестиугольнике: ";
+SketcherUI.CATCom2DHexagon.EndPt.Name.Help="Определение координат точки на шестиугольнике";
+SketcherUI.CATCom2DHexagon.EndPt.Name.ShortHelp="Точка на шестиугольнике";
+SketcherUI.CATCom2DHexagon.EndPt.Name.LongHelp="Определение координат точки на шестиугольнике.";
+SketcherUI.CATCom2DHexagon.EndPt.ULabel.Title="Г: ";
+SketcherUI.CATCom2DHexagon.EndPt.ULabel.ShortHelp="Ввод первой координаты точки на шестиугольнике";
+SketcherUI.CATCom2DHexagon.EndPt.UEditor.ShortHelp="Ввод первой координаты точки на шестиугольнике";
+SketcherUI.CATCom2DHexagon.EndPt.VLabel.Title="В: ";
+SketcherUI.CATCom2DHexagon.EndPt.VLabel.ShortHelp="Ввод второй координаты точки на шестиугольнике";
+SketcherUI.CATCom2DHexagon.EndPt.VEditor.ShortHelp="Ввод второй координаты точки на шестиугольнике";
+SketcherUI.CATCom2DHexagon.Dimension.Dimension.EnglobingFrame.IntermediateFrame.Label.Title="Размер: ";
+SketcherUI.CATCom2DHexagon.Dimension.Dimension.EnglobingFrame.IntermediateFrame.Label.Help="Определение размера";
+SketcherUI.CATCom2DHexagon.Dimension.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp="Размер";
+SketcherUI.CATCom2DHexagon.Dimension.Dimension.EnglobingFrame.IntermediateFrame.Label.LongHelp="Определение значения размера.";
+SketcherUI.CATCom2DHexagon.Angle.Dimension.EnglobingFrame.IntermediateFrame.Label.Title="Угол: ";
+SketcherUI.CATCom2DHexagon.Angle.Dimension.EnglobingFrame.IntermediateFrame.Label.Help="Определение угла";
+SketcherUI.CATCom2DHexagon.Angle.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp="Угол";
+SketcherUI.CATCom2DHexagon.Angle.Dimension.EnglobingFrame.IntermediateFrame.Label.LongHelp="Определение значения угла";
+//
+// Points Spaces
+//
+SketcherUI.CATComDYSPointsSpaces.SelCrvSupport.Message="Выбор линии или кривой, на которой будут созданы точки";
+SketcherUI.CATComDYSPointsSpaces.SelOriginPoint.Message="Выбор начальной точки или изменение количества новых точек в диалоговом окне";
+SketcherUI.CATComDYSPointsSpaces.SelEndPoint.Message="Выбор конечной точки или изменение значений, отображаемых в диалоговом окне";
+SketcherUI.CATComDYSPointsSpaces.KeyParameters.Message="Ввод в диалоговом окне числа создающихся новых точек";
+SketcherUI.CATComDYSPointsSpaces.SelPtCrvSupport.Message="Выбор линии или кривой, на которой будут созданы точки";
+
+//
+SketcherUI.CATComDYSPointsSpaces.2DPointsSpacesPanel.Title="Определение равноудаленных точек";
+SketcherUI.CATComDYSPointsSpaces.2DPointsSpacesPanel.Parameters.Title="Параметры";
+SketcherUI.CATComDYSPointsSpaces.2DPointsSpacesPanel.Parameters.ParameterMode.Title="Параметры: ";
+SketcherUI.CATComDYSPointsSpaces.2DPointsSpacesPanel.Parameters.ParameterModeCombo.NbAndSpacing.Item="Точки и интервал";
+SketcherUI.CATComDYSPointsSpaces.2DPointsSpacesPanel.Parameters.ParameterModeCombo.NbAndLength.Item="Точки и длина";
+SketcherUI.CATComDYSPointsSpaces.2DPointsSpacesPanel.Parameters.ParameterModeCombo.SpacingAndLength.Item="Интервал и длина";
+SketcherUI.CATComDYSPointsSpaces.2DPointsSpacesPanel.Parameters.NbStep.Title="Новые точки: ";
+SketcherUI.CATComDYSPointsSpaces.2DPointsSpacesPanel.Parameters.NbStepValue.Title="Новые точки";
+SketcherUI.CATComDYSPointsSpaces.2DPointsSpacesPanel.Parameters.DistanceValue.Title="Шаг: ";
+SketcherUI.CATComDYSPointsSpaces.2DPointsSpacesPanel.Parameters.DistanceValue.Spinner.Title="Шаг";
+SketcherUI.CATComDYSPointsSpaces.2DPointsSpacesPanel.Parameters.LengthValue.Title="Длина: ";
+SketcherUI.CATComDYSPointsSpaces.2DPointsSpacesPanel.Parameters.LengthValue.Spinner.Title="Длина";
+SketcherUI.CATComDYSPointsSpaces.2DPointsSpacesPanel.ReverseDirection.Title=" Реверс направления";
+
+
+// Rotate command
+
+SketcherUI.CATComDYSRotate.SelState.Message="Выбор геометрии для поворота";
+SketcherUI.CATComDYSRotate.Point1State.Message="Необходимо щелкнуть или выбрать точку центра поворота";
+SketcherUI.CATComDYSRotate.Point2State.Message="Необходимо щелкнуть или выбрать точку для определения опорной линии угла";
+SketcherUI.CATComDYSRotate.Point3State.Message="Необходимо щелкнуть или выбрать точку для определения угла";
+SketcherUI.CATComDYSRotate.Help="Поворот элементов чертежа";
+
+
+// Gestion mini toolbar de saisie de coordonnees
+SketcherUI.CATComDYSRotate.CenterPt.Name.Title="Центральная точка: ";
+SketcherUI.CATComDYSRotate.CenterPt.Name.Help="Определение центральной точки";
+SketcherUI.CATComDYSRotate.CenterPt.Name.ShortHelp="Центральная точка";
+SketcherUI.CATComDYSRotate.CenterPt.Name.LongHelp="Определение центральной точки.";
+SketcherUI.CATComDYSRotate.CenterPt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSRotate.CenterPt.ULabel.ShortHelp="Первая координата центральной точки";
+SketcherUI.CATComDYSRotate.CenterPt.VLabel.Title="В: ";
+SketcherUI.CATComDYSRotate.CenterPt.VLabel.ShortHelp="Вторая координата центральной точки";
+SketcherUI.CATComDYSRotate.StartPt.Name.Title="Первая точка: ";
+SketcherUI.CATComDYSRotate.StartPt.Name.Help="Определение первой точки";
+SketcherUI.CATComDYSRotate.StartPt.Name.ShortHelp="Первая точка";
+SketcherUI.CATComDYSRotate.StartPt.Name.LongHelp="Определение первой точки.";
+SketcherUI.CATComDYSRotate.StartPt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSRotate.StartPt.ULabel.ShortHelp="Первая координата центральной точки";
+SketcherUI.CATComDYSRotate.StartPt.VLabel.Title="В: ";
+SketcherUI.CATComDYSRotate.StartPt.VLabel.ShortHelp="Вторая координата центральной точки";
+SketcherUI.CATComDYSRotate.EndPt.Name.Title="Вторая точка: ";
+SketcherUI.CATComDYSRotate.EndPt.Name.Help="Определение второй точки";
+SketcherUI.CATComDYSRotate.EndPt.Name.ShortHelp="Вторая точка";
+SketcherUI.CATComDYSRotate.EndPt.Name.LongHelp="Определение второй точки.";
+SketcherUI.CATComDYSRotate.EndPt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSRotate.EndPt.ULabel.ShortHelp="Первая координата второй точки";
+SketcherUI.CATComDYSRotate.EndPt.VLabel.Title="В: ";
+SketcherUI.CATComDYSRotate.EndPt.VLabel.ShortHelp="Вторая координата второй точки";
+
+// Rotate Panel
+SketcherUI.CATComDYSRotate.TransfoPanel.Title="Определение поворота";
+SketcherUI.CATComDYSRotate.TransfoPanel.DuplicatePanel.Title="Дублирование";
+SketcherUI.CATComDYSRotate.TransfoPanel.DuplicatePanel.DupNumLabel.Title="Экземпляр(ы): ";
+SketcherUI.CATComDYSRotate.TransfoPanel.DuplicatePanel.DupCheck.Title="Режим дублирования";
+SketcherUI.CATComDYSRotate.TransfoPanel.DuplicatePanel.CstCheck.Title="Сохранение ограничений";
+SketcherUI.CATComDYSRotate.TransfoPanel.AnglePanel.Title="Угол";
+SketcherUI.CATComDYSRotate.TransfoPanel.AnglePanel.Value.Title="Значение: ";
+SketcherUI.CATComDYSRotate.TransfoPanel.AnglePanel.StepMode.Title="Режим привязки";
+
+
+// Scale command
+
+SketcherUI.CATComDYSScale.SelState.Message="Выбор геометрии для масштабирования";
+SketcherUI.CATComDYSScale.Point1State.Message="Необходимо щелкнуть или выбрать точку центра масштабирования";
+SketcherUI.CATComDYSScale.Point2State.Message="Необходимо щелкнуть или выбрать точку для определения коэффициента масштабирования";
+SketcherUI.CATComDYSScale.Help="растяжение элементов чертежа";
+
+
+// Gestion mini toolbar de saisie de coordonnees
+SketcherUI.CATComDYSScale.StartPt.Name.Title="Центральная точка: ";
+SketcherUI.CATComDYSScale.StartPt.Name.Help="Определение центральной точки";
+SketcherUI.CATComDYSScale.StartPt.Name.ShortHelp="Центральная точка";
+SketcherUI.CATComDYSScale.StartPt.Name.LongHelp="Определение центральной точки.";
+SketcherUI.CATComDYSScale.StartPt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSScale.StartPt.ULabel.ShortHelp="Первая координата центральной точки";
+SketcherUI.CATComDYSScale.StartPt.VLabel.Title="В: ";
+SketcherUI.CATComDYSScale.StartPt.VLabel.ShortHelp="Вторая координата центральной точки";
+SketcherUI.CATComDYSScale.EndPt.Name.Title="Конечная точка: ";
+SketcherUI.CATComDYSScale.EndPt.Name.Help="Определение конечной точки";
+SketcherUI.CATComDYSScale.EndPt.Name.ShortHelp="Конечная точка";
+SketcherUI.CATComDYSScale.EndPt.Name.LongHelp="Определение конечной точки.";
+SketcherUI.CATComDYSScale.EndPt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSScale.EndPt.ULabel.ShortHelp="Первая координата конечной точки";
+SketcherUI.CATComDYSScale.EndPt.VLabel.Title="В: ";
+SketcherUI.CATComDYSScale.EndPt.VLabel.ShortHelp="Вторая координата конечной точки";
+
+// Scale Panel
+SketcherUI.CATComDYSScale.TransfoPanel.Title="Определение масштаба";
+SketcherUI.CATComDYSScale.TransfoPanel.DuplicatePanel.Title="Дублирование";
+SketcherUI.CATComDYSScale.TransfoPanel.DuplicatePanel.DupCheck.Title="Режим дублирования";
+SketcherUI.CATComDYSScale.TransfoPanel.DuplicatePanel.CstCheck.Title="Сохранение ограничений";
+SketcherUI.CATComDYSScale.TransfoPanel.ScalePanel.Title="Масштаб";
+SketcherUI.CATComDYSScale.TransfoPanel.ScalePanel.Value.Title="Значение: ";
+SketcherUI.CATComDYSScale.TransfoPanel.ScalePanel.StepMode.Title="Режим привязки";
+
+
+// Translate command
+
+SketcherUI.CATComDYSTranslate.SelState.Message="Выбор геометрии для переноса";
+SketcherUI.CATComDYSTranslate.Point1State.Message="Необходимо щелкнуть или выбрать начальную точку переноса";
+SketcherUI.CATComDYSTranslate.Point2State.Message="Необходимо щелкнуть или выбрать конечную точку переноса";
+SketcherUI.CATComDYSTranslate.Help="Перенос элементов чертежа";
+
+
+// Gestion mini toolbar de saisie de coordonnees
+SketcherUI.CATComDYSTranslate.StartPt.Name.Title="Начальная точка: ";
+SketcherUI.CATComDYSTranslate.StartPt.Name.Help="Определение начальной точки";
+SketcherUI.CATComDYSTranslate.StartPt.Name.ShortHelp="Начальная точка";
+SketcherUI.CATComDYSTranslate.StartPt.Name.LongHelp="Определение начальной точки.";
+SketcherUI.CATComDYSTranslate.StartPt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSTranslate.StartPt.ULabel.ShortHelp="Первая координата начальной точки";
+SketcherUI.CATComDYSTranslate.StartPt.VLabel.Title="В: ";
+SketcherUI.CATComDYSTranslate.StartPt.VLabel.ShortHelp="Вторая координата начальной точки";
+SketcherUI.CATComDYSTranslate.EndPt.Name.Title="Конечная точка: ";
+SketcherUI.CATComDYSTranslate.EndPt.Name.Help="Определение конечной точки";
+SketcherUI.CATComDYSTranslate.EndPt.Name.ShortHelp="Конечная точка";
+SketcherUI.CATComDYSTranslate.EndPt.Name.LongHelp="Определение конечной точки.";
+SketcherUI.CATComDYSTranslate.EndPt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSTranslate.EndPt.ULabel.ShortHelp="Первая координата конечной точки";
+SketcherUI.CATComDYSTranslate.EndPt.VLabel.Title="В: ";
+SketcherUI.CATComDYSTranslate.EndPt.VLabel.ShortHelp="Вторая координата конечной точки";
+
+// Translate Panel
+SketcherUI.CATComDYSTranslate.TransfoPanel.Title="Определение переноса";
+SketcherUI.CATComDYSTranslate.TransfoPanel.DuplicatePanel.Title="Дублирование";
+SketcherUI.CATComDYSTranslate.TransfoPanel.DuplicatePanel.DupNumLabel.Title="Экземпляр(ы): ";
+SketcherUI.CATComDYSTranslate.TransfoPanel.DuplicatePanel.DupCheck.Title="Режим дублирования";
+SketcherUI.CATComDYSTranslate.TransfoPanel.DuplicatePanel.CstCheck.Title="Сохранение ограничений";
+SketcherUI.CATComDYSTranslate.TransfoPanel.LengthPanel.Title="Длина";
+SketcherUI.CATComDYSTranslate.TransfoPanel.LengthPanel.Value.Title="Значение: ";
+SketcherUI.CATComDYSTranslate.TransfoPanel.LengthPanel.StepMode.Title="Режим привязки";
+SketcherUI.CATComDYSTranslate.TransfoPanel.DuplicatePanel.InternalCstCheck.Title="Сохранение внутренних ограничений";
+SketcherUI.CATComDYSTranslate.TransfoPanel.DuplicatePanel.ExternalCstCheck.Title="Сохранение внешних ограничений";
+
+
+// Creation Parabole par foyer
+SketcherUI.CATComDYSParabolaFocus.Focus.Message="Необходимо выбрать или щелкнуть для указания положения фокуса";
+SketcherUI.CATComDYSParabolaFocus.Apex.Message="Необходимо щелкнуть или выбрать точку для указания положения вершины";
+SketcherUI.CATComDYSParabolaFocus.Pt1.Message="Необходимо выбрать или щелкнуть для указания положения начальной точки параболы";
+SketcherUI.CATComDYSParabolaFocus.Pt2.Message="Необходимо щелкнуть или выбрать точку для указания положения конечной точки параболы";
+// Gestion Visu Copilote
+SketcherUI.CATComDYSParabolaFocus.FirstPt.Name.Title="Фокус: ";
+SketcherUI.CATComDYSParabolaFocus.FirstPt.Name.Help="Определение фокуса параболы";
+SketcherUI.CATComDYSParabolaFocus.FirstPt.Name.ShortHelp="Фокус параболы";
+SketcherUI.CATComDYSParabolaFocus.FirstPt.Name.LongHelp="Определение фокуса параболы.";
+SketcherUI.CATComDYSParabolaFocus.FirstPt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSParabolaFocus.FirstPt.ULabel.ShortHelp="Первая координата фокуса параболы";
+SketcherUI.CATComDYSParabolaFocus.FirstPt.UEditor.ShortHelp="Первая координата фокуса параболы";
+SketcherUI.CATComDYSParabolaFocus.FirstPt.VLabel.Title="В: ";
+SketcherUI.CATComDYSParabolaFocus.FirstPt.VLabel.ShortHelp="Вторая координата фокуса параболы";
+SketcherUI.CATComDYSParabolaFocus.FirstPt.VEditor.ShortHelp="Вторая координата фокуса параболы";
+SketcherUI.CATComDYSParabolaFocus.SecondPt.Name.Title="Вершина: ";
+SketcherUI.CATComDYSParabolaFocus.SecondPt.Name.Help="Определение вершины параболы";
+SketcherUI.CATComDYSParabolaFocus.SecondPt.Name.ShortHelp="Вершина параболы";
+SketcherUI.CATComDYSParabolaFocus.SecondPt.Name.LongHelp="Определение вершины параболы.";
+SketcherUI.CATComDYSParabolaFocus.SecondPt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSParabolaFocus.SecondPt.ULabel.ShortHelp="Первая координата вершины параболы";
+SketcherUI.CATComDYSParabolaFocus.SecondPt.UEditor.ShortHelp="Первая координата вершины параболы";
+SketcherUI.CATComDYSParabolaFocus.SecondPt.VLabel.Title="В: ";
+SketcherUI.CATComDYSParabolaFocus.SecondPt.VLabel.ShortHelp="Вторая координата вершины параболы";
+SketcherUI.CATComDYSParabolaFocus.SecondPt.VEditor.ShortHelp="Вторая координата вершины параболы";
+SketcherUI.CATComDYSParabolaFocus.ThirdPt.Name.Title="Начальная точка: ";
+SketcherUI.CATComDYSParabolaFocus.ThirdPt.Name.Help="Определение начальной точки";
+SketcherUI.CATComDYSParabolaFocus.ThirdPt.Name.ShortHelp="Начальная точка";
+SketcherUI.CATComDYSParabolaFocus.ThirdPt.Name.LongHelp="Определение начальной точки.";
+SketcherUI.CATComDYSParabolaFocus.ThirdPt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSParabolaFocus.ThirdPt.ULabel.ShortHelp="Первая координата начальной точки";
+SketcherUI.CATComDYSParabolaFocus.ThirdPt.UEditor.ShortHelp="Первая координата начальной точки";
+SketcherUI.CATComDYSParabolaFocus.ThirdPt.VLabel.Title="В: ";
+SketcherUI.CATComDYSParabolaFocus.ThirdPt.VLabel.ShortHelp="Вторая координата начальной точки";
+SketcherUI.CATComDYSParabolaFocus.ThirdPt.VEditor.ShortHelp="Вторая координата начальной точки";
+SketcherUI.CATComDYSParabolaFocus.FourthPt.Name.Title="Конечная точка: ";
+SketcherUI.CATComDYSParabolaFocus.FourthPt.Name.Help="Определение конечной точки";
+SketcherUI.CATComDYSParabolaFocus.FourthPt.Name.ShortHelp="Конечная точка";
+SketcherUI.CATComDYSParabolaFocus.FourthPt.Name.LongHelp="Определение конечной точки параболы.";
+SketcherUI.CATComDYSParabolaFocus.FourthPt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSParabolaFocus.FourthPt.ULabel.ShortHelp="Первая координата конечной точки";
+SketcherUI.CATComDYSParabolaFocus.FourthPt.UEditor.ShortHelp="Первая координата конечной точки";
+SketcherUI.CATComDYSParabolaFocus.FourthPt.VLabel.Title="В: ";
+SketcherUI.CATComDYSParabolaFocus.FourthPt.VLabel.ShortHelp="Вторая координата конечной точки";
+SketcherUI.CATComDYSParabolaFocus.FourthPt.VEditor.ShortHelp="Вторая координата конечной точки";
+
+SketcherUI.2DParabolaPanel.Title="Определение параболы";
+SketcherUI.2DParabolaPanel.Focus.Title="Точка фокуса";
+SketcherUI.2DParabolaPanel.Apex.Title="Точка вершины";
+
+// Creation Hyperbole par foyer
+SketcherUI.CATComDYSHyperbolaFocus.Focus.Message="Необходимо выбрать или щелкнуть для указания положения фокуса";
+SketcherUI.CATComDYSHyperbolaFocus.Center.Message="Необходимо щелкнуть или выбрать точку для указания положения центра";
+SketcherUI.CATComDYSHyperbolaFocus.Apex.Message="Необходимо щелкнуть или выбрать точку для указания положения вершины";
+SketcherUI.CATComDYSHyperbolaFocus.Pt1.Message="Необходимо щелкнуть или выбрать точку для указания положения начальной точки гиперболы";
+SketcherUI.CATComDYSHyperbolaFocus.Pt2.Message="Необходимо щелкнуть или выбрать точку для указания положения конечной точки гиперболы";
+// Gestion Visu Copilote
+SketcherUI.CATComDYSHyperbolaFocus.FirstPt.Name.Title="Фокус: ";
+SketcherUI.CATComDYSHyperbolaFocus.FirstPt.Name.Help="Определение фокуса гиперболы";
+SketcherUI.CATComDYSHyperbolaFocus.FirstPt.Name.ShortHelp="Фокус гиперболы";
+SketcherUI.CATComDYSHyperbolaFocus.FirstPt.Name.LongHelp="Определение фокуса гиперболы.";
+SketcherUI.CATComDYSHyperbolaFocus.FirstPt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSHyperbolaFocus.FirstPt.ULabel.ShortHelp="Первая координата фокуса гиперболы";
+SketcherUI.CATComDYSHyperbolaFocus.FirstPt.UEditor.ShortHelp="Первая координата фокуса гиперболы";
+SketcherUI.CATComDYSHyperbolaFocus.FirstPt.VLabel.Title="В: ";
+SketcherUI.CATComDYSHyperbolaFocus.FirstPt.VLabel.ShortHelp="Вторая координата фокуса гиперболы";
+SketcherUI.CATComDYSHyperbolaFocus.FirstPt.VEditor.ShortHelp="Вторая координата фокуса гиперболы";
+SketcherUI.CATComDYSHyperbolaFocus.FirstPt.Excentricity_Label.Title="э: ";
+SketcherUI.CATComDYSHyperbolaFocus.FirstPt.Excentricity_Label.ShortHelp="Эксцентриситет";
+SketcherUI.CATComDYSHyperbolaFocus.FirstPt.Excentricity_Value.ShortHelp="Эксцентриситет";
+SketcherUI.CATComDYSHyperbolaFocus.SecondPt.Name.Title="Центр: ";
+SketcherUI.CATComDYSHyperbolaFocus.SecondPt.Name.Help="Определение центра гиперболы";
+SketcherUI.CATComDYSHyperbolaFocus.SecondPt.Name.ShortHelp="Центр гиперболы";
+SketcherUI.CATComDYSHyperbolaFocus.SecondPt.Name.LongHelp="Определение центра гиперболы.";
+SketcherUI.CATComDYSHyperbolaFocus.SecondPt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSHyperbolaFocus.SecondPt.ULabel.ShortHelp="Первая координата центра гиперболы";
+SketcherUI.CATComDYSHyperbolaFocus.SecondPt.UEditor.ShortHelp="Первая координата центра гиперболы";
+SketcherUI.CATComDYSHyperbolaFocus.SecondPt.VLabel.Title="В: ";
+SketcherUI.CATComDYSHyperbolaFocus.SecondPt.VLabel.ShortHelp="Вторая координата центра гиперболы";
+SketcherUI.CATComDYSHyperbolaFocus.SecondPt.VEditor.ShortHelp="Вторая координата центра гиперболы";
+SketcherUI.CATComDYSHyperbolaFocus.SecondPt.Excentricity_Label.Title="э: ";
+SketcherUI.CATComDYSHyperbolaFocus.SecondPt.Excentricity_Label.ShortHelp="Эксцентриситет";
+SketcherUI.CATComDYSHyperbolaFocus.SecondPt.Excentricity_Value.ShortHelp="Эксцентриситет";
+SketcherUI.CATComDYSHyperbolaFocus.ThirdPt.Name.Title="Вершина: ";
+SketcherUI.CATComDYSHyperbolaFocus.ThirdPt.Name.Help="Определение вершины гиперболы";
+SketcherUI.CATComDYSHyperbolaFocus.ThirdPt.Name.ShortHelp="Вершина гиперболы";
+SketcherUI.CATComDYSHyperbolaFocus.ThirdPt.Name.LongHelp="Определение вершины гиперболы.";
+SketcherUI.CATComDYSHyperbolaFocus.ThirdPt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSHyperbolaFocus.ThirdPt.ULabel.ShortHelp="Первая координата вершины гиперболы";
+SketcherUI.CATComDYSHyperbolaFocus.ThirdPt.UEditor.ShortHelp="Первая координата вершины гиперболы";
+SketcherUI.CATComDYSHyperbolaFocus.ThirdPt.VLabel.Title="В: ";
+SketcherUI.CATComDYSHyperbolaFocus.ThirdPt.VLabel.ShortHelp="Вторая координата вершины гиперболы";
+SketcherUI.CATComDYSHyperbolaFocus.ThirdPt.VEditor.ShortHelp="Вторая координата вершины гиперболы";
+SketcherUI.CATComDYSHyperbolaFocus.ThirdPt.Excentricity_Label.Title="э: ";
+SketcherUI.CATComDYSHyperbolaFocus.ThirdPt.Excentricity_Label.ShortHelp="Эксцентриситет";
+SketcherUI.CATComDYSHyperbolaFocus.ThirdPt.Excentricity_Value.ShortHelp="Эксцентриситет";
+SketcherUI.CATComDYSHyperbolaFocus.FourthPt.Name.Title="Начальная точка: ";
+SketcherUI.CATComDYSHyperbolaFocus.FourthPt.Name.Help="Определение начальной точки";
+SketcherUI.CATComDYSHyperbolaFocus.FourthPt.Name.ShortHelp="Начальная точка";
+SketcherUI.CATComDYSHyperbolaFocus.FourthPt.Name.LongHelp="Определение начальной точки.";
+SketcherUI.CATComDYSHyperbolaFocus.FourthPt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSHyperbolaFocus.FourthPt.ULabel.ShortHelp="Первая координата начальной точки";
+SketcherUI.CATComDYSHyperbolaFocus.FourthPt.UEditor.ShortHelp="Первая координата начальной точки";
+SketcherUI.CATComDYSHyperbolaFocus.FourthPt.VLabel.Title="В: ";
+SketcherUI.CATComDYSHyperbolaFocus.FourthPt.VLabel.ShortHelp="Вторая координата начальной точки";
+SketcherUI.CATComDYSHyperbolaFocus.FourthPt.VEditor.ShortHelp="Вторая координата начальной точки";
+SketcherUI.CATComDYSHyperbolaFocus.FourthPt.Excentricity_Label.Title="э: ";
+SketcherUI.CATComDYSHyperbolaFocus.FourthPt.Excentricity_Label.ShortHelp="Эксцентриситет";
+SketcherUI.CATComDYSHyperbolaFocus.FourthPt.Excentricity_Value.ShortHelp="Эксцентриситет";
+SketcherUI.CATComDYSHyperbolaFocus.FifthPt.Name.Title="Конечная точка: ";
+SketcherUI.CATComDYSHyperbolaFocus.FifthPt.Name.Help="Определение конечной точки";
+SketcherUI.CATComDYSHyperbolaFocus.FifthPt.Name.ShortHelp="Конечная точка";
+SketcherUI.CATComDYSHyperbolaFocus.FifthPt.Name.LongHelp="Определение конечной точки.";
+SketcherUI.CATComDYSHyperbolaFocus.FifthPt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSHyperbolaFocus.FifthPt.ULabel.ShortHelp="Первая координата конечной точки";
+SketcherUI.CATComDYSHyperbolaFocus.FifthPt.UEditor.ShortHelp="Первая координата конечной точки";
+SketcherUI.CATComDYSHyperbolaFocus.FifthPt.VLabel.Title="В: ";
+SketcherUI.CATComDYSHyperbolaFocus.FifthPt.VLabel.ShortHelp="Вторая координата конечной точки";
+SketcherUI.CATComDYSHyperbolaFocus.FifthPt.VEditor.ShortHelp="Вторая координата конечной точки";
+SketcherUI.CATComDYSHyperbolaFocus.FifthPt.Excentricity_Label.Title="э: ";
+SketcherUI.CATComDYSHyperbolaFocus.FifthPt.Excentricity_Label.ShortHelp="Эксцентриситет";
+SketcherUI.CATComDYSHyperbolaFocus.FifthPt.Excentricity_Value.ShortHelp="Эксцентриситет";
+
+SketcherUI.2DHyperbolaPanel.Title="Определение гиперболы";
+SketcherUI.2DHyperbolaPanel.Focus.Title="Точка фокуса";
+SketcherUI.2DHyperbolaPanel.Center.Title="Центральная точка";
+SketcherUI.2DHyperbolaPanel.Excentricity.Title="Эксцентриситет";
+SketcherUI.2DHyperbolaPanel.Excentricity.Spinner.Title="Эксцентриситет";
+SketcherUI.2DHyperbolaPanel.Excentricity_Value.Title="Эксцентриситет: ";
+
+SketcherUI.CATComDYSLine.Sym.Check.Title="Симметричное удлинение";
+SketcherUI.CATComDYSLine.Sym.Check.LongHelp="Создание симметричного отрезка, связанного с начальной точкой отрезка.";
+SketcherUI.CATComDYSLine.Sym.Check.ShortHelp="Симметричное удлинение";
+SketcherUI.CATComDYSLine.Sym.Check.Help="Нажмите эту кнопку для создания симметрично удаленной линии";
+SketcherUI.CATComDYSCenterLine.Sym.Check.Title="Симметричное удлинение";
+SketcherUI.CATComDYSCenterLine.Sym.Check.LongHelp="Создание симметричной оси, связанной с начальной точкой оси.";
+SketcherUI.CATComDYSCenterLine.Sym.Check.ShortHelp="Симметричное удлинение";
+SketcherUI.CATComDYSCenterLine.Sym.Check.Help="Необходимо нажать эту кнопку для создания симметрично удлиненной оси";
+
+// Creation Line bi-tangente
+SketcherUI.CATCom2DLine2Tangent.FirstElement.Message="Первая касательная:выбор геометрии для создания касательной линии";
+SketcherUI.CATCom2DLine2Tangent.SecondElement.Message="Вторая касательная:выбор геометрии для создания касательной линии";
+SketcherUI.CATCom2DLine2Tangent.NoSolution.Title="Касательная линия к двум элементам";
+SketcherUI.CATCom2DLine2Tangent.NoSolution.Message="Создание касательной линии к двум элементам невозможно для данных выбранных элементов.\n\nВажно положение точек, указываемых при выборе:\nсоздание линии зависит от положения данных точек.\nКасательные создаются так близко, насколько это возможно, к точкам, указанным\nна двух выбранных элементах.";
+SketcherUI.CATCom2DLine2Tangent.NoTangent.Title="Предупреждение";
+SketcherUI.CATCom2DLine2Tangent.NoTangent.Message="Касание не относится к точке или линии - во внимание принимается лишь совпадение";
+
+// Creation Cercle tri-tangent
+SketcherUI.CATCom2DCircle3Tangent.FirstElement.Message="Первая касательная:выбор геометрии для создания касательной окружности";
+SketcherUI.CATCom2DCircle3Tangent.SecondElement.Message="Вторая касательная:выбор геометрии для создания касательной окружности";
+SketcherUI.CATCom2DCircle3Tangent.ThirdElement.Message="Третья касательная:выбор геометрии для создания касательной окружности";
+SketcherUI.CATCom2DCircle3Tangent.NoSolution.Title="Окружность с тройным касанием";
+SketcherUI.CATCom2DCircle3Tangent.NoSolution.Message="Создание окружности с тройным касанием невозможно для данных выбранных элементов.\n\nВажно положение точек, указываемых при выборе:\nсоздание окружности зависит от положения данных выбранных точек.\nКасательные создаются так близко, насколько это возможно, к точкам, указанным\nна трех выбранных элементах.";
+SketcherUI.CATCom2DCircle3Tangent.NoTangent.Title="Предупреждение";
+SketcherUI.CATCom2DCircle3Tangent.NoTangent.Message="Касание не относится к точке - во внимание принимается лишь совпадение";
+SketcherUI.CATCom2DCircle3Tangent.Inconsistent.Title="Предупреждение";
+SketcherUI.CATCom2DCircle3Tangent.Inconsistent.Message="Эскиз несогласован !\n Проверьте согласованность эскиза до создания окружности касательной к трем выбранным элементам.\n В противном случае, система не будет вычислять касания соответствующим образом.";
+
+
+// AutoSearch
+SketcherUI.CATCom2DAutoSearch.SelElem.Message="Выбор геометрии, которая будет использоваться для выполнения автоматического поиска";
+
+SketcherUI.CATCom2DAutoSearch2.SelElem.Message="Выбор геометрии, которая будет использоваться для выполнения автоматического поиска";
+SketcherUI.CATCom2DAutoSearch2.Resolution.Dimension.EnglobingFrame.IntermediateFrame.Label.Title="Допуск: ";
+SketcherUI.CATCom2DAutoSearch2.Resolution.Dimension.EnglobingFrame.IntermediateFrame.Label.Help="Определение допуска";
+SketcherUI.CATCom2DAutoSearch2.Resolution.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp="Допуск";
+SketcherUI.CATCom2DAutoSearch2.Resolution.Dimension.EnglobingFrame.IntermediateFrame.Label.LongHelp="Определение геометрического допуска для совпадающих точек.";
+SketcherUI.CATCom2DAutoSearch2.CheckContour.Check.Title="Автоматический поиск профиля";
+SketcherUI.CATCom2DAutoSearch2.CheckContour.Check.Help="Определение автоматического поиска профиля";
+SketcherUI.CATCom2DAutoSearch2.CheckContour.Check.LongHelp="Определение остановки автоматического поиска при обнаружении одного замкнутого профиля.";
+SketcherUI.CATCom2DAutoSearch2.CheckContour.Check.ShortHelp="Автоматический поиск профиля";
+
+// Analyse
+SketcherUI.CATCom2DAnalyse.SelElement.Message="Выбор геометрии для анализа";
+SketcherUI.CATCom2DAnalyse.NewElement.Message="Выбор нового поддерживающего элемента для выбранной проекции или пересечения";
+SketcherUI.CATCom2DAnalyse.UpdateNeeded.Title="Предупреждение:Требуется обновление";
+SketcherUI.CATCom2DAnalyse.UpdateNeeded.Message="Эскиз нуждается в обновлении, после чего будут учтены данные изменения (необходимо закрыть и снова открыть эскиз)";
+SketcherUI.CATCom2DAnalyse.ReplaceError.Title="Предупреждение:Замена";
+SketcherUI.CATCom2DAnalyse.ReplaceError.Message="Невозможна замена поддерживающего элемента проецирования или пересечения на выбранный элемент.";
+SketcherUI.CATCom2DAnalyse.MultiSelError.Title="Предупреждение:Замена";
+SketcherUI.CATCom2DAnalyse.MultiSelError.Message="Выбор поддерживающего элемента проецирования или пересечения для выполнения команды замены.";
+SketcherUI.CATCom2DAnalyse.StrWrongPt="Неверная точка";
+SketcherUI.CATCom2DAnalyse.StrPtNotInCst="Предупреждение:Точка не во вспомогательном режиме";
+SketcherUI.CATCom2DAnalyse.StrWrongCoinc="Неверное совпадение";
+SketcherUI.CATCom2DAnalyse.StrImpossCoinc="Предупреждение:Совпадение невозможно";
+SketcherUI.CATCom2DAnalyse.StrDegenerated="Вырожденный";
+SketcherUI.CATCom2DAnalyse.StrInvalidCrv="Предупреждение:Недопустимая кривая (совпадение начальной и конечной точек)";
+SketcherUI.CATCom2DAnalyse.StrClosed="Замкнутый";
+SketcherUI.CATCom2DAnalyse.StrOpened="Разомкнутый";
+SketcherUI.CATCom2DAnalyse.StrIsolated="Изолировано";
+SketcherUI.CATCom2DAnalyse.StrIsolPtNotInCst="Предупреждение:Изолированная точка не во вспомогательном режиме";
+SketcherUI.CATCom2DAnalyse.StrCurves="Кривая (кривые)";
+SketcherUI.CATCom2DAnalyse.StrProfile="Неявный профиль";
+SketcherUI.CATCom2DAnalyse.StrAutoCrossing=" - Предупреждение:Самопересекающийся профиль";
+SketcherUI.CATCom2DAnalyse.StrNonManifold="Предупреждение:Отсутствует топология многообразия";
+SketcherUI.CATCom2DAnalyse.StrCheckPassed="Все проверки выполнены";
+SketcherUI.CATCom2DAnalyse.StrEndPtDist="Расстояние до конечных точек =";
+SketcherUI.CATCom2DAnalyse.StrProjection="Проекция";
+SketcherUI.CATCom2DAnalyse.StrImplicitProj="Неявная проекция";
+SketcherUI.CATCom2DAnalyse.StrWrongProj="Неверная проекция";
+SketcherUI.CATCom2DAnalyse.StrIntersection="Пересечение";
+SketcherUI.CATCom2DAnalyse.StrImplicitInter="Неявное пересечение";
+SketcherUI.CATCom2DAnalyse.StrWrongInter="Неверное пересечение";
+SketcherUI.CATCom2DAnalyse.StrValid="Допустимый";
+SketcherUI.CATCom2DAnalyse.StrDeactivated="Деактивировано";
+SketcherUI.CATCom2DAnalyse.StrPoints="Точка (точки)";
+SketcherUI.CATCom2DAnalyse.StrDomains="Домен (домены)";
+SketcherUI.CATCom2DAnalyse.StrOutsideFixTGeoms="Предупреждение:Геометрия не включена в определение";
+SketcherUI.CATCom2DAnalyse.StrWarnOutsideFixTGeoms="Нестандартное определение опции Фиксировать вместе";
+SketcherUI.CATCom2DAnalyse.StrUseEdgeNotUpgradable="Обновление невозможно (данные были созданы до V5R8 GA)";
+SketcherUI.CATCom2DAnalyse.StrEmptyFixTogether="Предупреждение:Пустое ограничение Фиксировать вместе (не содержит геометрии)";
+SketcherUI.CATCom2DAnalyse.StrNoRigidFixTogether="Предупреждение:Использование проекций контуров - Невозможно соблюдение значения жесткости в случае изменения геометрии 3D";
+
+// Solving status
+StrUnderConstrained="Неполное ограничение";
+StrIsoConstrained="Изометрическое ограничение";
+StrOverConstrained="Избыточное ограничение";
+StrInconsistent="Несовместимость";
+StrNotChanged="Не изменено";
+StrUnknown="Неизвестно";
+StrConstraintType="Ограничение";
+StrGeometryType="Геометрия";
+StrReferenceElement="Опорный элемент";
+StrConstructionGeom=" [Вспомогательная геометрия]";
+StrAxisGeom=" [Ось]";
+StrInactivatedConstr=" [Неактивно]";
+StrIsoConstrainedByConstruction="Неполное ограничение [Без результата]";
+
+// Activate Command
+SketcherUI.CATComDYSActivate.GetImportedGeometry.Message="Выбор проекции или пересечения, которое требуется активировать";
+
+// 2D Conic
+SketcherUI.CATComDYSConic.Pt1.Message="Необходимо щелкнуть или выбрать точку для указания положения первой конечной точки";
+SketcherUI.CATComDYSConic.Pt2.Message="Необходимо выбрать или щелкнуть точку для указания положения второй конечной точки";
+SketcherUI.CATComDYSConic.Pt3.Message="Необходимо щелкнуть или выбрать точку для указания положения первой точки на конической кривой";
+SketcherUI.CATComDYSConic.Pt4.Message="Необходимо щелкнуть или выбрать точку для указания положения второй точки на конической кривой";
+SketcherUI.CATComDYSConic.Pt5.Message="Необходимо щелкнуть или выбрать точку для указания положения третьей точки на конической кривой";
+SketcherUI.CATComDYSConic.Pt6.Message="Необходимо щелкнуть или выбрать точку для указания положения касательной в первой конечной точке";
+SketcherUI.CATComDYSConic.Pt7.Message="Необходимо щелкнуть или выбрать точку для указания положения касательной во второй конечной точке";
+SketcherUI.CATComDYSConic.Pt8.Message="Необходимо щелкнуть или выбрать точку для указания положения касательных в конечных точках";
+SketcherUI.CATComDYSConic.Pt9.Message="Необходимо щелкнуть или выбрать точку для указания положения точки на конической кривой для определения эксцентриситета";
+SketcherUI.CATComDYSConic.Tgte1.Check.Title="По касательной";
+SketcherUI.CATComDYSConic.Tgte1.Check.Help="Определение касательной в первой конечной точке";
+SketcherUI.CATComDYSConic.Tgte1.Check.LongHelp="Определение касательной в первой конечной точке.";
+SketcherUI.CATComDYSConic.Tgte1.Check.ShortHelp="Первая касательная";
+SketcherUI.CATComDYSConic.Tgte2.Check.Title="По касательной";
+SketcherUI.CATComDYSConic.Tgte2.Check.Help="Определение касательной во второй конечной точке";
+SketcherUI.CATComDYSConic.Tgte2.Check.LongHelp="Определение касательной во второй конечной точке.";
+SketcherUI.CATComDYSConic.Tgte2.Check.ShortHelp="Вторая касательная";
+SketcherUI.CATComDYSConic.TwoTgtes.Check.Title="Касательные";
+SketcherUI.CATComDYSConic.TwoTgtes.Check.Help="Определение касательных в конечных точках";
+SketcherUI.CATComDYSConic.TwoTgtes.Check.LongHelp="Определение касательных в конечных точках.";
+SketcherUI.CATComDYSConic.TwoTgtes.Check.ShortHelp="Две касательные";
+// Gestion visu copilot
+SketcherUI.CATComDYSConic.FirstPtLim.Name.Title="Первая конечная точка: ";
+SketcherUI.CATComDYSConic.FirstPtLim.Name.Help="Определение первой конечной точки";
+SketcherUI.CATComDYSConic.FirstPtLim.Name.ShortHelp="Первая конечная точка";
+SketcherUI.CATComDYSConic.FirstPtLim.Name.LongHelp="Определение координат первой конечной точки.";
+SketcherUI.CATComDYSConic.FirstPtLim.ULabel.Title="Г: ";
+SketcherUI.CATComDYSConic.FirstPtLim.ULabel.ShortHelp="Первая координата первой конечной точки";
+SketcherUI.CATComDYSConic.FirstPtLim.UEditor.ShortHelp="Первая координата первой конечной точки";
+SketcherUI.CATComDYSConic.FirstPtLim.VLabel.Title="В: ";
+SketcherUI.CATComDYSConic.FirstPtLim.VLabel.ShortHelp="Вторая координата первой конечной точки";
+SketcherUI.CATComDYSConic.FirstPtLim.VEditor.ShortHelp="Вторая координата первой конечной точки";
+SketcherUI.CATComDYSConic.FirstPtLim.Excentricity_Label.Title="э: ";
+SketcherUI.CATComDYSConic.FirstPtLim.Excentricity_Label.ShortHelp="Эксцентриситет";
+SketcherUI.CATComDYSConic.FirstPtLim.Excentricity_Value.ShortHelp="Эксцентриситет";
+SketcherUI.CATComDYSConic.SecondPtLim.Name.Title="Вторая конечная точка: ";
+SketcherUI.CATComDYSConic.SecondPtLim.Name.Help="Определение второй конечной точки";
+SketcherUI.CATComDYSConic.SecondPtLim.Name.ShortHelp="Вторая конечная точка";
+SketcherUI.CATComDYSConic.SecondPtLim.Name.LongHelp="Определение координат второй конечной точки.";
+SketcherUI.CATComDYSConic.SecondPtLim.ULabel.Title="Г: ";
+SketcherUI.CATComDYSConic.SecondPtLim.ULabel.ShortHelp="Первая координата второй конечной точки";
+SketcherUI.CATComDYSConic.SecondPtLim.UEditor.ShortHelp="Первая координата второй конечной точки";
+SketcherUI.CATComDYSConic.SecondPtLim.VLabel.Title="В: ";
+SketcherUI.CATComDYSConic.SecondPtLim.VLabel.ShortHelp="Вторая координата второй конечной точки";
+SketcherUI.CATComDYSConic.SecondPtLim.VEditor.ShortHelp="Вторая координата второй конечной точки";
+SketcherUI.CATComDYSConic.SecondPtLim.Excentricity_Label.Title="э: ";
+SketcherUI.CATComDYSConic.SecondPtLim.Excentricity_Label.ShortHelp="Эксцентриситет";
+SketcherUI.CATComDYSConic.SecondPtLim.Excentricity_Value.ShortHelp="Эксцентриситет";
+SketcherUI.CATComDYSConic.FirstPt.Name.Title="Первая точка: ";
+SketcherUI.CATComDYSConic.FirstPt.Name.Help="Определение первой точки";
+SketcherUI.CATComDYSConic.FirstPt.Name.ShortHelp="Первая точка";
+SketcherUI.CATComDYSConic.FirstPt.Name.LongHelp="Определение координат первой точки.";
+SketcherUI.CATComDYSConic.FirstPt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSConic.FirstPt.ULabel.ShortHelp="Первая координата первой точки";
+SketcherUI.CATComDYSConic.FirstPt.UEditor.ShortHelp="Первая координата первой точки";
+SketcherUI.CATComDYSConic.FirstPt.VLabel.Title="В: ";
+SketcherUI.CATComDYSConic.FirstPt.VLabel.ShortHelp="Вторая координата первой точки";
+SketcherUI.CATComDYSConic.FirstPt.VEditor.ShortHelp="Вторая координата первой точки";
+SketcherUI.CATComDYSConic.FirstPt.Excentricity_Label.Title="э: ";
+SketcherUI.CATComDYSConic.FirstPt.Excentricity_Label.ShortHelp="Эксцентриситет";
+SketcherUI.CATComDYSConic.FirstPt.Excentricity_Value.ShortHelp="Эксцентриситет";
+SketcherUI.CATComDYSConic.SecondPt.Name.Title="Вторая точка: ";
+SketcherUI.CATComDYSConic.SecondPt.Name.Help="Определение второй точки";
+SketcherUI.CATComDYSConic.SecondPt.Name.ShortHelp="Вторая точка";
+SketcherUI.CATComDYSConic.SecondPt.Name.LongHelp="Определение второй точки";
+SketcherUI.CATComDYSConic.SecondPt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSConic.SecondPt.ULabel.ShortHelp="Первая координата второй точки";
+SketcherUI.CATComDYSConic.SecondPt.UEditor.ShortHelp="Первая координата второй точки";
+SketcherUI.CATComDYSConic.SecondPt.VLabel.Title="В: ";
+SketcherUI.CATComDYSConic.SecondPt.VLabel.ShortHelp="Вторая координата второй точки";
+SketcherUI.CATComDYSConic.SecondPt.VEditor.ShortHelp="Вторая координата второй точки";
+SketcherUI.CATComDYSConic.SecondPt.Excentricity_Label.Title="э: ";
+SketcherUI.CATComDYSConic.SecondPt.Excentricity_Label.ShortHelp="Эксцентриситет";
+SketcherUI.CATComDYSConic.SecondPt.Excentricity_Value.ShortHelp="Эксцентриситет";
+SketcherUI.CATComDYSConic.ThirdPt.Name.Title="Третья точка: ";
+SketcherUI.CATComDYSConic.ThirdPt.Name.Help="Определение третьей точки";
+SketcherUI.CATComDYSConic.ThirdPt.Name.ShortHelp="Третья точка";
+SketcherUI.CATComDYSConic.ThirdPt.Name.LongHelp="Определение координат третьей точки.";
+SketcherUI.CATComDYSConic.ThirdPt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSConic.ThirdPt.ULabel.ShortHelp="Первая координата третьей точки";
+SketcherUI.CATComDYSConic.ThirdPt.UEditor.ShortHelp="Первая координата третьей точки";
+SketcherUI.CATComDYSConic.ThirdPt.VLabel.Title="В: ";
+SketcherUI.CATComDYSConic.ThirdPt.VLabel.ShortHelp="Вторая координата третьей точки";
+SketcherUI.CATComDYSConic.ThirdPt.VEditor.ShortHelp="Вторая координата третьей точки";
+SketcherUI.CATComDYSConic.ThirdPt.Excentricity_Label.Title="э: ";
+SketcherUI.CATComDYSConic.ThirdPt.Excentricity_Label.ShortHelp="Эксцентриситет";
+SketcherUI.CATComDYSConic.ThirdPt.Excentricity_Value.ShortHelp="Эксцентриситет";
+SketcherUI.CATComDYSConic.FirstTgte.Name.Title="Первая касательная: ";
+SketcherUI.CATComDYSConic.FirstTgte.Name.Help="Определение первой точки касания";
+SketcherUI.CATComDYSConic.FirstTgte.Name.ShortHelp="Первая касательная";
+SketcherUI.CATComDYSConic.FirstTgte.Name.LongHelp="Определение координат первой касательной.";
+SketcherUI.CATComDYSConic.FirstTgte.AngleLabel.Title="У: ";
+SketcherUI.CATComDYSConic.FirstTgte.AngleLabel.ShortHelp="Значение угла первой касательной";
+SketcherUI.CATComDYSConic.FirstTgte.AngleEditor.ShortHelp="Значение угла первой касательной";
+SketcherUI.CATComDYSConic.FirstTgte.Excentricity_Label.Title="э: ";
+SketcherUI.CATComDYSConic.FirstTgte.Excentricity_Label.ShortHelp="Эксцентриситет";
+SketcherUI.CATComDYSConic.FirstTgte.Excentricity_Value.ShortHelp="Эксцентриситет";
+SketcherUI.CATComDYSConic.SecondTgte.Name.Title="Вторая касательная: ";
+SketcherUI.CATComDYSConic.SecondTgte.Name.Help="Определение второй касательной";
+SketcherUI.CATComDYSConic.SecondTgte.Name.ShortHelp="Вторая касательная";
+SketcherUI.CATComDYSConic.SecondTgte.Name.LongHelp="Определение координат второй касательной.";
+SketcherUI.CATComDYSConic.SecondTgte.AngleLabel.Title="У: ";
+SketcherUI.CATComDYSConic.SecondTgte.AngleLabel.ShortHelp="Угловое значение второй касательной";
+SketcherUI.CATComDYSConic.SecondTgte.AngleEditor.ShortHelp="Угловое значение второй касательной";
+SketcherUI.CATComDYSConic.SecondTgte.Excentricity_Label.Title="э: ";
+SketcherUI.CATComDYSConic.SecondTgte.Excentricity_Label.ShortHelp="Эксцентриситет";
+SketcherUI.CATComDYSConic.SecondTgte.Excentricity_Value.ShortHelp="Эксцентриситет";
+SketcherUI.CATComDYSConic.TwoTgtes.Name.Title="Точка двойного касания: ";
+SketcherUI.CATComDYSConic.TwoTgtes.Name.Help="Определение точки двойного касания";
+SketcherUI.CATComDYSConic.TwoTgtes.Name.ShortHelp="Точка двойного касания";
+SketcherUI.CATComDYSConic.TwoTgtes.Name.LongHelp="Определение координат точки двойного касания.";
+SketcherUI.CATComDYSConic.TwoTgtes.ULabel.Title="Г: ";
+SketcherUI.CATComDYSConic.TwoTgtes.ULabel.ShortHelp="Первая координата точки двойного касания";
+SketcherUI.CATComDYSConic.TwoTgtes.UEditor.ShortHelp="Первая координата точки двойного касания";
+SketcherUI.CATComDYSConic.TwoTgtes.VLabel.Title="В: ";
+SketcherUI.CATComDYSConic.TwoTgtes.VLabel.ShortHelp="Вторая координата точки двойного касания";
+SketcherUI.CATComDYSConic.TwoTgtes.VEditor.ShortHelp="Вторая координата точки двойного касания";
+SketcherUI.CATComDYSConic.TwoTgtes.Excentricity_Label.Title="э: ";
+SketcherUI.CATComDYSConic.TwoTgtes.Excentricity_Label.ShortHelp="Эксцентриситет";
+SketcherUI.CATComDYSConic.TwoTgtes.Excentricity_Value.ShortHelp="Эксцентриситет";
+SketcherUI.CATComDYSConic.Excentricity.Name.Title="Вершина: ";
+SketcherUI.CATComDYSConic.Excentricity.Name.Help="Определение точки эксцентриситета";
+SketcherUI.CATComDYSConic.Excentricity.Name.ShortHelp="Точка эксцентриситета";
+SketcherUI.CATComDYSConic.Excentricity.Name.LongHelp="Определение вершины для задания эксцентриситета.";
+SketcherUI.CATComDYSConic.Excentricity.ULabel.Title="Г: ";
+SketcherUI.CATComDYSConic.Excentricity.ULabel.ShortHelp="Первая координата вершины для задания эксцентриситета";
+SketcherUI.CATComDYSConic.Excentricity.UEditor.ShortHelp="Первая координата вершины для задания эксцентриситета";
+SketcherUI.CATComDYSConic.Excentricity.VLabel.Title="В: ";
+SketcherUI.CATComDYSConic.Excentricity.VLabel.ShortHelp="Вторая координата вершины для задания эксцентриситета";
+SketcherUI.CATComDYSConic.Excentricity.VEditor.ShortHelp="Вторая координата вершины для задания эксцентриситета";
+SketcherUI.CATComDYSConic.Excentricity.Excentricity_Label.Title="э: ";
+SketcherUI.CATComDYSConic.Excentricity.Excentricity_Label.ShortHelp="Эксцентриситет";
+SketcherUI.CATComDYSConic.Excentricity.Excentricity_Value.ShortHelp="Эксцентриситет";
+
+// 2D conic curve like GSD
+SketcherUI.CATComDYSConicCurve.SwitchBar.TwoPoints.Title="Две точки";
+SketcherUI.CATComDYSConicCurve.SwitchBar.TwoPoints.Help="Создание конической кривой по двум точкам";
+SketcherUI.CATComDYSConicCurve.SwitchBar.TwoPoints.LongHelp="Создание конической кривой, определяемой двумя точками.";
+SketcherUI.CATComDYSConicCurve.SwitchBar.TwoPoints.ShortHelp="Две точки";
+SketcherUI.CATComDYSConicCurve.SwitchBar.FourPoints.Title="Четыре точки";
+SketcherUI.CATComDYSConicCurve.SwitchBar.FourPoints.Help="Создание конической кривой по четырем точкам";
+SketcherUI.CATComDYSConicCurve.SwitchBar.FourPoints.LongHelp="Создание конической кривой, определяемой четырьмя точками.";
+SketcherUI.CATComDYSConicCurve.SwitchBar.FourPoints.ShortHelp="Четыре точки";
+SketcherUI.CATComDYSConicCurve.SwitchBar.FivePoints.Title="Пять точек";
+SketcherUI.CATComDYSConicCurve.SwitchBar.FivePoints.Help="Создание конической кривой по пяти точкам";
+SketcherUI.CATComDYSConicCurve.SwitchBar.FivePoints.LongHelp="Создание конической кривой, определяемой пятью точками.";
+SketcherUI.CATComDYSConicCurve.SwitchBar.FivePoints.ShortHelp="Пять точек";
+SketcherUI.CATComDYSConicCurve.SwitchBar.StartEndTgt.Title="Начальная и конечная касательные";
+SketcherUI.CATComDYSConicCurve.SwitchBar.StartEndTgt.Help="Создание касательных в начальной и конечной точке";
+SketcherUI.CATComDYSConicCurve.SwitchBar.StartEndTgt.LongHelp="Создание касательной в первой конечной точке и касательной во второй конечной точке конической кривой.";
+SketcherUI.CATComDYSConicCurve.SwitchBar.StartEndTgt.ShortHelp="Начальная и конечная касательные";
+SketcherUI.CATComDYSConicCurve.SwitchBar.TgtIntPt.Title="Точка пересечения для касательной";
+SketcherUI.CATComDYSConicCurve.SwitchBar.TgtIntPt.Help="Создание точки пересечения, которая определяет направление касательных в конечных точках";
+SketcherUI.CATComDYSConicCurve.SwitchBar.TgtIntPt.LongHelp="Создание точки пересечения, которая определяет направление касательной в первой и во второй конечных точках коники.";
+SketcherUI.CATComDYSConicCurve.SwitchBar.TgtIntPt.ShortHelp="Точка пересечения для касательной";
+SketcherUI.CATComDYSConicCurve.Parameter.Dimension.EnglobingFrame.IntermediateFrame.Label.Title="Параметр: ";
+SketcherUI.CATComDYSConicCurve.Parameter.Dimension.EnglobingFrame.IntermediateFrame.Label.Help="Определение параметра";
+SketcherUI.CATComDYSConicCurve.Parameter.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp="Параметр";
+SketcherUI.CATComDYSConicCurve.Parameter.Dimension.EnglobingFrame.IntermediateFrame.Label.LongHelp="Определение значения параметра.";
+SketcherUI.CATComDYSConicCurve.Angle.Dimension.EnglobingFrame.IntermediateFrame.Label.Title="Угол: ";
+SketcherUI.CATComDYSConicCurve.Angle.Dimension.EnglobingFrame.IntermediateFrame.Label.Help="Определение угла";
+SketcherUI.CATComDYSConicCurve.Angle.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp="Угол";
+SketcherUI.CATComDYSConicCurve.Angle.Dimension.EnglobingFrame.IntermediateFrame.Label.LongHelp="Определение значения угла для направления касательной.";
+SketcherUI.CATComDYSConicCurve.EndPtOfCrv.Check.Title="Ближайшая конечная точка";
+SketcherUI.CATComDYSConicCurve.EndPtOfCrv.Check.Help="Определение ближайшей конечной точки";
+SketcherUI.CATComDYSConicCurve.EndPtOfCrv.Check.LongHelp="Определение ближайшей конечной точки";
+SketcherUI.CATComDYSConicCurve.EndPtOfCrv.Check.ShortHelp="Ближайшая конечная точка";
+SketcherUI.CATComDYSConicCurve.Tangent.Check.Title="По касательной";
+SketcherUI.CATComDYSConicCurve.Tangent.Check.Help="Определение касательной в промежуточной точке";
+SketcherUI.CATComDYSConicCurve.Tangent.Check.LongHelp="Определение касательной в промежуточной точке конической кривой";
+SketcherUI.CATComDYSConicCurve.Tangent.Check.ShortHelp="Касательная в промежуточной точке";
+SketcherUI.CATComDYSConicCurve.StartPointState.Message="Необходимо щелкнуть или выбрать точку для указания положения первой конечной точки";
+SketcherUI.CATComDYSConicCurve.EndPointState.Message="Необходимо выбрать или щелкнуть точку для указания положения второй конечной точки";
+SketcherUI.CATComDYSConicCurve.FirstIPassPointState.Message="Необходимо щелкнуть или выбрать точку для указания положения первой точки на конической кривой";
+SketcherUI.CATComDYSConicCurve.SecondIPassPointState.Message="Необходимо щелкнуть или выбрать точку для указания положения второй точки на конической кривой";
+SketcherUI.CATComDYSConicCurve.ThirdIPassPointState.Message="Необходимо щелкнуть или выбрать точку для указания положения третьей точки на конической кривой";
+SketcherUI.CATComDYSConicCurve.TangentIntersectPointState.Message="Необходимо щелкнуть или выбрать точку для указания положения точки пересечения для касательной";
+SketcherUI.CATComDYSConicCurve.ParamOrPassPointState.Message="Необходимо щелкнуть или выбрать точку для указания положения промежуточной точки конической кривой или ввести значение параметра";
+SketcherUI.CATComDYSConicCurve.StartTangentState.Message="Необходимо щелкнуть или выбрать точку для указания положения касательной в первой конечной точке";
+SketcherUI.CATComDYSConicCurve.EndTangentState.Message="Необходимо щелкнуть или выбрать точку для указания положения касательной во второй конечной точке";
+SketcherUI.CATComDYSConicCurve.FirstIPassTangentState.Message="Необходимо щелкнуть или выбрать точку для указания положения касательной в первой точке на конической кривой";
+SketcherUI.CATComDYSConicCurve.SecondIPassTangentState.Message="Необходимо щелкнуть или выбрать точку для указания положения касательной во второй точке на конической кривой";
+SketcherUI.CATComDYSConicCurve.NoSolution.Title="Коническая кривая";
+SketcherUI.CATComDYSConicCurve.NoSolution.Message="Невозможно создание конической кривой с помощью выбранных элементов.";
+
+SketcherUI.CATComDYSConicCurve.PtCopilot.Name.Title="Координаты точки: ";
+SketcherUI.CATComDYSConicCurve.PtCopilot.ULabel.Title="Г: ";
+SketcherUI.CATComDYSConicCurve.PtCopilot.ULabel.ShortHelp="Первая координата точки";
+SketcherUI.CATComDYSConicCurve.PtCopilot.UEditor.ShortHelp="Первая координата точки";
+SketcherUI.CATComDYSConicCurve.PtCopilot.VLabel.Title="В: ";
+SketcherUI.CATComDYSConicCurve.PtCopilot.VLabel.ShortHelp="Вторая координата точки";
+SketcherUI.CATComDYSConicCurve.PtCopilot.VEditor.ShortHelp="Вторая координата точки";
+
+SketcherUI.CATComDYSConicCurve.StartPointCplt.Name.Title="Начальная точка: ";
+SketcherUI.CATComDYSConicCurve.StartPointCplt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSConicCurve.StartPointCplt.ULabel.ShortHelp="Первая координата начальной точки";
+SketcherUI.CATComDYSConicCurve.StartPointCplt.UEditor.ShortHelp="Первая координата начальной точки";
+SketcherUI.CATComDYSConicCurve.StartPointCplt.VLabel.Title="В: ";
+SketcherUI.CATComDYSConicCurve.StartPointCplt.VLabel.ShortHelp="Вторая координата начальной точки";
+SketcherUI.CATComDYSConicCurve.StartPointCplt.VEditor.ShortHelp="Вторая координата начальной точки";
+
+SketcherUI.CATComDYSConicCurve.EndPointCplt.Name.Title="Конечная точка: ";
+SketcherUI.CATComDYSConicCurve.EndPointCplt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSConicCurve.EndPointCplt.ULabel.ShortHelp="Первая координата конечной точки";
+SketcherUI.CATComDYSConicCurve.EndPointCplt.UEditor.ShortHelp="Первая координата конечной точки";
+SketcherUI.CATComDYSConicCurve.EndPointCplt.VLabel.Title="В: ";
+SketcherUI.CATComDYSConicCurve.EndPointCplt.VLabel.ShortHelp="Вторая координата конечной точки";
+SketcherUI.CATComDYSConicCurve.EndPointCplt.VEditor.ShortHelp="Вторая координата конечной точки";
+
+SketcherUI.CATComDYSConicCurve.Point1Cplt.Name.Title="Первая точка: ";
+SketcherUI.CATComDYSConicCurve.Point1Cplt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSConicCurve.Point1Cplt.ULabel.ShortHelp="Первая координата первой точки";
+SketcherUI.CATComDYSConicCurve.Point1Cplt.UEditor.ShortHelp="Первая координата первой точки";
+SketcherUI.CATComDYSConicCurve.Point1Cplt.VLabel.Title="В: ";
+SketcherUI.CATComDYSConicCurve.Point1Cplt.VLabel.ShortHelp="Вторая координата первой точки";
+SketcherUI.CATComDYSConicCurve.Point1Cplt.VEditor.ShortHelp="Вторая координата первой точки";
+
+SketcherUI.CATComDYSConicCurve.Point2Cplt.Name.Title="Вторая точка: ";
+SketcherUI.CATComDYSConicCurve.Point2Cplt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSConicCurve.Point2Cplt.ULabel.ShortHelp="Первая координата второй точки";
+SketcherUI.CATComDYSConicCurve.Point2Cplt.UEditor.ShortHelp="Первая координата второй точки";
+SketcherUI.CATComDYSConicCurve.Point2Cplt.VLabel.Title="В: ";
+SketcherUI.CATComDYSConicCurve.Point2Cplt.VLabel.ShortHelp="Вторая координата второй точки";
+SketcherUI.CATComDYSConicCurve.Point2Cplt.VEditor.ShortHelp="Вторая координата второй точки";
+
+SketcherUI.CATComDYSConicCurve.Point3Cplt.Name.Title="Третья точка: ";
+SketcherUI.CATComDYSConicCurve.Point3Cplt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSConicCurve.Point3Cplt.ULabel.ShortHelp="Первая координата третьей точки";
+SketcherUI.CATComDYSConicCurve.Point3Cplt.UEditor.ShortHelp="Первая координата третьей точки";
+SketcherUI.CATComDYSConicCurve.Point3Cplt.VLabel.Title="В: ";
+SketcherUI.CATComDYSConicCurve.Point3Cplt.VLabel.ShortHelp="Вторая координата третьей точки";
+SketcherUI.CATComDYSConicCurve.Point3Cplt.VEditor.ShortHelp="Вторая координата третьей точки";
+
+SketcherUI.CATComDYSConicCurve.PassingPointCplt.Name.Title="Промежуточная точка: ";
+SketcherUI.CATComDYSConicCurve.PassingPointCplt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSConicCurve.PassingPointCplt.ULabel.ShortHelp="Первая координата промежуточной точки";
+SketcherUI.CATComDYSConicCurve.PassingPointCplt.UEditor.ShortHelp="Первая координата промежуточной точки";
+SketcherUI.CATComDYSConicCurve.PassingPointCplt.VLabel.Title="В: ";
+SketcherUI.CATComDYSConicCurve.PassingPointCplt.VLabel.ShortHelp="Вторая координата промежуточной точки";
+SketcherUI.CATComDYSConicCurve.PassingPointCplt.VEditor.ShortHelp="Вторая координата промежуточной точки";
+
+SketcherUI.CATComDYSConicCurve.TgtCopilot.Name.Title="Координаты точки: ";
+SketcherUI.CATComDYSConicCurve.TgtCopilot.ULabel.Title="Г: ";
+SketcherUI.CATComDYSConicCurve.TgtCopilot.ULabel.ShortHelp="Первая координата точки";
+SketcherUI.CATComDYSConicCurve.TgtCopilot.UEditor.ShortHelp="Первая координата точки";
+SketcherUI.CATComDYSConicCurve.TgtCopilot.VLabel.Title="В: ";
+SketcherUI.CATComDYSConicCurve.TgtCopilot.VLabel.ShortHelp="Вторая координата точки";
+SketcherUI.CATComDYSConicCurve.TgtCopilot.VEditor.ShortHelp="Вторая координата точки";
+
+SketcherUI.CATComDYSConicCurve.StartTangentCplt.Name.Title="Начальная касательная: ";
+SketcherUI.CATComDYSConicCurve.StartTangentCplt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSConicCurve.StartTangentCplt.ULabel.ShortHelp="Первая координата начальной касательной";
+SketcherUI.CATComDYSConicCurve.StartTangentCplt.UEditor.ShortHelp="Первая координата начальной касательной";
+SketcherUI.CATComDYSConicCurve.StartTangentCplt.VLabel.Title="В: ";
+SketcherUI.CATComDYSConicCurve.StartTangentCplt.VLabel.ShortHelp="Вторая координата начальной касательной";
+SketcherUI.CATComDYSConicCurve.StartTangentCplt.VEditor.ShortHelp="Вторая координата начальной касательной";
+
+SketcherUI.CATComDYSConicCurve.EndTangentCplt.Name.Title="Конечная касательная: ";
+SketcherUI.CATComDYSConicCurve.EndTangentCplt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSConicCurve.EndTangentCplt.ULabel.ShortHelp="Первая координата конечной касательной";
+SketcherUI.CATComDYSConicCurve.EndTangentCplt.UEditor.ShortHelp="Первая координата конечной касательной";
+SketcherUI.CATComDYSConicCurve.EndTangentCplt.VLabel.Title="В: ";
+SketcherUI.CATComDYSConicCurve.EndTangentCplt.VLabel.ShortHelp="Вторая координата конечной касательной";
+SketcherUI.CATComDYSConicCurve.EndTangentCplt.VEditor.ShortHelp="Вторая координата конечной касательной";
+
+SketcherUI.CATComDYSConicCurve.Tangent1Cplt.Name.Title="Первая касательная: ";
+SketcherUI.CATComDYSConicCurve.Tangent1Cplt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSConicCurve.Tangent1Cplt.ULabel.ShortHelp="Первая координата первой касательной";
+SketcherUI.CATComDYSConicCurve.Tangent1Cplt.UEditor.ShortHelp="Первая координата первой касательной";
+SketcherUI.CATComDYSConicCurve.Tangent1Cplt.VLabel.Title="В: ";
+SketcherUI.CATComDYSConicCurve.Tangent1Cplt.VLabel.ShortHelp="Вторая координата первой касательной";
+SketcherUI.CATComDYSConicCurve.Tangent1Cplt.VEditor.ShortHelp="Вторая координата первой касательной";
+
+SketcherUI.CATComDYSConicCurve.Tangent2Cplt.Name.Title="Вторая касательная: ";
+SketcherUI.CATComDYSConicCurve.Tangent2Cplt.ULabel.Title="Г: ";
+SketcherUI.CATComDYSConicCurve.Tangent2Cplt.ULabel.ShortHelp="Первая координата второй касательной";
+SketcherUI.CATComDYSConicCurve.Tangent2Cplt.UEditor.ShortHelp="Первая координата второй касательной";
+SketcherUI.CATComDYSConicCurve.Tangent2Cplt.VLabel.Title="В: ";
+SketcherUI.CATComDYSConicCurve.Tangent2Cplt.VLabel.ShortHelp="Вторая координата второй касательной";
+SketcherUI.CATComDYSConicCurve.Tangent2Cplt.VEditor.ShortHelp="Вторая координата второй касательной";
+
+SketcherUI.CATComDYSConicCurve.PtTgIntCopilot.Name.Title="Точка пересечения для касательной: ";
+SketcherUI.CATComDYSConicCurve.PtTgIntCopilot.ULabel.Title="Г: ";
+SketcherUI.CATComDYSConicCurve.PtTgIntCopilot.ULabel.ShortHelp="Первая координата точки пересечения для касательной";
+SketcherUI.CATComDYSConicCurve.PtTgIntCopilot.UEditor.ShortHelp="Первая координата точки пересечения для касательной";
+SketcherUI.CATComDYSConicCurve.PtTgIntCopilot.VLabel.Title="В: ";
+SketcherUI.CATComDYSConicCurve.PtTgIntCopilot.VLabel.ShortHelp="Вторая координата точки пересечения для касательной";
+SketcherUI.CATComDYSConicCurve.PtTgIntCopilot.VEditor.ShortHelp="Вторая координата точки пересечения для касательной";
+
+SketcherUI.CATComEdit2DConicCurve.ErrorNumberElement.Title="Определение конической кривой";
+SketcherUI.CATComEdit2DConicCurve.ErrorNumberElement.Message="Количество точек, вводимых для определения конической кривой, не должно превышать пяти.\nПожалуйста, отмените одно введенное значение.";
+
+SketcherUI.CATComEdit2DConicCurve.DefinitionConicCurve.Message="Выбор поля для изменения определения конической кривой";
+SketcherUI.CATComEdit2DConicCurve.SelectionStartPoint.Message="Необходимо щелкнуть или выбрать точку для указания положения первой конечной точки";
+SketcherUI.CATComEdit2DConicCurve.SelectionEndPoint.Message="Необходимо выбрать или щелкнуть точку для указания положения второй конечной точки";
+SketcherUI.CATComEdit2DConicCurve.SelectionFirstPoint.Message="Необходимо щелкнуть или выбрать точку для указания положения первой точки на конической кривой";
+SketcherUI.CATComEdit2DConicCurve.SelectionSecondPoint.Message="Необходимо щелкнуть или выбрать точку для указания положения второй точки на конической кривой";
+SketcherUI.CATComEdit2DConicCurve.SelectionThirdPoint.Message="Необходимо щелкнуть или выбрать точку для указания положения третьей точки на конической кривой";
+SketcherUI.CATComEdit2DConicCurve.SelectionTangentIntersectionPoint.Message="Необходимо щелкнуть или выбрать точку для указания положения точки пересечения для касательной";
+SketcherUI.CATComEdit2DConicCurve.SelectionStartTangent.Message="Необходимо щелкнуть или выбрать точку для указания положения касательной в первой конечной точке";
+SketcherUI.CATComEdit2DConicCurve.SelectionEndTangent.Message="Необходимо щелкнуть или выбрать точку для указания положения касательной во второй конечной точке";
+SketcherUI.CATComEdit2DConicCurve.SelectionFirstTangent.Message="Необходимо щелкнуть или выбрать точку для указания положения касательной в первой точке на конической кривой";
+SketcherUI.CATComEdit2DConicCurve.SelectionSecondTangent.Message="Необходимо щелкнуть или выбрать точку для указания положения касательной во второй точке на конической кривой";
+SketcherUI.CATComEdit2DConicCurve.PtCopilot.Name.Title="Координаты точки: ";
+SketcherUI.CATComEdit2DConicCurve.PtCopilot.ULabel.Title="Г: ";
+SketcherUI.CATComEdit2DConicCurve.PtCopilot.ULabel.ShortHelp="Первая координата точки";
+SketcherUI.CATComEdit2DConicCurve.PtCopilot.UEditor.ShortHelp="Первая координата точки";
+SketcherUI.CATComEdit2DConicCurve.PtCopilot.VLabel.Title="В: ";
+SketcherUI.CATComEdit2DConicCurve.PtCopilot.VLabel.ShortHelp="Вторая координата точки";
+SketcherUI.CATComEdit2DConicCurve.PtCopilot.VEditor.ShortHelp="Вторая координата точки";
+
+
+// Creation Offset Contour
+SketcherUI.CATCom2DOffsetContour.SelElement.Message="Выбор геометрии, которую следует дублировать с использованием значения смещения";
+SketcherUI.CATCom2DOffsetContour.NewPosition.Message="Необходимо щелкнуть или выбрать точку для указания положения новых элементов";
+// Gestion Visu Copilote
+SketcherUI.CATCom2DOffsetContour.NewPosition.Name.Title="Новое положение: ";
+SketcherUI.CATCom2DOffsetContour.NewPosition.Name.Help="Определение нового положения дублируемых элементов";
+SketcherUI.CATCom2DOffsetContour.NewPosition.Name.ShortHelp="Новое положение";
+SketcherUI.CATCom2DOffsetContour.NewPosition.Name.LongHelp="Определение нового положения дублируемых элементов.";
+SketcherUI.CATCom2DOffsetContour.NewPosition.ULabel.Title="Г: ";
+SketcherUI.CATCom2DOffsetContour.NewPosition.ULabel.ShortHelp="Первая координата (Начало координат дублируемого элемента)";
+SketcherUI.CATCom2DOffsetContour.NewPosition.UEditor.ShortHelp="Первая координата (Начало координат дублируемого элемента)";
+SketcherUI.CATCom2DOffsetContour.NewPosition.VLabel.Title="В: ";
+SketcherUI.CATCom2DOffsetContour.NewPosition.VLabel.ShortHelp="Вторая координата (Начало координат дублируемого элемента)";
+SketcherUI.CATCom2DOffsetContour.NewPosition.VEditor.ShortHelp="Вторая координата (Начало координат дублируемого элемента)";
+SketcherUI.CATCom2DOffsetContour.NewPosition.Offset_Label.Title="Смещение: ";
+SketcherUI.CATCom2DOffsetContour.NewPosition.Offset_Label.Help="Определение значения смещения";
+SketcherUI.CATCom2DOffsetContour.NewPosition.Offset_Label.ShortHelp="Значение смещения";
+SketcherUI.CATCom2DOffsetContour.NewPosition.Offset_Label.LongHelp="Определение значения смещения дублируемых элементов относительно исходных элементов.";
+SketcherUI.CATCom2DOffsetContour.NewPosition.Offset_Value.ShortHelp="Значение смещения";
+SketcherUI.CATCom2DOffsetContour.PropagSwitchBar.No_Propagation.Title="Без распространения";
+SketcherUI.CATCom2DOffsetContour.PropagSwitchBar.No_Propagation.Help="Определение режима Без распространения";
+SketcherUI.CATCom2DOffsetContour.PropagSwitchBar.No_Propagation.LongHelp="Определение режима Без распространения.";
+SketcherUI.CATCom2DOffsetContour.PropagSwitchBar.No_Propagation.ShortHelp="Без распространения";
+SketcherUI.CATCom2DOffsetContour.PropagSwitchBar.Tg_Propagation.Title="Распространение по касательной";
+SketcherUI.CATCom2DOffsetContour.PropagSwitchBar.Tg_Propagation.Help="Определение распространения по касательной";
+SketcherUI.CATCom2DOffsetContour.PropagSwitchBar.Tg_Propagation.LongHelp="Определение распространения по касательной.";
+SketcherUI.CATCom2DOffsetContour.PropagSwitchBar.Tg_Propagation.ShortHelp="Распространение по касательной";
+SketcherUI.CATCom2DOffsetContour.PropagSwitchBar.Pt_Propagation.Title="Распространение по точкам";
+SketcherUI.CATCom2DOffsetContour.PropagSwitchBar.Pt_Propagation.Help="Распространение по точкам";
+SketcherUI.CATCom2DOffsetContour.PropagSwitchBar.Pt_Propagation.LongHelp="Определение распространения по точкам.";
+SketcherUI.CATCom2DOffsetContour.PropagSwitchBar.Pt_Propagation.ShortHelp="Распространение по точкам";
+SketcherUI.CATCom2DOffsetContour.BothSideCheckBar.Check.Title="Смещение в обе стороны";
+SketcherUI.CATCom2DOffsetContour.BothSideCheckBar.Check.Help="Определение смещения в обе стороны";
+SketcherUI.CATCom2DOffsetContour.BothSideCheckBar.Check.LongHelp="Определение создания смещения в обе стороны.";
+SketcherUI.CATCom2DOffsetContour.BothSideCheckBar.Check.ShortHelp="Смещение в обе стороны";
+SketcherUI.CATCom2DOffsetContour.NbDuplications.Dimension.EnglobingFrame.IntermediateFrame.Label.Title="Экземпляр(ы): ";
+SketcherUI.CATCom2DOffsetContour.NbDuplications.Dimension.EnglobingFrame.IntermediateFrame.Label.Help="Определение экземпляров";
+SketcherUI.CATCom2DOffsetContour.NbDuplications.Dimension.EnglobingFrame.IntermediateFrame.Label.LongHelp="Определение количества новых смещенных экземпляров для создания.";
+SketcherUI.CATCom2DOffsetContour.NbDuplications.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp="Количество экземпляров";
+SketcherUI.CATCom2DOffsetContour.PartialOffset.Title="Смещение частично выполнено";
+SketcherUI.CATCom2DOffsetContour.PartialOffset.Message="Предупреждение:Были учтены только некоторые значения смещения.\n(Количество созданных смещений =";
+SketcherUI.CATCom2DOffsetContour.CheckIntersection.Title="Смещение";
+SketcherUI.CATCom2DOffsetContour.CheckIntersection.Message="Расчет смещения невозможен.\nВведенное значение не определяет многообразие, или выявлено самопересечение каркаса.\nНеобходимо выбрать для смещения другую геометрию.";
+SketcherUI.CATCom2DOffsetContour.Cycle.Message="Невозможно создать смещение:\nбудет запущен цикл обновления.\n";
+
+// Point Intersection Command
+SketcherUI.CATCom2DPointIntersect.Element.Message="Выбор набора элементов для пересечения с другим элементом";
+SketcherUI.CATCom2DPointIntersect.Intersect.Message="Выбор элемента, с которым будут пересекаться элементы";
+
+// Point Projection Command
+SketcherUI.CATCom2DPointProject.Element.Message="Выбор набора элементов для проецирования на другой элемент";
+SketcherUI.CATCom2DPointProject.Project.Message="Выбор элемента, на который будут проецироваться выбранные точки";
+
+SketcherUI.CATCom2DPointProject.ProjectOrtho.Message="Выбор элемента, на который будут проецироваться выбранные точки";
+SketcherUI.CATCom2DPointProject.ProjectAlongDir.Message="Необходимо щелкнуть или выбрать точку для указания положения или направления проецирования";
+SketcherUI.CATCom2DPointProject.ProjectOntoCurve.Message="Выбор элемента, на который будут проецироваться выбранные точки";
+
+SketcherUI.CATCom2DPointProject.SwitchBar.Orthogonal.Title="Ортогональный";
+SketcherUI.CATCom2DPointProject.SwitchBar.Orthogonal.Help="Создание ортогональной проекции";
+SketcherUI.CATCom2DPointProject.SwitchBar.Orthogonal.LongHelp="Переключение в режим ортогонального проецирования.";
+SketcherUI.CATCom2DPointProject.SwitchBar.Orthogonal.ShortHelp="Ортогональная проекция";
+SketcherUI.CATCom2DPointProject.SwitchBar.AlongDirection.Title="По направлению";
+SketcherUI.CATCom2DPointProject.SwitchBar.AlongDirection.Help="Создание проекции по направлению";
+SketcherUI.CATCom2DPointProject.SwitchBar.AlongDirection.LongHelp="Переключение в режим проецирования по направлению.";
+SketcherUI.CATCom2DPointProject.SwitchBar.AlongDirection.ShortHelp="По направлению";
+
+SketcherUI.CATCom2DPointProject.ProjDirCplt.Name.Title="Направление: ";
+SketcherUI.CATCom2DPointProject.ProjDirCplt.ULabel.Title="Г: ";
+SketcherUI.CATCom2DPointProject.ProjDirCplt.ULabel.ShortHelp="Первая координата точки направления";
+SketcherUI.CATCom2DPointProject.ProjDirCplt.UEditor.ShortHelp="Первая координата точки направления";
+SketcherUI.CATCom2DPointProject.ProjDirCplt.VLabel.Title="В: ";
+SketcherUI.CATCom2DPointProject.ProjDirCplt.VLabel.ShortHelp="Вторая координата точки направления";
+SketcherUI.CATCom2DPointProject.ProjDirCplt.VEditor.ShortHelp="Вторая координата точки направления";
+
+SketcherUI.CATCom2DPointProject.ProjAngle.Dimension.EnglobingFrame.IntermediateFrame.Label.Title="Угол: ";
+SketcherUI.CATCom2DPointProject.ProjAngle.Dimension.EnglobingFrame.IntermediateFrame.Label.Help="Определение угла направления проецирования";
+SketcherUI.CATCom2DPointProject.ProjAngle.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp="Угол направления";
+SketcherUI.CATCom2DPointProject.ProjAngle.Dimension.EnglobingFrame.IntermediateFrame.Label.LongHelp="Определение значения угла для направления проецирования.";
+
+SketcherUI.CATCom2DPointProject.PointProjection.Title="Точка проекции";
+SketcherUI.CATCom2DPointProject.NotProjPointAlongDir.Message="По заданному направлению проекция не обнаружена!";
+SketcherUI.CATCom2DPointProject.NotProjPoint.Message=" Проекция не обнаружена!";
+SketcherUI.CATCom2DPointProject.PartialProjPoint.Message="Предупреждение:Одна или несколько точек не спроецированы!";
+
+// Commande Droite infinie
+SketcherUI.CATComDYSLineHV.CreateLine.Message="Необходимо щелкнуть или выбрать точку для указания положения линии";
+SketcherUI.CATComDYSLineHV.SwitchBar.Horizontal.Title="Горизонтальное";
+SketcherUI.CATComDYSLineHV.SwitchBar.Horizontal.Help="Создание горизонтальной линии";
+SketcherUI.CATComDYSLineHV.SwitchBar.Horizontal.LongHelp="Переключение в режим создания бесконечной горизонтальной линии.";
+SketcherUI.CATComDYSLineHV.SwitchBar.Horizontal.ShortHelp="Горизонтальная линия";
+SketcherUI.CATComDYSLineHV.SwitchBar.Vertical.Title="Вертикальное";
+SketcherUI.CATComDYSLineHV.SwitchBar.Vertical.Help="Создание вертикальной линии";
+SketcherUI.CATComDYSLineHV.SwitchBar.Vertical.LongHelp="Переключение в режим создания бесконечной вертикальной линии.";
+SketcherUI.CATComDYSLineHV.SwitchBar.Vertical.ShortHelp="Вертикальная линия";
+SketcherUI.CATComDYSLineHV.SwitchBar.Standard.Title="По двум точкам";
+SketcherUI.CATComDYSLineHV.SwitchBar.Standard.Help="Создание линии, проходящей через две точки";
+SketcherUI.CATComDYSLineHV.SwitchBar.Standard.LongHelp="Переход в режим создания линии по двум точкам.";
+SketcherUI.CATComDYSLineHV.SwitchBar.Standard.ShortHelp="Линия по двум точкам";
+
+// Commande Bissectrice infinie
+SketcherUI.CATCom2DBisectingLine.FirstLine.Message="Выбор первой линии, определяющей сектор для биссектрисы";
+SketcherUI.CATCom2DBisectingLine.SecondLine.Message="Выбор второй линии, определяющей сектор для биссектрисы";
+
+// Noms des noeuds virtuels du graphe.
+ConstraintGroup="Ограничения";
+GeometryGroup="Геометрия";
+ExternalGroup="Проекции контуров";
+
+// Edit Operator (UseEdge)
+SketcherUI.CATComEdit2DOperator.SelNewRef.Message="Выбор нового элемента 3D для этого оператора";
+SketcherUI.CATComEdit2DOperator.SelNewNear.Message="Выбор нового ближайшего элемента для этого оператора";
+SketcherUI.CATComEdit2DOperator.NoSelection="Не выбрано";
+SketcherUI.CATComEdit2DOperator.ReferenceElement="Опорный элемент";
+
+// Edit 2DOutput
+SketcherUI.CATComEdit2DOutput.initState.Message="Выбор нового элемента для данного результата";
+SketcherUI.CATComEdit2DOutput.ReferenceElement="Опорный элемент";
+SketcherUI.CATComEdit2DOutput.WarningTitle.Title="Редактирование выходного примитива";
+SketcherUI.CATComEdit2DOutput.DegeneratedElement.Message="Выбранный элемент является вырожденным.\nПожалуйста, выберите другой элемент.";
+SketcherUI.CATComEdit2DOutput.AlreadyPublishElement.Message="Выбранный элемент уже открыт.\nПожалуйста, выберите другой элемент.";
+
+// Edit Offset (UseEdge)
+SketcherUI.CATComEdit2DOffset.SelNewOffsetElem.Message="Выбор нового элемента 3D для данного смещения";
+SketcherUI.CATComEdit2DOffset.SelNewInitElem.Message="Выбор нового опорного элемента для распространения смещения";
+SketcherUI.CATComEdit2DOffset.NoSelection="Не выбрано";
+SketcherUI.CATComEdit2DOffset.ReferenceElement="Объект для смещения";
+
+
+// Sketch Positioning
+SketcherUI.CATComCreateSketchPosition.StateCreation.Message="Выбор плоскости, двух линий, системы координат, плоской грани или эскиза";
+SketcherUI.CATComModifySketchSupport.SketchState.Message="Выбор эскиза";
+SketcherUI.CATComModifySketchSupport.ModifyState.Message="Изменение плоскости До";
+SketcherUI.CATComSketchPosition.stateEltSup1.Message="Выбор плоскости, двух линий, системы координат, плоской грани или эскиза";
+SketcherUI.CATComSketchPosition.stateEltSup2.Message="Выберите вторую линию";
+SketcherUI.CATComSketchPosition.stateEltOrigin1.Message="Выбор режима исходной точки или элемента 3D";
+SketcherUI.CATComSketchPosition.stateEltOrigin2.Message="Выберите вторую линию";
+SketcherUI.CATComSketchPosition.stateEltOrient.Message="Выбор режима ориентации или элемента 3D";
+SketcherUI.CATComSketchPosition.stateNeutral.Message="Подтверждение положения абсолютной оси или изменение спецификации";
+
+// Old Positioning 
+SketcherUI.CATComModifySketchSupport.OLDModifyState.Message="Выберите новую поддерживающую плоскость эскиза";
+SketcherUI.CATComOldChangeSketchSupport.Sketch.Message="Выберите эскиз, для которого требуется изменить поддерживающий элемент";
+SketcherUI.CATComOldChangeSketchSupport.Plane.Message="Выберите новую поддерживающую плоскость эскиза";
+SketcherUI.CATComOldChangeSketchSupport.AvoidLoop.Message="Выберите другую плоскость, родительские элементы которой не определены в эскизе";
+
+
+// Line Normal to Curve
+SketcherUI.CATCom2DLineNormalToCurve.state1.Message="Щелкните кнопкой мыши для определения первого конца отрезка";
+SketcherUI.CATCom2DLineNormalToCurve.state2.Message="Щелкните кнопкой мыши для выбора кривой";
+SketcherUI.CATCom2DLineNormalToCurve.state3.Message="Щелкните кнопкой мыши для выбора кривой";
+SketcherUI.CATCom2DLineNormalToCurve.state4.Message="Нажмите кнопку мыши для определения второго конца отрезка";
+SketcherUI.CATCom2DLineNormalToCurve.Pt1Agt.Name.Title="Первая точка: ";
+SketcherUI.CATCom2DLineNormalToCurve.Pt1Agt.Name.Help="Определение первой точки";
+SketcherUI.CATCom2DLineNormalToCurve.Pt1Agt.Name.ShortHelp="Первая точка";
+SketcherUI.CATCom2DLineNormalToCurve.Pt1Agt.Name.LongHelp="Определение первой точки.";
+SketcherUI.CATCom2DLineNormalToCurve.Pt1Agt.ULabel.Title="Г: ";
+SketcherUI.CATCom2DLineNormalToCurve.Pt1Agt.ULabel.ShortHelp="Первая координата первой точки";
+SketcherUI.CATCom2DLineNormalToCurve.Pt1Agt.UEditor.ShortHelp="Первая координата первой точки";
+SketcherUI.CATCom2DLineNormalToCurve.Pt1Agt.VLabel.Title="В: ";
+SketcherUI.CATCom2DLineNormalToCurve.Pt1Agt.VLabel.ShortHelp="Вторая координата первой точки";
+SketcherUI.CATCom2DLineNormalToCurve.Pt1Agt.VEditor.ShortHelp="Вторая координата первой точки";
+SketcherUI.CATCom2DLineNormalToCurve.Pt2Agt.Name.Title="Вторая точка: ";
+SketcherUI.CATCom2DLineNormalToCurve.Pt2Agt.Name.Help="Определение второй точки";
+SketcherUI.CATCom2DLineNormalToCurve.Pt2Agt.Name.ShortHelp="Вторая точка";
+SketcherUI.CATCom2DLineNormalToCurve.Pt2Agt.Name.LongHelp="Определение второй точки.";
+SketcherUI.CATCom2DLineNormalToCurve.Pt2Agt.ULabel.Title="Г: ";
+SketcherUI.CATCom2DLineNormalToCurve.Pt2Agt.ULabel.ShortHelp="Первая координата второй точки";
+SketcherUI.CATCom2DLineNormalToCurve.Pt2Agt.UEditor.ShortHelp="Первая координата второй точки";
+SketcherUI.CATCom2DLineNormalToCurve.Pt2Agt.VLabel.Title="В: ";
+SketcherUI.CATCom2DLineNormalToCurve.Pt2Agt.VLabel.ShortHelp="Вторая координата второй точки";
+SketcherUI.CATCom2DLineNormalToCurve.Pt2Agt.VEditor.ShortHelp="Вторая координата второй точки";
+SketcherUI.CATCom2DLineNormalToCurve.LineNormalToCurveMode.Check.Title="Предварительный выбор кривой";
+SketcherUI.CATCom2DLineNormalToCurve.LineNormalToCurveMode.Check.Help="Выбор кривой перед созданием линии";
+SketcherUI.CATCom2DLineNormalToCurve.LineNormalToCurveMode.Check.LongHelp="Выбор кривой перед созданием линии.";
+SketcherUI.CATCom2DLineNormalToCurve.LineNormalToCurveMode.Check.ShortHelp="Предварительный выбор кривой";
+
+SketcherUI.CATCom2DLineNormalToCurve.state2b.Message="Нажмите кнопку мыши для выбора кривой или точки";
+
+SketcherUI.CATCom2DLineNormalToCurve.Sym.Check.Title="Симметричное удлинение";
+SketcherUI.CATCom2DLineNormalToCurve.Sym.Check.LongHelp="Создание симметричного отрезка, связанного с начальной точкой отрезка.";
+SketcherUI.CATCom2DLineNormalToCurve.Sym.Check.ShortHelp="Симметричное удлинение";
+SketcherUI.CATCom2DLineNormalToCurve.Sym.Check.Help="Нажмите эту кнопку для создания симметрично удаленной линии";
+
+SketcherUI.CATCom2DLineNormalToCurve.Length.Dimension.EnglobingFrame.IntermediateFrame.Label.Title="Длина: ";
+SketcherUI.CATCom2DLineNormalToCurve.Length.Dimension.EnglobingFrame.IntermediateFrame.Label.Help="Определение длины";
+SketcherUI.CATCom2DLineNormalToCurve.Length.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp="Длина";
+SketcherUI.CATCom2DLineNormalToCurve.Length.Dimension.EnglobingFrame.IntermediateFrame.Label.LongHelp="Определение длины линии.";
+
+SketcherUI.CATCom2DLineNormalToCurve.CurveNotFound.Message="Точка изолирована!\nВыберите кривую для проектирования точки,\n которая определит начало линии перпендикуляра.";
+SketcherUI.CATCom2DLineNormalToCurve.CurveNotFound.Title="Предупреждение";
+
+SketcherUI.CATCom2DLineNormalToCurve.SeveralCurves.Message="Точка принадлежит нескольким кривым!\nВыберите кривую, к которой относится точка для избежания неоднозначности.";
+SketcherUI.CATCom2DLineNormalToCurve.SeveralCurves.Title="Предупреждение";
+
+SketcherUI.CATCom2DLineNormalToCurve.InvalidPoint.Message="Сбой проектирования точки на кривую!\nВыберите новую точку или кривую.";
+SketcherUI.CATCom2DLineNormalToCurve.InvalidPoint.Title="Предупреждение";
+
+//edit spline
+SketcherUI.CATComEdit2DSpline.ControlPt.Name.Title="Координаты точки: ";
+SketcherUI.CATComEdit2DSpline.ControlPt.ULabel.Title="Г: ";
+SketcherUI.CATComEdit2DSpline.ControlPt.ULabel.ShortHelp="Первая координата точки";
+SketcherUI.CATComEdit2DSpline.ControlPt.UEditor.ShortHelp="Первая координата точки";
+SketcherUI.CATComEdit2DSpline.ControlPt.VLabel.Title="В: ";
+SketcherUI.CATComEdit2DSpline.ControlPt.VLabel.ShortHelp="Вторая координата точки";
+SketcherUI.CATComEdit2DSpline.ControlPt.VEditor.ShortHelp="Вторая координата точки";
+
+SketcherUI.CATComEdit2DSpline2.PanelState.Message="Выбор управляющей точки и, если требуется, задание касания и радиуса кривизны или удаление его.";
+SketcherUI.CATComEdit2DSpline2.SelNewPoint.Message="Выбор новой управляющей точки";
+SketcherUI.CATComEdit2DSpline2.SelCurveTgtDir.Message="Выбор направления касания для выбранной точки";
+SketcherUI.CATComEdit2DSpline2.SelCurveCrvDir.Message="Выбор направления кривизны для выбранной точки";
+SketcherUI.CATComEdit2DSpline2.SelCurveRefElt.Message="Выбор опорного элемента для выбранной точки";
+SketcherUI.CATComEdit2DSpline2.ControlPt.Name.Title="Управляющая точка: ";
+SketcherUI.CATComEdit2DSpline2.ControlPt.ULabel.Title="Г: ";
+SketcherUI.CATComEdit2DSpline2.ControlPt.ULabel.ShortHelp="Первая координата точки";
+SketcherUI.CATComEdit2DSpline2.ControlPt.UEditor.ShortHelp="Первая координата точки";
+SketcherUI.CATComEdit2DSpline2.ControlPt.VLabel.Title="В: ";
+SketcherUI.CATComEdit2DSpline2.ControlPt.VLabel.ShortHelp="Вторая координата точки";
+SketcherUI.CATComEdit2DSpline2.ControlPt.VEditor.ShortHelp="Вторая координата точки";
+
+//Output creation
+SketcherUI.CATComDYSOutput.InitState.Message="Выбор одного или нескольких элементов геометрии 2D.";
+SketcherUI.CATComDYSOutput.WarningPanel.Title="Создание выходного примитива";
+SketcherUI.CATComDYSOutput.PublishedElement.Message="Выбранный элемент уже открыт.\nПожалуйста, выберите другой элемент.";
+SketcherUI.CATComDYSOutput.AllPublishedElement.Message="Выбранные элементы уже открыты.\nПожалуйста, выберите другой элемент.";
+SketcherUI.CATComDYSOutput.DegeneratedElement.Message="Выбранный элемент является вырожденным.\nПожалуйста, выберите другой элемент.";
+SketcherUI.CATComDYSOutput.AllDegeneratedElement.Message="Выбранные элементы являются вырожденными.\nПожалуйста, выберите другой элемент.";
+SketcherUI.CATComDYSOutput.PublishAndDegeneratElement.Message="Выбранные элементы уже открыты или являются вырожденными.\nПожалуйста, выберите другой элемент.";
+SketcherUI.CATComDYSOutput.WarningCreation.Message="Предупреждение:Один или несколько геометрических элементов уже открыты или являются вырожденными.\nБыли созданы примитивы вывода /p1.";
+
+// Contextual (Corner/Chamfer)
+SketcherUI.CATComDYSContextual.MultiSelError.Message="Точки относятся к одной и той же импортированной геометрии!\nС опцией Вспомогательные линии выбор нескольких элементов не допускается.\nНеобходимо выбрать точки друг за другом и установить флажок опции.";
+SketcherUI.CATComDYSContextual.MultiSelError.Title="Выбор нескольких элементов";
+SketcherUI.CATComDYSContextual.ConfirmDefaultRadius.Message="Использовать значение радиуса, заданное по умолчанию, в качестве данных для ввода?";
+SketcherUI.CATComDYSContextual.ConfirmDefaultRadius.Title="Предупреждение о радиусе, заданному по умолчанию";
+
+
+
+// Fix Together 
+SketcherUI.CATComDYSFixTogether.SelectionState.Message="Выберите один или несколько элементов геометрии 2D";
+SketcherUI.CATComDYSFixTogether.EditFixTogether.Message="Редактирование: выбор одного или нескольких элементов геометрии 2D";
+SketcherUI.CATComDYSFixTogether.MarkOfUseEdge.Message="Проекция контуров уже включена в ограничения Фиксировать вместе !\nЖесткая система останется жесткой в случае, если не будет удалена первоначальная геометрия 3D.\n\nДля постоянной жесткости ограничения Фиксировать вместе изолируйте проекцию контуров.";
+SketcherUI.CATComDYSFixTogether.MarkOfUseEdge.Title="Предупреждение";
+SketcherUI.CATComEdit2DFixTogether.FixTogether.Message="Редактирование: выбор одного или нескольких элементов геометрии 2D";
+
+//Output Profile creation
+SketcherUI.CATComDYSOutputProfile.InitState.Message="Выбор одного или нескольких элементов геометрии 2D.";
+SketcherUI.CATComDYSOutputProfile.EditOutputProfile.Message="Редактирование выходного профиля.";
+
+//Edition Output Profile creation
+SketcherUI.CATComEdit2DOutputProfile.EditOutputProfile.Message="Выбор одного или нескольких элементов геометрии 2D.";
+SketcherUI.CATComEdit2DOutputProfile.ConnexityWarning.Message="Связность не проверена!";
+SketcherUI.CATComEdit2DOutputProfile.TangencyWarning.Message="Не проверена непрерывность в точке касания!";
+SketcherUI.CATComEdit2DOutputProfile.CurvatureWarning.Message="Не проверена непрерывность по кривизне!";
+SketcherUI.CATComEdit2DOutputProfile.ManifoldWarning.Message="Не проверено многообразие!";
+SketcherUI.CATComEdit2DOutputProfile.IntersectWarning.Message="Существуют пересечения!";
+SketcherUI.CATComEdit2DOutputProfile.HomogeneousWarning.Message="Однородность не проверена!";
+SketcherUI.CATComEdit2DOutputProfile.InvalidInputs.Message="Входные данные недопустимы";
+SketcherUI.CATComEdit2DOutputProfile.HelpInputs.Title="Определение выходного профиля";
+SketcherUI.CATComEdit2DOutputProfile.HelpInputs.Message="Удалены входные геометрические элементы\nИспользовать выходные геометрические элементы в качестве входных?";
+
+SketcherUI.CATSwitchHeaderInSelect.OutputProfileSetEltTypeConstruction.Title="Предупреждение";
+SketcherUI.CATSwitchHeaderInSelect.OutputProfileSetEltTypeConstruction.Message="В выходном профиле открыта геометрия.\nВ случае преобразования данной геометрии во вспомогательную\nрезультирующий выходной профиль будет изменен.\n\nПодтвердите данную операцию.";
+
+// Constraint multiEdition
+SketcherUI.CATComDYSCstMultiEdition.SelectionState.Message="Выбор одного или нескольких ограничений 2D";
+SketcherUI.CATComDYSCstMultiEdition.EditionState.Message="Выбор одного ограничения 2D";
+
+SketcherUI.CATComDYSInit.AggregSketchKO.Title="Предупреждение";
+SketcherUI.CATComDYSInit.AggregSketchKO.Message="Невозможно добавление эскиза в данный текущий примитив.\nТекущий примитив ориентирован на внешнее приложение.\nНеобходимо определить другой примитив в качестве текущего.";
+
+//--------------------------------------------------------------------------------------
+
+SketcherUI.CATComDYSUseEdgeBase.RefElemIndicator.Title="Опорный элемент";
+SketcherUI.CATComDYSUseEdgeBase.NearElemIndicator.Title="Ближайший элемент";
+SketcherUI.CATComDYSUseEdgeBase.SelRefElemToIntersectState.Message="Выбор элементов 3D, которые требуется пересечь плоскостью эскиза";
+SketcherUI.CATComDYSUseEdgeBase.SelRefElemToProjectState.Message="Выбор элементов 3D, которые требуется спроецировать на плоскость эскиза";
+SketcherUI.CATComDYSUseEdgeBase.SelNearElemState.Message="Выбор элемента 3D, который требуется использовать в качестве ближайшего.";
+SketcherUI.CATComDYSUseEdgeBase.KeepDatumEdges.Message="Сохранить эти неассоциативные кромки?";
+
+SketcherUI.CATComDYSUseEdgeProjection.NoProjBox.Title="Проекция на плоскость эскиза";
+SketcherUI.CATComDYSUseEdgeProjection.NoProj.Message="Ошибка проекции на плоскость эскиза:\nпроекция для выделенных элементов не выполнена";
+SketcherUI.CATComDYSUseEdgeProjection.PartialFailProj.Message="Предупреждение:Частичный сбой ассоциативной проекции.\n Успешно спроецированы только некоторые элементы.";
+SketcherUI.CATComDYSUseEdgeProjection.PartialDatumProj.Message="Предупреждение:Частичное выполнение ассоциативной проекции.\n Некоторые элементы неассоциативны.";
+SketcherUI.CATComDYSUseEdgeProjection.PartialFailDatumProj.Message="Предупреждение:Частичное выполнение ассоциативной проекции.\n Проекция некоторых элементов не удалась или неассоциативна.";
+SketcherUI.CATComDYSUseEdgeProjection.AllDatumProj.Message="Предупреждение:Ассоциативная проекция не выполнена.";
+
+SketcherUI.CATComDYSUseEdgeIntersection.NoIntBox.Title="Пересечение с плоскостью эскиза";
+SketcherUI.CATComDYSUseEdgeIntersection.NoInt.Message="Сбой пересечения с плоскостью эскиза:\nпересечение не существует.\n";
+SketcherUI.CATComDYSUseEdgeIntersection.PartialFailInt.Message="Предупреждение:Частичный сбой ассоциативного пересечения.\n Успешно спроецированы только некоторые элементы.";
+SketcherUI.CATComDYSUseEdgeIntersection.PartialDatumInt.Message="Предупреждение:Частичное выполнение ассоциативного пересечения.\n Некоторые элементы неассоциативны.";
+SketcherUI.CATComDYSUseEdgeIntersection.PartialFailDatumInt.Message="Предупреждение:Частичное выполнение ассоциативного пересечения.\n Пересечение некоторых элементов не удалось или неассоциативно.";
+SketcherUI.CATComDYSUseEdgeIntersection.AllDatumInt.Message="Предупреждение:Ассоциативное пересечение не выполнено.";
+
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameLeftMore.FrameLeftBase.RefElemToIntersect.Title="Элементы для операции пересечения";
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameLeftMore.FrameLeftBase.RefElemToIntersect.Sel.Help="Выбор элементов 3D для пересечения.";
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameLeftMore.FrameLeftBase.RefElemToIntersect.Sel.ShortHelp="Список элементов для пересечения";
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameLeftMore.FrameLeftBase.RefElemToIntersect.Sel.LongHelp="Выбор элементов 3D для пересечения.";
+
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameLeftMore.FrameLeftBase.RefElemToProject.Title="Элемент(ы) для проецирования";
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameLeftMore.FrameLeftBase.RefElemToProject.Sel.Help="Выбор набора элементов 3D, которые требуется спроецировать.";
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameLeftMore.FrameLeftBase.RefElemToProject.Sel.ShortHelp="Список элементов для проецирования";
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameLeftMore.FrameLeftBase.RefElemToProject.Sel.LongHelp="Выбор набора элементов 3D, которые требуется спроецировать.";
+
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameLeftMore.FrameLeftBase.NearElem.Title="Ближайший элемент";
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameLeftMore.FrameLeftBase.NearElem.Sel.Help="Выберите ближайший элемент.";
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameLeftMore.FrameLeftBase.NearElem.Sel.ShortHelp="Ближайший элемент";
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameLeftMore.FrameLeftBase.NearElem.Sel.LongHelp="Выберите ближайший элемент.";
+
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameLeftMore.FrameLeftBase.NoCanonicity.Title="Отсутствует каноничность";
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameLeftMore.FrameLeftBase.NoCanonicity.Help="Выполнение проверки каноничности полученных геометрических элементов.";
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameLeftMore.FrameLeftBase.NoCanonicity.ShortHelp="Обнаружение каноничности";
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameLeftMore.FrameLeftBase.NoCanonicity.LongHelp="Выполнение проверки каноничности полученных геометрических элементов в соответствии с допуском, действующим в приложении.";
+
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameLeftMore.FrameLeftBase.RefElemToReplaceIntersect.Title="Элемент для пересечения";
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameLeftMore.FrameLeftBase.RefElemToReplaceIntersect.Sel.Help="Выбор нового элемента 3D для замены прежнего пересеченного элемента.";
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameLeftMore.FrameLeftBase.RefElemToReplaceIntersect.Sel.ShortHelp="Опорный элемент";
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameLeftMore.FrameLeftBase.RefElemToReplaceIntersect.Sel.LongHelp="Выбор нового элемента 3D для замены прежнего пересеченного элемента.";
+
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameLeftMore.FrameLeftBase.RefElemToReplaceProject.Title="Элемент для проецирования";
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameLeftMore.FrameLeftBase.RefElemToReplaceProject.Sel.Help="Выбор нового элемента 3D для замены прежнего, спроецированного элемента.";
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameLeftMore.FrameLeftBase.RefElemToReplaceProject.Sel.ShortHelp="Опорный элемент";
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameLeftMore.FrameLeftBase.RefElemToReplaceProject.Sel.LongHelp="Выбор нового элемента 3D для замены прежнего, спроецированного элемента.";
+
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameRightMore.KeepColor.Title="Сохранение цвета";
+SketcherUI.CATPanelEdit2DUseEdgeBase.FrameRightMore.NoApprox.Title="Без аппроксимации";
+
+SketcherUI.CATPanelEdit2DUseEdgeBase.More.Message="Подробнее >>";
+SketcherUI.CATPanelEdit2DUseEdgeBase.Less.Message="Кратко <<";
+
+// specialisation
+
+SketcherUI.CATPanelEdit2DIntersection.Title="Пересечение";
+SketcherUI.CATPanelEdit2DIntersection.FrameLeftMore.FrameLeftBase.ExtrapolPlanarFace.Title="Экстраполированная плоская грань";
+SketcherUI.CATPanelEdit2DIntersection.FrameLeftMore.FrameLeftBase.ExtrapolPlanarFace.Help="Проверка использования экстраполяции плоской грани.";
+SketcherUI.CATPanelEdit2DIntersection.FrameLeftMore.FrameLeftBase.ExtrapolPlanarFace.ShortHelp="Экстраполированная плоская грань";
+SketcherUI.CATPanelEdit2DIntersection.FrameLeftMore.FrameLeftBase.ExtrapolPlanarFace.LongHelp="Проверка использования экстраполяции плоской грани.";
+
+SketcherUI.CATPanelEdit2DIntersection.FrameLeftMore.FrameLeftBase.FacePerFace.Title="Грань на грань";
+SketcherUI.CATPanelEdit2DIntersection.FrameLeftMore.FrameLeftBase.FacePerFace.Help="Проверка пересечения каждой грани выбора.";
+SketcherUI.CATPanelEdit2DIntersection.FrameLeftMore.FrameLeftBase.FacePerFace.ShortHelp="Грань на грань";
+SketcherUI.CATPanelEdit2DIntersection.FrameLeftMore.FrameLeftBase.FacePerFace.LongHelp="Проверка пересечения каждой грани выбора.";
+
+
+
+SketcherUI.CATPanelEdit2DProjection.Title="Проекция";
+SketcherUI.CATPanelEdit2DProjection.FrameLeftMore.FrameLeftBase.EdgePerEdge.Title="Кромка на кромку";
+SketcherUI.CATPanelEdit2DProjection.FrameLeftMore.FrameLeftBase.EdgePerEdge.Help="Проверка проекции каждой кромки выбора.";
+SketcherUI.CATPanelEdit2DProjection.FrameLeftMore.FrameLeftBase.EdgePerEdge.ShortHelp="Кромка на кромку";
+SketcherUI.CATPanelEdit2DProjection.FrameLeftMore.FrameLeftBase.EdgePerEdge.LongHelp="Проверка проекции каждой кромки выбора.";
+
+SketcherUI.SketchExplodeHeader.SketchUsed.Title="Предупреждение";
+SketcherUI.SketchExplodeHeader.SketchUsed.Message="По меньшей мере один элемент эскиза используется другим примитивом.\n Если требуется разнести эскиз, может понадобиться переадресация.";
+
+SketcherUI.CATComBase.UpdateError="Ошибка обновления";
+
+SketcherUI.SketchElementContextualSubMenuPreCond.InvalidAxisData.Title="Предупреждение";
+SketcherUI.SketchElementContextualSubMenuPreCond.InvalidAxisData.Message="Обнаружены недопустимые данные оси 2D\nВыполните отладку при помощи CATDUA.";
+
+SketcherUI.CATComGenericEditPanel.WarningRadiusValueNotVerified.Title="Предупреждение";
+SketcherUI.CATComGenericEditPanel.WarningRadiusValueNotVerified.Message="Заданное значение радиуса не проверено из-за существующих в геометрии ограничений.\nСоздайте ограничение радиуса для применения своего значения радиуса.";
+
+SketcherUI.CATComGenericEditPanel.WarningGeometryPartialModif.Title="Предупреждение";
+SketcherUI.CATComGenericEditPanel.WarningGeometryPartialModif.Message="Геометрия частично изменена ! Из-за наличия ограничений координаты не могут учитываться.\n Сохранить или отменить изменения?";
+
+
+SketcherUI.CATComDYSArc1Tgt.SelCrvState.Message="Щелкните кнопкой мыши для выбора линии";
+SketcherUI.CATComDYSArc1Tgt.SelEndPtState.Message="Необходимо щелкнуть или выбрать конечную точку окружности";
+SketcherUI.CATComDYSArc1Tgt.SelCrossingPtState.Message="Необходимо щелкнуть или выбрать промежуточную точку окружности";
+SketcherUI.CATComDYSArc1Tgt.EndPoint.Name.Title="Конечная точка: ";
+SketcherUI.CATComDYSArc1Tgt.EndPoint.Name.Help="Определение координат конечной точки";
+SketcherUI.CATComDYSArc1Tgt.EndPoint.Name.ShortHelp="Конечная точка";
+SketcherUI.CATComDYSArc1Tgt.EndPoint.Name.LongHelp="Определение координат конечной точки.";
+SketcherUI.CATComDYSArc1Tgt.EndPoint.ULabel.Title="Г: ";
+SketcherUI.CATComDYSArc1Tgt.EndPoint.ULabel.ShortHelp="Первая координата конечной точки";
+SketcherUI.CATComDYSArc1Tgt.EndPoint.UEditor.ShortHelp="Первая координата конечной точки";
+SketcherUI.CATComDYSArc1Tgt.EndPoint.VLabel.Title="В: ";
+SketcherUI.CATComDYSArc1Tgt.EndPoint.VLabel.ShortHelp="Вторая координата конечной точки";
+SketcherUI.CATComDYSArc1Tgt.EndPoint.VEditor.ShortHelp="Вторая координата конечной точки";
+SketcherUI.CATComDYSArc1Tgt.Radius.Dimension.EnglobingFrame.IntermediateFrame.Label.Title="Радиус: ";
+SketcherUI.CATComDYSArc1Tgt.Radius.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp="Радиус дуги окружности";
+SketcherUI.CATComDYSArc1Tgt.InvalidArcTgt.Title="Команда касательной дуги";
+SketcherUI.CATComDYSArc1Tgt.ImpossibleArcTgt.Message="Невозможно создать касательную дугу с данным значением радиуса.\n";
+SketcherUI.CATComDYSArc1Tgt.LengthToDist.Title="Обрезка";
+SketcherUI.CATComDYSArc1Tgt.LengthToDist.Message="Невозможна обрезка элемента с закрепленной длиной.\nПреобразовать длину в расстояние?\n";
+SketcherUI.CATComDYSArc1Tgt.CheckMiddlePoint.Title="Обрезка";
+SketcherUI.CATComDYSArc1Tgt.CheckMiddlePoint.Message="В результате данной операции будет изменено ограничение положения средней точки.\nПодтвердите данное изменение.";
+SketcherUI.CATComDYSArc1Tgt.SwitchBar.Trim_El1.Title="Обрезка первого элемента";
+SketcherUI.CATComDYSArc1Tgt.SwitchBar.Trim_El1.Help="Обрезка первого элемента";
+SketcherUI.CATComDYSArc1Tgt.SwitchBar.Trim_El1.LongHelp="Обрезка только первого элемента.";
+SketcherUI.CATComDYSArc1Tgt.SwitchBar.Trim_El1.ShortHelp="Обрезка первого элемента";
+SketcherUI.CATComDYSArc1Tgt.SwitchBar.No_Trim.Title="Без обрезки";
+SketcherUI.CATComDYSArc1Tgt.SwitchBar.No_Trim.Help="Элементы не обрезаются";
+SketcherUI.CATComDYSArc1Tgt.SwitchBar.No_Trim.LongHelp="Элементы не обрезаются.";
+SketcherUI.CATComDYSArc1Tgt.SwitchBar.No_Trim.ShortHelp="Без обрезки";
+SketcherUI.CATComDYSArc1Tgt.DefaultRadius.Check.Title="Сохранение радиуса по умолчанию для следующего";
+SketcherUI.CATComDYSArc1Tgt.DefaultRadius.Check.ShortHelp="Сохранение радиуса по умолчанию для следующего";
+SketcherUI.CATComDYSArc1Tgt.DefaultRadius.Check.Help="Сохранение значения радиуса в качестве значения по умолчанию для следующего угла";
+SketcherUI.CATComDYSArc1Tgt.DefaultRadius.Check.LongHelp="Сохранение значения радиуса в качестве значения по умолчанию для следующего выполнения операции угла";
+
+SketcherUI.CATCom2DLightAnalyse.InitialState.Message="Нажмите значок анализа эскизов, чтобы просмотреть дополнительные сведения о состоянии решения для эскиза";
+
+
+
+
+
+
+

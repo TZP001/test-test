@@ -1,0 +1,268 @@
+// =====================================================================
+// Erreurs Flank Contoruing de 3000 a 
+//  Le reste est dans CATMfg5AxisOperationError
+//
+// Essayer de formater vos messages en specifiant (delimiteur = caracteres fin de ligne) :
+//       Request      (ce que l'on tentait de faire)
+//       Diagnostic   (ce qui est arrive)
+//       Advice       (...ce qu'il pourrait faire si possible)
+// ou bien
+//       Specifier vos messages avec la cle + les 3 facettes :
+//           ex: ERR_2002.Request    Reading data. 
+//               ERR_2002.Diagnostic Manufacturing software error : Access to a NULL handler.
+//               ERR_2002.Advice     Contact your local support.
+//
+// REMARK:
+// No need to type carriage-return characters at the end of your messages
+// since the panel automatically handles spaces between messages
+//
+// =====================================================================
+
+InfoTitle			= "Herstellungsinformationen";
+WarningTitle		= "Herstellungswarnung";
+ErrorTitle			= "Herstellungsfehler";
+GeneralErrorTitle		= "Fehler";
+PanelTitle			= "Herstellungsfehler";
+UpdateError			= "Interner Fehler bei Aktualisierung";
+InternalError		= "Herstellungssoftwarefehler.\nFehler ist: /p1";
+InitError			= "Fehler bei Initialisierung";
+ErrorNotSpecified		= "Fehler nicht angegeben.\nDie Anwenderunterstützung benachrichtigen";
+
+
+
+//====================================================================================================
+// Erreurs Flank Contouring
+//====================================================================================================
+
+ERR_3001 = "Parameter für 5-Achs-Flankenfräsen OK.";
+ERR_3002 = "\tAxiale Ebenennummer: ";
+ERR_3003 = "\tRadiale Pfadnummer: ";
+ERR_3004 = "\tNummer des Randelements: ";
+
+ERR_3050 = "Referenzpunkt und/oder Richtung für erneuten Start kann nicht automatisch berechnet werden.
+Dies kann an einer komplexen Geometrie liegen, für die keine zuverlässige automatische Berechnung vorhanden ist.
+Möglicherweise sind auch mehrere mathematische Lösungen vorhanden (beispielsweise bei Halbzylindern), und es gibt keine einfachen Kriterien, um die richtige zu bestimmen.
+Es muss manuell ein geeigneter Referenzpunkt und eine geeignete Richtung für erneuten Start ausgewählt werden.";
+
+ERR_3051 = "Der manuelle Referenzpunkt ist nicht gültig.
+Den vorhandenen Punkt entfernen oder einen anderen Punkt auswählen.";
+
+ERR_3060 = "Probleme beim Festlegen von Makrobewegungsdaten festgestellt. Die Parameter prüfen.";
+
+ERR_3228 = "Ungültige Randfläche.
+Der als Randfläche verwendete Geometrietyp ist nicht gültig. Bei der Fläche des Teils und der Randfläche darf es sich beispielsweise nicht um dieselbe Einheit handeln.";
+
+ERR_3251 = "Werkzeugprojektion fehlgeschlagen.
+Das Werkzeug konnte nicht auf die Fläche projiziert werden. Möglicherweise wurde bei der Fläche eine zu große Änderung von Winkeln durchgeführt.
+Zur Behebung des Problems gegebenenfalls die Bewegungsoptionen (z. B. Bearbeitungstoleranz) ändern.";
+
+ERR_3314 = "Ungültiges Randelement.
+Die ausgewählte Geometrie wird nicht unterstützt.";
+
+ERR_3315 = "Ungültiges Startelement.
+Die ausgewählte Geometrie wird nicht unterstützt.";
+
+ERR_3316 = "Ungültiges Stoppelement.
+Die ausgewählte Geometrie wird nicht unterstützt.";
+
+ERR_3317 = "Ausgangsrichtung für die Bewegung unbekannt.
+Es wurde keine Vorwärtsrichtung angegeben.";
+
+ERR_3318 = "Ungültiger Geometrietyp für Randfläche oder Start-/Endelemente.
+Für ein Start-/Endelement oder ein Randelement sind nur Ebenen und Teilflächen als Geometrietypen zulässig.";
+
+ERR_3319 = "Ungültige Fräserdefinition.
+Die bereitgestellten Fräserparameter definieren keinen gültigen Fräser.";
+
+ERR_3320 = "Unbekannte Operation.
+Das System wurde aufgefordert, eine nicht unterstützte Operation oder Bedingung auszuführen.";
+
+ERR_3321 = "Richtungskomponenten zu klein.
+Die Größe des Eingabevektors ist zu klein für die Bestimmung seiner Richtung. Bsp.: Ein Vektor mit dem Wert  '0,0,.000001' ist zu klein.";
+
+ERR_3322 = "Ungültiger Geometrietyp für Teilefläche
+Eine Teilefläche kann nur eine Ebene, Teilefläche, Oberfläche oder eine Rsur sein.";
+
+ERR_3323 = "Falsche Werkzeugachse.
+Werte der Werkzeugachsen i, j und k sind zu klein.
+Die Größe des Eingabevektors ist zu klein für die Bestimmung seiner Richtung. Bsp.: Ein Vektor der
+Werkzeugachse mit dem Wert '0,0,.000001' ist zu klein.";
+
+ERR_3324 = "Vorwärtsrichtung hat sich geändert.
+Das System kann die Vorwärtsrichtung entlang der Randfläche nicht berechnen. Häufige Ursache: Die Teilefläche und die Randfläche sind parallel geworden.";
+
+ERR_3325 = "Vorwärtsrichtung hat sich umgekehrt.
+Das System kann die Vorwärtsrichtung entlang der Randfläche nicht berechnen. Ursache: Die Position des Werkzeugs liegt nach einer Änderung
+parallel zur Teilefläche oder senkrecht zur Randfläche. Dieser Fehler kann auch auftreten, wenn das Werkzeug so bewegt wird, dass die nächste Fläche nicht ermittelt werden kann.";
+
+ERR_3328 = "Werkzeugprojektion fehlgeschlagen.
+Beim Versuch, eine in einer Bearbeitungsoperation verwendete Fläche zu analysieren, ist ein Fehler aufgetreten. Mögliche Ursache: bei einem oder
+mehreren Winkeln der Fläche wurde eine große Wertänderung vorgenommen. Wenn es sich um eine Startposition handelt, versuchen, die Position des Referenzpunkts zu ändern.";
+
+ERR_3329 = "Falsche Beziehung zwischen Werkzeug und Randfläche.
+Bei der angeforderten Bewegung war das System nicht in der Lage, das Werkzeug ordnungsgemäß auf die Randfläche anzuwenden.";
+
+ERR_3338 = "Zuordnung des Werkzeugs zur Fläche fehlgeschlagen.
+Das System konnte die Schneidevorrichtung keiner Fläche zuordnen.";
+
+ERR_3339 = "Ungültiges Hilfsführungselement.
+Mindestens ein Führungselement auf dem Rand kann nicht ausgewertet werden.
+Sicherstellen, dass jedes ausgewählte Hilfsführungselement
+auf einen der ausgewählten Ränder projiziert werden kann.
+
+Toleranz vergrößern oder
+die Diskretisierungsparameter bzw. den Parameter 'Max. Abstand zwischen Schritten' verkleinern.";
+
+ERR_3340 = "Nicht stetige Randelemente.
+Eine Richtung für den erneuten Start manuell festlegen. Dazu den Kontextbefehl 'Lokale Änderungen' verwenden.";
+
+ERR_3341 = "Fehler bei der Endposition.
+Fehler beim Berechnen der anfänglichen Bearbeitungsposition.
+Das Startelement, die Position und den Offset auf ihm, den ersten Rand und die Teile überprüfen.
+Weitere Überprüfungen können mit folgenden Punkten erfolgen:
+- keine Aufmaße auf Elementen,
+- keine Mehrfachwege,
+- ein manueller Referenzpunkt,
+- eine einfache ebene Teilefläche,
+- ein ebenes Startelement, das senkrecht zum Rand und zum Teil ist,
+- Bedingung 'Auf' oder 'Tangential'."; 
+
+ERR_3342 = "Fehler bei der Endposition.
+Fehler beim Verfahren entlang dem ersten Randelement.
+Den ersten und den zweiten Rand überprüfen (Endelement und Bedingung für das Element, wenn es nur einen Rand gibt).
+Weitere Überprüfungen können mit folgenden Punkten erfolgen:
+- keine Aufmaße auf Elementen,
+- keine Mehrfachwege,
+- eine manuelle Startrichtung LINKS oder RECHTS,
+- eine einfache ebene Teilefläche,
+- ein einziges Randelement verwenden, wobei der aktuelle zweite Rand \nals das Endelement festgelegt ist,
+- Bedingung 'Auf' oder 'Tangential',
+- Hilfsführungselement entfernen und überprüfen.
+Die lokalen Werte der Randelemente prüfen und ggf. ändern."; 
+
+ERR_3343 = "Fehler bei der Endposition.
+Fehler beim Verfahren entlang dem zweiten Randelement.
+Den zweiten und den dritten Rand überprüfen (Endelement und Bedingung für das Element, wenn es nur zwei Ränder gibt).
+Die Reihenfolge der Randelemente hinsichtlich der Positionen des Start- und des Endelements prüfen. Überprüfen, ob die Krümmung und das Aufmaß der Verrundung größer als der Radius des Werkzeugkörpers sind. Weitere Überprüfungen können mit folgenden Punkten erfolgen:
+- keine Aufmaße auf Elementen, keine Mehrfachwege,
+- eine einfache ebene Teilefläche,
+- zwei Randelemente verwenden, wobei der aktuelle dritte Rand \nals das Endelement festgelegt ist, Bedingung 'Auf' oder 'Tangential',
+- ein einziges Randelement verwenden, wobei der aktuelle zweite Rand \nals das Endelement festgelegt ist, Bedingung 'Auf' oder 'Tangential',
+damit die vorherige Bewegung entlang dem ersten Rand überprüft werden kann,
+- Hilfsführungselement entfernen und überprüfen.
+Die lokalen Werte der Randelemente prüfen und ggf. ändern.
+Das Kontrollkästchen 'Werkzeugbahn schließen' prüfen."; 
+
+ERR_3344 = "Fehler bei der Endposition.
+Fehler beim Verfahren entlang einem Randelement.
+Dieses und das folgende Randelement überprüfen (Endelement und Bedingung für das Element, \nwenn sich der Fehler für den letzten Rand ergibt). Überprüfen, ob die Krümmung und das Aufmaß der Verrundung größer als der Radius des Werkzeugkörpers sind.
+Weitere Überprüfungen können mit folgenden Punkten erfolgen:
+- keine Aufmaße auf Elementen, keine Mehrfachwege,
+- eine einfache ebene Teilefläche ohne Aufmaß,
+- weniger Randelemente verwenden, wobei der auf den Fehler folgende Rand \nals das Endelement festgelegt ist, Bedingung 'Auf' oder 'Tangential', - weniger Randelemente verwenden, wobei der fehlerhafte Rand nach dem Fehler \nals das Endelement festgelegt ist, Bedingung 'Auf' oder 'Tangential',
+um die vorherige Bewegung entlang dem vorherigen Rand zu überprüfen,
+- Hilfsführungselement entfernen und überprüfen.
+Die lokalen Werte der Randelemente prüfen und ggf. ändern.
+Das Kontrollkästchen 'Werkzeugbahn schließen' prüfen."; 
+
+ERR_3363 = "Unmöglicher Geometrievorgang.
+Für diesen Fehlercode gibt es zwei mögliche Ursachen:
+* Die folgende Fläche konnte mit der Werkzeugachsenstrategie \n'Tanto Fan' nicht gefunden werden.
+* Die Randflächennormale wurde parallel zur Werkzeugachse.";
+
+ERR_3372 = "Ungültiger Typ oder ungültige Bedingung für Begrenzungen.
+";
+
+ERR_3455 = "Berechnung auf Grund von Werkzeugsprung unterbrochen.
+Während der Berechnung des Werkzeugpfads wurden unzulässige Werkzeugsprünge festgestellt. Bei Flächen mit mehreren Teilen geschieht
+dies möglicherweise häufiger. Bitte die Anwenderunterstützung benachrichtigen.";
+
+ERR_3456 = "Ungültige Bedingung bei der folgenden Randfläche.
+Beim Feststellen einer Endposition für das Werkzeug in Bezug auf die folgende Randfläche wurde ein Problem festgestellt. Sicherstellen, dass
+für die Anwendung des Werkzeugs auf der Fläche keine ungültige Bedingung angefordert wurde.";
+
+ERR_3457 = "Nicht stetige Randelemente.
+Eine Stoppbedingung manuell festlegen. Dazu den Kontextbefehl 'Lokale Änderungen' verwenden.";
+
+ERR_3462 = "Spezifische Bedingung für Randfläche
+Scheibenfräser und Werkzeugachsenstrategie FANNING erfordern,\ndass sich das Werkzeug AUF der Fläche befindet.
+Es gibt keinen Tangentialpunkt, der weiterhin über einen Kontakt zum Rand verfügt.
+Eine mögliche Ursache kann eine zu kleine Schnittlänge sein.";
+
+ERR_3463 = "Spezifische Bedingung für Randfläche.
+Scheibenfräser und Werkzeugachsenstrategie FANNING erfordern, \ndass sich das Werkzeug AUF der Fläche befindet.";
+
+ERR_3474 = "Vorschubgeschwindigkeit beträgt null.
+Der für die Vorschubgeschwindigkeit angegebene Wert beträgt null. Der Wert für die Vorschubgeschwindigkeiten muss größer als null sein.";
+
+ERR_3479 = "Falsches Rand- oder Start-/Endelement
+Die Werkzeugachsenstrategie TANTO FAN erfordert eine Fläche, eine Teilfläche, RSUR oder eine Ebene als Randelement und Start-/Endelement.";
+
+ERR_3506 = "Undefinierte Vorwärtsrichtung.
+Vorwärtsrichtung kann nicht berechnet werden.";
+
+ERR_3508 = "Ungültiger Randelementtyp für Werkzeugachsenstrategie TANTO oder PARELM.
+Unterstützte Typen für Randelemente sind Fläche, Teilfläche,\nRSUR und Ebene.";
+
+ERR_3553 = "Kontakthöhe ist zu gering.
+Die entlang der Randfläche verwendete Kontakthöhe ist zu gering.";
+
+ERR_3554 = "Werkzeugprojektion auf Randfläche fehlgeschlagen.
+Das Werkzeug konnte nicht auf die Randfläche projiziert werden. Möglicherweise befindet sich die Referenzposition nicht vor der
+Randfläche. Das Problem sollte durch Verschieben des Referenzpunkts in die Nähe der Randfläche behoben werden können.";
+
+ERR_3559 = "Außerhalb des Toleranzbereichs.
+Werkzeugbewegung mit der Nummer \p1 außerhalb des Toleranzbereichs.";
+
+ERR_3666 = "Begrenzungsdiskretisierung fehlgeschlagen.
+Bei der Verarbeitung der Begrenzung der Fläche des Teils, des Rand-, Start- oder Endelements wurde ein Problem festgestellt. \nBitte die
+Anwenderunterstützung benachrichtigen.";
+
+ERR_3667 = "Zu extreme Bedingungen.
+Bedingungen sind zu extrem für den COMBIN-Modus der Werkzeugachse. Das Werkzeug ist bei der FAN-Operation vom Startpunkt weg oder in Richtung des folgenden
+Elements fehlgeschlagen. Dieser Fehler tritt in der Regel auf, wenn der Fächerungsabstand zu gering ist. Das Problem kann behoben werden, indem der Entfernungs-/Annäherungsabstand soweit
+vergrößert wird, dass er größer ist als der Werkzeugdurchmesser.";
+
+ERR_3671  = "Speicherzuordnungsproblem.
+Speicher kann nicht zugeordnet werden.";
+
+ERR_3674  = "Eckenbearbeitung fehlgeschlagen.
+Den Eckenradius prüfen.";
+
+ERR_3710 = "Fehler bei innerem Modell
+Inkohärenz bei innerem Modell festgestellt.";
+
+ERR_3717 = "Unmöglicher Offset entlang Achse.
+Ursache: Der Winkel zwischen der Werkzeugachse und der Normalen des Teils ist größer als 90 Grad.";
+
+ERR_3718 = "Unmöglicher Offset entlang Achse.
+Ursache: Die Normale des Teils wurde bei der Berechnung nicht korrekt ausgewertet.";
+
+ERR_3723 = "Interner Kommunikationsfehler.
+Es ist ein Fehler aufgetreten. Dieser wurde jedoch nicht richtig auf den 5-Achsen-Monitor übertragen. Die Anwenderunterstützung
+benachrichtigen.";
+
+ERR_3724 = "Keine automatische Richtungsfestlegung möglich.
+Die Software konnte die\nLinks/Rechts-Richtung für das erste Randelement nicht finden.
+Mögliche Ursache sind nicht benachbarte Randelemente oder eine komplexe Geometrie.
+Auf der Registerkarte 'Strategie' eine manuelle Richtung festlegen.";
+
+ERR_3726 = "Ungültiger Wert für 'Max. Winkel'.
+Dieser Wert darf weder 0 noch ein Vielfaches von 180 sein. \nDen Wert von 'Max. Winkel' ändern.";
+
+ERR_3730 = "Inkonsistente Werkzeugbewegung.
+Teile der Geometrie können nicht ausgewertet werden. Erneut auswählen.";
+
+ERR_3731 = "Inkonsistente Werkzeugbewegung.
+Mindestens ein Teileelement kann nicht ausgewertet werden. \nZurücksetzen und alle Teileelemente erneut auswählen.";
+
+ERR_3732 = "Inkonsistente Werkzeugbewegung.
+Das Randelement kann nicht ausgewertet werden. Erneut auswählen.";
+
+ERR_3741 = "Nicht definierte Teilekurve.
+Als Teil für Rand '/p1' wurde keine Kurve bereitgestellt.";
+
+ERR_3742 = "Nicht definierte Teilekurve.
+Diese Kurve ist keine Begrenzung der ausgewählten Randflächen.";
+
+ERR_3743 = "Ein negatives Teileaufmaß wird verwendet und dessen absoluter Wert ist größer als der Radius des Werkzeugkörpers. Dieser Wertetyp für das Teileaufmaß ist nicht kompatibel mit der Kollisionsprüfung hinsichtlich Hindernissen. Soll eine Kollisionsprüfung hinsichtlich Hinderniselementen erfolgen, muss für die Teile ein kleineres negatives Aufmaß verwendet werden. Anderenfalls muss die Option 'Hinderniselemente' abgewählt werden.";

@@ -1,0 +1,4508 @@
+'********************************************************************
+'********************************************************************
+'****          VBSCRIPT MACRO FOR THE GENERATION OF              ****
+'****               THE HTML MACHINING DOCUMENT                  ****
+'********************************************************************
+'********************************************************************
+
+'********************************************************************
+'****                         Notes                              ****
+'****                                                            ****
+'****  La fonction CreateHtmlFilesRoot est dependante du systeme ****
+'********************************************************************
+
+Dim Language As String
+Language = "VBScript"
+
+
+'=============== USER DEFINED VARIABLES ==================
+
+'=========================================================
+'           Path to your HTML editor
+'=========================================================
+
+'=========================================================
+'       Default tool list documentation directory
+'=========================================================
+dim DefaultHtmlAppliName As String
+
+
+'================= SYSTEM VARIABLES =======================
+dim EOL As String   ' Fin de ligne pour les fichiers textes
+dim CRLF As String
+
+dim PathSeparator as string
+dim FolderSeparator as string
+'==========================================================
+
+'=========================================================
+'        Default Part Operation folder name
+'=========================================================
+dim PartOperationFolderName As String
+
+
+'======================
+'  Test cession flag
+'======================
+Dim IsaTest As Boolean
+
+Dim StdComponentsDir As String
+Dim DefaultDocTarget, HtmlDefaultDocDir, HtmlFilesPath, CATIAComponentPath, HtmlFilesRoot As String
+
+Dim fso As FileSystem
+
+Dim ExistLogoDS As Boolean
+
+Dim IgnoredParameters()
+Dim NbIgnoredParameters As Integer
+
+Dim TabOutils()
+Dim MaxTabOutils As Integer
+
+
+Sub CATMain()
+
+'------------------------------------------------------------------
+' test Macro Atelier
+' creation Juillet2000 :    (kbb)
+' lecture d'un modele
+'------------------------------------------------------------------
+
+  DefineSeparators  'Definition des separateurs dans les paths
+
+
+  dim EnvVar,BidVar as String
+  Dim AdlOdtTmp, AdlOdtTmpPath, AdlOdtOut, AdlOdtOutPath, Slash As String
+
+
+  EnvVar = CATIA.SystemService.Environ("ADL_ODT_IN")
+  CATIA.SystemService.Print "ADL_ODT_IN =" & EnvVar
+
+  if (len(EnvVar)<10) then
+    BidVar = EnvVar
+  else
+    BidVar = Mid(EnvVar,1,10)
+  end if
+
+  IsaTest = False
+
+
+
+  HtmlFilesRoot = CreateHtmlFilesRoot
+
+  If (Not IsaTest) Then
+    DefaultDocTarget = HtmlFilesRoot 'Pourrait etre initialise autrement
+
+    DefaultHtmlAppliName = "MachiningDocument"
+
+    HtmlDefaultDocDir = DefaultDocTarget & DefaultHtmlAppliName
+
+    HtmlFilesPath = InputBox("Machining document directory", "Define directory", HtmlDefaultDocDir)
+  Else
+    HtmlFilesPath = AdlOdtOutPath
+  End If
+
+  If (HtmlFilesPath = "") Then
+   If (Not IsaTest) Then
+     MsgBox "No document created", 4096  '(vbSystemModal)
+   Else
+     CATIA.SystemService.Print "No machining document created"
+   End If
+   Exit Sub
+  End If
+  
+  Dim RootActivityName As String
+  RootActivityName = "Process"
+  
+  '=========================================================
+  '        Default tool list documentation name
+  '=========================================================
+  Dim DefaultHTMLFileName As String
+  DefaultHTMLFileName = "MfgMachining-Document"
+
+  On Error Resume Next
+  CATDocument RootActivityName, DefaultHTMLFileName, HtmlFilesPath
+
+  If (IsaTest) Then
+    Document1.Close
+    CATIA.Quit
+  End If
+
+End Sub
+
+
+'---------------------------------------------------------------
+'     Initialisation des variables dependantes du systeme
+'     ---------------------------------------------------
+'---------------------------------------------------------------
+Sub CreateSystemVariables()
+
+  'Definition des parametres qui seront ignores lors de
+  'l'affichage du tableau d'une resource
+  NbIgnoredParameters = 3
+  ReDim IgnoredParameters(NbIgnoredParameters)
+  IgnoredParameters(1) = "MFG_CONE_DIAMETER_2"
+  IgnoredParameters(2) = "MFG_CONE_LENGTH"
+  IgnoredParameters(3) = "MFG_MACHINE_COMP"
+  
+  EOL = Chr(10)
+  CRLF = Chr(13) & Chr(10)
+
+  PartOperationFolderName = "PartOperation"
+
+  StdComponentsDir = "Images"
+
+  ExistLogoDS = False
+
+  MaxTabOutils = -1
+
+End Sub
+
+
+'---------------------------------------------------------------
+'     Initialisation de la variable HtmlFilesRoot
+'     -------------------------------------------
+'---------------------------------------------------------------
+Function CreateHtmlFilesRoot()
+
+  Dim result As String
+
+  result = GetPath("CATStartupPath", "Manufacturing")
+
+  If (result = "") Then result = GetPath("TEMP","")
+
+  If (result <> "") Then
+    If (Mid(result, Len(result), 1) <> "\" And Mid(result, Len(result), 1) <> "/") Then result = result & FolderSeparator
+  End If
+
+  CreateHtmlFilesRoot = PathCleaner(result)
+
+End Function
+
+
+
+'-------------------------------------------------------
+'     Ecriture d'une ligne dans un CATIATextStrean
+'-------------------------------------------------------
+Sub WriteLine(aTextStream, aLine)
+  aTextStream.Write aLine & EOL
+End Sub
+
+' ------------------------------------------------------
+'     Correspondance Parameter -> valeur NLS
+' ------------------------------------------------------
+Function ToNLS(anObj, aParameterName)
+  Dim erreur As Integer
+  Dim NLSresult As String
+  On Error Resume Next
+  Err.Clear
+  NLSresult = anObj.GetAttributeNLSName(aParameterName)
+  erreur = Err.Number
+  If (erreur <> 0 Or NLSresult = "") Then NLSresult = aParameterName
+  ToNLS = NLSresult
+End Function
+
+
+' ------------------------------------------------------
+' Copie d'un fichier
+' Retourne : 0 -> pas d'erreur
+'            1 -> source absent
+'            2 -> destination existe et overwrite=False
+'            3 -> autre erreur
+' ------------------------------------------------------
+Function FileCopy(source, destination, overwrite)
+
+  Dim erreur As Integer
+  Dim ReturnedVal As Integer
+
+  returned = 0
+
+  If (Not (fso.FileExists(source))) Then
+    ReturnedVal = 1
+  Else
+    If (fso.FileExists(destination) And (Not overwrite)) Then
+      ReturnedVal = 2
+    Else
+      On Error Resume Next
+      Err.Clear
+      fso.CopyFile source, destination, overwrite
+      erreur = Err.Number
+      If (erreur <> 0) Then ReturnedVal = 3
+    End If
+  End If
+
+  FileCopy = ReturnedVal
+
+End Function
+
+
+'----------------------------------------------
+' Ajout d'une ligne dans un tableau 2 colonnes
+' NOM_DU_PARAMETRE - VALEUR_DU_PARAMETRE
+'----------------------------------------------
+Sub AddParameterToTable(anObj, aParam, aStream, AcceptComment)
+
+  Dim erreur As Integer
+
+  If (Not AcceptComment And aParam = "MFG_COMMENT") Then Exit Sub
+
+  Dim anAttribute As AnyObject
+  Dim AttrVal As String
+
+  On Error Resume Next
+  Err.Clear
+  Set anAttribute = anObj.getAttribute(aParam)
+  erreur = Err.Number
+
+  If (erreur = 0) Then
+    AttrVal = anAttribute.ValueAsString
+    erreur = Err.Number
+    If (erreur = 0 And AttrVal <> "") Then
+      aStream.Write "<tr><td><font size=-1><b>" & ToNLS(anObj, aParam) & "</b></font></td><td><font size=-1>" & ToNLS(anObj, AttrVal) & "</font></td></tr>" & EOL
+    End If
+  End If
+
+  If (erreur <> 0) Then
+
+   Err.Clear
+   Set anAttribute = anObj.getAttribute(aParam & "_MODE")
+   erreur = Err.Number
+   If (erreur = 0) Then
+     AttrVal = anAttribute.ValueAsString
+     erreur = Err.Number
+     If (erreur = 0 And AttrVal <> "") Then
+       aStream.Write "<tr><td><font size=-1><b>" & ToNLS(anObj, aParam & "_MODE" ) & "</b></font></td><td><font size=-1>" & ToNLS(anObj, AttrVal) & "</font></td></tr>" & EOL
+     End If
+    End If
+
+   Err.Clear
+   Set anAttribute = anObj.getAttribute(aParam & "_VALUE")
+   erreur = Err.Number
+   If (erreur = 0) Then
+     AttrVal = anAttribute.ValueAsString
+     erreur = Err.Number
+     If (erreur = 0 And AttrVal <> "") Then
+       aStream.Write "<tr><td><font size=-1><b>" & ToNLS(anObj, aParam & "_VALUE") & "</b></font></td><td><font size=-1>" & ToNLS(anObj, AttrVal) & "</font></td></tr>" & EOL
+     End If
+    End If
+
+   End If
+
+End Sub
+
+'----------------------------------------------
+' Ajout d'une ligne dans un tableau de feedrate attributes 2 colonnes
+' NOM_DU_PARAMETRE - VALEUR_DU_PARAMETRE
+'----------------------------------------------
+Sub AddParameterToFeedrateTable(anObj, aParam, aStream, AcceptComment)
+
+  Dim erreur As Integer
+
+  If (Not AcceptComment And aParam = "MFG_COMMENT") Then Exit Sub
+
+  Dim anAttribute As AnyObject
+  Dim AttrVal As String
+
+  On Error Resume Next
+  Err.Clear
+  Set anAttribute = anObj.getAttribute(aParam)
+  erreur = Err.Number
+
+  If (erreur = 0) Then
+    AttrVal = anAttribute.ValueAsString
+    erreur = Err.Number
+    If (erreur = 0 And AttrVal <> "") Then
+      aStream.Write "<tr><td><font size=-1><b>" & ToNLS(anObj, aParam) & "</b></font></td><td><font size=-1>" & ToNLS(anObj, AttrVal) & "</font></td></tr>" & EOL
+    End If
+  End If
+
+End Sub
+
+
+' ------------------------------------------------------
+' ------------------------------------------------------
+Sub WritePPInstruction(aPPInstr, aStream)
+
+  Dim ligne As Variant
+  Dim i, nbcar As Integer
+  nbcar = Len(aPPInstr)
+
+  For i = 1 To nbcar
+    carac = Mid(aPPInstr, i, 1)
+    If (carac = Chr(13) Or carac = Chr(10)) Then
+      If (ligne <> "") Then
+        aStream.Write ligne & "<br>" & EOL
+        ligne = ""
+      End If
+    Else
+      ligne = ligne & carac
+    End If
+  Next
+
+  If (ligne <> "") Then aStream.Write ligne & "<br>" & EOL
+
+End Sub
+
+
+'--------------------------------------------------------------------
+' Main Procedure
+'--------------------------------------------------------------------
+Sub CATDocument(RootActivityName, HtmlFilesName, FilesPath)
+
+  dim erreur As Integer
+  dim EnvVar,BidVar as String
+
+  if (PathSeparator="") then DefineSeparators  'Definition des separateurs dans les paths
+
+  EnvVar = CATIA.SystemService.Environ("ADL_ODT_IN")
+  CATIA.SystemService.Print "ADL_ODT_IN =" & EnvVar
+
+  if (len(EnvVar)<10) then
+    BidVar = EnvVar
+  else
+    BidVar = Mid(EnvVar,1,10)
+  end if
+
+  IsaTest = FALSE
+
+  Set fso = CATIA.FileSystem
+
+  CreateSystemVariables
+
+  HtmlFilesPath = FilesPath
+
+  Dim DeleteDirPrompt As String
+
+  Dim L As Integer
+  L = Len(HtmlFilesPath)
+
+  If (Mid(HtmlFilesPath, L, 1) <> "\" And Mid(HtmlFilesPath, L, 1) <> "/") Then HtmlFilesPath = HtmlFilesPath & FolderSeparator
+
+  HtmlFilesPath = HtmlFilesPath & HtmlFilesName
+
+  L = Len(HtmlFilesPath)
+  If (Mid(HtmlFilesPath, L, 1) = "\" Or Mid(HtmlFilesPath, L, 1) = "/") Then HtmlFilesPath = Mid(HtmlFilesPath, 1, L - 1)
+
+  If (fso.FolderExists(HtmlFilesPath)) Then
+    If (Not IsaTest) Then
+      If (Not ContinueIfExistingFolder(HtmlFilesPath)) Then
+         MsgBox "Document creation canceled", 4096  '(vbSystemModal)
+         On Error GoTo 0
+         Err.Raise 1
+      End If
+    Else
+          Dim deldir As Integer
+      deldir = RemoveDirectory(HtmlFilesPath)
+    End If
+  End If
+
+  On Error Resume Next
+
+  If (Not fso.FolderExists(HtmlFilesPath)) Then
+    Err.Clear
+    fso.CreateFolder (HtmlFilesPath)
+    erreur = Err.Number
+    If (erreur <> 0) Then
+      If (Not IsaTest) Then
+        MsgBox HtmlFilesPath & CRLF & CRLF & "Error creating folder", 4144  '(vbSystemModal+vbExclamation)
+      Else
+        CATIA.SystemService.Print HtmlFilesPath & " : Error creating folder"
+      End If
+      On Error GoTo 0
+      Err.Raise erreur
+    End If
+  End If
+
+  HtmlFilesPath = HtmlFilesPath & FolderSeparator
+
+  CATIAComponentPath = CreateHtmlFilesRoot & StdComponentsDir & FolderSeparator
+
+  Dim OutIndex As String
+  OutIndex = HtmlFilesName & ".html"
+
+  MachiningDocument_CreateHtmlFile OutIndex, RootActivityName
+
+End Sub
+
+
+
+Sub MachiningDocument_CreateHtmlFile(OutIndex, RootActivityName)
+
+  Dim theHTMLFile As File
+  Dim aTextStream As TextStream
+
+  Set theHTMLFile = fso.CreateFile(HtmlFilesPath & OutIndex, True)
+  Set aTextStream = theHTMLFile.OpenAsTextStream("ForWriting")
+
+  '---------------------------------------------------------------
+  ' Retrieve the active document
+  '---------------------------------------------------------------
+  Dim MfgDoc1 As Document
+  Set MfgDoc1 = CATIA.ActiveDocument
+
+  aTextStream.Write "<html>" & EOL
+  aTextStream.Write "<head>" & EOL
+  aTextStream.Write "   <title>Machining Document</title>" & EOL
+  aTextStream.Write "</head>" & EOL
+
+  aTextStream.Write "<body bgcolor=#FFFFFF>" & EOL
+
+  Dim ProgramList As MfgActivities
+  Dim ActivityList As MfgActivities
+  Dim NumberOfProgram As Integer
+  Dim NumberOfActivity As Integer
+  Dim i As Integer
+  Dim J As Integer
+  Dim K As Integer
+  Dim SetupName As String
+  Dim ProgramName As String
+  Dim ActivityName As String
+  Dim CurrentSetup As ManufacturingActivity
+  Dim CurrentProgram As ManufacturingActivity
+  Dim CurrentActivity As ManufacturingActivity
+  Dim CurrentTool As ManufacturingTool
+  Dim ActivityType As String
+
+  Dim CurrentAssembly As ManufacturingToolAssembly
+  Dim AssemblyNumber as Long
+
+  Dim childs As Activities
+  Dim child As Activity
+  Dim quantity As Integer
+  Dim aProcess As AnyObject
+
+  Dim ToolNumber As Long
+  Dim ToolName As Variant
+
+  Dim CurrAct As Integer
+  
+  Dim erreur As Integer
+  
+  Set aProcess = MfgDoc1.GetItem(RootActivityName)
+
+  aTextStream.Write "<table CELLSPACING=0 CELLPADDING=10>" & EOL
+  aTextStream.Write "<tr>" & EOL
+
+  Dim rep As Integer
+  rep = FileCopy(CATIAComponentPath & "MfgDocLogo.gif", HtmlFilesPath & "MfgDocLogo.gif", True)
+  If (rep = 0) Then
+    aTextStream.Write "<td><img SRC=""MfgDocLogo.gif"" BORDER=0></td>" & EOL
+    ExistLogoDS = True
+  End If
+
+  aTextStream.Write "<td BGCOLOR=""#000099""><b><font color=""#FFFFFF"" size=+2>" & EOL
+  aTextStream.Write "SHOP FLOOR DOCUMENTATION" & EOL
+  aTextStream.Write "</font></b></td>" & EOL
+  aTextStream.Write "</tr>" & EOL
+  aTextStream.Write "<tr>" & EOL
+  If (rep = 0) Then aTextStream.Write "<td></td>" & EOL
+  aTextStream.Write "<td><b><font color=""#000099"" size=+3>" & MfgDoc1.Name & "</font></b></td>" & EOL
+  aTextStream.Write "</tr>" & EOL
+  aTextStream.Write "</table>" & EOL
+
+  'aTextStream.Write "</table></center>" & EOL
+
+  aTextStream.Write "<br>&nbsp;" & EOL
+
+  Dim myWindow As window
+  Dim myViewer As Viewer
+  Dim myOldLayout As CatSpecsAndGeomWindowLayout
+  Dim WindowW, WindowH As Integer
+
+  On Error Resume Next
+
+  Err.Clear
+  Set myWindow = CATIA.ActiveWindow
+
+  Dim WinErr As Integer
+  WinErr = Err.Number
+
+  If (WinErr = 0) Then
+
+    myOldLayout = myWindow.Layout
+    WindowW = myWindow.Width
+    WindowH = myWindow.Height
+
+    myWindow.Width = 400
+    myWindow.Height = 300
+    myWindow.Layout = 1
+
+    Set myViewer = myWindow.ActiveViewer
+  
+    Dim BGcolor(3)
+    myViewer.GetBackgroundColor BGcolor
+
+    myViewer.PutBackgroundColor Array(1, 1, 1)
+    myViewer.Reframe
+
+    Dim PicName As String
+    PicName = "DocFabView.jpg"
+    myViewer.CaptureToFile 5, HtmlFilesPath & PicName
+
+    myViewer.PutBackgroundColor BGcolor
+
+    Dim ViewerW, ViewerH As Integer
+    ViewerW = myViewer.Width
+    ViewerH = myViewer.Height
+    aTextStream.Write "<center><img SRC=""" & PicName & """ height=" & ViewerH & " width=" & ViewerW & "></center>" & EOL
+
+    myWindow.Width = WindowW
+    myWindow.Height = WindowH
+    myWindow.Layout = myOldLayout
+
+    Set myViewer = Nothing
+    Set myWindow = Nothing
+
+  End If
+
+'-----------------
+' Scan the Process
+'-----------------
+
+  quantity = 0
+  
+  If (aProcess.IsSubTypeOf("PhysicalActivity")) Then
+    Set childs = aProcess.ChildrenActivities
+    quantity = childs.Count
+
+    If quantity <= 0 Then
+      Exit Sub
+    End If
+    
+    Dim TabToolName()
+    Dim MaxToolNb As Integer
+    MaxToolNb = 0
+    'Redim TabToolName (MaxToolNb)
+
+    aTextStream.Write "<br>&nbsp;" & EOL
+    aTextStream.Write "<center><table>" & EOL
+    aTextStream.Write "<tr>" & EOL
+    aTextStream.Write "<td>" & EOL
+
+    aTextStream.Write "<font color=""#000000"" size=+1><b>Created : </b>" & Date & "</font>" & EOL
+
+    aTextStream.Write "<h3>Contents :</h3>" & EOL
+
+    aTextStream.Write "<ul>" & EOL
+
+    Dim PartOpeFolderName As String
+
+    For i = 1 To quantity
+      Set child = childs.Item(i)
+      
+      If (child.IsSubTypeOf("ManufacturingSetup")) Then
+
+          For toolnb = 1 To MaxToolNb
+            TabToolName(toolnb) = ""
+          Next
+
+          CurrPONb = CurrPONb + 1
+          CurrAct = 0
+
+          Dim aFold As Folder
+
+          PartOpeFolderName = HtmlFilesPath & PartOperationFolderName & CurrPONb
+          Set sFold = fso.CreateFolder(PartOpeFolderName)
+          PartOpeFolderName = PartOpeFolderName & FolderSeparator
+          Set sFold = Nothing
+
+          Set CurrentSetup = child
+
+          CreatePartOperationSheet CurrentSetup, CurrPONb, MfgDoc1.Name
+
+          SetupName = CurrentSetup.Name
+
+          Dim POFileName As String
+          POFileName = PartOperationFolderName & CurrPONb & FolderSeparator & "PartOperation_" & CurrPONb & ".html"
+
+          ' On reference la page de la PO dans le setup
+          Dim POFilePath As String
+          POFilePath = HtmlFilesPath & POFileName
+
+          On Error Resume Next
+          Err.Clear
+          CurrentSetup.Representation = POFilePath
+          erreur = Err.Number
+          If (erreur <> 0) Then Err.Clear
+
+          aTextStream.Write "<li><h4><a href=""" & POFileName & """ target=""" & "PartOperation_" & CurrPONb & """>Part Operation : " & SetupName & "</a></h4>" & EOL
+  
+          '---------------------------------------------------------------
+          '       Read the Programs  of the current Setup
+          '---------------------------------------------------------------
+          Set ProgramList = CurrentSetup.Programs
+          NumberOfProgram = ProgramList.Count
+
+          aTextStream.Write "<ul>" & EOL
+
+          Dim ProgFile As File
+          Dim aProgStream As TextStream
+
+          For ProgNb = 1 To NumberOfProgram
+
+            ProgCuttingTime = 0
+            ProgTotalTime = 0
+          
+            Set CurrentProgram = ProgramList.GetElement(ProgNb)
+
+            Set ProgFile = fso.CreateFile(HtmlFilesPath & PartOperationFolderName & CurrPONb & FolderSeparator & "Prog_" & CurrPONb & "_" & ProgNb & ".html", True)
+            Set aProgStream = ProgFile.OpenAsTextStream("ForWriting")
+
+            WriteProgFileHeader CurrentSetup, CurrPONb, CurrentProgram, aProgStream, MfgDoc1.Name
+            
+            ProgramName = CurrentProgram.Name
+            aTextStream.Write "<li>" & ProgramName & EOL
+            
+            '---------------------------------------------------------------
+            '               Read the Activities of the current Program
+            '---------------------------------------------------------------
+            
+            Set ActivityList = CurrentProgram.Activities
+            NumberOfActivity = ActivityList.Count
+
+            On Error Resume Next
+
+            For ActNb = 1 To NumberOfActivity
+              CurrAct = CurrAct + 1
+              Set CurrentActivity = ActivityList.GetElement(ActNb)
+              ActivityName = CurrentActivity.Name
+              ActivityType = CurrentActivity.Type
+
+              If (ActivityType <> "ToolChange" AND ActivityType <> "ToolChangeLathe") Then
+                Dim currcor, ncorr, ncorrl, diam As Variant
+                Dim corrtype As String
+                Dim pAtt As Parameter
+                Err.Clear
+                Set pAtt = CurrentActivity.getAttribute("CompNumber")
+                erreur = Err.Number
+
+                If (erreur = 0) Then
+                  ncorr = pAtt.Value
+                  erreur = Err.Number
+
+                  If (erreur = 0) Then
+                    Set CurrentTool = CurrentActivity.Tool
+                    ToolNumber = CurrentTool.ToolNumber
+
+                    Dim NbCorr As Integer
+                    NbCorr = CurrentTool.CorrectorCount
+
+                    if(NbCorr>0) then
+ 
+                      Dim aCorr As ManufacturingToolCorrector
+                      Dim CorrNumber, CorrLengthNumber As Integer
+                      Dim CorrDiameter As Variant
+
+                      currcor = 0
+                      Do
+                        currcor = currcor + 1
+                        Set aCorr = CurrentTool.GetCorrector(currcor)
+                        CorrNumber = aCorr.Number
+                        If (CorrNumber = ncorr) Then
+                          corrtype = aCorr.Point
+                          ncorrl = aCorr.LengthNumber
+                          diam = aCorr.Diameter
+                          ToolType = CurrentTool.ToolType
+                          ToolName = CurrentTool.Name
+                          MajTabOutils ToolNumber, ncorr, ncorrl, diam, corrtype, ToolType, ToolName
+                          Exit Do
+                        End If
+                        If (currcor = NbCorr) Then Exit Do
+                      Loop
+                    End If
+                  End If
+                End If
+              End If
+
+              CreateFicheOpe CurrentActivity, CurrPONb, CurrAct, MfgDoc1.Name, SetupName, ProgramName
+              CreateOpeSum CurrentActivity, CurrPONb, CurrAct
+              AddOpeSum CurrPONb, CurrAct, aProgStream
+
+              Err.Clear
+              aTime = CurrentActivity.MachiningTime
+              if(Err.Number=0) then ProgCuttingTime = ProgCuttingTime+aTime
+              Err.Clear
+              aTime = CurrentActivity.TotalTime
+              if(Err.Number=0) then ProgTotalTime = ProgTotalTime+aTime
+
+            Next
+
+            CreateToolList MfgDoc1.Name, CurrentSetup, CurrPONb
+            
+            aProgStream.Write "</table></center>" & EOL
+
+            'Adding the machining time and the total time
+            aProgStream.Write "<center><table BORDER=0 CELLSPACING=5 CELLPADDING=0>" & EOL
+            aProgStream.Write "<tr ALIGN=LEFT>"
+            aProgStream.Write "<td><b>Program cutting time</b></td>"
+            aProgStream.Write "<td>:</td>"
+            aProgStream.Write "<td>" & ToHMS(ProgCuttingTime) & "</td>"
+            aProgStream.Write "</tr>"
+            aProgStream.Write "<tr ALIGN=LEFT>"
+            aProgStream.Write "<td><b>Program total time</b></td>"
+            aProgStream.Write "<td>:</td>"
+            aProgStream.Write "<td>" & ToHMS(ProgTotalTime) & "</td>"
+            aProgStream.Write "</tr ALIGN=LEFT>"
+            aProgStream.Write "</table></center>" & EOL
+
+            aProgStream.Write "</body>" & EOL
+            aProgStream.Write "</html>" & EOL
+            aProgStream.Close
+
+            Set ProgFile = Nothing
+            Set aProgStream = Nothing
+            
+          Next
+          aTextStream.Write "</ul>" & EOL 'fin liste des programmes
+          aTextStream.Write "<br>" & EOL
+
+          CompleteToolCompSheets CurrPONb, TabOutils, MaxTabOutils
+          Erase TabOutils
+          MaxTabOutils = -1
+
+      End If
+
+    Next
+
+    CreateToolAssocOpe childs
+
+    CreateAssemblyAssocOpe childs
+
+    aTextStream.Write "</ul>" & EOL 'fin liste des "Part operation"
+
+    aTextStream.Write "</td>" & EOL
+    aTextStream.Write "</tr>" & EOL
+    aTextStream.Write "</table></center>" & EOL
+    
+
+  End If
+
+  aTextStream.Write "</body>" & EOL
+  aTextStream.Write "</html>" & EOL
+
+  aTextStream.Close
+
+  Set aTextStream = Nothing
+  Set theHTMLFile = Nothing
+
+  Dim OpenDocNow As Integer
+  Dim EndOfGenerationTxt As String
+
+  If (Not IsaTest) Then
+
+    dim theCATCommandPath as String
+    dim theHTMLBrowserCmd as String
+
+    theCATCommandPath = GetPath("CATCommandPath","")
+
+    if(FolderSeparator="\") then
+      theHTMLBrowserCmd = theCATCommandPath & "broURL.bat"
+    else
+      theHTMLBrowserCmd = theCATCommandPath & "broURL.sh"
+    end if
+
+    EndOfGenerationTxt = "Machining document : " & OutIndex & CRLF & "Created in " & HtmlFilesPath & CRLF & "Open the document now?"
+    EndOfGenerationTxt = EndOfGenerationTxt & CRLF & CRLF & "If your browser doesn't appear, please check the path defined in : " & CRLF & theHTMLBrowserCmd
+    OpenDocNow = MsgBox(EndOfGenerationTxt, 4100)  '(vbSystemModal+vbYesNo)
+
+    If (OpenDocNow = 6) Then '6->vbYes
+      Dim CmdLine As String
+
+      If (FolderSeparator = "\") Then
+         
+        ' Windows OSes only :
+        ' Do a copy of broURL.bat to avoid the problem of
+        ' space characters in the path.
+
+        Dim strTEMP As String
+        strTEMP = GetPath("TEMP","")
+        'MsgBox "strTEMP:" & strTEMP
+
+        Dim intRep As Integer
+        Dim strTarget As String
+        strTarget = strTEMP & "broURL.bat"
+        intRep = FileCopy(theHTMLBrowserCmd , strTarget, True)
+        If (intRep = 0) Then
+
+          ' It seams to work.
+          ' Let's replace the path.
+
+          theHTMLBrowserCmd = strTarget
+        End If
+
+      End If
+
+      CmdLine = theHTMLBrowserCmd & " " & HtmlFilesPath & OutIndex
+      'MsgBox "CmdLine:" & CmdLine
+      On Error Resume Next
+
+      CATIA.SystemService.ExecuteBackgroundProcessus (CmdLine)
+      erreur = Err.Number
+      If (erreur <> 0) Then
+        MsgBox "Error while opening HTML editor", 4096 '(vbSystemModal)
+      end if
+    End If
+  Else
+    CATIA.SystemService.Print "Machining document : " & OutIndex & " " & "Created in " & HtmlFilesPath
+  End If
+
+End Sub
+
+'**********************************************************
+' Creation d'un composant cycle qui sera integre dans le
+' programme ou la liste des operations associees a un outil.
+'**********************************************************
+
+Sub CreateOpeSum(anOpe, PONb, OpeNb)
+
+  Dim OpeFile As File
+  Dim OpeStream As TextStream
+
+  Set OpeFile = fso.CreateFile(HtmlFilesPath & PartOperationFolderName & PONb & FolderSeparator & "OpeSum_" & PONb & "_" & OpeNb & ".html", True)
+  Set OpeStream = OpeFile.OpenAsTextStream("ForWriting")
+
+  OpeType = anOpe.Type
+
+  'OpeStream.Write "<center><table BORDER=0 CELLSPACING=0 CELLPADDING=10>" & EOL
+  'OpeStream.Write "<tr ALIGN=CENTER VALIGN=CENTER>" & EOL
+
+  Select Case OpeType
+  Case "ToolChange"
+    CreateToolChangeSum anOpe, OpeStream, PONb, OpeNb
+  Case "ToolChangeLathe"
+    CreateToolChangeSum anOpe, OpeStream, PONb, OpeNb
+  Case "TableHeadRotation"
+    CreateRotationSum anOpe, OpeStream, PONb, OpeNb
+  Case "CoordinateSystem"
+    CreateCoordinateSystemSum anOpe, OpeStream, PONb, OpeNb
+  Case "PPInstruction"
+    CreatePPInstructionSum anOpe, OpeStream, PONb, OpeNb
+  Case Else
+    CreateCycleSum anOpe, OpeStream, PONb, OpeNb
+  End Select
+
+  'OpeStream.Write "</tr>" & EOL
+  'OpeStream.Write "</table></center>" & EOL
+
+  OpeStream.Close
+
+  Set OpeStream = Nothing
+  Set OpeFile = Nothing
+
+End Sub
+
+
+'---------------------------------------------------------------
+'          Composant "Changement d'outil"
+'---------------------------------------------------------------
+Sub CreateToolChangeSum(anOpe, OpeStream, PONb, OpeNb)
+
+  Dim ImgName As String
+  Dim aTool As ManufacturingTool
+  Dim ToolNumber As Variant
+  Dim OpeType, OpeName, ToolName, ToolType As String
+  Dim ToolDiameter As Variant
+  Dim Attribut As Parameter
+  Dim erreur, AssemblyError As Integer
+  Dim AssemblyNumber As Long
+  Dim AssemblyType, AssemblyName As String
+  Dim CurrentAssembly As ManufacturingToolAssembly
+
+
+  OpeName = anOpe.Name
+  OpeType = anOpe.Type
+
+  Dim OpeLink As String
+  OpeLink = "Operation_" & PONb & "_" & OpeNb & ".html"
+
+  OpeStream.Write "<tr ALIGN=CENTER VALIGN=CENTER>" & EOL
+  OpeStream.Write "<td>" & EOL
+  OpeStream.Write "<b><font size=+1><a href=""" & OpeLink & """>" & OpeName & "</a></font></b><br>" & EOL
+  OpeStream.Write "Type : " & ToNLS(anOpe,OpeType) & EOL
+  OpeStream.Write "</td>" & EOL
+  
+  Set aTool = anOpe.Tool
+  ToolNumber = aTool.ToolNumber
+  ToolName = aTool.Name
+  ToolType = aTool.ToolType
+  
+  On Error Resume Next
+  set CurrentAssembly = NOTHING
+  AssemblyNumber = 0
+  Set CurrentAssembly = anOpe.ToolAssembly
+  Err.Clear
+  AssemblyNumber = CurrentAssembly.ToolNumber
+
+  AssemblyError = Err.Number
+  Err.Clear
+  
+  If (AssemblyError = 0) Then
+    ImgName = GetToolAssemblyImage(CurrentAssembly, PONb, True)
+  Else
+    ImgName = GetToolImage(aTool, PONb, True)
+  End If
+
+  OpeStream.Write "<td>" & EOL
+
+  If (ImgName <> "") Then OpeStream.Write "<img SRC=""" & ImgName & """height=100 width=100>" & EOL
+
+  OpeStream.Write "</td>" & EOL
+
+  OpeStream.Write "<td ALIGN=LEFT>" & EOL
+  
+  If (AssemblyError = 0) Then
+    AssemblyType = CurrentAssembly.AssemblyType
+    Set Attribut = CurrentAssembly.getAttribute("MFG_NAME")
+    erreur = Err.Number
+    If (erreur = 0) Then AssemblyName = Attribut.Value
+    Err.Clear
+    OpeStream.Write "Assembly : <a href=""Assembly" & AssemblyNumber & ".html"">" & AssemblyName & "</a> (" & ToNLS(CurrentAssembly,AssemblyType) & ")<br>" & EOL
+    OpeStream.Write "Tool : <a href=""Assembly" & AssemblyNumber & ".html#Tool"">" & ToolName & "</a> (" & ToNLS(aTool,ToolType) & ")" & EOL
+ 
+    If (AssemblyType = "MfgLatheToolAssembly") Then
+      Dim anInsert As ManufacturingInsert
+      Dim InsertName, InsertType As String
+      Err.Clear
+      Set anInsert = anAssembly.Insert
+      erreur = Err.Number
+      If (erreur = 0) Then
+        Set Attribut = anInsert.getAttribute("MFG_NAME")
+        erreur = Err.Number
+        If (erreur = 0) Then
+          InsertName = Attribut.Value
+          If (InsertName <> "") Then
+            InsertType = anInsert.InsertType
+            OpeStream.Write "<br>Insert : <a href=""Assembly" & AssemblyNumber & ".html#Insert"">" & InsertName & "</a> (" & ToNLS(anInsert,InsertType) & ")" & EOL
+          End If
+        End If
+      End If
+    End If
+  
+  Else
+    OpeStream.Write "Tool : <a href=""Tool" & ToolNumber & ".html"">" & ToolName & "</a><br>" & EOL
+    OpeStream.Write "type : " & ToNLS(aTool, ToolType) & EOL
+  End If
+
+  OpeStream.Write "</td>" & EOL
+  OpeStream.Write "</tr>" & EOL
+ 
+End Sub
+
+
+'---------------------------------------------------------------
+'          Composant "PPInstruction"
+'---------------------------------------------------------------
+Sub CreatePPInstructionSum(anOpe, OpeStream, PONb, OpeNb)
+
+  Dim OpeType, OpeName As String
+
+  Dim OpeLink As String
+  OpeLink = "Operation_" & PONb & "_" & OpeNb & ".html"
+
+  OpeName = anOpe.Name
+  OpeType = anOpe.Type
+
+  Dim OpeImageName As String
+  OpeImageName = GetOperationImage(anOpe, PONb, TRUE)
+
+  OpeStream.Write "<tr ALIGN=CENTER VALIGN=CENTER>" & EOL
+  OpeStream.Write "<td>" & EOL
+  OpeStream.Write "<b><font size=+1><a href=""" & OpeLink & """>" & OpeName & "</a></font></b><br>" & EOL
+  OpeStream.Write "Type : " & ToNLS(anOpe,OpeType) & EOL
+  OpeStream.Write "</td>" & EOL
+
+  If (OpeImageName <> "") Then
+    OpeStream.Write "<td>" & EOL
+    OpeStream.Write "<img SRC=""" & OpeImageName & """ height=100 width=100>" & EOL
+    OpeStream.Write "</td>" & EOL
+  End If
+
+  OpeStream.Write "</tr>" & EOL
+
+End Sub
+
+
+'---------------------------------------------------------------
+'          Composant "Coordinate System"
+'---------------------------------------------------------------
+Sub CreateCoordinateSystemSum(anOpe, OpeStream, PONb, OpeNb)
+
+  Dim OpeType, OpeName As String
+
+  Dim OpeLink As String
+  OpeLink = "Operation_" & PONb & "_" & OpeNb & ".html"
+
+  OpeName = anOpe.Name
+  OpeType = anOpe.Type
+
+  Dim OpeImageName As String
+  OpeImageName = GetOperationImage(anOpe, PONb, TRUE)
+
+  OpeStream.Write "<tr ALIGN=CENTER VALIGN=CENTER>" & EOL
+  OpeStream.Write "<td>" & EOL
+  OpeStream.Write "<b><font size=+1><a href=""" & OpeLink & """>" & OpeName & "</a></font></b><br>" & EOL
+  OpeStream.Write "Type : " & ToNLS(anOpe,OpeType) & EOL
+  OpeStream.Write "</td>" & EOL
+
+  If (OpeImageName <> "") Then
+    OpeStream.Write "<td>" & EOL
+    OpeStream.Write "<img SRC=""" & OpeImageName & """ height=100 width=100>" & EOL
+    OpeStream.Write "</td>" & EOL
+  End If
+
+  OpeStream.Write "</tr>" & EOL
+
+End Sub
+
+
+'---------------------------------------------------------------
+'          Composant "Rotation plateau"
+'---------------------------------------------------------------
+Sub CreateRotationSum(anOpe, OpeStream, PONb, OpeNb)
+
+  Dim OpeType, OpeName As String
+  Dim pRotAng As Parameter
+  Dim RotAng As Variant
+
+  OpeName = anOpe.Name
+  OpeType = anOpe.Type
+
+  Dim OpeLink As String
+  OpeLink = "Operation_" & PONb & "_" & OpeNb & ".html"
+
+  Dim OpeImageName As String
+  OpeImageName = GetOperationImage(anOpe, PONb, TRUE)
+
+  OpeStream.Write "<tr ALIGN=CENTER VALIGN=CENTER>" & EOL
+  OpeStream.Write "<td>" & EOL
+  OpeStream.Write "<b><font  size=+1><a href=""" & OpeLink & """>" & OpeName & "</a></font></b><br>" & EOL
+  OpeStream.Write "Type : " & ToNLS(anOpe,OpeType) & EOL
+  OpeStream.Write "</td>" & EOL
+  OpeStream.Write "<td>" & EOL
+
+  If (OpeImageName <> "") Then
+    OpeStream.Write "<img SRC=""" & OpeImageName & """ height=100 width=100>" & EOL
+  End If
+
+  OpeStream.Write "</td>" & EOL
+  OpeStream.Write "<td ALIGN=LEFT>" & EOL
+  Set pRotAng = anOpe.getAttribute("MFG_ROTARY_ANGLE")
+  RotAng = pRotAng.ValueAsString
+  OpeStream.Write "Angle : " & RotAng & EOL
+
+  OpeStream.Write "</td>" & EOL
+  OpeStream.Write "</tr>" & EOL
+
+End Sub
+
+
+'---------------------------------------------------------------
+'          Composant "Cycle"
+'---------------------------------------------------------------
+Sub CreateCycleSum(anOpe, OpeStream, PONb, OpeNb)
+
+  Dim erreur As Integer
+  Dim OpeType, OpeName As String
+
+  Dim OpeImageName As String
+  OpeImageName = GetOperationImage(anOpe, PONb, TRUE)
+
+  OpeName = anOpe.Name
+  OpeType = anOpe.Type
+
+  Dim OpeLink As String
+  OpeLink = "Operation_" & PONb & "_" & OpeNb & ".html"
+
+  OpeStream.Write "<tr ALIGN=CENTER VALIGN=CENTER>" & EOL
+  OpeStream.Write "<td>" & EOL
+  OpeStream.Write "<b><font size=+1><a href=""" & OpeLink & """>" & OpeName & "</a></font></b><br>" & EOL
+  OpeStream.Write "Type : " & ToNLS(anOpe,OpeType) & EOL
+  OpeStream.Write "</td>" & EOL
+  OpeStream.Write "<td>" & EOL
+  If (OpeImageName <> "") Then
+    OpeStream.Write "<img SRC=""" & OpeImageName & """ height=100 width=100>" & EOL
+  End If
+  OpeStream.Write "</td>" & EOL
+
+  Dim CurrentAssembly As ManufacturingToolAssembly
+  Dim aTool As ManufacturingTool
+  Dim AssemblyNumber, ToolNumber As Long
+  Dim AssemblyName, AssemblyType As String
+  Dim ToolName, ToolType As String
+
+  Set aTool = anOpe.Tool
+  ToolName = aTool.Name
+  ToolType = aTool.ToolType
+
+  On Error Resume Next
+
+  Err.Clear
+  Set CurrentAssembly = anOpe.ToolAssembly
+  AssemblyNumber = CurrentAssembly.ToolNumber
+  erreur = Err.Number
+
+  OpeStream.Write "<td ALIGN=LEFT>" & EOL
+  
+  If (erreur = 0) Then
+
+    AssemblyType = CurrentAssembly.AssemblyType
+    Set Attribut = CurrentAssembly.getAttribute("MFG_NAME")
+    erreur = Err.Number
+    If (erreur = 0) Then AssemblyName = Attribut.Value
+    Err.Clear
+    OpeStream.Write "Assembly : <a href=""Assembly" & AssemblyNumber & ".html"">" & AssemblyName & "</a> (" & ToNLS(CurrentAssembly,AssemblyType) & ")<br>" & EOL
+    OpeStream.Write "Tool : <a href=""Assembly" & AssemblyNumber & ".html#Tool"">" & ToolName & "</a> (" & ToNLS(aTool,ToolType) & ")" & EOL
+ 
+    If (AssemblyType = "MfgLatheToolAssembly") Then
+      Dim anInsert As ManufacturingInsert
+      Dim InsertName, InsertType As String
+      Err.Clear
+      Set anInsert = CurrentAssembly.Insert
+
+      erreur = Err.Number
+      If (erreur = 0) Then
+        Set Attribut = anInsert.getAttribute("MFG_NAME")
+        erreur = Err.Number
+        If (erreur = 0) Then
+          InsertName = Attribut.Value
+          If (InsertName <> "") Then
+            InsertType = anInsert.InsertType
+            OpeStream.Write "<br>Insert : <a href=""Assembly" & AssemblyNumber & ".html#Insert"">" & InsertName & "</a> (" & ToNLS(anInsert,InsertType) & ")" & EOL
+          End If
+        End If
+      End If
+    End If
+  
+  Else
+    ToolNumber = aTool.ToolNumber
+    OpeStream.Write "Tool : <a href=""Tool" & ToolNumber & ".html"">" & ToolName & "</a><br>" & EOL
+    OpeStream.Write "type : " & ToNLS(aTool, ToolType) & "<br>" & EOL
+  End If
+
+  OpeStream.Write "</td>" & EOL
+  OpeStream.Write "</tr>" & EOL
+
+End Sub
+
+
+'**********************************************************
+'         Creation du fichier programme
+'**********************************************************
+
+Sub WriteProgFileHeader(aPO, aPONb, aProg, ProgStream, aProcessName)
+  ProgStream.Write "<html>" & EOL
+  ProgStream.Write "<head>" & EOL
+  ProgStream.Write "   <title>Program : " & aProg.Name & "</title>" & EOL
+  ProgStream.Write "</head>" & EOL
+  ProgStream.Write "<body>" & EOL
+
+  ProgStream.Write "<table CELLSPACING=0 CELLPADDING=5>" & EOL
+  ProgStream.Write "<tr>" & EOL
+
+  If (ExistLogoDS) Then
+    ProgStream.Write "<td ALIGN=CENTER><img SRC=""MfgDocLogo.gif"" BORDER=0></td>" & EOL
+  Else
+    ProgStream.Write "<td></td>" & EOL
+  End If
+
+  ProgStream.Write "<td BGCOLOR=""#000099""><b><font color=""#FFFFFF"" size=+2>" & EOL
+  ProgStream.Write "SHOP FLOOR DOCUMENTATION<br>" & EOL
+  ProgStream.Write aProcessName & EOL
+  ProgStream.Write "</font></font></b></td>" & EOL
+  ProgStream.Write "</tr>" & EOL
+
+  ProgStream.Write "<tr>" & EOL
+  ProgStream.Write "<td></td>" & EOL
+
+  dim aPOFileName as String
+  aPOFileName = "PartOperation_" & aPONb & ".html"
+
+  ProgStream.Write "<td><b><font color=""#000099""><font size=+2>Part operation : <a href=""" & aPOFileName & """>" & aPO.Name & "</a></font></font></b></td>" & EOL
+  ProgStream.Write "</tr>" & EOL
+  ProgStream.Write "</table>" & EOL
+
+  ProgStream.Write "<br><br>" & EOL
+
+  ProgStream.Write "<table BORDER=0 CELLSPACING=0 CELLPADDING=10 WIDTH=""100%"">" & EOL
+  ProgStream.Write "<tr VALIGN=CENTER BGCOLOR=""#3366FF"">" & EOL
+  ProgStream.Write "<td><b><font color=""#FFFFFF"" size=+3>" & aProg.Name & "</font></b></td>" & EOL
+  ProgStream.Write "</tr>" & EOL
+  ProgStream.Write "</table>" & EOL
+
+  ProgStream.Write "<br><br>" & EOL
+
+  Dim ProgramImg As String
+  ProgramImg = GetActivityImage(aProg, aPONb)
+  If (ProgramImg <> "") Then
+    ProgStream.Write "<CENTER><img SRC=""" & ProgramImg & """ BORDER=0></CENTER>" & EOL
+    ProgStream.Write "<p><hr WIDTH=""100%""></p>" & EOL
+    ProgStream.Write "<br><br>" & EOL
+  End If
+
+  ProgStream.Write "<center><table CELLSPACING=0 CELLPADDING=10>" & EOL
+End Sub
+
+
+'**********************************************************
+'           Creation d'une fiche "cycle"
+'**********************************************************
+
+Sub CreateFicheOpe(anOpe, PONb, OpeNb, aProcessName, aPOName, aProgName)
+
+  Dim OpeFile As File
+  Dim OpeStream As TextStream
+  Set OpeFile = fso.CreateFile(HtmlFilesPath & PartOperationFolderName & PONb & FolderSeparator & "Operation_" & PONb & "_" & OpeNb & ".html", True)
+  Set OpeStream = OpeFile.OpenAsTextStream("ForWriting")
+
+  OpeStream.Write "<html>" & EOL
+
+  WriteOpeFileHeader anOpe, aProcessName, aPOName, PONb, aProgName, OpeStream
+
+  WriteOperationParameters anOpe, OpeStream
+
+  OpeStream.Write "</body>" & EOL
+  OpeStream.Write "</html>" & EOL
+
+  OpeStream.Close
+
+  Set OpeStream = Nothing
+  Set OpeFile = Nothing
+
+End Sub
+
+
+Sub WriteOpeFileHeader(anOpe, aProcessName, aPOName, aPONumber, aProgName, OpeStream)
+
+  Dim erreur As Integer
+
+  OpeStream.Write "<head>" & EOL
+  OpeStream.Write "<title>" & aProcessName & " : " & aPOName & " : " & aProgName & " : " & anOpe.Name & "</title>" & EOL
+  OpeStream.Write "</head>" & EOL
+  OpeStream.Write "<body>" & EOL
+
+  OpeStream.Write "<table CELLSPACING=0 CELLPADDING=5>" & EOL
+  OpeStream.Write "<tr>" & EOL
+
+  If (ExistLogoDS) Then
+    OpeStream.Write "<td ALIGN=CENTER><img SRC=""MfgDocLogo.gif"" BORDER=0></td>" & EOL
+  Else
+    OpeStream.Write "<td></td>" & EOL
+  End If
+
+  OpeStream.Write "<td BGCOLOR=""#000099""><b><font color=""#FFFFFF"" size=+2>" & EOL
+  OpeStream.Write "SHOP FLOOR DOCUMENTATION<br>" & EOL
+  OpeStream.Write aProcessName & EOL
+  OpeStream.Write "</font></b>" & EOL
+  OpeStream.Write "</td>" & EOL
+  OpeStream.Write "</tr>" & EOL
+
+  OpeStream.Write "<tr>" & EOL
+  OpeStream.Write "<td></td>" & EOL
+
+  OpeStream.Write "<td>" & EOL
+  OpeStream.Write "<table BORDER=0 CELLSPACING=0 CELLPADDING=2>" & EOL
+  OpeStream.Write "<tr>" & EOL
+  OpeStream.Write "<td><b><font color=""#000099"" size=+2>Part operation</font></b></td>" & EOL
+  OpeStream.Write "<td><b><font color=""#000099"" size=+2>:</font></b></td>" & EOL
+  OpeStream.Write "<td><b><font color=""#000099"" size=+2>" & aPOName & "</font></b></td>" & EOL
+  OpeStream.Write "</tr>" & EOL
+  OpeStream.Write "<tr>" & EOL
+  OpeStream.Write "<td><b><font color=""#000099"" size=+2>Program</font></b></td>" & EOL
+  OpeStream.Write "<td><b><font color=""#000099"" size=+2>:</font></b></td>" & EOL
+  OpeStream.Write "<td><b><font color=""#000099"" size=+2>" & aProgName & "</font></b></td>" & EOL
+  OpeStream.Write "</tr>" & EOL
+  OpeStream.Write "</table>" & EOL
+  OpeStream.Write "</tr>" & EOL
+  OpeStream.Write "</table>" & EOL
+
+  OpeStream.Write "<br><br>" & EOL
+
+  OpeStream.Write "<table BORDER=0 CELLSPACING=0 CELLPADDING=10 WIDTH=""100%"">" & EOL
+  OpeStream.Write "<tr BGCOLOR=""#3366FF""><td><b><font color=""#FFFFFF"" size=+3>" & EOL
+  OpeStream.Write anOpe.Name & EOL
+  OpeStream.Write "</font></b></td></tr>" & EOL
+  OpeStream.Write "</table>" & EOL
+
+  OpeType = anOpe.Type
+  Dim OpeImageName As String
+
+  OpeStream.Write "<center><table CELLSPACING=0 CELLPADDING=10>" & EOL
+  OpeStream.Write "<tr VALIGN=CENTER ALIGN=CENTER>" & EOL
+
+  OpeStream.Write "<br>" & EOL
+
+  If (OpeType <> "ToolChange" AND OpeType <> "ToolChangeLathe") Then
+    OpeStream.Write "<td><font size=+1>" & ToNLS(anOpe,OpeType) & "</font></td>" & EOL
+    OpeImageName = GetOperationImage(anOpe, aPONumber, FALSE)
+    If (OpeImageName <> "") Then
+      OpeStream.Write "<td><img SRC=""" & OpeImageName & """></td>" & EOL
+    End If
+  Else
+
+    Dim CurrentAssembly As ManufacturingToolAssembly
+    Dim aTool As ManufacturingTool
+    Dim ImgName, AssemblyName As String
+    Dim AssemblyNumber As Long
+    Dim AssemblyError as Integer
+    Dim Attribut as Parameter
+
+    OpeStream.Write "<center><table BORDER=0 CELLSPACING=0 CELLPADDING=5>" & EOL
+    OpeStream.Write "<tr ALIGN=CENTER>" & EOL
+
+
+    On Error Resume Next
+    set CurrentAssembly = NOTHING
+    AssemblyNumber = 0
+    Err.Clear
+    Set CurrentAssembly = anOpe.ToolAssembly
+    AssemblyNumber = CurrentAssembly.ToolNumber
+
+    AssemblyError = Err.Number
+    Err.Clear
+  
+    If (AssemblyError = 0) Then
+      OpeStream.Write "<td>" & EOL
+      ImgName = GetToolAssemblyImage(CurrentAssembly, aPONumber, False)
+      If (ImgName <> "") Then
+        OpeStream.Write "<img SRC=""" & ImgName & """><br>" & EOL
+      End If
+      Set Attribut = CurrentAssembly.getAttribute("MFG_NAME")
+      erreur = Err.Number
+      If (erreur = 0) Then AssemblyName = Attribut.Value
+      Err.Clear
+      OpeStream.Write "<a href=""Assembly" & AssemblyNumber & ".html"">" & AssemblyName & "</a>" & EOL
+      OpeStream.Write "</td>" & EOL
+    else
+      Err.Clear
+    end if
+
+    Set aTool = anOpe.Tool
+
+    OpeStream.Write "<td>" & EOL
+
+    ImgName = GetToolImage(aTool, aPONumber, False)
+    If (ImgName <> "") Then
+      OpeStream.Write "<img SRC=""" & ImgName & """><br>" & EOL
+    End If
+
+    if(AssemblyError=0) then
+      OpeStream.Write "<a href=""Assembly" & AssemblyNumber & ".html#Tool"">" & aTool.Name & "</a><br>" & EOL
+    else
+      OpeStream.Write "<a href=""Tool" & aTool.ToolNumber & ".html"">" & aTool.Name & "</a><br>" & EOL
+    end if
+
+    OpeStream.Write ToNLS(aTool,aTool.ToolType) & "<br>" & EOL
+
+    Dim DiameterId As String
+    If (aTool.ToolType = "MfgAPTTool") Then
+      DiameterId = "MFG_APT_DIAMETER"
+    Else
+      DiameterId = "MFG_NOMINAL_DIAM"
+    End If
+    Err.Clear
+    Set DiameterAttribut = aTool.getAttribute(DiameterId)
+    erreur = Err.Number
+    If (erreur = 0) Then
+      ToolDiameter = DiameterAttribut.ValueAsString
+      erreur = Err.Number
+      if (erreur=0) then OpeStream.Write "Diameter : " & ToolDiameter & EOL
+    End If
+
+    OpeStream.Write "</td>" & EOL
+    OpeStream.Write "</tr>" & EOL
+    OpeStream.Write "</table></center>" & EOL
+    OpeStream.Write "<p><hr WIDTH=""75%""></p>" & EOL
+
+  End If
+
+  OpeStream.Write "</tr>" & EOL
+  OpeStream.Write "</table></center>" & EOL
+
+  Dim OpeComment As String
+  OpeComment = anOpe.Description
+  If (OpeComment <> "") Then
+    OpeStream.Write "<br>" & EOL
+    OpeStream.Write "<center><table BORDER CELLSPACING=0 CELLPADDING=10 BGCOLOR=""#FFFFFF""><tr><td>" & EOL
+    OpeStream.Write OpeComment & EOL
+    OpeStream.Write "</td></tr></table></center>" & EOL
+    OpeStream.Write "<br>" & EOL
+  End If
+
+End Sub
+
+
+'---------------------------------------------------------------
+' Ecriture des tableaux de parametres pour chaque type de cycle
+'---------------------------------------------------------------
+
+Sub WriteOperationParameters(anOpe, OpeStream)
+
+  OpeType = anOpe.Type
+  Select Case OpeType
+  Case "ToolChange"
+    WriteToolChangeParameters anOpe, OpeStream
+  Case "ToolChangeLathe"
+    WriteToolChangeParameters anOpe, OpeStream
+  Case "TableHeadRotation"
+    WriteTableHeadRotationParameters anOpe, OpeStream
+  Case "CoordinateSystem"
+    WriteCoordinateSystemParameters anOpe, OpeStream
+  Case "PPInstruction"
+    WritePPInstructionParameters anOpe, OpeStream
+  Case Else
+    WriteCycleParameters anOpe, OpeStream
+  End Select
+End Sub
+
+Sub WriteCycleParameters(anOpe, OpeStream)
+
+  AddCycleStrategyParameters anOpe, OpeStream
+
+  OpeStream.Write "<center><table BORDER=0 CELLSPACING=5 CELLPADDING=15>" & EOL
+  OpeStream.Write "<tr VALIGN=TOP>"
+
+  OpeStream.Write "<td>"
+  AddCycleFeedrateParameters anOpe, OpeStream
+  OpeStream.Write "</td>"
+
+  OpeStream.Write "<td>"
+  AddCycleMachiningTime anOpe, OpeStream
+  OpeStream.Write "</td>"
+
+  OpeStream.Write "</tr>"
+  OpeStream.Write "</table></center>" & EOL
+
+End Sub
+
+Sub WriteToolChangeParameters(anOpe, OpeStream)
+
+  Dim erreur As Integer
+  Dim pPPInstr As Parameter
+  Dim PPInstr As String
+
+  PPInstr = ""
+
+  On Error Resume Next
+
+  Err.Clear
+  Set pPPInstr = anOpe.getAttribute("MFG_PPWORDS")
+  erreur = Err.Number
+  
+  If (erreur = 0) Then
+    PPInstr = pPPInstr.Value
+  Else
+    Err.Clear
+  End If
+
+  If (Len(PPInstr) > 0) Then
+    OpeStream.Write "<center><table BORDER=0 CELLSPACING=0 CELLPADDING=3>" & EOL
+    OpeStream.Write "<tr VALIGN=TOP>" & EOL
+    OpeStream.Write "<td>PP Instruction :&nbsp;</td>" & EOL
+    OpeStream.Write "<td BGCOLOR=""#C5C5E2"">" & EOL
+    WritePPInstruction PPInstr, OpeStream
+    OpeStream.Write "</td>" & EOL
+    OpeStream.Write "</tr>" & EOL
+    OpeStream.Write "</table></center>" & EOL
+  Else
+    OpeStream.Write "<center><table BORDER=0 CELLSPACING=0 CELLPADDING=3>" & EOL
+    OpeStream.Write "<tr>" & EOL
+    OpeStream.Write "<td>PP Instruction :&nbsp;</td>" & EOL
+    OpeStream.Write "<td BGCOLOR=""#C5C5E2"">Initialize from PP words table</td>" & EOL
+    OpeStream.Write "</tr>" & EOL
+    OpeStream.Write "</table></center>" & EOL
+  end if
+
+End Sub
+
+
+Sub WriteTableHeadRotationParameters(anOpe, OpeStream)
+  
+  Dim erreur As Integer
+  Dim pPPInstr As Parameter
+  Dim PPInstr As String
+  PPInstr = ""
+  On Error Resume Next
+  Err.Clear
+  Set pPPInstr = anOpe.getAttribute("MFG_PPWORDS")
+  erreur = Err.Number
+
+  If (erreur = 0) Then
+    PPInstr = pPPInstr.Value
+  End If
+
+  OpeStream.Write "<br><br>" & EOL
+
+  OpeStream.Write "<center><table BORDER=0 CELLSPACING=15><tr>" & EOL
+  OpeStream.Write "<td>" & EOL
+
+  OpeStream.Write "<center><table BORDER=0 CELLSPACING=3 CELLPADDING=3 BGCOLOR=""#C5C5E2"">" & EOL
+  AddParameterToTable anOpe, "MFG_ROTARY_ANGLE", OpeStream, False
+  AddParameterToTable anOpe, "MFG_ROT_DIR", OpeStream, False
+  AddParameterToTable anOpe, "MFG_ROT_TYP", OpeStream, False
+  OpeStream.Write "</table></center>" & EOL
+
+  OpeStream.Write "</td>" & EOL
+  OpeStream.Write "<td>" & EOL
+
+  If (Len(PPInstr) > 0) Then
+    OpeStream.Write "<center><table BORDER=0 CELLSPACING=0 CELLPADDING=3>" & EOL
+    OpeStream.Write "<tr VALIGN=TOP>" & EOL
+    OpeStream.Write "<td>PP Instruction :&nbsp;</td>" & EOL
+    OpeStream.Write "<td BGCOLOR=""#C5C5E2"">" & EOL
+    WritePPInstruction PPInstr, OpeStream
+    OpeStream.Write "</td>" & EOL
+    OpeStream.Write "</tr>" & EOL
+    OpeStream.Write "</table></center>" & EOL
+  Else
+    OpeStream.Write "<center><table BORDER=0 CELLSPACING=0 CELLPADDING=3>" & EOL
+    OpeStream.Write "<tr>" & EOL
+    OpeStream.Write "<td>PP Instruction :&nbsp;</td>" & EOL
+    OpeStream.Write "<td BGCOLOR=""#C5C5E2"">Initialize from PP words table</td>" & EOL
+    OpeStream.Write "</tr>" & EOL
+    OpeStream.Write "</table></center>" & EOL
+  End If
+
+  OpeStream.Write "</td>" & EOL
+  OpeStream.Write "</tr></table></center>" & EOL
+
+End Sub
+
+Sub WriteCoordinateSystemParameters(anOpe, OpeStream)
+
+  Dim erreur As Integer
+  Dim pPPInstr As Parameter
+  Dim PPInstr As String
+  PPInstr = ""
+
+  On Error Resume Next
+
+  OpeStream.Write "<br><br>" & EOL
+
+  Err.Clear
+  Set pPPInstr = anOpe.getAttribute("MFG_PPWORDS")
+  erreur = Err.Number
+
+  If (erreur = 0) Then
+    PPInstr = pPPInstr.Value
+  Else
+    Err.Clear
+  End If
+
+  If (Len(PPInstr) > 0) Then
+    OpeStream.Write "<center><table BORDER=0 CELLSPACING=0 CELLPADDING=3>" & EOL
+    OpeStream.Write "<tr VALIGN=TOP>" & EOL
+    OpeStream.Write "<td>PP Instruction :&nbsp;</td>" & EOL
+    OpeStream.Write "<td BGCOLOR=""#C5C5E2"">" & EOL
+    WritePPInstruction PPInstr, OpeStream
+    OpeStream.Write "</td>" & EOL
+    OpeStream.Write "</tr>" & EOL
+    OpeStream.Write "</table></center>" & EOL
+  Else
+    OpeStream.Write "<center><table BORDER=0 CELLSPACING=0 CELLPADDING=3>" & EOL
+    OpeStream.Write "<tr>" & EOL
+    OpeStream.Write "<td>PP Instruction :&nbsp;</td>" & EOL
+    OpeStream.Write "<td BGCOLOR=""#C5C5E2"">Initialize from PP words table</td>" & EOL
+    OpeStream.Write "</tr>" & EOL
+    OpeStream.Write "</table></center>" & EOL
+  End If
+
+End Sub
+
+Sub WritePPInstructionParameters(anOpe, OpeStream)
+
+  Dim erreur As Integer
+  Dim pPPInstr As Parameter
+  Dim PPInstr As String
+  PPInstr = ""
+
+  On Error Resume Next
+
+  OpeStream.Write "<br><br>" & EOL
+
+  Err.Clear
+  Set pPPInstr = anOpe.getAttribute("MFG_PPWORDS")
+  erreur = Err.Number
+  If (erreur = 0) Then
+    PPInstr = pPPInstr.Value
+
+    If (Len(PPInstr) > 0) Then
+      OpeStream.Write "<center><table BORDER=0 CELLSPACING=0 CELLPADDING=3>" & EOL
+      OpeStream.Write "<tr VALIGN=TOP>" & EOL
+      OpeStream.Write "<td>PP Instruction :&nbsp;</td>" & EOL
+      OpeStream.Write "<td BGCOLOR=""#C5C5E2"">" & EOL
+      WritePPInstruction PPInstr, OpeStream
+      OpeStream.Write "</td>" & EOL
+      OpeStream.Write "</tr>" & EOL
+      OpeStream.Write "</table></center>" & EOL
+    End If
+  Else
+    Err.Clear
+  End If
+
+End Sub
+
+
+
+'--------------------------------------------------------
+' Ajout du tableau des "strategy parameters"  d'un cycle
+'--------------------------------------------------------
+Sub AddCycleStrategyParameters(aCycle, aStream)
+
+  Dim erreur As Integer
+  Dim TabAtt()
+  Dim att As Integer
+  Dim nbatt As Integer
+
+  aStream.Write "<center>" & EOL
+ 
+  aStream.Write "<p><br><font size=+1>Strategy</font></p>" & EOL
+
+  On Error Resume Next
+  Err.Clear
+
+  nbatt = aCycle.NumberOfStrategyAttributes
+  
+  erreur = Err.Number
+  If (erreur <> 0) Then nbatt = 0
+
+  If (nbatt > 0) Then
+
+    aStream.Write "<center><table BORDER=0 CELLSPACING=3 CELLPADDING=3 BGCOLOR=""#C5C5E2"">" & EOL
+
+    ReDim TabAtt(nbatt)
+        aCycle.GetListOfStrategyAttributes (TabAtt)
+        For att = 0 To nbatt - 1
+          AddParameterToTable aCycle, TabAtt(att), aStream, False
+        Next
+
+    aStream.Write "</table>" & EOL
+
+  Else
+    aStream.Write "No Parameter" & EOL
+  End If
+
+  aStream.Write "</center>" & EOL
+
+End Sub
+
+
+'--------------------------------------------------------
+' Ajout du tableau des "feedrate parameters"  d'un cycle
+'--------------------------------------------------------
+Sub AddCycleFeedrateParameters(aCycle, aStream)
+
+  Dim erreur As Integer
+  Dim TabAtt()
+  Dim att As Integer
+  Dim nbatt As Integer
+
+  aStream.Write "<center>" & EOL
+
+  aStream.Write "<p><br><font size=+1>Feedrate</font></p>" & EOL
+
+  On Error Resume Next
+  Err.Clear
+
+  nbatt = aCycle.NumberOfFeedrateAttributes
+  erreur = Err.Number
+  If (erreur <> 0) Then nbatt = 0
+
+  If (nbatt > 0) Then
+
+    aStream.Write "<center><table BORDER=0 CELLSPACING=3 CELLPADDING=3 BGCOLOR=""#C5C5E2"">" & EOL
+
+    ReDim TabAtt(nbatt)
+        aCycle.GetListOfFeedrateAttributes (TabAtt)
+
+        For att = 0 To nbatt - 1
+
+          AddParameterToFeedrateTable aCycle, TabAtt(att), aStream, False
+        Next
+
+    aStream.Write "</table></center>" & EOL
+
+  Else
+    aStream.Write "No Parameter" & EOL
+  End If
+
+  aStream.Write "</center>" & EOL
+
+End Sub
+
+
+'--------------------------------------------------------
+' Ajout du tableau contenant les temps d'usinage
+'--------------------------------------------------------
+Sub AddCycleMachiningTime(aCycle, aStream)
+
+  aStream.Write "<center>" & EOL
+
+  aStream.Write "<p><br><font size=+1>Machining Time</font></p>" & EOL
+
+  On Error Resume Next
+
+  aStream.Write "<center><table BORDER=0 CELLSPACING=3 CELLPADDING=3 BGCOLOR=""#C5C5E2"">" & EOL
+
+  aStream.Write "<tr><td><font size=-1><b>Cutting time</b></font></td><td><font size=-1>" & ToHMS(aCycle.MachiningTime) & "</font></td></tr>" & EOL
+  aStream.Write "<tr><td><font size=-1><b>Total time</b></font></td><td><font size=-1>" & ToHMS(aCycle.TotalTime) & "</font></td></tr>" & EOL
+
+  aStream.Write "</table></center>" & EOL
+
+
+  aStream.Write "</center>" & EOL
+
+end sub
+
+
+'----------------------------------------------------------------
+' Transformation de minutes decimales en heures minutes secondes
+'----------------------------------------------------------------
+function ToHMS (aTime)
+
+  dim result as string
+  result = ""
+
+  Err.Clear
+
+  on error resume next
+  wtime = CDbl(aTime)
+  if(Err.Number<>0) then
+    ToHMS = "No computed time"
+    exit function
+  end if
+
+  if (wTime>=0) then
+
+    nbhours = int(wTime/60)
+    if(nbhours>0) then
+      result = nbhours & "h"
+      wtime = wtime - nbhours*60
+    end if
+
+    nbminutes = int(wtime)
+    if(nbminutes>0) then
+      if(result<>"") then result = result & " "
+      result = result & nbminutes & "'"
+      wtime = wtime - nbminutes
+    end if
+
+    if(wtime>0) then
+      if(result<>"") then result = result & " "
+      result = result & round(wtime*60) & "''"
+    end if
+
+  end if  
+
+  if(result="") then result = "No computed time"
+
+  ToHMS = result
+
+end function
+
+'----------------------------------------------------
+' Recherche du fichier image associe a une operation
+' A modifier quand image associee a une operation
+' disponible.
+' Le resultat actuel sera garde si aucune image
+' n'a ete sauvegardee (images par defaut).
+' Copie du fichier dans le repertoire racine du document
+' si aPONb=0, sinon dans le repertoire correspondant
+' a la "Part operation".
+'----------------------------------------------------
+
+Function GetOperationImage(anOpe, aPONb, ForceStdImage)
+
+  Dim ImgName As String
+  dim FileName as String
+  dim sourcepath as string
+  ImgName = ""
+  FileName = ""
+
+  if(NOT ForceStdImage) then
+
+    sourcepath = anOpe.Representation
+
+    If (sourcepath <> "") Then
+      If (fso.FileExists(sourcepath)) Then
+
+        Dim namelength, posdernierslash, i As Integer
+        posdernierslash = 0
+        namelength = Len(sourcepath)
+
+        For i = 1 To namelength
+          If (Mid(sourcepath, i, 1) = "\" Or Mid(sourcepath, i, 1) = "/") Then posdernierslash = i
+        Next
+
+        If (posdernierslash = 0) Then
+          FileName = sourcepath
+        Else
+          foldername = Mid(sourcepath, 1, posdernierslash)
+          FileName = Mid(sourcepath, posdernierslash + 1, namelength - posdernierslash)
+        End If
+
+      End If
+    End If
+
+  End If
+  
+  if(FileName<>"") then
+    ImgName = FileName
+  else
+    dim OpeType As String
+    OpeType = anOpe.Type
+    ImgName = "Ope_" & OpeType & ".gif"
+    sourcepath = CATIAComponentPath & ImgName
+  end if
+
+  Dim target As String
+  If (aPONb > 0) Then
+    target = HtmlFilesPath & PartOperationFolderName & aPONb & FolderSeparator & ImgName
+  Else
+    target = HtmlFilesPath & ImgName
+  End If
+
+  If (Not (fso.FileExists(target))) Then
+    Dim rep As Integer
+    rep = FileCopy(sourcepath, target, overwrite)
+    If (rep <> 0) Then ImgName = ""
+  End If
+
+  GetOperationImage = ImgName
+End Function
+
+
+
+'**********************************************************
+' Creation des fiches pour chaque outil + fonctions utiles
+'**********************************************************
+
+Sub CreateToolSheet(aTool, PONb, aPO, aProcessName)
+
+  Dim ToolNumber As Long
+  Dim ToolName, ToolType, ToolComment As String
+  Dim ToolDiameter As Real
+
+  ToolType = aTool.ToolType
+  ToolNumber = aTool.ToolNumber
+  ToolName = aTool.Name
+
+  Dim FileName As String
+  FileName = "Tool" & ToolNumber & ".html"
+
+  Dim ToolFile As File
+  Dim ToolStream As TextStream
+  Set ToolFile = fso.CreateFile(HtmlFilesPath & PartOperationFolderName & PONb & FolderSeparator & FileName, True)
+  Set ToolStream = ToolFile.OpenAsTextStream("ForWriting")
+
+  ToolStream.Write "<html>" & EOL
+  ToolStream.Write "<head>" & EOL
+  ToolStream.Write "<title>Tool " & ToolNumber & " : " & ToolName & "</title>" & EOL
+  ToolStream.Write "</head>" & EOL
+  ToolStream.Write "<body>" & EOL
+
+  ToolStream.Write "<table CELLSPACING=0 CELLPADDING=5><tr>" & EOL
+
+  If (ExistLogoDS) Then
+    ToolStream.Write "<td ALIGN=CENTER><img SRC=""MfgDocLogo.gif"" BORDER=0></td>" & EOL
+  Else
+    ToolStream.Write "<td></td>" & EOL
+  End If
+
+  ToolStream.Write "<td BGCOLOR=""#000099"">" & EOL
+  ToolStream.Write "<b><font color=""#FFFFFF"" size=+2>" & EOL
+  ToolStream.Write "SHOP FLOOR DOCUMENTATION<br>" & EOL
+  ToolStream.Write aProcessName & EOL
+  ToolStream.Write "</font></b></td>" & EOL
+  ToolStream.Write "</tr>" & EOL
+  ToolStream.Write "<tr>" & EOL
+  ToolStream.Write "<td></td>" & EOL
+
+  dim aPOFileName as String
+  aPOFileName = "PartOperation_" & PONb & ".html"
+
+  ToolStream.Write "<td><b><font color=""#000099"" size=+2>Part operation : <a href=""" & aPOFileName & """>" & aPO.Name & "</a></font></b></td>" & EOL
+  ToolStream.Write "</tr></table>" & EOL
+
+  ToolStream.Write "<br><br>" & EOL
+
+  ToolStream.Write "<table BORDER=0 CELLSPACING=0 CELLPADDING=5 WIDTH=""100%"" BGCOLOR=""#3366FF"">" & EOL
+  ToolStream.Write "<tr>" & EOL
+  ToolStream.Write "<td><b><font color=""#FFFFFF"" size=+3>Tool " & ToolNumber & " : " & ToolName & "</font></b></td>" & EOL
+  ToolStream.Write "</tr>" & EOL
+  ToolStream.Write "</table>" & EOL
+
+  ToolStream.Write "<br><br>" & EOL
+
+  WriteToolTable aTool, PONb, ToolStream, False
+
+  ToolStream.Write "</body>" & EOL
+  ToolStream.Write "</html>" & EOL
+
+  ToolStream.Close
+
+  Set ToolStream = Nothing
+  Set ToolFile = Nothing
+
+End Sub
+
+
+'----------------------------------------------
+' Recherche du fichier image associe a un outil
+'----------------------------------------------
+
+Function GetToolImage(aTool, PONb, IsSmall)
+
+  Dim erreur As Integer
+  Dim ToolPictureName, foldername, FileName As String
+  FileName = ""
+  foldername = ""
+
+  On Error Resume Next
+
+  Err.Clear
+
+  If (Not IsSmall) Then
+    ToolPictureName = aTool.Picture
+    erreur = Err.Number
+    If (erreur <> 0) Then ToolPictureName = ""
+  End If
+
+  If (ToolPictureName <> "") Then
+    If (fso.FileExists(ToolPictureName)) Then
+
+      Dim namelength, posdernierslash, i As Integer
+      posdernierslash = 0
+      namelength = Len(ToolPictureName)
+
+      For i = 1 To namelength
+        If (Mid(ToolPictureName, i, 1) = "\" Or Mid(ToolPictureName, i, 1) = "/") Then posdernierslash = i
+      Next
+
+      If (posdernierslash = 0) Then
+        FileName = ToolPictureName
+      Else
+        foldername = Mid(ToolPictureName, 1, posdernierslash)
+        FileName = Mid(ToolPictureName, posdernierslash + 1, namelength - posdernierslash)
+      End If
+
+    End If
+  End If
+
+  If (FileName = "") Then
+    FileName = GetToolStdImage(aTool, IsSmall)
+    foldername = CATIAComponentPath
+  End If
+
+  If (FileName <> "") Then
+    Dim target As String
+    If (PONb > 0) Then
+      target = HtmlFilesPath & PartOperationFolderName & PONb & FolderSeparator & FileName
+    Else
+      target = HtmlFilesPath & FileName
+    End If
+    If (Not (fso.FileExists(target))) Then
+      Dim rep As Integer
+      rep = FileCopy(foldername & FileName, target, True)
+      If (rep <> 0) Then FileName = ""
+    End If
+  End If
+
+  GetToolImage = FileName
+
+End Function
+
+Function GetToolStdImage(aTool, IsSmall)
+
+  Dim ToolType, FileName As String
+  ToolType = aTool.ToolType
+
+  Select Case ToolType
+
+  'Milling Tools
+  Case "MfgDrillTool"
+  FileName = "ncdrills"
+  Case "MfgTapTool"
+  FileName = "nctaps"
+  Case "MfgCountersinkTool"
+  FileName = "nccounte"
+  Case "MfgReamerTool"
+  FileName = "ncreamer"
+  Case "MfgSpotDrillTool"
+  FileName = "ncspodri"
+  Case "MfgCenterDrillTool"
+  FileName = "nccenter"
+  Case "MfgMultiDiamDrillTool"
+  FileName = "ncmddrls"
+  Case "MfgBoringAndChamferingTool"
+  FileName = "ncbochmf"
+  Case "MfgTwoSidesChamferingTool"
+  FileName = "nctschmf"
+  Case "MfgBoringBarTool"
+  FileName = "ncborbar"
+  Case "MfgEndMillTool"
+  FileName = "ncendmil"
+  Case "MfgFaceMillTool"
+  FileName = "ncfacmil"
+  Case "MfgConicalMillTool"
+  FileName = "ncconmil"
+  Case "MfgTSlotterTool"
+  FileName = "nctslott"
+  Case "MfgThreadMillTool"
+  FileName = "ncthrmil"
+  Case "MfgAPTTool"
+  FileName = "ncapt"
+
+  'Lathe Tools
+  Case "MfgExternalTool"
+  FileName = "nlexttl"
+  Case "MfgInternalTool"
+  FileName = "nlinttl"
+  Case "MfgGrooveExternalTool"
+  FileName = "nlextgrv"
+  Case "MfgGrooveInternalTool"
+  FileName = "nlintgrv"
+  Case "MfgGrooveFrontalTool"
+  FileName = "nlgrvfrl"
+  Case "MfgThreadExternalTool"
+  FileName = "nlextthd"
+  Case "MfgThreadInternalTool"
+  FileName = "nlintthd"
+
+  Case Else
+  FileName = ""
+  End Select
+
+  If (FileName <> "") Then
+    If (IsSmall) Then FileName = FileName & "-small"
+    FileName = FileName & ".gif"
+  End If
+
+  GetToolStdImage = FileName
+End Function
+
+
+'----------------------------------------------
+' Recherche du fichier image associe aux
+' correcteurs d'un outil
+'----------------------------------------------
+
+Function GetToolCompensationStdImage(aTool, PONb)
+
+  Dim ToolType, FileName As String
+  ToolType = aTool.ToolType
+
+  Select Case ToolType
+  Case "MfgDrillTool"
+    FileName = "ncdrillscomp.gif"
+  Case "MfgTapTool"
+    FileName = "nctapscomp.gif"
+  Case "MfgCountersinkTool"
+    FileName = "nccountecomp.gif"
+  Case "MfgReamerTool"
+    FileName = "ncreamercomp.gif"
+  Case "MfgSpotDrillTool"
+    FileName = "ncspodricomp.gif"
+  Case "MfgCenterDrillTool"
+    FileName = "nccentercomp.gif"
+  Case "MfgMultiDiamDrillTool"
+    FileName = "ncmddrlscomp.gif"
+  Case "MfgBoringAndChamferingTool"
+    FileName = "ncbochmfcomp.gif"
+  Case "MfgTwoSidesChamferingTool"
+    FileName = "nctschmfcomp.gif"
+  Case "MfgBoringBarTool"
+    FileName = "ncborbarcomp.gif"
+  Case "MfgEndMillTool"
+    FileName = "ncendmilcomp.gif"
+  Case "MfgFaceMillTool"
+    FileName = "ncfacmilcomp.gif"
+  Case "MfgConicalMillTool"
+    FileName = "ncconmilcomp.gif"
+  Case "MfgTSlotterTool"
+    FileName = "nctslottcomp.gif"
+  Case "MfgThreadMillTool"
+    FileName = "ncthrmilcomp.gif"
+
+  'Lathe Tools
+  Case "MfgExternalTool"
+    FileName = "lathecomp.gif"
+  Case "MfgInternalTool"
+    FileName = "lathecomp.gif"
+  Case "MfgGrooveExternalTool"
+    FileName = "lathecomp.gif"
+  Case "MfgGrooveInternalTool"
+    FileName = "lathecomp.gif"
+  Case "MfgGrooveFrontalTool"
+    FileName = "lathecomp.gif"
+  Case "MfgThreadExternalTool"
+    FileName = "lathecomp.gif"
+  Case "MfgThreadInternalTool"
+    FileName = "lathecomp.gif"
+
+  Case Else
+  FileName = ""
+  End Select
+
+  If (FileName <> "") Then
+    If (PONb > 0) Then
+      target = HtmlFilesPath & PartOperationFolderName & PONb & FolderSeparator & FileName
+    Else
+      target = HtmlFilesPath & FileName
+    End If
+    If (Not (fso.FileExists(target))) Then
+      Dim rep As Integer
+      rep = FileCopy(CATIAComponentPath & FileName, target, True)
+      If (rep <> 0) Then FileName = ""
+    End If
+  End If
+
+  GetToolCompensationStdImage = FileName
+
+End Function
+
+
+'----------------------------------------------
+' Ajout du tableau des parametres d'un outil
+'----------------------------------------------
+Sub AddToolParameters(aTool, aStream)
+
+  Dim TabAtt()
+  Dim att As Integer
+  Dim nbatt As Integer
+
+  nbatt = aTool.NumberOfAttributes
+
+  If (nbatt > 0) Then
+
+    aStream.Write "<center><table BORDER=0 CELLSPACING=3 CELLPADDING=3 BGCOLOR=""#C5C5E2"">" & EOL
+    
+    ReDim TabAtt(nbatt)
+    aTool.GetListOfAttributes (TabAtt)
+    For att = 0 To nbatt - 1
+      AddParameterToTable aTool, TabAtt(att), aStream, False
+    Next
+    
+    aStream.Write "</table></center>" & EOL
+
+  End If
+
+End Sub
+
+
+'******************************************************************
+'Creation de la liste des outils utilises dans une "Part Operation"
+'******************************************************************
+
+Sub CreateToolList(aDocName, aPartOpe, aPartOpeNumber)
+
+  Dim erreur As Integer
+
+  Dim i, J, K As Integer
+
+  Dim Attribut as Parameter
+
+  Dim TabTool()
+  Dim TabToolName()
+  Dim TabToolStatus() 'outil utilise ou non dans un assembly
+  Dim MaxToolNb As Integer
+  MaxToolNb = 16
+  ReDim TabTool(MaxToolNb)
+  ReDim TabToolName(MaxToolNb)
+  ReDim TabToolStatus(MaxToolNb)
+
+  Dim TabAssembly()
+  Dim TabAssemblyName()
+  Dim MaxAssemblyNb As Integer
+  MaxAssemblyNb = 16
+  ReDim TabAssembly(MaxToolNb)
+  ReDim TabAssemblyName(MaxToolNb)
+  
+  Dim CurrentAssembly As ManufacturingToolAssembly
+
+  Dim ToolListFile As File
+  Dim ToolListStream As TextStream
+
+  Set ToolListFile = fso.CreateFile(HtmlFilesPath & PartOperationFolderName & aPartOpeNumber & FolderSeparator & "ToolList_" & aPartOpeNumber & ".html", True)
+  Set ToolListStream = ToolListFile.OpenAsTextStream("ForWriting")
+
+  ToolListStream.Write "<html>" & EOL
+
+  ToolListHeader aDocName, aDocName, aPartOpe.Name, aPartOpeNumber, ToolListStream
+
+  OpeName = aPartOpe.Name
+
+  '------------------
+  ' Read the Programs
+  '------------------
+  Dim CurrentProgram As ManufacturingActivity
+  Dim ProgramList As MfgActivities
+  Dim NumberOfProgram As Integer
+  Dim OpeList As MfgActivities
+  Dim NumberOfOpe As Integer
+  Dim CurrentOpe As ManufacturingActivity
+  Dim OpeType As String
+  Dim CurrentTool As ManufacturingTool
+  
+  Set ProgramList = aPartOpe.Programs
+  NumberOfProgram = ProgramList.Count
+
+  For nopg = 1 To NumberOfProgram
+  
+    Set CurrentProgram = ProgramList.GetElement(nopg)
+    
+    '--------------------
+    ' Read the operations
+    '--------------------
+    Set OpeList = CurrentProgram.Activities
+    NumberOfOpe = OpeList.Count
+
+    For nope = 1 To NumberOfOpe
+    
+      Set CurrentOpe = OpeList.GetElement(nope)
+      OpeType = CurrentOpe.Type
+
+      If (OpeType = "ToolChange" Or OpeType = "ToolChangeLathe") Then
+        
+        'Traitement si presence d'un tool assembly
+        On Error Resume Next
+        set CurrentAssembly = NOTHING
+        AssemblyNumber = -1
+        Err.Clear
+        Set CurrentAssembly = CurrentOpe.ToolAssembly
+        AssemblyNumber = CurrentAssembly.ToolNumber
+        erreur = Err.Number
+        Err.Clear
+
+        If (erreur = 0) Then
+          Set Attribut = CurrentAssembly.getAttribute("MFG_NAME")
+          erreur = Err.Number
+          If (erreur = 0) Then AssemblyName = Attribut.Value
+          Err.Clear
+
+          If (AssemblyNumber > MaxAssemblyNb) Then
+            MaxAssemblyNb = AssemblyNumber
+            ReDim Preserve TabAssembly(MaxAssemblyNb)
+            ReDim Preserve TabAssemblyName(MaxAssemblyNb)
+            Set TabAssembly(AssemblyNumber) = CurrentAssembly
+            TabAssemblyName(AssemblyNumber) = AssemblyName
+          Else
+            If (TabAssemblyName(AssemblyNumber) <> AssemblyName) Then
+              Set TabAssembly(AssemblyNumber) = CurrentAssembly
+              TabAssemblyName(AssemblyNumber) = AssemblyName
+            End If
+          End If
+        End If
+        
+        Set CurrentTool = CurrentOpe.Tool
+        ToolNumber = CurrentTool.ToolNumber
+        ToolName = CurrentTool.Name
+        If (ToolNumber > MaxToolNb) Then
+          MaxToolNb = ToolNumber
+          ReDim Preserve TabTool(MaxToolNb)
+          ReDim Preserve TabToolName(MaxToolNb)
+          ReDim Preserve TabToolStatus(MaxToolNb)
+          Set TabTool(ToolNumber) = CurrentTool
+          TabToolName(ToolNumber) = ToolName
+        Else
+          If (TabToolName(ToolNumber) <> ToolName) Then
+            Set TabTool(ToolNumber) = CurrentTool
+            TabToolName(ToolNumber) = ToolName
+          End If
+        End If
+        if(ToolNumber>0 AND AssemblyNumber<1) then TabToolStatus(ToolNumber)=-1 'Outil utilise sans assembly
+      End If
+
+    Next 'iteration/operations
+
+  Next 'iteration/programmes
+
+  'Ajout des tool-assembly dans le document
+
+  For i = 0 To MaxAssemblyNb
+    If (TabAssemblyName(i) <> "") Then
+
+      Dim anAssembly As ManufacturingToolAssembly
+      Set anAssembly = TabAssembly(i)
+      WriteAssembly anAssembly, aPartOpeNumber, ToolListStream
+
+      Dim UsedTool As ManufacturingTool
+      Set UsedTool = anAssembly.Tool
+      UsedToolNb = UsedTool.ToolNumber
+      'TabToolStatus(UsedToolNb) = 1
+      if(TabToolStatus(UsedToolNb)<>-1) then TabToolStatus(UsedToolNb) = 1
+      
+      CreateAssemblySheet anAssembly, aPartOpeNumber, aPartOpe, aDocName
+      CreateAssemblyAssocOpeFile anAssembly, aDocName, aPartOpeNumber, aPartOpe
+      
+      CreateToolAssocOpeFile UsedTool, aDocName, aPartOpeNumber, aPartOpe
+      CreateToolCompSheet UsedTool, aPartOpeNumber, aPartOpe, aDocName
+    End If
+  Next
+
+  'Ajout des outils dans le document
+  For i = 1 To MaxToolNb
+    If (TabToolName(i) <> "") Then
+      Dim aTool As ManufacturingTool
+      Set aTool = TabTool(i)
+      Dim aToolNb As Integer
+      aToolNb = aTool.ToolNumber
+      If (TabToolStatus(aToolNb) <= 0) Then
+        WriteTool aTool, aPartOpeNumber, ToolListStream
+        CreateToolSheet aTool, aPartOpeNumber, aPartOpe, aDocName
+        CreateToolAssocOpeFile aTool, aDocName, aPartOpeNumber, aPartOpe
+        CreateToolCompSheet aTool, aPartOpeNumber, aPartOpe, aDocName
+      End If
+    End If
+  Next
+   
+  ToolListStream.Write "</body>" & EOL
+  ToolListStream.Write "</html>" & EOL
+
+  ToolListStream.Close
+
+  Set ToolListStream = Nothing
+  Set ToolListFile = Nothing
+
+End Sub
+
+
+Sub ToolListHeader(aDocName, aProcessName, aPartOpeName, PONb, aToolListStream)
+
+  aToolListStream.Write "<head>" & EOL
+  aToolListStream.Write "<title>" & aDocName & " : " & aPartOpeName & " : Tool List</title>" & EOL
+  aToolListStream.Write "</head>" & EOL
+  aToolListStream.Write "<body bgcolor=#FFFFFF>" & EOL
+
+  aToolListStream.Write "<table CELLSPACING=0 CELLPADDING=5>" & EOL
+  aToolListStream.Write "<tr>" & EOL
+
+  If (ExistLogoDS) Then
+    aToolListStream.Write "<td ALIGN=CENTER><img SRC=""MfgDocLogo.gif"" BORDER=0></td>" & EOL
+  Else
+    aToolListStream.Write "<td></td>" & EOL
+  End If
+
+
+  aToolListStream.Write "<td BGCOLOR=""#000099""><b><font color=""#FFFFFF"" size=+2>" & EOL
+  aToolListStream.Write "SHOP FLOOR DOCUMENTATION<br>" & EOL
+  aToolListStream.Write aProcessName & EOL
+  aToolListStream.Write "</font></b></td>" & EOL
+  aToolListStream.Write "</tr>" & EOL
+  aToolListStream.Write "<tr>" & EOL
+  aToolListStream.Write "<td></td>" & EOL
+
+  dim aPOFileName as String
+  aPOFileName = "PartOperation_" & PONb & ".html"
+
+  aToolListStream.Write "<td><b><font color=""#000099"" size=+2>Part operation : <a href=""" & aPOFileName & """>" & aPartOpeName & "</a></font></b></td>" & EOL
+  aToolListStream.Write "</tr>" & EOL
+  aToolListStream.Write "</table>" & EOL
+
+  aToolListStream.Write "<br><br>" & EOL
+
+  aToolListStream.Write "<table BORDER=0 CELLSPACING=0 CELLPADDING=10 WIDTH=""100%""><tr VALIGN=CENTER BGCOLOR=""#3366FF"">" & EOL
+  aToolListStream.Write "<td><b><font color=""#FFFFFF"" size=+3>Tool List</font></b></td>" & EOL
+  aToolListStream.Write "</tr></table>" & EOL
+
+  aToolListStream.Write "<br><br>" & EOL
+
+End Sub
+
+
+'---------------------------------------------------------------
+' Ajout d'un outil dans la liste
+'---------------------------------------------------------------
+Sub WriteTool(aTool, aPONb, aStream)
+
+  Dim ToolNumber As Variant
+  Dim ToolName, ToolType As String
+  dim ImgName as String
+
+  ToolNumber = aTool.ToolNumber
+  ToolName = aTool.Name
+  ToolType = aTool.ToolType
+
+  aStream.Write "<p><a NAME=""T" & ToolNumber & """></a>" & EOL
+  aStream.Write "<center><table BORDER=1 CELLSPACING=2 CELLPADDING=5 WIDTH=""80%"">" & EOL
+  aStream.Write "<tr VALIGN=MIDDLE>" & EOL
+  aStream.Write "<td WIDTH=""50%"" BGCOLOR=""#C6C6FF""><b><font size=+1><a href=""Tool" & ToolNumber & ".html"">Tool " & ToolNumber & " : " & ToolName & "</a></font></b></td>" & EOL
+
+  ImgName = GetToolImage(aTool, aPONb, True)
+
+  if (ImgName <> "") Then
+    WriteLine aStream, "<td ALIGN=""CENTER"" WIDTH=""100""><img BORDER=0 SRC=""" & ImgName & """></td>"
+  end if
+
+  aStream.Write "<td>Type : " & ToNLS(aTool,ToolType) & EOL
+
+  Dim DiameterId As String
+  If (ToolType = "MfgAPTTool") Then
+    DiameterId = "MFG_APT_DIAMETER"
+  Else
+    DiameterId = "MFG_NOMINAL_DIAM"
+  End If
+  On Error Resume Next
+
+  Err.Clear
+  Set DiameterAttribut = aTool.getAttribute(DiameterId)
+  If (Err.Number = 0) Then
+    ToolDiameter = DiameterAttribut.Value
+    If (Err.Number = 0) Then
+      aStream.Write "<br>Diameter : " & ToolDiameter & EOL
+    End If
+  End If
+
+  aStream.Write "</td>" & EOL
+  aStream.Write "</tr>" & EOL
+  aStream.Write "</table></center>" & EOL
+  aStream.Write "<br>" & EOL
+
+End Sub
+
+
+'**********************************************************
+'           Creation d'une fiche "Part operation"
+'**********************************************************
+
+Sub CreatePartOperationSheet(aPartOpe, aPartOpeNumber, aProcessName)
+
+  Dim POFile As File
+  Dim POStream As TextStream
+  Set POFile = fso.CreateFile(HtmlFilesPath & PartOperationFolderName & aPartOpeNumber & FolderSeparator & "PartOperation_" & aPartOpeNumber & ".html", True)
+  Set POStream = POFile.OpenAsTextStream("ForWriting")
+
+  Dim aPartName, aMachiningAxisSystem As String
+  Dim aMachine As ManufacturingMachine
+
+
+  POStream.Write "<html>" & EOL
+  POStream.Write "<head>" & EOL
+  POStream.Write "<title>PART OPERATION</title>" & EOL
+  POStream.Write "</head>" & EOL
+
+  POStream.Write "<body>" & EOL
+
+  POStream.Write "<table CELLSPACING=0 CELLPADDING=5>" & EOL
+
+  If (ExistLogoDS) Then
+    Dim rep As Integer
+    rep = FileCopy(CATIAComponentPath & "MfgDocLogo.gif", HtmlFilesPath & PartOperationFolderName & aPartOpeNumber & FolderSeparator & "MfgDocLogo.gif", True)
+    POStream.Write "<tr><td ALIGN=CENTER><img SRC=""MfgDocLogo.gif"" BORDER=0></td>" & EOL
+  Else
+    POStream.Write "<tr><td></td>" & EOL
+  End If
+
+  POStream.Write "<td BGCOLOR=""#000099""><b><font color=""#FFFFFF"" size=+2>" & EOL
+  POStream.Write "SHOP FLOOR DOCUMENTATION<br>" & EOL
+  POStream.Write aProcessName & EOL
+  POStream.Write "</font></b></td></tr>" & EOL
+  POStream.Write "</table>" & EOL
+
+  POStream.Write "<br><br>" & EOL
+
+  POStream.Write "<table CELLSPACING=0 CELLPADDING=10 WIDTH=""100%"" BGCOLOR=""#3366FF"">" & EOL
+  POStream.Write "<tr><td><b><font color=""#FFFFFF"" size=+3>" & EOL
+  POStream.Write "Part operation : " & aPartOpe.Name & EOL
+  POStream.Write "</font></b></td></tr>" & EOL
+  POStream.Write "</table>" & EOL
+
+  POStream.Write "<br><br>" & EOL
+
+
+  POStream.Write "<center><table BORDER=0 CELLSPACING=0 CELLPADDING=0>" & EOL
+  POStream.Write "<tr ALIGN=LEFT VALIGN=TOP>" & EOL
+
+  Dim PartOpeImg As String
+  PartOpeImg = GetActivityImage(aPartOpe, aPartOpeNumber)
+  If (PartOpeImg <> "") Then
+    POStream.Write "<td ALIGN=CENTER><img SRC=""" & PartOpeImg & """ BORDER=0 HSPACE=10 width=200></td>" & EOL
+  End If
+
+  POStream.Write "<td>" & EOL
+
+  POStream.Write "<p><b>Generation</b> : " & Date & " at " & Time & "<br></p>" & EOL
+
+  Dim HasMachine As Boolean
+  Dim MachineName As String
+  On Error Resume Next
+  Err.Clear
+  Set aMachine = aPartOpe.Machine
+  HasMachine = (Err.Number = 0)
+
+  Err.Clear
+
+  If (HasMachine) Then
+    MachineName = aMachine.Name
+  Else
+    MachineName = "No machine selected"
+  End If
+
+  'POStream.Write "<p><b>PartName</b> : " & aPartName & "<br></p>" & EOL
+
+  Err.Clear
+  aPartName = aPartOpe.GetPartName
+  If (Err.Number = 0 And aPartName <> "") Then
+    POStream.Write "<p><b>Part name</b> : " & aPartName & "<br></p>" & EOL
+  Else
+    Err.Clear
+  End If
+
+  If (HasMachine) Then
+    CreateMachineSheet aPartOpe, aPartOpeNumber, aProcessName
+    POStream.Write "<p><b>Machine name</b> : <a href=""Machine_" & aPartOpeNumber & ".html"">" & MachineName & "</a><br></p>" & EOL
+  Else
+    POStream.Write "<p><b>Machine name</b> : " & MachineName & "<br></p>" & EOL
+  End If
+
+  Err.Clear
+  aMachiningAxisSystem = aPartOpe.GetMachiningAxisSystemName
+  If (Err.Number = 0 And aMachiningAxisSystem <> "") Then
+    POStream.Write "<p><b>Machining axis system</b> : " & aMachiningAxisSystem & "<br></p>" & EOL
+  Else
+    Err.Clear
+  End If
+
+  POStream.Write "<p><a href=""ToolList_" & aPartOpeNumber & ".html"">Tool List</a><br></p>" & EOL
+  POStream.Write "<p><b>Programs</b> :" & EOL
+
+  Dim ProgramList As MfgActivities
+  Dim CurrentProgram As ManufacturingActivity
+  Dim NumberOfProgram As Integer
+  Dim ProgramName As String
+
+  Set ProgramList = aPartOpe.Programs
+  NumberOfProgram = ProgramList.Count
+
+  POStream.Write "<blockquote>" & EOL
+  For ProgNb = 1 To NumberOfProgram
+    Set CurrentProgram = ProgramList.GetElement(ProgNb)
+    Dim ProgFileName As String
+    ProgFileName = "Prog_" & aPartOpeNumber & "_" & ProgNb & ".html"
+    POStream.Write "<li>Program : <a href=""" & ProgFileName & """>" & CurrentProgram.Name & "</a></li>" & EOL
+  Next
+  POStream.Write "</blockquote>" & EOL
+  POStream.Write "</p>" & EOL
+
+  Dim Comment As String
+  Comment = aPartOpe.Comment
+
+  If (Comment <> "") Then
+    POStream.Write "<p>" & EOL
+    POStream.Write "<b>Comment :</b>" & EOL
+    POStream.Write "<blockquote>" & EOL
+    POStream.Write "<table BORDER CELLSPACING=0 CELLPADDING=10>" & EOL
+    POStream.Write "<tr><td>" & EOL
+    POStream.Write Comment
+    POStream.Write "</td></tr>" & EOL
+    POStream.Write "</table>" & EOL
+    POStream.Write "</blockquote>" & EOL
+    POStream.Write "</p>" & EOL
+  End If
+
+  POStream.Write "</td>" & EOL
+  POStream.Write "</tr>" & EOL
+  POStream.Write "</table></center>" & EOL
+
+
+  POStream.Write "</body>" & EOL
+  POStream.Write "</html>" & EOL
+
+  POStream.Close
+
+  Set POStream = Nothing
+  Set POFile = Nothing
+
+End Sub
+
+
+'**********************************************************
+'           Creation d'une fiche "Machine"
+'**********************************************************
+
+Sub CreateMachineSheet(aPartOpe, aPartOpeNumber, aProcessName)
+
+  Dim CurrentMachine As ManufacturingMachine
+  On Error Resume Next
+  Err.Clear
+  Set CurrentMachine = aPartOpe.Machine
+  If (Err.Number <> 0) Then Exit Sub
+
+  Dim MachineFileName As String
+  MachineFileName = HtmlFilesPath & PartOperationFolderName & aPartOpeNumber & FolderSeparator & "Machine_" & aPartOpeNumber & ".html"
+
+  Dim MachineFile As File
+  Dim MachineStream As TextStream
+  Set MachineFile = fso.CreateFile(MachineFileName, True)
+
+  Set MachineStream = MachineFile.OpenAsTextStream("ForWriting")
+
+  MachineStream.Write "<html>" & EOL
+  MachineStream.Write "<head><title>MACHINE</title></head>" & EOL
+  MachineStream.Write "<body>" & EOL
+
+  MachineStream.Write "<table CELLSPACING=0 CELLPADDING=5>" & EOL
+  MachineStream.Write "<tr>" & EOL
+
+  If (ExistLogoDS) Then
+    MachineStream.Write "<td ALIGN=CENTER><img SRC=""MfgDocLogo.gif"" BORDER=0></td>" & EOL
+  Else
+    MachineStream.Write "<td></td>" & EOL
+  End If
+  MachineStream.Write "<td BGCOLOR=""#000099""><b><font color=""#FFFFFF"" size=+2>" & EOL
+  MachineStream.Write "SHOP FLOOR DOCUMENTATION<br>" & EOL
+  MachineStream.Write aProcessName & EOL
+  MachineStream.Write "</font></b></td>" & EOL
+  MachineStream.Write "</tr>" & EOL
+  MachineStream.Write "<tr>" & EOL
+  MachineStream.Write "<td></td>" & EOL
+
+  dim aPOFileName as String
+  aPOFileName = "PartOperation_" & aPartOpeNumber & ".html"
+
+  MachineStream.Write "<td><b><font color=""#000099"" size=+2>Part operation : <a href=""" & aPOFileName & """>" & aPartOpe.Name & "</a></font></b></td>" & EOL
+  MachineStream.Write "</tr>" & EOL
+  MachineStream.Write "</table>" & EOL
+
+  MachineStream.Write "<br><br>" & EOL
+
+  MachineStream.Write "<table BORDER=0 CELLSPACING=0 CELLPADDING=5 WIDTH=""100%"" BGCOLOR=""#3366FF"">" & EOL
+  MachineStream.Write "<tr><td><b><font color=""#FFFFFF"" size=+3>" & EOL
+  MachineStream.Write "Machine : " & CurrentMachine.Name & EOL
+  MachineStream.Write "</font></b></td></tr>" & EOL
+  MachineStream.Write "</table>" & EOL
+
+  MachineStream.Write "<br>" & EOL
+
+  Dim MachineImgName As String
+  MachineImgName = GetMachineImage(CurrentMachine, aPartOpeNumber)
+
+  MachineStream.Write "<center><table CELLSPACING=10 CELLPADDING=0><tr ALIGN=CENTER>" & EOL
+
+  MachineStream.Write "<td>Type : " & ToNLS(CurrentMachine,CurrentMachine.MachineType) & "</td>" & EOL
+  If (MachineImgName <> "") Then
+    MachineStream.Write "<td><img SRC=""" & MachineImgName & """ BORDER=0 height=236 width=247></td>" & EOL
+  End If
+  MachineStream.Write "</tr></table></center>" & EOL
+
+
+  Dim Comment As String
+  Comment = CurrentMachine.Comment
+
+  If (Comment <> "") Then
+    MachineStream.Write "<br>&nbsp;" & EOL
+    MachineStream.Write "<center><table BORDER CELLSPACING=0 CELLPADDING=10 BGCOLOR=""#FFFFFF"">" & EOL
+    MachineStream.Write "<tr>" & EOL
+    MachineStream.Write "<td>" & Comment & "</td>" & EOL
+    MachineStream.Write "</tr>" & EOL
+    MachineStream.Write "</table></center>" & EOL
+    MachineStream.Write "<br>&nbsp;" & EOL
+  End If
+
+  Err.Clear
+
+  Dim nbNCAtt, nbSpindleAtt, nbTCAtt, nbRTAtt, att, maxatt As Integer
+
+  nbNCAtt = CurrentMachine.NumberOfNumericalControlAttributes
+  If (Err.Number <> 0) Then
+    nbNCAtt = 0
+    Err.Clear
+  End If
+
+  nbSpindleAtt = CurrentMachine.NumberOfSpindleAttributes
+  If (Err.Number <> 0) Then
+    nbSpindleAtt = 0
+    Err.Clear
+  End If
+
+  nbTCAtt = CurrentMachine.NumberOfToolChangeAttributes
+  If (Err.Number <> 0) Then
+    nbTCAtt = 0
+    Err.Clear
+  End If
+
+  nbRTAtt = CurrentMachine.NumberOfRotaryTableAttributes
+  If (Err <> 0) Then
+    nbRTAtt = 0
+    Err.Clear
+  End If
+
+  Dim TabAtt()
+
+  If (nbNCAtt > 0) Then
+    MachineStream.Write "<center><p><b>Numerical control attributes</b></p><table CELLSPACING=0 CELLPADDING=5 BGCOLOR=""#C5C5E2"">" & EOL
+    ReDim TabAtt(nbNCAtt)
+    CurrentMachine.GetListOfNumericalControlAttributes (TabAtt)
+    maxatt = nbNCAtt - 1
+    For att = 0 To maxatt
+      AddParameterToTable CurrentMachine, TabAtt(att), MachineStream, False
+    Next
+    MachineStream.Write "</table></center>" & EOL
+  End If
+
+  If (nbSpindleAtt > 0) Then
+
+    If (nbTCAtt > 0) Then
+      MachineStream.Write "<center><table BORDER=0 CELLSPACING=45>" & EOL
+      MachineStream.Write "<tr VALIGN=CENTER>" & EOL
+      MachineStream.Write "<td>" & EOL
+    End If
+
+    MachineStream.Write "<center><p><b>Spindle attributes</b></p>" & EOL
+    MachineStream.Write "<table CELLSPACING=0 CELLPADDING=5 BGCOLOR=""#C5C5E2"">" & EOL
+    ReDim TabAtt(nbSpindleAtt)
+    CurrentMachine.GetListOfSpindleAttributes (TabAtt)
+    maxatt = nbSpindleAtt - 1
+    For att = 0 To maxatt
+      AddParameterToTable CurrentMachine, TabAtt(att), MachineStream, False
+    Next
+    MachineStream.Write "</table></center>" & EOL
+
+    If (nbTCAtt > 0) Then
+      MachineStream.Write "</td>" & EOL
+      MachineStream.Write "<td>" & EOL
+    End If
+
+  End If
+
+  If (nbTCAtt > 0) Then
+
+    MachineStream.Write "<center><p><b>Tool change attributes</b></p>" & EOL
+    MachineStream.Write "<table CELLSPACING=0 CELLPADDING=5 BGCOLOR=""#C5C5E2"">" & EOL
+    ReDim TabAtt(nbTCAtt)
+    CurrentMachine.GetListOfToolChangeAttributes (TabAtt)
+    maxatt = nbTCAtt - 1
+    For att = 0 To maxatt
+      AddParameterToTable CurrentMachine, TabAtt(att), MachineStream, False
+    Next
+    MachineStream.Write "</table></center>" & EOL
+
+    If (nbSpindleAtt > 0) Then
+      MachineStream.Write "</td>" & EOL
+      MachineStream.Write "</tr>" & EOL
+      MachineStream.Write "</table></center>" & EOL
+    End If
+
+  End If
+
+  If (nbRTAtt > 0) Then
+
+    MachineStream.Write "<center><p><b>Rotary table attributes</b></p><table CELLSPACING=0 CELLPADDING=5 BGCOLOR=""#C5C5E2"">" & EOL
+    ReDim TabAtt(nbRTAtt)
+    CurrentMachine.GetListOfRotaryTableAttributes (TabAtt)
+    maxatt = nbRTAtt - 1
+    For att = 0 To maxatt
+      AddParameterToTable CurrentMachine, TabAtt(att), MachineStream, False
+    Next
+    MachineStream.Write "</table></center>" & EOL
+
+  End If
+
+  MachineStream.Write "</body>" & EOL
+  MachineStream.Write "</html>" & EOL
+
+  MachineStream.Close
+
+  Set MachineStream = Nothing
+  Set MachineFile = Nothing
+
+End Sub
+
+Function GetMachineImage(aMachine, aPONb)
+
+  Dim ImgName As String
+  ImgName = ""
+
+  On Error Resume Next
+
+  Dim machtype As String
+  machtype = aMachine.MachineType
+
+  Select Case machtype
+  Case "Mfg3AxisMachine"
+    ImgName = "3-axis-machine.gif"
+  Case "Mfg3AxisWithTableRotationMachine"
+    ImgName = "3-axis-rot-machine.gif"
+  Case "Mfg5AxisMachine"
+    ImgName = "5-axis-machine.gif"
+  Case "MfgHorizontalLatheMachine"
+    ImgName = "Hlathe.gif"
+  Case "MfgVerticalLatheMachine"
+    ImgName = "Vlathe.gif"
+  Case "MfgMultiTurretLatheMachine"
+    ImgName = "MSlathe.gif"
+  Case Else
+    GetMachineImage = ""
+    Exit Function
+  End Select
+
+  Dim target As String
+  If (aPONb > 0) Then
+    target = HtmlFilesPath & PartOperationFolderName & aPONb & FolderSeparator & ImgName
+  Else
+    target = HtmlFilesPath & ImgName
+  End If
+
+  If (Not (fso.FileExists(target))) Then
+    Dim rep As Integer
+    rep = FileCopy(CATIAComponentPath & ImgName, target, overwrite)
+    If (rep <> 0) Then ImgName = ""
+  End If
+
+  GetMachineImage = ImgName
+
+End Function
+
+
+'**********************************************************
+' Creation de la liste des operations associees a un outil
+'**********************************************************
+
+Sub CreateToolAssocOpe(POList)
+
+  Dim isetup As Integer
+  Dim nbPO, currPO As Integer
+  Dim aPO As Activity
+
+  Dim TabToolFileName()
+  Dim MaxToolNb As Integer
+  MaxToolNb = 16
+  ReDim TabToolFileName(MaxToolNb)
+
+  Dim ToolAssocOpeFile As File
+  Dim ToolAssocOpeStream As TextStream
+
+  currPO = 0
+  
+  nbPO = POList.Count
+  If (nbPO <= 0) Then Exit Sub
+
+  For isetup = 1 To nbPO
+
+    Set aPO = POList.Item(isetup)
+
+    If (aPO.IsSubTypeOf("ManufacturingSetup")) Then
+
+      Dim CurrAct As Integer
+      currPO = currPO + 1
+      CurrAct = 0
+
+      Dim NumberOfProgram, ProgNb As Integer
+      Dim ProgramList As MfgActivities
+      Dim CurrentProgram As ManufacturingActivity
+    
+      Set ProgramList = aPO.Programs
+      NumberOfProgram = ProgramList.Count
+      
+      For ProgNb = 1 To NumberOfProgram
+
+        Dim OpeList As MfgActivities
+        Dim NumberOfOpe, OpeNb As Integer
+        Dim CurrentOpe As ManufacturingActivity
+        Dim OpeName, OpeType As String
+      
+        Set CurrentProgram = ProgramList.GetElement(ProgNb)
+        Set OpeList = CurrentProgram.Activities
+        NumberOfOpe = OpeList.Count
+        
+        For OpeNb = 1 To NumberOfOpe
+
+          CurrAct = CurrAct + 1
+
+          Set CurrentOpe = OpeList.GetElement(OpeNb)
+          OpeName = CurrentOpe.Name
+          OpeType = CurrentOpe.Type
+
+          If (OpeType <> "ToolChange" And OpeType <> "ToolChangeLathe" And OpeType <> "TableHeadRotation" And OpeType <> "CoordinateSystem" And OpeType <> "PPInstruction") Then
+
+            Set CurrentTool = CurrentOpe.Tool
+            ToolNumber = CurrentTool.ToolNumber
+
+            Dim ToolAssocFileName As String
+            ToolAssocFileName = HtmlFilesPath & PartOperationFolderName & currPO & FolderSeparator & "ToolAssocOpe_" & ToolNumber & ".html"
+            
+            If (ToolNumber > MaxToolNb) Then
+              MaxToolNb = ToolNumber
+              ReDim Preserve TabToolFileName(MaxToolNb)
+              TabToolFileName(ToolNumber) = ToolAssocFileName
+            Else
+              If (TabToolFileName(ToolNumber) <> ToolAssocFileName) Then
+                TabToolFileName(ToolNumber) = ToolAssocFileName
+               End If
+            End If
+
+            On Error Resume Next
+            Err.Clear
+            Set ToolAssocOpeFile = fso.GetFile(ToolAssocFileName)
+            If (Err.Number = 0) Then
+              Set ToolAssocOpeStream = ToolAssocOpeFile.OpenAsTextStream("ForAppending")
+              AddOpeSum currPO, CurrAct ,ToolAssocOpeStream
+              ToolAssocOpeStream.Close
+              Set ToolAssocOpeStream = Nothing
+            Else
+              Err.Clear
+            End If
+            Set ToolAssocOpeFile = Nothing
+          End If
+        Next
+      Next
+    End If
+  Next
+
+  for i = 0 to MaxToolNb
+    if(TabToolFileName(i)<>"") then
+	  Set ToolAssocOpeFile = fso.GetFile(TabToolFileName(i))
+	  erreur = Err.Number
+	  If (erreur = 0) Then
+	    Set ToolAssocOpeStream = ToolAssocOpeFile.OpenAsTextStream("ForAppending")
+		WriteLine ToolAssocOpeStream, "</table></center>"
+		WriteLine ToolAssocOpeStream, "</body>"
+		WriteLine ToolAssocOpeStream, "</html>"
+		ToolAssocOpeStream.Close
+		Set ToolAssocOpeStream = Nothing
+	  Else
+	    Err.Clear
+	  End If
+	  Set ToolAssocOpeFile = Nothing
+	end if
+  next
+
+End Sub
+
+
+Sub CreateToolAssocOpeFile(aTool, aProcessName, PartOpeNumber, aPO)
+
+  Dim ToolNumber As Long
+  Dim ToolName As String
+  ToolNumber = aTool.ToolNumber
+  ToolName = aTool.Name
+
+  Dim ToolAssocOpeFile As File
+  Dim ToolAssocOpeStream As TextStream
+  Set ToolAssocOpeFile = fso.CreateFile(HtmlFilesPath & PartOperationFolderName & PartOpeNumber & FolderSeparator & "ToolAssocOpe_" & ToolNumber & ".html", True)
+  Set ToolAssocOpeStream = ToolAssocOpeFile.OpenAsTextStream("ForWriting")
+
+  ToolAssocOpeStream.Write "<html>" & EOL
+  ToolAssocOpeStream.Write "<head>" & EOL
+  ToolAssocOpeStream.Write "<title>Tool " & ToolNumber & " : Associated operations</title>" & EOL
+  ToolAssocOpeStream.Write "</head>" & EOL
+
+  ToolAssocOpeStream.Write "<body>" & EOL
+
+  ToolAssocOpeStream.Write "<table CELLSPACING=0 CELLPADDING=5>" & EOL
+  ToolAssocOpeStream.Write "<tr>" & EOL
+  If (ExistLogoDS) Then
+    ToolAssocOpeStream.Write "<td ALIGN=CENTER><img SRC=""MfgDocLogo.gif"" BORDER=0></td>" & EOL
+  Else
+    ToolAssocOpeStream.Write "<td></td>" & EOL
+  End If
+  ToolAssocOpeStream.Write "<td BGCOLOR=""#000099""><b><font color=""#FFFFFF"" size=+2>" & EOL
+  ToolAssocOpeStream.Write "SHOP FLOOR DOCUMENTATION<br>" & EOL
+  ToolAssocOpeStream.Write aProcessName & EOL
+  ToolAssocOpeStream.Write "</font></b></td>" & EOL
+  ToolAssocOpeStream.Write "</tr>" & EOL
+  ToolAssocOpeStream.Write "<tr>" & EOL
+  ToolAssocOpeStream.Write "<td></td>" & EOL
+
+  dim aPOFileName as String
+  aPOFileName = "PartOperation_" & PartOpeNumber & ".html"
+
+  ToolAssocOpeStream.Write "<td><b><font color=""#000099"" size=+2>Part operation : <a href=""" & aPOFileName & """>" & aPO.Name & "</a></font></b></td>" & EOL
+  ToolAssocOpeStream.Write "</tr>" & EOL
+  ToolAssocOpeStream.Write "</table>" & EOL
+
+  ToolAssocOpeStream.Write "<br><br>" & EOL
+
+  ToolAssocOpeStream.Write "<table BORDER=0 CELLSPACING=0 CELLPADDING=10 WIDTH=""100%"" BGCOLOR=""#3366FF"">" & EOL
+  ToolAssocOpeStream.Write "<tr>" & EOL
+  ToolAssocOpeStream.Write "<td><b><font color=""#FFFFFF"" size=+3>" & EOL
+  ToolAssocOpeStream.Write "Tool " & ToolNumber & " : " & ToolName & "<br>" & EOL
+  ToolAssocOpeStream.Write "Associated operations" & EOL
+  ToolAssocOpeStream.Write "</font></b></td>" & EOL
+  ToolAssocOpeStream.Write "</tr>" & EOL
+  ToolAssocOpeStream.Write "</table>" & EOL
+
+  ToolAssocOpeStream.Write "<br><br>" & EOL
+
+  ToolAssocOpeStream.Write "<center><table CELLSPACING=0 CELLPADDING=10>" & EOL
+
+  ToolAssocOpeStream.Close
+
+  Set ToolAssocOpeStream = Nothing
+  Set ToolAssocOpeFile = Nothing
+
+End Sub
+
+
+'----------------------------------------------------------------------
+' Destruction d'un repertoire
+' RemoveDirectory = 0 : Ok
+'                   1 : erreur de lecture du repertoire foldername
+'                   2 : erreur suppression de fichier ou de repertoire
+'----------------------------------------------------------------------
+
+Function RemoveDirectory(foldername)
+
+  Dim result As Integer
+  Dim aFolder As Folder
+
+  result = 0
+
+  On Error Resume Next
+
+  Set aFolder = fso.GetFolder(foldername)
+
+  If (Err.Number <> 0) Then
+    Err.Clear
+    Set aFolder = Nothing
+    RemoveDirectory = 1
+    Exit Function
+  End If
+
+  Dim thefiles As Files
+  Dim nbfiles As Integer
+  Dim FilePath As String
+
+  Set thefiles = aFolder.Files
+  nbfiles = thefiles.Count
+
+  For index = nbfiles To 1 Step -1
+    FilePath = thefiles.Item(index).Path
+    fso.DeleteFile (FilePath)
+    If (Err.Number <> 0) Then
+	  Err.Clear
+      Set thefiles = Nothing
+      Set aFolder = Nothing
+      RemoveDirectory = 2
+      Exit Function
+    End If
+  Next
+
+  Set thefiles = Nothing
+
+  Dim theFolders As Folders
+  Dim nbfolders As Integer
+  Dim FolderPath As String
+
+  Set theFolders = aFolder.SubFolders
+  nbfolders = theFolders.Count
+  For index = nbfolders To 1 Step -1
+    Dim delfolder As Integer
+    FolderPath = theFolders.Item(index).Path
+    delfolder = RemoveDirectory(FolderPath)
+    If (delfolder <> 0) Then
+      Set theFolders = Nothing
+      Set aFolder = Nothing
+      RemoveDirectory = delfolder
+      Exit Function
+    End If
+  Next
+
+  Set theFolders = Nothing
+  Set aFolder = Nothing
+
+  Err.Clear
+  fso.DeleteFolder (foldername)
+  If (Err.Number <> 0) Then result = 2
+
+  RemoveDirectory = result
+
+End Function
+
+
+
+Function ContinueIfExistingFolder(aPath)
+
+  Dim reponse As Boolean
+  reponse = False
+  EmptyFolder = False
+
+  On Error Resume Next
+
+  Dim aFolder As Folder
+  Dim subdir As Folders
+  Dim thefiles As Files
+
+  If (fso.FolderExists(aPath)) Then
+
+    Err.Clear
+
+    Set aFolder = fso.GetFolder(aPath)
+
+    If (Err.Number = 0) Then
+      Set subdir = aFolder.SubFolders
+      If (subdir.Count = 0) Then
+        Set thefiles = aFolder.Files
+        If (thefiles.Count = 0) Then reponse = True 'Ok si repertoire vide
+        Set thefiles = Nothing
+      End If
+      Set subdir = Nothing
+    End If
+    Set aFolder = Nothing
+  End If
+
+  If (reponse) Then
+    ContinueIfExistingFolder = True
+    Exit Function
+  End If
+
+  DeleteDirPrompt = "Existing directory : " & aPath & Chr(13) & "Delete it?"
+
+  Dim deldir As Integer
+  deldir = MsgBox(DeleteDirPrompt, 4385, "Delete directory?")   'boite modale
+
+  If (deldir = 1) Then
+    deldir = RemoveDirectory(aPath)
+    If (reponse <> 0) Then
+      Set fso = CATIA.FileSystem
+      If (fso.FolderExists(aPath)) Then
+	    Err.Clear
+        Set aFolder = fso.GetFolder(aPath)
+        If (Err.Number = 0) Then
+          Set subdir = aFolder.SubFolders
+          If (subdir.Count = 0) Then
+            Set thefiles = aFolder.Files
+            If (thefiles.Count = 0) Then reponse = True
+            Set thefiles = Nothing
+          End If
+          Set subdir = Nothing
+        End If
+        Set aFolder = Nothing
+      End If
+    Else
+      reponse = True
+    End If
+  End If
+
+  ContinueIfExistingFolder = reponse
+
+End Function
+
+
+
+Sub MajTabOutils(nout, ncorr, ncorrl, diam, corrtype, ToolType, ToolName)
+
+  Dim i As Integer
+  Dim dejala As Boolean
+  dejala = False
+
+  For i = 0 To MaxTabOutils
+    If (TabOutils(0, i) = nout And TabOutils(1, i) = ncorr) Then
+      dejala = True
+      Exit For
+    End If
+  Next
+
+  If (Not dejala) Then
+    MaxTabOutils = MaxTabOutils + 1
+    ReDim Preserve TabOutils(6, MaxTabOutils)
+    TabOutils(0, MaxTabOutils) = nout
+    TabOutils(1, MaxTabOutils) = ncorr
+    TabOutils(2, MaxTabOutils) = ncorrl
+    TabOutils(3, MaxTabOutils) = diam
+    TabOutils(4, MaxTabOutils) = corrtype
+    TabOutils(5, MaxTabOutils) = ToolType
+    TabOutils(6, MaxTabOutils) = ToolName
+  End If
+
+End Sub
+
+
+Sub TriTabOutils(aTab, maxelem, coltri)
+
+  Dim trouve As Boolean
+  Dim index, indexmax As Integer
+  Dim bidval As Variant
+
+  indexmax = maxelem - 1
+
+  Do
+    trouve = False
+    For index = 0 To indexmax
+
+      If (TabOutils(coltri, index) > TabOutils(coltri, index + 1)) Then
+
+        bidval = TabOutils(0, index + 1)
+        TabOutils(0, index + 1) = TabOutils(0, index)
+        TabOutils(0, index) = bidval
+
+        bidval = TabOutils(1, index + 1)
+        TabOutils(1, index + 1) = TabOutils(1, index)
+        TabOutils(1, index) = bidval
+
+        bidval = TabOutils(2, index + 1)
+        TabOutils(2, index + 1) = TabOutils(2, index)
+        TabOutils(2, index) = bidval
+
+        bidval = TabOutils(3, index + 1)
+        TabOutils(3, index + 1) = TabOutils(3, index)
+        TabOutils(3, index) = bidval
+
+        bidval = TabOutils(4, index + 1)
+        TabOutils(4, index + 1) = TabOutils(4, index)
+        TabOutils(4, index) = bidval
+
+        bidval = TabOutils(5, index + 1)
+        TabOutils(5, index + 1) = TabOutils(5, index)
+        TabOutils(5, index) = bidval
+
+        bidval = TabOutils(6, index + 1)
+        TabOutils(6, index + 1) = TabOutils(6, index)
+        TabOutils(6, index) = bidval
+
+        trouve = True
+      End If
+    Next
+    If (Not trouve) Then Exit Do
+  Loop
+
+End Sub
+
+Sub CreateToolCompSheet(aTool, PONb, aPO, aProcessName)
+
+  Dim ToolNumber As Long
+  Dim ToolName, ToolType
+  Dim ToolDiameter As Variant
+  Dim pAttribut As Parameter
+
+  ToolType = aTool.ToolType
+  ToolNumber = aTool.ToolNumber
+  Set pAttribut = aTool.getAttribute("MFG_NAME")
+  ToolName = pAttribut.Value
+
+  Dim FileName As String
+  FileName = "ToolComp" & ToolNumber & ".html"
+
+  Dim ToolFile As File
+  Dim ToolStream As TextStream
+  Set ToolFile = fso.CreateFile(HtmlFilesPath & PartOperationFolderName & PONb & FolderSeparator & FileName, True)
+  Set ToolStream = ToolFile.OpenAsTextStream("ForWriting")
+
+  WriteLine ToolStream, "<html>"
+
+  WriteLine ToolStream, "<head>"
+  WriteLine ToolStream, "<title>" & ToolName & " : Tool compensation</title>"
+  WriteLine ToolStream, "</head>"
+
+  WriteLine ToolStream, "<body>"
+
+  WriteLine ToolStream, "<table CELLSPACING=0 CELLPADDING=5>"
+  WriteLine ToolStream, "<tr>"
+
+  If (ExistLogoDS) Then
+    WriteLine ToolStream, "<td ALIGN=CENTER><img SRC=""MfgDocLogo.gif"" BORDER=0></td>"
+  Else
+    WriteLine ToolStream, "<td></td>"
+  End If
+
+  WriteLine ToolStream, "<td BGCOLOR=""#000099""><b><font color=""#FFFFFF"" size=+2>"
+  WriteLine ToolStream, "SHOP FLOOR DOCUMENTATION<br>"
+  WriteLine ToolStream, aProcessName
+  WriteLine ToolStream, "</font></b></td>"
+  WriteLine ToolStream, "</tr>"
+  WriteLine ToolStream, "<tr>"
+  WriteLine ToolStream, "<td></td>"
+
+  dim aPOFileName as String
+  aPOFileName = "PartOperation_" & PONb & ".html"
+
+  WriteLine ToolStream, "<td><b><font color=""#000099"" size=+2>Part operation : <a href=""" & aPOFileName & """>" & aPO.Name & "</a></font></b></td>"
+  WriteLine ToolStream, "</tr>"
+  WriteLine ToolStream, "</table>"
+
+  WriteLine ToolStream, "<br><br>"
+
+  WriteLine ToolStream, "<table BORDER=0 CELLSPACING=0 CELLPADDING=5 WIDTH=""100%"" BGCOLOR=""#3366FF"">"
+  WriteLine ToolStream, "<tr><td><font color=""#FFFFFF"" size=+3><b>"
+  WriteLine ToolStream, "Tool " & ToolNumber & " : " & ToolName & "<br>"
+  WriteLine ToolStream, "Tool Compensation"
+  WriteLine ToolStream, "</b></font></td></tr>"
+  WriteLine ToolStream, "</table>"
+
+  WriteLine ToolStream, "<br>"
+
+  WriteLine ToolStream, "<center><table CELLSPACING=0 CELLPADDING=0>"
+  WriteLine ToolStream, "<tr>"
+  WriteLine ToolStream, "<td>Type : <b>" & ToNLS(aTool, ToolType) & "</b></td>"
+
+  Dim ImageCorr As String
+  ImageCorr = GetToolCompensationStdImage(aTool, PONb)
+  If (ImageCorr <> "") Then
+    WriteLine ToolStream, "<td><img SRC=""" & ImageCorr & """></td>"
+  End If
+
+  WriteLine ToolStream, "</tr>"
+  WriteLine ToolStream, "</table></center>"
+End Sub
+
+
+Sub CompleteToolCompSheets(aPONb, aTabCorr, aMaxCorr)
+
+  Dim i, CurrOut, nbcorr1out As Integer
+  Dim TabCorr1Out()
+  nbcorr1out = -1
+
+  TriTabOutils aTabCorr, aMaxCorr, 0
+
+  If (aMaxCorr >= 0) Then CurrOut = aTabCorr(0, 0)
+
+  For i = 0 To aMaxCorr
+
+    If (aTabCorr(0, i) = CurrOut) Then
+      nbcorr1out = nbcorr1out + 1
+      ReDim Preserve TabCorr1Out(6, nbcorr1out)
+      TabCorr1Out(0, nbcorr1out) = aTabCorr(0, i)
+      TabCorr1Out(1, nbcorr1out) = aTabCorr(1, i)
+      TabCorr1Out(2, nbcorr1out) = aTabCorr(2, i)
+      TabCorr1Out(3, nbcorr1out) = aTabCorr(3, i)
+      TabCorr1Out(4, nbcorr1out) = aTabCorr(4, i)
+      TabCorr1Out(5, nbcorr1out) = aTabCorr(5, i)
+      TabCorr1Out(6, nbcorr1out) = aTabCorr(6, i)
+    Else
+      TriTabOutils TabCorr1Out, nbcorr1out, 1
+      ToolCompSheetAdd aPONb, TabCorr1Out, nbcorr1out
+      nbcorr1out = 0
+      ReDim TabCorr1Out(6, nbcorr1out)
+      TabCorr1Out(0, nbcorr1out) = aTabCorr(0, i)
+      TabCorr1Out(1, nbcorr1out) = aTabCorr(1, i)
+      TabCorr1Out(2, nbcorr1out) = aTabCorr(2, i)
+      TabCorr1Out(3, nbcorr1out) = aTabCorr(3, i)
+      TabCorr1Out(4, nbcorr1out) = aTabCorr(4, i)
+      TabCorr1Out(5, nbcorr1out) = aTabCorr(5, i)
+      TabCorr1Out(6, nbcorr1out) = aTabCorr(6, i)
+      CurrOut = aTabCorr(0, i)
+    End If
+  Next
+
+  If (nbcorr1out >= 0) Then
+    TriTabOutils TabCorr1Out, nbcorr1out, 1
+    ToolCompSheetAdd aPONb, TabCorr1Out, nbcorr1out
+  End If
+  
+End Sub
+
+
+Sub ToolCompSheetAdd(PONb, TabCorr, nbcorr1out)
+
+  Dim FileName As String
+  FileName = "ToolComp" & TabCorr(0, 0) & ".html"
+  
+  Dim ToolFile As File
+  Dim ToolStream As TextStream
+
+  Err.Clear
+
+  Set ToolFile = fso.GetFile(HtmlFilesPath & PartOperationFolderName & PONb & FolderSeparator & FileName)
+
+  If (Err.Number = 0) Then
+
+    Dim i As Integer
+    Set ToolStream = ToolFile.OpenAsTextStream("ForAppending")
+
+    For i = 0 To nbcorr1out
+      WriteLine ToolStream, "<table CELLSPACING=0 CELLPADDING=0 WIDTH=""100%"" BGCOLOR=""#C5C5E2"">"
+      WriteLine ToolStream, "<tr><td><b><font size=+1>Corrector number : " & TabCorr(1, i) & "</font></b></td></tr>"
+      WriteLine ToolStream, "</table>"
+      WriteLine ToolStream, "Type : <b>" & TabCorr(4, i) & "</b><br>"
+      WriteLine ToolStream, "Length number : <b>" & TabCorr(2, i) & "</b><br>"
+
+      WriteLine ToolStream, "<br>"
+
+      WriteLine ToolStream, "<center><table BORDER CELLSPACING=0 CELLPADDING=5 COLS=3 WIDTH=""75%"">"
+      WriteLine ToolStream, "<tr ALIGN=CENTER>"
+      WriteLine ToolStream, "<td></td>"
+      WriteLine ToolStream, "<td><b>Diameter</b></td>"
+      WriteLine ToolStream, "<td><b>Length</b></td>"
+      WriteLine ToolStream, "</tr>"
+      WriteLine ToolStream, "<tr ALIGN=CENTER>"
+      WriteLine ToolStream, "<td><b>Theorical</b></td>"
+      WriteLine ToolStream, "<td>" & TabCorr(3, i) & "</td>"
+      WriteLine ToolStream, "<td></td>"
+      WriteLine ToolStream, "</tr>"
+      WriteLine ToolStream, "<tr ALIGN=CENTER>"
+      WriteLine ToolStream, "<td><b>Gauge</b></td>"
+      WriteLine ToolStream, "<td>&nbsp;</td>"
+      WriteLine ToolStream, "<td>&nbsp;</td>"
+      WriteLine ToolStream, "</tr>"
+      WriteLine ToolStream, "</table></center>"
+      WriteLine ToolStream, "<br>"
+    Next
+    
+    WriteLine ToolStream, "</body>"
+    WriteLine ToolStream, "</html>"
+
+    ToolStream.Close
+    Set ToolFile = Nothing
+    Set ToolStream = Nothing
+
+  End If
+
+End Sub
+
+'----------------------------------------------------------------------
+' Lecture d'un chemin defini par une variable d'environnement.
+' Possibilite d'ajouter un sous repertoire de ce chemin.
+'----------------------------------------------------------------------
+Function GetPath(anEnvVar, aSubDir)
+
+  If (anEnvVar = "") Then
+    GetPath = ""
+    Exit Function
+  End If
+
+  Dim EnvValue As String
+  Dim ErrVal As Integer
+
+  On Error Resume Next
+
+  Err.Clear
+  EnvValue = CATIA.SystemService.Environ(anEnvVar)
+
+  ErrVal = Err.Number
+  If (ErrVal <> 0) Then
+    GetPath = ""
+    Exit Function
+  End If
+
+  Dim strlength As Integer
+  strlength = Len(EnvValue)
+  If (strlength < 1) Then
+    GetPath = ""
+    Exit Function
+  End If
+
+  Dim bidstr as String
+
+  Dim aFileSystem As FileSystem
+  Dim issemicolon As Boolean
+  Dim i, prevpos As Integer
+  Dim aPath As String
+
+  Set aFileSystem = CATIA.FileSystem
+
+  If (Mid(EnvValue, strlength, 1) <> PathSeparator) Then
+    EnvValue = EnvValue & PathSeparator
+    strlength = strlength + 1
+  End If
+
+  If (aSubDir <> "") Then
+    If (Mid(aSubDir, Len(aSubDir), 1) <> "/" And Mid(aSubDir, Len(aSubDir), 1) <> "\") Then aSubDir = aSubDir & FolderSeparator
+  End If
+
+  prevpos = 0
+
+  For i = 1 To strlength
+    issemicolon = (Mid(EnvValue, i, 1) = PathSeparator)
+    If (prevpos <> 0) Then
+      If (issemicolon) Then
+        aPath = Mid(EnvValue, prevpos, i - prevpos)
+        If (Mid(aPath, Len(aPath), 1) <> "/" And Mid(aPath, Len(aPath), 1) <> "\") Then aPath = aPath & FolderSeparator
+        aPath = aPath & aSubDir
+        If (aFileSystem.FolderExists(aPath)) Then
+          GetPath = aPath
+          Exit Function
+        End If
+        prevpos = 0
+      End If
+    Else
+      If (Not issemicolon) Then prevpos = i
+    End If
+  Next
+
+  aFileSystem = Nothing
+
+  GetPath = "" 'Pas trouve de chemin
+
+End Function
+
+
+'------------------------------------------------
+' Teste si un parametre est dans la liste de ceux
+' qui ne doivent pas etre traites
+'------------------------------------------------
+Function ParameterIsIgnored(aParam)
+  For i = 1 To NbIgnoredParameters
+    If (aParam = IgnoredParameters(i)) Then
+      ParameterIsIgnored = True
+      Exit Function
+    End If
+  Next
+  ParameterIsIgnored = False
+End Function
+
+
+'------------------------------------------------
+' Ajout du tableau des parametres d'une resource
+'------------------------------------------------
+Sub AddResourceParameters(aResource, aStream)
+
+  Dim TabAtt()
+  Dim att As Integer
+  Dim nbatt As Integer
+  nbatt = aResource.NumberOfAttributes
+
+  If (nbatt = 0) Then Exit Sub
+
+  ReDim TabAtt(nbatt)
+
+  aResource.GetListOfAttributes TabAtt
+  
+  WriteLine aStream, "<center><table BORDER=0 CELLSPACING=3 CELLPADDING=3 BGCOLOR=""#C5C5E2"">"
+
+  For att = 0 To nbatt - 1
+
+    If (Not ParameterIsIgnored(TabAtt(att))) Then
+      AddParameterToTable aResource, TabAtt(att), aStream, False
+    End If
+  Next
+
+  WriteLine aStream, "</table></center>"
+
+End Sub
+
+
+'---------------------------------------------------------------
+'   Developpement Tool assembly
+'---------------------------------------------------------------
+
+'---------------------------------------------------------------
+' Ajout d'un assembly dans la liste
+'---------------------------------------------------------------
+Sub WriteAssembly(anAssembly, aPONb, aStream)
+
+  Dim erreur As Integer
+  Dim AssemblyNumber As Long
+  Dim aName, AssemblyType As String
+
+  AssemblyNumber = anAssembly.ToolNumber
+  AssemblyType = anAssembly.AssemblyType
+
+  On Error Resume Next
+
+  Err.Clear
+  Set Attribut = anAssembly.getAttribute("MFG_NAME")
+  erreur = Err.Number
+  If (erreur = 0) Then aName = Attribut.Value
+  Err.Clear
+  On Error GoTo 0
+
+  WriteLine aStream, "<a NAME=""A" & AssemblyNumber & """></a>"
+  WriteLine aStream, "<center><table BORDER=1 CELLSPACING=2 CELLPADDING=5 WIDTH=""80%"">"
+  WriteLine aStream, "<tr VALIGN=""MIDDLE"">"
+  WriteLine aStream, "<td WIDTH=""50%"" BGCOLOR=""#C6C6FF""><b><font size=+1><a href=""Assembly" & AssemblyNumber & ".html"">Assembly " & AssemblyNumber & " : " & aName & "</a></font></b></td>"
+
+  aName = GetToolAssemblyImage(anAssembly, aPONb, True)
+
+  If (aName <> "") Then
+    WriteLine aStream, "<td ALIGN=""CENTER"" WIDTH=""100"">"
+    WriteLine aStream, "<img SRC=""" & aName & """>"
+    WriteLine aStream, "</td>"
+  End If
+
+  WriteLine aStream, "<td>"
+  WriteLine aStream, "Type : " & ToNLS(anAssembly,AssemblyType) & "<br>"
+
+  Dim AssTool As ManufacturingTool
+  Set AssTool = anAssembly.Tool
+  Err.Clear
+  Set Attribut = AssTool.getAttribute("MFG_NAME")
+  erreur = Err.Number
+  If (erreur = 0) Then aName = Attribut.Value
+  Err.Clear
+
+  If (aName <> "") Then WriteLine aStream, "Tool : <a href=""Assembly" & AssemblyNumber & ".html#Tool"">" & aName & "</a><br>"
+
+  If (AssemblyType = "MfgLatheToolAssembly") Then
+    Dim anInsert As ManufacturingInsert
+    Set anInsert = anAssembly.Insert
+    Set Attribut = anInsert.getAttribute("MFG_NAME")
+	Err.Clear
+    erreur = Err.Number
+    If (erreur = 0) Then
+      aName = Attribut.Value
+          If (aName <> "") Then WriteLine aStream, "Insert : <a href=""Assembly" & AssemblyNumber & ".html#Insert"">" & aName & "</a><br>"
+    End If
+  End If
+
+  WriteLine aStream, "</td>"
+  WriteLine aStream, "</tr>"
+  WriteLine aStream, "</table></center>"
+  WriteLine aStream, "<br>"
+
+End Sub
+
+
+'---------------------------------------------------------------
+' Page relative a un tool assembly
+'---------------------------------------------------------------
+Sub CreateAssemblySheet(anAssembly, PONb, aPO, aProcessName)
+
+  Dim erreur As Integer
+  Dim AssemblyNumber As Variant
+  Dim AssemblyName, AssemblyType As String
+
+  on error resume next
+
+  AssemblyType = anAssembly.AssemblyType
+  AssemblyNumber = anAssembly.ToolNumber
+
+  On Error Resume Next
+
+  Err.Clear
+  Set Attribut = anAssembly.getAttribute("MFG_NAME")
+  erreur = Err.Number
+  If (erreur = 0) Then AssemblyName = Attribut.Value
+  Err.Clear
+
+  Dim aFileSyst As FileSystem
+  Set aFileSyst = CATIA.FileSystem
+
+  Dim theAssemblyFile As File
+  Dim aStream As TextStream
+
+  Dim FileName As String
+  FileName = "Assembly" & AssemblyNumber & ".html"
+
+  Set theHTMLFile = aFileSyst.CreateFile(HtmlFilesPath & PartOperationFolderName & PONb & FolderSeparator & FileName, True)
+  Set aStream = theHTMLFile.OpenAsTextStream("ForWriting")
+
+  'Debut de la page
+  WriteLine aStream, "<html>"
+  WriteLine aStream, "<head>"
+  WriteLine aStream, "<title>Assembly " & AssemblyNumber & " : " & AssemblyName & "</title>"
+  WriteLine aStream, "</head>"
+
+  'Ecriture de l'entete
+  WriteLine aStream, "<table CELLSPACING=0 CELLPADDING=5><tr>"
+  
+  If (ExistLogoDS) Then
+    WriteLine aStream, "<td ALIGN=CENTER><img SRC=""MfgDocLogo.gif"" BORDER=0></td>"
+  Else
+    WriteLine aStream, "<td></td>"
+  End If
+  
+  WriteLine aStream, "<td BGCOLOR=""#000099"">"
+  WriteLine aStream, "<b><font color=""#FFFFFF"" size=+2>"
+  WriteLine aStream, "SHOP FLOOR DOCUMENTATION<br>"
+  WriteLine aStream, aProcessName
+  WriteLine aStream, "</font></b></td>"
+  WriteLine aStream, "</tr>"
+  WriteLine aStream, "<tr>"
+  WriteLine aStream, "<td></td>"
+
+  dim aPOFileName as String
+  aPOFileName = "PartOperation_" & PONb & ".html"
+
+  WriteLine aStream, "<td><b><font color=""#000099"" size=+2>Part operation : <a href=""" & aPOFileName & """>" & aPO.Name & "</a></font></b></td>"
+  WriteLine aStream, "</tr></table>"
+  
+  WriteLine aStream, "<br><br>"
+  
+  WriteLine aStream, "<table BORDER=0 CELLSPACING=0 CELLPADDING=5 WIDTH=""100%"" BGCOLOR=""#3366FF"">"
+  WriteLine aStream, "<tr>"
+  WriteLine aStream, "<td><b><font color=""#FFFFFF"" size=+3>Assembly " & AssemblyNumber & " : " & AssemblyName & "</font></b>"
+
+  Dim AssToolName As String
+  Dim AssTool As ManufacturingTool
+  Err.Clear
+  Set AssTool = anAssembly.Tool
+  Set Attribut = AssTool.getAttribute("MFG_NAME")
+  erreur = Err.Number
+
+  If (erreur = 0) Then
+
+    AssToolName = Attribut.Value
+        WriteLine aStream, "<br>"
+        WriteLine aStream, "<font color=""#FFFFFF"" size=+2>Tool : " & AssToolName
+
+        If (AssemblyType = "MfgLatheToolAssembly") Then
+          Dim anInsert As ManufacturingInsert
+          Dim InsertName As String
+		  Err.Clear
+          Set anInsert = anAssembly.Insert
+          Set Attribut = anInsert.getAttribute("MFG_NAME")
+          erreur = Err.Number
+          If (erreur = 0) Then
+            InsertName = Attribut.Value
+                WriteLine aStream, "<br>"
+                WriteLine aStream, "Insert : " & InsertName
+          End If
+        End If
+
+        WriteLine aStream, "</font>"
+
+  End If
+
+  WriteLine aStream, "</b></td>"
+
+  WriteLine aStream, "</tr>"
+  WriteLine aStream, "</table>"
+  'Fin de l'ecriture de l'entete
+
+  WriteLine aStream, "<br><br>"
+  
+  WriteAssemblyTable anAssembly, PONb, aStream, False
+
+  WriteLine aStream, "<p><hr WIDTH=""60%""></p>"
+
+  Dim UsedTool As ManufacturingTool
+  Set UsedTool = anAssembly.Tool
+
+  WriteLine aStream, "<p><a NAME=""Tool""></a></p>"
+
+  WriteToolTable UsedTool, PONb, aStream, True
+
+  If (AssemblyType = "MfgLatheToolAssembly") Then
+    Dim UsedInsert As ManufacturingInsert
+	Err.Clear
+    Set UsedInsert = anAssembly.Insert
+    erreur = Err.Number
+    If (erreur = 0) Then
+      WriteLine aStream, "<p><a NAME=""Insert""></a></p>"
+      WriteLine aStream, "<p><hr WIDTH=""60%""></p>"
+      WriteInsertTable UsedInsert, PONb, aStream, True
+    End If
+  End If
+
+  WriteLine aStream, "</body>"
+  WriteLine aStream, "</html>"
+
+  aStream.Close
+
+  Set theHTMLFile = Nothing
+  Set aStream = Nothing
+  
+  On Error GoTo 0
+End Sub
+
+
+Sub WriteAssemblyTable(anAssembly, aPOnb, aStream, writecaption)
+
+  Dim AssemblyName, AssemblyType, AssemblyComment As String
+  Dim Attribut as Parameter
+
+  On Error Resume Next
+  Err.Clear
+  Set Attribut = anAssembly.getAttribute("MFG_NAME")
+  erreur = Err.Number
+  If (erreur = 0) Then AssemblyName = Attribut.Value
+  Err.Clear
+  'AssemblyName = anAssembly.Name
+
+  AssemblyType = anAssembly.AssemblyType
+
+  If (writecaption) Then WriteLine aStream, "<p><center><b><font color=""#3333FF"" size=+2>" & AssemblyName & "</font></b></center></p>"
+
+  WriteLine aStream, "<center><table BORDER=0 CELLSPACING=5>"
+
+  WriteLine aStream, "<tr>"
+
+  WriteLine aStream, "<td ALIGN=LEFT>"
+  AddResourceParameters anAssembly, aStream
+  WriteLine aStream, "</td>"
+
+  Dim ImgName As String
+  ImgName = GetToolAssemblyImage(anAssembly, aPONb, False)
+
+  If (ImgName <> "") Then
+    WriteLine aStream, "<td ALIGN=RIGHT>"
+    WriteLine aStream, "<center><img BORDER=0 SRC=""" & ImgName & """>"
+    WriteLine aStream, "<br>Type : " & ToNLS(anAssembly,AssemblyType) & "</center>"
+    WriteLine aStream, "</td>"
+  Else
+    WriteLine aStream, "<br>"
+    WriteLine aStream, "<center>Type : <b>" & ToNLS(anAssembly,AssemblyType) & "</b></center>"
+  End If
+
+  WriteLine aStream, "</tr>"
+
+  ' Commentaire
+  '------------
+  AssemblyComment = anAssembly.Comment
+
+  If (AssemblyComment <> "") Then
+    WriteLine aStream, "<tr>"
+    WriteLine aStream, "<td COLSPAN=""2"">"
+    WriteLine aStream, "<center><table BORDER=1 CELLSPACING=0 CELLPADDING=10 BGCOLOR=""#FFFFFF"">"
+    WriteLine aStream, "<tr>"
+    WriteLine aStream, "<td>" & AssemblyComment & "</td>"
+    WriteLine aStream, "</tr>"
+    WriteLine aStream, "</table></center>"
+    WriteLine aStream, "</td>"
+    WriteLine aStream, "</tr>"
+  End If
+
+  WriteLine aStream, "</table></center>"
+
+  Dim AssemblyAssocFileName As String
+  Dim AssemblyNumber as Long
+  
+  AssemblyNumber = anAssembly.ToolNumber
+  anAssemblyAssocFileName = "AssemblyAssocOpe_" & AssemblyNumber & ".html"
+
+  WriteLine aStream, "<center>"
+  WriteLine aStream, "<br>"
+  WriteLine aStream, "<font size=+1><a href=""" & anAssemblyAssocFileName & """>Associated operations...</a></font>"
+  WriteLine aStream, "</center>"
+
+
+End Sub
+
+
+'-----------------------------------------------
+' Ecriture du tableau de description d'un outil
+' Parametres + Image + commentaire + correcteurs
+'-----------------------------------------------
+Sub WriteToolTable(aTool, aPONb, aStream, writecaption)
+
+  Dim ToolName, ToolType As String
+
+  ToolName = aTool.Name
+  ToolType = aTool.ToolType
+
+  If (writecaption) Then WriteLine aStream, "<p><center><b><font color=""#3333FF"" size=+2>" & ToolName & "</font></b></center></p>"
+
+  WriteLine aStream, "<center><table BORDER=0 CELLSPACING=5>"
+
+  WriteLine aStream, "<tr>"
+
+  WriteLine aStream, "<td ALIGN=LEFT>"
+  AddResourceParameters aTool, aStream
+  WriteLine aStream, "</td>"
+
+  Dim ImgName As String
+  ImgName = GetToolImage(aTool, aPONb, False)
+
+
+  If (ImgName <> "") Then
+    WriteLine aStream, "<td ALIGN=RIGHT>"
+    WriteLine aStream, "<center><img BORDER=0 HSPACE=10 SRC=""" & ImgName & """>"
+    WriteLine aStream, "<br>Type : " & ToNLS(aTool, ToolType) & "</center>"
+    WriteLine aStream, "</td>"
+  Else
+    WriteLine aStream, "<br>"
+    WriteLine aStream, "<center>Type : <b>" & ToNLS(aTool, ToolType) & "</b></center>"
+  End If
+
+  WriteLine aStream, "</tr>"
+
+  ' Commentaire
+  '------------
+  ToolComment = aTool.Comment
+
+  If (ToolComment <> "") Then
+    WriteLine aStream, "<tr>"
+    WriteLine aStream, "<td COLSPAN=""2"">"
+    WriteLine aStream, "<center><table BORDER CELLSPACING=0 CELLPADDING=10 BGCOLOR=""#FFFFFF"">"
+    WriteLine aStream, "<tr>"
+    WriteLine aStream, "<td>" & ToolComment & "</td>"
+    WriteLine aStream, "</tr>"
+    WriteLine aStream, "</table></center>"
+    WriteLine aStream, "</td>"
+    WriteLine aStream, "</tr>"
+  End If
+
+  WriteLine aStream, "</table></center>"
+
+  Dim ToolNumber as Long
+  ToolNumber = aTool.ToolNumber
+
+  Dim ToolAssocFileName As String
+  ToolAssocFileName = "ToolAssocOpe_" & ToolNumber & ".html"
+  WriteLine aStream, "<center>"
+  WriteLine aStream, "<br>"
+  WriteLine aStream, "<font size=+1><a href=""" & ToolAssocFileName & """>Associated operations...</a></font>"
+  WriteLine aStream, "</center>"
+
+  If (ToolType <> "MfgAPTTool") Then
+
+    WriteLine aStream, "<center><hr WIDTH=""60%""></center>"
+
+    ' Correcteurs
+    '------------
+    WriteLine aStream, "<center><table CELLSPACING=10 CELLPADDING=5 WIDTH=""75%"">"
+    WriteLine aStream, "<tr VALIGN=""TOP"">"
+    WriteLine aStream, "<td>"
+
+    Dim CompFileName As String
+    CompFileName = "ToolComp" & ToolNumber & ".html"
+
+    WriteLine aStream, "<p><center><b><font color=""#3333FF"" size=+1><a href=""" & CompFileName & """>Tool Compensation</a></font></b></center></p>"
+
+    WriteLine aStream, "<table CELLSPACING=3 CELLPADDING=3 BGCOLOR=""#C5C5E2"" WIDTH=""100%"">"
+
+    WriteLine aStream, "<tr><font size=-1>"
+    WriteLine aStream, "<td><center><b>Compensation Type</b></center></td>"
+    WriteLine aStream, "<td><center><b>Corrector Number</b></center></td>"
+    WriteLine aStream, "<td><center><b>Length Number</b></center></td>"
+    WriteLine aStream, "<td><center><b>Tool Diameter</b></center></td>"
+    WriteLine aStream, "</font></tr>"
+
+    Dim NbCorr, corr As Integer
+    Dim aCorr As ManufacturingToolCorrector
+
+    NbCorr = aTool.CorrectorCount
+
+    Dim CorrPoint As String
+    Dim CorrNumber, CorrLengthNumber As Integer
+    Dim CorrDiameter As Variant
+
+    For corr = 1 To NbCorr
+
+      CorrPoint = ""
+      CorrNumber = 0
+      CorrLengthNumber = 0
+      CorrDiameter = 0
+
+      Set aCorr = aTool.GetCorrector(corr)
+
+      CorrPoint = aCorr.Point
+      CorrNumber = aCorr.Number
+      CorrLengthNumber = aCorr.LengthNumber
+      CorrDiameter = aCorr.Diameter
+
+      If (CorrPoint <> "") Then
+        WriteLine aStream, "<tr>"
+        WriteLine aStream, "<td><center>" & aCorr.Point & "</center></td>"
+        WriteLine aStream, "<td><center>" & aCorr.Number & "</center></td>"
+        WriteLine aStream, "<td><center>" & aCorr.LengthNumber & "</center></td>"
+        WriteLine aStream, "<td><center>" & aCorr.Diameter & "</center></td>"
+        WriteLine aStream, "</tr>"
+      End If
+
+    Next
+
+    WriteLine aStream, "</table>"
+
+    WriteLine aStream, "</td>"
+
+    Dim ImageCorr As String
+	ImageCorr = GetToolCompensationStdImage(aTool, aPONb)
+
+    If (ImageCorr <> "") Then
+      WriteLine aStream, "<td><img BORDER=0 SRC=""" & ImageCorr & """></td>"
+    End If
+
+    WriteLine aStream, "</tr>"
+    WriteLine aStream, "</table></center>"
+
+  End If
+
+End Sub
+
+
+Sub WriteInsertTable(anInsert, aPOnb, aStream, writecaption)
+
+  Dim InsertName, aType As String
+
+  On Error Resume Next
+  Err.Clear
+  Set Attribut = anInsert.getAttribute("MFG_NAME")
+  Dim erreur As Integer
+  erreur = Err.Number
+  If (erreur = 0) Then InsertName = Attribut.Value
+
+  aType = anInsert.InsertType
+
+  If (writecaption) Then WriteLine aStream, "<p><center><b><font color=""#3333FF"" size=+2>" & InsertName & "</font></b></center></p>"
+
+  WriteLine aStream, "<center><table BORDER=0 CELLSPACING=5>"
+
+  WriteLine aStream, "<tr>"
+
+  WriteLine aStream, "<td ALIGN=LEFT>"
+  AddResourceParameters anInsert, aStream
+  WriteLine aStream, "</td>"
+
+  Dim ImgName As String
+  ImgName = GetInsertImage(anInsert, aPOnb, False)
+
+  If (ImgName <> "") Then
+    WriteLine aStream, "<td ALIGN=RIGHT>"
+    WriteLine aStream, "<center><img BORDER=0 SRC=""" & ImgName & """>"
+    WriteLine aStream, "<br>Type : " & ToNLS(anInsert,aType) & "</center>"
+    WriteLine aStream, "</td>"
+  Else
+    WriteLine aStream, "<br>"
+    WriteLine aStream, "<center>Type : <b>" & ToNLS(anInsert,aType) & "</b></center>"
+  End If
+
+  WriteLine aStream, "</tr>"
+
+  ' Commentaire
+  '------------
+  Dim InsertComment As String
+  InsertComment = anInsert.Comment
+
+  If (InsertComment <> "") Then
+    WriteLine aStream, "<tr>"
+    WriteLine aStream, "<td COLSPAN=""2"">"
+    WriteLine aStream, "<center><table BORDER CELLSPACING=0 CELLPADDING=10 BGCOLOR=""#FFFFFF"">"
+    WriteLine aStream, "<tr>"
+    WriteLine aStream, "<td>" & InsertComment & "</td>"
+    WriteLine aStream, "</tr>"
+    WriteLine aStream, "</table></center>"
+    WriteLine aStream, "</td>"
+    WriteLine aStream, "</tr>"
+  End If
+
+  WriteLine aStream, "</table></center>"
+
+End Sub
+
+
+Function GetToolAssemblyImage(anAssembly, aPONb, IsSmall)
+
+  Dim AssemblyType, FileName As String
+  Dim target as String
+
+  AssemblyType = anAssembly.AssemblyType
+
+  If (AssemblyType = "MfgLatheToolAssembly") Then
+    FileName = "nclathetoolassembly"
+  Else
+    FileName = "ncmillingtoolassembly"
+  End If
+  
+  If (IsSmall) Then FileName = FileName & "-small"
+  FileName = FileName & ".gif"
+
+  Dim aFileSyst As FileSystem
+  Set aFileSyst = CATIA.FileSystem
+
+  target = HtmlFilesPath & PartOperationFolderName & aPONb & FolderSeparator & FileName
+
+  If (Not (aFileSyst.FileExists(target))) Then
+    Dim rep As Integer
+    rep = FileCopy(CATIAComponentPath & FileName, target, True)
+    If (rep <> 0) Then FileName = ""
+  End If
+
+  GetToolAssemblyImage = FileName
+
+End Function
+
+
+Function GetInsertImage(anInsert, aPONb, IsSmall)
+
+  Dim fso As FileSystem
+  Set fso = CATIA.FileSystem
+
+  Dim aType, FileName As String
+
+  aType = anInsert.InsertType
+
+  Select Case aType
+  Case "MfgDiamondInsert"
+  FileName = "nldiamnd"
+  Case "MfgSquareInsert"
+  FileName = "nlsquare"
+  Case "MfgTriangularInsert"
+  FileName = "nltriang"
+  Case "MfgRoundInsert"
+  FileName = "nlround"
+  Case "MfgTrigonInsert"
+  FileName = "nltrigon"
+  Case "MfgGrooveInsert"
+  FileName = "nlgroove"
+  Case "MfgThreadInsert"
+  FileName = "nlthread"
+  Case Else
+  FileName = ""
+  End Select
+
+  If (FileName <> "") Then
+    If (IsSmall) Then FileName = FileName & "-small"
+    FileName = FileName & ".gif"
+  End If
+
+  If (FileName <> "") Then
+    Dim target As String
+    target = HtmlFilesPath & PartOperationFolderName & aPONb & FolderSeparator & FileName
+    If (Not (fso.FileExists(target))) Then
+      Dim rep As Integer
+      rep = FileCopy(CATIAComponentPath & FileName, target, True)
+      If (rep <> 0) Then FileName = ""
+    End If
+  End If
+
+  GetInsertImage = FileName
+
+End Function
+
+
+'----------------------------------------------
+' Recherche du fichier image associe aux
+' correcteurs d'un outil
+'----------------------------------------------
+Function CompensationImageFromTool(aTool)
+
+  Dim ToolType, FileName As String
+  ToolType = aTool.ToolType
+
+  Select Case ToolType
+  Case "MfgDrillTool"
+  FileName = "ncdrillscomp.gif"
+  Case "MfgTapTool"
+  FileName = "nctapscomp.gif"
+  Case "MfgCountersinkTool"
+  FileName = "nccountecomp.gif"
+  Case "MfgReamerTool"
+  FileName = "ncreamercomp.gif"
+  Case "MfgSpotDrillTool"
+  FileName = "ncspodricomp.gif"
+  Case "MfgCenterDrillTool"
+  FileName = "nccentercomp.gif"
+  Case "MfgMultiDiamDrillTool"
+  FileName = "ncmddrlscomp.gif"
+  Case "MfgBoringAndChamferingTool"
+  FileName = "ncbochmfcomp.gif"
+  Case "MfgTwoSidesChamferingTool"
+  FileName = "nctschmfcomp.gif"
+  Case "MfgBoringBarTool"
+  FileName = "ncborbarcomp.gif"
+  Case "MfgEndMillTool"
+  FileName = "ncendmilcomp.gif"
+  Case "MfgFaceMillTool"
+  FileName = "ncfacmilcomp.gif"
+  Case "MfgConicalMillTool"
+  FileName = "ncconmilcomp.gif"
+  Case "MfgTSlotterTool"
+  FileName = "nctslottcomp.gif"
+  Case Else
+  FileName = ""
+  End Select
+
+  If (FileName <> "") Then
+    Dim aFileSyst As FileSystem
+    Set aFileSyst = CATIA.FileSystem
+
+    If (Not (aFileSyst.FileExists(HtmlFilesPath & FileName))) Then
+      Dim rep As Integer
+      rep = FileCopy(CATIAComponentPath & FileName, HtmlFilesPath & FileName, True)
+      If (rep <> 0) Then FileName = ""
+    End If
+  End If
+
+  CompensationImageFromTool = FileName
+
+End Function
+
+
+'************************************************************
+' Creation de la liste des operations associees a un assembly
+'************************************************************
+
+Sub CreateAssemblyAssocOpe(POList)
+
+  Dim isetup As Integer
+  Dim nbPO, currPO As Integer
+  Dim aPO As Activity
+  Dim AssemblyAssocOpeFile As File
+  Dim AssemblyAssocOpeStream As TextStream
+  dim erreur as integer
+
+  Dim TabAssemblyFileName()
+  Dim MaxAssemblyNb As Integer
+  MaxAssemblyNb = 16
+  ReDim TabAssemblyFileName(MaxAssemblyNb)
+
+  currPO = 0
+  
+  nbPO = POList.Count
+  If (nbPO <= 0) Then Exit Sub
+
+  For isetup = 1 To nbPO
+
+    Set aPO = POList.Item(isetup)
+
+    If (aPO.IsSubTypeOf("ManufacturingSetup")) Then
+
+      Dim CurrAct As Integer
+      currPO = currPO + 1
+      CurrAct = 0
+
+      Dim NumberOfProgram, ProgNb As Integer
+      Dim ProgramList As MfgActivities
+      Dim CurrentProgram As ManufacturingActivity
+    
+      Set ProgramList = aPO.Programs
+      NumberOfProgram = ProgramList.Count
+      
+      For ProgNb = 1 To NumberOfProgram
+
+        Dim OpeList As MfgActivities
+        Dim NumberOfOpe, OpeNb As Integer
+        Dim CurrentOpe As ManufacturingActivity
+        Dim OpeName, OpeType As String
+        Dim AssemblyNumber as Long
+      
+        Set CurrentProgram = ProgramList.GetElement(ProgNb)
+        Set OpeList = CurrentProgram.Activities
+        NumberOfOpe = OpeList.Count
+        
+        For OpeNb = 1 To NumberOfOpe
+
+          CurrAct = CurrAct + 1
+
+          Set CurrentOpe = OpeList.GetElement(OpeNb)
+          OpeName = CurrentOpe.Name
+          OpeType = CurrentOpe.Type
+
+          If (OpeType <> "ToolChange" And OpeType <> "ToolChangeLathe" And OpeType <> "TableHeadRotation" And OpeType <> "CoordinateSystem" And OpeType <> "PPInstruction") Then
+
+            On Error Resume Next
+
+
+            Err.Clear
+            Set CurrentAssembly = CurrentOpe.ToolAssembly
+            AssemblyNumber = CurrentAssembly.ToolNumber
+            erreur = Err.Number
+
+            if(erreur=0) then
+
+              Dim AssemblyAssocFileName As String
+              AssemblyAssocFileName = HtmlFilesPath & PartOperationFolderName & currPO & FolderSeparator & "AssemblyAssocOpe_" & AssemblyNumber & ".html"
+
+              If (AssemblyNumber > MaxAssemblyNb) Then
+                MaxAssemblyNb = AssemblyNumber
+                ReDim Preserve TabAssemblyFileName(MaxAssemblyNb)
+                TabAssemblyFileName(AssemblyNumber) = AssemblyAssocFileName
+              Else
+                If (TabAssemblyFileName(AssemblyNumber) <> AssemblyAssocFileName) Then
+                  TabAssemblyFileName(AssemblyNumber) = AssemblyAssocFileName
+                End If
+              End If
+
+              Err.Clear
+              Set AssemblyAssocOpeFile = fso.GetFile(AssemblyAssocFileName)
+              erreur = Err.Number
+              If (erreur = 0) Then
+                Set AssemblyAssocOpeStream = AssemblyAssocOpeFile.OpenAsTextStream("ForAppending")
+                AddOpeSum currPO, CurrAct, AssemblyAssocOpeStream
+                AssemblyAssocOpeStream.Close
+                Set AssemblyAssocOpeStream = Nothing
+              Else
+                Err.Clear
+              End If
+              Set AssemblyAssocOpeFile = Nothing
+            Else
+              Err.Clear
+            End If
+          End If
+        Next
+      Next
+    End If
+  Next
+
+  Err.Clear
+
+  for i = 0 to MaxAssemblyNb
+    if(TabAssemblyFileName(i)<>"") then
+      Err.Clear
+      Set AssemblyAssocOpeFile = fso.GetFile(TabAssemblyFileName(i))
+      erreur = Err.Number
+      If (erreur = 0) Then
+        Set AssemblyAssocOpeStream = AssemblyAssocOpeFile.OpenAsTextStream("ForAppending")
+        WriteLine AssemblyAssocOpeStream, "</table></center>"
+        WriteLine AssemblyAssocOpeStream, "</body>"
+        WriteLine AssemblyAssocOpeStream, "</html>"
+        AssemblyAssocOpeStream.Close
+        Set AssemblyAssocOpeStream = Nothing
+      Else
+        Err.Clear
+      End If
+      Set AssemblyAssocOpeFile = Nothing
+    end if
+  next
+
+End Sub
+
+
+Sub CreateAssemblyAssocOpeFile(anAssembly, aProcessName, PartOpeNumber, aPO)
+
+  Dim Attribut as Parameter
+  Dim AssemblyNumber As Long
+  Dim AssemblyName As String
+
+  AssemblyNumber = anAssembly.ToolNumber
+  
+  on error resume next
+  Err.Clear
+  Set Attribut = anAssembly.getAttribute("MFG_NAME")
+  erreur = Err.Number
+  If (erreur=0) Then AssemblyName = Attribut.Value
+  Err.Clear
+
+  Dim AssemblyAssocOpeFile As File
+  Dim AssemblyAssocOpeStream As TextStream
+  Set AssemblyAssocOpeFile = fso.CreateFile(HtmlFilesPath & PartOperationFolderName & PartOpeNumber & FolderSeparator & "AssemblyAssocOpe_" & AssemblyNumber & ".html", True)
+  Set AssemblyAssocOpeStream = AssemblyAssocOpeFile.OpenAsTextStream("ForWriting")
+
+  AssemblyAssocOpeStream.Write "<html>" & EOL
+  AssemblyAssocOpeStream.Write "<head>" & EOL
+  AssemblyAssocOpeStream.Write "<title>Assembly " & AssemblyNumber & " : Associated operations</title>" & EOL
+  AssemblyAssocOpeStream.Write "</head>" & EOL
+
+  AssemblyAssocOpeStream.Write "<body>" & EOL
+
+  AssemblyAssocOpeStream.Write "<table CELLSPACING=0 CELLPADDING=5>" & EOL
+  AssemblyAssocOpeStream.Write "<tr>" & EOL
+  If (ExistLogoDS) Then
+    AssemblyAssocOpeStream.Write "<td ALIGN=CENTER><img SRC=""MfgDocLogo.gif"" BORDER=0></td>" & EOL
+  Else
+    AssemblyAssocOpeStream.Write "<td></td>" & EOL
+  End If
+  AssemblyAssocOpeStream.Write "<td BGCOLOR=""#000099""><b><font color=""#FFFFFF"" size=+2>" & EOL
+  AssemblyAssocOpeStream.Write "SHOP FLOOR DOCUMENTATION<br>" & EOL
+  AssemblyAssocOpeStream.Write aProcessName & EOL
+  AssemblyAssocOpeStream.Write "</font></b></td>" & EOL
+  AssemblyAssocOpeStream.Write "</tr>" & EOL
+  AssemblyAssocOpeStream.Write "<tr>" & EOL
+  AssemblyAssocOpeStream.Write "<td></td>" & EOL
+
+  dim aPOFileName as String
+  aPOFileName = "PartOperation_" & PartOpeNumber & ".html"
+
+  AssemblyAssocOpeStream.Write "<td><b><font color=""#000099"" size=+2>Part operation : <a href=""" & aPOFileName & """>" & aPO.Name & "</a></font></b></td>" & EOL
+  AssemblyAssocOpeStream.Write "</tr>" & EOL
+  AssemblyAssocOpeStream.Write "</table>" & EOL
+
+  AssemblyAssocOpeStream.Write "<br><br>" & EOL
+
+  AssemblyAssocOpeStream.Write "<table BORDER=0 CELLSPACING=0 CELLPADDING=10 WIDTH=""100%"" BGCOLOR=""#3366FF"">" & EOL
+  AssemblyAssocOpeStream.Write "<tr>" & EOL
+  AssemblyAssocOpeStream.Write "<td><b><font color=""#FFFFFF"" size=+3>" & EOL
+  AssemblyAssocOpeStream.Write "Assembly " & AssemblyNumber & " : " & AssemblyName & "<br>" & EOL
+  AssemblyAssocOpeStream.Write "Associated operations" & EOL
+  AssemblyAssocOpeStream.Write "</font></b></td>" & EOL
+  AssemblyAssocOpeStream.Write "</tr>" & EOL
+  AssemblyAssocOpeStream.Write "</table>" & EOL
+
+  AssemblyAssocOpeStream.Write "<br><br>" & EOL
+
+  AssemblyAssocOpeStream.Write "<center><table CELLSPACING=0 CELLPADDING=10>" & EOL
+
+  AssemblyAssocOpeStream.Close
+
+  Set AssemblyAssocOpeStream = Nothing
+  Set AssemblyAssocOpeFile = Nothing
+
+End Sub
+
+
+
+Sub AddOpeSum(PONb, OpeNb, aStream)
+
+  Dim OpeSumFile As File
+  Dim OpeSumStream As TextStream
+  Set OpeSumFile = fso.GetFile(HtmlFilesPath & PartOperationFolderName & PONb & FolderSeparator & "OpeSum_" & PONb & "_" & OpeNb & ".html")
+  Set OpeSumStream = OpeSumFile.OpenAsTextStream("ForReading")
+
+  Dim aLine As String
+  Do
+    aLine = OpeSumStream.ReadLine
+    If (OpeSumStream.AtEndOfStream) Then Exit Do
+    aStream.Write aLine & EOL
+  Loop
+
+  aStream.Write "<tr ALIGN=CENTER VALIGN=CENTER>" & EOL
+  aStream.Write "<td COLSPAN=""3""><hr WIDTH=""75%""></td>" & EOL
+  aStream.Write "</tr>" & EOL
+
+  OpeSumStream.Close
+
+  Set OpeSumStream = Nothing
+  Set OpeSumFile = Nothing
+
+End Sub
+
+
+sub DefineSeparators ()
+
+  PathSeparator =  ""
+  FolderSeparator =  ""
+
+  dim EnvName, EnvValue as String
+
+  EnvName = "CATInstallPath"
+  EnvValue = CATIA.SystemService.Environ(EnvName)
+
+  if(EnvValue<>"") then
+
+    if(InStr(EnvValue,"/")>0) then
+	  PathSeparator =  ":"
+	  FolderSeparator =  "/"
+	else
+	  PathSeparator =  ";"
+	  FolderSeparator =  "\"
+	end if
+
+  end if
+
+end sub
+
+
+function PathCleaner (aPath)
+
+  dim result as string
+  result = ""
+
+  if(FolderSeparator="/") then
+    result = replace (aPath,"\","/")
+  else
+    result = replace (aPath,"/","\")
+  end if
+
+  PathCleaner = result
+
+end function
+
+
+Function GetActivityImage(anActivity, aPONb)
+
+  Dim ImgName As String
+  dim sourcepath as string
+  ImgName = ""
+
+  sourcepath = anActivity.Representation
+
+  If (sourcepath <> "") Then
+    If (fso.FileExists(sourcepath)) Then
+
+      Dim namelength, posdernierslash, i As Integer
+      posdernierslash = 0
+      namelength = Len(sourcepath)
+
+      For i = 1 To namelength
+        If (Mid(sourcepath, i, 1) = "\" Or Mid(sourcepath, i, 1) = "/") Then posdernierslash = i
+      Next
+
+      If (posdernierslash = 0) Then
+        ImgName = sourcepath
+      Else
+        foldername = Mid(sourcepath, 1, posdernierslash)
+        ImgName = Mid(sourcepath, posdernierslash + 1, namelength - posdernierslash)
+      End If
+
+    End If
+  End If
+
+  if(ImgName<>"") then
+
+    Dim target As String
+
+    If (aPONb > 0) Then
+      target = HtmlFilesPath & PartOperationFolderName & aPONb & FolderSeparator & ImgName
+    Else
+      target = HtmlFilesPath & ImgName
+    End If
+
+    If (Not (fso.FileExists(target))) Then
+      Dim rep As Integer
+      rep = FileCopy(sourcepath, target, overwrite)
+      If (rep <> 0) Then ImgName = ""
+    End If
+  End If
+
+  GetActivityImage = ImgName
+End Function

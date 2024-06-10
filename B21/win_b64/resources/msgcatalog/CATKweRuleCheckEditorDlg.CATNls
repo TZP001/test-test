@@ -1,0 +1,53 @@
+//Pour l'editeur de Rule et de Check
+//-------------------------------------------------
+RuleEditorDlg.Active.Title = "Rule Editor : /P1 Active";
+RuleEditorDlg.Inactive.Title = "Rule Editor : /P1 Inactive";
+CheckEditorDlg.Active.Title = "Check Editor : /P1 Active";
+CheckEditorDlg.Inactive.Title = "Check Editor : /P1 Inactive";
+LawEditorDlg.Active.Title = "Law Editor : /P1 Active";
+LawEditorDlg.Inactive.Title = "Law Editor : /P1 Inactive";
+
+frSeverity.check_severity_label.Title = "Type of Check : ";
+
+RuleEditorDlg.text_editor.LongHelp = "This field is the Rule editor.\n\n",
+                                                       "A Rule makes it possible to modify parameters under certain conditions.\n\n",
+													   "The following syntax should be used :\n",
+													   "if (LENGTH.1 == 20mm)\n",
+													   "    MATERIAL.1 = \"alluminium\"\n",
+													   "else if (LENGTH.1>20mm)\n",
+													   "    {\n",
+													   "      MATERIAL.1 = \"steel\"\n",
+													   "      Real.5 = 12mm\n",
+													   "     }\n",
+													   "else\n",
+													   "    MATERIAL.1 = \"brass\"\n\n",
+													   "To write parameter names you can type the name directly,\n",
+													   "use the edition dictionary provided below or\n",
+													   "select the 3D constraints associated to the parameter.\n",
+													   "To display the 3D constraint simply select a feature in the\n",
+													   "3D window or feature tree.\n";
+RuleEditorDlg.text_editor.Help = "Enter body of the Rule";
+
+CheckEditorDlg.text_editor.LongHelp = "This field is the Check editor.\n\n",
+                                                          "A Check is satisfied or not.\n",
+														  "If not satisfied, you can be informed depending on the check type.\n",
+														  "For example, if not silent, the following check will inform the user\n",
+														  "when the two limits of PAD.1 are different:\n\n",
+														  "PartBody\Pad.1\FirstLimit\Length == PartBody\Pad.1\SecondLimit\Length\n\n",
+													      "To write parameter names you can type the name directly,\n",
+														  "use the edition dictionary provided below\n",
+														  "or select the 3D constraints associated to the parameter.\n",
+													      "To display the 3D constraint simply select a feature in the\n",
+														  "3D window or feature tree.\n";
+CheckEditorDlg.text_editor.Help = "Enter body of the Check"; 
+
+frSeverity.message_label.Title = " Message : ";
+frSeverity.message_editor.LongHelp = "In this field, you can type in the message you want\n",
+                                          "to display in the pop-up window when the check is invalid."; 
+frSeverity.message_editor.Help = "Enter Message";
+frSeverity.message_editor.default = "/P1 is not valid";
+frSeverity.check_severity_combo.LongHelp = "Select a type for the current check :\n",
+                                                    ". Silent : The check status is displayed by an icon in the feature tree only.\n",
+													". Information : An information message is displayed in a pop-up window.\n",
+													". Warning : A warning message is displayed in a pop-up window.\n";
+RuleCheckEditorDlg.Apply = "Modifications applied";

@@ -1,0 +1,427 @@
+'********************************************************************
+'********************************************************************
+'****  VBSCRIPT MACRO FOR THE GENERATION OF HTML DOCUMENTATION   ****
+'****              Steve Morissette 04/01/99                     ****
+'********************************************************************
+'********************************************************************
+
+Language="VBSCRIPT"
+
+Dim OutRef, OutPath, OutIndex
+
+' Sub CATMain()
+'   MsgBox("This macro cannot be run directly !")
+'   Dim RootActivityNameRef 
+'   RootActivityNameRef = "Process"
+'   Dim HTMLFileName 
+'   HTMLFileName = "GROS"
+'   Dim HTMLPath 
+'   HTMLPath = "/usr/people/logeat/SCRIPT/"
+
+
+'   CATDocument RootActivityNameRef, HTMLFileName, HTMLPath  
+' End Sub
+
+Sub CATMain()
+
+  ' ----------------------------------------
+  OutHTMLPath=InputBox("Specify the directory path where HTML files will be generated (put a trailing separator '/' or '\')")
+  if ( OutHTMLPath = "" ) Then
+     OutHTMLPath = Catia.SystemService.Environ("PWD")
+     OutHTMLPath = OutHTMLPath + "/"
+  End If
+  MsgBox( OutHTMLPath )
+  ' ----------------------------------------
+  ' ----------------------------------------
+  OutHTMLRef=InputBox("Specify the prefix for the file names")
+  ' ----------------------------------------
+
+
+  ' ----------------------------------------
+  RootActivityNameRef=InputBox("Specify the name of the root activity (Process)")
+  ' ----------------------------------------
+
+  CATDocument RootActivityNameRef, OutHTMLRef, OutHTMLPath  
+
+End Sub
+
+
+
+
+'--------------------------------------------------------------------
+' Main Procedure
+'--------------------------------------------------------------------
+Sub CATDocument( RootActivityName , HtmlFilesName , HtmlFilesPath )
+CATIA.SystemService.Print "RootActivityName : " & RootActivityName
+CATIA.SystemService.Print "HtmlFilesName : " & HtmlFilesName
+CATIA.SystemService.Print "HtmlFilesPath : " & HtmlFilesPath
+  Dim RootActivityRef As AnyObject
+  Dim RootActName
+  RootActName = RootActivityName
+  OutPath = HtmlFilesPath
+  OutRef = HtmlFilesName
+  OutIndex = OutRef & "_index.html"
+  Set RootActivityRef = Catia.ActiveDocument.GetItem(RootActName)
+  SPPCreateIndex RootActivityRef, OutPath, OutRef, OutIndex
+End Sub
+
+
+'---------------------------------------------------------------
+' Create the index file
+'---------------------------------------------------------------'
+Sub SPPCreateIndex(RootActivityRef As AnyObject, OutPath, OutRef, OutIndex)
+
+  Out = OutPath & OutIndex
+  Open Out For Output Access Write As #1
+
+  'Write index file header
+  Print #1, "<!doctype html public ""-//w3c//dtd html 4.0 transitional//en"">"
+  Print #1, "<html>"
+  Print #1, "<head>"
+  Print #1, "   <meta http-equiv=""Content-Type"" content=""text/html; charset=iso-8859-1"">"
+  Print #1, "   <meta name=""GENERATOR"" content=""IPD v2"">"
+  Print #1, "   <meta name=""Author"" content=""IPD v2"">"
+  Print #1, "   <title>Activities Index for Process : " & RootActivityRef.Name & "</title>"
+  Print #1, "</head>"
+  Print #1, "<body background=""back.gif"" bgcolor=#EEEEFF>"
+
+  Print #1, "<CENTER>"
+  Print #1, "<P><h2>Activities Index for Process : <I>" & RootActivityRef.Name & "</I></h2>"
+  Print #1, "<I>Generation Date : " & Date & " at " & Time & "</I></P>"
+
+  Print #1, "</CENTER>"
+  Print #1, "<P><TABLE BORDER COLS=1 WIDTH=""100%"" >"
+  Print #1, "<TR ALIGN=CENTER BGCOLOR=#CCCCCC><TD><B>Activities Hierarchy</B></TD></TR></TABLE>"
+  Print #1, "<TABLE BORDER COLS=5 WIDTH=""100%"" >"
+  Print #1, "<TR ALIGN=CENTER BGCOLOR=#EEEEEE>"
+  Print #1, "<TD WIDTH=""30%""><B>Name</B></TD>"
+  Print #1, "<TD WIDTH=""40%""><B>Description</B></TD>"
+  Print #1, "<TD WIDTH=""10%""><B>Cycle Time</B></TD>"
+  Print #1, "<TD WIDTH=""10%""><B>Begin Date</B></TD>"
+  Print #1, "<TD WIDTH=""10%""><B>End Date</B></TD>"
+  Print #1, "</TR>"
+
+  'Write reference
+  SPPWriteIndexRef RootActivityRef, 0
+  Print #1, "</TD></TR></TABLE></P>"
+
+  'Generate the index image file
+  If (RootActivityRef.Parent.Name <> CATIA.ActiveDocument.Name) Then
+  Else
+    Print #1, "<P><TABLE BORDER COLS=1 WIDTH=""100%"" >"
+    Print #1, "<TR ALIGN=CENTER BGCOLOR=#CCCCCC><TD><B>Activities Sequence</B>"
+    Print #1, "</TD></TR></TABLE>"
+    'CATIA.ActiveWindow.ActiveViewer.Reframe
+    'thename = OutPath & OutRef & ".jpg"
+    'CATIA.ActiveWindow.ActiveViewer.CaptureToFile 5, thename
+    'Print #1, "<P><CENTER><IMG SRC=""file:" & thename & """</CENTER></P>"
+  End If
+
+  'Write index file footer
+
+  Close #1
+
+End Sub
+
+'---------------------------------------------------------------
+' Write the index reference for an activity
+'---------------------------------------------------------------
+Sub SPPWriteIndexRef(ActivityRef As AnyObject, Level As Integer )
+  Dim childs As Activities
+  Dim child As Activity
+  Dim quantity As Integer
+  Dim I
+  Dim oVal
+  Dim ret
+  Dim NewLevel As Integer
+
+
+   If (ActivityRef.IsSubTypeOf("PhysicalActivity")) Then
+
+    'Write reference for the activity itself
+    Print #1, "<TR VALIGN=TOP BGCOLOR=#FFFFFF><TD><A HREF = " & OutRef & "_" & ActivityRef.Name & ".html>"
+	'Indent the name according to the level of the activity
+	Dim J
+	For J = 0 To Level
+	  Print #1, "--"
+	Next
+	Print #1, ActivityRef.Name & "</A></TD>"
+	Print #1, "<TD>" & ActivityRef.Description & "</TD>"
+	Print #1, "<TD>" & ActivityRef.CycleTime & "</TD>"
+	Print #1, "<TD>" & ActivityRef.BeginningDate & "</TD>"
+    Print #1, "<TD>" & ActivityRef.EndDate & "</TD></TR>"
+    'Write the activity detail file
+    SPPWriteActivityFile ActivityRef
+
+    'Write the list
+    Set childs = ActivityRef.ChildrenActivities
+    quantity = childs.Count
+
+    if quantity <= 0 then
+      Exit Sub
+    End if
+    'Recursively write sons
+    For I=1 To quantity
+      Set child = childs.Item(I)
+      NewLevel = Level+1
+      Dim TestVince As Activity
+      Dim VinceLevel As Integer
+      VinceLevel = 0
+      Catia.SystemService.Print "--++**  DEBUT DE MacroIDL.CATScript  **++--"
+      SPPWriteIndexRef child, VinceLevel
+    Next
+  End if
+
+End Sub
+
+'---------------------------------------------------------------
+' Write the activity file
+'---------------------------------------------------------------
+Sub SPPWriteActivityFile(ActivityRep As AnyObject )
+  Out = OutPath & OutRef & "_" & ActivityRep.Name & ".html"
+  Open Out For Output Access Write As #2
+  SPPWriteHeader ActivityRep
+  SPPWriteCore ActivityRep
+  SPPWriteFooter ActivityRep
+  Close #2
+End Sub
+
+'---------------------------------------------------------------
+' Write an activity file header
+'---------------------------------------------------------------
+Sub SPPWriteHeader(ActivityRep As AnyObject)
+  Print #2, "<!doctype html public ""-//w3c//dtd html 4.0 transitional//en"">"
+  Print #2, "<html>"
+  Print #2, "<head>"
+  Print #2, "   <meta http-equiv=""Content-Type"" content=""text/html; charset=iso-8859-1"">"
+  Print #2, "   <meta name=""GENERATOR"" content=""IPD v2"">"
+  Print #2, "   <meta name=""Author"" content=""IPD v2"">"
+  Print #2, "   <title>Activity Detail : " & ActivityRep.Name & "</title>"
+  Print #2, "</head>"
+  Print #2, "<body background=""back.gif"" bgcolor=#EEEEFF>"
+
+  Print #2, "<CENTER>"
+  Print #2, "<P><h2>Activity Detail : <I>" & ActivityRep.Name & "</I></h2>"
+  Print #2, "<I>Generation Date : " & Date & " at " & Time & "</I></P>"
+
+  Print #2, "</CENTER>"
+End Sub
+
+'---------------------------------------------------------------
+' Write an activity file core
+'---------------------------------------------------------------
+Sub SPPWriteCore(ActivityRep As AnyObject)
+  Print #2, "<P><TABLE BORDER COLS=2 WIDTH=""100%"" >"
+  Print #2, "<TR ALIGN=CENTER BGCOLOR=#CCCCCC><TD><B>General Data</B></TD><TD><B>Specific Data</B></TD></TR>"
+  Print #2, "<TR VALIGN=TOP BGCOLOR=#FFFFFF>"
+  Print #2, "<TD><B>Name : </B>" & ActivityRep.Name & "<BR>"
+  Print #2, "<B>Type : </B>" & ActivityRep.Type & "<BR>"
+  Print #2, "<B>Description : </B>" & ActivityRep.Description & "<BR>"
+  Print #2, "<B>Cycle Time : </B>" & ActivityRep.CycleTime & "<BR>"
+  Print #2, "<B>Calculated Cycle Time : </B>" & ActivityRep.CalculatedCycleTime & "<BR>"
+  Print #2, "<B>Begin Date : </B>" & ActivityRep.BeginningDate & "<BR>"
+  Print #2, "<B>End Date : </B>" & ActivityRep.EndDate & "<BR></TD>"
+  'SUB for specific data
+  Print #2, "<TD>"
+  SPPWriteSpecific ActivityRep
+  Print #2, "</TD>"
+  Print #2, "</TR>"
+  Print #2, "</TABLE></P>"
+
+  Print #2, "<P><TABLE BORDER COLS=2 WIDTH=""100%"" >"
+  Print #2, "<TR ALIGN=CENTER BGCOLOR=#CCCCCC><TD><B>Items List</B></TD><TD><B>Resources List</B></TD></TR>"
+  'SUB for items list
+  Print #2, "<TR VALIGN=TOP BGCOLOR=#FFFFFF><TD>"
+  SPPWriteItems ActivityRep
+  Print #2, "</TD>"
+  'SUB for resources list
+  Print #2, "<TD>"
+  SPPWriteResources ActivityRep
+  Print #2, "</TD>"
+  Print #2, "</TR>"
+  Print #2, "</TABLE></P>"
+End Sub
+
+'---------------------------------------------------------------
+' Write an activity item list
+'---------------------------------------------------------------
+Sub SPPWriteItems(ActivityRef As AnyObject)
+  Dim items_var As Items
+  Dim item As Item
+  Dim quantity As Integer
+  Set items_var = ActivityRef.Items
+  quantity = items_var.Count
+  if quantity <= 0 then
+    Print #2, "None"
+    exit sub
+  end if
+  Print #2, "<UL>"
+  For I=1 To quantity
+    Set item = items_var.Item(I)
+	Print #2, "<LI>" & item.Name & "</LI>"
+  Next
+  Print #2, "</UL>"
+End Sub
+
+'---------------------------------------------------------------
+' Write an activity resource list
+'---------------------------------------------------------------
+Sub SPPWriteResources(ActivityRep As AnyObject)
+  Dim items_var As Resources
+  Dim item As Resource
+  Dim quantity As Integer
+  Set items_var = ActivityRep.Resources
+  quantity = items_var.Count
+  if quantity <= 0 then
+    Print #2, "None"
+    exit sub
+  end if
+  Print #2, "<UL>"
+  For I=1 To quantity
+    Set item = items_var.Item(I)
+	Print #2, "<LI>" & item.Name & "</LI>"
+  Next
+  Print #2, "</UL>"
+End Sub
+
+'---------------------------------------------------------------
+' Write an activity file footer
+'---------------------------------------------------------------
+Sub SPPWriteFooter(ActivityRef As AnyObject)
+  Print #2, "<P><TABLE BORDER COLS=1 WIDTH=""100%"" >"
+  Print #2, "<TR ALIGN=CENTER BGCOLOR=#CCCCCC><TD><B>Related Activities</B></TD></TR></TABLE>"
+
+  Print #2, "<TABLE BORDER COLS=4 WIDTH=""100%"" >"
+  Print #2, "<TR VALIGN=TOP BGCOLOR=#FFFFFF>"
+  Print #2, "<TD><B><<<< Previous</B>"
+  ' SPPWritePrevious ActivityRef, File
+  SPPWritePrevious ActivityRef
+  Print #2, "</TD>"
+
+  Print #2, "<TD><B>Parent</B>"
+  'Print #2, "<BR><A HREF = """ & "bidon.html" & """>" & "parent_name" & "</A></TD>"
+  Print #2, "</TD>"
+
+  Print #2, "<TD><B>Childs</B>"
+  SPPWriteChilds ActivityRef
+  Print #2, "</TD>"
+
+  Print #2, "<TD><B>Next >>>></B>"
+  SPPWriteNext ActivityRef
+  Print #2, "</TD>"
+
+  Print #2, "</TR>"
+  Print #2, "</TABLE></P>"
+
+  Print #2, "<P><B><I><A HREF = """ & OutIndex & """>Activities Index</I></B>"
+
+End Sub
+
+'---------------------------------------------------------------
+' Write the previous list
+'---------------------------------------------------------------
+Sub SPPWritePrevious(ActivityRep As AnyObject)
+  Dim activities As Activities
+  Dim one As Activity
+  Dim quantity As Integer
+  Dim I
+
+  Set activities = ActivityRep.PreviousCFActivities
+  quantity = activities.Count
+  if quantity <= 0 then
+    exit sub
+  end if
+   Print #2, "<UL>"
+  for I = 1 to quantity
+    Set one = activities.Item(I)
+    If (one.IsSubTypeOf("PhysicalActivity")) Then
+      Print #2, "<LI><A HREF = """ & OutRef & "_" & one.Name & ".html" & """>" & one.Name & "</A></LI>"
+    End If
+       Dim oneTypeString
+       oneTypeString = one.Type
+    If ((oneTypeString = "AndIn") Or (oneTypeString = "OrIn") Or (oneTypeString = "Switch") Or (oneTypeString = "AndOut")) then
+	  Print #2, "<LI><I><B>" & one.Type & "</B></I></LI>"
+	  'WritePrevious one, File
+	  SPPWritePrevious one
+    End If
+  next
+  Print #2, "</UL>"
+End Sub
+
+'---------------------------------------------------------------
+' Write the Childs list
+'---------------------------------------------------------------
+Sub SPPWriteChilds(ActivityRep As AnyObject)
+  Dim activities As Activities
+  Dim one As Activity
+  Dim quantity
+  Dim I
+
+  Set activities = ActivityRep.ChildrenActivities
+  quantity = activities.Count
+  if quantity <= 0 then
+    exit sub
+  end if
+
+  Print #2, "<UL>"
+  for I = 1 to quantity
+    Set one = activities.Item(I)
+    If (one.IsSubTypeOf("PhysicalActivity")) Then
+	  Print #2, "<LI><A HREF = """ & OutRef & "_" & one.Name & ".html" & """>" & one.Name & "</A></LI>"
+	End If
+  next
+  Print #2, "</UL>"
+End Sub
+
+'---------------------------------------------------------------
+' Write the next list
+'---------------------------------------------------------------
+Sub SPPWriteNext(ActivityRep As AnyObject)
+  Dim activities As Activities
+  Dim one As Activity
+  Dim quantity As Integer
+  Dim I
+
+  Set activities = ActivityRep.NextCFActivities
+  quantity = activities.Count
+  if quantity <= 0 then
+    exit sub
+  end if
+
+  Print #2, "<UL>"
+  for I = 1 to quantity
+    Set one = activities.Item(I)
+    If (one.IsSubTypeOf("PhysicalActivity")) Then
+	  Print #2, "<LI><A HREF = """ & OutRef & "_" & one.Name & ".html" & """>" & one.Name & "</A></LI>"
+    End If
+    Dim oneTypeString
+    oneTypeString = one.Type
+    If (oneTypeString = "AndOut") Or (oneTypeString = "Switch") Or (oneTypeString = "AndIn") Or (oneTypeString = "OrIn") then
+	  Print #2, "<LI><I><B>" & one.Type & "</B></I></LI>"
+	  ' WriteNext one, File
+	  SPPWriteNext one
+    End If
+  next
+  Print #2, "</UL>"
+End Sub
+
+'---------------------------------------------------------------
+' Write an activity file specific data block
+'---------------------------------------------------------------
+Sub SPPWriteSpecific(ActivityRep As AnyObject)
+  Dim Nbr As Integer
+  Dim Attributename
+  If (ActivityRep.IsSubTypeOf("PhysicalActivity")) Then
+    Nbr=ActivityRep.AttrCount
+    If (Nbr > 0) Then
+      For I=1 To Nbr
+        Attributename = ActivityRep.AttrName(I)
+        Print #2, "<B>" & Attributename & " : </B>"
+        AttrVal = ActivityRep.AttrValue(I)
+        Print #2, AttrVal & "<BR>"
+      Next
+	Else
+	  Print #2, "None"
+    End If
+  End If
+End Sub

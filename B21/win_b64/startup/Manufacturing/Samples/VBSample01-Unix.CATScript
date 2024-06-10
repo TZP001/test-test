@@ -1,0 +1,598 @@
+Language="VBSCRIPT"
+
+'*****************************************************************************
+'*
+'*		Description:
+'*			Sample of a VB Script macro which retrieves a set of 
+'*			Design features and which creates machining operations linked to
+'*			these Features.
+'*                    
+'*      Related Resources: 
+'*			Product-VBSample01.CATProduct
+'*			Tools01.catalog
+'*      Use:
+'*			1- Open "Product-VBSample01.CATProduct"
+'*			2- Go into workbench "Prismatic Manufacturing Programmer"
+'*			3- Run this macro
+'*                    
+'*                           Created by Dassault Systemes
+'*
+'*****************************************************************************
+
+'*** Global variables
+'***
+
+Dim ProgramName As VARIANT 
+Dim MfgDoc1 As Document
+Dim ActivityRef As AnyObject
+Dim Setup1 As AnyObject
+Dim Program1 As ManufacturingActivity
+Dim PdUsine As Product
+Dim SetUpName As VARIANT 
+Dim ToolCatalogName As VARIANT 
+Dim PPTableName As VARIANT 
+Dim PtX As VARIANT 
+Dim PtY As VARIANT 
+Dim PtZ As VARIANT 
+Dim RB As Relation
+Dim Query1 As ExpertCheck
+Dim Chk1 As ExpertCheck
+Dim Chk2 As ExpertCheck
+Dim Tlchg As ManufacturingActivity
+Dim SafeZVal As VARIANT
+Dim FeedVal As VARIANT 
+Dim FeedUnit As VARIANT 
+Dim SpindVal As VARIANT 
+Dim SpeedUnit As VARIANT 
+Dim ClearTipVal As VARIANT 
+Dim Mess As VARIANT
+Dim Count1 As VARIANT
+Dim Count2 As VARIANT
+Dim X As VARIANT                   ' Current Tool Position
+Dim Y As VARIANT                   ' Current Tool Position
+Dim Z As VARIANT                   ' Current Tool Position
+Dim Mo As ManufacturingActivity    ' Current Machining operation
+Dim Offset As AnyObject
+
+'*** variables for pattern retrieving
+'***
+Dim Operation1 As ManufacturingOperation  ' Operation on Pattern
+Dim documents1 As Documents
+Dim partDocument1 As Document
+Dim part1 As Part
+Dim bodies1 As Bodies
+Dim body1 As Body
+Dim shapes1 As Shapes
+Dim pattern1 As Shape
+Dim Feature As AnyObject
+
+'*******************************************************************************************
+'*
+'* Main Entry  Point
+'*
+'*******************************************************************************************
+
+ Sub CATMain()
+
+  ProgramName = "Program1"
+  SetUpName = "Setup-1"
+
+  ProgramCreation SetUpName, ProgramName  
+
+ End Sub
+
+
+'*****************************************************************************
+'*
+'* Entry Point for the creation of the program
+'*
+'*****************************************************************************
+
+Sub ProgramCreation( SetUpName, ProgramName )
+
+'*** SetUp Initialization
+'***
+
+ ToolCatalogName = "QualityGateTools"
+ PPTableName = "PPTableSample.pptable"
+
+ Dim XTlChgPt As VARIANT
+ Dim YTlChgPt As VARIANT
+ Dim ZTlChgPt As VARIANT
+
+ XTlChgPt = 0.0
+ YTlChgPt = 0.0
+ ZTlChgPt = 100.0
+
+ InitSetUp ProgramName, SetUpName, ToolCatalogName, PPTableName, XTlChgPt, YTlChgPt, ZTlChgPt
+
+ X = XTlChgPt
+ Y = YTlChgPt
+ Z = ZTlChgPt
+
+'*** Add a comment on Setup
+'***
+
+ SetUp1.Comment = "Program 1 - Setup 1"
+
+'*****************************************************************************
+'*
+'* Selection of Features to machine
+'*
+'*****************************************************************************
+
+'*** Creation of Expert Check (used as queries)
+'***
+'*** Note: A query must select a set of couples of (Product, Feature), where the Feature belongs to the Product 
+'*** (perhaps through other products) and the Product is the one which defines a correct Feature position for the machining purpose
+
+'*** Hole with diameter equal to 9.7mm
+ Set Chk1 = RB.RuleSet.CreateCheck("Hole-Diam-9.7", "Prd : PartFeature ; Sol : Hole ", "(GetSubString(Prd->Name(),0,5) == ""Plate"") And (Sol.Diameter == 9.7mm)  And (Sol.Activity == True)", "")
+
+'*** Hole with diameter equal to 11mm
+ Set Chk2 = RB.RuleSet.CreateCheck("Hole-Diam-11", "Prd : PartFeature ; Sol : Hole ", "(GetSubString(Prd->Name(),0,5) == ""Plate"") And (Sol.Diameter == 11mm) And (Sol.Activity == True)", "")
+
+'*** Unique resolution of all queries
+'***
+
+ RB.Deduce
+
+
+'*****************************************************************************
+'*
+'* Machining step1: Drilling of Hole with diameter = 9.7mm
+'*
+'*****************************************************************************
+
+'*** Get number of successful elements in Query "Chk1"
+'***
+ Count1 = Chk1.Succeeds.CountSucceed
+
+
+ If (Count1 > 0) Then
+
+'*** Tool change creation with tool from catalog
+'*****************************************************************************
+
+	Set TlChg = Program1.AddToolChange("D-9.7","MfgDrillTool","ToolsSample01",1)	
+
+'*** Message for operator
+'*****************************************************************************
+
+	Mess = "PPRINT/ Drilling: Holes Diameter 9.7"
+	Message Mess
+
+'*** Creation of drilling operations on all successful elements of Query "Chk1"
+'*****************************************************************************
+	Set Query1 = Chk1
+	Call Drilling (Query1, 0.2, "ANGULARFEEDRATE", 204, "LINEARSPINDLESPEED", 2.5, 50)
+
+  End If
+
+'*****************************************************************************
+'*
+'* Machining step 2: Drilling and Countersinking of Hole with diameter = 11mm
+'*
+'*****************************************************************************
+
+'*** Get number of successful elements in Query "Chk2"
+'***
+ Count2= Chk2.Succeeds.CountSucceed
+
+ If (Count2 > 0) Then
+
+'*** Tool change creation with tool from catalog
+'*****************************************************************************
+
+	Set TlChg = Program1.AddToolChange("D-11","MfgDrillTool","ToolsSample01",1)	
+
+'*** Message for operator
+'*****************************************************************************
+
+	Mess = "PPRINT/ Drilling: Holes Diameter 11"
+	Message Mess
+
+'*** Creation of drilling operations on all successful elements of Query "Chk2"
+'*****************************************************************************
+	Set Query1 = Chk2
+	Drilling Query1, 0.2, "ANGULARFEEDRATE", 204, "LINEARSPINDLESPEED", 2.5, 50 
+
+'*** Tool change creation with tool from catalog (Counter Sink Tool)
+'*****************************************************************************
+
+	Set TlChg = Program1.AddToolChange("CS-5-30","MfgCountersinkTool","ToolsSample01",1)	
+
+'*** Message for operator
+'*****************************************************************************
+
+	Mess = "PPRINT/ Counter Sinking: Holes Diameter 11"
+	Message Mess
+
+'*** Creation of countersinking operations on all successful elements of Query "Chk2"
+'*****************************************************************************
+	Set Query1 = Chk2
+	CounterSinking  Query1, 0.2, "ANGULARFEEDRATE", 204, "LINEARSPINDLESPEED", 2.5, 50 
+
+  End If
+
+'*******************************************************************************************
+'*
+'* Retrieving the pattern and creating drilling on it
+'*
+'*******************************************************************************************
+
+'****retrieving pattern ***
+
+Set documents1 = CATIA.Documents
+Set partDocument1 = documents1.Item("Plate-VBSample01.CATPart")
+Set part1 = partDocument1.Part
+Set bodies1 = part1.Bodies
+Set body1 = bodies1.Item("MechanicalTool.1")
+Set shapes1 = body1.Shapes
+Set pattern1 = shapes1.Item("RectPattern.1")
+
+'****creating drilling ***
+
+'*** Tool change creation with tool from catalog
+'*****************************************************************************
+
+	Set TlChg = Program1.AddToolChange("D-11","MfgDrillTool","ToolsSample01",4)
+'*** Message for operator
+'*****************************************************************************
+
+	Mess = "PPRINT/ Drilling: Pattern1"
+	Message Mess
+
+
+Set Operation1 = Program1.AppendOperation ("Drilling",1)
+'   As it is not possible to affect a shape into a CATIABase
+'   with BasicScript
+Set Feature = pattern1
+Operation1.SetFeature Feature
+Operation1.SetTool "D-11"
+
+End Sub
+
+
+
+'*****************************************************************************
+'					SUB-SCRIPT DEFINITION
+'*****************************************************************************
+
+
+'*****************************************************************************
+' InitSetUp
+'*****************************************************************************
+
+Sub InitSetUp ( ProgramName , SetUpName , ToolCatalogName , PPTableName , PtX, PtY, PtZ )
+
+ Dim ProgramList As MfgActivities 
+ Dim NumberOfSetup As Integer
+ Dim NumberOfProgram As Integer 
+ Dim childs As Activities
+ Dim child As Activity
+ Dim quantity As Integer
+
+'*** Get current Document
+'***
+
+ Set MfgDoc1 = CATIA.ActiveDocument
+
+'*** Retrieve current Process Root
+
+ Set ActivityRef = MfgDoc1.GetItem("Process")
+
+'*** Retrieve current SetUp
+'***
+ If (ActivityRef.IsSubTypeOf("PhysicalActivity")) Then
+
+    Set childs = ActivityRef.ChildrenActivities
+    quantity = childs.Count
+
+    if quantity <= 0 then
+      Exit Sub
+    End if
+
+	NumberOfSetup = 0
+
+    For I=1 To quantity
+		Set child = childs.Item(I)
+		If (child.IsSubTypeOf("ManufacturingSetup")) Then
+'			Set CurrentSetup = child
+			Set Setup1 = child
+			NumberOfSetup = NumberOfSetup +1
+			Exit For
+		End If
+	Next
+     
+ End If
+
+ if NumberOfSetup <= 0 then
+   Exit Sub
+ End if
+
+'*** Retrieve current Program
+'***
+ Set ProgramList = Setup1.Programs
+ NumberOfProgram = ProgramList.Count	
+
+ Set Program1 = ProgramList.GetElement(1)
+
+'*** Define Program name
+ Program1.Name = ProgramName
+
+'*** Retrieve current Product link to the current Setup
+'***
+
+ Set PdUsine = SetUp1.Product
+
+'*** Define SetUp name
+'***
+
+ SetUp1.Name = SetUpName
+
+'*** Define Machine Tool
+'***
+
+ Dim Machine1 As ManufacturingMachine
+ Set Machine1 = SetUp1.CreateMachine("Mfg3AxisWithTableRotationMachine")
+
+ Machine1.RotaryAxis = "C"
+ Machine1.PreferedToolCatalogName = ToolCatalogName
+ Machine1.PPTableName = PPTableName
+
+'*** Define Tool Change Point on Machine Tool 
+
+ Dim XTlChg As AnyObject
+ Dim YTlChg As AnyObject
+ Dim ZTlChg As AnyObject
+
+ Set XTlChg = SetUp1.GetAttribute("MfgToolChgX")
+ XTlChg.Value = PtX
+ Set YTlChg = SetUp1.GetAttribute("MfgToolChgY")
+ YTlChg.Value = PtY
+ Set ZTlChg = SetUp1.GetAttribute("MfgToolChgZ")
+ ZTlChg.Value = PtZ
+
+'*** Insert command FROM as the first instruction into the Program 
+
+ Dim MyText As VARIANT
+ MyText = "FROM/X" & PtX & " ,Y" & PtY & " ,Z" & PtZ
+ Set PP = Program1.AddPPInstruction(MyText)
+
+'*** Create a Rule Base for Feature queries 
+'***
+
+ Dim Rel As Relations
+ Set Rel = ActivityRef.Relations
+
+ On Error Resume Next
+ Set RB = Rel.Item("SetUp1")
+
+ If Err.Number <> 0 Then 
+' On cree une rule Base
+	Set RB = Rel.CreateRuleBase("SetUp1")  
+ End If
+
+End Sub
+
+'*****************************************************************************
+' Sous-Script:Message
+'*****************************************************************************
+
+Sub Message ( TextMess )
+
+ Set PP = Program1.AddPPInstruction(TextMess)
+
+End Sub
+
+'*****************************************************************************
+' Sous-Script: Drilling
+'*****************************************************************************
+
+Sub Drilling (  Query As ExpertCheck, _
+		FeedVal As Double, _
+		FeedUnit As String, _
+		SpindVal As Integer, _
+		SpeedUnit As String, _
+		ClearTipVal As Double, _
+		SafeZVal As Integer)
+
+ Dim Mo2 As ManufacturingActivity
+ Dim FeedMg As AnyObject
+ Dim SpeedMg As AnyObject
+ Dim Spind As AnyObject
+ Dim Feed  As AnyObject
+ Dim AppFeedMode as AnyObject
+ Dim RetFeedMode as AnyObject
+ Dim DepthMode As AnyObject
+ Dim ClearTip  As AnyObject
+ Dim SpindlActivity As AnyObject
+ Dim NbMo As Integer
+ Dim ChkResult As ExpertReportObjects
+ Dim TabMo As MfgActivities	
+
+ Set ChkResult = Query.Succeeds
+
+'*** Create drilling-typed operation from the result of the query "ChkResult"
+'*** Sequence the operations, starting from the one near "PolaxeRef" and going along the circular mode "PolDir"
+'***
+ Set TabMo = Program1.CreateMOFromReport(ChkResult,"Drilling")
+ NbMo = TabMo.Count
+
+'*** Populate machining operation attribute values
+
+	For I=1 To NbMo
+		Set Mo = TabMo.GetElement(I)
+		Set SpeedMg = Mo.GetAttribute("MfgGlobalSpindleMagnitude")
+		SpeedMg.ValueEnum = SpeedUnit
+		Set Spind = Mo.GetAttribute("MFG_SPINDLE_MACH_VALUE")
+		Spind.Value = SpindVal
+
+		Set FeedMg = Mo.GetAttribute("MfgGlobalFeedrateMagnitude")
+		FeedMg.ValueEnum = FeedUnit
+
+		Set Feed = Mo.GetAttribute("MFG_FEED_MACH_VALUE")
+		Feed.Value = FeedVal
+
+		Set AppFeedMode = Mo.GetAttribute("MFG_FEED_PLUNGE_MODE")
+		AppFeedMode.Value = True
+		Set RetFeedMode = Mo.GetAttribute("MFG_FEED_RETRACT_MODE")
+		RetFeedMode.Value = True
+
+		Set ClearTip = Mo.GetAttribute("MFG_CLEAR_TIP")
+ 		ClearTip.Value = ClearTipVal
+
+		Set DepthMode = Mo.GetAttribute("MFG_DEPTH_MODE")
+		DepthMode.ValueEnum = "MfgDepthShoulder"
+
+	Next
+
+'*** Insert a motion to a local safety plan before all drilling operations
+
+	Set Mo = TabMo.GetElement(1)
+	X = Mo.GetMfgFeatureXPosition
+	Y = Mo.GetMfgFeatureYPosition
+
+	Set Mo2 =  Program1.AddGotoPointFromCoordinates(X,Y,SafeZVal)
+	Set AppFeedMode = Mo2.GetAttribute("MFG_FEED_APP_MODE")
+	AppFeedMode.Value = True
+	Set SpindlActivity = Mo2.GetAttribute("MfgGlobalSpindleOutput")
+	SpindlActivity.Value = False
+	Set SpeedMg = Mo2.GetAttribute("MfgGlobalSpindleMagnitude")
+	SpeedMg.ValueEnum = SpeedUnit
+	Set Spind = Mo2.GetAttribute("MFG_SPINDLE_MACH_VALUE")
+	Spind.Value = SpindVal
+	Set Offset = Mo2.GetAttribute("MfgPtToPtOffset")
+	Offset.Value = 0.0
+
+	Program1.MoveOperation Mo, Mo2
+
+'*** Add a final motion to a local safety plan
+'***
+	Set Mo = TabMo.GetElement(NbMo)
+	X = Mo.GetMfgFeatureXPosition
+	Y = Mo.GetMfgFeatureYPosition
+	Z = Mo.GetMfgFeatureZPosition
+
+	Set Mo =  Program1.AddGotoPointFromCoordinates(X,Y,SafeZVal)
+	Set AppFeedMode = Mo.GetAttribute("MFG_FEED_APP_MODE")
+	AppFeedMode.Value = True
+	Set SpindlActivity = Mo.GetAttribute("MfgGlobalSpindleOutput")
+	SpindlActivity.Value = False
+	Set SpeedMg = Mo.GetAttribute("MfgGlobalSpindleMagnitude")
+	SpeedMg.ValueEnum = SpeedUnit
+	Set Spind = Mo.GetAttribute("MFG_SPINDLE_MACH_VALUE")
+	Spind.Value = SpindVal
+	Set Offset = Mo.GetAttribute("MfgPtToPtOffset")
+	Offset.Value = 0.0
+
+	Z = SafeZVal
+
+End Sub
+
+
+'*****************************************************************************
+' Sous-Script: CounterSinking
+'*****************************************************************************
+
+Sub CounterSinking (  Query As ExpertCheck, _
+		FeedVal As Double, _
+		FeedUnit As String, _
+		SpindVal As Integer, _
+		SpeedUnit As String, _
+		ClearTipVal As Double, _
+		SafeZVal As Integer)
+
+ Dim Mo2 As ManufacturingActivity
+ Dim FeedMg As AnyObject
+ Dim SpeedMg As AnyObject
+ Dim Spind As AnyObject
+ Dim Feed  As AnyObject
+ Dim AppFeedMode as AnyObject
+ Dim RetFeedMode as AnyObject
+ Dim DepthMode As AnyObject
+ Dim ClearTip  As AnyObject
+ Dim SpindlActivity As AnyObject
+ Dim NbMo As Integer
+ Dim ChkResult As ExpertReportObjects
+ Dim TabMo As MfgActivities	
+
+ Set ChkResult = Query.Succeeds
+
+'*** Create CounterSinking-typed operation from the result of the query "ChkResult"
+'*** Sequence the operations, starting from the one near "PolaxeRef" and going along the circular mode "PolDir"
+'***
+ Set TabMo = Program1.CreateMOFromReport(ChkResult,"CounterSinking")
+ NbMo = TabMo.Count
+
+'*** Populate machining operation attribute values
+
+	For I=1 To NbMo
+		Set Mo = TabMo.GetElement(I)
+		Set SpeedMg = Mo.GetAttribute("MfgGlobalSpindleMagnitude")
+		SpeedMg.ValueEnum = SpeedUnit
+		Set Spind = Mo.GetAttribute("MFG_SPINDLE_MACH_VALUE")
+		Spind.Value = SpindVal
+
+		Set FeedMg = Mo.GetAttribute("MfgGlobalFeedrateMagnitude")
+		FeedMg.ValueEnum = FeedUnit
+
+		Set Feed = Mo.GetAttribute("MFG_FEED_MACH_VALUE")
+		Feed.Value = FeedVal
+
+		Set AppFeedMode = Mo.GetAttribute("MFG_FEED_PLUNGE_MODE")
+		AppFeedMode.Value = True
+		Set RetFeedMode = Mo.GetAttribute("MFG_FEED_RETRACT_MODE")
+		RetFeedMode.Value = True
+
+		Set ClearTip = Mo.GetAttribute("MFG_CLEAR_TIP")
+ 		ClearTip.Value = ClearTipVal
+
+		Set DepthMode = Mo.GetAttribute("MFG_DEPTH_MODE")
+		DepthMode.ValueEnum = "MfgDepthDistance"
+	Next
+
+
+'*** Insert a motion to a local safety plan before all created machining operations
+
+	Set Mo = TabMo.GetElement(1)
+	X = Mo.GetMfgFeatureXPosition
+	Y = Mo.GetMfgFeatureYPosition
+
+	Set Mo2 =  Program1.AddGotoPointFromCoordinates(X,Y,SafeZVal)
+	Set AppFeedMode = Mo2.GetAttribute("MFG_FEED_APP_VALUE")
+	AppFeedMode.Value = True
+	Set SpindlActivity = Mo2.GetAttribute("MfgGlobalSpindleOutput")
+	SpindlActivity.Value = False
+	Set SpeedMg = Mo2.GetAttribute("MfgGlobalSpindleMagnitude")
+	SpeedMg.ValueEnum = SpeedUnit
+	Set Spind = Mo2.GetAttribute("MFG_SPINDLE_MACH_VALUE")
+	Spind.Value = SpindVal
+	Set Offset = Mo2.GetAttribute("MfgPtToPtOffset")
+	Offset.Value = 0.0
+
+	Program1.MoveOperation Mo, Mo2
+
+'*** Add a final motion to a local safety plan
+'***
+	Set Mo = TabMo.GetElement(NbMo)
+	X = Mo.GetMfgFeatureXPosition
+	Y = Mo.GetMfgFeatureYPosition
+	Z = Mo.GetMfgFeatureZPosition
+
+	Set Mo =  Program1.AddGotoPointFromCoordinates(X,Y,SafeZVal)
+	Set AppFeedMode = Mo.GetAttribute("MFG_FEED_APP_VALUE")
+	AppFeedMode.Value = True
+	Set SpindlActivity = Mo.GetAttribute("MfgGlobalSpindleOutput")
+	SpindlActivity.Value = False
+	Set SpeedMg = Mo.GetAttribute("MfgGlobalSpindleMagnitude")
+	SpeedMg.ValueEnum = SpeedUnit
+	Set Spind = Mo.GetAttribute("MFG_SPINDLE_MACH_VALUE")
+	Spind.Value = SpindVal
+	Set Offset = Mo.GetAttribute("MfgPtToPtOffset")
+	Offset.Value = 0.0
+
+	Z = SafeZVal
+
+End Sub

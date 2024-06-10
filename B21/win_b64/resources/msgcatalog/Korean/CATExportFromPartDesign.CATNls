@@ -1,0 +1,211 @@
+//NLS-ENGLISH VERSION
+//=======================================================================
+// MODULE :  PartDataCreation 
+//=======================================================================
+// 2002-04-03: KVL: CATPartExportedBody
+// 05/04/2002: JHH: Message sur les faces en auto-intersection
+// 08/07/2002: KVL: Instrumentation sur le parsing de la CATPart
+// 18/07/2002: KVL: Instrumentation sur les algos
+// 08/12/2008: ARH: Ajout message CATPartTesselatedFTA.Warning.OrphanDimVisu
+
+// Numeros utilises :
+//[5001] a [5149] messages generaux
+//[5150] a [5170] CATPartDesignInterface
+//[5200] a [5211] CATPartExpElement
+//[5250] a [5254] CATPartExportedBody
+//[5270] a [5271] CATPartExportedTools
+//[5290] CATPartExportedNurbsPCurve
+//[5310] a [5319] CATPartExportedFace
+//[5330] a [5331] CATPartExportedSurface
+//[5350] CATPartExportedEdge
+//[5400] a [5401] CATPartExportedProperties
+//[5450] CATPartCurveTools
+//
+
+//--------------------------------------
+//  Messages generaux
+//--------------------------------------
+
+CATPartExported.Error.Create3DCurve="   <E> [5002] /p1에서 3D 커브를 작성할 수 없습니다. ";
+
+
+//--------------------------------------
+//  Messages from CATPartInterface
+//--------------------------------------
+
+// Error Message Window
+CATPartInterface.Msg.Create3DCurve="/p1에서 3D 커브를 작성할 수 없습니다. ";
+
+//
+//--------------------------------------
+//  Messages from CATPartDesignInterface
+//--------------------------------------
+CATPartDesignInterface.Info.NbElements="   <I> [5150] 전송된 요소의 수는 /p4 /p3입니다.";
+
+CATPartDesignInterface.Info.OpenBody="   <I> [5151] TREATMENT OpenBody /p3";
+
+CATPartDesignInterface.Info.PartBody="   <I> [5152] TREATMENT PartBody /p3";
+
+CATPartDesignInterface.Info.OpenBodySize="   <I> [5153] OpenBody의 요소 수는 /p4 /p3입니다.";
+
+CATPartDesignInterface.Info.PartBodySize="   <I> [5154] PartBody는 /p4 스케처 /p3과(와) 함께 전송됩니다. ";
+
+CATPartDesignInterface.Info.EmpreinteFeature="   <I> [5155] /p4 피처에는 /p3 솔리드의 empreint가 있습니다. ";
+
+CATPartDesignInterface.Info.NoEmpreinteFeature="   <I> [5156] /p4 피처에 /p3 솔리드의 empreint가 없습니다. ";
+
+
+CATPartDesignInterface.Info.SolidTreatment="   <I> [5157] 솔리드 /p4 /p3 처리 ";
+
+CATPartDesignInterface.Info.EmpreinteFeatureFace="   <I> [5158] 피처에 /p3 페이스의 empreint가 있습니다. ";
+
+CATPartDesignInterface.Info.NoEmpreinteFeatureFace="   <I> [5159] 피처에 /p3 페이스의 empreint가 없습니다. ";
+
+CATPartDesignInterface.Warning.PbColorSolidTreatment="   <I> [5160] 페이스에 대한 색상 처리에 실패했습니다. /p3";
+
+CATPartDesignInterface.Warning.PbBrepSolidTreatment="   <I> [5161] BRep가 없습니다. /p3";
+
+CATPartDesignInterface.Warning.NoElement="   <W> [5162] /p3을(를) 전송할 요소가 없습니다.";
+
+
+//
+//----------------------------------------------------
+//  Messages from CATPartExpElement(messages generaux)
+//----------------------------------------------------
+
+// Error Message Window
+CATPartExpElement.Msg.PbInMethod="   <W> [5200] /p2 클래스 오브젝트의 /p1 메소드에 문제점이 있습니다. ";
+
+CATPartExpElement.Warning.PbInMethod="   <W> [5200] /p2(D) 클래스 오브젝트의 /p1 메소드에 문제점이 있습니다. ";
+
+// Error Message Window
+CATPartExpElement.Msg.UnavailableMethod="/p2 오브젝트에 대해 /p1 메소드를 아직 사용할 수 없습니다. ";
+
+CATPartExpElement.Warning.UnavailableMethod="/p2 오브젝트에 대해 /p1 메소드를 아직 사용할 수 없습니다. ";
+
+//Fitting Surface(CATPartExportedFace et Surface)
+CATPartExpElement.Info.FittingSurface="   <I> [5201] [T=/p2] [#/p4] Iges 형식으로 반출된 이 서피스의 근사값을 산출하려 합니다. /p3 ";
+
+// Echec Fitting Curve
+CATPartExpElement.Warning.EchecFittingCurve="   <W> [5202] [T=/p2] [#/p4] (P)커브의 근사값을 산출할 수 없습니다. /p3 ";
+
+// Echec Fitting Face
+CATPartExpElement.Warning.EchecFittingFace="   <W> [5203] [T=/p2] [#/p4] 서피스의 근사값을 산출할 수 없습니다. /p3";
+
+//(CATPartExportedNurbsCurve,SplineCurve,CATPartCurveTools)
+CATPartExpElement.Info.ConvertCrvToNurbsCrv="   <I> [5204] [T=/p2] [#/p4] 커브를 nurbs 커브로 변환 - /p3";
+
+//Echec de ConvertCrvToNurbsCrv
+CATPartExpElement.Warning.EchecConvertCrvToNurbsCrv="   <W> [5205] [T=/p2] [#/p4] 변환 중에 해결책을 찾지 못했습니다. /p3";
+
+//(CATPartExportedPSpline, CATPartCurveTools)
+CATPartExpElement.Info.ConvertPSplineToNurbs="   <I> [5206] [T=/p2] [#/p1] PSpline 커브를 nurbs 커브로 변환 /p3";
+
+//echec inclusion->projection(CATPartExportedCurve,NurbsCurve,SplineCurve)
+CATPartExpElement.Info.CATInclusionPtCrvEchec="   <I> [5207] [T=/p2] [#/p4] 프로젝션을 시도하는 중 포함 메소드가 해결책을 찾지 못했습니다. /p3";
+
+//echec projection
+CATPartExpElement.Warning.CATProjectionPtCrvEchec="   <W> [5208] [T=/p2] [#/p4] 프로젝션이 해결책을 찾지 못했습니다. /p3";
+
+//CreateDistanceMin
+CATPartExpElement.Info.CreatedistanceMin="   <I> [5209] [T=/p2] [#/p4] 커브에 투영된 시작점의 계산 - /p3";
+
+//Echec de CreateDistanceMin
+CATPartExpElement.Warning.EchecCreatedistanceMin="   <W> [5210] [T=/p2] [#/p4] 커브에 점을 프로젝트할 수 없습니다. /p3";
+
+//Echec de parametrisation apres creation de la multiforme
+CATPartExpElement.Warning.EchecParametrizationOfMultiform="   <W> [5211] [T=/p2] [#/p4] 복수 형태 커브의 매개변수화에 실패했습니다. /p3";
+//
+//--------------------------------------
+//  Messages from CATPartExportedBody
+//--------------------------------------
+
+// Self-intersecting face
+CATPartExportedBody.Error.SelfIntersectingFace="   <E> [5250] 자체 교차하는 페이스가 검출되었습니다(M)";
+
+// CatCreateTopRegularize
+CATPartExportedBody.Info.SmallEdges="   <I> [5251] [T=/p2] 너무 작은 모서리를 억제하려 합니다. /p1";
+
+// EchecCatCreateTopRegularize
+CATPartExportedBody.Warning.EchecSmallEdges="   <W> [5252] [T=/p2] 너무 작은 모서리를 억제하려는 시도에 실패했습니다. /p1";
+
+// Body with small edges
+CATPartExportedBody.Warning.SmallEdges="   <W> [5253] [T=/p2] 작은 모서리 억제 중, /p1";
+
+//CreateBoundedCellsIterator
+CATPartExportedBody.Info.BnddCellsIter="   <I> [5254] [T=/p2] 본체의 각 페이스에 대한 셀 작성, /p1";
+
+// Invalid Solid at Check
+CATPartExportedBody.Error.InvalidSolid="!! <E> [5255] [T=/p2] 유효하지 않은 본체, 포함된 솔리드가 반출되지 않았습니다. /p3";
+
+// Invalid Shell at Check
+CATPartExportedBody.Error.InvalidShell="!! <E> [5256] [T=/p2] 유효하지 않은 본체, 포함된 쉘이 반출되지 않았습니다. /p3";
+
+// Invalid Body at Check
+CATPartExportedBody.Warning.InvalidBody="   <W> [5257] [T=/p2] 경고: 유효하지 않은 본체가 검출되었습니다. /p3";
+
+// Non-manifold Body
+CATPartExportedBody.Warning.NonManifoldBody="   <W> [5258] [T=/p2] 경고: 다양하지 않은 본체가 검출되었습니다. /p3";
+
+//
+//--------------------------------------
+//  Messages from CATPartExportedTools
+//--------------------------------------
+CATPartExportedTools.Info.Create3DCurve="   <I> [5270] [T=/p2] [#/p1] lges 메소드로 시도한 3D 커브의 작성에 실패했습니다. /p3";
+
+CATPartExportedTools.Warning.Create3DCurveSmall="   <W> [5271] [T=/p2] [#/p1] 3D 커브가 너무 작습니다. /p4. lges 메소드로 시도 중 - /p3";
+
+//
+//--------------------------------------
+//  Messages from CATPartExportedNurbsPCurve
+//--------------------------------------
+CATPartExportedNurbsPCurve.Info.ConvertPNurbsToNurbs="   <I> [5290] [T=/p2] [#/p1] 주율을 억제한 후 NurbsPCurve를 다시 계산합니다. /p3";
+
+//
+//--------------------------------------
+//  Messages from CATPartExportedFace
+//--------------------------------------
+CATPartExportedFace.Info.CreateEquivalentPCurve="   <I> [5310] [T=/p2] [#/p1] 모서리에 대응하는 새 매개변수적 커브 작성 - /p3";
+
+CATPartExportedFace.Info.CreateBoundaryIterator="   <I> [5311] [T=/p2] [#/p4] 윤곽, 각 윤곽의 모서리 및 방향 가져오기 - /p3";
+
+CATPartExportedFace.Info.Convert="   <I> [5312] [T=/p2] [#/p1] PNurbs의 p/4을(를) 변환했습니다. /p3";
+
+CATPartExportedFace.Error.NullArea="   <E> [5313] [T=/p2] [#/p4] 페이스 면적이 널(null)입니다. 이 페이스를 반출할 수 없습니다. /p3";
+
+//
+//--------------------------------------
+//  Messages from CATPartExportedSurface
+//--------------------------------------
+CATPartExportedSurface.Info.CreateParam="   <I> [5330] [T=/p2] [#/p4] 서피스에 있는 한 점의 매개변수(U,V) 계산 - /p3";
+
+CATPartExportedSurface.Info.RecadrageParam="   <I> [5331] [T=/p2] [#/p4] 서피스 값 한계를 조정했습니다. /p3";
+
+//
+//--------------------------------------
+//  Messages from CATPartExportedEdge
+//--------------------------------------
+CATPartExportedEdge.Info.CreatedistanceMinEdge="   <I> [5350] [T=/p2] [#/p4] 다른 방법으로 계산된 두 개의 3D 커브를 비교하여 최고를 사용합니다. /p3";
+
+CATPartExportedEdge.Warning.distance="   <W> [5351] [T=/p2] [#/p4] pcurve와 3D 커브 간의 거리가 0.002와 0.01 사이입니다. 혼란이 일어날 수 있습니다. /p3";
+
+//
+//------------------------------------------
+//  Messages from CATPartExportedProperties
+//------------------------------------------
+CATPartExportedProperties.Warning.NoProperty="   <W> [5400] 처리된 요소에 영향을 주는 등록 정보가 없습니다. /p3";
+
+CATPartExportedProperties.Warning.SeveralProperty="   <W> [5401] 여러 개의 등록 정보가 처리된 요소에 영향을 주었습니다. 등록 정보가 거짓일 수 있습니다. /p3";
+
+//
+//------------------------------------------
+//  Messages from CATPartCurveTools
+//------------------------------------------
+CATPartCurveTools.Warning.NoInvert="   <W> [5450] [T=/p2] [#/p1] CATPCurveEquation 유형의 Pcurve를 반전할 수 없습니다. /p3";
+
+//
+//------------------------------------------
+//  Messages from CATDXV53DTessellatedAnnotationRepresentation
+//------------------------------------------
+CATPartTesselatedFTA.Warning.OrphanDimVisu="   <W> [5500] FTA /p1은(는) 다른 FTA의 일부분이어야 하는 거짓 치수입니다.";
+CATPartTesselatedFTA.Warning.TypeNotPreserved="   <W> [5510] type=/p1 supertype=/p2인 FTA /p4이(가) /p3(으)로 반출되었습니다.";

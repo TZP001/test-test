@@ -1,0 +1,79 @@
+' This macro is to show the demo of how to use the Automation interfaces 
+' to set the active task to a process and to get to know how to use other
+' methods defined in these types
+
+Sub CATMain()
+
+	' Get the current active document
+	' Set Parentobject = CATIA.ActiveDocument.Selection.FindObject("CATIAProduct")	
+    Dim ProcessDoc As Document
+    Set ProcessDoc = CATIA.ActiveDocument
+
+	Set oSelection = CATIA.ActiveDocument.Selection
+
+    Dim typeSel(0) As string
+    typeSel(0) = "ActiveTask"
+
+    ' Allow the user to perform the selection
+    Dim strSelected As string
+    strSelected = oSelection.SelectElement2(typeSel, "Select an Activity", true)
+
+    If oSelection.Count <= 0 Then
+        Exit Sub
+    End If
+
+    ' Determine what element that the use selected
+    Set oSelectedElement = oSelection.Item(1)
+
+    Dim oActiveAct As ActiveTask
+    Set oActiveAct = oSelectedElement.Value
+
+	oSelection.Clear
+    
+	' We shall use the Selection mechanism to allow the user to
+    ' select a product on the screen
+    Set oSelection = CATIA.ActiveDocument.Selection
+
+    typeSel(0) = "ResourceProgramManager"
+
+    ' Allow the user to perform the selection
+    strSelected = oSelection.SelectElement2(typeSel, "Select a Resource", false)
+
+    If oSelection.Count <= 0 Then
+        Exit Sub
+    End If
+
+    ' Determine what element that the use selected
+    Set oSelectedElement = oSelection.Item(1)
+
+    ' Since we only allow the user to select products, we then convert the 
+    ' selection to a product
+    Dim oResPrgMngr As ResourceProgramManager
+    Set oResPrgMngr = oSelectedElement.Value
+	
+    Dim oTask As Task
+	Dim TaskList(10)
+	oResPrgMngr.GetTask  "RobotTask.1", oTask
+	
+	oTask.SetName("RobotTask.2")
+	oSelection.Clear
+
+	Set oSelection = CATIA.ActiveDocument.Selection
+
+    typeSel(0) = "Task"
+
+    ' Allow the user to perform the selection
+    strSelected = oSelection.SelectElement2(typeSel, "Select a Task", false)
+
+    If oSelection.Count <= 0 Then
+        Exit Sub
+    End If
+
+    ' Determine what element that the use selected
+    Set oSelectedElement = oSelection.Item(1)
+
+    Set oTask = oSelectedElement.Value
+	oActiveAct.SetActiveTask oResPrgMngr, oTask
+
+	oSelection.Clear	
+End Sub

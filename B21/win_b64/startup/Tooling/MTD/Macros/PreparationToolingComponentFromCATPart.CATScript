@@ -1,0 +1,240 @@
+Language="VBSCRIPT"
+
+Sub CATMain()
+
+
+Dim partDocument1 As Document
+Set partDocument1 = CATIA.ActiveDocument
+
+Dim part1 As Part
+
+Set part1 = partDocument1.Part
+
+IKEEP=1
+if (Err<>0) then
+    Msgbox "The active document must be a CATPart"
+    IKEEP =0
+end if
+Set product1 = partDocument1.Product
+PartName = Part1.Name
+Dim parameters1 As Parameters
+Set parameters1 = part1.Parameters
+
+
+Set product1 = partDocument1.GetItem(PartName)
+Set publications1 = product1.Publications
+
+Dim selection1 As Selection
+Set selection1 = partDocument1.Selection
+
+Dim visPropertySet1 As VisPropertySet
+Set visPropertySet1 = selection1.VisProperties
+
+
+dim oneline as string
+dim blankLine as string
+dim doubleLine as string
+dim title1 as string
+
+IconeInterdit = 16
+IconeQuestion = 32
+IconeExclamation = 48
+IconeInfo = 64
+
+oneline = chr(13)
+blankline = chr(13)&chr(13)
+doubleline = chr(13)&chr(13)&chr(13)
+title1 = "Preparing "&Partname&" as Tooling Component"
+'----
+
+IKEEP = 1
+
+	msg1 = "Do you want to create position info in this component? See below the recommandations - they are  not mandatory "
+	msg3 = "          Component axial direction  // its Z axis"
+	msg4 = "          Component axial direction oriented toward the Die element on which it will be set ( Z intrusive convention ) "
+	msg5 = "          Component ""head"" in its XY plane, and centered on its origin" 
+	msg2 = "Confirm : OK - Give up : CANCEL "
+	myreturn = msgbox (msg1 & BlankLine & msg3& BlankLine & msg4& BlankLine & msg5& BlankLine & msg2, IconeQUESTION+1 ,Title1 )
+	if ( Myreturn =1 ) then
+		IKeep = 1
+	else
+		IKeep = 0
+	end if
+
+
+if ( IKeep = 1 ) then
+
+
+	msg1 = "Do you want to create POINT POSITION or AXIS POSITION ? "
+    msg3 = "POINT POSITION is enough to constrain the point & the axial direction of the component, once inserted" 
+	msg2 = "POINT POSITION : YES - AXIS POSITION : NO - Give up : CANCEL "
+	myreturn = msgbox (msg1 & BlankLine & msg3 & BlankLine & msg2, IconeQUESTION+3 ,Title1 )
+
+	if ( Myreturn =6 ) then
+		IKeep = 1
+	elseif ( Myreturn = 7) then
+		IKeep = 1
+    else
+		IKeep = 0
+	end if
+end if
+
+if ( Ikeep = 1) then
+
+   if ( myreturn = 6 ) then
+
+
+                 Set hybridBodies1 = part1.HybridBodies
+                 Set hybridBody1 = hybridBodies1.Add()
+                 part1.Update 
+                 hybridBody1.name = "BaseBody"
+				Set hybridShapeFactory1 = part1.HybridShapeFactory
+				Set hybridShapePointCoord1 = hybridShapeFactory1.AddNewPointCoord(0.000000, 0.000000, 0.000000)
+				hybridBody1.AppendHybridShape hybridShapePointCoord1
+				part1.InWorkObject = hybridShapePointCoord1
+				hybridShapePointCoord1.name = "Base"
+				part1.Update 
+                on error goto 0
+				Set publication1 = publications1.Add("Base")
+                part1.update
+                Set reference1 = product1.CreateReferenceFromName(PartName&"/!Base")
+				publications1.SetDirect "Base", reference1
+                Set reference1 = product1.CreateReferenceFromName(PartName&"/!Base")
+                Set visPropertySet1 = selection1.VisProperties
+                selection1.Add hybridbody1
+                Set visPropertySet1 = visPropertySet1.Parent
+                visPropertySet1.SetShow 1
+                selection1.Clear 
+
+	            msg1 = "This component can now be used as a Tooling Component, to be inserted in point or planar mode"
+                msg2 = "If useful, you may edit the point Base in Geometrical Set BaseBody"	
+	           myreturn = msgbox (msg1&BlankLine&msg2, IconeINFO ,Title1 )
+
+      end if
+   if ( myreturn = 7 ) then
+                title2 = "Preparing "&Partname&" in guided mode"
+	            msg1 = "First Direction ? "
+                msg2 = "DIRECTION (X) : YES - DIRECTION (Y) : NO -  DIRECTION (Z): CANCEL "
+	            myreturnN = msgbox (msg1 & BlankLine & msg2, IconeQUESTION+3 ,Title2 )
+
+	            if ( MyreturnN =6 ) then
+		              IDIR = 1
+	            elseif ( MyreturnN = 7) then
+		              IDIR = 2
+                else
+		              IDIR = 3
+	            end if
+
+             Dim arrayOfVariantOfDouble1(2)
+             Dim arrayOfVariantOfDouble2(2)
+             Dim arrayOfVariantOfDouble3(2)
+			Dim arrayOfVariantOfDouble4(2)
+
+
+			Set axisSystems1 = part1.AxisSystems
+			Set axisSystem1 = axisSystems1.Add()
+			axisSystem1.OriginType = catAxisSystemOriginByCoordinates
+			arrayOfVariantOfDouble1(0) = 0.000000
+			arrayOfVariantOfDouble1(1) = 0.000000
+			arrayOfVariantOfDouble1(2) = 0.000000
+			axisSystem1.PutOrigin arrayOfVariantOfDouble1
+			axisSystem1.XAxisType = catAxisSystemAxisByCoordinates
+			arrayOfVariantOfDouble2(0) = 1.000000
+			arrayOfVariantOfDouble2(1) = 0.000000
+			arrayOfVariantOfDouble2(2) = 0.000000
+			axisSystem1.PutXAxis arrayOfVariantOfDouble2
+			axisSystem1.YAxisType = catAxisSystemAxisByCoordinates
+			arrayOfVariantOfDouble3(0) = 0.000000
+			arrayOfVariantOfDouble3(1) = 1.000000
+			arrayOfVariantOfDouble3(2) = 0.000000
+			axisSystem1.PutYAxis arrayOfVariantOfDouble3
+			axisSystem1.ZAxisType = catAxisSystemAxisByCoordinates
+
+			arrayOfVariantOfDouble4(0) = 0.000000
+			arrayOfVariantOfDouble4(1) = 0.000000
+			arrayOfVariantOfDouble4(2) = 1.000000
+			axisSystem1.PutZAxis arrayOfVariantOfDouble4
+
+			part1.UpdateObject axisSystem1
+
+			axisSystem1.IsCurrent = True
+			axisSystem1.Name = "BaseAxisSystem"
+			
+			part1.Update 
+            on error goto 0
+            Set axisSystem1 = axisSystems1.Item("BaseAxisSystem")
+            if (IDIR=1) then
+			   Set reference1 = product1.CreateReferenceFromName(PartName&"/!Selection_REdge:(Edge:(Face:(Brp:(BaseAxisSystem;1);None:();Cf11:());Face:(Brp:(BaseAxisSystem;3);None:();Cf11:());None:(Limits1:();Limits2:());Cf11:());BaseAxisSystem;InSameTool;Z0;G3338)")
+			   Set publication1 = publications1.Add("X Axis")
+               publications1.SetDirect "X Axis", reference1
+               Set boolParam1 = parameters1.CreateBoolean("", True)
+               boolParam1.Rename "BaseAxisSystem_X_Select"
+               boolParam1.Hidden = True
+               msg5 = "DIRECTION (Y) : YES - DIRECTION (Z) : NO -  Give up : CANCEL "
+            elseif (IDIR=2) then
+		   	   Set reference1 = product1.CreateReferenceFromName(PartName&"/!Selection_REdge:(Edge:(Face:(Brp:(BaseAxisSystem;2);None:();Cf11:());Face:(Brp:(BaseAxisSystem;1);None:();Cf11:());None:(Limits1:();Limits2:());Cf11:());BaseAxisSystem;InSameTool;Z0;G3338)")
+			   Set publication1 = publications1.Add("Y Axis")
+               publications1.SetDirect "Y Axis", reference1
+               Set boolParam1 = parameters1.CreateBoolean("", True)
+               boolParam1.Rename "BaseAxisSystem_Y_Select"
+               boolParam1.Hidden = True
+               msg5 = "DIRECTION (X) : YES - DIRECTION (Z) : NO -  Give up : CANCEL "
+            elseif (IDIR=3) then
+		   	   Set reference1 = product1.CreateReferenceFromName(PartName&"/!Selection_REdge:(Edge:(Face:(Brp:(BaseAxisSystem;3);None:();Cf11:());Face:(Brp:(BaseAxisSystem;2);None:();Cf11:());None:(Limits1:();Limits2:());Cf11:());BaseAxisSystem;InSameTool;Z0;G3338)")
+			   Set publication1 = publications1.Add("Z Axis")
+               publications1.SetDirect "Z Axis", reference1
+               Set boolParam1 = parameters1.CreateBoolean("", True)
+               boolParam1.Rename "BaseAxisSystem_Z_Select"
+               boolParam1.Hidden = True
+               msg5 = "DIRECTION (X) : YES - DIRECTION (Y) : NO -  Give up : CANCEL "
+            end if
+	        msg1 = "Second Direction ? "
+  	        myreturnNN = msgbox (msg1 & BlankLine & msg5, IconeQUESTION+3 ,Title2 )
+
+	            if ( MyreturnNN =6 ) then
+		              if ( IDIR=1) then JDIR = 2
+		              if ( IDIR=2) then JDIR = 1
+		              if ( IDIR=3) then JDIR = 1
+	            elseif ( MyreturnNN = 7) then
+		              if ( IDIR=1) then JDIR = 3
+		              if ( IDIR=2) then JDIR = 3
+		              if ( IDIR=3) then JDIR = 2
+                else
+		              JDIR=0
+	            end if
+
+            if (JDIR=1) then
+			   Set reference1 = product1.CreateReferenceFromName(PartName&"/!Selection_REdge:(Edge:(Face:(Brp:(BaseAxisSystem;1);None:();Cf11:());Face:(Brp:(BaseAxisSystem;3);None:();Cf11:());None:(Limits1:();Limits2:());Cf11:());BaseAxisSystem;InSameTool;Z0;G3338)")
+			   Set publication1 = publications1.Add("X Axis")
+               publications1.SetDirect "X Axis", reference1
+               Set boolParam1 = parameters1.CreateBoolean("", True)
+               boolParam1.Rename "BaseAxisSystem_X_Select"
+               boolParam1.Hidden = True
+            elseif (JDIR=2) then
+		   	   Set reference1 = product1.CreateReferenceFromName(PartName&"/!Selection_REdge:(Edge:(Face:(Brp:(BaseAxisSystem;2);None:();Cf11:());Face:(Brp:(BaseAxisSystem;1);None:();Cf11:());None:(Limits1:();Limits2:());Cf11:());BaseAxisSystem;InSameTool;Z0;G3338)")
+			   Set publication1 = publications1.Add("Y Axis")
+               publications1.SetDirect "Y Axis", reference1
+               Set boolParam1 = parameters1.CreateBoolean("", True)
+               boolParam1.Rename "BaseAxisSystem_Y_Select"
+               boolParam1.Hidden = True
+            elseif (JDIR=3) then
+		   	   Set reference1 = product1.CreateReferenceFromName(PartName&"/!Selection_REdge:(Edge:(Face:(Brp:(BaseAxisSystem;3);None:();Cf11:());Face:(Brp:(BaseAxisSystem;2);None:();Cf11:());None:(Limits1:();Limits2:());Cf11:());BaseAxisSystem;InSameTool;Z0;G3338)")
+			   Set publication1 = publications1.Add("Z Axis")
+               publications1.SetDirect "Z Axis", reference1
+               Set boolParam1 = parameters1.CreateBoolean("", True)
+               boolParam1.Rename "BaseAxisSystem_Z_Select"
+               boolParam1.Hidden = True
+            end if
+
+            Set reference3 = product1.CreateReferenceFromName(PartName&"/!Selection_FVertex:(Vertex:(Neighbours:(Face:(Brp:(BaseAxisSystem;2);None:();Cf11:());Face:(Brp:(BaseAxisSystem;3);None:();Cf11:());Face:(Brp:(BaseAxisSystem;1);None:();Cf11:()));Cf11:());BaseAxisSystem;InSameTool;Z0;G3338)")
+            Set publication3 = publications1.Add("Origin")
+            publications1.SetDirect "Origin", reference3
+
+	        msg1 = "This component can now be used as a Tooling Component, to be inserted in guided mode "
+            msg2 = "If useful, you may edit the axis system BaseAxisSystem"
+	        myreturn = msgbox (msg1&BlankLine&msg2, IconeINFO ,Title1 )
+
+end if
+end if
+
+End Sub

@@ -1,0 +1,80 @@
+INFO_HELP="
+CATDMUSaveAsFrozen permet de gérer des documents relatifs à DMU (produits, géométries et données du cache).\n
+Syntaxe : \n
+   Extraire les informations de l'aide :
+      CATDMUSaveAsFrozen -h\n
+   Enregistrer les documents relatifs à un produit dans un répertoire :
+      CATDMUSaveAsFrozen -save directory -product productpath
+                         [-prefix prefix][-data][-cache]
+                         [-user user -spwd cryppwd -server srv]\n
+   Exporter les documents relatifs à un produit dans un répertoire :
+      CATDMUSaveAsFrozen -export directory -product productpath
+                         [-prefix prefix][-data]
+                         [-user user -spwd cryppwd -server srv]
+                         [-s char][-list listfile]\n
+   Importer le contenu d'un répertoire dans le cache :
+      CATDMUSaveAsFrozen -import directory
+                         [-s char][-list listfile]\n
+Exemples sous Windows :\n
+   CATDMUSaveAsFrozen -h
+   CATDMUSaveAsFrozen -import c:\u\input\n
+Exemples sous Unix :\n
+   CATDMUSaveAsFrozen -h
+   CATDMUSaveAsFrozen -export /u/export1 -product /u/sample.CATProduct
+   CATDMUSaveAsFrozen -save /u/save2 -product /u/sample.CATProduct\n
+Arguments :\n
+   -h                   : Aide.
+   -save directory      : Pour enregistrer les documents relatifs à un produit
+                          dans un répertoire.
+                          Il peut s'agir d'un DLName précédé de 'CATDLN://'.
+   -export directory    : Pour exporter les documents relatifs à un produit
+                          dans un répertoire.
+                          Il peut s'agir d'un DLName précédé de 'CATDLN://'.
+   -import directory    : Pour importer le contenu d'un répertoire dans le cache.
+                          Il peut s'agir d'un DLName précédé de 'CATDLN://'.
+   -product productpath : Définir le produit à traiter.
+                          Il peut s'agir d'un DLName précédé de 'CATDLN://').
+   -prefix prefix       : Définir un préfixe pour tous les produits à sauvegarder.
+   -data                : Enregistrer la géométrie.
+   -cache               : Enregistrer les données de cache.
+   -user user           : Définir l'utilisateur VPM.
+   -spwd cryppwd        : Définir le mot de passe de l'utilisateur VPM.
+                          Il est décrypté avant utilisation.
+   -server srv          : Définir le serveur VPM.
+   -s char              : Définir le caractère utilisé pour séparer les zones sur une ligne
+                          dans un fichier de sortie.
+   -list listfile       : Le fichier de sortie contenant la liste des documents
+                          à copier. Chaque ligne contient le chemin d'accès aux données originales
+                          et celui aux données copiées séparés par un caractère de séparateur
+                          (voir l'option -s).\n
+   NB : Les paramètres user, spwd et server sont requis si les documents font référence à VPM.\n
+Diagnostics :\n
+   Les valeurs de retours possibles sont :\n
+      0   Traitement réussi.\n
+      1   Echec dû à l'une des causes suivantes :
+          - licence non disponible
+          - gestion du cache désactivée
+          - arguments manquants
+          - paramètre non valide
+          - paramètre manquant après une option
+          - fichier d'entrée manquant
+          - fichier introuvable
+          - ouverture d'un fichier d'entrée impossible
+          - type de document erroné\n
+      2   Erreur de traitement.\n
+      3   Traitement partiel.\n
+Corrections :\n
+   Code de retour = 1 :
+      Modifiez la ligne de commande ou l'environnement à l'aide des informations contenues dans
+      le fichier d'erreur standard.\n
+   Code de retour = 2 :
+      Prenez contact avec l'assistance technique locale.\n
+   Code de retour = 3 :
+      Corrigez les fichiers posant problème : leurs noms figurent dans le fichier d'erreur standard.
+      Une utilisation interactive des fichiers peut vous informer de l'erreur.
+";
+ERR_PROCESSING="ERREUR: CATDMUSaveAsFrozen n'a pas pu effectuer le traitement.";
+ERR_TREATMENT="ERREUR: Le répertoire/fichier suivant ne peut être traité:";
+OK_TREATMENT="OK: Le répertoire/fichier suivant a été traité:";
+START_BATCH="CATDMUSaveAsFrozen démarre à :";
+STOP_BATCH="CATDMUSaveAsFrozen se termine après une durée de :";

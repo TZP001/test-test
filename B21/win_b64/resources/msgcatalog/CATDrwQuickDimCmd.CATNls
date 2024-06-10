@@ -1,0 +1,179 @@
+//=====================================================================================
+//                                     CNEXT - CXRn
+//                          COPYRIGHT DASSAULT SYSTEMES 1998 
+//-------------------------------------------------------------------------------------
+// FILENAME    :    CATDrwQuickDimCmd
+// LOCATION    :    DraftingIntCommands
+// AUTHOR      :    jmt
+// BUT         :    Commande de creation de cote
+// DATE        :    ??.10.1998
+//-------------------------------------------------------------------------------------
+// DESCRIPTION :    
+//-------------------------------------------------------------------------------------
+// COMMENTS    :    
+//-------------------------------------------------------------------------------------
+// MODIFICATIONS     user  date        purpose
+//    HISTORY        ----  ----        -------
+//      01           fgx   04.10.2000  Rearchitecturation CXR6
+//=====================================================================================
+
+//******************************************************************************
+// Command
+//******************************************************************************
+CATDrwQuickDimCmd.UndoTitle="Dimension(s) Creation";
+
+//******************************************************************************
+// Agents
+//******************************************************************************
+CATDrwQuickDimCmd._agentSet.UndoTitle = "Selection";
+
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+// Interactive Dimension Cmd : SwitchAgent related to Orientation purpose ...
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+CATDrwQuickDimCmd.OrientBarRessource.Bar.Title="Orientation";
+
+//******************************************************************************
+// Reference Element Button - V5R3 Only
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource.RefElem.Title = "Reference Element";
+CATDrwQuickDimCmd.OrientBarRessource.RefElem.ShortHelp="Reference Element";
+CATDrwQuickDimCmd.OrientBarRessource.RefElem.Help=
+"Dimension line orientation depends on the selected element";
+CATDrwQuickDimCmd.OrientBarRessource.RefElem.LongHelp=
+"Element Reference
+Dimension line orientation depends on the selected element";
+
+//******************************************************************************
+// Reference View Button - V5R3 Only
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource.RefVue.Title = "View Reference";
+CATDrwQuickDimCmd.OrientBarRessource.RefVue.ShortHelp="View Reference";
+CATDrwQuickDimCmd.OrientBarRessource.RefVue.Help=
+"Dimension line orientation is linked to view directions";
+CATDrwQuickDimCmd.OrientBarRessource.RefVue.LongHelp=
+"View Reference
+Dimension line orientation is linked to view directions";
+
+//******************************************************************************
+// Projected dimension Button
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource._RefElem.Title = "Projected dimension";
+CATDrwQuickDimCmd.OrientBarRessource._RefElem.ShortHelp="Projected dimension";
+CATDrwQuickDimCmd.OrientBarRessource._RefElem.Help=
+"Dimension line orientation depends on mouse position";
+CATDrwQuickDimCmd.OrientBarRessource._RefElem.LongHelp=
+"Projected dimension
+Dimension line orientation depends on mouse position.";
+
+//******************************************************************************
+// Force dimension on element Button
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource._RefAuto.Title = "Force dimension on element";
+CATDrwQuickDimCmd.OrientBarRessource._RefAuto.ShortHelp="Force dimension on element";
+CATDrwQuickDimCmd.OrientBarRessource._RefAuto.Help=
+"Forces dimension line to be parallel to the dimensioned element";
+CATDrwQuickDimCmd.OrientBarRessource._RefAuto.LongHelp=
+"Force dimension on element
+Forces dimension line to be parallel to the dimensioned element.";
+
+//******************************************************************************
+// Force horizontal dimension Button
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource._RefHoriz.Title = "Force horizontal dimension in view";
+CATDrwQuickDimCmd.OrientBarRessource._RefHoriz.ShortHelp="Force horizontal dimension in view";
+CATDrwQuickDimCmd.OrientBarRessource._RefHoriz.Help=
+"Forces dimension line to be horizontal in view";
+CATDrwQuickDimCmd.OrientBarRessource._RefHoriz.LongHelp=
+"Force horizontal dimension in view
+Forces dimension line to be horizontal in view.";
+
+//******************************************************************************
+// Force vertical dimension Button
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource._RefVert.Title = "Force vertical dimension in view";
+CATDrwQuickDimCmd.OrientBarRessource._RefVert.ShortHelp="Force vertical dimension in view";
+CATDrwQuickDimCmd.OrientBarRessource._RefVert.Help=
+"Forces dimension line to be vertical in view";
+CATDrwQuickDimCmd.OrientBarRessource._RefVert.LongHelp=
+"Force vertical dimension in view
+Forces dimension line to be vertical in view.";
+
+//******************************************************************************
+// Force user defined dimension Button
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource._RefUser.Title = "Force dimension along a direction";
+CATDrwQuickDimCmd.OrientBarRessource._RefUser.ShortHelp="Force dimension along a direction";
+CATDrwQuickDimCmd.OrientBarRessource._RefUser.Help=
+"Forces dimension line to be along a direction";
+CATDrwQuickDimCmd.OrientBarRessource._RefUser.LongHelp=
+"Force dimension along a direction
+Forces dimension line to be along a direction.";
+
+//******************************************************************************
+// True length dimension Button
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource.VraiGrandeur.Title = "True length dimension";
+CATDrwQuickDimCmd.OrientBarRessource.VraiGrandeur.ShortHelp="True length dimension";
+CATDrwQuickDimCmd.OrientBarRessource.VraiGrandeur.Help=
+"Creates a dimension in true length dimension mode";
+CATDrwQuickDimCmd.OrientBarRessource.VraiGrandeur.LongHelp=
+"True length dimension
+Creates a dimension in true length dimension mode.";
+
+//******************************************************************************
+// Force dimension along direction Button
+//******************************************************************************
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionParallel.Title = "Dimension along a direction";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionParallel.ShortHelp="Dimension along a direction";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionParallel.Help=
+"Sets dimension line along a direction";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionParallel.LongHelp=
+"Dimension along a direction
+Sets dimension line along a direction.";
+
+//******************************************************************************
+// Force dimension perpendicular to direction Button
+//******************************************************************************
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionPerpendicular.Title = "Dimension perpendicular to a direction";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionPerpendicular.ShortHelp="Dimension perpendicular to a direction";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionPerpendicular.Help=
+"Sets dimension line perpendicular to a direction";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionPerpendicular.LongHelp=
+"Dimension perpendicular to a direction
+Sets dimension line perpendicular to a direction.";
+
+//******************************************************************************
+// Force dimension along a fixed angle in view Button
+//******************************************************************************
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionAngle.Title = "Dimension along a fixed angle in view";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionAngle.ShortHelp="Dimension along a fixed angle in view";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionAngle.Help=
+"Sets dimension line to a fixed angle in view";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionAngle.LongHelp=
+"Dimension along a fixed angle in view
+Sets dimension line to a fixed angle in view.";
+
+//******************************************************************************
+// Intersection detection switch
+//******************************************************************************
+CATDrwQuickDimCmd.IntersectionAgentResource.Check.Title="Intersection point detection";
+CATDrwQuickDimCmd.IntersectionAgentResource.Check.ShortHelp="Intersection point detection";
+CATDrwQuickDimCmd.IntersectionAgentResource.Check.Help=
+"Detects intersection points when dimensioning";
+CATDrwQuickDimCmd.IntersectionAgentResource.Check.LongHelp=
+"Intersection point detection
+Detects intersection points when dimensioning.";
+
+//******************************************************************************
+// Angle
+//******************************************************************************
+CATDrwQuickDimCmd.Angle.Dimension.EnglobingFrame.IntermediateFrame.Label.Title = "Angle: ";
+CATDrwQuickDimCmd.Angle.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp = "Enter the angle from the direction";
+
+//******************************************************************************
+// Driving Dim Value
+//******************************************************************************
+CATDrwQuickDimCmd.Value.Dimension.EnglobingFrame.IntermediateFrame.Label.Title = "Value: ";
+CATDrwQuickDimCmd.Value.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp = "Enter the value of the driving dimension";
+

@@ -1,0 +1,140 @@
+// DO NOT EDIT :: THE CAA2 WIZARD WILL REPLACE ALL THE CODE HERE
+// Ce fichier est une modification de CATTPSTTRSPropWnd.CATDlg pour
+// remplacer la fenetre par un frame.
+
+
+//AVANT:
+//CATDlgDialog CATTPSTTRSPropWnd
+//{
+//  STYLE = CATDlgWndNoButton|CATDlgGridLayout;
+//}
+
+//MAINTENANT
+CATDlgFrame CATTPSTTRSPropPage //Root father
+{
+  STYLE = CATDlgFraNoTitle|CATDlgGridLayout;
+}
+
+CATDlgFrame GeneralFrame
+{
+  FATHER = CATTPSTTRSPropPage;
+  STYLE = CATDlgFraNoFrame|CATDlgGridLayout;
+  GRID = { 0, 0, 1, 1, CATGRID_4SIDES };
+}
+
+CATDlgFrame FeatIdFrame
+{
+  FATHER = GeneralFrame;
+  STYLE = CATDlgFraNoTitle|CATDlgGridLayout;
+  GRID = { 0, 0, 1, 1, CATGRID_4SIDES };
+}
+
+CATDlgLabel TTRSidLab
+{
+  FATHER = FeatIdFrame;
+  GRID = { 0, 0, 1, 1, CATGRID_4SIDES };
+}
+
+CATDlgEditor TTRSIdEd
+{
+  FATHER = FeatIdFrame;
+  STYLE = CATDlgEdtReadOnly;
+  TH = 1;
+  TW = 10;
+  GRID = { 0, 1, 1, 1, CATGRID_4SIDES };
+}
+
+CATDlgFrame TTRSDetailFrame
+{
+  FATHER = GeneralFrame;
+  STYLE = CATDlgGridLayout;
+  GRID = { 1, 0, 1, 1, CATGRID_4SIDES };
+}
+
+CATDlgFrame ImpClassFrame
+{
+  FATHER = TTRSDetailFrame;
+  STYLE = CATDlgFraNoTitle|CATDlgGridLayout;
+  GRID = { 0, 0, 1, 1, CATGRID_4SIDES };
+}
+
+CATDlgLabel ClassImpLab
+{
+  FATHER = ImpClassFrame;
+  GRID = { 0, 0, 1, 1, CATGRID_4SIDES };
+}
+
+CATDlgCombo ImpClassComb
+{
+  FATHER = ImpClassFrame;
+  STYLE = CATDlgCmbOptionStyle;
+  //TH = 1;
+  TW = 4;
+  GRID = { 0, 1, 1, 1, 0 };
+}
+
+CATDlgFrame Frame
+{
+  FATHER = TTRSDetailFrame;
+  STYLE = CATDlgFraNoTitle|CATDlgGridLayout;
+  GRID = { 0, 1, 1, 1, CATGRID_4SIDES };
+}
+
+CATDlgLabel ClassLab
+{
+  FATHER = Frame;
+  GRID = { 0, 0, 1, 1, CATGRID_4SIDES };
+}
+
+CATDlgEditor ClassEd
+{
+  FATHER = Frame;
+  STYLE = CATDlgEdtAlphanumerical|CATDlgEdtReadOnly;
+  TH = 1;
+  TW = 11;
+  GRID = { 0, 1, 1, 1, CATGRID_LEFT|CATGRID_TOP };
+}
+
+CATDlgLabel TypeLab
+{
+  FATHER = Frame;
+  GRID = { 1, 0, 1, 1, CATGRID_4SIDES };
+}
+
+CATDlgEditor TypeEd
+{
+  FATHER = Frame;
+  STYLE = CATDlgEdtReadOnly;
+  GRID = { 1, 1, 1, 1, CATGRID_4SIDES };
+}
+
+CATDlgLabel TolNbLab
+{
+  FATHER = Frame;
+  GRID = { 2, 0, 1, 1, CATGRID_4SIDES };
+}
+
+CATDlgEditor NbTolEd
+{
+  FATHER = Frame;
+  STYLE = CATDlgEdtInteger|CATDlgEdtReadOnly;
+  GRID = { 2, 1, 1, 1, CATGRID_4SIDES };
+}
+
+CATDlgFrame DescriptionFrame
+{
+  FATHER = TTRSDetailFrame;
+  STYLE = CATDlgGridLayout;
+  GRID = { 1, 0, 2, 1, CATGRID_4SIDES };
+}
+
+CATDlgEditor DescriptionEd
+{
+  FATHER = DescriptionFrame;
+  STYLE = CATDlgEdtMultiline|CATDlgEdtAlphanumerical|CATDlgEdtReadOnly;
+  TH = 3;
+  TW = 30;
+  GRID = { 0, 0, 1, 1, CATGRID_CST_SIZE };
+}
+
+// END WIZARD REPLACEMENT ZONE

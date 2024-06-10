@@ -1,0 +1,80 @@
+INFO_HELP="
+CATDMUSaveAsFrozenによりDMU関連のﾄﾞｷｭﾒﾝﾄ(ﾌﾟﾛﾀﾞｸﾄ､形状､およびｷｬｯｼｭ ﾃﾞｰﾀ)を管理できます｡ \n
+使用法: \n
+   ﾍﾙﾌﾟ情報を検索する:
+      CATDMUSaveAsFrozen -h \n
+   ﾌﾟﾛﾀﾞｸﾄに関連したﾄﾞｷｭﾒﾝﾄをﾃﾞｨﾚｸﾄﾘに保存する:
+      CATDMUSaveAsFrozen -save directory -product productpath
+                         [-prefix prefix][-data][-cache]
+                         [-user user -spwd cryppwd -server srv] \n
+   ﾌﾟﾛﾀﾞｸﾄに関連したﾄﾞｷｭﾒﾝﾄをﾃﾞｨﾚｸﾄﾘにｴｸｽﾎﾟｰﾄする:
+      CATDMUSaveAsFrozen -export directory -product productpath
+                         [-prefix prefix][-data]
+                         [-user user -spwd cryppwd -server srv]
+                         [-s char][-list listfile] \n
+   ﾃﾞｨﾚｸﾄﾘの内容をｷｬｯｼｭにｲﾝﾎﾟｰﾄする:
+      CATDMUSaveAsFrozen -import directory
+                         [-s char][-list listfile] \n
+Windowsの例: \n
+   CATDMUSaveAsFrozen -h
+   CATDMUSaveAsFrozen -import c:\u\input \n
+UNIXの例: \n
+   CATDMUSaveAsFrozen -h
+   CATDMUSaveAsFrozen -export /u/export1 -product /u/sample.CATProduct
+   CATDMUSaveAsFrozen -save /u/save2 -product /u/sample.CATProduct \n
+引数: \n
+   -h                   : ﾍﾙﾌﾟ｡
+   -save directory      : このﾃﾞｨﾚｸﾄﾘにﾌﾟﾛﾀﾞｸﾄに関連したﾄﾞｷｭﾒﾝﾄを保存する｡
+                          このﾃﾞｨﾚｸﾄﾘは､
+                          'CATDLN://'で始まるDLNameの場合があります｡
+   -export directory    : このﾃﾞｨﾚｸﾄﾘにﾌﾟﾛﾀﾞｸﾄに関連したﾄﾞｷｭﾒﾝﾄをｴｸｽﾎﾟｰﾄする｡
+                          このﾃﾞｨﾚｸﾄﾘは､
+                          'CATDLN://'で始まるDLNameの場合があります｡
+   -import directory    : ﾃﾞｨﾚｸﾄﾘの内容をｷｬｯｼｭにｲﾝﾎﾟｰﾄします｡
+                          このﾃﾞｨﾚｸﾄﾘは､'CATDLN://'で始まるDLNameの場合があります｡
+   -product productpath : 処理するﾌﾟﾛﾀﾞｸﾄを定義する｡
+                          ﾊﾟｽには'CATDLN://'で始まるDLNameを含めることができます｡
+   -prefix prefix       : すべてのﾌﾟﾛﾀﾞｸﾄを名前に接頭部を付けて保存する｡
+   -data                : 形状を保存する｡
+   -cache               : ｷｬｯｼｭ ﾃﾞｰﾀを保存する｡
+   -user user           : VPMﾕｰｻﾞｰを定義する｡
+   -spwd cryppwd        : ﾕｰｻﾞｰのVPMﾊﾟｽﾜｰﾄﾞを定義する｡
+                          これは使用前に暗号化解除されます｡
+   -server srv          : VPMｻｰﾊﾞｰを定義する｡
+   -s char              : 出力ﾌｧｲﾙ内の行でﾌｨｰﾙﾄﾞを分けるために使用される
+                          文字を定義する｡
+   -list listfile       : ｺﾋﾟｰするﾄﾞｷｭﾒﾝﾄのﾘｽﾄを含むﾌｨｰﾙﾄﾞを
+                          出力する｡各直線には元のﾃﾞｰﾀのﾊﾟｽおよび
+                          ｺﾋﾟｰ ﾃﾞｰﾀのﾊﾟｽが､ｾﾊﾟﾚｰﾀ文字で分断されて
+                          含まれています(-s ｵﾌﾟｼｮﾝを参照)｡ \n
+   注: ﾄﾞｷｭﾒﾝﾄがVPMを参照する場合は､user､spwdおよびserverﾊﾟﾗﾒｰﾀが必要です｡ \n
+診断: \n
+   可能な出口状況: \n
+      0   正常終了｡ \n
+      1   次のいずれかの理由で失敗:
+          - ﾗｲｾﾝｽが使用不可
+          - ｷｬｯｼｭ管理が非活動化されている
+          - 引数が不足
+          - ﾊﾟﾗﾒｰﾀが無効
+          - ｵﾌﾟｼｮﾝの後のﾊﾟﾗﾒｰﾀが不足
+          - 入力ﾌｧｲﾙが不足
+          - ﾌｧｲﾙが見つからない
+          - 入力ﾌｧｲﾙを開けない
+          - ﾄﾞｷｭﾒﾝﾄのﾀｲﾌﾟが正しくない \n
+      2   処理ｴﾗｰ｡ \n
+      3   部分的に処理｡ \n
+ﾄﾗﾌﾞﾙｼｭｰﾃｨﾝｸﾞ: \n
+   出口状況 = 1:
+      標準ｴﾗｰ ﾌｧｲﾙに含まれている情報を使用して､ｺﾏﾝﾄﾞ ﾗｲﾝまたは
+      環境を修正してください｡ \n
+   出口状況 = 2:
+      ｻﾎﾟｰﾄ担当員に連絡してください｡ \n
+   出口状況 = 3:
+      問題の原因ﾌｧｲﾙを修正してください: ﾌｧｲﾙ名は標準ｴﾗｰ ﾌｧｲﾙに含まれています｡
+      ﾌｧｲﾙを対話的に使用すると､問題に関する情報が報告される場合があります｡
+";
+ERR_PROCESSING="ｴﾗｰ: CATDMUSaveAsFrozenが処理に失敗しました｡";
+ERR_TREATMENT="ｴﾗｰ: 次のﾄﾞｷｭﾒﾝﾄ/ﾃﾞｨﾚｸﾄﾘを処理できません｡";
+OK_TREATMENT="OK: 次のﾄﾞｷｭﾒﾝﾄ/ﾃﾞｨﾚｸﾄﾘが処理されました｡";
+START_BATCH="CATDMUSaveAsFrozenの開始日時:";
+STOP_BATCH="CATDMUSaveAsFrozenの停止までの持続時間:";

@@ -1,0 +1,330 @@
+#*****************************************************************************
+# CATIA Version 5 Release 2 Framework PcbModeler
+# Copyright Dassault Systemes 1999
+#*****************************************************************************
+#  Abstract:
+#  ---------
+#
+#*****************************************************************************
+#  Usage:
+#  ------
+#
+#*****************************************************************************
+#  Historic
+#  --------
+#
+#  Author: Julio RIVERTI
+#  Date  : 07/01/99
+#  Goal  : Creation
+#
+#*****************************************************************************
+#                           
+#--------------------------  CATIPcbFactory  -------------------
+#                            --------------
+ASMPRODUCT	             CATIPcbFactory              libPCBModeler
+#                           
+#--------------------------  CATIElectricalBase  -------------------
+#                            ------------------
+ElecBehaviour	             CATIElectricalBase          libPCBModeler
+ElecAnnotation               CATIElectricalBase          libPCBModeler
+#                           
+#--------------------------  CATIElecExtension  -------------------
+#                            ------------------
+ElecBehaviour	             CATIElecExtension          libPCBModeler
+#                           
+#--------------------------  CATIPcbObject   -------------------
+#                            -------------
+ASMPRODUCT	             CATIPcbObject               libPCBModeler
+Pocket  	             CATIPcbObject               libPCBModeler
+Hole    	             CATIPcbObject               libPCBModeler
+RectPattern   	             CATIPcbObject               libPCBModeler
+UserPattern   	             CATIPcbObject               libPCBModeler
+CircPattern   	             CATIPcbObject               libPCBModeler
+Pad                          CATIPcbObject               libPCBModeler    
+#
+#--------------------------  CATIPcbRepresentation   -------------------
+#                            -------------
+ASMPRODUCT	             CATIPcbRepresentation       libPCBModeler   CATElecProdPreCond
+#
+#--------------------------- CATInit ------------------
+#                            ------
+idf 			     CATInit  			 libPCBoardUI
+brd                          CATInit                     libPCBoardUI
+bdf                          CATInit                     libPCBoardUI
+
+#
+#--------------------------- CATIEditor ------------------
+#                            ------
+idf 			     CATIEditor			 libPCBoardUI
+brd 			     CATIEditor			 libPCBoardUI
+bdf 			     CATIEditor			 libPCBoardUI
+
+#
+#--------------------------- CATIDocument ------------------
+#                            ------
+#idf 			     CATIDocument		 libPCBoardUI
+#
+#--------------------------- CATIDocAlias ------------------
+#                            ------
+#idf 			     CATIDocAlias 		 libPCBoardUI
+#
+#--------------------------- CATIPersistent ----------------
+#			     -------------- 
+idf 			     CATIPersistent 		 libPCBoardUI
+brd 			     CATIPersistent 		 libPCBoardUI
+bdf 			     CATIPersistent 		 libPCBoardUI
+   
+#
+#--------------------------- CATIExchangeDocument
+#			     ------------------------ 
+idf 			     CATIExchangeDocument	 libPCBoardUI
+brd 			     CATIExchangeDocument	 libPCBoardUI
+bdf 			     CATIExchangeDocument	 libPCBoardUI
+
+#
+#--------------------------- CATIConvert
+#			     ------------------------ 
+idf 			     CATIConvert        	 libPCBoard
+brd 			     CATIConvert        	 libPCBoard
+bdf 			     CATIConvert        	 libPCBoard
+#
+#--------------------------- CATIPCBoardWorkshopFactory		
+#			     --------------------------
+CATApplicationFrame 	     CATIPCBoardWorkshop2ConfigurationFactory	libCATPCBWkbPCBoardWorkshop
+#
+#--------------------------- CATIPrtWksConfigurationFactory	
+#			     -----------------------------	
+PCBoardWorkshop2             CATIPrtWksConfiguration    libCATPCBWkbPCBoardWorkshop	
+#                           
+#--------------------------  CATIElecInternalServ 
+#                            --------------------
+ASMPRODUCT	             CATIElecInternalServ        libPCBModeler
+Pocket  	             CATIElecInternalServ        libPCBModeler
+Hole      	             CATIElecInternalServ        libPCBModeler
+RectPattern    	             CATIElecInternalServ        libPCBModeler
+UserPattern    	             CATIElecInternalServ        libPCBModeler
+CircPattern    	             CATIElecInternalServ        libPCBModeler
+Pad                          CATIElecInternalServ        libPCBModeler
+#                           
+#--------------------------  CATIPcbHole 
+#                            -----------
+Pocket                       CATIPcbHole                 libPCBModeler
+Hole                         CATIPcbHole                 libPCBModeler
+#                           
+#--------------------------  CATIPcbPattern
+#                            --------------
+RectPattern                  CATIPcbPattern              libPCBModeler
+UserPattern                  CATIPcbPattern              libPCBModeler
+CircPattern                  CATIPcbPattern              libPCBModeler
+#                          
+#--------------------------  CATIPcbPad
+#                            -----------
+Pad                          CATIPcbPad                  libPCBModeler
+#
+#--------------------------  CATIParmPublisher
+#                            ------------------
+ElecBehaviour	             CATIParmPublisher           libPCBModeler
+#                           
+#--------------------------  CATIElecProperty  
+#                            ------------------
+ElecBehaviour	             CATIElecProperty            libPCBModeler
+#
+#                           
+# PCB Edit Properties
+#
+#-----------------------------------------------------------------------------------
+#                            CATIRootProperties
+#                            ---------------------
+#ASMPRODUCT		     CATIRootProperties			libPCBoardEP
+#Hole			     CATIRootProperties			libPCBoardEP
+#UserPattern		     CATIRootProperties			libPCBoardEP
+#RectPattern                  CATICBDRootProperties		libPCBoardEP
+#----------------------------
+#                            CATICBDRootProperties	
+#                            ---------------------
+#CirPattern                   CATICBDRootProperties		libPCBoardEP
+#UserPattern                  CATICBDRootProperties		libPCBoardEP
+#RectPattern		     CATIRootProperties			libPCBoardEP
+#
+#--------------------------  CATIEditProperties 
+#                            ------------------
+GDPropEditZone               CATIEditProperties                 libPCBoardEP
+GDPropEditHole      	     CATIEditProperties      		libPCBoardEP
+GDPropEditBoard      	     CATIEditProperties      		libPCBoardEP 
+GDPropEditComponent          CATIEditProperties      		libPCBoardEP      
+GDPropEditPcbPattern	     CATIEditProperties      		libPCBoardEP
+#
+#-------------------------- CATIPropEditHoleFactory
+#                           -----------------------
+CATEditorManager	    CATIPropEditHoleFactory                     libPCBoardEP
+#
+#-------------------------- CATIPropEditZoneFactory
+#                           -----------------------
+CATEditorManager	    CATIPropEditZoneFactory                     libPCBoardEP
+#
+#-------------------------- CATIPropEditBoardFactory   
+#                           ------------------------
+CATEditorManager	    CATIPropEditBoardFactory         libPCBoardEP
+#
+#-------------------------- CATIPropEditComponentFactory
+#                           ----------------------------
+CATEditorManager	    CATIPropEditComponentFactory         libPCBoardEP
+#
+#--------------------------  CATIPropEditPcbPatternFactory
+#                            -----------------------
+CATEditorManager	     CATIPropEditPcbPatternFactory         libPCBoardEP
+#
+#
+#--------------------------- Context -----------------------
+#--------------------------- CATIPCBProduct
+#                            --------------
+CATProduct		     CATIPCBProduct                     libPCBoardUI
+#
+#----------------------------------------------------------
+CATPart 		     CATIPCBProduct                     libPCBoardUI
+#
+#----------------------------------------------------------
+#-------------------------- CATIPCBHeader 
+#                           ------------
+CATPCBoardCommandHeader    CATIPCBHeader 			libPCBHeader
+#
+#----------------------------------------------------------------------------
+# --------------------- Test Replace ----------------------------------------
+#
+idffile       	CATIProductSelection                         	libPCBoardUI
+#
+idffile       	CATIProductFileSelection                     	libPCBoardUI
+# --------------------------------------------------------------------------
+# Cicruit Board Design  Settings management bindings
+# --------------------------------------------------------------------------
+#CATEditorManager            CATIPCBEditorFactory               libPCBSettings
+#CATEditorManager2           CATIPCBEditorFactory               libPCBSettings
+#CATEditorManager            CATIPCBEditorBisFactory            libPCBSettings
+#CATEditorManager2           CATIPCBEditorBisFactory            libPCBSettings
+# 1) Ajoute les onglets qui s'appuie sur le .Nls et .Rsc de meme nom
+CATPCBSettingsEditor         CATIUserSettings                   libPCBSettings
+CATPCBSettingsEditorBis      CATIUserSettings                   libPCBSettings
+# 2) La Factory appele CATIPCBEditorFactory -> CATPCBSettingsEditorFactory
+CATUserSettingsManager       CATIPCBEditorFactory               libPCBSettings
+CATUserSettingsManager       CATIPCBEditorBisFactory            libPCBSettings
+#---------------------------------------------------------------------------
+# journaling 
+#---------------------------------------------------------------------------
+#--------------------------  CATIAPCBBoard   ---------------------
+#
+ASMPRODUCT	             CATIAPCBBoard               libPCBExt     CATPCBExtCond 
+#
+#-------------------------  CATIAPCBBoard   ---------------------
+#
+CATIAWorkbenchImpl	     CATIAPCBWorkbench           libPCBExt
+#
+#--------------------------  CATIAPCBObject   ---------------------
+Pad  CATIAPCBObject    libPCBExt   
+CircPattern     CATIAPCBObject    libPCBExt
+UserPattern	    CATIAPCBObject	   libPCBExt
+RectPattern     CATIAPCBObject		libPCBExt
+ASMPRODUCT      CATIAPCBObject	libPCBExt
+Hole            CATIAPCBObject    libPCBExt
+#
+#-------------------------  CATIAPCBBoard   ---------------------
+#
+Hole    CATIAPCBHoleAndPattern   libPCBExt
+CircPattern     CATIAPCBHoleAndPattern    libPCBExt
+UserPattern	    CATIAPCBHoleAndPattern	   libPCBExt
+RectPattern     CATIAPCBHoleAndPattern		libPCBExt
+#
+#-------------------------  CATIAPCBComponent   ---------------------
+#
+ASMPRODUCT        CATIAPCBComponent     libPCBExt
+#
+#-------------------------  CATIAPCBComponent   ---------------------
+#
+Pad           CATIAPCBArea    libPCBExt
+#
+#---------------------------------------------------------------------------
+# END journaling 
+#---------------------------------------------------------------------------
+#-----------
+# ANNOTATION
+#-----------
+ElecAnnotation              CATIParmPublisher           libPCBModeler
+CATPcbContainerNav          CATINavigateObject         libPCBModeler
+CATPcbContainerNav          CATIAsmNavigateStruct      libPCBModeler
+CATPcbContainerNav_node     CATINavigModify            libPCBModeler
+CATPcbBehaviourCont         CATINavigateProvider       libPCBModeler   
+CATPcbBehaviourCont         CATIParmProvider       libPCBModeler
+CATPcbBehaviourCont         CATIIconProvider            libPCBModeler
+CATPcbBehaviourCont			CATI3DVisuProvider         libPCBModeler
+
+ElecAnnotation              CATINavigateObject         libPCBModeler
+ElecAnnotation              CATINAsmNavigateStruct     libPCBModeler
+ElecAnnotation_node         CATINavigModify            libPCBModeler
+#
+#-------------------------- CATIPropEditAnnotationFactory
+#                           -----------------------
+CATEditorManager	    CATIPropEditAnnotationFactory       libPCBoardEP
+ElecAnnotation              CATIProperty                        libPCBModeler 
+ElecAnnotation		    CATIRootProperties			libPCBoardEP
+#-----------------------------------------------------------------------------
+ElecAnnotation              CATIElecProperty                    libPCBModeler
+
+#-----------------------------------------------------------------------------
+ElecAnnotation              CATI3DGeoVisu                         libPCBModeler
+CATPcbContainerNav          CATI3DGeoVisu                         libPCBModeler  
+ElecAnnotation            CATIPcbParmValue                      libPCBModeler
+ElecAnnotation              CATIModelEvents                       libPCBModeler
+CATPcbContainerNav         CATIModelEvents        libPCBModeler
+ASMPRODUCT                 CATIPCBStatus          libPCBModeler
+ElecBehaviour              CATIPcbParmValue        libPCBModeler
+
+ElecAnnotation             LifeCycleObject    libPCBModeler 
+ElecAnnotation             CATICmdAvailabilityMng  libPCBModeler
+CATPcbBehaviourCont         CATICutAndPastable  libPCBModeler  
+CATPcbBehaviourCont         CATIModelEvents      libPCBModeler
+CATPcbBehaviourCont         CATInit               libPCBModeler
+#---------------------------------------------------------------------------
+CATPart	   			CATIPCBDocument       libPCBModeler   CATElecProdPreCond
+#--------------------- Nouveau type ElecHoles ----------------------
+ElecHoles                    CATIElecProperty            libPCBModeler       
+ElecHoles                    CATIElectricalBase          libPCBModeler
+ElecHoles                    CATIParmPublisher           libPCBModeler
+
+ElecHoles                    CATINAsmNavigateStruct      libPCBModeler
+ElecHoles                    CATI3DGeoVisu               libPCBModeler
+ElecHoles                    CATIPcbObject               libPCBModeler
+ElecHoles                    CATIContextualSubMenu       libPCBoardGraph
+ElecHoles_node               CATINavigModify             libPCBModeler
+
+CATPCBElecHolesView          CATICkeAttr                 libPCBModeler
+CATPCBElecHolesView          CATICkeAttrDesc	         libPCBModeler
+CATPCBElecHolesView          CATICkeType                 libPCBModeler  
+CATPCBElecHolesView          CATICkeTypedObject          libPCBModeler
+
+CATPcbContainerHoleNav       CATI3DVisuProvider           libPCBModeler
+CATPcbContainerHoleNav       CATINavigateObject          libPCBModeler
+CATPcbContainerHoleNav       CATIAsmNavigateStruct       libPCBModeler
+CATPcbContainerHoleNav       CATI3DGeoVisu               libPCBModeler
+CATPcbContainerHoleNav_node  CATINavigModify             libPCBModeler
+
+CATPcbBehaviourCont          CATINavigateObject          libPCBModeler 
+ElecHoles		CATIRootProperties    libPCBoardEP
+
+# THE CAA2 WIZARDS HAS INSERTED CODE AT THE BOTTOM OF THIS FILE
+# YOU MAY HAVE TO RELOCATE THIS SOURCE IF COMPILATION FAILS
+# DO NOT EDIT :: THE CAA2 WIZARDS WILL ADD CODE HERE   
+
+
+
+CATPcbMcadToIcadGlobalSettingCtrl	CATIAMcadToIcadGlobalSettingAtt			libPCBSettings
+CATPcbMcadToIcadGlobalSettingCtrl       CATICreateInstance      libPCBSettings
+CATPcbMcadToIcadGlobalSettingCtrl       CATIPcbMcadToIcadGlobalSettingAtt  libPCBSettings
+
+#- Needed to be introduceed for enabling CATSettings Dump of Second TabPage of PCBoardBase Settings start
+CATPcbMcadToIcadGlobalBisSettingCtrl	CATIAMcadToIcadGlobalBisSettingAtt	      libPCBSettings
+CATPcbMcadToIcadGlobalBisSettingCtrl       CATICreateInstance                 libPCBSettings
+CATPcbMcadToIcadGlobalBisSettingCtrl       CATIPcbMcadToIcadGlobalBisSettingAtt  libPCBSettings
+#- Needed to be introduceed for enabling CATSettings Dump of Second TabPage of PCBoardBase Settings end
+
+
+
+

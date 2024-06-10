@@ -1,0 +1,65 @@
+START_BATCH="CATDMUUtility2Dの開始日時:";
+STOP_BATCH="CATDMUUtility2Dの停止までの持続時間: ";
+ERR_PROCESSING="ｴﾗｰ: CATDMUUtility2Dが処理に失敗しました｡";
+ERR_TREATMENT="ｴﾗｰ: 入力ﾄﾞｷｭﾒﾝﾄを処理できません｡ ";
+OK_TREATMENT="OK: 入力ﾄﾞｷｭﾒﾝﾄが正常に処理されました｡ ";
+
+INFO_HELP="使用法: \n
+ﾍﾙﾌﾟ情報の検索:
+ CATDMUUtility2D -h
+入力ﾃﾞｰﾀのｴｸｽﾎﾟｰﾄ:
+ CATDMUUtility2D -id inputId -cgm outputlocation
+                [-sheet sheetName]
+                [-db VPM|ENOVIAV5 -user user -spwd cryppwd -role role
+                 -server srv]
+
+Windowsの例:
+   CATDMUUtility2D -h
+   CATDMUUtility2D -id c:\u\input.model -cgm c:\tmp\model.cgm
+Unixの例:
+   CATDMUUtility2D -h
+   CATDMUUtility2D -id /u/input2/model.model -cgm c:\tmp\model.cgm -sheet Sheet.1
+
+引数:
+   -h                   : ﾍﾙﾌﾟ
+   -id inputId          : 処理する入力ﾄﾞｷｭﾒﾝﾄを定義します｡
+                          たとえば､
+                          - ﾊﾟｽ('CATDLN://'で始まるDLName)
+                          - ﾃﾞｰﾀﾍﾞｰｽ識別子(VPMまたはLCA)
+                          さまざまなﾀｲﾌﾟ(model､CATDrawing､dxf､cdd､dwg)のﾄﾞｷｭﾒﾝﾄが処理
+                          されます｡
+   -db DatabaseType     : ﾃﾞｰﾀﾍﾞｰｽのﾀｲﾌﾟ:
+                          VPMﾃﾞｰﾀﾍﾞｰｽの場合はVPM
+                          LCAﾃﾞｰﾀﾍﾞｰｽの場合はENOVIAV5
+   -user user           : ﾃﾞｰﾀﾍﾞｰｽ ﾕｰｻﾞｰを定義する｡
+   -spwd cryppwd        : ﾕｰｻﾞｰのﾃﾞｰﾀﾍﾞｰｽ ﾊﾟｽﾜｰﾄﾞを定義する｡
+                          これは使用前に暗号化解除されます｡
+   -role role           : ﾕｰｻﾞｰのﾃﾞｰﾀﾍﾞｰｽの役割を定義する｡
+   -server srv          : ﾃﾞｰﾀﾍﾞｰｽ ｻｰﾊﾞｰを定義する｡
+   -sheet sheetName     : 入力ﾃﾞｰﾀから特定のｼｰﾄをｴｸｽﾎﾟｰﾄする｡
+
+   注: 入力ﾄﾞｷｭﾒﾝﾄがVPMまたはLCAを参照する場合は､user､spwdおよびserverﾊﾟﾗﾒｰﾀが必要です｡
+
+診断:
+   考えられる終了状況の値は次のとおりです｡
+      0   正常終了｡
+      1   次のいずれかの理由による失敗
+          - ﾗｲｾﾝｽが使用不可
+          - 引数が不足
+          - 無効なﾊﾟﾗﾒｰﾀｰ
+          - ｵﾌﾟｼｮﾝの後にﾊﾟﾗﾒｰﾀｰがない
+          - 入力ﾌｧｲﾙがない
+          - ﾌｧｲﾙが見つからない
+          - 入力ﾌｧｲﾙを開けない
+          - ﾄﾞｷｭﾒﾝﾄのﾀｲﾌﾟの誤り
+      2   処理ｴﾗｰ｡
+      3   部分的に処理｡
+
+ﾄﾗﾌﾞﾙｼｭｰﾃｨﾝｸﾞ:
+   出口状況 = 1:
+      標準ｴﾗｰ ﾌｧｲﾙに含まれている情報を使用して､ｺﾏﾝﾄﾞ ﾗｲﾝまたは
+      環境を修正してください｡
+   出口状況 = 2:
+      ｻﾎﾟｰﾄ担当者に連絡してください｡
+   出口状況 = 3:
+      問題の原因となったﾌｧｲﾙを修正してください｡ﾌｧｲﾙを対話的に使用すると､問題に関する情報が報告される場合があります｡";

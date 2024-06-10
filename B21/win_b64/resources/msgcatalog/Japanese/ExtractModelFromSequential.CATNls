@@ -1,0 +1,70 @@
+//=======================================================================
+// MODULE : ExtractModelFromSequential_Engine
+//=======================================================================
+//
+//--------------------------------------
+//  Messages from ExtractModelFromSequential Batch
+//--------------------------------------
+//
+ReportBegin="ExtractModelFromSequential - ﾚﾎﾟｰﾄ";
+ReportEnd="ExtractModelFromSequential - ﾚﾎﾟｰﾄの終わり";
+SequentialFileName="処理する順次ﾌｧｲﾙ";
+ModeDemo="ﾊﾞｯﾁの中断: ﾃﾞﾓ ﾗｲｾﾝｽ - ﾓﾃﾞﾙは書き込まれません";
+OutputDirectory="出力ﾃﾞｨﾚｸﾄﾘ";
+ModelGenerateName="生成ﾓﾃﾞﾙ";
+ModelCreationDate="   作成日: ";
+ModelLastModifDate="   最新修正日: ";
+BatchAborted1="ﾊﾞｯﾁは打ち切られました-戻りｺｰﾄﾞ=";
+BatchAborted2="ﾓﾃﾞﾙは処理されませんでした";
+BatchSuccess="ﾊﾞｯﾁは正常に処理されました-戻りｺｰﾄﾞ=";
+BatchPartial="ﾊﾞｯﾁは部分的に処理されました-戻りｺｰﾄﾞ=";
+ModelProcessed="ﾓﾃﾞﾙは処理されました";
+ModelAborted="ﾓﾃﾞﾙは打ち切られました";
+// Errors messages -------------------------------------------------
+ErrorMsg1001a="無効なﾄﾞｷｭﾒﾝﾄ ﾀｲﾌﾟ";
+ErrorMsg1001b="順次ﾌｧｲﾙは'.exp'ﾌｧｲﾙまたは'.dlv3'ﾌｧｲﾙである必要があります";
+ErrorMsg1002a="無効なﾃﾞｰﾀ構造";
+ErrorMsg1003a="無効なﾃﾞｨﾚｸﾄﾘ";
+ErrorMsg1003b="ﾃﾞｨﾚｸﾄﾘは存在しません";
+ErrorMsg1004a="無効なﾃﾞｨﾚｸﾄﾘ";
+ErrorMsg1004b="ﾃﾞｨﾚｸﾄﾘとﾒﾝﾊﾞ名が矛盾します";
+ErrorMsg1005a="無効なﾃﾞｨﾚｸﾄﾘ";
+ErrorMsg1005b="読み取りｱｸｾｽが拒否されました";
+ErrorMsg1006a="無効なﾃﾞｨﾚｸﾄﾘ";
+ErrorMsg1006b="書き込みｱｸｾｽが拒否されました";
+ErrorMsg1007a="ﾌｧｲﾙを読み取り中の問題";
+ErrorMsg1007b="ﾌｧｲﾙが存在しません";
+ErrorMsg1008a="ﾌｧｲﾙを読み取り中の問題";
+ErrorMsg1008b="読み取りｱｸｾｽが拒否されました";
+ErrorMsg1009a="ﾌｧｲﾙを読み取り中の問題";
+ErrorMsg1009b="ﾌｧｲﾙはすでに使用中です";
+ErrorMsg1010a="ﾌｧｲﾙを書き込み中の問題";
+ErrorMsg1010b="書き込みｱｸｾｽが拒否されました";
+ErrorMsg1011a="ﾌｧｲﾙを書き込み中の問題";
+ErrorMsg1011b="ﾌｧｲﾙはすでに存在しており､上書きできません";
+ErrorMsg1012a="ﾌｧｲﾙを書き込み中の問題";
+ErrorMsg1012b="書き込み操作中の内部ｴﾗｰ";
+ErrorMsg1013="警告: 出力ﾌｧｲﾙのｵｰﾌﾟﾝ時の問題:
+ \t <&param01.>
+ \t ﾌｧｲﾙ名に禁止文字が含まれています｡次の名前に変更されます:
+ \t <&param02.>
+";
+ErrorMsg1102a="ﾊﾞｯﾁ ｴﾗｰ;入力ﾊﾟﾗﾒｰﾀが多すぎます";
+ErrorMsg1997a="内部ｴﾗｰ";
+// --- Specific messages for Commande mode
+ErrorMsg1500="無効なﾊﾟﾗﾒｰﾀ - ﾊﾟﾗﾒｰﾀが二重に定義されているか､組み合わせが無効です:";
+ErrorMsg1501="ﾊﾟﾗﾒｰﾀの不足 - 必須ﾊﾟﾗﾒｰﾀがありません｡
+-id / -od / -if (または -il)は必須です";
+ErrorMsg1502="無効なﾊﾟﾗﾒｰﾀ - 未定義のﾊﾟﾗﾒｰﾀ:";
+HelpMsg="使用法:
+    CATExtractModelFromSequential -h -id inputDirectory [-if inputfile/-il inputlist] -od outputDirectory -report reportFile.txt
+       -h	    : ﾍﾙﾌﾟ
+       -id	   : 入力順次ﾃﾞｨﾚｸﾄﾘまたはDLNAME
+       -if    : 処理する順次ﾌｧｲﾙのﾘｽﾄが入っている
+                適切なﾌｧｲﾙ拡張子(たとえば .dlv3 または .exp)の入力ﾌｧｲﾙ｡
+       -il    : 処理の対象となる､
+                適切なﾌｧｲﾙ拡張子の順次ﾌｧｲﾙの入力ﾘｽﾄ
+                -ifまたは-ilﾊﾟﾗﾒｰﾀは必須
+       -od	   : 出力ﾓﾃﾞﾙ ﾃﾞｨﾚｸﾄﾘまたはDLNAME
+       -report: ﾚﾎﾟｰﾄ ﾌｧｲﾙ名";
+AlreadyExistingDocAndNoReplace="ｵﾌﾞｼﾞｪｸﾄ \"/p1 \"はすでに存在しており､上書きできません｡ｵﾌﾞｼﾞｪｸﾄを他の場所に移動してください｡";

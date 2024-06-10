@@ -1,0 +1,62 @@
+<html>
+<head>
+
+<script language="javascript">
+function AfficheDocXML(){
+	// Load XML 
+	var xml = new ActiveXObject("Microsoft.XMLDOM")
+	xml.async = false
+ 	nReq = location.search;
+	nReq = nReq.split("tdv_");
+	if(xml.load(nReq[1].substring(nReq[1].indexOf("=")+1, nReq[1].length)))
+	{
+ 	HTMLCode = "";
+ 	HTMLCode += "</BR>";
+	
+ 	for(i=0;i<xml.documentElement.childNodes.length;i++) 
+	{
+		if(xml.documentElement.childNodes(i).nodeName == "Object")
+		{	
+			if(xml.documentElement.childNodes[i].attributes.getNamedItem("UUID").value == nReq[0].substring(nReq[0].indexOf("=")+1, nReq[0].length))
+			{
+				HTMLCode += "<TABLE class = Mytable>";
+				HTMLCode += "<CAPTION><H2 class = title>" + xml.documentElement.childNodes[i].attributes.getNamedItem("UserName").value+"</H2></CAPTION>";
+		 		HTMLCode += "</BR>";
+				for(j=0;j<xml.documentElement.childNodes[i].attributes.length;j++) 
+				{
+					if(xml.documentElement.childNodes[i].attributes[j].nodeName != "UUID")
+					{
+						HTMLCode += "<TR><TD class=name>" + xml.documentElement.childNodes[i].attributes[j].nodeName +"</TD>" + "<TD class=value>" + xml.documentElement.childNodes[i].attributes[j].value + "</TD>";
+	 					HTMLCode += "</TR>";
+					}
+				}
+				HTMLCode += "</TABLE>";
+			}	
+		 	HTMLCode += "</TR>";
+		}
+ 	}
+
+ 	HTMLCode += "</BODY></HTML>";
+ 	AfficheDIV.innerHTML = HTMLCode;
+
+ 	}
+	else
+	{
+ 	alert(xml.parseError.reason);
+ 	}
+}
+</SCRIPT>
+</HEAD>
+
+<BODY link="#0000FF" vlink="#800080" background="Cke_paterne.gif" onload="AfficheDocXML();">
+<DIV ID="AfficheDIV"></DIV>
+<STYLE>
+		.Mytable {background-color:#FFFF99;order-style: solid; border-width: 1px}
+		.title {font: 20 pt; text-align: center;font-family="Arial";color:blue}
+		.name { font-family="Arial";color:#314292;font-size=15}
+		.value {font-weight:bold;font-family="Arial";color:blue;font-size=15}
+
+</STYLE>
+<BR/><BR/>
+</body>
+</html>

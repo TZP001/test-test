@@ -1,0 +1,44 @@
+Usage = "
+V5-Dienstprogramm für die Verwaltung aufgezeichneter Aufzeichnungsdateien.
+
+Verwendung: RecordTools -s name [-Check|-FindPath pfad |-FindCmd befehlsname] [-h, -?, -help]
+            RecordTools -s name -d name -ChangePath alterpfad neuerpfad [ID]
+            RecordTools -s name -d name -ChangeSubPath alterpfad neuerpfad
+            RecordTools -s name -d name -ChangeData ID datenpos neuedaten
+            RecordTools -s name -d name -ChangeDataString altezeichenfolge neuezeichenfolge
+            RecordTools -s name -d name -ChangeEvent ID neuesereignis
+            RecordTools -s name -d name -Delete ID
+            RecordTools -s name -d name -DeleteSubPath untergeordneterpfad
+
+   -h, -?, -help    : Diese Hilfe
+   -s name          : Name der Quellendatei (normalerweise capture.rec)
+   -d name          : Name der Zieldatei
+
+   -Check           : Überprüft die Integrität der Quellendatei und zeigt sie im xml-Format an.
+   -FindPath        : Sucht den CATCommand-Pfad in der Quellendatei.
+   -findCmd         : Sucht den CATCommand-Namen in der Quellendatei.
+
+   -ChangePath      : Ändert den gesamten Pfad 'alterpfad' in 'neuerpfad', es sei denn 'ID' ist angegeben.
+   -ChangeSubPath   : Ändert den untergeordneten Pfad 'alterpfad' in 'neuerpfad'.
+   -ChangeData      : Ändert die Daten im Aufzeichnungsblock 'ID' den der Position 'datenpos' in 'neuedaten'.
+   -ChangeDataString: Ersetzt 'altezeichenfolge' in allen Daten vom Typ CHAR für alle Blöcke durch 'neuezeichenfolge'.
+   -ChangeEvent     : Ändert das Ereignis im Aufzeichnungsblock 'ID' in 'neuesereignis'.
+   -Delete          : Löscht den Aufzeichnungsblock 'ID'.
+   -DeleteSubPath   : Löscht alle Aufzeichnungsblöcke, die 'untergeordneter Pfad enthalten'.
+
+   ID               : Interaktions-ID in der Form CRnnn oder CInnn (gemäß Option -Check).";
+
+Error.0  = "Anzahl RecordTools-FEHLER: ";
+Error.1  = "-s: fehlende Quellendatei.";
+Error.2  = "Zieldatei kann nicht mit Quellendatei identisch sein.";
+Error.3  = "-d: fehlende Zieldatei.";
+Error.4  = "Fehlende Aufzeichnungsblocknummer.";
+Error.5  = "Fehlender untergeordneter Pfad.";
+Error.6  = "-s: Quellendatei kann nicht gefunden werden";
+Error.7  = "Unbekanntes Argument.";
+Error.8  = "-s: Quellendatei kann nicht geöffnet werden";
+Error.9  = "-d: fehlende Zieldatei.";
+Error.10 = "-d: Zieldatei bereits vorhanden.";
+Error.11 = "-d: Zielverzeichnis nicht vorhanden.";
+
+Error.99 = "Falsche Anzahl von Argumenten.";

@@ -1,0 +1,204 @@
+ = struct
+
+open @@Pervasives
+
+module STD = 
+struct
+	type pure = pure
+
+  let $"=" = $"="
+  let $"<>" = $"<>"
+
+  let $">" = $">"
+  let $"<" = $"<"
+  let $">=" = $">="
+  let $"<=" = $"<="
+
+  module Boolean =
+  struct
+	type bool = bool
+	let $"not" = $"not"
+	let $"or" = $"or"
+	let $"and" = $"and"
+  end
+  include Boolean
+
+  module Number =
+  struct
+
+	let $"+" = $"+"
+    let $"-" = $"-"
+    let $"*" = $"*"
+    let $"/" = $"/"
+    let $"**" = $"**"
+
+	module Integer =
+	struct
+	  type sint = sint
+	  type int = int
+	  type lint = lint
+		  
+	  type usint = usint
+	  type uint = uint
+	  type ulint = ulint
+
+	  let $"%" = $"%"
+      let $"&" = $"&"
+      let $"|" = $"|"
+      let $"~" = $"~"
+      let $"<<" = $"<<"
+      let $">>" = $">>"
+      let $"^" = $"^"
+	end
+	include Integer
+
+	module Floating =
+	struct
+	  type float = float
+	  type double = double
+	  type ldouble = ldouble
+
+	  let sin = sin
+      let cos = cos
+	  let sqrt = sqrt
+	  let exp = exp
+	  let log = log
+	  let log10 = log10
+	  let tan = tan
+	  let acos = acos
+	  let asin = asin
+	  let atan = atan
+	  let atan2 = atan2
+	  let cosh = cosh
+	  let sinh = sinh
+	  let tanh = tanh
+	end
+	include Floating
+
+  end
+  include Number
+
+  module Word =
+  struct
+	type sword = sword
+	type word = word
+	type lword = lword
+
+	let shr = shr
+	let shl = shl
+	let ror = ror
+	let rol = rol
+	let and_bits = and_bits
+	let or_bits = or_bits
+	let xor_bits = xor_bits
+	let not_bits = not_bits
+  end
+  include Word
+
+  module String =
+  struct
+	type string = string
+	let concat = concat
+  end
+  include String
+
+  module Char =
+  struct
+	type char = char
+  end
+  include Char
+
+  module Time = 
+  struct
+	let get_cycle_time = get_cycle_time 
+  end
+  include Time
+
+  module $"Type Conversions" = 
+  struct
+	let float_to_double = float_to_double
+	let float_to_ldouble = float_to_ldouble
+	let float_to_int = float_to_int
+	let float_to_sint = float_to_sint
+	let float_to_lint = float_to_lint
+	let float_to_uint = float_to_uint
+	let float_to_usint = float_to_usint
+	let float_to_ulint = float_to_ulint
+
+	let double_to_float = double_to_float
+	let double_to_ldouble = double_to_ldouble
+	let double_to_int = double_to_int
+	let double_to_sint = double_to_sint
+	let double_to_lint = double_to_lint
+	let double_to_uint = double_to_uint
+	let double_to_usint = double_to_usint
+	let double_to_ulint = double_to_ulint
+
+	let ldouble_to_float = ldouble_to_float
+	let ldouble_to_double = ldouble_to_double
+	let ldouble_to_int = ldouble_to_int
+	let ldouble_to_sint = ldouble_to_sint
+	let ldouble_to_lint = ldouble_to_lint
+	let ldouble_to_uint = ldouble_to_uint
+	let ldouble_to_usint = ldouble_to_usint
+	let ldouble_to_ulint = ldouble_to_ulint
+
+	let int_to_float = int_to_float
+	let int_to_double = int_to_double
+	let int_to_ldouble = int_to_ldouble
+	let int_to_sint = int_to_sint
+	let int_to_lint = int_to_lint
+	let int_to_uint = int_to_uint
+	let int_to_usint = int_to_usint
+	let int_to_ulint = int_to_ulint
+
+	let sint_to_float = sint_to_float
+	let sint_to_double = sint_to_double
+	let sint_to_ldouble = sint_to_ldouble
+	let sint_to_int = sint_to_int
+	let sint_to_lint = sint_to_lint
+	let sint_to_uint = sint_to_uint
+	let sint_to_usint = sint_to_usint
+	let sint_to_ulint = sint_to_ulint
+
+	let lint_to_float = lint_to_float
+	let lint_to_double = lint_to_double
+	let lint_to_ldouble = lint_to_ldouble
+	let lint_to_int = lint_to_int
+	let lint_to_sint = lint_to_sint
+	let lint_to_uint = lint_to_uint
+	let lint_to_usint = lint_to_usint
+	let lint_to_ulint = lint_to_ulint
+
+	let uint_to_float = uint_to_float
+	let uint_to_double = uint_to_double
+	let uint_to_ldouble = uint_to_ldouble
+	let uint_to_int = uint_to_int
+	let uint_to_sint = uint_to_sint
+	let uint_to_lint = uint_to_lint
+	let uint_to_usint = uint_to_usint
+	let uint_to_ulint = uint_to_ulint
+
+	let usint_to_float = usint_to_float
+	let usint_to_double = usint_to_double
+	let usint_to_ldouble = usint_to_ldouble
+	let usint_to_int = usint_to_int
+	let usint_to_sint = usint_to_sint
+	let usint_to_lint = usint_to_lint
+	let usint_to_uint = usint_to_uint
+	let usint_to_ulint = usint_to_ulint
+
+	let ulint_to_float = ulint_to_float
+	let ulint_to_double = ulint_to_double
+	let ulint_to_ldouble = ulint_to_ldouble
+	let ulint_to_int = ulint_to_int
+	let ulint_to_sint = ulint_to_sint
+	let ulint_to_lint = ulint_to_lint
+	let ulint_to_uint = ulint_to_uint
+	let ulint_to_usint = ulint_to_usint
+  end
+
+end
+include STD
+
+end

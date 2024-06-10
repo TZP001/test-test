@@ -1,0 +1,20 @@
+// COPYRIGHT DASSAULT SYSTEMES 2005
+// here follow basic block definition
+// - internal use only
+// - any modification to this file must be checked before deliveries
+// 
+block CATGenDimEarlyData {
+  int $allocate #offset(1)
+  int $list #offset(1)
+  int list_integer #offset(1) #list
+  octet $allocate #offset(1)
+  octet Version #offset(1)  
+  external $allocate #offset(1)
+  external $list #offset(1)
+  external list_external  #offset(1) #list #external_link_meta_data(DFTExtendedSpecMD)
+}
+external_link_meta_data DFTExtendedSpecMD {
+	meta_data_relation->role = "DFT_Specification"
+	meta_data_relation->category = "Reference2"
+	meta_data_link->logical_reroute_button = true
+}

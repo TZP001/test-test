@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- @version: -->
+
+<!-- Batch Report Generation DTD - version 1.0 -->
+<!--     
+ This is the DTD file that describes the format to be used for the
+ XML file that is required input into the "RpuBatchRptGeneration"  
+ batch application.  This application is used to general reports on
+ all kinds of CATIA documents.  It is a batch version of the interactive
+ "Generate Report" command.
+                                                                   
+ Explanation of format:                                                 
+                                                                        
+ Every Batch Report Generation XML file starts and ends with exactly     
+ one RpuBatchRptGeneration tag.  There are two main processing modes
+ for Batch Report Generation depending on where your documents and
+ report definition templates reside: "ENOVIABased" or "FileBased".
+ So, the RpuBatchRptGeneration tag consists of either an "ENOVIABased" 
+ or "FileBased" section (but not both), one GeneratedRptInfo element,
+ and an optional BatchRptGenerationOutputReport element.                               
+                                 
+ The ENOVIABased section contains one LoginInfo element followed by
+ one PRCInfo element.  The LoginInfo section contains the information 
+ necessary to log in to the ENOVIA database and consists of LCAUser, 
+ LCAPwd, LCAHost, LCAPort, and LCARole tags to allow you to provide the 
+ user ID, password, host (or server) and role desired for log in.  The 
+ password should be encrypted by implementing the "CATIUExitCrypt" 
+ interface.  See the CAA documentation for further information.  If 
+ you don't implement this interface, the passed in password is assumed 
+ to be encoded in an algorithm similar to the one used by the PLM Batch 
+ architecture (run through CATUTIL).  Therefore, using one of the PLM 
+ Batch applications to connect to ENOVIA and saving the resulting 
+ in parameter file will yield an encoded password that you can then   
+ pass to this application.  Here is an example of required the LoginInfo 
+ section: 
+ 
+  <LoginInfo>	    
+		<LCAUser>LogonID</LCAUser>
+		<LCAPwd>EncryptedPassword</LCAPwd>
+		<LCARole>RoleX</LCARole>
+		<LCAHost>HostName</LCAHost>
+		<LCAPort>9999</LCAPort>		
+	</LoginInfo>
+                                                                        
+ The PRCInfo section requires a PRCName element followed by one or more
+ occurrences of ENOVIADocFilter elements.  The PRCName element is  
+ simply a text string that defines the PRC name to process.  You can  
+ use wildcards (i.e., '*'), but the algorithm will stop at the first   
+ PRC that matches the PRCName string in the ENOVIA database.  
+ 
+ The ENOVIADocFilter consists of one or more DocumentID elements  
+ followed by one or more ReportDefTemplateID elements.  The  
+ ENOVIADocFilter element itself has an optional RevisionStatus  
+ attribute describing the revision status to be used in filtering the  
+ PRC document revision objects (with "All" as an option).  The other 
+ possible values are In Work, UnderReview, Approved and Released.  
+ However, these are site-dependent and can be modified by the ENOVIA 
+ system administrator.  If this is done, then the values to be used 
+ for RevisionStatus need to be modified in the DTD definition below 
+ (except for "All", which means all values).  If nothing is specified
+ for the RevisionStatus attribute, the default is "All".
+ The DocumentID and ReportDefTemplateID elements are simply text 
+ strings that describe the document(s) to run reports against and the 
+ report templates to use in running them.  The text strings can  
+ contain wildcards.  The documents you describe are assumed to be  
+ contained within the PRC listed under the PRCName element.  The 
+ DocumentID element itself has an optional DocRevision attribute
+ with a default value of "Latest", meaning use the latest document
+ revision for that document ID (i.e., the last revision by creation 
+ date).  Otherwise, a specific document revision can be specified, 
+ for example: "-AA".  Wildcards are not supported for the DocRevision 
+ attribute.  Also, you cannot specify an explicit document revision 
+ with a document ID filter containing wild cards.  If you try to do 
+ this, then the document revision specified will be ignored and the 
+ latest document revision will be used instead.  Here is an example 
+ of a PRCInfo section:
+ 
+     <PRCInfo>
+      <PRCName>ECV3_ehh</PRCName>
+      <ENOVIADocFilter>
+        <DocumentID>ELD*ehh</DocumentID>
+        <ReportDefTemplateID>ehhELDElecEquipTemplate</ReportDefTemplateID>
+        <ReportDefTemplateID>ehhPowerCableTemplate</ReportDefTemplateID>
+      </ENOVIADocFilter>
+      <ENOVIADocFilter>
+        <DocumentID>EQT*ehh</DocumentID>
+        <ReportDefTemplateID>ehhElec3DEquipTemplate</ReportDefTemplateID>
+      </ENOVIADocFilter>
+      <ENOVIADocFilter>
+        <DocumentID DocRevision="-AA">CWY1_ECV3_ehh</DocumentID>
+        <DocumentID DocRevision="-AB">CWY2_ECV3_ehh</DocumentID>
+        <DocumentID DocRevision="-AB">CWY3_ECV3_ehh</DocumentID>
+        <ReportDefTemplateID>ehhElecCablewayTemplate</ReportDefTemplateID>
+      </ENOVIADocFilter>
+     </PRCInfo>
+ 
+ The above PRCInfo section will result in report templates 
+ "ehhELDElecEquipTemplate" and "ehhPowerCableTemplate" being run against
+ the latest revisions of any "ECV3_ehh" PRC documents starting with
+ "ELD" and ending with "ehh".  Additionally, report template 
+ "ehhElec3DEquipTemplate" will be run against the latest revisions of 
+ any "ECV3_ehh" PRC documents starting with "EQT" and ending with "ehh".
+ Finally, report template "ehhElecCablewayTemplate" will be run against
+ the "ECV3_ehh" PRC documents "CWY1_ECV3_ehh -AA", "CWY2_ECV3_ehh -AB",
+ and "CWY3_ECV3_ehh -AB" (i.e., those specific document revisions).
+  
+ For the "FileBased" processing mode, you need to specify a 
+ "DocumentDirectory" and a "ReportDefTemplateDirectory" as   
+ attributes of the "FileBased" element.  The document directory is the   
+ directory that the program will look in for documents to run reports 
+ against, while the "ReportDefTemplateDirectory" directory will contain 
+ the report templates to use.  Within the "FileBased" section inself,   
+ one or more "FileDocFilter" elements must be specified.  A  
+ "FileDocFilter" element consists of one or more "DocumentFilename" 
+ followed by one or more "ReportDefTemplateFilename".  The 
+ DocumentFilename and ReportDefTemplateID elements are simply text    
+ strings that describe the document filename(s) to run reports against 
+ and the report template filename(s) to use in running them.  The text  
+ strings can contain wildcards.  Here is an example of a "FileBased" 
+ section:  
+ 
+   <FileBased 
+    DocumentDirectory="C:\Documents"
+    ReportDefTemplateDirectory="C:\ReportTemplates" >
+     <FileDocFilter>
+       <DocumentFilename>ELD*</DocumentFilename>
+       <ReportDefTemplateFilename>ELDElecEquipReport.xml</ReportDefTemplateFilename>
+       <ReportDefTemplateFilename>PowerCableReport.xml</ReportDefTemplateFilename>
+     </FileDocFilter>
+     <FileDocFilter>
+       <DocumentFilename>CWY1_ECV3_ehh.CATProduct</DocumentFilename>
+       <ReportDefTemplateFilename>ElecCablewayTemplate.xml</ReportDefTemplateFilename>
+     </FileDocFilter>
+  </FileBased>
+ 
+ The above will result in report templates "ELDElecEquipReport.xml"  
+ and "PowerCableReport.xml" from directory "C:\ReportTemplates" being 
+ run against any "C:\Documents" directory documents that begin with 
+ "ELD".  Also, report template "C:\ReportTemplates\ElecCablewayTemplate.xml" 
+ will be run against document "C:\Documents\CWY1_ECV3_ehh.CATProduct".
+   
+ The next element required, whether you are running in "ENOVIABased"
+ or "FileBased" mode is "GeneratedRptInfo".  This element provides
+ information about where to put the reports that get generated as a
+ result of running the specified report definition templates against 
+ the specified documents.  The directory for the generated reports
+ to go into is defined through the required "GeneratedRptDirectory"
+ element.  There is an optional "Format" element where you can define
+ the format to be used for the generated output reports.   The default
+ is "XML".  There are also optional "FilenameDelimiter" and 
+ "PrependPRCName" elements that help determine the filename to be used 
+ for the generated report.  The "PrependPRCName" element only makes 
+ sense for the "ENOVIABased" processing mode, and will be ignored 
+ otherwise.  The general form for the generated report filename in 
+ "ENOVIABased" mode is:
+ 
+   PRC name (if "PrependPRCName" = "Yes") + filename delimiter +
+   Document ID + filename delimiter + Document Revision + 
+   filename delimiter + Template ID + "." + report format extension
+ 
+ The default for "FilenameDelimiter" is "Underscore" with choices of
+ "Underscore", "Pound", "Plus", "Comma", or "ExclamationPt". The 
+ default for "PrependPRCName" is "No" with choices of "Yes" or "No".
+ 
+ For the PRCInfo section given above, depending on your 
+ "GeneratedRptInfo" element specification, you might see generated 
+ filenames like the following:
+ 
+   ELD1_ECV3_ehh-AA#ehhElecEquipTemplate.txt
+   ECV3_ehh!CWY2_ECV3_ehh-AB!ehhElecCablewayTemplate.xml
+                      
+ The general form for the generated report filename in 
+ "FileBased" mode is:                     
+ 
+   Document filename (without extension) + filename delimiter + 
+   Report Template filename (without extension) + "." + 
+   report format extension
+   
+ Example:
+ 
+   ELD1#PowerCableReport.txt
+ 
+ The "BatchRptGenerationOutputReport" element should occur zero or one 
+ time.  Its purpose is to specify a location and a file name for an 
+ output report that will describe the results for this batch report
+ generation run, plus a format for that report.  This element is   
+ defined by three attributes - DirectoryPath, FileName, and Format.  
+ Even though the BatchRptGenerationOutputReport element is optional, 
+ if you do include one, then you must specify the first two attributes 
+ (the Format attribute is optional with a default value of Text).  The 
+ FileName should not include the file extension.  Here is a sample:
+ 
+     <BatchRptGenerationOutputReport 
+           DirectoryPath="D:\MySampleDirectory" 
+           FileName="SampleFileName" 
+           Format="CSV" />
+
+ This statement would lead to an output report being generated in
+ in comma separated value format in 
+ "D:\MySampleDirectory\SampleFileName.csv".  
+ 
+ The output report will contain information about the batch run and the 
+ results of trying to generate the reports against the documents.  If 
+ you don't include a BatchRptGenerationOutputReport element in your XML 
+ file (or this application doesn't get to successfully parse the XML 
+ file), then this application will write out all of its information to 
+ STDOUT and STDERR.                          
+-->
+
+<!ELEMENT RpuBatchRptGeneration ((ENOVIABased|FileBased),GeneratedRptInfo,
+                                 BatchRptGenerationOutputReport?)>
+
+<!ELEMENT ENOVIABased (LoginInfo,PRCInfo)>
+
+<!ELEMENT LoginInfo (LCAUser,LCAPwd,LCARole,LCAHost,LCAPort)>
+<!ELEMENT LCAUser (#PCDATA)>
+<!ELEMENT LCAPwd  (#PCDATA)>
+<!ELEMENT LCARole (#PCDATA)>
+<!ELEMENT LCAHost (#PCDATA)>
+<!ELEMENT LCAPort (#PCDATA)>
+
+<!ELEMENT PRCInfo (PRCName,ENOVIADocFilter+)>
+<!ELEMENT PRCName (#PCDATA)>
+
+<!ELEMENT ENOVIADocFilter (DocumentID+,ReportDefTemplateID+)>
+<!ATTLIST ENOVIADocFilter RevisionStatus (InWork|UnderReview|Approved|Released|All) "All">
+<!ELEMENT DocumentID (#PCDATA)>
+<!ATTLIST DocumentID DocRevision CDATA "Latest">
+<!ELEMENT ReportDefTemplateID (#PCDATA)>
+
+<!ELEMENT FileBased (FileDocFilter+)>
+<!ATTLIST FileBased DocumentDirectory CDATA #REQUIRED>
+<!ATTLIST FileBased ReportDefTemplateDirectory CDATA #REQUIRED>
+<!ELEMENT FileDocFilter (DocumentFilename+,ReportDefTemplateFilename+)>
+<!ELEMENT DocumentFilename (#PCDATA)>
+<!ELEMENT ReportDefTemplateFilename (#PCDATA)>
+
+<!ELEMENT GeneratedRptInfo EMPTY>
+<!ATTLIST GeneratedRptInfo GeneratedRptDirectory CDATA #REQUIRED>
+<!ATTLIST GeneratedRptInfo Format (Text|TabDelimited|CommaDelimited|XML|HTML|XLS) "XML">
+<!ATTLIST GeneratedRptInfo FilenameDelimiter (Underscore|Pound|Plus|Comma|ExclamationPt) "Underscore">
+<!ATTLIST GeneratedRptInfo PrependPRCName (Yes|No) "No">
+
+<!ELEMENT BatchRptGenerationOutputReport EMPTY>
+<!ATTLIST BatchRptGenerationOutputReport DirectoryPath CDATA #IMPLIED>
+<!ATTLIST BatchRptGenerationOutputReport FileName CDATA #IMPLIED>
+<!ATTLIST BatchRptGenerationOutputReport Format (Text|CSV) "Text">
+

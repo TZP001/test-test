@@ -1,0 +1,1792 @@
+#
+#==================================================================================
+#==================================================================================
+#==========  Debut du Drafting  // Nounours
+#==========  Ne doivent adherer que les features pouvant comporter des sketches
+#==========  comme entrees
+#==========  PENSER A AJOUTER LA STARTUP DANS LE SOURCE D IMPLEMENTATION
+#==================================================================================
+#==================================================================================
+#
+GSMAffinity   CATIDimVisualization libCATGmoDimVisualization
+GSMAssemble   CATIDimVisualization libCATGmoDimVisualization
+GSMAxisLine CATIDimVisualization libCATGmoDimVisualization
+GSMBlend  CATIDimVisualization libCATGmoDimVisualization
+GSMBoundary   CATIDimVisualization libCATGmoDimVisualization
+GSMCircle    CATIDimVisualization libCATGmoDimVisualization
+GSMCombine   CATIDimVisualization libCATGmoDimVisualization
+GSMConnect   CATIDimVisualization libCATGmoDimVisualization
+GSMCorner    CATIDimVisualization libCATGmoDimVisualization
+GSMCurve    CATIDimVisualization libCATGmoDimVisualization
+GSMCurvePt   CATIDimVisualization libCATGmoDimVisualization
+GSMCurvePar   CATIDimVisualization libCATGmoDimVisualization
+GSMCurveSmooth  CATIDimVisualization libCATGmoDimVisualization
+GSMDevelop   CATIDimVisualization libCATGmoDimVisualization
+GSMUnfold   CATIDimVisualization libCATGmoDimVisualization
+GSMDirection   CATIDimVisualization libCATGmoDimVisualization
+GSMExtract   CATIDimVisualization libCATGmoDimVisualization
+GSMExtrapol   CATIDimVisualization libCATGmoDimVisualization
+GSMExtrude   CATIDimVisualization libCATGmoDimVisualization
+GSMCylinder   CATIDimVisualization libCATGmoDimVisualization
+GSMFill    CATIDimVisualization libCATGmoDimVisualization
+GSMFillet    CATIDimVisualization libCATGmoDimVisualization
+GSMHelix    CATIDimVisualization libCATGmoDimVisualization
+GSMIntersect   CATIDimVisualization libCATGmoDimVisualization
+GSMInverse   CATIDimVisualization libCATGmoDimVisualization
+GSMLine    CATIDimVisualization libCATGmoDimVisualization
+GSMLineCorner CATIDimVisualization libCATGmoDimVisualization
+GSMLoft    CATIDimVisualization libCATGmoDimVisualization
+GSMNear    CATIDimVisualization libCATGmoDimVisualization
+GSMOffset    CATIDimVisualization libCATGmoDimVisualization
+GSMPlane    CATIDimVisualization libCATGmoDimVisualization
+GSMPoint    CATIDimVisualization libCATGmoDimVisualization
+GSMProject   CATIDimVisualization libCATGmoDimVisualization
+GSMRevol    CATIDimVisualization libCATGmoDimVisualization
+GSMRollingOffset CATIDimVisualization libCATGmoDimVisualization
+GSMRotate    CATIDimVisualization libCATGmoDimVisualization
+GSMScaling   CATIDimVisualization libCATGmoDimVisualization
+GSMSphere  CATIDimVisualization libCATGmoDimVisualization
+GSMSpine     CATIDimVisualization libCATGmoDimVisualization
+GSMSplit    CATIDimVisualization libCATGmoDimVisualization
+GSMSpiral  CATIDimVisualization libCATGmoDimVisualization
+GSMReflectLine CATIDimVisualization libCATGmoDimVisualization
+GSMSweep    CATIDimVisualization libCATGmoDimVisualization
+GSMSymmetry   CATIDimVisualization libCATGmoDimVisualization
+GSMTranslate   CATIDimVisualization libCATGmoDimVisualization
+GSMTrim    CATIDimVisualization libCATGmoDimVisualization
+GSOVariableOffset	CATIDimVisualization libCATGmoDimVisualization
+GSOWrapCurve  CATIDimVisualization libCATGmoDimVisualization
+GSOBump    CATIDimVisualization libCATGmoDimVisualization
+GSOSeatDiabolo  CATIDimVisualization libCATGmoDimVisualization
+GSM3DCurveOffset  CATIDimVisualization libCATGmoDimVisualization
+
+
+GSMGeom  CATIAHybridShape libCATGmoAutomation
+GSMGeom  CATIAReference  libCATGmoAutomation
+GSMGeom  CATIReference  libCATGmoAutomation
+GSMGeom  CATIAHybridShapeThickness libCATGmoAutomation  
+
+GSMDevelop CATIBaseAccess   libCATGmoAutomation
+GSMDevelop CATIGenTrac    libCATGmoAutomation
+GSMDevelop CATIAHybridShape  libCATGmoAutomation
+GSMDevelop CATIAHybridShapeDevelop libCATGmoAutomation
+
+GSMUnfold CATIBaseAccess   libCATGmoAutomation
+GSMUnfold CATIAHybridShape  libCATGmoAutomation
+GSMUnfold CATIAHybridShapeUnfold libCATGmoAutomation
+
+GSMTransferedZeroDim CATIBaseAccess   libCATGmoAutomation
+GSMTransferedZeroDim CATIAHybridShape  libCATGmoAutomation
+GSMTransferedZeroDim CATIAHybridShapeTransfer libCATGmoAutomation
+
+GSMTransferedMonoDim CATIBaseAccess   libCATGmoAutomation
+GSMTransferedMonoDim CATIAHybridShape  libCATGmoAutomation
+GSMTransferedMonoDim CATIAHybridShapeTransfer libCATGmoAutomation
+
+GSMAxisLine  CATIBaseAccess     libCATGmoAutomation
+GSMAxisLine  CATIAHybridShape    libCATGmoAutomation
+GSMAxisLine  CATIAHybridShapeAxisLine  libCATGmoAutomation
+
+GSMBlend CATIBaseAccess   libCATGmoAutomation
+GSMBlend CATIGenTrac    libCATGmoAutomation
+GSMBlend CATIAHybridShape  libCATGmoAutomation
+GSMBlend CATIAHybridShapeBlend libCATGmoAutomation
+
+GSMLawDistProj  CATIAHybridShape    libCATGmoAutomation
+GSMLawDistProj  CATIAHybridShapeLawDistProj  libCATGmoAutomation
+
+GSMPositionTransfo CATIBaseAccess      libCATGmoAutomation
+GSMPositionTransfo CATIGenTrac       libCATGmoAutomation
+GSMPositionTransfo CATIAHybridShape     libCATGmoAutomation
+GSMPositionTransfo CATIAHybridShapePositionTransfo  libCATGmoAutomation
+
+GSMOffset CATIBaseAccess   libCATGmoAutomation
+GSMOffset CATIGenTrac   libCATGmoAutomation
+GSMOffset CATIAHybridShape  libCATGmoAutomation
+GSMOffset CATIAHybridShapeOffset  libCATGmoAutomation
+
+GSOVariableOffset CATIBaseAccess     libCATGmoAutomation 
+GSOVariableOffset CATIAHybridShape  libCATGmoAutomation
+GSOVariableOffset CATIAHybridShapeVariableOffset  libCATGmoAutomation
+
+GSMCurve CATIAHybridShape  libCATGmoAutomation
+GSMCurve CATIAHybridShapeSpline  libCATGmoAutomation
+GSMCurve CATIGenTrac   libCATGmoAutomation
+GSMCurvePt CATIGenTrac   libCATGmoAutomation
+GSMCurve CATIBaseAccess libCATGmoAutomation
+GSMCurvePt CATIBaseAccess libCATGmoAutomation
+
+GSMCurvePar CATIBaseAccess   libCATGmoAutomation
+GSMCurvePar CATIGenTrac   libCATGmoAutomation
+GSMCurvePar CATIAHybridShape  libCATGmoAutomation
+GSMCurvePar CATIAHybridShapeCurvePar  libCATGmoAutomation
+
+GSMCurveSmooth  CATIBaseAccess     libCATGmoAutomation 
+GSMCurveSmooth  CATIAHybridShape    libCATGmoAutomation
+GSMCurveSmooth CATIAHybridShapeCurveSmooth  libCATGmoAutomation
+GSMCurveSmooth CATIGenTrac      libCATGmoAutomation
+
+GSMRollingOffset  CATIBaseAccess     libCATGmoAutomation 
+GSMRollingOffset CATIGenTrac      libCATGmoAutomation
+GSMRollingOffset CATIAHybridShape    libCATGmoAutomation
+GSMRollingOffset CATIAHybridShapeRollingOffset libCATGmoAutomation
+
+GSM3DCurveOffset  CATIBaseAccess     libCATGmoAutomation 
+GSM3DCurveOffset CATIAHybridShape     libCATGmoAutomation
+GSM3DCurveOffset CATIAHybridShape3DCurveOffset  libCATGmoAutomation
+GSM3DCurveOffset CATIGenTrac       libCATGmoAutomation
+
+GSMFill CATIBaseAccess   libCATGmoAutomation
+GSMFill CATIAHybridShape  libCATGmoAutomation
+GSMFill CATIAHybridShapeFill  libCATGmoAutomation
+
+GSMExtremum CATIBaseAccess   libCATGmoAutomation
+GSMExtremum CATIAHybridShape  libCATGmoAutomation
+GSMExtremum CATIAHybridShapeExtremum libCATGmoAutomation
+
+GSMExtremumPolar  CATIBaseAccess     libCATGmoAutomation 
+GSMExtremumPolar  CATIAHybridShape  libCATGmoAutomation
+GSMExtremumPolar  CATIAHybridShapeExtremumPolar libCATGmoAutomation
+
+GSMRevol CATIBaseAccess   libCATGmoAutomation
+GSMRevol CATIGenTrac   libCATGmoAutomation
+GSMRevol CATIAHybridShape  libCATGmoAutomation
+GSMRevol CATIAHybridShapeRevol  libCATGmoAutomation
+GSMRevol CATIAlias  libCATGmoModelImpl
+
+GSMSweep CATIABase          libCATGmoAutomation
+GSMSweep CATIGenTrac   libCATGmoAutomation
+GSMSweep CATIBaseAccess   libCATGmoAutomation
+GSMSweep CATIAHybridShape  libCATGmoAutomation
+GSMSweep CATIAHybridShapeSweep  libCATGmoAutomation
+
+GSMSweep                     CATIAHybridShapeSweepCircle             libCATGmoAutomation           CATGmoIsASweepCircle@libGSMModelBasic
+GSMSweep                     CATIAHybridShapeSweepExplicit           libCATGmoAutomation           CATGmoIsASweepUnspec@libGSMModelBasic
+GSMSweep                     CATIAHybridShapeSweepLine               libCATGmoAutomation           CATGmoIsASweepSegment@libGSMModelBasic
+GSMSweep                     CATIAHybridShapeSweepConic              libCATGmoAutomation           CATGmoIsASweepConic@libGSMModelBasic
+
+GSMLoft  CATIABase			  libCATGmoAutomation
+GSMLoft  CATIBaseAccess   libCATGmoAutomation
+GSMLoft  CATIAHybridShape  libCATGmoAutomation
+GSMLoft  CATIAHybridShapeLoft  libCATGmoAutomation
+
+GSMAssemble CATIBaseAccess   libCATGmoAutomation
+GSMAssemble CATIAHybridShape  libCATGmoAutomation
+GSMAssemble CATIAHybridShapeAssemble  libCATGmoAutomation
+
+GSMFillet                    CATIABase								 libCATGmoAutomation
+GSMFillet                    CATIBaseAccess                          libCATGmoAutomation
+GSMFillet                    CATIGenTrac                             libCATGmoAutomation
+GSMFillet                    CATIAHybridShape                        libCATGmoAutomation
+GSMFillet                    CATIAHybridShapeFilletBiTangent         libCATGmoAutomation           CATGmoIsAFilletBiTangent@libGSMModelBasic
+GSMFillet                    CATIAHybridShapeFilletTriTangent        libCATGmoAutomation           CATGmoIsAFilletTriTangent@libGSMModelBasic
+
+GSMExtrude CATIBaseAccess   libCATGmoAutomation
+GSMExtrude CATIGenTrac   libCATGmoAutomation
+GSMExtrude CATIAHybridShape  libCATGmoAutomation
+GSMExtrude CATIAHybridShapeExtrude  libCATGmoAutomation
+GSMExtrude CATIAlias  libCATGmoModelImpl
+
+GSMCylinder CATIBaseAccess    libCATGmoAutomation
+GSMCylinder CATIGenTrac     libCATGmoAutomation
+GSMCylinder CATIAHybridShape   libCATGmoAutomation
+GSMCylinder CATIAHybridShapeCylinder libCATGmoAutomation
+
+GSMRotate CATIABase        libCATGmoAutomation
+GSMRotate CATIBaseAccess   libCATGmoAutomation
+GSMRotate CATIGenTrac   libCATGmoAutomation
+GSMRotate CATIAHybridShape  libCATGmoAutomation
+GSMRotate CATIAHybridShapeRotate  libCATGmoAutomation
+
+GSMSymmetry CATIABase		  libCATGmoAutomation
+GSMSymmetry CATIBaseAccess   libCATGmoAutomation
+GSMSymmetry CATIAHybridShape  libCATGmoAutomation
+GSMSymmetry CATIAHybridShapeSymmetry libCATGmoAutomation
+
+GSMAxisToAxis CATIBaseAccess   libCATGmoAutomation
+GSMAxisToAxis CATIAHybridShape  libCATGmoAutomation
+GSMAxisToAxis CATIAHybridShapeAxisToAxis libCATGmoAutomation
+
+GSMIntersect CATIBaseAccess   libCATGmoAutomation
+GSMIntersect CATIAHybridShape  libCATGmoAutomation
+GSMIntersect CATIAHybridShapeIntersection libCATGmoAutomation
+
+GSMDirection CATIBaseAccess   libCATGmoAutomation
+GSMDirection CATIAHybridShape  libCATGmoAutomation
+GSMDirection CATIAHybridShapeDirection libCATGmoAutomation
+GSMDirection CATIGenTrac libCATGmoAutomation
+
+GSMBoundary CATIBaseAccess   libCATGmoAutomation
+GSMBoundary CATIAHybridShape  libCATGmoAutomation
+GSMBoundary CATIAHybridShapeBoundary libCATGmoAutomation
+
+GSMExtrapol CATIBaseAccess   libCATGmoAutomation
+GSMExtrapol CATIGenTrac   libCATGmoAutomation
+GSMExtrapol CATIAHybridShape  libCATGmoAutomation
+GSMExtrapol CATIAHybridShapeExtrapol libCATGmoAutomation
+
+GSMCorner CATIBaseAccess   libCATGmoAutomation
+GSMCorner CATIGenTrac   libCATGmoAutomation
+GSMCorner CATIAHybridShape  libCATGmoAutomation
+GSMCorner CATIAHybridShapeCorner  libCATGmoAutomation
+
+GSMNear  CATIBaseAccess   libCATGmoAutomation
+GSMNear  CATIAHybridShape  libCATGmoAutomation
+GSMNear  CATIAHybridShapeNear  libCATGmoAutomation
+
+GSMConnect CATIBaseAccess   libCATGmoAutomation
+GSMConnect CATIGenTrac   libCATGmoAutomation
+GSMConnect CATIAHybridShape  libCATGmoAutomation
+GSMConnect CATIAHybridShapeConnect  libCATGmoAutomation
+
+GSMTranslate CATIABase	      libCATGmoAutomation
+GSMTranslate CATIBaseAccess   libCATGmoAutomation
+GSMTranslate CATIGenTrac   libCATGmoAutomation
+GSMTranslate CATIAHybridShape  libCATGmoAutomation
+GSMTranslate CATIAHybridShapeTranslate libCATGmoAutomation
+
+GSMScaling CATIABase	    libCATGmoAutomation
+GSMScaling CATIBaseAccess   libCATGmoAutomation
+GSMScaling CATIGenTrac   libCATGmoAutomation
+GSMScaling CATIAHybridShape  libCATGmoAutomation
+GSMScaling CATIAHybridShapeScaling  libCATGmoAutomation
+
+GSMAffinity CATIBaseAccess   libCATGmoAutomation
+GSMAffinity CATIGenTrac   libCATGmoAutomation
+GSMAffinity CATIAHybridShape  libCATGmoAutomation
+GSMAffinity CATIAHybridShapeAffinity libCATGmoAutomation
+
+GSMCircle                    CATIABase								 libCATGmoAutomation
+GSMCircle                    CATIBaseAccess                          libCATGmoAutomation
+GSMCircle                    CATIGenTrac                             libCATGmoAutomation
+GSMCircle                    CATIAHybridShape                        libCATGmoAutomation
+GSMCircle                    CATIAHybridShapeCircle                  libCATGmoAutomation
+GSMCircle                    CATIAHybridShapeCircleExplicit          libCATGmoAutomation
+GSMCircle                    CATIAHybridShapeCircleCtrRad            libCATGmoAutomation           CATGmoIsACtrRadCircle@libGSMModelBasic
+GSMCircle                    CATIAHybridShapeCircleCtrPt             libCATGmoAutomation           CATGmoIsACtrPtCircle@libGSMModelBasic
+GSMCircle                    CATIAHybridShapeCircle2PointsRad        libCATGmoAutomation           CATGmoIsA2PointsRadCircle@libGSMModelBasic
+GSMCircle                    CATIAHybridShapeCircle3Points           libCATGmoAutomation           CATGmoIsA3PointsCircle@libGSMModelBasic
+GSMCircle                    CATIAHybridShapeCircleBitangentRadius   libCATGmoAutomation           CATGmoIsABitangentRadiusCircle@libGSMModelBasic
+GSMCircle                    CATIAHybridShapeCircleBitangentPoint    libCATGmoAutomation           CATGmoIsABitangentPointCircle@libGSMModelBasic
+GSMCircle                    CATIAHybridShapeCircleTritangent        libCATGmoAutomation           CATGmoIsATritangentCircle@libGSMModelBasic
+GSMCircle                    CATIAHybridShapeCircleCenterAxis        libCATGmoAutomation           CATGmoIsACenterAxisCircle@libGSMModelBasic
+GSMCircle                    CATIAHybridShapeCircleCenterTangent     libCATGmoAutomation           CATGmoIsACenterTangentCircle@libGSMModelBasic
+GSMCircle                    CATIAParameter                          libCATGmoAutomation           CATGmoIsAParameterCircle@libGSMModelBasic
+
+GSMSplit CATIBaseAccess   libCATGmoAutomation
+GSMSplit CATIAHybridShape  libCATGmoAutomation
+GSMSplit CATIAHybridShapeSplit  libCATGmoAutomation
+
+GSMTrim  CATIBaseAccess   libCATGmoAutomation
+GSMTrim  CATIAHybridShape  libCATGmoAutomation
+GSMTrim  CATIAHybridShapeTrim  libCATGmoAutomation
+
+GSMExtract CATIBaseAccess   libCATGmoAutomation
+GSMExtract CATIAHybridShape  libCATGmoAutomation
+GSMExtract CATIAHybridShapeExtract  libCATGmoAutomation
+
+GSMInverse CATIBaseAccess   libCATGmoAutomation
+GSMInverse CATIAHybridShape  libCATGmoAutomation
+GSMInverse CATIAHybridShapeInverse  libCATGmoAutomation
+
+GSMProject CATIBaseAccess   libCATGmoAutomation
+GSMProject CATIAHybridShape  libCATGmoAutomation
+GSMProject CATIAHybridShapeProject  libCATGmoAutomation
+
+GSMCombine CATIBaseAccess   libCATGmoAutomation
+GSMCombine CATIAHybridShape  libCATGmoAutomation
+GSMCombine CATIAHybridShapeCombine  libCATGmoAutomation
+
+GSMReflectLine CATIBaseAccess   libCATGmoAutomation
+GSMReflectLine CATIAHybridShape  libCATGmoAutomation
+GSMReflectLine CATIAHybridShapeReflectLine  libCATGmoAutomation
+
+GSMHelix CATIBaseAccess   libCATGmoAutomation
+GSMHelix CATIGenTrac   libCATGmoAutomation
+GSMHelix CATIAHybridShape  libCATGmoAutomation
+GSMHelix CATIAHybridShapeHelix  libCATGmoAutomation
+
+GSMHealing  CATIBaseAccess     libCATGmoAutomation 
+GSMHealing CATIGenTrac   libCATGmoAutomation
+GSMHealing CATIAHybridShape  libCATGmoAutomation
+GSMHealing CATIAHybridShapeHealing libCATGmoAutomation
+
+GSMSpiral  CATIBaseAccess     libCATGmoAutomation 
+GSMSpiral CATIGenTrac     libCATGmoAutomation
+GSMSpiral CATIAHybridShape   libCATGmoAutomation
+GSMSpiral CATIAHybridShapeSpiral  libCATGmoAutomation
+
+GSOBump CATIBaseAccess libCATGmoAutomation
+GSOBump CATIAHybridShape libCATGmoAutomation
+GSOBump CATIAHybridShapeBump libCATGmoAutomation
+
+GSMConic  CATIBaseAccess  libCATGmoAutomation
+GSMConic  CATIAHybridShape  libCATGmoAutomation
+GSMConic  CATIAHybridShapeConic libCATGmoAutomation
+
+GSMSpine CATIBaseAccess     libCATGmoAutomation 
+GSMSpine  CATIAHybridShape  libCATGmoAutomation
+GSMSpine  CATIAHybridShapeSpine  libCATGmoAutomation
+
+GSMSphere  CATIBaseAccess     libCATGmoAutomation 
+GSMSphere CATIAHybridShape  libCATGmoAutomation
+GSMSphere CATIAHybridShapeSphere libCATGmoAutomation
+
+GSOWrapCurve CATIBaseAccess     libCATGmoAutomation 
+GSOWrapCurve CATIAHybridShape  libCATGmoAutomation
+GSOWrapCurve CATIAHybridShapeWrapCurve  libCATGmoAutomation
+
+GSOWrapSurface CATIBaseAccess     libCATGmoAutomation 
+GSOWrapSurface CATIAHybridShape  libCATGmoAutomation
+GSOWrapSurface CATIAHybridShapeWrapSurface  libCATGmoAutomation
+
+GSMMultiExtract  CATIAHybridShape              libCATGmoAutomation
+GSMMultiExtract  CATIAHybridShapeExtractMulti  libCATGmoAutomation
+GSMMultiExtract  CATIBaseAccess                libCATGmoAutomation
+
+
+MechanicalPart  CATIAHybridShapeFactory  libCATGmoAutomation
+
+GSMPlane                     CATIBaseAccess                          libCATGmoAutomation
+GSMPlane                     CATIGenTrac                             libCATGmoAutomation 
+GSMPlane                     CATIABase                               libCATGmoAutomation
+GSMPlane                     CATIAHybridShape                        libCATGmoAutomation
+GSMPlane                     CATIAHybridShapePlane                   libCATGmoAutomation
+GSMPlane                     CATIAHybridShapePlaneEquation           libCATGmoAutomation           CATGmoIsAnEquationPlane@libGSMModelBasic
+GSMPlane                     CATIAHybridShapePlaneExplicit           libCATGmoAutomation           CATGmoIsAnExplicitPlane@libGSMModelBasic
+GSMPlane                     CATIAHybridShapePlane3Points            libCATGmoAutomation           CATGmoIsA3PointsPlane@libGSMModelBasic
+GSMPlane                     CATIAHybridShapePlane2Lines             libCATGmoAutomation           CATGmoIsA2LinesPlane@libGSMModelBasic
+GSMPlane                     CATIAHybridShapePlane1Line1Pt           libCATGmoAutomation           CATGmoIsA1Line1PtPlane@libGSMModelBasic
+GSMPlane                     CATIAHybridShapePlane1Curve             libCATGmoAutomation           CATGmoIsA1CurvePlane@libGSMModelBasic
+GSMPlane                     CATIAHybridShapePlaneTangent            libCATGmoAutomation           CATGmoIsATangentPlane@libGSMModelBasic
+GSMPlane                     CATIAHybridShapePlaneNormal             libCATGmoAutomation           CATGmoIsANormalPlane@libGSMModelBasic
+GSMPlane                     CATIAHybridShapePlaneOffset             libCATGmoAutomation           CATGmoIsAnOffsetPlane@libGSMModelBasic
+GSMPlane                     CATIAHybridShapePlaneOffsetPt           libCATGmoAutomation           CATGmoIsAnOffsetPtPlane@libGSMModelBasic
+GSMPlane                     CATIAHybridShapePlaneAngle              libCATGmoAutomation           CATGmoIsAnAnglePlane@libGSMModelBasic
+GSMPlane                     CATIAHybridShapePlaneMean               libCATGmoAutomation           CATGmoIsAMeanPlane@libGSMModelBasic
+GSMPlane                     CATIAParameter                          libCATGmoAutomation           CATGmoIsPlnParameter@libGSMModelBasic
+
+GSMPoint                     CATIABase                               libCATGmoAutomation 
+GSMPoint                     CATIBaseAccess                          libCATGmoAutomation          
+GSMPoint                     CATIGenTrac                             libCATGmoAutomation          
+GSMPoint                     CATIAHybridShape                        libCATGmoAutomation          
+GSMPoint                     CATIAHybridShapePoint                   libCATGmoAutomation          
+GSMPoint                     CATIAHybridShapePointExplicit           libCATGmoAutomation            CATGmoIsAnExplicitPoint@libGSMModelBasic
+GSMPoint                     CATIAHybridShapePointCoord              libCATGmoAutomation            CATGmoIsACoordPoint@libGSMModelBasic
+GSMPoint                     CATIAHybridShapePointOnSurface          libCATGmoAutomation            CATGmoIsAOnSurfPoint@libGSMModelBasic
+GSMPoint                     CATIAHybridShapePointOnPlane            libCATGmoAutomation            CATGmoIsAOnPlanePoint@libGSMModelBasic
+GSMPoint                     CATIAHybridShapePointOnCurve            libCATGmoAutomation            CATGmoIsAOnCurvePoint@libGSMModelBasic
+GSMPoint                     CATIAHybridShapePointCenter             libCATGmoAutomation            CATGmoIsACenterPoint@libGSMModelBasic
+GSMPoint                     CATIAHybridShapePointTangent            libCATGmoAutomation            CATGmoIsATangentPoint@libGSMModelBasic
+GSMPoint                     CATIAHybridShapePointBetween            libCATGmoAutomation            CATGmoIsABetweenPoint@libGSMModelBasic
+GSMPoint                     CATIAParameter                          libCATGmoAutomation            CATGmoIsKNWPoint@libGSMModelBasic
+
+GSMLine                      CATIABase                               libCATGmoAutomation 
+GSMLine                      CATIBaseAccess                          libCATGmoAutomation            
+GSMLine                      CATIGenTrac                             libCATGmoAutomation          
+GSMLine                      CATIAHybridShape                        libCATGmoAutomation          
+GSMLine                      CATIAHybridShapeLine                    libCATGmoAutomation          
+GSMLine                      CATIAHybridShapeLineExplicit            libCATGmoAutomation          
+GSMLine                      CATIAHybridShapeLinePtPt                libCATGmoAutomation           CATGmoIsAPtPtLine@libGSMModelBasic
+GSMLine                      CATIAHybridShapeLinePtDir               libCATGmoAutomation           CATGmoIsAPtDirLine@libGSMModelBasic
+GSMLine                      CATIAHybridShapeLineAngle               libCATGmoAutomation           CATGmoIsAAngleLine@libGSMModelBasic
+GSMLine                      CATIAHybridShapeLineTangency            libCATGmoAutomation           CATGmoIsATangencyLine@libGSMModelBasic
+GSMLine                      CATIAHybridShapeLineBiTangent           libCATGmoAutomation           CATGmoIsABiTangentLine@libGSMModelBasic
+GSMLine                      CATIAHybridShapeLineNormal              libCATGmoAutomation           CATGmoIsANormalLine@libGSMModelBasic
+GSMLine                      CATIAHybridShapeLineBisecting           libCATGmoAutomation           CATGmoIsABisectingLine@libGSMModelBasic
+GSMLine                      CATIAParameter                          libCATGmoAutomation           CATGmoIsAKNWLine@libGSMModelBasic
+
+GSMZeroDim                   CATIAHybridShape                        libCATGmoAutomation          
+GSMZeroDim                   CATIAParameter                          libCATGmoAutomation           CATGmoIsAKNWDatum@libGSMModelBasic
+GSMMonoDim                   CATIBaseAccess                          libCATGmoAutomation          
+GSMMonoDim                   CATIAHybridShape                        libCATGmoAutomation          
+GSMMonoDim                   CATIAHybridShapeCurveExplicit           libCATGmoAutomation          
+GSMMonoDim                   CATIAParameter                          libCATGmoAutomation           CATGmoIsAKNWDatum@libGSMModelBasic
+GSMBiDim                     CATIBaseAccess                          libCATGmoAutomation          
+GSMBiDim                     CATIAHybridShape                        libCATGmoAutomation          
+GSMBiDim                     CATIAHybridShapeSurfaceExplicit         libCATGmoAutomation          
+GSMBiDim                     CATIAParameter                          libCATGmoAutomation           CATGmoIsAKNWDatum@libGSMModelBasic
+GSMTriDim                    CATIAHybridShape                        libCATGmoAutomation          
+GSMTriDim                    CATIAHybridShapeVolumeExplicit          libCATGmoAutomation          
+GSMTriDim                    CATIAParameter                          libCATGmoAutomation           CATGmoIsAKNWDatum@libGSMModelBasic
+
+GSMTool   CATIGSMJournaling    libCATGmoAutoNotifCallBack
+
+
+GSMGeom  CATIMfGeom    libCATGmoIntegration
+GSMGeom  CATIGSMBuildDiagnosis libCATGmoIntegration
+GSMIntegratedLaw  CATIGSMBuildDiagnosis libCATGmoIntegration
+GSMGeom  CATIGSMFeatureType  libGSMModelBasic
+GSMGeom  CATINewDuplicate  Delegated
+
+
+# Les adhesions de l'extrude
+#===========================================
+GSMExtrude   CATIBuild  libCATGmoOperators
+GSMExtrude  CATIGSMExtrude  libCATGmoModelImpl
+
+# Les adhesions de l'Contour
+#===========================================
+GSMContour   CATIBuild  libCATGmoOperators
+GSMContour   CATIGSMContour  libCATGmoModelImpl
+
+
+# List Cylinder Adhesion Interfaces
+#===========================================
+GSMCylinder CATIGSMCylinder libCATGmoModelImpl
+GSMCylinder CATIBuild libCATGmoOperators
+
+
+# Les adhesions de l'Extremum
+#===========================================
+GSMExtremum   CATIBuild  libCATGmoOperators
+GSMExtremum  CATIGSMExtremum  libCATGmoModelImpl
+
+GSMExtremumPolar   CATIBuild  libCATGmoOperators
+GSMExtremumPolar  CATIGSMExtremumPolar  libCATGmoModelImpl
+
+
+# GSMPoint
+#===========================================
+GSMPoint                     CATIBuild                               libCATGmoWireOperators      
+GSMPoint                     CATIGSMPoint                            libCATGmoWireModel      
+GSMPoint                     CATIGSMPointCoord                       libCATGmoWireModel            CATGmoIsACoordPoint@libGSMModelBasic
+GSMPoint                     CATIGSMPointOnSurface                   libCATGmoWireModel            CATGmoIsAOnSurfPoint@libGSMModelBasic
+GSMPoint                     CATIGSMPointOnPlane                     libCATGmoWireModel            CATGmoIsAOnPlanePoint@libGSMModelBasic
+GSMPoint                     CATIGSMPointOnCurve                     libCATGmoWireModel            CATGmoIsAOnCurvePoint@libGSMModelBasic
+GSMPoint                     CATIGSMPointCenter                      libCATGmoWireModel            CATGmoIsACenterPoint@libGSMModelBasic
+GSMPoint                     CATIGSMPointTangent                     libCATGmoWireModel            CATGmoIsATangentPoint@libGSMModelBasic
+GSMPoint                     CATIGSMPointBetween                     libCATGmoWireModel            CATGmoIsABetweenPoint@libGSMModelBasic
+GSMPointCoord                CATIGSMPointType                        libCATGmoWireOperators      
+GSMPointOnSurface            CATIGSMPointType                        libCATGmoWireOperators      
+GSMPointOnPlane              CATIGSMPointType                        libCATGmoWireOperators      
+GSMPointOnCurve              CATIGSMPointType                        libCATGmoWireOperators      
+GSMPointCenter               CATIGSMPointType                        libCATGmoWireOperators      
+GSMPointTangent              CATIGSMPointType                        libCATGmoWireOperators      
+GSMPointBetween              CATIGSMPointType                        libCATGmoWireOperators      
+GSMPointCKE                  CATIGSMPointType                        libCATGmoWireOperators      
+GSMPoint                     CATICkeParm                             libGSMModelBasic              CATGmoIsKNWPoint@libGSMModelBasic
+GSMPoint                     CATIParmTolerance                       libGSMModelBasic              CATGmoIsKNWPoint@libGSMModelBasic
+GSMPoint                     CATInterfaceEvents                      libGSMModelBasic              CATGmoIsKNWPoint@libGSMModelBasic
+GSMPoint                     CATIParmEvents                          libGSMModelBasic              CATGmoIsKNWPoint@libGSMModelBasic
+GSMPoint                     CATIParmAsStored                        libGSMModelBasic              CATGmoIsKNWPoint@libGSMModelBasic
+GSMPoint                     CATICkeMKS                              libGSMModelBasic              CATGmoIsKNWPoint@libGSMModelBasic
+GSMPoint                     CATIKwePerfo                            libGSMModelBasic              CATGmoIsKNWPoint@libGSMModelBasic
+GSMPoint                     CATIParmSelector                        libGSMModelBasic              CATGmoIsKNWPoint@libGSMModelBasic
+GSMPoint                     CATIParmVariable                        libGSMModelBasic              CATGmoIsKNWPoint@libGSMModelBasic
+GSMPoint                     CATIMfRestore                           libGSMModelBasic      
+GSMPoint                     CATPoint                                Delegated      
+GSMPoint                     CATGeometry                             Delegated      
+
+# GSMLine
+#===========================================
+GSMLine                      CATIBuild                               libCATGmoWireOperators      
+GSMLine                      CATIGSMLine                             libCATGmoWireModel      
+GSMLine                      CATIGSMLinePtPt                         libCATGmoWireModel            CATGmoIsAPtPtLine@libGSMModelBasic
+GSMLine                      CATIGSMLinePtDir                        libCATGmoWireModel            CATGmoIsAPtDirLine@libGSMModelBasic
+GSMLine                      CATIGSMLineAngle                        libCATGmoWireModel            CATGmoIsAAngleLine@libGSMModelBasic
+GSMLine                      CATIGSMLineTangency                     libCATGmoWireModel            CATGmoIsATangencyLine@libGSMModelBasic
+GSMLine                      CATIGSMLineBiTangent                    libCATGmoWireModel            CATGmoIsABiTangentLine@libGSMModelBasic
+GSMLine                      CATIGSMLineNormal                       libCATGmoWireModel            CATGmoIsANormalLine@libGSMModelBasic
+GSMLine                      CATIGSMLineBisecting                    libCATGmoWireModel            CATGmoIsABisectingLine@libGSMModelBasic
+GSMLinePtPt                  CATIGSMLineType                         libCATGmoWireOperators      
+GSMLinePtDir                 CATIGSMLineType                         libCATGmoWireOperators      
+GSMLineAngle                 CATIGSMLineType                         libCATGmoWireOperators      
+GSMLineTangency              CATIGSMLineType                         libCATGmoWireOperators      
+GSMLineBiTangent             CATIGSMLineType                         libCATGmoWireOperators      
+GSMLineNormal                CATIGSMLineType                         libCATGmoWireOperators      
+GSMLineBisecting             CATIGSMLineType                         libCATGmoWireOperators      
+GSMLine                      CATICkeParm                             libGSMModelBasic              CATGmoIsAKNWLine@libGSMModelBasic
+GSMLine                      CATIParmTolerance                       libGSMModelBasic              CATGmoIsAKNWLine@libGSMModelBasic
+GSMLine                      CATInterfaceEvents                      libGSMModelBasic              CATGmoIsAKNWLine@libGSMModelBasic
+GSMLine                      CATIParmEvents                          libGSMModelBasic              CATGmoIsAKNWLine@libGSMModelBasic
+GSMLine                      CATIParmAsStored                        libGSMModelBasic              CATGmoIsAKNWLine@libGSMModelBasic
+GSMLine                      CATICkeMKS                              libGSMModelBasic              CATGmoIsAKNWLine@libGSMModelBasic
+GSMLine                      CATIKwePerfo                            libGSMModelBasic              CATGmoIsAKNWLine@libGSMModelBasic
+GSMLine                      CATIParmSelector                        libGSMModelBasic              CATGmoIsAKNWLine@libGSMModelBasic
+GSMLine                      CATIParmVariable                        libGSMModelBasic              CATGmoIsAKNWLine@libGSMModelBasic
+GSMLine                      CATIMfRestore                           libGSMModelBasic      
+GSMLine                      CATLine                                 Delegated      
+GSMLine                      CATCurve                                Delegated      
+GSMLine                      CATGeometry                             Delegated      
+GSMAxisLine                  CATIGSMAxisLine                         libCATGmoWireModel      
+GSMAxisLine                  CATIBuild                               libCATGmoWireOperators      
+GSMAxisLine                  CATIMfRestore                           libGSMModelBasic      
+GSMAxisLine                  CATLine                                 Delegated      
+GSMAxisLine                  CATCurve                                Delegated      
+GSMAxisLine                  CATGeometry                             Delegated      
+GSMAxisExplicit              CATIGSMAxisExplicit                     libCATGmoWireModel      
+GSMAxisExplicit              CATIAlias                               libCATGmoWireModel      
+GSMAxisExplicit              CATLine                                 Delegated      
+GSMAxisExplicit              CATCurve                                Delegated      
+GSMAxisExplicit              CATGeometry                             Delegated      
+
+# GSMPlane
+#===========================================
+GSMPlane                     CATIBuild                               libCATGmoWireOperators        CATGmoIsNotAPlaneOfReference@libGSMModelBasic
+GSMPlane                     CATIGSMPlane                            libGSMModelBasic      
+GSMPlane                     CATIGSMPlaneEquation                    libCATGmoWireModel            CATGmoIsAnEquationPlane@libGSMModelBasic
+GSMPlane                     CATIGSMPlaneExplicit                    libCATGmoWireModel            CATGmoIsAnExplicitPlane@libGSMModelBasic
+GSMPlane                     CATIGSMPlane3Points                     libCATGmoWireModel            CATGmoIsA3PointsPlane@libGSMModelBasic
+GSMPlane                     CATIGSMPlane2Lines                      libCATGmoWireModel            CATGmoIsA2LinesPlane@libGSMModelBasic
+GSMPlane                     CATIGSMPlane1Line1Pt                    libCATGmoWireModel            CATGmoIsA1Line1PtPlane@libGSMModelBasic
+GSMPlane                     CATIGSMPlane1Curve                      libCATGmoWireModel            CATGmoIsA1CurvePlane@libGSMModelBasic
+GSMPlane                     CATIGSMPlaneTangent                     libCATGmoWireModel            CATGmoIsATangentPlane@libGSMModelBasic
+GSMPlane                     CATIGSMPlaneNormal                      libCATGmoWireModel            CATGmoIsANormalPlane@libGSMModelBasic
+GSMPlane                     CATIGSMPlaneOffset                      libCATGmoWireModel            CATGmoIsAnOffsetPlane@libGSMModelBasic
+GSMPlane                     CATIGSMPlaneOffsetPt                    libCATGmoWireModel            CATGmoIsAnOffsetPtPlane@libGSMModelBasic
+GSMPlane                     CATIGSMPlaneAngle                       libCATGmoWireModel            CATGmoIsAnAnglePlane@libGSMModelBasic
+GSMPlane                     CATIGSMPlaneMean                        libCATGmoWireModel            CATGmoIsAMeanPlane@libGSMModelBasic
+GSMPlaneEquation             CATIGSMPlaneType                        libCATGmoWireOperators      
+GSMPlane3Points              CATIGSMPlaneType                        libCATGmoWireOperators      
+GSMPlane2Lines               CATIGSMPlaneType                        libCATGmoWireOperators      
+GSMPlane1Line1Pt             CATIGSMPlaneType                        libCATGmoWireOperators      
+GSMPlane1Curve               CATIGSMPlaneType                        libCATGmoWireOperators      
+GSMPlaneTangent              CATIGSMPlaneType                        libCATGmoWireOperators      
+GSMPlaneNormal               CATIGSMPlaneType                        libCATGmoWireOperators      
+GSMPlaneOffset               CATIGSMPlaneType                        libCATGmoWireOperators      
+GSMPlaneOffsetPt             CATIGSMPlaneType                        libCATGmoWireOperators      
+GSMPlaneAngle                CATIGSMPlaneType                        libCATGmoWireOperators      
+GSMPlaneMean                 CATIGSMPlaneType                        libCATGmoWireOperators      
+GSMPlane                     CATICkeParm                             libGSMModelBasic              CATGmoIsPlnParameter@libGSMModelBasic
+GSMPlane                     CATIParmTolerance                       libGSMModelBasic              CATGmoIsPlnParameter@libGSMModelBasic
+GSMPlane                     CATInterfaceEvents                      libGSMModelBasic              CATGmoIsPlnParameter@libGSMModelBasic
+GSMPlane                     CATIParmEvents                          libGSMModelBasic              CATGmoIsPlnParameter@libGSMModelBasic
+GSMPlane                     CATIParmAsStored                        libGSMModelBasic              CATGmoIsPlnParameter@libGSMModelBasic
+GSMPlane                     CATICkeMKS                              libGSMModelBasic              CATGmoIsPlnParameter@libGSMModelBasic 
+GSMPlane                     CATIKwePerfo                            libGSMModelBasic              CATGmoIsPlnParameter@libGSMModelBasic 
+GSMPlane                     CATIParmSelector                        libGSMModelBasic              CATGmoIsPlnParameter@libGSMModelBasic 
+GSMPlane                     CATIParmVariable                        libGSMModelBasic              CATGmoIsPlnParameter@libGSMModelBasic
+GSMPlane                     CATIMfRestore                           libGSMModelBasic      
+GSMPlane                     CATPlane                                Delegated      
+GSMPlane                     CATSurface                              Delegated      
+GSMPlane                     CATGeometry                             Delegated      
+
+# GSMCircle
+#===========================================
+GSMCircle                    CATIBuild                               libCATGmoOperators            
+GSMCircle                    CATIGSMCircle                           libCATGmoModelImpl  
+GSMCircle                    CATIGSMCircleCtrRad                     libCATGmoModelImpl            CATGmoIsACtrRadCircle@libGSMModelBasic
+GSMCircle                    CATIGSMCircleCtrPt                      libCATGmoModelImpl            CATGmoIsACtrPtCircle@libGSMModelBasic
+GSMCircle                    CATIGSMCircle2PointsRad                 libCATGmoModelImpl            CATGmoIsA2PointsRadCircle@libGSMModelBasic
+GSMCircle                    CATIGSMCircle3Points                    libCATGmoModelImpl            CATGmoIsA3PointsCircle@libGSMModelBasic
+GSMCircle                    CATIGSMCircleBitangentRadius            libCATGmoModelImpl            CATGmoIsABitangentRadiusCircle@libGSMModelBasic
+GSMCircle                    CATIGSMCircleBitangentPoint             libCATGmoModelImpl            CATGmoIsABitangentPointCircle@libGSMModelBasic
+GSMCircle                    CATIGSMCircleTritangent                 libCATGmoModelImpl            CATGmoIsATritangentCircle@libGSMModelBasic
+GSMCircle                    CATIGSMCircleCenterTangent              libCATGmoModelImpl            CATGmoIsACenterTangentCircle@libGSMModelBasic
+GSMCircle                    CATIGSMCircleCenterAxis                 libCATGmoModelImpl            CATGmoIsACenterAxisCircle@libGSMModelBasic
+GSMCircleCtrRad              CATIGSMCircleType                       libCATGmoOperators       
+GSMCircleCtrPt               CATIGSMCircleType                       libCATGmoOperators       
+GSMCircle2PointsRad          CATIGSMCircleType                       libCATGmoOperators       
+GSMCircle3Points             CATIGSMCircleType                       libCATGmoOperators       
+GSMCircleBitangentRad        CATIGSMCircleType                       libCATGmoOperators       
+GSMCircleBitangentPt         CATIGSMCircleType                       libCATGmoOperators       
+GSMCircleTritangent          CATIGSMCircleType                       libCATGmoOperators       
+GSMCircleCenterTangent       CATIGSMCircleType                       libCATGmoOperators       
+GSMCircleCenterAxis          CATIGSMCircleType                       libCATGmoOperators       
+GSMCircle                    CATICkeParm                             libGSMModelBasic              CATGmoIsKNWCircle@libGSMModelBasic
+GSMCircle                    CATIParmTolerance                       libGSMModelBasic              CATGmoIsKNWCircle@libGSMModelBasic
+GSMCircle                    CATInterfaceEvents                      libGSMModelBasic              CATGmoIsKNWCircle@libGSMModelBasic
+GSMCircle                    CATIParmEvents                          libGSMModelBasic              CATGmoIsKNWCircle@libGSMModelBasic
+GSMCircle                    CATIParmAsStored                        libGSMModelBasic              CATGmoIsKNWCircle@libGSMModelBasic
+GSMCircle                    CATICkeMKS                              libGSMModelBasic              CATGmoIsKNWCircle@libGSMModelBasic
+GSMCircle                    CATIKwePerfo                            libGSMModelBasic              CATGmoIsKNWCircle@libGSMModelBasic
+GSMCircle                    CATIParmSelector                        libGSMModelBasic              CATGmoIsKNWCircle@libGSMModelBasic
+GSMCircle                    CATIParmVariable                        libGSMModelBasic              CATGmoIsKNWCircle@libGSMModelBasic
+GSMCircle                    CATIMfRestore                           libGSMModelBasic       
+GSMCircle                    CATCircle                               Delegated       
+GSMCircle                    CATCurve                                Delegated       
+GSMCircle                    CATGeometry                             Delegated       
+
+# Les adhesions de l'offset
+#==========================
+GSMOffset  CATIBuild    libCATGmoOperators
+GSMOffset  CATIGSMOffset  libCATGmoModelImpl
+GSMOffset  CATIGSMOffsetRegularization  libCATGmoModelImpl
+
+# Les adhesions de VariableOffset
+#==========================
+GSOVariableOffset  CATIBuild     libCATGmoOptimizerOperators
+GSOVariableOffset  CATIGSOVariableOffset  libCATGmoOptimizerModel
+GSOVariableOffset  CATIGSOVariableOffsetGetAccess  libCATGmoOptimizerModel
+
+# Les adhesions pour Crv //
+#============================
+GSMCurvePar  CATIBuild   libCATGmoOperators
+GSMCurvePar  CATIGSMCurvePar  libCATGmoModelImpl
+GSMRollingOffset  CATIBuild    libCATGmoOperators
+GSMRollingOffset CATIGSMRollingOffset libCATGmoModelImpl
+
+
+# Les adhesions pour le sweep
+#============================
+GSMSweep                     CATISpecObject                          libGSMModelBasic           
+GSMSweep                     CATI3DGeometricalElement                libGSMModelBasic           
+GSMSweep                     CATIGeometricalElement                  libGSMModelBasic           
+GSMSweep                     CATIMechanicalFeature                   libGSMModelBasic           
+GSMSweep                     CATIMfScopeAccess                       libGSMModelBasic           
+GSMSweep                     CATISlaveGeometry                       libGSMModelBasic
+GSMSweep                     CATIBuild                               libCATGmoOperators           
+GSMSweep                     CATISpecUpdate                          libCATGmoOperators           
+GSMSweep                     CATIGSMSweep                            libCATGmoModelImpl           
+GSMSweep                     CATIGSMSweepSegment                     libCATGmoModelImpl            CATGmoIsASweepSegment@libGSMModelBasic
+GSMSweep                     CATIGSMSweepCircle                      libCATGmoModelImpl            CATGmoIsASweepCircle@libGSMModelBasic
+GSMSweep                     CATIGSMSweepConic                       libCATGmoModelImpl            CATGmoIsASweepConic@libGSMModelBasic
+GSMSweep                     CATIGSMSweepUnspec                      libCATGmoModelImpl            CATGmoIsASweepUnspec@libGSMModelBasic
+GSMSweep                     CATIGSMDefaultPositioner                libCATGmoModelImpl            CATGmoIsASweepUnspec@libGSMModelBasic
+GSMSweepSegment              CATIGSMSweepType                        libCATGmoOperators           
+GSMSweepCircle               CATIGSMSweepType                        libCATGmoOperators           
+GSMSweepUnspec               CATIGSMSweepType                        libCATGmoOperators           
+GSMSweepConic                CATIGSMSweepType                        libCATGmoOperators           
+GSMSweep                     CATIAlias                               libCATGmoModelImpl
+GSMPositionTransfo           CATIBuild                               libCATGmoOperators
+GSMPositionTransfo           CATIGSMPositionTransfo                  libCATGmoModelImpl
+GSMSweepUnspecPosInputs      CATIBuild                               libCATGmoOperators
+GSMSweepUnspecPosInputs      CATIGSMDefaultPositioner                libCATGmoOperators
+GSMCuttingPoint              CATPoint                                Delegated    
+GSMCuttingPoint              CATGeometry                             Delegated
+GSMCuttingPoint              CATIGSMCuttingPoint                     libCATGmoWireModel			
+
+#========================================================================
+# Les adhesions pour le sweep variationnel
+#========================================================================
+GSMSweepSketch   CATIBuild   libCATGmoVariationalSweep
+GSMSweepSketch  CATIGSMSweepSketch  libCATGmoVariationalSweep
+GSMSweepSketch  CATIGSMSectionsManagement libCATGmoVariationalSweep
+GSMSweepSketch  CATISpecObject   libGSMModelBasic
+GSMSweepSketch  CATI3DGeometricalElement  libGSMModelBasic
+GSMSweepSketch  CATIGeometricalElement  libGSMModelBasic
+GSMSweepSketch  CATIMechanicalFeature  libGSMModelBasic
+GSMSweepSketch  CATIMfScopeAccess  libGSMModelBasic
+GSMSweepSketch  CATISlaveGeometry  libGSMModelBasic
+
+#GSMSweepSketch   CATISpecUpdate   libCATGmoVariationalSweep
+GSMSweepSketch  CATIGSMSweepVarQuickPreview   libCATGmoVariationalSweep
+
+# Les adhesions pour le fillet
+#=============================
+GSMFillet                    CATIBuild                               libCATGmoOperators
+GSMFillet                    CATIGSMFillet                           libCATGmoModelImpl
+GSMFillet                    CATIGSMFilletBiTangent                  libCATGmoModelImpl            CATGmoIsAFilletBiTangent@libGSMModelBasic
+GSMFilletBiTangent           CATIGSMFilletType                       libCATGmoOperators
+GSMFillet                    CATIGSMFilletTriTangent                 libCATGmoModelImpl            CATGmoIsAFilletTriTangent@libGSMModelBasic
+GSMFilletTriTangent          CATIGSMFilletType                       libCATGmoOperators
+GSMFillet                    CATIGSMPreview                          libCATGmoOperators
+
+# Les adhesions pour le revol
+#=============================
+GSMRevol  CATIBuild   libCATGmoOperators
+GSMRevol  CATIGSMRevol  libCATGmoModelImpl
+
+# Les adhesions pour le project
+#==============================
+GSMProject  CATIBuild						libCATGmoOperators
+GSMProject  CATIGSMProject					libCATGmoModelImpl
+GSMProject  CATIGSMMultiSelAccess			libCATGmoModelImpl
+
+# Les adhesions pour le combine
+#==============================
+GSMCombine  CATIBuild    libCATGmoOperators
+GSMCombine  CATIGSMCombine  libCATGmoModelImpl
+
+# Les adhesions de l'assemble
+#=============================
+GSMAssemble CATIBuild    libCATGmoOperators
+GSMAssemble  CATIGSMAssemble  libCATGmoModelImpl
+
+# Les adhesions du scaling
+#=============================
+GSMScaling  CATIBuild						libCATGmoOperators
+GSMScaling  CATIGSMScaling					libCATGmoModelImpl
+GSMScaling  CATIGSMMultiSelAccess			libCATGmoModelImpl
+
+# Les adhesions de la symetrie
+#=============================
+GSMSymmetry                  CATIBuild                               libCATGmoOperators
+GSMSymmetry                  CATIGSMSymmetry                         libCATGmoModelImpl
+GSMSymmetry                  CATIGSMMultiSelAccess                   libCATGmoModelImpl
+GSMSymmetry                  CATIMf3DAxisSystem                      libCATGmoModelImpl            CATGmoIsAMf3DAxisSystem@libGSMModelBasic
+
+# Les adhesions de la transfo d'axe a axe
+#========================================
+GSMAxisToAxis                CATIBuild                               libCATGmoOperators
+GSMAxisToAxis                CATIGSMAxisToAxis                       libCATGmoModelImpl
+GSMAxisToAxis                CATIGSMMultiSelAccess                   libCATGmoModelImpl
+GSMAxisToAxis                CATIMf3DAxisSystem                      libCATGmoModelImpl            CATGmoIsAMf3DAxisSystem@libGSMModelBasic
+
+# Les adhesions du connect
+#===========================
+GSMConnect  CATIBuild   libCATGmoOperators  
+GSMConnect  CATIGSMConnect  libCATGmoModelImpl
+
+# Les adhesions de l'intersect
+#=============================
+GSMIntersect  CATIBuild						libCATGmoOperators 
+GSMIntersect  CATIGSMIntersect				libCATGmoModelImpl
+GSMIntersect  CATIGSMMultiSelAccess			libCATGmoModelImpl
+
+# Les adhesions du rotate
+#===========================
+GSMRotate                    CATIBuild                               libCATGmoOperators
+GSMRotate                    CATIGSMRotate                           libCATGmoModelImpl
+GSMRotate                    CATIGSMMultiSelAccess                   libCATGmoModelImpl
+GSMRotate                    CATIMf3DAxisSystem                      libCATGmoModelImpl            CATGmoIsAMf3DAxisSystem@libGSMModelBasic
+
+# Les adhesions de la spline
+#===========================
+GSMCurve   CATIBuild   libCATGmoWireOperators
+GSMCurve  CATIGSMSpline  libCATGmoWireModel
+
+# Les adhesions de la contrainte de courbe
+#===========================
+#GSMCurvePt   CATIBuild  libCATGmoOperators
+GSMCurvePt  CATIGSMCurveCst  libCATGmoModelImpl
+
+# Les adhesions de la courbe conique
+#===========================
+GSMConic    CATIBuild  libCATGmoOperators
+GSMConic  CATIGSMConic  libCATGmoModelImpl
+
+# Les adhesions du split
+#===========================
+GSMSplit   CATIBuild							 libCATGmoOperators
+GSMSplit   CATIGSMSplit							 libCATGmoModelImpl
+GSMSplit   CATIGSMMultiSelAccess				 libCATGmoModelImpl
+
+# Les adhesions du trim
+#===========================
+GSMTrim   CATIBuild   libCATGmoOperators
+GSMTrim   CATIGSMTrim   libCATGmoModelImpl
+
+# Les adhesions de l'extrapol
+#===========================
+GSMExtrapol  CATIBuild   libCATGmoOperators
+GSMExtrapol  CATIGSMExtrapol  libCATGmoModelImpl
+
+# Les adhesions du develop
+#===========================
+GSMDevelop  CATISpecObject    libGSMModelBasic
+GSMDevelop  CATI3DGeometricalElement libGSMModelBasic
+GSMDevelop  CATIGeometricalElement  libGSMModelBasic
+GSMDevelop  CATIMechanicalFeature  libGSMModelBasic
+GSMDevelop  CATIMfScopeAccess   libGSMModelBasic
+GSMDevelop  CATISlaveGeometry   libGSMModelBasic
+GSMDevelop   CATIBuild     libCATGmoOptimizerOperators
+GSMDevelop   CATISpecUpdate    libCATGmoOptimizerOperators
+GSMDevelop  CATIGSMDevelop    libCATGmoOptimizerModel
+GSMDevelop  CATIGSMDefaultPositioner libCATGmoOptimizerModel
+
+GSMDevelopPosInputs CATISpecObject   libGSMModelBasic
+GSMDevelopPosInputs CATIMechanicalFeature libGSMModelBasic
+GSMDevelopPosInputs  CATIBuild     libCATGmoOptimizerOperators
+GSMDevelopPosInputs  CATIGSMDefaultPositioner libCATGmoOptimizerOperators
+GSMDevelopPosInputs  CATISpecUpdate    libCATGmoOptimizerOperators
+
+# Unfold
+#===========================
+GSMUnfold CATIBuild       libCATGmoOptimizerOperators
+GSMUnfold CATIGSMUnfold      libCATGmoOptimizerModel
+
+# Transfer
+#===========================
+GSMTransferedZeroDim CATIGSMTransfer libCATGmoOptimizerModel
+GSMTransferedZeroDim CATICCPable libCATGmoOptimizerModel
+GSMTransferedZeroDim CATIAlias libCATGmoOptimizerModel
+GSMTransferedZeroDim CATIBuild libCATGmoOptimizerOperators CATGmoIsATransferWithBuild
+
+GSMTransferedMonoDim CATIGSMTransfer libCATGmoOptimizerModel
+GSMTransferedMonoDim CATICCPable libCATGmoOptimizerModel
+GSMTransferedMonoDim CATIAlias libCATGmoOptimizerModel
+GSMTransferedMonoDim CATIBuild libCATGmoOptimizerOperators CATGmoIsATransferWithBuild
+
+# Les adhesions de boundary
+#===========================
+GSMBoundary  CATIBuild   libCATGmoOperators
+GSMBoundary  CATIGSMBoundary  libCATGmoModelImpl
+
+# Les adhesions de l'inverse
+#===========================
+GSMInverse   CATIBuild  libCATGmoOperators
+GSMInverse  CATIGSMInverse  libCATGmoModelImpl
+GSMInverseLocal  CATIGSMInverseLocal  libCATGmoModelImpl
+
+# Les adhesions de l'extract
+#===========================
+GSMExtract   CATIBuild    libCATGmoOperators
+GSMExtract  CATIGSMExtractSolide libCATGmoModelImpl
+GSMExtract  CATIGSMNamingAmbiguity libCATGmoOperators
+
+# Les adhesions de l'extract Multi
+#===========================
+GSMMultiExtract   CATIBuild    libCATGmoOperators
+GSMMultiExtract  CATIGSMExtractMulti libCATGmoModelImpl
+GSMMultiExtract  CATIGSMNamingAmbiguity libCATGmoOperators
+GSMMultiExtract  CATIMfResultBehaviour  libGSMModelBasic
+
+# Les adhesions du translate
+#===========================
+GSMTranslate                 CATIBuild                               libCATGmoOperators
+GSMTranslate                 CATIGSMTranslate                        libCATGmoModelImpl
+GSMTranslate                 CATIGSMMultiSelAccess                   libCATGmoModelImpl
+GSMTranslate                 CATIMf3DAxisSystem                      libCATGmoModelImpl            CATGmoIsAMf3DAxisSystem@libGSMModelBasic
+
+# Les adhesions de l'affinite
+#===========================
+GSMAffinity  CATIBuild								 libCATGmoOperators
+GSMAffinity  CATIGSMAffinity						 libCATGmoModelImpl
+GSMAffinity  CATIGSMMultiSelAccess					 libCATGmoModelImpl
+
+# Les adhesions du corner
+#===========================
+GSMCorner  CATIBuild   libCATGmoOperators
+GSMCorner  CATIGSMCorner  libCATGmoModelImpl
+
+# Les adhesions de la direction
+#==============================
+GSMDirection  CATIBuild   libCATGmoWireOperators
+GSMDirection CATIGSMDirection libCATGmoWireModel
+
+# Les adhesions du fill
+#===========================
+GSMFill  CATIBuild   libCATGmoOperators
+GSMFill  CATIGSMFill  libCATGmoModelImpl
+
+# Les adhesions du loft
+#===========================
+GSMLoft CATIBuild libCATGmoOperators
+GSMLoft CATIGSMLoft   libCATGmoModelImpl
+GSMLoft CATIGSMCoupling   libCATGmoModelImpl
+
+# Les adhesions du Near
+#===========================
+GSMNear  CATIBuild     libCATGmoOperators
+GSMNear   CATIGSMNear   libCATGmoModelImpl
+
+# Les adhesions du Blend
+#===========================
+GSMBlend CATIBuild  libCATGmoOperators
+GSMBlend CATIGSMBlend   libCATGmoModelImpl
+GSMBlend CATIGSMCoupling   libCATGmoModelImpl
+
+# Les adhesions des lois
+#===========================
+GSMLaw    CATICkeFeature     libCATGmoIntegration
+GSMLaw    CATICkeFunction    libCATGmoIntegration
+GSMLaw    CATIBuild     libCATGmoOperators
+GSMLaw    CATIGSMLaw      libCATGmoModelImpl
+GSMLawDistProj  CATIGSMLawDistProj   libCATGmoModelImpl
+GSMLawDistProj  CATICkeLaw     libCATGmoOperators
+GSMLawDistProj  CATIBuild     libCATGmoOperators
+
+GSMIntegratedLaw CATIGSMIntegratedLaw  libCATGmoModelImpl
+GSMIntegratedLaw CATICkeLaw     libCATGmoOperators
+GSMIntegratedLaw  CATIAHybridShape   libCATGmoAutomation
+GSMIntegratedLaw  CATIAHybridShapeIntegratedLaw  libCATGmoAutomation
+
+# Les adhesions de l'Helix
+#=============================
+GSMHelix CATIBuild  libCATGmoOperators
+GSMHelix CATIGSMHelix libCATGmoModelImpl
+
+# Les adhesions de Spiral
+#=============================
+GSMSpiral  CATIBuild  libCATGmoOperators
+GSMSpiral  CATIGSMSpiral  libCATGmoModelImpl
+
+# Les adhesions du healing
+#===========================
+GSMHealing  CATIBuild   libCATGmoOperators
+GSMHealing  CATIGSMHealing  libCATGmoModelImpl
+
+# Les adhesions de la Spine
+#===========================
+GSMSpine CATIBuild  libCATGmoOperators
+GSMSpine CATIGSMSpine libCATGmoModelImpl
+
+# Les adhesions pour le reflectline
+#==================================
+GSMReflectLine  CATIBuild    libCATGmoOperators
+GSMReflectLine  CATIGSMReflectLine  libCATGmoModelImpl
+
+# Les adhesions pour la Silhouette
+#=================================
+GSMSilhouette  CATIBuild    libCATGmoOperators
+GSMSilhouette  CATIGSMSilhouette  libCATGmoModelImpl
+
+# Les adhesions pour la sphere
+#==============================
+GSMSphere  CATIBuild    libCATGmoOperators
+GSMSphere  CATIGSMSphere  libCATGmoModelImpl
+
+# Les adhesions du curve smooth
+#===========================
+GSMCurveSmooth  CATIBuild    libCATGmoOperators
+GSMCurveSmooth  CATIGSMCurveSmooth  libCATGmoModelImpl
+GSMCurveSmooth  CATIGSMPreview    libCATGmoOperators
+
+# Les adhesions de Line Corner
+#=============================
+GSMLineCorner  CATIBuild    libCATGmoOperators
+GSMLineCorner  CATIGSMPolyline   libCATGmoModelImpl
+
+### GSMLineCorner  CATIABase     libCATGmoAutomation 
+# PEY 04/03/10 - Implement CATIBaseAccess
+GSMLineCorner  CATIBaseAccess    libCATGmoAutomation
+GSMLineCorner  CATIAHybridShape   libCATGmoAutomation
+GSMLineCorner  CATIAHybridShapePolyline libCATGmoAutomation
+
+# Les adhesions du WrapCurve
+#===========================
+GSOWrapCurve CATIBuild libCATGmoOptimizerOperators
+GSOWrapCurve CATIGSOWrapCurve   libCATGmoOptimizerModel
+
+# Les adhesions du WrapSurface
+#===========================
+GSOWrapSurface CATIBuild    libCATGmoOptimizerOperators
+GSOWrapSurface CATIGSOWrapSurface  libCATGmoOptimizerModel  
+
+# Les adhesions du Bump
+#===========================
+GSOBump CATIBuild libCATGmoOptimizerOperators
+GSOBump CATIGSOBump   libCATGmoOptimizerModel
+
+# Les adhesions du ShapeMorphing
+#===============================
+GSOShapeMorphing CATIBuild libCATGmoOptimizerOperators
+GSOShapeMorphing CATIGSOShapeMorphing   libCATGmoOptimizerModel
+GSOShapeMorphing CATIGSMPreview  libCATGmoOptimizerOperators
+
+# Les adhesions de Junction
+#===========================
+GSOJunction  CATIBuild   libCATGmoOptimizerOperators
+GSOJunction  CATIGSOJunction  libCATGmoOptimizerModel
+GSOJunction  CATIGSMPreview  libCATGmoOptimizerOperators
+
+# Les adhesions de SeatDiabolo
+#=============================
+GSOSeatDiabolo  CATIBuild    libCATGmoOptimizerOperators
+GSOSeatDiabolo  CATIGSOSeatDiabolo  libCATGmoOptimizerModel
+GSOSeatDiabolo  CATIGSMPreview   libCATGmoOptimizerOperators
+
+# Les adhesions des Plane Systems
+#================================
+GSMGridSet CATIGSMGridSet			libCATGmoModelImpl
+GSMGridSet CATIGSMGridSetProtected	libCATGmoModelImpl
+GSMGridSet CATIGSMProceduralView	libCATGmoIntegration
+GSMGridSet CATISpecAttrSet			libCATGmoIntegration
+GSMGridSet CATICkeFeature			libCATGmoIntegration
+GSMGridSet CATIInstance				libCATGmoIntegration
+
+GSMGridSubset CATIGSMGridSubset     libCATGmoModelImpl
+GSMGridSubset CATIGSMProceduralView libCATGmoIntegration
+GSMGridSubset CATISpecAttrSet       libCATGmoIntegration
+GSMGridSubset CATICkeFeature        libCATGmoIntegration
+GSMGridSubset CATIInstance          libCATGmoIntegration
+
+GSMGridFace CATIGSMGridFace libCATGmoModelImpl
+GSMGridFace CATIGSMGridFaceProtected libCATGmoModelImpl
+GSMGridFace CATIBuild libCATGmoOperators
+GSMGridFace CATIMfRestore libGSMModelBasic
+GSMGridFace CATPlane  Delegated
+GSMGridFace CATSurface  Delegated
+GSMGridFace CATGeometry Delegated
+
+# Les adhesions du feature multiselection
+#========================================
+# L'adhesion a CATIBuild n'est probablement pas necessaire
+GSMMultiSel CATIBuild   libCATGmoOperators
+GSMMultiSel CATIGSMMultiSel  libCATGmoModelImpl
+# pour pouvoir disposer de InsertInProceduralView
+GSMMultiSel  CATIGSMProceduralView libCATGmoIntegration
+# pour pouvoir disposer de SetAttrSpecObject etc...
+GSMMultiSel  CATISpecAttrSet  libCATGmoIntegration
+# pour que le sketch ne s'agrege pas sous le multioutput
+GSMMultiSel  CATIPrivateTool  libCATGmoIntegration		CATGmoIsAPrivateMultiSel@libGSMModelBasic
+# For search capabilities
+GSMMultiSel CATICkeFeature libCATGmoIntegration
+GSMMultiSel CATIInstance   libCATGmoIntegration
+# For new MultiSel and matrix feature capabilities
+GSMGeom  CATIGSMMultiSelMatrixManager	libCATGmoIntegration
+
+# les adhesion du 3DCurveOffset
+#==============================================
+GSM3DCurveOffset  CATIBuild   libCATGmoOperators
+GSM3DCurveOffset  CATIGSM3DCurveOffset  libCATGmoModelImpl
+
+
+# Section
+#==============================================
+GSMSection  CATIGSMSection    libCATGmoSectioning
+GSMSection  CATISpecObject    libGSMModelBasic
+GSMSection  CATIAlias         libCATGmoSectioning
+GSMSection	CATISearch		  libCATGmoSectioning
+GSMSection  CATIReplace       libCATGmoSectioning
+GSMSection  CATIReplacable    libCATGmoIntegration
+GSMSection  CATIAttrBehavior  libCATGmoIntegration
+GSMSection  CATICkeFeature    libCATGmoIntegration
+GSMSection  CATIInstance      libCATGmoIntegration
+
+GSMSection  CATIAHybridShape         libCATGmoAutomation
+GSMSection  CATIAHybridShapeSection  libCATGmoAutomation
+
+GSMSectionContainer  CATIGSMSectionContainer  libCATGmoSectioning
+GSMSectionContainer  CATIMf3DBehavior         libGSMModelBasic
+GSMSectionContainer  CATIInputDescription     libCATGmoIntegration
+
+CATFeatCont  CATIGSMSectionFactory  libCATGmoSectioning  
+
+# 2D-View Section
+#=================================
+GSM2DViewSection  CATIGSM2DViewSection  libCATGmoSectioning
+GSM2DViewSection  CATIGSMProceduralView libCATGmoIntegration
+
+GSM2DViewSectionGroup  CATIGSM2DViewSectionGroup  libCATGmoSectioning
+GSM2DViewSectionGroup  CATIUdfExternalView        libCATGmoSectioning
+
+GSM2DViewThickness  CATIGSM2DViewThickness  libCATGmoSectioning
+GSM2DViewThickness  CATIBuild               libCATGmoSectioning
+GSM2DViewThickness  CATIDimVisualization    libCATGmoSectioning
+
+GSM2DViewSectionIntersect   CATIGSM2DViewSectionObject  libCATGmoSectioning
+GSM2DViewSectionAssemble    CATIGSM2DViewSectionObject  libCATGmoSectioning
+GSM2DViewSectionAxisToAxis  CATIGSM2DViewSectionObject  libCATGmoSectioning
+
+# Les adhesions pour la factory et le container
+#==============================================
+CATFeatCont  CATIGSMFactory  libGSMModelBasic
+CATFeatCont  CATIGSMPrivateFactory  libGSMModelBasic
+CATFeatCont  CATIGSOFactory  libCATGmoOptimizerModel
+CATFeatCont  CATIGSOFactoryGeo libCATGmoOptimizerOperators
+CATFeatCont CATIGSMFactoryInternal libGSMModelBasic
+
+# Les adhesions pour les factory exotiques
+#==============================================
+CATFeatCont CATIGSMMultiSelFactory libGSMModelBasic
+
+# Les adhesions pour  Object AutomaticFillGeo
+#==============================================
+CATFeatCont    CATIGSMFactoryGeo libCATGmoOperators
+CATGmoGSMAutomaticFillGeo CATIGSMAutomaticFillGeo libCATGmoOperators
+
+# Les adhesions pour le work on support
+#==============================================
+
+CATFeatCont			CATIGSMWorkingSupportFactory	libCATGmoModelImpl
+GSMWSupportSet		CATIGSMWorkingSupportSet		libCATGmoModelImpl
+GSMWSupportSet		CATIDftGenRequest				libCATGmoIntegration
+GSMWSupportSet		CATISpecAttrSet            libCATGmoIntegration  
+GSMWSupport			CATIGSMWorkingSupport			libCATGmoModelImpl
+GSMWSupport			CATIBuild						libCATGmoOperators
+GSMWSupport			CATIDftGenRequest				libCATGmoIntegration
+GSMWSupport			CATICGRModel					libCATGmoIntegration
+GSMWSupport			CATISpecObject					libGSMModelBasic
+GSMGrid				CATIGSMGrid						libCATGmoModelImpl
+GSMCartGrid			CATIGSMCartesianGrid			libCATGmoModelImpl
+GSMCartGrid			CATIGSMGridUpdate				libCATGmoOperators
+GSMCartGrid			CATIDftGenRequest				libCATGmoIntegration
+GSMCartGrid			CATIDftGenParamAccess			libCATGmoIntegration
+GSM3DWSupport		CATIGSM3DWorkingSupport			libCATGmoModelImpl
+GSM3DWSupport		CATIGSM3DFurtiveGrid			libCATGmoModelImpl
+GSM3DWSupport		CATIGSMWorkingSupport			libCATGmoIntegration
+GSM3DWSupport		CATISpecVisibleChild			libCATGmoIntegration
+GSM3DWSupport		CATIDftGenRequest				libCATGmoIntegration
+GSM3DWSupport		CATIMmrParentChildDescriptor	libCATGmoIntegration
+GSM3DWSupport		CATISpecObject					libGSMModelBasic
+GSMGridPoint		CATICstElement					libCATGmoIntegration
+GSMGridTranslate	CATICstElement					libCATGmoIntegration
+GSMGridPlane		CATICstElement      			libCATGmoIntegration
+
+# Les adhesions pour les objets de sel du work on support
+#========================================================
+
+CATMFBRP					CATIRepBRepAccessFactory			libGSMModelBasic
+
+CATGmoRepBRepGridLineImpl   CATIFeaturize                       libGSMModelBasic
+CATGmoRepBRepGridLineImpl   CATIPathAccess                      libGSMModelBasic
+CATGmoRepBRepGridLineImpl   CATIOrientation                     libGSMModelBasic
+CATGmoRepBRepGridLineImpl   CATILinkableObject                  libGSMModelBasic
+CATGmoRepBRepGridLineImpl   CATIConnector                       libGSMModelBasic
+CATGmoRepBRepGridLineImpl   CATLine                             libGSMModelBasic
+CATGmoRepBRepGridLineImpl   CATGeometry                         libGSMModelBasic
+CATGmoRepBRepGridLineImpl	CATISiMeasureRepPath				libGSMModelBasic
+CATGmoRepBRepGridLineImpl   CATCurve							libGSMModelBasic
+CATGmoRepBRepGridLineImpl   CATICGMObject						libGSMModelBasic
+CATGmoRepBRepGridLineImpl   CATICGMUnknown						libGSMModelBasic
+CATGmoRepBRepGridLineImpl   CATIRepBRepAccess					libGSMModelBasic
+CATGmoRepBRepGridLineImpl   CATIRepBRepGSDGridLine				libGSMModelBasic    
+
+CATGmoRepBRepGridPointImpl  CATIFeaturize                       libGSMModelBasic
+CATGmoRepBRepGridPointImpl  CATIPathAccess                      libGSMModelBasic
+CATGmoRepBRepGridPointImpl  CATIOrientation                     libGSMModelBasic
+CATGmoRepBRepGridPointImpl  CATILinkableObject                  libGSMModelBasic
+CATGmoRepBRepGridPointImpl  CATIConnector                       libGSMModelBasic
+CATGmoRepBRepGridPointImpl  CATPoint                            libGSMModelBasic
+CATGmoRepBRepGridPointImpl  CATGeometry                         libGSMModelBasic
+CATGmoRepBRepGridPointImpl	CATISiMeasureRepPath				libGSMModelBasic
+CATGmoRepBRepGridPointImpl  CATICGMObject						libGSMModelBasic
+CATGmoRepBRepGridPointImpl  CATICGMUnknown						libGSMModelBasic
+CATGmoRepBRepGridPointImpl  CATIRepBRepAccess					libGSMModelBasic
+CATGmoRepBRepGridPointImpl  CATIRepBRepGSDGridPoint				libGSMModelBasic
+
+CATGmoRepBRepGridPlaneImpl  CATIFeaturize                       libGSMModelBasic
+CATGmoRepBRepGridPlaneImpl  CATIPathAccess                      libGSMModelBasic
+CATGmoRepBRepGridPlaneImpl  CATIOrientation                     libGSMModelBasic
+CATGmoRepBRepGridPlaneImpl  CATILinkableObject                  libGSMModelBasic
+CATGmoRepBRepGridPlaneImpl  CATIConnector                       libGSMModelBasic
+CATGmoRepBRepGridPlaneImpl  CATPlane                            libGSMModelBasic
+CATGmoRepBRepGridPlaneImpl  CATGeometry                         libGSMModelBasic
+CATGmoRepBRepGridPlaneImpl	CATISiMeasureRepPath				libGSMModelBasic
+CATGmoRepBRepGridPlaneImpl  CATICGMObject						libGSMModelBasic
+CATGmoRepBRepGridPlaneImpl  CATICGMUnknown						libGSMModelBasic
+CATGmoRepBRepGridPlaneImpl  CATIRepBRepAccess					libGSMModelBasic
+CATGmoRepBRepGridPlaneImpl  CATIRepBRepGSDGridPlane				libGSMModelBasic
+CATGmoRepBRepGridPlaneImpl  CATSurface							libGSMModelBasic
+
+
+# Les adhesions a CATIMechanicalProperties et a
+# CATIMfActivityRestore pour l'active/inactive
+#================================================================
+GSMGeom   CATIMfActivityRestore  libGSMModelBasic
+GSMGeom   CATIMechanicalProperties libGSMModelBasic
+GSMTransferedZeroDim CATIMechanicalProperties libCATGmoIntegration
+GSMTransferedMonoDim CATIMechanicalProperties libCATGmoIntegration
+GSMGeom  CATIGSMActivityManagement libCATGmoIntegration
+
+
+# Detection des Datums GSM
+#=========================
+GSMGeom   CATIGSMDatumTempo   libCATGmoIntegration
+GSMGeom   CATIGSMDatum    libCATGmoIntegration
+
+# For cloud transformations
+GSMTransfo  CATIGSMDatum    libCATGmoIntegration  
+
+
+# Gestion des attributs Features 
+#=================================
+GSMGeom   CATIGSMAttributes  libCATGmoIntegration
+GSMInternal   CATIGSMAttributes  libCATGmoIntegration
+
+# Gestion des features contextuels
+#=================================
+GSMGeom			CATIMmiContextualManager libGSMModelBasic
+GSMMultiSel		CATIMmiContextualManager libGSMModelBasic
+
+# Integration dans les MechanicalTools
+#=====================================
+GSMTransfo                   CATIPrtProceduralView                   libGSMModelBasic
+GSMTransfo                   CATIShapeFeatureBody                    libGSMModelBasic              CATGmoIsAShapeFeatureBodyTransfo@libGSMModelBasic
+GSMTransfo                   CATIShapeInOutPlugs                     libGSMModelBasic              CATGmoIsAShapeFeatureBodyTransfo@libGSMModelBasic
+GSMTransfo                   CATIShapeFeatureProperties              libGSMModelBasic              CATGmoIsAShapeFeatureBodyTransfo@libGSMModelBasic
+GSMTransfo                   CATIShapeInOutAccess                    libGSMModelBasic              CATGmoIsAShapeFeatureBodyTransfo@libGSMModelBasic
+
+GSMLoft                      CATIPrtProceduralView                   libGSMModelBasic            
+GSMLoft                      CATIShapeFeatureBody                    libGSMModelBasic              CATGmoIsAShapeFeatureBodySurface@libGSMModelBasic
+GSMLoft                      CATIShapeInOutPlugs                     libGSMModelBasic              CATGmoIsAShapeFeatureBodySurface@libGSMModelBasic
+GSMLoft                      CATIShapeFeatureProperties              libGSMModelBasic              CATGmoIsAShapeFeatureBodySurface@libGSMModelBasic
+GSMLoft                      CATIShapeInOutAccess                    libGSMModelBasic              CATGmoIsAShapeFeatureBodySurface@libGSMModelBasic
+
+# Interfaces du knowledge
+#=========================
+GSMGeom			CATIParmPublisher		libCATGmoIntegration
+GSMGeom			CATIAllowUserInfo		libCATGmoIntegration
+GSMGeom			CATIDynamicAttributes	libCATGmoIntegration
+GSMGeom			CATIAttributesDescription	libCATGmoIntegration
+
+
+AxisSystem		CATIAllowUserInfo		libCATGmoIntegration
+GSMWSupportSet	CATIAllowUserInfo		libCATGmoIntegration
+GSMMaskSet		CATIAllowUserInfo		libCATGmoIntegration
+
+
+# CATIMf3DBehavior for shape - solid status
+#===========================================
+GSMGeom   CATIMf3DBehavior   libGSMModelBasic
+GSMGeom   CATIMf3DBehavior2   libCATGmoIntegration
+
+GSMTransfo  CATIMf3DBehavior   libGSMModelBasic
+GSMLoft   CATIMf3DBehavior   libGSMModelBasic
+GSMDirection CATIMf3DBehavior   libGSMModelBasic
+GSMAxisLine  CATIMf3DBehavior   libGSMModelBasic
+
+GSMTransfo  CATIMf3DBehavior2   libCATGmoIntegration
+GSMNear   CATIMf3DBehavior2   libCATGmoIntegration
+GSMRevol  CATIMf3DBehavior2   libCATGmoIntegration
+GSMSplit  CATIMf3DBehavior2   libCATGmoIntegration
+GSMExtrude  CATIMf3DBehavior2   libCATGmoIntegration
+GSMLoft   CATIMf3DBehavior2   libCATGmoIntegration
+GSMSweep  CATIMf3DBehavior2   libCATGmoIntegration
+
+GSMTriDim CATIMf3DBehavior2 libCATGmoIntegration  
+
+GSMTransferedZeroDim CATIMf3DBehavior   libGSMModelBasic
+GSMTransferedMonoDim CATIMf3DBehavior   libGSMModelBasic
+
+GSOSeatDiabolo  CATIMf3DBehavior2			libCATGmoIntegration 
+
+# Gestion du replace
+#===================
+GSMGeom  CATIGSMProceduralView  libCATGmoIntegration
+GSMGeom  CATIAttrBehavior       libCATGmoIntegration
+GSMGeom  CATIExternalView       libCATGmoIntegration
+GSMGeom  CATIReplace            libCATGmoIntegration
+GSMGeom  CATIReplacable         libCATGmoIntegration
+GSMGeom  CATIOrientationFlag    libCATGmoIntegration CATGmoIsNotAVolume@libCATGmoIntegration
+GSMInternal  CATIReplace		libCATGmoIntegration
+GSMInternal  CATIReplacable		libCATGmoIntegration
+GSMInternal  CATIAttrBehavior   libCATGmoIntegration
+GSMGeom		 CATISpecAttrSet    libCATGmoIntegration
+GSMInternal  CATISpecAttrSet    libCATGmoIntegration
+GSMWSupport  CATIReplace		libCATGmoIntegration
+GSMWSupport  CATIMechanicalCCP  libCATGmoIntegration
+
+# Gestion du CCP
+#========================
+GSMWSupport CATICutAndPastable   libCATGmoIntegration
+GSMWSupportSet  CATIMechanicalCCP   libCATGmoIntegration
+GSMWSupportSet  CATICCPable     libCATGmoIntegration
+GSMWSupportSet  CATICutAndPastable   libCATGmoIntegration
+GSM3DWSupport CATIMechanicalCCP   libCATGmoIntegration
+GSM3DWSupport CATICCPable     libCATGmoIntegration
+GSMGeom CATICutAndPastable  libCATGmoIntegration
+GSMGeom    CATIMechanicalCCP   libCATGmoIntegration
+GSMMask CATICutAndPastable   libCATGmoIntegration
+GSMMask CATIMechanicalCCP   libCATGmoIntegration
+GSMMaskSet		CATIMechanicalCCP			libCATGmoIntegration
+GSMMaskSet		CATICCPable					libCATGmoIntegration
+GSMMaskSet		CATICutAndPastable			libCATGmoIntegration
+GSMLaw			CATICutAndPastable			libCATGmoIntegration
+GSMLaw			CATIMechanicalCCP			libCATGmoIntegration
+
+# Gestion du NLS
+#===============
+GSMWSupportSet CATIAlias libCATGmoModelImpl
+GSMGridPoint CATIAlias libCATGmoModelImpl
+GSMGridTranslate CATIAlias libCATGmoModelImpl
+GSMGridPlane  CATIAlias libCATGmoModelImpl
+GSMLoft  CATIAlias libCATGmoModelImpl
+GSMMultiSel  CATIAlias libCATGmoModelImpl
+GSMMaskSet   CATIAlias libCATGmoModelImpl
+GSMInverseLocal CATIAlias libCATGmoIntegration 
+
+# Gestion des contraintes
+#========================
+GSMGeom   CATIBloc     libGSMModelBasic
+GSMGeom   CATIAncestry    libCATGmoIntegration
+
+# Gestion de l'isolate
+#========================
+GSMGeom		CATIIsolate		libCATGmoIntegration	CATGmoIsGeneralizedIsolateAuthorized@libCATGmoIntegration
+GSMPoint	CATIIsolate		libCATGmoIntegration	CATGmoIsWireframeIsolateAuthorized@libCATGmoIntegration
+GSMLine		CATIIsolate		libCATGmoIntegration	CATGmoIsWireframeIsolateAuthorized@libCATGmoIntegration
+GSMPlane	CATIIsolate		libCATGmoIntegration	CATGmoIsWireframeIsolateAuthorized@libCATGmoIntegration
+GSMCircle	CATIIsolate     libCATGmoIntegration	CATGmoIsWireframeIsolateAuthorized@libCATGmoIntegration
+
+# Gestion de la destruction
+#==========================
+GSMGeom   LifeCycleObject    libGSMModelBasic
+
+# Adhesion pour le Search par type
+#=================================
+GSMZeroDim                   CATIGSMZeroDimResult                    libCATGmoIntegration
+GSMGeom                      CATIGSMZeroDimResult                    libCATGmoIntegration          CATGmoIsAZeroDimResult
+GSMMonoDim                   CATIGSMMonoDimResult                    libCATGmoIntegration
+GSMGeom                      CATIGSMMonoDimResult                    libCATGmoIntegration          CATGmoIsAMonoDimResult
+GSMGeom                      CATIGSMBiDimResult                      libCATGmoIntegration          CATGmoIsABiDimResult
+GSMLine                      CATIGSMLineResult                       libCATGmoIntegration
+GSMGeom                      CATIGSMLineResult                       libCATGmoIntegration          CATGmoIsALineResult
+GSMPlane                     CATIGSMPlaneResult                      libCATGmoIntegration
+GSMGeom                      CATIGSMPlaneResult                      libCATGmoIntegration          CATGmoIsAPlaneResult
+GSMTransfo                   CATIGSMCloudResult                      libCATGmoIntegration          CATGmoIsACloudResult
+CATGmoSearch                 CATISearchInformation                   libCATGmoIntegration
+
+# Adhesion pour la previsu
+#=================================
+GSMTransfo    CATIGSMPreview    libCATGmoOperators
+GSMPoint    CATIGSMPreview    libCATGmoWireOperators
+GSMCircle    CATIGSMPreviewMultiple  libCATGmoOperators
+GSMCircle2PointsRad  CATIGSMPreviewMultiple  libCATGmoOperators
+GSMCircleBitangentRad CATIGSMPreviewMultiple  libCATGmoOperators
+GSMCircleBitangentPt CATIGSMPreviewMultiple  libCATGmoOperators
+GSMCircleTritangent  CATIGSMPreviewMultiple  libCATGmoOperators
+GSMCircleCenterTangent CATIGSMPreviewMultiple  libCATGmoOperators
+GSMCorner    CATIGSMPreviewMultiple  libCATGmoOperators
+GSMLine     CATIGSMPreviewMultiple  libCATGmoWireOperators
+GSMLineBiTangent  CATIGSMPreviewMultiple  libCATGmoWireOperators
+GSMLineBisecting  CATIGSMPreviewMultiple  libCATGmoWireOperators
+GSMSweep    CATIGSMPreviewMultiple  libCATGmoOperators
+GSMSweepCircle   CATIGSMPreviewMultiple  libCATGmoOperators
+GSMSweepSegment   CATIGSMPreviewMultiple  libCATGmoOperators
+
+
+# Adhesion aux mesures de CKE
+#=================================
+CATGSMKBwareFunctions CATIAddTypeLibrary libCATGmoIntegration
+CATGSMKBwareFunctions CATICreateInstance libCATGmoIntegration
+GSMGeom CATICkeFeature libCATGmoIntegration
+GSMInternal CATICkeFeature libCATGmoIntegration
+GSMAssemble CATICkeFeature libCATGmoIntegration
+GSMCircle CATICkeFeature libCATGmoIntegration
+GSMExtrude  CATICkeFeature libCATGmoIntegration
+GSMFill CATICkeFeature libCATGmoIntegration
+GSMFillet CATICkeFeature libCATGmoIntegration
+GSMGridFace CATICkeFeature libCATGmoIntegration
+GSMLine CATICkeFeature libCATGmoIntegration
+GSMLoft CATICkeFeature libCATGmoIntegration
+GSMPlane  CATICkeFeature libCATGmoIntegration
+GSMPoint  CATICkeFeature libCATGmoIntegration
+GSMSphere CATICkeFeature libCATGmoIntegration
+GSMCurve  CATICkeFeature libCATGmoIntegration
+GSMSweep  CATICkeFeature libCATGmoIntegration
+GSMSweepSegment CATICkeFeature libCATGmoIntegration
+GSMMonoDim CATICkeFeature libCATGmoIntegration
+GSOShapeMorphing CATICkeFeature libCATGmoIntegration
+
+GSMGeom CATIInstance libCATGmoIntegration
+GSMInternal CATIInstance libCATGmoIntegration
+GSMAssemble CATIInstance libCATGmoIntegration
+GSMCircle CATIInstance libCATGmoIntegration
+GSMExtrude  CATIInstance libCATGmoIntegration
+GSMFill CATIInstance libCATGmoIntegration
+GSMFillet CATIInstance libCATGmoIntegration
+GSMGridFace CATIInstance libCATGmoIntegration
+GSMLine CATIInstance libCATGmoIntegration
+GSMLoft CATIInstance libCATGmoIntegration
+GSMPlane  CATIInstance libCATGmoIntegration
+GSMPoint  CATIInstance libCATGmoIntegration
+GSMSphere CATIInstance libCATGmoIntegration
+GSMCurve  CATIInstance libCATGmoIntegration
+GSMSweep  CATIInstance libCATGmoIntegration
+GSMSweepSegment CATIInstance libCATGmoIntegration
+GSMMonoDim CATIInstance libCATGmoIntegration
+GSOShapeMorphing CATIInstance libCATGmoIntegration
+
+GSMZeroDim                   CATICkeParm                             libGSMModelBasic              CATGmoIsAKNWDatum@libGSMModelBasic
+GSMZeroDim                   CATIParmTolerance                       libGSMModelBasic              CATGmoIsAKNWDatum@libGSMModelBasic
+GSMZeroDim                   CATInterfaceEvents                      libGSMModelBasic              CATGmoIsAKNWDatum@libGSMModelBasic
+GSMZeroDim                   CATIParmEvents                          libGSMModelBasic              CATGmoIsAKNWDatum@libGSMModelBasic
+GSMZeroDim                   CATIParmAsStored                        libGSMModelBasic              CATGmoIsAKNWDatum@libGSMModelBasic
+GSMZeroDim                   CATICkeMKS                              libGSMModelBasic              CATGmoIsAKNWDatum@libGSMModelBasic
+GSMZeroDim                   CATIKwePerfo                            libGSMModelBasic              CATGmoIsAKNWDatum@libGSMModelBasic
+GSMZeroDim                   CATIParmSelector                        libGSMModelBasic              CATGmoIsAKNWDatum@libGSMModelBasic
+GSMZeroDim                   CATIParmVariable                        libGSMModelBasic              CATGmoIsAKNWDatum@libGSMModelBasic
+GSMMonoDim                   CATICkeParm                             libGSMModelBasic              CATGmoIsAKNWDatum@libGSMModelBasic
+GSMMonoDim                   CATIParmTolerance                       libGSMModelBasic              CATGmoIsAKNWDatum@libGSMModelBasic
+GSMMonoDim                   CATInterfaceEvents                      libGSMModelBasic              CATGmoIsAKNWDatum@libGSMModelBasic
+GSMMonoDim                   CATIParmEvents                          libGSMModelBasic              CATGmoIsAKNWDatum@libGSMModelBasic
+GSMMonoDim                   CATIParmAsStored                        libGSMModelBasic              CATGmoIsAKNWDatum@libGSMModelBasic
+GSMMonoDim                   CATICkeMKS                              libGSMModelBasic              CATGmoIsAKNWDatum@libGSMModelBasic
+GSMMonoDim                   CATIKwePerfo                            libGSMModelBasic              CATGmoIsAKNWDatum@libGSMModelBasic
+GSMMonoDim                   CATIParmSelector                        libGSMModelBasic              CATGmoIsAKNWDatum@libGSMModelBasic
+GSMMonoDim                   CATIParmVariable                        libGSMModelBasic              CATGmoIsAKNWDatum@libGSMModelBasic
+GSMBiDim                     CATICkeParm                             libGSMModelBasic              CATGmoIsAKNWDatum@libGSMModelBasic
+GSMBiDim                     CATIParmTolerance                       libGSMModelBasic              CATGmoIsAKNWDatum@libGSMModelBasic
+GSMBiDim                     CATInterfaceEvents                      libGSMModelBasic              CATGmoIsAKNWDatum@libGSMModelBasic
+GSMBiDim                     CATIParmEvents                          libGSMModelBasic              CATGmoIsAKNWDatum@libGSMModelBasic
+GSMBiDim                     CATIParmAsStored                        libGSMModelBasic              CATGmoIsAKNWDatum@libGSMModelBasic
+GSMBiDim                     CATICkeMKS                              libGSMModelBasic              CATGmoIsAKNWDatum@libGSMModelBasic
+GSMBiDim                     CATIKwePerfo                            libGSMModelBasic              CATGmoIsAKNWDatum@libGSMModelBasic
+GSMBiDim                     CATIParmSelector                        libGSMModelBasic              CATGmoIsAKNWDatum@libGSMModelBasic
+GSMBiDim                     CATIParmVariable                        libGSMModelBasic              CATGmoIsAKNWDatum@libGSMModelBasic
+GSMTriDim                    CATICkeParm                             libGSMModelBasic              CATGmoIsAKNWDatum@libGSMModelBasic
+GSMTriDim                    CATIParmTolerance                       libGSMModelBasic              CATGmoIsAKNWDatum@libGSMModelBasic
+GSMTriDim                    CATInterfaceEvents                      libGSMModelBasic              CATGmoIsAKNWDatum@libGSMModelBasic
+GSMTriDim                    CATIParmEvents                          libGSMModelBasic              CATGmoIsAKNWDatum@libGSMModelBasic
+GSMTriDim                    CATIParmAsStored                        libGSMModelBasic              CATGmoIsAKNWDatum@libGSMModelBasic
+GSMTriDim                    CATICkeMKS                              libGSMModelBasic              CATGmoIsAKNWDatum@libGSMModelBasic
+GSMTriDim                    CATIKwePerfo                            libGSMModelBasic              CATGmoIsAKNWDatum@libGSMModelBasic
+GSMTriDim                    CATIParmSelector                        libGSMModelBasic              CATGmoIsAKNWDatum@libGSMModelBasic
+GSMTriDim                    CATIParmVariable                        libGSMModelBasic              CATGmoIsAKNWDatum@libGSMModelBasic
+
+# Adhesion a CATIGSMDuplicate
+#=================================
+GSMCurvePar  CATIGSMDuplicate libCATGmoIntegration
+GSMPoint  CATIGSMDuplicate libCATGmoIntegration
+GSMPointOnCurve CATIGSMDuplicate libCATGmoIntegration
+GSMPlane  CATIGSMDuplicate libCATGmoIntegration
+GSMPlaneOffset CATIGSMDuplicate libCATGmoIntegration
+GSMPlaneAngle CATIGSMDuplicate libCATGmoIntegration
+GSMLine   CATIGSMDuplicate libCATGmoIntegration
+GSMLineAngle CATIGSMDuplicate libCATGmoIntegration
+GSMOffset    CATIGSMDuplicate libCATGmoIntegration
+GSMTranslate CATIGSMDuplicate libCATGmoIntegration
+GSMRotate  CATIGSMDuplicate libCATGmoIntegration
+GSMScaling  CATIGSMDuplicate libCATGmoIntegration
+GSMReflectLine CATIGSMDuplicate libCATGmoIntegration
+
+# Adhesion a CATIGSMTest
+#=================================
+GSMGeom   CATIGSMTest   libCATGmoIntegration
+
+
+# Integration transfo cloud / Delegation pour selection CldBody 
+# PEY / 05/07/2002
+# NEC  pour recuperer les proprietes graphiques CATIVisProperties pour les transfos dont le result est un CATCldBody 
+# PEY / 29/10/2003 RI 366501 
+# - Implementation de MfRestore (Is no more implemented by default Mechanicalmodeler ) 
+# - Add delegation to CATGeometry to correctly makes delegation Set/Reset on GSD  Transformation objects
+# See MechanicalModeler\MF0GEOM.m\src\CATMfDelegSevices::AddDelegatedGeometry method 
+#=================================
+#GSMTranslate CATICGMUnknown Delegated
+#GSMTranslate CATICGMObject  Delegated
+#GSMTranslate CATINewDuplicate Delegated
+GSMTranslate CATIMfRestore  libGSMModelBasic
+GSMTranslate CATGeometry  Delegated
+GSMTranslate CATCldBody Delegated
+
+#GSMRotate CATICGMUnknown Delegated
+#GSMRotate CATICGMObject  Delegated
+#GSMRotate CATINewDuplicate Delegated
+GSMRotate CATIMfRestore  libGSMModelBasic
+GSMRotate CATGeometry  Delegated
+GSMRotate CATCldBody Delegated
+
+#GSMSymmetry CATICGMUnknown Delegated
+#GSMSymmetry CATICGMObject  Delegated
+#GSMSymmetry CATINewDuplicate Delegated
+GSMSymmetry CATIMfRestore  libGSMModelBasic
+GSMSymmetry CATGeometry  Delegated
+GSMSymmetry CATCldBody Delegated
+
+#GSMScaling CATICGMUnknown Delegated
+#GSMScaling CATICGMObject  Delegated
+#GSMScaling CATINewDuplicate Delegated
+GSMScaling CATIMfRestore  libGSMModelBasic
+GSMScaling CATGeometry  Delegated
+GSMScaling CATCldBody Delegated
+
+#GSMAffinity CATICGMUnknown Delegated
+#GSMAffinity CATICGMObject  Delegated
+#GSMAffinity CATINewDuplicate Delegated
+GSMAffinity CATIMfRestore  libGSMModelBasic
+GSMAffinity CATGeometry  Delegated
+GSMAffinity CATCldBody Delegated
+
+
+#GSMAxisToAxis CATICGMObject  Delegated
+#GSMAxisToAxis CATINewDuplicate Delegated
+GSMAxisToAxis CATIMfRestore  libGSMModelBasic
+GSMAxisToAxis CATICGMUnknown Delegated
+GSMAxisToAxis CATGeometry  Delegated
+GSMAxisToAxis CATCldBody Delegated
+
+# Transfos
+#=======================
+GSMTransfo  CATIGSMTransfo  libCATGmoModelImpl  
+
+# Integration thickness
+#=======================
+GSMGeom   CATIGSMThickness libCATGmoModelImpl 
+# et les Fillets Part
+Fillet   CATIGSMThickness libCATGmoModelImpl 
+
+#
+# Adhesion a CATIGSMApplicativeConfiguration
+#===========================================
+GSMExtrapol  CATIGSMApplicativeConfiguration  libCATGmoOperators
+GSMSweepSketch CATIGSMApplicativeConfiguration  libCATGmoVariationalSweep
+GSMLoft CATIGSMApplicativeConfiguration libCATGmoOperators
+GSMAffinity CATIGSMApplicativeConfiguration libCATGmoOperators
+GSMAxisToAxis CATIGSMApplicativeConfiguration libCATGmoOperators
+GSMRotate CATIGSMApplicativeConfiguration libCATGmoOperators
+GSMScaling CATIGSMApplicativeConfiguration libCATGmoOperators
+GSMSymmetry CATIGSMApplicativeConfiguration libCATGmoOperators
+GSMTranslate CATIGSMApplicativeConfiguration libCATGmoOperators
+GSMUnfold CATIGSMApplicativeConfiguration libCATGmoOptimizerOperators
+GSOShapeMorphing CATIGSMApplicativeConfiguration libCATGmoOptimizerOperators
+
+#
+# Adhesion a CATIGSMTolerantModeling
+#===========================================
+GSMGeom   CATIGSMTolerantModeling  libCATGmoModelImpl
+#GSMCurvePar  CATIGSMTolerantModeling  libCATGmoModelImpl
+#GSMSweep  CATIGSMTolerantModeling  libCATGmoModelImpl
+#GSMLoft   CATIGSMTolerantModeling  libCATGmoModelImpl
+#GSMBlend   CATIGSMTolerantModeling  libCATGmoModelImpl
+#GSMSplit  CATIGSMTolerantModeling  libCATGmoModelImpl
+#GSMTrim   CATIGSMTolerantModeling  libCATGmoModelImpl
+
+#
+# Adhesion a CATICheckObject et CATICleanObject
+#===============================================
+GSMGeom   CATICheckObject  libCATClnGSD
+GSMGeom   CATICleanObject  libCATClnGSD
+GSMInternal  CATICheckObject  libCATClnGSD
+GSMInternal  CATICleanObject  libCATClnGSD
+GSMPlane  CATICheckObject  libCATClnGSD
+GSMPlane  CATICleanObject  libCATClnGSD
+GSMLine   CATICheckObject  libCATClnGSD
+GSMLine   CATICleanObject  libCATClnGSD
+GSMLoft   CATICheckObject  libCATClnGSD
+GSMLoft   CATICleanObject  libCATClnGSD
+
+#
+# Adhesion a CATISpecVisibleChild
+#================================
+##Commented out: regression in knowledge journaling + MecMod feature impact
+GSMGeom			CATISpecVisibleChild  libCATGmoIntegration
+GSMInternal		CATISpecVisibleChild  libCATGmoIntegration
+GSMGridSet		CATISpecVisibleChild  libCATGmoIntegration
+GSMGridSubset	CATISpecVisibleChild  libCATGmoIntegration
+
+# Adhesion a CATIKweHideFeatures
+#================================
+GSMGeom			CATIKweHideFeatures  libCATGmoIntegration
+GSMInternal		CATIKweHideFeatures  libCATGmoIntegration
+GSMGridSet		CATIKweHideFeatures  libCATGmoIntegration
+GSMGridSubset	CATIKweHideFeatures  libCATGmoIntegration
+GSM3DWSupport	CATIKweHideFeatures	 libCATGmoIntegration
+
+
+#   Adhesion a  CATIInputDescription for modification feature
+#================================
+GSMCurveSmooth					CATIInputDescription                    libCATGmoIntegration
+GSMAssemble						CATIInputDescription                    libCATGmoIntegration
+GSMInverse						CATIInputDescription                    libCATGmoIntegration
+GSMNear							CATIInputDescription                    libCATGmoIntegration
+GSMHealing						CATIInputDescription                    libCATGmoIntegration
+GSOWrapCurve					CATIInputDescription                    libCATGmoIntegration
+GSOWrapSurface					CATIInputDescription                    libCATGmoIntegration
+GSOShapeMorphing				CATIInputDescription                    libCATGmoIntegration
+GSOBump							CATIInputDescription                    libCATGmoIntegration
+GSMOffset						CATIInputDescription                    libCATGmoIntegration
+GSOVariableOffset				CATIInputDescription                    libCATGmoIntegration
+GSMCurvePar						CATIInputDescription                    libCATGmoIntegration
+GSMRollingOffset				CATIInputDescription                    libCATGmoIntegration
+GSM3DCurveOffset				CATIInputDescription                    libCATGmoIntegration
+GSMProject						CATIInputDescription                    libCATGmoIntegration
+GSMDevelop						CATIInputDescription                    libCATGmoIntegration
+GSMCombine						CATIInputDescription                    libCATGmoIntegration
+GSMTransfo						CATIInputDescription                    libCATGmoIntegration
+GSMTranslate					CATIInputDescription                    libCATGmoIntegration
+GSMRotate						CATIInputDescription                    libCATGmoIntegration
+GSMSymmetry						CATIInputDescription                    libCATGmoIntegration
+GSMScaling						CATIInputDescription                    libCATGmoIntegration
+GSMAffinity						CATIInputDescription                    libCATGmoIntegration
+GSMAxisToAxis					CATIInputDescription                    libCATGmoIntegration
+GSMSplit						CATIInputDescription                    libCATGmoIntegration
+GSMTrim							CATIInputDescription                    libCATGmoIntegration
+GSMBlend						CATIInputDescription                    libCATGmoIntegration
+GSMExtrapol						CATIInputDescription                    libCATGmoIntegration
+GSMFillet						CATIInputDescription                    libCATGmoIntegration
+GSOSeatDiabolo					CATIInputDescription                    libCATGmoIntegration
+GSMCorner						CATIInputDescription                    libCATGmoIntegration
+GSMCircle						CATIInputDescription                    libCATGmoIntegration
+GSMConnect						CATIInputDescription                    libCATGmoIntegration
+GSMSweep						CATIInputDescription                    libCATGmoIntegration
+GSMLoft							CATIInputDescription                    libCATGmoIntegration
+GSMInverseLocal 				CATIInputDescription                    libCATGmoIntegration
+
+
+# Adhesion to CATIInputDescription for creation features
+#========================================================
+GSMAxisLine CATIInputDescription  libCATGmoIntegration
+GSMBoundary CATIInputDescription  libCATGmoIntegration
+GSMCartGrid CATIInputDescription  libCATGmoIntegration
+GSMConic  CATIInputDescription  libCATGmoIntegration
+GSMCurve  CATIInputDescription  libCATGmoIntegration
+GSMCylinder CATIInputDescription  libCATGmoIntegration
+GSMDirection  CATIInputDescription  libCATGmoIntegration
+GSMExtract  CATIInputDescription  libCATGmoIntegration
+GSMExtremum CATIInputDescription  libCATGmoIntegration
+GSMExtremumPolar  CATIInputDescription  libCATGmoIntegration
+GSMExtrude  CATIInputDescription  libCATGmoIntegration
+GSMFill CATIInputDescription  libCATGmoIntegration
+GSMGridFace CATIInputDescription  libCATGmoIntegration
+GSMHelix  CATIInputDescription  libCATGmoIntegration
+GSMIntersect  CATIInputDescription  libCATGmoIntegration
+GSMLaw  CATIInputDescription  libCATGmoIntegration
+GSMLine CATIInputDescription  libCATGmoIntegration
+GSMLineCorner CATIInputDescription  libCATGmoIntegration
+GSMMask CATIInputDescription  libCATGmoIntegration
+GSMMultiExtract  CATIInputDescription  libCATGmoIntegration
+GSMPlane  CATIInputDescription  libCATGmoIntegration
+GSMPoint  CATIInputDescription  libCATGmoIntegration
+GSMPositionTransfo  CATIInputDescription  libCATGmoIntegration
+GSMReflectLine  CATIInputDescription  libCATGmoIntegration
+GSMSilhouette   CATIInputDescription  libCATGmoIntegration
+GSMRevol  CATIInputDescription  libCATGmoIntegration
+GSMSphere CATIInputDescription  libCATGmoIntegration
+GSMSpine  CATIInputDescription  libCATGmoIntegration
+GSMSpiral CATIInputDescription  libCATGmoIntegration
+GSMSweepSketch  CATIInputDescription  libCATGmoIntegration
+GSMSweepVarSketch CATIInputDescription  libCATGmoIntegration
+GSMTransferedMonoDim  CATIInputDescription  libCATGmoIntegration
+GSMTransferedZeroDim  CATIInputDescription  libCATGmoIntegration
+GSMUnfold CATIInputDescription  libCATGmoIntegration
+GSMWSupport CATIInputDescription  libCATGmoIntegration
+GSOJunction CATIInputDescription  libCATGmoIntegration
+
+# Default Adhesion to CATIInputDescription for basic start-ups
+#========================================================
+GSMGeom      CATIInputDescription  libCATGmoIntegration
+GSMZeroDim  CATIInputDescription  libCATGmoIntegration
+GSMMonoDim  CATIInputDescription  libCATGmoIntegration
+GSMBiDim  CATIInputDescription  libCATGmoIntegration
+GSMTriDim CATIInputDescription  libCATGmoIntegration
+
+# Adhesion to CATIInputDescriptionPro for GSMGeom
+#========================================================
+GSMGeom      CATIInputDescriptionPro  libCATGmoIntegration
+GSMMultiSel  CATIInputDescriptionPro  libCATGmoIntegration
+
+# CATIGSMWarningDiagnosisMng
+MechanicalPart CATIGSMWarningDiagnosisMng libCATGmoIntegration
+
+#
+# New delegation R13 (Christian Ronce)
+#======================================
+GSMGeom CATINewDuplicate libCATGmoIntegration
+GSMCircle CATGeometry libCATGmoModelImpl
+GSMCircle CATCurve libCATGmoModelImpl
+GSMCircle CATCircle libCATGmoModelImpl
+GSMGridFace CATGeometry libCATGmoModelImpl
+GSMGridFace CATSurface libCATGmoModelImpl
+GSMGridFace CATPlane libCATGmoModelImpl
+GSMAxisToAxis CATICGMUnknown libCATGmoWireModel
+GSMTranslate CATCldBody libCATGmoWireModel
+GSMRotate CATCldBody libCATGmoWireModel
+GSMAxisToAxis CATCldBody libCATGmoWireModel
+GSMSymmetry CATCldBody libCATGmoWireModel
+GSMScaling CATCldBody libCATGmoWireModel
+GSMAffinity CATCldBody libCATGmoWireModel
+GSMLine CATGeometry libGSMModelBasic
+GSMLine CATCurve libGSMModelBasic
+GSMLine CATLine libGSMModelBasic
+GSMAxisExplicit CATGeometry libCATGmoWireModel
+GSMAxisExplicit CATCurve libCATGmoWireModel
+GSMAxisExplicit CATLine libCATGmoWireModel
+GSMAxisLine CATGeometry libCATGmoWireModel
+GSMAxisLine CATCurve libCATGmoWireModel
+GSMAxisLine CATLine libCATGmoWireModel
+GSMPlane CATGeometry libGSMModelBasic
+GSMPlane CATSurface libGSMModelBasic
+GSMPlane CATPlane libGSMModelBasic
+GSMPoint CATGeometry libGSMModelBasic
+GSMPoint CATPoint libGSMModelBasic
+GSMCuttingPoint CATGeometry libGSMModelBasic
+GSMCuttingPoint CATPoint libGSMModelBasic
+
+# Adhesions pour le Mask
+#=======================
+CATFeatCont CATIGSMMaskFactory libGSMModelBasic
+GSMMaskSet  CATIGSMMaskSet		 libCATGmoModelImpl
+GSMMaskSet  CATISpecAttrSet    libCATGmoIntegration  
+GSMMask     CATIGSMMask			 libCATGmoModelImpl
+GSMMask		CATIBuild			 libCATGmoOperators
+
+
+
+GSMGeom CATIGmoInputManager libCATGmoMecModImpl
+GSMInternal CATIGmoInputManager libCATGmoMecModImpl
+GSMGridSet CATIGmoInputManager libCATGmoMecModImpl
+GSMGridSubset CATIGmoInputManager libCATGmoMecModImpl
+GSMMultiSel CATIGmoInputManager libCATGmoMecModImpl
+
+
+# Adhesions pour les warning au delete d'attributs optionels
+#===========================================================
+GSMInternal		CATIGSMOptionalAttrMapManager	libCATGmoIntegration
+GSMGeom			CATIGSMOptionalAttrMapManager	libCATGmoIntegration
+
+# Adhesions to CATIGSMDataExchange
+#=================================
+GSMAxisLine		CATIGSMDataExchange				libCATGmoOperators
+
+# Adhesions to CATIMmrApplicativeOperands for intersections edges resolution
+#============================================================================
+#-------------------Default All Impl---------------------------------
+GSMTrim				CATIMmrApplicativeOperands		libCATGmoIntegration
+GSMAssemble			CATIMmrApplicativeOperands		libCATGmoIntegration
+GSMHealing			CATIMmrApplicativeOperands		libCATGmoIntegration
+#-------------------Default Gener Impl-------------------------------
+GSMExtrapol			CATIMmrApplicativeOperands		libCATGmoIntegration
+GSMBlend			CATIMmrApplicativeOperands		libCATGmoIntegration
+GSOSeatDiabolo		CATIMmrApplicativeOperands		libCATGmoIntegration
+GSMFillet			CATIMmrApplicativeOperands		libCATGmoIntegration
+GSOBump				CATIMmrApplicativeOperands		libCATGmoIntegration
+GSMSplit			CATIMmrApplicativeOperands		libCATGmoIntegration
+BIWBead				CATIMmrApplicativeOperands		libCATGmoIntegration
+#-------------------Not Impl-----------------------------------------
+GSMInverse			CATIMmrApplicativeOperands		libCATGmoIntegration
+GSMNear				CATIMmrApplicativeOperands		libCATGmoIntegration
+GSOWrapCurve		CATIMmrApplicativeOperands		libCATGmoIntegration
+GSOWrapSurface		CATIMmrApplicativeOperands		libCATGmoIntegration
+GSOShapeMorphing	CATIMmrApplicativeOperands		libCATGmoIntegration
+GSMTransfo			CATIMmrApplicativeOperands		libCATGmoIntegration
+GSMOffset			CATIMmrApplicativeOperands		libCATGmoIntegration
+GSOVariableOffset	CATIMmrApplicativeOperands		libCATGmoIntegration
+GSMRollingOffset	CATIMmrApplicativeOperands		libCATGmoIntegration
+GSMCurvePar			CATIMmrApplicativeOperands		libCATGmoIntegration
+GSM3DCurveOffset	CATIMmrApplicativeOperands		libCATGmoIntegration
+GSMProject			CATIMmrApplicativeOperands		libCATGmoIntegration
+GSMDevelop			CATIMmrApplicativeOperands		libCATGmoIntegration
+GSMCombine			CATIMmrApplicativeOperands		libCATGmoIntegration
+
+
+AxisSystem                     CATISpecObject                          libGSMModelBasic           
+AxisSystem                     CATI3DGeometricalElement                libGSMModelBasic           
+AxisSystem                     CATIGeometricalElement                  libGSMModelBasic           
+AxisSystem                     CATIMechanicalFeature                   libGSMModelBasic           
+AxisSystem                     CATIMfScopeAccess                       libGSMModelBasic           
+AxisSystem                     CATISlaveGeometry                       libGSMModelBasic
+
+
+# Adhesions pour le plugin SpecsModeler du Cleaner.
+#===================================================
+CATEGmoCleanerPluginType	CATIOsmCleanerSolver	libCATClnGSD
+
+
+# Adhesions to CATIGSMInternalTypeObjectOwner
+#=======================================
+
+GSMPoint		CATIGSMInternalTypeObjectOwner		libCATGmoModelImpl
+GSMLine			CATIGSMInternalTypeObjectOwner		libCATGmoModelImpl	
+GSMPlane		CATIGSMInternalTypeObjectOwner		libCATGmoModelImpl
+GSMCircle		CATIGSMInternalTypeObjectOwner		libCATGmoModelImpl
+GSMSweep		CATIGSMInternalTypeObjectOwner		libCATGmoModelImpl
+GSMFillet		CATIGSMInternalTypeObjectOwner		libCATGmoModelImpl
+GSMSphere		CATIGSMInternalTypeObjectOwner		libCATGmoModelImpl
+
+
+# Adhesions to CATIGSMSecondaryOutput
+#====================================
+##GSMGeom			CATIGSMSecondaryOutput				libCATGmoIntegration            CATGmoIsASecondaryOutput
+GSMAxisLine			CATIGSMSecondaryOutput				libCATGmoIntegration            CATGmoIsASecondaryOutput
+GSMCurvePar			CATIGSMSecondaryOutput				libCATGmoIntegration            CATGmoIsASecondaryOutput
+GSMIntersect		CATIGSMSecondaryOutput				libCATGmoIntegration            CATGmoIsASecondaryOutput
+GSMSplit			CATIGSMSecondaryOutput				libCATGmoIntegration            CATGmoIsASecondaryOutput
+GSMTransferedZeroDim	CATIGSMSecondaryOutput			libCATGmoIntegration            CATGmoIsASecondaryOutput
+GSMTransferedMonoDim	CATIGSMSecondaryOutput			libCATGmoIntegration            CATGmoIsASecondaryOutput
+
+# Adhesions to CATIMmrParentChildDescriptor
+#=======================================
+GSMMultiSel			CATIMmrParentChildDescriptor		libCATGmoIntegration
+GSMGeom				CATIMmrParentChildDescriptor		libCATGmoIntegration
+
+
+# Adhesion of GSMApprox
+#====================================
+GSMApprox       CATIGSMApprox                       libCATGmoApprox
+GSMApprox       CATIGSMApproxBuild                  libCATGmoApprox
+GSMApprox       CATIGSMBuildDiagnosis               libCATGmoApprox
+
+GSMGeom         CATIGSMApproxManager                libCATGmoApprox
+GSMMultiSel     CATIGSMApproxManager                libCATGmoApprox
+
+CATFeatCont     CATIGSMApproxFactory                libCATGmoApprox
+GSMNear                                  CATIAlias                                libCATGmoModelImpl                      
+
+# stream factory contour operator
+#====================================
+CATGSMCXStreamFactory   CATICGMStreamFactory			libCATGmoUtilities
+CATGSMEStreamFactory	CATICreateInstance				libCATGmoUtilities		
+
+# CATIGSMOutputManager
+#====================================
+GSMSplit CATIGSMOutputManager libCATGmoIntegration
+GSMCurvePar CATIGSMOutputManager libCATGmoIntegration
+GSMTrim CATIGSMOutputManager libCATGmoIntegration
+GSMUnfold CATIGSMOutputManager libCATGmoIntegration
+GSMCircle CATIGSMOutputManager libCATGmoIntegration
+ 

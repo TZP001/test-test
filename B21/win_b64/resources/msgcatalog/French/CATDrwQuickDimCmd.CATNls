@@ -1,0 +1,179 @@
+//=====================================================================================
+//                                     CNEXT - CXRn
+//                          COPYRIGHT DASSAULT SYSTEMES 1998 
+//-------------------------------------------------------------------------------------
+// FILENAME    :    CATDrwQuickDimCmd
+// LOCATION    :    DraftingIntCommands
+// AUTHOR      :    jmt
+// BUT         :    Commande de creation de cote
+// DATE        :    ??.10.1998
+//-------------------------------------------------------------------------------------
+// DESCRIPTION :    
+//-------------------------------------------------------------------------------------
+// COMMENTS    :    
+//-------------------------------------------------------------------------------------
+// MODIFICATIONS     user  date        purpose
+//    HISTORY        ----  ----        -------
+//      01           fgx   04.10.2000  Rearchitecturation CXR6
+//=====================================================================================
+
+//******************************************************************************
+// Command
+//******************************************************************************
+CATDrwQuickDimCmd.UndoTitle="Création de cote(s)";
+
+//******************************************************************************
+// Agents
+//******************************************************************************
+CATDrwQuickDimCmd._agentSet.UndoTitle = "Sélection";
+
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+// Interactive Dimension Cmd : SwitchAgent related to Orientation purpose ...
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+CATDrwQuickDimCmd.OrientBarRessource.Bar.Title="Orientation";
+
+//******************************************************************************
+// Reference Element Button - V5R3 Only
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource.RefElem.Title = "Elément référence";
+CATDrwQuickDimCmd.OrientBarRessource.RefElem.ShortHelp="Elément référence";
+CATDrwQuickDimCmd.OrientBarRessource.RefElem.Help=
+"L'orientation de la ligne de cote est définie par rapport à l'élément sélectionné";
+CATDrwQuickDimCmd.OrientBarRessource.RefElem.LongHelp=
+"Reference Element
+L'orientation de la ligne de cote est définie par rapport à l'élément sélectionné";
+
+//******************************************************************************
+// Reference View Button - V5R3 Only
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource.RefVue.Title = "Référence vue";
+CATDrwQuickDimCmd.OrientBarRessource.RefVue.ShortHelp="Référence vue";
+CATDrwQuickDimCmd.OrientBarRessource.RefVue.Help=
+"L'orientation de la ligne de cote est définie horizontale ou verticale";
+CATDrwQuickDimCmd.OrientBarRessource.RefVue.LongHelp=
+"Reference Vue
+L'orientation de la ligne de cote est définie horizontale ou verticale";
+
+//******************************************************************************
+// Projected dimension Button
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource._RefElem.Title = "Cote projetée";
+CATDrwQuickDimCmd.OrientBarRessource._RefElem.ShortHelp="Cote projetée";
+CATDrwQuickDimCmd.OrientBarRessource._RefElem.Help=
+"L'orientation de la ligne de cote dépend de la position de la souris";
+CATDrwQuickDimCmd.OrientBarRessource._RefElem.LongHelp=
+"Cote projetée
+L'orientation de la ligne de cote dépend de la position de la souris.";
+
+//******************************************************************************
+// Force dimension on element Button
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource._RefAuto.Title = "Forcer une cote sur l'élément";
+CATDrwQuickDimCmd.OrientBarRessource._RefAuto.ShortHelp="Forcer une cote sur l'élément";
+CATDrwQuickDimCmd.OrientBarRessource._RefAuto.Help=
+"Force la ligne de cote à être parallèle à l'élément coté";
+CATDrwQuickDimCmd.OrientBarRessource._RefAuto.LongHelp=
+"Forcer une cote sur l'élément
+Force la ligne de cote à être parallèle à l'élément coté.";
+
+//******************************************************************************
+// Force horizontal dimension Button
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource._RefHoriz.Title = "Forcer une cote horizontale dans la vue";
+CATDrwQuickDimCmd.OrientBarRessource._RefHoriz.ShortHelp="Forcer une cote horizontale dans la vue";
+CATDrwQuickDimCmd.OrientBarRessource._RefHoriz.Help=
+"Force la ligne de cote à être horizontale dans la vue";
+CATDrwQuickDimCmd.OrientBarRessource._RefHoriz.LongHelp=
+"Forcer une cote horizontale dans la vue
+Force la ligne de cote à être horizontale dans la vue.";
+
+//******************************************************************************
+// Force vertical dimension Button
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource._RefVert.Title = "Forcer une cote verticale dans la vue";
+CATDrwQuickDimCmd.OrientBarRessource._RefVert.ShortHelp="Forcer une cote verticale dans la vue";
+CATDrwQuickDimCmd.OrientBarRessource._RefVert.Help=
+"Force la ligne de cote à être verticale dans la vue";
+CATDrwQuickDimCmd.OrientBarRessource._RefVert.LongHelp=
+"Forcer une cote verticale dans la vue
+Force la ligne de cote à être verticale dans la vue.";
+
+//******************************************************************************
+// Force user defined dimension Button
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource._RefUser.Title = "Forcer une cote selon direction";
+CATDrwQuickDimCmd.OrientBarRessource._RefUser.ShortHelp="Forcer une cote selon direction";
+CATDrwQuickDimCmd.OrientBarRessource._RefUser.Help=
+"Force la ligne de cote à être selon une direction";
+CATDrwQuickDimCmd.OrientBarRessource._RefUser.LongHelp=
+"Forcer une cote selon direction
+Force la ligne de cote à être selon une direction.";
+
+//******************************************************************************
+// True length dimension Button
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource.VraiGrandeur.Title = "Cote vraie grandeur";
+CATDrwQuickDimCmd.OrientBarRessource.VraiGrandeur.ShortHelp="Cote vraie grandeur";
+CATDrwQuickDimCmd.OrientBarRessource.VraiGrandeur.Help=
+"Crée une cote en grandeur réelle";
+CATDrwQuickDimCmd.OrientBarRessource.VraiGrandeur.LongHelp=
+"Cote vraie grandeur
+Crée une cote en grandeur réelle.";
+
+//******************************************************************************
+// Force dimension along direction Button
+//******************************************************************************
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionParallel.Title = "Cote selon une direction";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionParallel.ShortHelp="Cote selon une direction";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionParallel.Help=
+"Met la ligne de cote selon une direction";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionParallel.LongHelp=
+"Cote selon une direction
+Met la ligne de cote selon une direction.";
+
+//******************************************************************************
+// Force dimension perpendicular to direction Button
+//******************************************************************************
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionPerpendicular.Title = "Cote perpendiculaire à une direction";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionPerpendicular.ShortHelp="Cote perpendiculaire à une direction";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionPerpendicular.Help=
+"Met la ligne de cote perpendiculaire à une direction";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionPerpendicular.LongHelp=
+"Cote perpendiculaire à une direction
+Met la ligne de cote perpendiculaire à une direction.";
+
+//******************************************************************************
+// Force dimension along a fixed angle in view Button
+//******************************************************************************
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionAngle.Title = "Cote selon un angle fixe dans la vue";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionAngle.ShortHelp="Cote selon un angle fixe dans la vue";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionAngle.Help=
+"Met la ligne de dimension à un angle fixe dans la vue";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionAngle.LongHelp=
+"Cote selon un angle fixe dans la vue
+Met la ligne de dimension à un angle fixe dans la vue.";
+
+//******************************************************************************
+// Intersection detection switch
+//******************************************************************************
+CATDrwQuickDimCmd.IntersectionAgentResource.Check.Title="Détection de points d'épure";
+CATDrwQuickDimCmd.IntersectionAgentResource.Check.ShortHelp="Détection de points d'épure";
+CATDrwQuickDimCmd.IntersectionAgentResource.Check.Help=
+"Détecte les points d'épure lors de la cotation";
+CATDrwQuickDimCmd.IntersectionAgentResource.Check.LongHelp=
+"Détection de points d'épure
+Détecte les points d'épure lors de la cotation.";
+
+//******************************************************************************
+// Angle
+//******************************************************************************
+CATDrwQuickDimCmd.Angle.Dimension.EnglobingFrame.IntermediateFrame.Label.Title = "Angle : ";
+CATDrwQuickDimCmd.Angle.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp = "Entrez l'angle à partir de la direction";
+
+//******************************************************************************
+// Driving Dim Value
+//******************************************************************************
+CATDrwQuickDimCmd.Value.Dimension.EnglobingFrame.IntermediateFrame.Label.Title = "Valeur : ";
+CATDrwQuickDimCmd.Value.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp = "Entrez la valeur de la cote pilotante";
+

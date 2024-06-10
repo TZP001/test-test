@@ -1,0 +1,155 @@
+// =====================================================================
+//
+// Erreurs Framework Manufacturing dedie a la generation de l'IPM
+// =================================
+//
+// Deux manieres de formater vos messages : 
+//
+// a- Specifier en delimitant avec le caractere '\n' :
+//       Request      (ce que l'on tentait de faire)
+//       Diagnostic   (ce qui est arrive)
+//       Advice       (...ce qu'il pourrait faire si possible)
+//
+//     Exemple :
+//       ERR_3000 = "Initializing '/p1' attribute in '/p2'.\nAttribute does not exist.\nContact your local support.";  
+//       
+//               NOTE : Le parametrage des messages se fait via SetNLSParameter
+//
+// ou bien
+//
+// b- Specifier vos messages avec la cle + les 3 facettes Request/Diagnostic/Advice
+//
+//     Exemple :
+//       ERR_3000.Request    "Initializing '/p1' attribute in '/p2'." 
+//       ERR_3000.Diagnostic "Attribute does not exist."
+//       ERR_3000.Advice     "\nContact your local support."
+// 
+//               NOTE : Le parametrage de chaque facette se fait par :
+//                         Request    : SetNLSRequestParams
+//                         Diagnostic : SetNLSDiagnosticParams
+//                         Advice     : SetNLSAdviceParams
+//
+// =====================================================================
+
+
+//************************************************************
+// Plage reservee aux messages generiques ERR_0000 a ERR_0999
+//************************************************************
+ERR_0100.Request="Erreur à la génération ou à l'affichage du volume IPM.";
+ERR_0100.Diagnostic="\nImpossible de générer ou d'afficher le volume IPM car la représentation utilisateur ajoutée\nà l'outil ou à l'assemblage outil est incorrecte.";
+ERR_0100.Advice="\nVérifiez que la représentation utilisateur de l'outil ou de l'assemblage outil est défini correctement.";
+
+ERR_0150.Request="Avertissement à la génération ou à l'affichage du volume IPM.";
+ERR_0150.Diagnostic="\nLe volume IPM n'est pas généré ou affiché car la représentation utilisateur ajoutée\nà l'outil ou à l'assemblage est un outil de nettoyage.";
+ERR_0150.Advice="\nModifiez ou supprimez la représentation utilisateur de l'outil ou de l'assemblage outil pour obtenir le volume IPM.";
+
+ERR_0200.Request="Erreur à la génération ou à l'affichage du volume IPM.";
+ERR_0200.Diagnostic="\nLa génération et l'affichage du volume IPM ne sont pas pris en charge pour le moment pour cette opération d'usinage.";
+ERR_0200.Advice="\nCette opération d'usinage ne sera pas prise en compte lors de la génération IPM.";
+
+ERR_0250.Diagnostic="Le mode de génération IPM actuel n'est pas pris en charge pour cette opération d'usinage.";
+ERR_0250.Advice="\nVeuillez modifier le mode de génération de modèle en cours dans Outils->Options.";
+
+ERR_0300.Request="Erreur lors du calcul du brut d'entrée";
+ERR_0300.Diagnostic="\nLa mise à jour du brut d'entrée associée à l'opération '/p1' a échoué ";
+ERR_0300.Advice="\nModifiez l'opération '/p1' et mettez à jour le brut d'entrée ";
+
+ERR_0350.Request="Erreur à la génération ou à l'affichage du volume IPM.";
+ERR_0350.Diagnostic="\nLa mise à jour du volume IPM associée à l'opération '/p1' a échoué.";
+ERR_0350.Advice="\nModifiez l'opération '/p1' et mettez à jour le volume IPM. ";
+
+ERR_0400.Request="Erreur lors de la création ou de la mise à jour du volume IPM.";
+ERR_0400.Diagnostic="\nEchec de la création du volume IPM à partir du modèle défini par l'utilisateur. La création du volume IPM est abandonnée.";
+ERR_0400.Advice="\nVeuillez vérifier que le chemin du modèle défini par l'utilisateur pour le volume IPM est correct dans Outils->Options.";
+
+ERR_0450.Request="Erreur lors de la génération du volume IPM.";
+ERR_0450.Diagnostic="\nLa génération IPM requiert la publication des bruts";
+ERR_0450.Advice="\nPubliez tous les bruts et mettez à jour l'IPM ";
+
+
+ERR_0500.Request="Erreur à la génération ou à l'affichage du volume IPM.";
+ERR_0500.Diagnostic="\nLe volume IPM ne peut pas être généré car le mode de génération IPM n'est pas pris en charge.";
+ERR_0500.Advice="\nChangez le mode de génération IPM localisé";
+
+ERR_0600.Request="Erreur à la génération ou à l'affichage du volume IPM.";
+ERR_0600.Diagnostic="\nLe volume IPM ne peut pas être généré car l'outil n'est pas sélectionné";
+ERR_0600.Advice="\nSélectionnez l'outil pour la génération IPM ";
+
+ERR_0700.Request="Erreur à la génération ou à l'affichage du volume IPM.";
+ERR_0700.Diagnostic="Le MO n'est pas actif pour la génération IPM.";
+ERR_0700.Advice="\nActivez le MO en vue de sa participation à la génération IPM.";
+
+//************************************************************
+// Plage reservee aux erreurs Curve Following ERR_1000 a ERR_1499
+//************************************************************
+ERR_1000.Request="Erreur à la génération ou à l'affichage du volume IPM.";
+ERR_1000.Diagnostic="\nImpossible de générer ou d'afficher le volume IPM car l'axe de l'outil n'est pas orthogonal aux courbes.";
+ERR_1000.Advice="\nVérifiez que les paramètres géométriques de l'opération de suivi de courbes sont corrects \net que l'axe de cet outil est orthogonal aux courbes.";
+
+//************************************************************
+// Plage reservee aux erreurs Point to Point ERR_1500 a ERR_1999
+//************************************************************
+ERR_1500.Request="Erreur à la génération ou à l'affichage du volume IPM.";
+ERR_1500.Diagnostic="\nImpossible de générer ou d'afficher le volume IPM car tous les déplacements n'ont pas lieu sur le même plan \nou/et ce plan n'est pas orthogonal à l'axe de l'outil.";
+ERR_1500.Advice="\nVérifiez que la définition géométrique de tous les déplacements de l'opération Point à Point sont sur le même plan \net que l'axe de l'outil est orthogonal à ce plan.";
+
+//************************************************************
+// Area for Profile Contouring errors from ERR_2000 to ERR_2499
+//************************************************************
+ERR_2000.Request="Erreur à la génération ou à l'affichage du volume IPM.";
+ERR_2000.Diagnostic="\nImpossible de générer ou d'afficher le volume IPM car le mode de contournage sélectionné n'est pas pris en charge.";
+ERR_2000.Advice="\nSélectionnez le mode de contournage Entre deux plans dans l'onglet relatif à la géométrie de l'éditeur de contournage.";
+
+ERR_2010.Request="Erreur à la génération ou à l'affichage du volume IPM.";
+ERR_2010.Diagnostic="\nImpossible de générer ou d'afficher le volume IPM car l'outil affecté à l'activité n'est pas pris en charge.";
+ERR_2010.Advice="\nAffectez une fraise à surfacer, une fraise 2 Tailles ou une fraise 3 Tailles au contournage.";
+
+ERR_2020.Request="Erreur à la génération ou à l'affichage du volume IPM.";
+ERR_2020.Diagnostic="\nImpossible de générer ou d'afficher le volume IPM car la représentation utilisateur affectée à l'outil n'est pas prise en charge pour cette opération.";
+ERR_2020.Advice="\nSupprimez la représentation utilisateur affectée à l'outil.";
+
+//************************************************************
+// Area for Assembly Station errors from ERR_2500 to ERR_2999
+//************************************************************
+ERR_2500.Request="Erreur à la génération du volume IPM pour la station d'assemblage.";
+ERR_2500.Diagnostic="\nImpossible de générer ou d'afficher le volume IPM car une ou plusieurs activités enfant sont associées à la station d'assemblage.";
+ERR_2500.Advice="\nVérifiez qu'aucune activité enfant n'est associée à la station d'assemblage.";
+
+//************************************************************
+// Area for Pocketing errors from ERR_3000 to ERR_3499
+//************************************************************
+ERR_3000.Request="Erreur à la génération ou à l'affichage du volume IPM.";
+ERR_3000.Diagnostic="\nImpossible de générer ou d'afficher le volume IPM car l'angle de dépouille automatique n'est pas pris en charge.";
+ERR_3000.Advice="\nDéfinissez l'angle de dépouille automatique sur zéro.";
+
+//************************************************************
+// Area for Prismatic Roughing errors from ERR_3500 to ERR_3999
+//************************************************************
+ERR_3500.Request="Erreur à la génération ou à l'affichage du volume IPM.";
+ERR_3500.Diagnostic="\nLa génération ou l'affichage du volume IPM associé à l'opération d'ébauche de pièces prismatiques a échoué.";
+ERR_3500.Advice="\nModifiez l'opération d'ébauche de pièces prismatiques, puis générez ou affichez le volume IPM ";
+
+
+//************************************************************
+// Area for generic errors for pocketing/facing operations from ERR_4000 to ERR_4500
+//************************************************************
+ERR_4000.Request="Erreur à la génération ou à l'affichage du volume IPM.";
+ERR_4000.Diagnostic="\nImpossible d'afficher ou de générer le volume IPM car l'axe de l'outil n'est pas normal au plan du fond.";
+ERR_4000.Advice="\nModifiez l'axe de l'outil ou sélectionnez un autre plan du fond.";
+
+ERR_4010.Request="Erreur à la génération ou à l'affichage du volume IPM.";
+ERR_4010.Diagnostic="\nImpossible de générer ou d'afficher le volume IPM car les valeurs Surép. sur haut et Surép. sur fond ne sont pas compatibles.";
+ERR_4010.Advice="\nModifiez la valeur Surép. sur haut ou Surép. sur fond";
+
+ERR_4020.Request="Erreur à la génération ou à l'affichage du volume IPM.";
+ERR_4020.Diagnostic="\nImpossible de générer ou d'afficher le volume IPM en raison d'un diamètre de trou, de filetage ou d'outil incorrect.";
+ERR_4020.Advice="\nModifier le diamètre du filetage, du trou ou de l'outil";
+
+
+
+
+
+
+ERR_5000.Request="Non concordance dans l'option Hybride";
+ERR_5000.Diagnostic="\nImpossible de générer ou d'afficher le volume IPM car il existe une non concordance entre le mode dans lequel la conception a été créée et le mode courant du paramètre Outils->Option";
+ERR_5000.Advice="\nSynchronisez les deux modes";

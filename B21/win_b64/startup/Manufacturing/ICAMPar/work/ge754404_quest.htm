@@ -1,0 +1,907 @@
+<! @(#)ge754404.pp  16  20-Apr-2004 12:31; ICAM >
+<!  >
+<! ICAM Technologies Corporation makes no warranties whatsoever, either legal >
+<! or conventional, express or implied, with respect to this program and >
+<! documentation.  Because of the diversity of the conditions and hardware >
+<! under which the program may be used, no warranty of merchantability or >
+<! fitness for a particular purpose is offered. Licensee is advised to test >
+<! the program thoroughly before relying on it and assumes the entire risk of >
+<! using the said program. No warrant is given that this program and >
+<! documentation will be error free. This documentation is subject to change >
+<! without notice and is classified as Confidential and Proprietary and is >
+<! not to be reproduced in any manner without the expressed permission of ICAM >
+<! Technologies Corporation. >
+<!  >
+<! This is an unpublished work created in 1991. ICAM Technologies Corporation >
+<! owns all rights to this work and intends to keep the work confidential so as >
+<! to maintain its value as a trade secret. >
+<!  >
+<! ICAM Technologies Corporation may also seek to protect this work as >
+<! unpublished copyright work. In the event of either inadvertent or >
+<! deliberate publication, ICAM Technologies Corporation intends to enforce >
+<! its rights for this work under the copyright laws as a published work; and >
+<! to that end, ICAM Technologies Corporation hereby affixes the following >
+<! statutory notice: >
+<!  >
+<!           (c) Copyright, ICAM Technologies Corporation, 2004 >
+<!  >
+<!                           21500 Nassr Street >
+<!                      Sainte-Anne-de-Bellevue,  Quebec >
+<!                            Canada   H9X 4C1 >
+<!  >
+<!                          All Rights Reserved. >
+<HEAD>
+<TITLE>CAM-POST V16 LIBRARY: GE754404, 20-Apr-2004, 4-AXIS LATHE DEMO / GENERAL ELECTRIC 7544</TITLE>
+</HEAD>
+</BODY>
+<H1>CAM-POST V16 CATIA DEMO POST: GE754404</H1>
+<H2>IDENTIFICATION</H2>
+<UL>
+<TABLE>
+<TR><TD>Name:</TD><TD>ge754404</TD></TR>
+<TR><TD>Created:</TD><TD>20-Apr-2004</TD></TR>
+<TR><TD>Title:</TD><TD>4-AXIS LATHE DEMO / GENERAL ELECTRIC 7544</TD></TR>
+</TABLE>
+</UL>
+<H2>DESCRIPTION</H2>
+<UL>
+This document was automatically created by the IXQL system, using
+information about the GE754404 post-processor stored in the
+CAM-POST database. For more information about IXQL, CAM-POST or any
+other ICAM products, please contact:
+<P>
+<UL>
+<TABLE>
+<TR><TD>ICAM Technologies Corporation</TD><TD>ICAM Technologies Corporation</TD></TR>
+<TR><TD>21500 Nassr Street</TD><TD>7600 Southland Blvd., Suite # 312</TD></TR>
+<TR><TD>Sainte-Anne-de-Bellevue, Quebec</TD><TD>Orlando, Florida</TD></TR>
+<TR><TD>Canada  H9X 4C1</TD><TD>USA  32809-8512</TD></TR>
+<TR><TD>Tel: (514) 697-8033</TD><TD>Tel: (407) 888-8059</TD></TR>
+<TR><TD>Fax: (514) 697-8621</TD><TD>Fax: (407) 888-8071</TD></TR>
+</TABLE>
+</UL>
+<P>
+The
+<I>GE754404 </I>
+post-processor was created on 20-Apr-2004 at 12:31.
+It produces output for
+a direct (cldata xz is machine xz)
+merging lathe.
+The cross-slide control is output as a radius value using the
+Z,W register.
+<P>
+The machine units are inches.
+<P>
+The machine registry is as follows:
+<P>
+<UL>
+<TABLE>
+<TR><TD>Machine model:</TD><TD></TD></TR>
+<TR><TD>Machine manufacturer:</TD><TD>4-AXIS DEMO</TD></TR>
+<TR><TD>Controller model:</TD><TD>GE 7544</TD></TR>
+<TR><TD>Controller manufacturer:</TD><TD>General Electric</TD></TR>
+</TABLE>
+</UL>
+<P>
+The following is a summary of some of the major features of the machine.
+More detailed information can be found under individual topics in
+the SYNTAX section below.
+<P>
+<UL>
+<TABLE>
+<TR><TD>Tool change</TD><TD>2 ATCs, as follows:</TD></TR>
+<TR><TD>Main head</TD>
+<TD>ATC #1, T0000 thru T0000</TD></TR>
+<TR><TD>Side head</TD>
+<TD>ATC #2, T0000 thru T0000</TD></TR>
+<TR><TD>Spindle</TD><TD>2 ranges</TD></TR>
+<TR><TD>gear 1</TD><TD>17 thru 133 rpm</TD></TR>
+<TR><TD>gear 2</TD><TD>54 thru 400 rpm</TD></TR>
+</TABLE>
+</UL>
+<P>
+<pre>                          <b><a name="Register Assignment Summary">Register Assignment Summary</a>
+
+           Primary Second Punch   "."    Omit   Omit   "+"     Register
+     State  Order   Name   Name  Format  Req    Lead  Trail   Req    Descriptor
+</b>
+     Enable    1     N            3.0     No     No     No     No        N3
+     Enable    2     G      H     2.0     No     No     No     No       G,H2
+     Enable    3     X      U     3.4     No     No    Yes     No      X,U34s
+     Enable    4     Z      W     3.4     No     No    Yes     No      Z,W34s
+     Enable    5     R            3.4     No    Yes     No     No       Rs34
+
+     Enable    6     I      P     2.4     No     No    Yes     No      I,P24s
+     Enable    7     K      R     2.4     No     No    Yes     No      K,R24s
+     Enable    8     I      P     1.5     No     No    Yes     No      I,P15s
+     Enable    9     K      R     1.5     No     No    Yes     No      K,R15s
+     Enable   10     F      E     3.2     No     No    Yes     No      F,E32s
+
+     Enable   11     S      S     3.0     No     No     No     No        S3
+     Enable   12     T      T     4.0     No     No     No     No        T4
+     Enable   13     M      M     2.0     No     No     No     No        M2
+
+
+                               <b><a name="G Code Summary">"G" Code Summary</a>
+
+Code                                                                Description</b>
+
+   1 ................................................ Linear interpolation mode
+   1 ................................................... RAPID positioning mode
+   2 ............................................... CLW circular interpolation
+   3 .............................................. CCLW circular interpolation
+   4 .......................................................... DELAY (seconds)
+
+  33 ............................................. Constant lead thread cutting
+
+
+                               <b><a name="M Code Summary">"M" Code Summary</a>
+
+Code                                                                Description</b>
+
+   0 ..................................................................... STOP
+   1 ................................................................... OPSTOP
+   2 ...................................................................... END
+   3 ............................................... Clockwise spindle rotation
+   4 ....................................... Counter-clockwise spindle rotation
+
+   5 .................................................... Stop spindle rotation
+   7 ............................................................. MIST coolant
+   8 ............................................................ FLOOD coolant
+   9 ............................................................... COOLNT/OFF
+  11 ......................................... Clockwise ATC rotation for tools
+
+  12 ................................. Counter-clockwise ATC rotation for tools
+  30 ................................................................... REWIND
+</pre>
+</body>
+</html>
+</UL>
+<H2>SYNTAX</H2>
+<UL>
+<P>
+<B>ARCSLP / </B>
+{<B>ON</B>|<B>OFF</B>}
+<UL>
+Controls the output of circular interpolation codes. ON allows circular
+interpolation codes to be output (default), OFF outputs circles using many
+small linear moves.
+</UL>
+<P>
+<B>AUXFUN /</B>
+<I>code</I>
+~[<I>,code</I>]
+<UL>
+Outputs one or more M (miscellaneous function) codes.
+The post-processor makes no attempt to interpret the meaning or validity
+of the codes.
+</UL>
+<P>
+<B>CLAMP /</B>
+[<B>MANUAL,</B>]
+[{<B>ON</B>|<B>OFF</B>},]
+<I>a ,b</I>
+<UL>
+The
+<I>a,b</I>
+parameters specify the cldata x,y coordinates of the clamp position.
+ON moves the machine to the clamp position and then applies physical clamps.
+OFF removes clamps (if applicable) and then moves to the specified location.
+MANUAL inhibits output of any codes to the tape file.
+</UL>
+<P>
+<B>CLAMP /</B>
+[<B>MANUAL,</B>]
+[{<B>ON</B>|<B>OFF</B>},]
+~{
+<I>axis</I>
+[,{<B>ON</B>|<B>OFF</B>}]
+[<I>,value</I>]
+}
+<UL>
+ON moves one or more machine axes to the specified machine coordinates and
+applies physical clamps. OFF removes clamps if applicable and then moves the
+machine. MANUAL inhibits output to the tape file. The initial ON or OFF
+specifies the default condition if ON or OFF is not explicitly stated for each
+axis. If
+<I>value </I>
+is omitted then the current location is used.
+<I>Axis</I>
+can be one of the following:
+<P>
+<UL>
+<TABLE>
+<TR><TH ALIGN=left>Axis keyword</TH>
+<TH ALIGN=left>Machine axis</TH>
+<TH ALIGN=left>Physical clamps</TH></TR>
+<TR><TD>XAXIS</TD><TD>Primary X</TD><TD>Not available</TD></TR>
+<TR><TD>ZAXIS</TD><TD>Primary Z</TD><TD>Not available</TD></TR>
+<TR><TD>XAXIS,SIDE</TD><TD>Secondary X</TD><TD>Not available</TD></TR>
+<TR><TD>ZAXIS,SIDE</TD><TD>Secondary Z</TD><TD>Not available</TD></TR>
+</TABLE>
+</UL>
+</UL>
+<P>
+<B>CLEARP /</B>
+<I>d</I>
+<UL>
+Specifies a clearance plane to be used with RETRCT, where d is the distance
+along the machine Z axis from the part coordinate origin. Note that d is
+measured in CL units and not machine units.
+</UL>
+<P>
+<B>COOLNT /</B>
+{<B>ON</B>|<B>OFF</B>}
+<UL>
+Starts or stops the flow of coolant. ON starts the last specified coolant type
+(FLOOD by default), OFF stops the coolant flow with a M09 code.
+</UL>
+<P>
+<B>COOLNT / FLOOD</B>
+<UL>
+Outputs a M08 code to start the flow of flood coolant.
+</UL>
+<P>
+<B>COOLNT / MIST</B>
+<UL>
+Outputs a M07 code to start the flow of mist coolant.
+</UL>
+<P>
+<B>COUPLE /</B>
+{<B>ON</B>|<B>OFF</B>}
+<UL>
+Controls the syncronization between spindle and linear axes when machining
+threads.
+Each motion between the ON and OFF commands will be output with a
+G33 syncronization code.
+</UL>
+<P>
+<B>CYCLE /</B>
+{<B>ON</B>|<B>OFF</B>|<B>NOMORE</B>}
+<UL>
+Activates or cancels the last specified cycle type.
+</UL>
+<P>
+<B>CYCLE / </B>
+<I>type, dimension, feed </I>
+[<I>,clearance</I>]
+[<I>,options</I>]
+<UL>
+This is the general cycle format. The specified cycle
+will be performed at each non-RAPID GOTO that follows. The cycle is
+cancelled by a CYCLE/OFF or CYCLE/NOMORE.
+<P>
+The
+<I>type </I>
+parameter is a minor word identifying one of a series of standard cycles.
+<I>Dimension</I>
+information defines the total depth of the hole. The
+<I>feed</I>
+defines the cutting rate of the cycle, and must be specified as follows:
+<P>
+<UL>
+{<B>IPM</B>|<B>IPR</B>|<B>MMPM</B>|<B>MMPR</B>|<B>PERMIN</B>|<B>PERREV</B>}
+<I>,value</I>
+</UL>
+<P>
+The optional
+<I>clearance </I>
+value specifies the distance above the point that the feed motion of the cycle
+should start. The clearance is modal from one cycle to the next. The default
+clearance is .1.
+<P>
+The
+<I>options </I>
+depend on the cycle type. The following cycle types and options are supported:
+<P>
+<UL>
+<TABLE>
+<TR><TH ALIGN=left>Type</TH><TH ALIGN=left>Options</TH></TR>
+<TR><TD>BRKCHP</TD><TD>RAPTO,<I>a</I>  TIMES,<I>b</I></TD></TR>
+<TR><TD>CSINK</TD><TD>RAPTO,<I>a</I></TD></TR>
+<TR><TD>DEEP</TD><TD>RAPTO,<I>a</I></TD></TR>
+<TR><TD>DRILL</TD><TD>RAPTO,<I>a</I></TD></TR>
+<TR><TD>MANUAL</TD><TD>None</TD></TR>
+<TR><TD>REAM</TD><TD>RAPTO,<I>a</I></TD></TR>
+<TR><TD>THRU</TD><TD>RAPTO,<I>a</I></TD></TR>
+</TABLE>
+</UL>
+<P>
+The
+[,<B>RAPTO</B><I>,a</I>]
+option defines an additional distance
+<I>a </I>
+to plunge at rapid starting from the clearance plane.
+<P>
+The
+[<B>,TIMES</B><I>,a</I>]
+option causes the tool to perform a full retract every
+<I>a </I>
+pecks during a BRKCHP cycle.
+</UL>
+<P>
+<B>CYCLE / BRKCHP </B>
+[<I>,depth</I><B>,INCR</B>]
+~{
+~<I>,pecks,feed</I>
+}
+[<I>,clear</I>]
+<UL>
+This cycle drills a hole with intermittent small retracts to inhibit formation
+of long chips. The pecks parameter is a series of delta Z amounts (if INCR is
+coded) or absolute depths.
+The cycle is emulated by the post-processor.
+</UL>
+<P>
+<B>CYCLE / CSINK </B>
+<I>,odia ,ang </I>
+[<I>,idia</I>]
+<I>,feed </I>
+[<I>,clear</I>]
+<UL>
+This is a countersinking cycle. The
+<I>odia </I>
+parameter specifies the outside diameter of the countersink. The
+<I>ang </I>
+parameter is the full included angle of the countersinking tool. The
+<I>idia </I>
+is an optional parameter specifying the inside diameter of the hole
+(GENER uses this information to accelerate the countersinking cycle).
+The cycle is emulated by the post-processor.
+</UL>
+<P>
+<B>CYCLE / DEEP </B>
+[<I>,depth</I><B>,INCR</B>]
+~{
+~<I>,pecks,feed</I>
+}
+[<I>,clear</I>]
+<UL>
+This cycle drills a hole in steps, with full retracts to the clearance plane
+to clear chips from the hole. The
+<I>pecks </I>
+parameter is a series of delta Z amounts (if
+<B>INCR </B>
+is coded) or absolute depths.
+The cycle is emulated by the post-processor.
+</UL>
+<P>
+<B>CYCLE / DRILL </B>
+<I>,depth ,feed </I>
+[<I>,clear</I>]
+<UL>
+This is a basic DRILL cycle, which performs a feed to depth and rapid retract.
+The cycle is emulated by the post-processor.
+</UL>
+<P>
+<B>CYCLE / MANUAL </B>
+[<I>,clear</I>]
+<UL>
+The tool will be brought to the specified clearance at each point in the cycle
+and a STOP command output.
+</UL>
+<P>
+<B>CYCLE / REAM </B>
+<I>,depth ,feed </I>
+[<I>,clear</I>]
+<UL>
+This is a basic REAM cycle, which performs a feed to depth and a feed retract.
+The cycle is emulated by the post-processor.
+</UL>
+<P>
+<B>CYCLE / THRU </B>
+~{<I>,depths</I>}
+<I>,feed </I>
+[<I>,clear</I>]
+<UL>
+This is a web drilling cycle. An odd number of
+<I>depths </I>
+must be specified. The first depth specifies the depth of the first web.
+The second depth is the clearance above the second web. The third is the
+depth of the second web. Etcetera. The tool is only retracted when the
+final depth is reached.
+The cycle is emulated by the post-processor.
+</UL>
+<P>
+<B>DELAY /</B>
+<I>seconds</I>
+<UL>
+Outputs a G04 code to cause a delay in seconds.
+The X,U register specifies a delay time between .0001 and
+99.9999 in increments of .0001.
+</UL>
+<P>
+<B>DELAY /</B>
+<B>REV</B><I>,revolutions</I>
+<UL>
+Outputs a delay in seconds that approximates the number of spindle revolutions
+specified (see "DELAY/seconds" above).
+</UL>
+<P>
+<B>END</B>
+<UL>
+The END command outputs a M02 to signal the machine that it has
+reached the end of the program.
+</UL>
+<P>
+<B>FEDRAT /</B>
+[<I>value</I>]
+[,{<B>IPM</B>|<B>IPR</B>|<B>MMPM</B>|<B>MMPR</B>|<B>PERMIN</B>|<B>PERREV</B>}]
+<UL>
+Specifies an interpolation
+<I>rate</I>
+to be used for subsequent motions. The feed types IPM, MMPM and PERMIN
+all specify a rate in terms of units per minute, where units is one of
+inches, millimeters or current cl units. The feed types IPR, MMPR and
+PERMIN specify a rate in terms of units per spindle revolution. The feed
+type is modal, and defaults to PERMIN if not specified.
+</UL>
+<P>
+<B>HEAD /</B>
+{<B>BOTH</B>|<B>OFF</B>}
+<UL>
+Controls syncronization between the main and side heads. All motions
+between the HEAD/BOTH and HEAD/OFF commands are syncronized. The HEAD/BOTH
+command must be immediately followed by a HEAD/MAIN or HEAD/SIDE command.
+The main and side heads each process specific register names within
+the same tape block. Syncronization is controlled by the presence or
+absence of instructions for the side and main heads within each
+tape block.
+</UL>
+<P>
+<B>HEAD /</B>
+{<B>MAIN</B>|<B>SIDE</B>}
+<UL>
+Indicates that subsequent cl data controls movement of the main or
+side head. Head movement is syncronized at matching HEAD/MAIN and
+HEAD/SIDE statements within the block of cl data bounded by HEAD/BOTH and
+HEAD/OFF statements. Outside of the HEAD/BOTH block, when one head is
+moving, the other head remains idle.
+</UL>
+<P>
+<B>HEAD / NEXT</B>
+[<I>,value</I>]
+<UL>
+Specifies additional syncronization of the main and side head
+motion sequences. Head movement is syncronized at matching HEAD/NEXT
+commands in both the HEAD/MAIN and HEAD/SIDE sequences. The
+<I>value</I>
+is optional, but if specified, GENER will test to insure that the value used
+in the MAIN block matches the value used in the SIDE block (an error is
+output if they differ).
+</UL>
+<P>
+<B>INSERT / </B>
+<I>string </I>
+~[<I>,value</I>]
+<UL>
+Formats the optional
+<I>values </I>
+into the character string and outputs the
+<I>string </I>
+to the NC tape file as a command block.
+A sequence number will be prefixed to the string.
+The post-processor makes no attempt to interpret the meaning or validity
+of the inserted tape block.
+</UL>
+<P>
+<B>LEADER /</B>
+<I>length</I>
+<UL>
+Outputs
+<I>length</I>
+cl file units of leader. The leader character is
+ASCII code -246811958.
+</UL>
+<P>
+<B>LIMIT /</B>
+[<B>ON</B>|<B>OFF</B>]
+[<I>,zone</I>]
+~{
+<I>,axis ,limit</I>
+}
+<UL>
+Controls travel limit checking. ON (default) and OFF indicate whether travel
+limit checking should be activated or deactivated for the specified travel
+<I>zone</I>
+(1 by default).  Up to 10 zones can be defined.
+<I>Axis</I>
+specifies a machine axis by keyword as follows:
+<P>
+<UL>
+<TABLE>
+<TR><TH ALIGN=left>Axis keyword</TH><TH ALIGN=left>Machine axis</TH></TR>
+<TR><TD>XAXIS</TD><TD>Primary X</TD></TR>
+<TR><TD>ZAXIS</TD><TD>Primary Z</TD></TR>
+<TR><TD>XAXIS,SIDE</TD><TD>Secondary X</TD></TR>
+<TR><TD>ZAXIS,SIDE</TD><TD>Secondary Z</TD></TR>
+</TABLE>
+</UL>
+<P>
+<I>Limit</I>
+specifies the type of travel limit checking desired, and can be one
+of the following:
+<P>
+<UL>
+[<B>,ON</B>]<I>,low,high</I><BR>
+[<B>,ON</B>]<I>,total</I><BR>
+<B>,OFF</B><BR>
+</UL>
+<P>
+Where
+<I>low</I> and <I>high</I>
+specify the minimum and maximum travel limits,
+<I>total</I>
+specifies the travel limits in terms of total displacement,
+and OFF deactivates travel checking for the named axis.
+By default, no travel limit checking is performed by the post-processor.
+</UL>
+<P>
+<B>MACHIN / GE7544, 4</B>
+~[<I>,</I>{<I>keyword</I>|<I>value</I>|<I>string</I>}]
+<UL>
+This command identifies the post-processor. It is not required. Any
+additional parameters are ignored by GENER.
+</UL>
+<P>
+<B>OPSKIP / </B>
+{<B>ON</B>|<B>OFF</B>}
+<UL>
+Controls the output of the block delete
+code "<B>/</B>".
+ON causes the block delete to be output with subsequent tape blocks,
+OFF resumes normal tape output.
+</UL>
+<P>
+<B>OPSTOP</B>
+<UL>
+The OPSTOP command outputs a M01 to optionally halt the machine
+depending on the state of a switch setting at the machine.
+</UL>
+<P>
+<B>ORIGIN /</B>
+<I>a ,b</I>
+<UL>
+The
+<I>a,b</I>
+parameters specify the location of the machine origin in terms of cl
+file x,y coordinates.
+</UL>
+<P>
+<B>ORIGIN /</B>
+<I>matrix</I>
+<UL>
+Specifies the machine origin in terms of a
+<I>matrix</I>
+defined in the cl file coordinate system. The
+<I>matrix</I>
+is defined by 12 numeric values which represent the location and
+orientation of the machine reference system in terms of the cl
+file reference system.
+</UL>
+<P>
+<B>PARTNO / </B>
+<I>string </I>
+~[<I>,value</I>]
+<UL>
+Formats the optional
+<I>values </I>
+into the character string and uses the
+<I>string </I>
+as a program identification. The program identification is output at the
+top of each page of the post-processor verification file.
+It is also be output as "man-readable" characters at the
+start and end of the tape file.
+If a PARTNO command is not found within the first 20 records of the
+cl file, the default identification "Undefined PARTNO" will be used.
+</UL>
+<P>
+<B>PITCH /</B>
+<I>tpu</I>
+[<B>,MULTRD</B><I>,starts</I>]
+<UL>
+Specifies the thread pitch for subsequent THREAD and COUPLE commands.
+<I>Tpu</I>
+defines the pitch in terms of threads per cl file unit. The pitch is
+converted to units/revolution and
+output in the K,R register for threads primarily along the
+machine Z axis, and output in the I,P register for threads
+primarily along X.
+The optional
+<I>start</I>
+parameter defines a multi-start thread which is emulated by the
+post-processor. By default threads have a single lead only.
+</UL>
+<P>
+<B>PPRINT / </B>
+<I>string </I>
+~[<I>,value</I>]
+<UL>
+Formats the optional
+<I>values </I>
+into the character string and outputs the
+<I>string </I>
+to the post-processor listing file.
+</UL>
+<P>
+<B>PREFUN /</B>
+<I>code</I>
+~[<I>,code</I>]
+<UL>
+Outputs one or more G,H (preparatory function) codes.
+The post-processor makes no attempt to interpret the meaning or validity
+of the codes.
+</UL>
+<P>
+<B>RAPID</B>
+<UL>
+Causes the next motion to be performed at the maximum positioning
+rate of the machine.
+Feedrate mode is immediately reinstated following the rapid motion
+(a FEDRAT command can be programmed to cancel the pending rapid move).
+</UL>
+<P>
+<B>RETRCT</B>
+<UL>
+Retracts the tool, parallel to the spindle centerline, to the clearance
+plane specified by the last CLEARP command.
+No movement will be made if the tool is already at or above the clearance
+plane. The retract motion will be made
+at rapid.
+</UL>
+<P>
+<B>REWIND /</B>
+<I>value</I>
+<UL>
+The REWIND command outputs a M30 to signal the machine that it has
+reached the end of the program and that the program should be reset to the
+start. The
+<I>value</I>
+is ignored, but required for historic reasons.
+</UL>
+<P>
+<B>SEQNO / </B>
+{<B>ON</B>|<B>OFF</B>}
+<UL>
+Controls the output of block sequence number codes. ON causes sequence
+numbers to be output on subsequent blocks, OFF inhibits the output of
+sequence numbers. By default, sequence numbers
+will start at N010 and increment by 2
+for each block output.
+</UL>
+<P>
+<B>SEQNO / AUTO</B>
+<UL>
+Causes subsequent tape block sequence numbers to match the cl data
+record number that originated the NC instruction. If a cl record produces
+multiple tape blocks, then each block will have the same number.
+</UL>
+<P>
+<B>SEQNO / </B>
+[<B>CONST,</B>]
+<I>value</I>
+<UL>
+If CONST is omitted, the next tape block will be output with sequence number
+<I>value.</I>
+Sequence numbering then reverts back to the previously specified format.
+If CONST is specified, then all subsequent blocks will be numbered
+<I>value</I>
+until a new SEQNO command is coded.
+</UL>
+<P>
+<B>SEQNO / </B>
+[<I>start,</I>]
+<B>INCR</B><I>,incr</I>
+[<I>,count</I>]
+<UL>
+<I>Incr</I>
+specifies the amount to increase the sequence number by each time it is
+output.
+<I>Start</I>
+specifies a new starting sequence number. If omitted, it defaults to the
+last seqence value plus the new increment.
+Only one out of every
+<I>count</I>
+blocks will contain a sequence number (the default is 1, meaning every block).
+Sequence numbers are output using the N register, and
+can range from 1 through 999 in increments of
+1 .
+</UL>
+<P>
+<B>SPINDL /</B>
+{<B>ON</B>|<B>OFF</B>}
+<UL>
+Controls the spindle. ON starts the spindle at the last specified
+rate. OFF stops the spindle.
+</UL>
+<P>
+<B>SPINDL /</B>
+[<I>s</I>]
+[,{<B>RPM</B>|<B>SFM</B>|<B>SMM</B>}]
+[,{<B>CLW</B>|<B>CCLW</B>}]
+[<B>,RANGE,</B>{<I>gear</I>|<B>LOW</B>|<B>HIGH</B>}]
+<UL>
+Specifies a spindle speed
+<I>s</I>
+in revolutions per minute (RPM), surface feet per minute (SFM) or
+surface meters per minute (SMM). If the type is omitted, then the last
+specified type will be used (RPM by default). If the speed is omitted,
+then the last specified speed will be used (minimum speed by default).
+The speed is output using the S register.
+The output codes will not match the specified values since this machine
+uses spindle codes instead of direct RPM codes.
+<P>
+The machine has 2 gear ranges, which can be selected by number
+using the
+<I>gear</I>
+specification or by one of the listed keywords. The gear remains modal
+from one command to the next. GENER will automatically change gears
+if the requested rate is not available in the current gear. The gearing
+is as follows:
+<P>
+<UL>
+<TABLE>
+<TR><TH ALIGN=left>Gear</TH><TH ALIGN=left>Keyword</TH>
+<TH ALIGN=left>Minimum</TH><TH ALIGN=left>Maximum</TH></TR>
+<TR><TD>1</TD><TD>LOW</TD><TD>17</TD><TD>133</TD></TR>
+<TR><TD>2</TD><TD>HIGH</TD><TD>54</TD><TD>400</TD></TR>
+</TABLE>
+</UL>
+<P>
+The CLW and CCLW parameters specify the spindle rotation direction.
+A M03 is output for clockwise rotation.
+A M04 is output for counter-clockwise rotation.
+</UL>
+<P>
+<B>STOP</B>
+<UL>
+The STOP command outputs a M00 to halt the machine.
+</UL>
+<P>
+<B>THREAD /</B>
+[<B>FACE</B>|<B>TAPER</B>|<B>TURN</B>]
+<UL>
+Specifies that the next motion is to be done with the spindle and linear
+axes syncronized. GENER ignores the choice of keyword, and processes the
+next motion as follows:
+<P>
+<UL>
+COUPLE/ON<BR>
+GOTO/<I>"end of thread"</I><BR>
+COUPLE/OFF<BR>
+</UL>
+</UL>
+<P>
+<B>THREAD / </B>
+{<B>ON</B>|<B>OFF</B>}
+<B>,DEPTH</B><I>,depth</I>
+<B>,CUTS</B><I>,n</I>[<I>,step</I>~[<I>n,step</I>]]
+<B>,CUTANG</B><I>,a</I>
+[<B>,FINCUT</B><I>,f</I>]
+[<B>,ATANGL</B><I>,a</I>[<I>,h</I>]]
+<UL>
+Defines the parameters for a thread cutting sequence. The THREAD command
+must be coded as follows:
+<P>
+<UL>
+GOTO/<I>"initial point"</I><BR>
+THREAD/ON<I>,parameters</I><BR>
+GOTO/<I>"start of thread"</I><BR>
+GOTO/<I>"end of thread"</I><BR>
+GOTO/<I>"optional retract point"</I><BR>
+THREAD/OFF<BR>
+</UL>
+<P>
+The OFF command must be coded without parameters, it defines the end of the
+thread definition. The first two motions following the ON command define the
+thread contour (from where the thread depth is measured).
+<P>
+Parameters remain active from one thread command to another. The
+<B>DEPTH</B><I>,depth</I>
+parameter specifies the total depth of the thread as a positive value. The
+depth is measured perpendicular to the thread contour. The
+<B>CUTS</B><I>,n</I>[<I>,step</I>~[<I>n,step</I>]]
+parameter defines how the thread is cut. A single numeric value
+<I>n</I>
+requests that that many passes be made to produce the thread. Alternately,
+pairs of
+<I>n,step</I>
+can be specified to define
+<I>n</I>
+cuts each removing
+<I>step</I>
+amount. When this second format is specified, the
+<I>depth</I>
+value will be used to verify the accumulated cut depth. The
+<B>CUTANG</B><I>,a</I>
+parameter specifies the plunge line of the tool at the start of threading.
+The angle is measured from the cldata x axis.
+<P>
+The
+<I>options</I>
+are valid for a single thread block only. The
+[<B>,FINCUT</B><I>,f</I>]
+option requests
+<I>f</I>
+additional spring passes when the full thread depth has been reached. The
+[<B>,ATANGL</B><I>,a</I>[<I>,h</I>]]
+option defines a thread pullout at angle
+<I>a</I>
+where 0 is perpendicular to the thread, positive angles are in the thread
+direction and negative angles cause a motion reversal. The pullout will be
+to a line parallel to the thread contour, offset by
+<I>h</I>
+(if omitted, GENER will compute an appropriate value).
+</UL>
+<P>
+<B>TRANS /</B>
+{<B>ON</B>|<B>OFF</B>}
+<UL>
+ON reinstates the last specified axes shifts, OFF removes the accumulated
+axes shifts. Axes shifts are entered using the other forms of the TRANS
+command listed below. Note that
+axes shifts are not accumulative. For example, coding TRANS/XAXIS,3 and
+then TRANS/XAXIS,5 will result in a shift of 5 along the x axis. Each
+new TRANS shift replaces the old one.
+</UL>
+<P>
+<B>TRANS /</B>
+[<B>ON,</B>]
+<I>a ,b</I>
+<UL>
+The
+<I>a,b</I>
+parameters specify the cldata x,y delta translation amounts.
+Note that the translation is specified as a delta amount in cl file
+coordinates. ON need not be specified since it is the default.
+</UL>
+<P>
+<B>TRANS /</B>
+[{<B>ON</B>|<B>OFF</B>},]
+~{
+<I>axis</I>
+[,{<B>ON</B>|<B>OFF</B>}]
+[<I>,value</I>]
+}
+<UL>
+The initial ON or OFF specifies the the default condition if ON or OFF
+is not explicitly stated for each
+<I>axis.</I>
+ON shifts the named machine axis by
+<I>value</I>
+machine units (not cl file units). OFF removes any translation
+(do not specify a
+<I>value</I>
+with the OFF format).
+<I>Axis</I>
+specifies a machine axis by keyword as follows:
+<P>
+<UL>
+<TABLE>
+<TR><TH ALIGN=left>Axis keyword</TH><TH ALIGN=left>Machine axis</TH></TR>
+<TR><TD>XAXIS</TD><TD>Primary X</TD></TR>
+<TR><TD>ZAXIS</TD><TD>Primary Z</TD></TR>
+<TR><TD>XAXIS,SIDE</TD><TD>Secondary X</TD></TR>
+<TR><TD>ZAXIS,SIDE</TD><TD>Secondary Z</TD></TR>
+</TABLE>
+</UL>
+</UL>
+<P>
+<B>TURRET /</B>
+<I>tool</I>
+[
+<I>offset</I>
+[<I>,x,y</I>]
+]
+[<I>,options</I>]
+<UL>
+<I>Tool</I>
+specifies the tool to load, which must be between 1 and 9.
+The tool number is output using the T register.
+The
+<I>options</I>
+are identical to those available with the TOOLNO command, and are
+described there.
+</UL>
+</UL>
+</BODY>

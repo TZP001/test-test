@@ -1,0 +1,347 @@
+// COPYRIGHT ImpactXoft 2003
+//===================================================================
+SpdInternalError="Condizione di errore inattesa.";
+
+SpdProfileInp1="Lo schizzo non è specificato o disattivato.";
+SpdProfileInp2="La feature richiede che lo schizzo associato sia chiuso.";
+SpdProfileInp3="La feature richiede che lo schizzo associato non sia vuoto.";
+SpdProfileInp4="La feature richiede che lo schizzo associato sia attivo.";
+SpdProfileInp5="I profili di sweep devono essere piani.";
+SpdProfileInp6="Lo schizzo selezionato contiene punti definiti come elementi geometrici standard. \nE' necessario convertire questi punti in elementi di costruzione.";
+SpdProfileInp7="Svuotamento da operatore di figura chiusa: \nAvvertenza: la figura di immissione interseca se stessa.\nModificarla.";
+SpdProfileInp8="Il volume formato dalle feature svuotamento non passa completamente attraverso il prisma.\nSpostare la geometria, ingrandire il volume di svuotamento o ridurre il profilo.";
+SpdProfileInp9="Almeno un valore di offset deve essere diverso da zero.";
+SpdProfileInp10="L'interazione tra il prisma e il volume formato dalle feature svuotamento è troppo complessa.\nProbabilmente, il profilo della feature è solo parzialmente contenuto nel volume di svuotamento.";
+SpdProfileInp11="L'interazione tra il prisma e le selezioni del limite è troppo complessa.\nProbabilmente, lo schizzo estruso non è completamente relimitato dalla superficie del limite.";
+SpdProfileInp12="L'opzione Da svuotare richiede la presenza delle feature svuotamento.";
+SpdProfileInp13="Un contorno selezionato interseca se stesso.\nNon è possibile utilizzare questa configurazione in un operatore di estrusione.\nSelezionare una figura che non intersechi se stessa.";
+SpdProfileInp14="Le specifiche dei limiti del prisma sono troppo complesse. \nProvare a modificare le specifiche dei limiti del prisma.";
+
+SpdDraftTypeInvalid="Le feature basate su sweep supportano solo lo sformo angolare.";
+SpdDraftTypeInvalid2="Se il limite della quota è Passante o Allo svuotamento, è supportato solo lo sformo angolare.";
+SpdDraftLimit1Invalid="Se il primo limite della quota è Passante o Allo svuotamento, l'elemento di sformo neutro non può essere il primo piano limite.";
+SpdDraftLimit2Invalid="Se il secondo limite della quota è Passante o Allo svuotamento, l'elemento di sformo neutro non può essere il secondo piano limite.";
+SpdDraftAngleInvalid="L'angolo di sformo deve essere compreso tra -85.0 e 85 gradi.";
+SpdDraftDoubleFillet="Impossibile creare uno raccordo laterale quando si crea un doppio sformo.";
+SpdDraftSketchHasNoPlane="Impossibile determinare il piano neutro dello sformo perché il riferimento dello schizzo non è valido.";
+SpdDraftPropsMissing="Proprietà dello sformo mancanti.";
+SpdDraftNeutralMissing="Elemento neutro di sformo mancante.";
+SpdDraftNeutralInvalid="Elemento neutro di sformo non valido.";
+SpdDraftPartingUnresolved="Elemento di partizione dello sformo non risolvibile.";
+SpdDraftPartingMissing="Quando si utilizza un elemento di partizione come elemento neutro, è necessario selezionare un elemento di partizione";
+SpdDraftBadPull="La direzione di estrazione dello sformo è parallela all'elemento neutro.";
+SpdDraftBadPartingPull="La direzione di estrazione dello sformo è parallela all'elemento di partizione.";
+SpdDraftFacesFailed="La direzione di estrazione dello sformo è perpendicolare alla faccia da sformare.";
+SpdDraftFailed="Operazione di sformo non riuscita.\nModificare alcuni parametri dello sformo o la geometria.";
+SpdDraftFailedKindly="Sformo non eseguito. La topologia locale o la geometria sono troppo complesse.";
+
+SpdReferencedPoint="Un vertice non è più riconosciuto.";
+SpdReferencedAxis="L'asse non è più riconosciuto.";
+SpdReferencedLine="Uno spigolo non è più riconosciuto.";
+SpdReferencedFace="Una faccia non è più riconosciuta.";
+SpdReferencedCuttingFace="Una faccia utilizzata come elemento di taglio non è più riconosciuta.";
+SpdReferencedPartingFace="Una faccia utilizzata come elemento di partizione non è più riconosciuta.";
+
+SpdEvalDataPath="La feature richiede di specificare un percorso.";
+SpdEvalDataPathActive="La feature richiede che il percorso associato sia attivo.";
+SpdEvalDataDirection="La somma dei valori di lunghezza non deve essere uguale a zero.";
+SpdEvalDataPathInvalid="Direzione di estrazione del percorso non supportata";
+SpdEvalDataPathSupport="Il percorso e il profilo utilizzano lo stesso riferimento per lo schizzo.";
+SpdEvalDataPathParallel="I riferimenti del percorso e del profilo sono paralleli.";
+
+SpdEvalDataFillet="Il raggio del raccordo negativo non è consentito.";
+SpdEvalDataThickFillet="Su una feature ispessita ciascun raggio di raccordo deve essere minore di o uguale alla metà dello spessore totale.";
+SpdEvalDataThickShell="Lo spessore della feature di svuotamento deve essere due volte più grande dello spessore dello svuotamento.";
+
+SpdEvalDataFillet1Sides="Il primo raccordo è troppo grande per le facce laterali della feature.";
+SpdEvalDataFillet2Sides="Il secondo raccordo è troppo grande per le facce laterali della feature.";
+SpdEvalDataFillet12Sides="Il primo e il secondo raccordo sono troppo grandi per le facce laterali delle feature";
+SpdEvalDataFillet1End="Il primo raccordo è troppo grande per la prima faccia del limite della feature.";
+SpdEvalDataFillet2End="Il secondo raccordo è troppo grande per la prima faccia del limite della feature.";
+SpdFilletFailure="Impossibile inizializzare l'operazione di raccordo richiesta della feature.";
+
+SpdReinforcementFillet="Il raccordo laterale è troppo grande per le facce laterali della feature.";
+SpdEvalDraftFillets="L'opzione Raccordo di sformo non è supportata su questo tipo di feature";
+SpdEvalDraftFilletsErr="Operazione di sformo sui raccordi non riuscita.\nProvare a a modificare alcuni parametri dello sformo o del raccordo oppure la geometria.";
+
+SpdEvalDataWall="Spessore della parete non valido.";
+SpdEvalDataWallHeight="La lunghezza della feature deve essere maggiore dello spessore della parete.";
+SpdEvalDataVolume="Questa feature non può costituire un solido da uno schizzo aperto senza utilizzare l'opzione Spessore.";
+SpdEvalDataThin="I valori di spessore immessi darebbero come risultato un volume zero.";
+
+SpdEvalDataSplitDraft="Uno spessore maggiore di un limite di altezza non è supportato per uno sformo tagliato.";
+
+SpdAxis="E' necessario specificare un asse di rivoluzione.";
+SpdAngle="I due angoli creerebbero un volume zero.";
+
+SpdBoundaryInside="Posizione e/o direzione del bordo del piano dello schizzo errate. \nIl piano non dovrebbe trovarsi all'interno dello svuotamento e \n la direzione dovrebbe essere verso l'interno dello svuotamento.";
+SpdBoundaryTooLarge="Lo schizzo del bordo e troppo grande e non intercetta lo svuotamento.";
+SpdBoundaryTooLoopy="Loop di bordo multipli non consentiti.";
+SpdBoundarySketch="E' necessario specificare uno schizzo di bordo.";
+SpdBoundaryActive="Lo schizzo di bordo deve essere attivo.";
+SpdBoundaryEmpty="Lo schizzo di bordo non può essere vuoto.";
+SpdBoundaryClosed="Lo schizzo di bordo deve essere chiuso.";
+SpdBoundaryPoints="Lo schizzo di bordo contiene punti definiti come elementi geometrici standard. \nE' necessario convertire questi punti in elementi di costruzione.";
+SpdHeight="Lo schizzo di bordo deve essere positivo.";
+SpdWidth="La larghezza del bordo deve essere positiva.";
+SpdSpikeHeight="L'altezza del picco deve essere positiva.";
+SpdSpikeWidth="La larghezza del picco deve essere positiva.";
+SpdIslandSketch="Lo schizzo dell'isola deve essere chiuso.";
+SpdSpikeMustExist="L'elemento neutro dello sformo selezionato richiede una geometria a punte.";
+SpdRibMustExist="L'elemento neutro dello sformo selezionato richiede una geometria a coste.";
+
+SpdSpikePositionRib="Il picco non deve trovarsi tra le coste.";
+SpdSpikePositionBdy="Il picco non deve trovarsi al di sotto del bordo.";
+SpdSpikeOffsets="Gli offset del picco non devono superare i picchi.";
+SpdRibHeight="Il valore dell'altezza della costa deve essere positivo.";
+SpdRibWidth="Il valore della larghezza della costa deve essere positivo.";
+
+
+SpdThicknessClosed="Lo schizzo deve essere chiuso se lo spessore è zero.";
+SpdNoCuttingFaces="Nessuna faccia di taglio selezionata.";
+SpdMultipleTargets="La feature non supporta destinazioni multiple.";
+
+SpdNoThickenSrf="Le superfici selezionate per lo spessore non esistono.";
+SpdUnboundedSrf="La superficie selezionata da ispessire non è bordata.";
+
+SpdUnresolvedDirectionId="La direzione di riferimento non può essere utilizzata. \nCATIA selezionerà una direzione predefinita.";
+SpdUnresolvedPathControlId="Il riferimento per il controllo del percorso non può essere utilizzato. \nCATIA selezionerà il controllo del percorso predefinito.";
+SpdUnresolvedPathLimitsId="I punti di riferimento utilizzati per limitare il percorso non possono essere utilizzati. \nCATIA selezionerà i limiti del percorso predefiniti.";
+SpdUnresolvedFaceId="Impossibile risolvere una faccia. \nLa specifica verrà rimossa.";
+SpdUnresolvedFacesId="Impossibile risolvere /p1 facce. \nLe relative specifiche verranno rimosse.";
+SpdUnresolvedRevolveAxesId="Impossibile utilizzare l'asse di riferimento. \nLa specifica verrà rimossa.";
+SpdUnresolvedCuttingFaceId="Impossibile risolvere una faccia di taglio. \nLa specifica verrà rimossa.";
+SpdUnresolvedCuttingFacesId="Impossibile risolvere /p1 facce di taglio. \nLe relative specifiche verranno rimosse.";
+SpdUnresolvedPartingFaceId="Impossibile risolvere una faccia dell'elemento di partizione. \nLa specifica verrà rimossa.";
+SpdUnresolvedPullingDirection="Impossibile risolvere la direzione di estrazione. \nLa specifica verrà rimossa.";
+SpdUnresolvedLimitsId="Impossibile risolvere una faccia limite.";
+SpdUnresolvedPathEdgeId="Impossibile risolvere uno spigolo del percorso. \nLa specifica verrà rimossa.";
+SpdUnresolvedPathEdgesId="Impossibile risolvere /p1 spigoli del percorso. \nLe relative specifiche verranno rimosse.";
+SpdUnresolvedDraftProperties="Impossibile risolvere le proprietà dello sformo. \nIl funzionamento dello sformo verrà ripristinato su Nessuno e lo sformo della feature non verrà eseguito.";
+SpdUnresolvedDraftPartingFace="Impossibile risolvere la faccia dell'elemento di partizione (dalle proprietà dello sformo).";
+SpdUnresolvedDraftPullingDir="Impossibile risolvere la direzione di estrazione (dalle proprietà dello sformo).";
+SpdUnresolvedDraftNeutralElement="Impossibile risolvere l'elemento neutro. \nLa specifica verrà rimossa.";
+SpdUnresolvedLipPullingDirection="Impossibile risolvere la direzione di estrazione. \nVerrà utilizzato l'elemento di divisione normale.";
+SpdUnresolvedPatternDir1="Impossibile risolvere la prima direzione della matrice. \nLa specifica verrà rimossa.";
+SpdUnresolvedPatternDir2="Impossibile risolvere la seconda direzione della matrice. \nLa specifica verrà rimossa.";
+SpdUnresolvedMirrorElement="Impossibile risolvere l'elemento di specchiatura. \nLa specifica verrà rimossa.";
+SpdUnresolvedSymmetryRef="Impossibile risolvere l'elemento di riferimento della trasformazione di simmetria. \nLa specifica verrà rimossa.";
+SpdUnresolvedScalingRef="Impossibile risolvere l'elemento di riferimento della trasformazione di scala. \nLa specifica verrà rimossa.";
+SpdUnresolvedStartPt="Impossibile risolvere il punto iniziale della trasformazione. \nLa specifica verrà rimossa.";
+SpdUnresolvedEndPt="Impossibile risolvere il punto finale della trasformazione. \nLa specifica verrà rimossa.";
+SpdUnresolvedAxisOrigin="Impossibile risolvere l'origine dell'asse della trasformazione. \nLa specifica verrà rimossa.";
+SpdUnresolvedXYPlane="Impossibile risolvere il piano XY dell'asse della trasformazione. \nLa specifica verrà rimossa.";
+SpdUnresolvedXAxis="Impossibile risolvere l'asse X della trasformazione. \nLa specifica verrà rimossa.";
+SpdUnresolvedRefAxis="Impossibile risolvere il sistema di assi di riferimento della trasformazione. \nLa specifica verrà rimossa.";
+SpdUnresolvedTgtAxis="Impossibile risolvere il sistema di assi di destinazione della trasformazione. \nLa specifica verrà rimossa.";
+SpdUnresolvedElementId="Impossibile risolvere un elemento del profilo. \nLa specifica verrà rimossa.";
+SpdUnresolvedElementsId="Impossibile risolvere /p1 gli elementi del profilo. \nLe relative specifiche verranno rimosse.";
+SpdUnresolvedBrepEdgeFilletId="Impossibile risolvere uno spigolo del raccordo.\nLa specifica verrà rimossa.";
+SpdUnresolvedBrepEdgesFilletId="Impossibile risolvere /p1 spigoli.\nLe relative specifiche verranno rimosse.";
+
+SpdWallInterference="Lo spessore deve essere maggiore o uguale dello spessore del body altrimenti si verificherà un sottosquadra della piattaforma interna.";
+
+SpdInvalidThickness="Lo spessore non può avere un valore negativo.";
+
+SpdBadDirection="La direzione selezionata è parallela al piano dello schizzo.";
+SpdBadRevolveAxis="Specificare un asse giacente sul piano dello schizzo.";
+SpdBadPath="Il percorso selezionato è parallelo al piano dello schizzo.";
+
+SpdPathLimitPtsAndMulti="I punti di limite del percorso non sono consentiti su un percorso con diversi contorni.";
+SpdPathMoveToNeeded="Se il percorso presenta diversi contorni, utilizzare l'opzione di spostamento del profilo sul percorso.";
+
+SpdMissingLimitSurface="Piano o superficie limite mancanti.";
+SpdLimitSketchBadNormal="La normale del piano dello schizzo limite non può essere parallela alla direzione di estrusione.";
+
+SpdShellDeleteErr="Impossibile eliminare l'elemento perché fa parte di una specifica obbligatoria del body funzionale.";
+SpdShellDeleteErr2="Impossibile eliminare questo elemento perché delle specifiche basate sulla parete sono presenti nel body funzionale.";
+SpdShellCopyErr="Impossibile copiare l'elemento perché fa parte di una specifica obbligatoria del body funzionale.";
+SpdShellNoOutput="Feature Proprietà dello svuotamento: tutte le facce di body sono state selezionate come facce da rimuovere.\n Il risultato sarà nullo. La causa potrebbe essere la propagazione automatica di tangenza.";
+
+SpdFeatureCopyErr="Non è possibile copiare questo elemento.";
+
+SpdBodyRefNoBody="Impossibile richiamare il risultato per il body di riferimento.";
+SpdCloseOpError="Si è verificato un errore relativo all'operatore di chiusura.";
+
+SpdTwistError="Il profilo e la direttrice selezionati conducono ad una configurazione a spirale.\nUtilizzare una direttrice con una curvatura minore.";
+
+SpdPatNYI="Funzionalità della matrice non implementata.";
+SpdPatKey1="La posizione di riferimento nella prima direzione deve essere maggiore di zero.";
+SpdPatKey2="Quando si utilizza l'opzione <Distanza e lunghezza>, la lunghezza deve essere maggiore di o uguale alla distanza.";
+SpdPatSpaceTotalAng="Quando si utilizza l'opzione <Distanza angolare e Angolo totale>, l'angolo totale deve essere maggiore di o uguale alla distanza angolare.";
+SpdPatSpaceTotalLen="Quando si utilizza l'opzione <Distanza e lunghezza>, la lunghezza deve essere maggiore di o uguale alla distanza.";
+SpdPatCountNeg="Il conteggio delle ricorrenze deve essere maggiore di zero.";
+SpdPatCountTooBig="Il conteggio delle ricorrenze deve essere minore o uguale a 10000.";
+SpdPatSpaceLen="La distanza deve essere diversa da zero.";
+SpdPatTotalLen="La lunghezza deve essere diversa da zero.";
+SpdPatSpaceAng="La distanza angolare deve essere diversa da zero.";
+SpdPatTotalAng="L'angolo totale deve essere diverso da zero.";
+SpdPatTotalAng360="L'angolo totale deve essere minore di 360 gradi. Se richiesto, utilizzare l'opzione <Completa corona>.";
+SpdPatKeySuppress="L'oggetto referenziato della matrice non può essere rimosso.";
+SpdPatUnresolvedDir1="Impossibile risolvere la prima direzione della matrice.";
+SpdPatUnresolvedDir2="Impossibile risolvere la seconda direzione della matrice.";
+SpdPatNoAxes="La matrice richiede almeno una direzione.";
+SpdPatParallelAxes="La prima e la seconda direzione della matrice non possono essere parallele.";
+SpdPatNoSketch="La matrice definita dall'utente richiede uno schizzo.";
+SpdPatSketchEmpty="Lo schizzo per la matrice definita dall'utente deve contenere punti non di costruzione.";
+SpdPatKeepSpec="L'opzione Conserva le specifiche non è consentita quando la feature di matrice è un modificatore.";
+
+SpdJoinSketchEmpty="Lo schizzo per l'unione deve contenere punti non di costruzione.";
+SpdJoinProfilePosition="Impossibile produrre un'unione valida con la posizione del profilo specificata.";
+SpdJoinGuideHeight="L'altezza della guida deve essere maggiore o uguale a zero.";
+SpdJoinDraftAngle="Tutti gli angoli di sformo di unione devono essere maggiori o uguali a zero.";
+SpdJoinClearance="Tutti i valori di luce minima di unione devono essere maggiori di o uguali a zero,\n ad eccezione della luce minima della filettatura.";
+SpdScrewHeight="Lo spessore della vite deve essere maggiore di o uguale a zero.";
+SpdScrewHeight2="Lo spessore delle viti deve essere maggiore di zero.";
+SpdScrewDiameter="Tutti i diametri di vite devono essere maggiori o uguali a zero.";
+SpdThreadDiameter="Non è definita una vite valida.\nIl diametro della filettatura deve essere maggiore di zero.";
+SpdThreadHeight="Non è definita una vite valida.\nLo spessore della filettatura deve essere maggiore di zero.";
+SpdJoinNoEVT="Non è possibile produrre una unione valida. La feature di unione utilizza la geometria dei\n body in cui è inserita per determinare la propria geometria.";
+SpdJoinLump0="Posizioni della vite all'interno del materiale della parte.";
+SpdJoinLump1="Le posizioni della vite o i valori dei parametri testa / filettatura causano il posizionamento del body di unione al di fuori del materiale della parte.";
+SpdThreadWall="La parete della filettatura interseca la guida dell'incastro. Per risolvere il problema, \naumentare l'angolo di sformo dell'incastro, la luce minima laterale dell'incastro o \nla luce minima dello spessore dell'incastro. Oppure ridurre l'angolo di sformo esterno della filettatura.";
+SpdJoinSiblingAbsent="Impossibile riposizionare lo schizzo in questo momento perché l'unione di pari livello non è accessibile.";
+SpdUnderCutShank="La combinazione di parametri produrrà il sottosquadra dell'area del gambo da entrambe le direzioni.";
+SpdShankDraftLarge="Sottosquadra della testa perché l'angolo di sformo del gambo è troppo grande.";
+SpdHeadOuterDraft="La guida dell'incastro viene eliminata perché l'angolo di sformo esterno della testa o interno dell'incastro\n è troppo grande.";
+SpdThreadTooLarge="La filettatura non si adatta alla guida dell'incastro. Rimuovere la guida o ridurre la parete,\nil diametro, la luce minima laterale della filettatura o la luce minima laterale dell'incastro.";
+SpdInvalidScrewDia="Sono state fornite delle quote diametro della vite non valide.";
+SpdInvalidHeadDraft="L'angolo di sformo esterno della testa deve essere maggiore di o uguale all'angolo di sformo interno della testa.";
+SpdMissingTrim="Impossibile ottenere i volumi positivi utilizzati per relimitare le posizioni esterne della vite.";
+SpdJoinSSCTooSmall="Il raggio del gambo più la luce minima laterale del gambo è minore del raggio del raccordo.";
+SpdNoOSVDCC="La feature di unione crea le strutture progettate per collegare due body a parete.\n Se un body è solido, utilizzare un foro.";
+
+SpdJoinGussetTopOffset="L'offset superiore del soffietto non può essere negativo.";
+SpdJoinGussetHeadWidth="Impossibile creare il soffietto della testa, aumentare la larghezza della spalla.";
+SpdJoinGussetThreadWidth="Impossibile creare il soffietto della filettatura, aumentare la larghezza della spalla.";
+SpdJoinGussetThickness="Lo spessore della parete del soffietto non può essere negativo.";
+SpdJoinGussetFilletRad1="Il raggio del raccordo del soffietto non può essere negativo.";
+SpdJoinGussetFilletRad2="Il raggio del raccordo del soffietto è troppo grande per lo spessore richiesto.";
+SpdJoinGussetBlendRad="Il raggio di connessione del soffietto non può essere negativo.";
+SpdJoinGussetLimit1="Impossibile creare il soffietto. Probabilmente, con i parametri impostati il soffietto intersecherebbe una faccia rimossa delle proprietà dello svuotamento.";
+
+SpdScrewDescNoRead="Impossibile leggere le descrizioni delle viti dal catalogo.";
+
+SpdDivideCutFailure="Impossibile produrre una divisione valida con l'elemento di divisione come elemento di taglio.";
+SpdCutCutFailure="Impossibile produrre un taglio valido con l'elemento di taglio.";
+SpdCutTooSmall="L'elemento di taglio non attraversa completamente le feature selezionate. Provare ad estendere la superficie di taglio.";
+SpdCutSurfaceParallelToExtrusion="Impossibile generare l'elemento di taglio. La direzione di estrusione della superficie di taglio non può essere parallela alla superficie di taglio. Modificare la superficie di taglio.";
+
+SpdDraftPropsPartingFaceId="Faccia dell'elemento di partizione mancante.";
+SpdDraftPropsPullingDirection="Direzione di estrazione mancante.";
+
+SpdPPFClearance1="La distanza di luce minima deve essere maggiore o uguale a zero.";
+SpdPPFClearance2="La distanza di luce minima o altre facce di luce minima devono essere maggiori di zero.";
+
+SpdLipSimpleAllLimitation="I loop per tutti gli orli non sono stati estratti a causa delle limitazioni correnti.";
+SpdLipSimpleHeight="L'altezza dell'orlo deve essere un valore positivo.";
+SpdLipSimpleThickness="Lo spessore dell'orlo deve essere un valore positivo.";
+SpdLipSimpleAngle="L'angolo dell'orlo deve essere compreso tra -85 e 85 gradi.";
+SpdLipSimpleInnerAngle="L'angolo interno dell'orlo deve essere compreso tra -85 e 85 gradi.";
+SpdLipSimpleClearance="La luce minima dell'orlo deve essere positiva o uguale a zero.";
+SpdLipPullParallel="La direzione di estrazione dell'orlo non deve essere parallela al percorso.";
+SpdLipProfilePerp="La direzione di estrazione dell'orlo non deve giacere sul piano del profilo.";
+SpdLipSimpleSweep="Le condizioni dell'orlo sono troppo complesse. \nUtilizzare un percorso più semplice oppure uno spessore o un'altezza minori.";
+SpdLipPullingDirectionUnr="Impossibile risolvere la direzione di estrazione.";
+SpdLipProfileClosed="Il profilo deve essere aperto o piano.";
+SpdLipUpperProfileClosed="Il profilo superiore deve essere aperto o piano.";
+SpdLipLowerProfileClosed="Il profilo inferiore deve essere aperto o piano.";
+SpdLipCutWithDivElemFail="Impossibile eseguire l'intersezione faccia-faccia.\nVerificare una curva del profilo dell'orlo quasi tangente all'elemento di divisione.";
+SpdLipIntxWithDivBodyFail="Impossibile eseguire l'intersezione faccia-faccia.\nVerificare una curva del profilo dell'orlo quasi tangente al body diviso.";
+SpdLipMultiContourProfile="Il profilo dell'orlo non può contenere più contorni.";
+SpdLipNoContourProfile="Il profilo dell'orlo non contiene nessun contorno.";
+
+SpdMirrorElementRequired="E' richiesto l'elemento di specchiatura.";
+SpdMirrorElementInActive="L'elemento di specchiatura deve essere attivo.";
+
+SpdReinforcementThickness="La combinazione di parametri comporterà l'aggiunta di un pezzo di materiale completo.\n Ridurre i valori dello spessore";
+
+SpdAffinityOrigin="L'origine dell'asse di affinità deve essere un punto.";
+SpdAffinityOriginSolve="Impossibile risolvere l'origine dell'asse di affinità selezionato.";
+SpdAffinityMissingSelec="Poiché per il sistema di assi di affinità sono stati selezionati un asse X, un'origine o un piano XY, è necessario selezionare tutti questi elementi.";
+SpdAffinityPlane="Il piano XY dell'asse di affinità deve essere un piano.";
+SpdAffinityPlaneSolve="Impossibile risolvere il piano XY dell'asse di affinità selezionato.";
+SpdAffinityXScale="Il rapporto dell'asse X di affinità deve essere maggiore di zero.";
+SpdAffinityYScale="Il rapporto dell'asse Y di affinità deve essere maggiore di zero.";
+SpdAffinityZScale="Il rapporto dell'asse Z di affinità deve essere maggiore di zero.";
+SpdAffinityXAxis="L'asse X di affinità deve essere una linea.";
+SpdAffinityXAxisSolve="Impossibile risolvere l'asse X di affinità selezionato.";
+SpdAffinityXAxisInvalid="L'asse X selezionato viene proiettato su un punto del piano XY selezionato.";
+
+SpdSweepPullParallel="La direzione di estrazione non deve essere parallela al percorso.";
+SpdSweepRefSurface="Una figura di immissione non si trova sul riferimento dello svuotamento. Proiettarla sul riferimento ed utilizzare tale proiezione.";
+SpdSweepDistanceError="Il punto iniziale e il punto finale dello sweep sono uguali. Impossibile creare lo sweep";
+
+SpdExtractBadVolType="Tipo di volume non valido.";
+SpdExtractNoSource="E' richiesto un body di origine.";
+SpdExtractOldGrill="La feature griglia selezionata è stata creata con una versione precedente del software e non può essere estratta.";
+SpdExtractMissingGrill="E' necessario selezionare una feature griglia.";
+SpdExtractMissingFeatures="E' necessario selezionare una o più feature.";
+
+SpdExtBehaviorOverrideConflict="La feature di destinazione non consente di modificare il funzionamento.";
+SpdExtBehaviorInvalidTarget="La feature di destinazione non può essere estratta: \n   Feature proprietà \n   Feature multi-body \n   Modificatore di feature con più di una destinazione.";
+
+SpdPocketBadWallVersion="Le tasche create prima della Versione 13 non supportano la parete della luce minima.";
+SpdPocketOOnlyNoCWall="Il valore della parete della luce minima sulle tasche esterne deve essere uguale a zero.";
+SpdPocketCWallRequiresPWall="La parete della luce minima richiede una parete della tasca.";
+
+SpdImportWallDirMismatch="Mancata corrispondenza tra la direzione della parete di svuotamento e la direzione della parete di una feature Importa.";
+SpdImportWallDirMismatch2="Mancata corrispondenza tra la direzione della parete di svuotamento di origine e la direzione della parete di svuotamento di destinazione.\n Modificare la direzione della parete di svuotamento nel gruppo funzionale solido di destinazione";
+SpdImportWallDirMismatch3="Mancata corrispondenza tra la direzione della parete di svuotamento di origine e la direzione della parete di svuotamento di destinazione.\n Creare le proprietà dello svuotamento e modificare la direzione della parete di svuotamento nel gruppo funzionale solido di destinazione";
+SpdImportWallDirMismatch4="Mancata corrispondenza tra la direzione della parete di svuotamento di origine e la direzione della parete di svuotamento di destinazione.\n Modificare la direzione della parete di svuotamento nel gruppo funzionale solido di destinazione, sincronizzare ed aggiornare l'importazione";
+
+SpdImportWallTypeUseBodyTh="Il risultato dell'operazione Incolla potrebbe essere diverso da quello previsto: verificare che l'opzione per la parete della feature di riferimento non sia impostata su 'Utilizza spessore del body'.";
+SpdImportExtAcrRemdFaces="Il risultato dell'operazione Incolla potrebbe essere diverso da quello previsto: verificare che l'opzione della feature di riferimento 'Estendi attraverso le facce rimosse' non sia impostata.";
+SpdImportLimitUpToShell="Il risultato dell'operazione Incolla potrebbe essere diverso da quello previsto: verificare che entrambi i limiti della feature di riferimento non siano impostati sullo svuotamento.";
+
+SpdImportWithTRPropagation="Propagazione dei risultati tecnologici mediante importazione non riuscita.";
+
+SpdFlangeTargetNeeded="La flangia può essere creata solo su una parte con una divisione.";
+SpdFlangeTargetData1="Dati mancanti per la divisione della flangia.";
+SpdFlangeTargetData2="Il risultato della divisione della flangia non supporta una flangia.";
+SpdFlangeTargetData3="La proiezione degli spigoli di divisione lungo la direzione di estrazione non ha prodotto un risultato valido.\n La superficie di divisione deve essere abbastanza grande per contenere la flangia.";
+SpdFlangeTargetData4="A causa di una limitazione corrente, la limitazione degli spigoli di divisione non può essere calcolata.";
+SpdFlangeTargetData5="La parte divisa non produce nessuno spigolo con flangia.\nProbabilmente, il bordo esterno della parte è definito con un volume protetto.";
+SpdFlangeWidth="La larghezza della flangia deve essere maggiore di zero.";
+SpdFlangeThickness="Lo spessore della flangia deve essere maggiore di zero.";
+SpdFlangeTopRadius="Il raggio superiore della flangia deve essere un valore positivo.";
+SpdFlangeTopRadius2Big="Il raggio superiore della flangia è troppo grande.";
+SpdFlangeBotRadius="Il raggio inferiore della flangia deve essere un valore positivo.";
+SpdFlangeBotRadius2Big="Il raggio inferiore della flangia è troppo grande.";
+SpdFlangeSidRadius="Il raggio laterale della flangia deve essere un valore positivo.";
+SpdFlangeBothRadius2Big="Il raggio superiore della flangia insieme al raggio inferiore è troppo grande.";
+SpdFlangePullDirUnr="Impossibile risolvere la direzione di estrazione della flangia.";
+SpdFlangeBoundaryProblem="Impossibile estendere i loop del bordo di divisione alla larghezza richiesta.\nImpostare una larghezza minore.";
+SpdFlangePullBad="\nModificare la direzione di estrazione della flangia in modo che sia possibile proiettare i loop dello spigolo.";
+
+SpdSnapLockBadLength="La lunghezza del blocco snap deve essere maggiore di zero.";
+SpdSnapLockRetAngle="L'angolo di ritenzione deve essere maggiore di 0 e minore di 180 gradi.";
+SpdSnapLockRetAngle2="L'angolo di ritenzione deve essere maggiore di 0 e minore di o uguale a 90 gradi.";
+SpdSnapLockInsertAngle="L'angolo di inserimento deve essere maggiore di o uguale a 0 e minore di 90 gradi.";
+SpdSnapLockInsertAngle2="L'angolo di inserimento deve essere maggiore di 0 e minore di o uguale a 90 gradi.";
+SpdSnapLockWidth="La larghezza sulla parete deve essere maggiore di o uguale alla larghezza sulla ritenzione.";
+SpdSnapLockThick="Lo spessore sulla parete deve essere maggiore di o uguale allo spessore sulla ritenzione.";
+SpdSnapLockRetLength="La lunghezza della ritenzione deve essere maggiore o uguale alla lunghezza della punta del gancio.";
+SpdSnapLockTolerance="Le tolleranze devono essere maggiori di o uguali a zero.";
+SpdSnapLockWidth2="(Larghezza - Spessore lato1 - Spessore lato2) devono essere maggiori di zero.";
+SpdSnapLockBadLength2="(Lunghezza - Spessore superiore - Larghezza loop) devono essere maggiori di zero.";
+SpdSnapLockWidth3="La parte del gancio contenuta nel foro di ritenzione deve essere minore di o uguale alla larghezza del loop.";
+SpdSnapLockWidth4="(Larghezza - Spessore lato1 - Spessore lato2 - 2*tolleranza larghezza del gancio) devono essere maggiori di zero.";
+SpdSnapLockBadLength3="Gli angoli specificati e la lunghezza della punta del gancio fanno in modo che la lunghezza di ritenzione superi il valore massimo specificato.\n Incrementare gli angoli o la lunghezza di ritenzione oppure ridurre la lunghezza della punga del gancio.";
+SpdSnapLockBadHeight1="Gli angoli specificati causano l'intersezione delle curve di ritenzione generate.\nIncrementare il valore degli angoli.";
+SpdSnapLockBadAngle="Gli angoli specificati fanno in modo che la lunghezza della base del gancio diventi minore di zero. \nModificare il valore degli angoli o incrementare l'offset e la lunghezza del gancio.";
+SpdSnapLockNoPos="Non è selezionata nessuna posizione del ritaglio.";
+SpdSnapLockNoEngage="L'offset del gancio è maggiore di o uguale allo spessore del gancio. Pertanto, il gancio \n non aggancia il loop.";
+
+SpdCFSBooleanNVStar="Si è verificato un errore durante la rimozione dei volumi interni dai volumi principali. \n";
+SpdCFSBooleanSVC="Si è verificato un errore durante la rimozione dei volumi principali dal body.\n";
+SpdCFSBooleanFNV="Si è verificato un errore durante la rimozione dei volumi protetti dal body.\n";
+
+SpdEdgeFilletPartial="Risultato parziale: impossibile raccordare alcuni elementi. ";
+SpdEdgeFilletUseLess="Con le specifiche modificate, la feature potrebbe essere inutile.";
+
+SpdThickenFailed="Operazione di ispessimento non riuscita. Impossibile ispessire una o più facce. Provare a modificare le immissioni.";
+SpdThickenUnresolved="Operazione di ispessimento non riuscita. Impossibile risolvere alcune facce.";
+
+SpdUpdateCycleError="La selezione introduce il ciclo di aggiornamento feature.";
+SpdShellPropsError="Nessuna feature proprietà guscio disponibile nel Gruppo funzionale solido con le feature dipendenti  dalle proprietà guscio.";

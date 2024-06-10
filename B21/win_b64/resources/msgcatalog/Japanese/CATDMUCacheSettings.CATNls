@@ -1,0 +1,64 @@
+INFO_HELP="
+CATDMUCacheSettingsは､ｷｬｯｼｭ設定の読み取りまたは修正を行います｡ \n
+使用法: \n
+   ﾍﾙﾌﾟ情報を検索する:
+      CATDMUCacheSettings -h \n
+   ｷｬｯｼｭ設定の現行値を読み取る:
+      CATDMUCacheSettings -r outputfile [-unit string] \n
+   ｷｬｯｼｭ設定の値を修正する:
+      CATDMUCacheSettings [-r outputfile] [-a|-d]
+                          [-u localdir] [-g reldir1[ reldir2..]]
+                          [-tscheck|-notscheck] [-size value1]
+                          [-sag value2] [-vox value3] [-unit string] \n
+Windowsでの例: \n
+   CATDMUCacheSettings -h
+   CATDMUCacheSettings -r c:\u\currentvalues.txt -unit INCH
+   CATDMUCacheSettings -a \n
+UNIXでの例: \n
+   CATDMUCacheSettings -h
+   CATDMUCacheSettings -a -u /u/local -sag 0.1
+   CATDMUCacheSettings -r /u/currentvalues -a -u /u/local -sag 0.1 \n
+引数: \n
+   -h            : ﾍﾙﾌﾟ｡
+   -r outputfile : 設定を読み取る(修正がある場合はその前)｡
+                   同じｵﾌﾟｼｮﾝでｺﾏﾝﾄﾞ行形式を使用｡
+   -a            : ｷｬｯｼｭ管理を活動化する｡
+   -d            : ｷｬｯｼｭ管理を非活動化する｡
+   -u localdir   : ﾛｰｶﾙ ｷｬｯｼｭ ﾃﾞｨﾚｸﾄﾘを定義する｡
+   -g reldir1 .. : ﾘﾘｰｽ ｷｬｯｼｭ ﾃﾞｨﾚｸﾄﾘを定義する｡
+   -tscheck      : ﾀｲﾑ ｽﾀﾝﾌﾟをﾁｪｯｸする｡
+   -notscheck    : ﾀｲﾑ ｽﾀﾝﾌﾟをﾁｪｯｸしない｡
+   -size value1  : ﾛｰｶﾙ ｷｬｯｼｭの最大ｻｲｽﾞを定義する｡
+                   ｻｲｽﾞはMB(Mﾊﾞｲﾄ)単位で指定｡
+   -sag value2   : 指定したｻｸﾞ値でcgrを生成する｡
+   -vox value3   : 指定したﾎﾞｸｾﾙ値で3dmapを生成する｡
+   -unit string  : 長さ値の単位を定義する｡
+                   次の単位を使用可能:
+                   - MM(ﾐﾘﾒｰﾄﾙ)
+                   - CM(ｾﾝﾁﾒｰﾄﾙ)
+                   - M(ﾒｰﾄﾙ)
+                   - INCH(ｲﾝﾁ)
+                   - FOOT(ﾌｨｰﾄ)
+                   ﾃﾞﾌｫﾙﾄの単位はﾐﾘﾒｰﾄﾙ(MM) \n
+診断: \n
+   考えられる終了状況値は次のとおりです｡ \n
+      0   正常終了｡ \n
+      1   次のいずれかの理由による失敗｡
+          - ﾗｲｾﾝｽが使用不可
+          - 引数がない
+          - 無効なｵﾌﾟｼｮﾝの組み合わせ
+          - ｵﾌﾟｼｮﾝの後にﾊﾟﾗﾒｰﾀがない
+          - 出力ﾌｧｲﾙが見つからない
+          - 出力ﾌｧｲﾙに書き込むことができない
+          - 無効なﾃﾞｨﾚｸﾄﾘ \n
+      2   処理ｴﾗｰ \n
+ﾄﾗﾌﾞﾙｼｭｰﾃｨﾝｸﾞ: \n
+   終了状況 = 1:
+      標準ｴﾗｰ ﾌｧｲﾙに含まれる情報を使用して
+      ｺﾏﾝﾄﾞ行または環境を修正する｡ \n
+   終了状況 = 2:
+      ｻﾎﾟｰﾄ担当員に連絡してください｡
+";
+ERR_PROCESSING="ｴﾗｰ: CATDMUCacheSettingsが処理に失敗しました｡";
+START_BATCH="CATDMUCacheSettingsの開始日時:";
+STOP_BATCH="CATDMUCacheSettingsの停止までの持続時間:";

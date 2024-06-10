@@ -1,0 +1,158 @@
+// COPYRIGHT DASSAULT SYSTEMES Delmia 2000 
+//=============================================================================
+//
+// DNBSimulationSettingsFrame
+//
+//=============================================================================
+// Usages Notes:
+//  Naming the frame in the property sheet :
+//    Tools/Options/Infrastructure/DELMIA Infrastructure/Simulation 
+//
+//=============================================================================
+// Dec. 2000  Creation                                                      MMH
+// Mar. 2003  Modify: Remove Beep, add Dynamic clash                        MMH
+// Aug. 2003  Modify: Add State Management, Update Cycle Time               MMH
+// Sep  2004  Added enable / disable annotation activities                  SMW
+// Apr. 2005  Added enable / disable End Condition                          RTL
+//=============================================================================
+
+// Build time frame
+SimuFrame.HeaderFrame.Global.Title="ﾌﾟﾛｾｽ ｵｰｻﾘﾝｸﾞ";
+SimuFrame.IconAndOptionsFrame.OptionsFrame.CheckStateMgtId.Title="状態管理";
+SimuFrame.IconAndOptionsFrame.OptionsFrame.CheckStateMgtId.ShortHelp="状態管理をｵﾝ/ｵﾌに切り替え";
+SimuFrame.IconAndOptionsFrame.OptionsFrame.CheckStateMgtId.LongHelp="ﾁｪｯｸをｸﾘｯｸして状態管理を使用可能/使用不可にします";
+
+SimuFrame.IconAndOptionsFrame.OptionsFrame.CheckEndConditionId.Title="終了条件を適用";
+SimuFrame.IconAndOptionsFrame.OptionsFrame.CheckEndConditionId.ShortHelp="終了条件のｵﾝ/ｵﾌを切り替え";
+SimuFrame.IconAndOptionsFrame.OptionsFrame.CheckEndConditionId.LongHelp="ﾁｪｯｸをｸﾘｯｸして終了条件を使用可能/使用不可にします";
+
+SimuFrame.IconAndOptionsFrame.OptionsFrame.CheckTextId.Title="ﾃｷｽﾄ ﾒｯｾｰｼﾞ ｱｸﾃｨﾋﾞﾃｨ          ";
+SimuFrame.IconAndOptionsFrame.OptionsFrame.CheckTextId.ShortHelp="ﾃｷｽﾄ ﾒｯｾｰｼﾞ ｱｸﾃｨﾋﾞﾃｨをｵﾝ/ｵﾌ";
+SimuFrame.IconAndOptionsFrame.OptionsFrame.CheckTextId.LongHelp="ﾁｪｯｸをｸﾘｯｸしてﾃｷｽﾄ ﾒｯｾｰｼﾞ ｱｸﾃｨﾋﾞﾃｨを使用可能/使用不可にします";
+
+SimuFrame.IconAndOptionsFrame.OptionsFrame.CheckViewId.Title="視点ｱｸﾃｨﾋﾞﾃｨ";
+SimuFrame.IconAndOptionsFrame.OptionsFrame.CheckViewId.ShortHelp="視点ｱｸﾃｨﾋﾞﾃｨをｵﾝ/ｵﾌ";
+SimuFrame.IconAndOptionsFrame.OptionsFrame.CheckViewId.LongHelp="ﾁｪｯｸをｸﾘｯｸして視点ｱｸﾃｨﾋﾞﾃｨを使用可能/使用不可にします";
+
+SimuFrame.IconAndOptionsFrame.OptionsFrame.CheckHlnkId.Title="ﾊｲﾊﾟｰﾘﾝｸ ｱｸﾃｨﾋﾞﾃｨ";
+SimuFrame.IconAndOptionsFrame.OptionsFrame.CheckHlnkId.ShortHelp="ﾊｲﾊﾟｰﾘﾝｸ ｱｸﾃｨﾋﾞﾃｨをｵﾝ/ｵﾌ";
+SimuFrame.IconAndOptionsFrame.OptionsFrame.CheckHlnkId.LongHelp="ﾁｪｯｸをｸﾘｯｸしてﾊｲﾊﾟｰﾘﾝｸ ｱｸﾃｨﾋﾞﾃｨを使用可能/使用不可にします";
+
+SimuFrame.IconAndOptionsFrame.OptionsFrame.CheckAnnotationId.Title="注釈ｱｸﾃｨﾋﾞﾃｨ";
+SimuFrame.IconAndOptionsFrame.OptionsFrame.CheckAnnotationId.ShortHelp="注釈ｱｸﾃｨﾋﾞﾃｨをｵﾝ/ｵﾌ";
+SimuFrame.IconAndOptionsFrame.OptionsFrame.CheckAnnotationId.LongHelp="ﾁｪｯｸをｸﾘｯｸして注釈ｱｸﾃｨﾋﾞﾃｨを使用可能/使用不可にします";
+
+SimuFrame.IconAndOptionsFrame.OptionsFrame.CheckDisableId.Title="同期化を使用不可にする";
+SimuFrame.IconAndOptionsFrame.OptionsFrame.CheckDisableId.ShortHelp="同期化の使用不可をｵﾝ/ｵﾌにする";
+SimuFrame.IconAndOptionsFrame.OptionsFrame.CheckDisableId.LongHelp="ﾁｪｯｸをｸﾘｯｸして同期化を使用可能/使用不可にします";
+
+SimuFrame.IconAndOptionsFrame.OptionsFrame.CheckSelAgentId.Title="ｱｸﾃｨﾋﾞﾃｨ選択ｴｰｼﾞｪﾝﾄのﾀﾞｲｱﾛｸﾞを表示";
+SimuFrame.IconAndOptionsFrame.OptionsFrame.CheckSelAgentId.ShortHelp="ｱｸﾃｨﾋﾞﾃｨ選択ｴｰｼﾞｪﾝﾄのﾀﾞｲｱﾛｸﾞ表示をｵﾝ/ｵﾌにする";
+SimuFrame.IconAndOptionsFrame.OptionsFrame.CheckSelAgentId.LongHelp="ﾁｪｯｸをｸﾘｯｸしてｱｸﾃｨﾋﾞﾃｨ選択ｴｰｼﾞｪﾝﾄのﾀﾞｲｱﾛｸﾞ表示を使用可能/使用不可にします";
+
+// AutoSync frame
+AutoSyncFrame.HeaderFrame.Global.Title="自動同期化";
+AutoSyncFrame.IconAndOptionsFrame.OptionsFrame.RadioStepId.Title="ｽﾃｯﾌﾟ";
+AutoSyncFrame.IconAndOptionsFrame.OptionsFrame.RadioStepId.ShortHelp="ｽﾃｯﾌﾟ ﾓｰﾄﾞ";
+AutoSyncFrame.IconAndOptionsFrame.OptionsFrame.RadioStepId.LongHelp="自動同期化の際にｽﾃｯﾌﾟ ﾓｰﾄﾞを使用します";
+
+AutoSyncFrame.IconAndOptionsFrame.OptionsFrame.RadioAnimId.Title="ｽﾑｰｽﾞ ｱﾆﾒｰｼｮﾝ";
+AutoSyncFrame.IconAndOptionsFrame.OptionsFrame.RadioAnimId.ShortHelp="ｽﾑｰｽﾞ ｱﾆﾒｰｼｮﾝ ﾓｰﾄﾞ";
+AutoSyncFrame.IconAndOptionsFrame.OptionsFrame.RadioAnimId.LongHelp="自動同期化の際にｽﾑｰｽﾞ ｱﾆﾒｰｼｮﾝ ﾓｰﾄﾞを使用します";
+
+AutoSyncFrame.IconAndOptionsFrame.OptionsFrame.SpinnerStepSizeId.Title="ｽﾃｯﾌﾟ ｻｲｽﾞ";
+AutoSyncFrame.IconAndOptionsFrame.OptionsFrame.SpinnerStepSizeId.ShortHelp="ﾃﾞﾌｫﾙﾄのｽﾃｯﾌﾟ ｻｲｽﾞ";
+AutoSyncFrame.IconAndOptionsFrame.OptionsFrame.SpinnerStepSizeId.LongHelp="ﾃﾞﾌｫﾙﾄのｽﾃｯﾌﾟ ｻｲｽﾞ値を選択します";
+
+// Run time frame
+RunTimeFrame.HeaderFrame.Global.Title="共通ｼﾐｭﾚｰｼｮﾝ ｵﾌﾟｼｮﾝ";
+RunTimeFrame.IconAndOptionsFrame.OptionsFrame.RunCheckStateMgtId.Title="状態管理";
+RunTimeFrame.IconAndOptionsFrame.OptionsFrame.RunCheckStateMgtId.ShortHelp="状態管理をｵﾝ/ｵﾌに切り替え";
+RunTimeFrame.IconAndOptionsFrame.OptionsFrame.RunCheckStateMgtId.LongHelp="ﾁｪｯｸをｸﾘｯｸして状態管理を使用可能/使用不可にします";
+
+RunTimeFrame.IconAndOptionsFrame.OptionsFrame.RunCheckEndConditionId.Title="終了条件を適用";
+RunTimeFrame.IconAndOptionsFrame.OptionsFrame.RunCheckEndConditionId.ShortHelp="終了条件のｵﾝ/ｵﾌを切り替え";
+RunTimeFrame.IconAndOptionsFrame.OptionsFrame.RunCheckEndConditionId.LongHelp="ﾁｪｯｸをｸﾘｯｸして終了条件を使用可能/使用不可にします";
+
+RunTimeFrame.IconAndOptionsFrame.OptionsFrame.RunCheckTextId.Title="ﾃｷｽﾄ ﾒｯｾｰｼﾞ ｱｸﾃｨﾋﾞﾃｨ";
+RunTimeFrame.IconAndOptionsFrame.OptionsFrame.RunCheckTextId.ShortHelp="ﾃｷｽﾄ ﾒｯｾｰｼﾞ ｱｸﾃｨﾋﾞﾃｨをｵﾝ/ｵﾌ";
+RunTimeFrame.IconAndOptionsFrame.OptionsFrame.RunCheckTextId.LongHelp="ﾁｪｯｸをｸﾘｯｸしてﾃｷｽﾄ ﾒｯｾｰｼﾞ ｱｸﾃｨﾋﾞﾃｨを使用可能/使用不可にします";
+
+RunTimeFrame.IconAndOptionsFrame.OptionsFrame.RunCheckViewId.Title="視点ｱｸﾃｨﾋﾞﾃｨ";
+RunTimeFrame.IconAndOptionsFrame.OptionsFrame.RunCheckViewId.ShortHelp="視点ｱｸﾃｨﾋﾞﾃｨをｵﾝ/ｵﾌ";
+RunTimeFrame.IconAndOptionsFrame.OptionsFrame.RunCheckViewId.LongHelp="ﾁｪｯｸをｸﾘｯｸして視点ｱｸﾃｨﾋﾞﾃｨを使用可能/使用不可にします";
+
+RunTimeFrame.IconAndOptionsFrame.OptionsFrame.RunCheckHlnkId.Title="ﾊｲﾊﾟｰﾘﾝｸ ｱｸﾃｨﾋﾞﾃｨ";
+RunTimeFrame.IconAndOptionsFrame.OptionsFrame.RunCheckHlnkId.ShortHelp="ﾊｲﾊﾟｰﾘﾝｸ ｱｸﾃｨﾋﾞﾃｨをｵﾝ/ｵﾌ";
+RunTimeFrame.IconAndOptionsFrame.OptionsFrame.RunCheckHlnkId.LongHelp="ﾁｪｯｸをｸﾘｯｸしてﾊｲﾊﾟｰﾘﾝｸ ｱｸﾃｨﾋﾞﾃｨを使用可能/使用不可にします";
+
+RunTimeFrame.IconAndOptionsFrame.OptionsFrame.RunCheckAnnotationId.Title="注釈ｱｸﾃｨﾋﾞﾃｨ";
+RunTimeFrame.IconAndOptionsFrame.OptionsFrame.RunCheckAnnotationId.ShortHelp="注釈ｱｸﾃｨﾋﾞﾃｨをｵﾝ/ｵﾌ";
+RunTimeFrame.IconAndOptionsFrame.OptionsFrame.RunCheckAnnotationId.LongHelp="ﾁｪｯｸをｸﾘｯｸして注釈ｱｸﾃｨﾋﾞﾃｨを使用可能/使用不可にします";
+
+RunTimeFrame.IconAndOptionsFrame.OptionsFrame.RunCheckPauseId.Title="ｼﾐｭﾚｰｼｮﾝ ｱｸﾃｨﾋﾞﾃｨを一時停止";
+RunTimeFrame.IconAndOptionsFrame.OptionsFrame.RunCheckPauseId.ShortHelp="ｼﾐｭﾚｰｼｮﾝ ｱｸﾃｨﾋﾞﾃｨの一時停止をｵﾝ/ｵﾌ";
+RunTimeFrame.IconAndOptionsFrame.OptionsFrame.RunCheckPauseId.LongHelp="ﾁｪｯｸをｸﾘｯｸしてｼﾐｭﾚｰｼｮﾝ ｱｸﾃｨﾋﾞﾃｨの一時停止を使用可能/使用不可にします";
+
+RunTimeFrame.IconAndOptionsFrame.OptionsFrame.RunSpinStepSizeId.Title="ｽﾃｯﾌﾟ ｻｲｽﾞ";
+RunTimeFrame.IconAndOptionsFrame.OptionsFrame.RunSpinStepSizeId.ShortHelp="ﾃﾞﾌｫﾙﾄのｽﾃｯﾌﾟ ｻｲｽﾞ";
+RunTimeFrame.IconAndOptionsFrame.OptionsFrame.RunSpinStepSizeId.LongHelp="ﾃﾞﾌｫﾙﾄのｽﾃｯﾌﾟ ｻｲｽﾞ値を選択します";
+RunStepSizeTitle="ｽﾃｯﾌﾟ ｻｲｽﾞ ";
+
+// UI frame
+UserInterfaceFrame.HeaderFrame.Global.Title="ﾕｰｻﾞｰ ｲﾝﾀｰﾌｪｰｽ";
+UserInterfaceFrame.IconAndOptionsFrame.OptionsFrame.UICheckSimTlbId.Title="ﾂｰﾙﾊﾞｰ ｽﾀｲﾙへ切り替え";
+UserInterfaceFrame.IconAndOptionsFrame.OptionsFrame.UICheckSimTlbId.ShortHelp="ﾂｰﾙﾊﾞｰの場合はﾁｪｯｸ､ﾀﾞｲｱﾛｸﾞの場合はﾁｪｯｸ解除する";
+UserInterfaceFrame.IconAndOptionsFrame.OptionsFrame.UICheckSimTlbId.LongHelp="ﾂｰﾙﾊﾞｰ ｽﾀｲﾙを使用する場合はﾁｪｯｸし､ﾀﾞｲｱﾛｸﾞ ｽﾀｲﾙを使用する場合はﾁｪｯｸ解除します";
+
+// Dynamic Clash frame
+DynClashFrame.HeaderFrame.Global.Title="ﾌﾟﾛｾｽ ｼﾐｭﾚｰｼｮﾝ";
+DynClashFrame.IconAndOptionsFrame.OptionsFrame.LabelDynClashId.Title="動的干渉 ";
+DynClashFrame.IconAndOptionsFrame.OptionsFrame.ComboDynClashId.ShortHelp="動的干渉ﾓｰﾄﾞ";
+DynClashFrame.IconAndOptionsFrame.OptionsFrame.ComboDynClashId.LongHelp="ｼﾐｭﾚｰｼｮﾝ中の動的干渉を表示するﾓｰﾄﾞを選択します";
+
+DynClashFrame.IconAndOptionsFrame.OptionsFrame.PSCheckCycleTimeId.Title="ｻｲｸﾙ ﾀｲﾑを更新";
+DynClashFrame.IconAndOptionsFrame.OptionsFrame.PSCheckCycleTimeId.ShortHelp="ｻｲｸﾙ ﾀｲﾑ更新をｵﾝ/ｵﾌに切り替え";
+DynClashFrame.IconAndOptionsFrame.OptionsFrame.PSCheckCycleTimeId.LongHelp="ﾁｪｯｸをｸﾘｯｸしてｻｲｸﾙ ﾀｲﾑ更新を使用可能/使用不可にします";
+
+DynClashFrame.IconAndOptionsFrame.OptionsFrame.PSRadioGraphUpdateId.Title="使用不可";
+DynClashFrame.IconAndOptionsFrame.OptionsFrame.PSRadioGraphUpdateId.ShortHelp="ｸﾞﾗﾌｨｯｸ更新を使用不可にする";
+DynClashFrame.IconAndOptionsFrame.OptionsFrame.PSRadioGraphUpdateId.LongHelp="ｼﾐｭﾚｰｼｮﾝ時のｸﾞﾗﾌｨｯｸ更新を使用不可にします";
+
+DynClashFrame.IconAndOptionsFrame.OptionsFrame.PSRadioGraphStepsId.Title="ｼﾐｭﾚｰｼｮﾝ ｽﾃｯﾌﾟ:";
+DynClashFrame.IconAndOptionsFrame.OptionsFrame.PSRadioGraphStepsId.ShortHelp="ｸﾞﾗﾌｨｯｸ更新ごとのｽﾃｯﾌﾟ";
+DynClashFrame.IconAndOptionsFrame.OptionsFrame.PSRadioGraphStepsId.LongHelp="ｼﾐｭﾚｰｼｮﾝ時のｸﾞﾗﾌｨｯｸ更新ごとのｽﾃｯﾌﾟです";
+
+DynClashFrame.IconAndOptionsFrame.OptionsFrame.PSEditorGraphStepsId.ShortHelp="ｸﾞﾗﾌｨｯｸ更新ごとのｽﾃｯﾌﾟを入力";
+DynClashFrame.IconAndOptionsFrame.OptionsFrame.PSEditorGraphStepsId.LongHelp="ｼﾐｭﾚｰｼｮﾝ時のｸﾞﾗﾌｨｯｸ更新ごとのｽﾃｯﾌﾟを入力します";
+
+DynClashFrame.IconAndOptionsFrame.OptionsFrame.PSLabelGraphUpdateId.Title="ｸﾞﾗﾌｨｯｸ更新";
+
+// Process Verification frame
+ProcVerifFrame.HeaderFrame.Global.Title="ﾌﾟﾛｾｽを検証";
+ProcVerifFrame.IconAndOptionsFrame.OptionsFrame.PVCheckStateId.Title="状態管理(ﾛｰｶﾙ)";
+ProcVerifFrame.IconAndOptionsFrame.OptionsFrame.PVCheckStateId.ShortHelp="PVでの状態管理をｵﾝ/ｵﾌに切り替え";
+ProcVerifFrame.IconAndOptionsFrame.OptionsFrame.PVCheckStateId.LongHelp="ﾁｪｯｸをｸﾘｯｸしてﾌﾟﾛｾｽ検証での状態管理を使用可能/使用不可にします";
+
+ProcVerifFrame.IconAndOptionsFrame.OptionsFrame.PVCheckEndConditionId.Title="終了条件を適用(ﾛｰｶﾙ)";
+ProcVerifFrame.IconAndOptionsFrame.OptionsFrame.PVCheckEndConditionId.ShortHelp="PVでの終了条件のｵﾝ/ｵﾌを切り替え";
+ProcVerifFrame.IconAndOptionsFrame.OptionsFrame.PVCheckEndConditionId.LongHelp="ﾁｪｯｸをｸﾘｯｸしてﾌﾟﾛｾｽ検証での終了条件を使用可能/使用不可にします";
+
+AuthActTypeID="ｱｸﾃｨﾋﾞﾃｨ ﾀｲﾌﾟ";
+AuthEnabledID="使用可能";
+
+RunActTypeID="ｱｸﾃｨﾋﾞﾃｨ ﾀｲﾌﾟ";
+RunEnabledID="使用可能";
+RunBehaviorID="動作";
+
+AuthTextId.ActType="ﾃｷｽﾄ ﾒｯｾｰｼﾞ ｱｸﾃｨﾋﾞﾃｨ";
+AuthViewId.ActType="視点ｱｸﾃｨﾋﾞﾃｨ";
+AuthHlnkId.ActType="ﾊｲﾊﾟｰﾘﾝｸ ｱｸﾃｨﾋﾞﾃｨ";
+AuthAnnotId.ActType="注釈ｱｸﾃｨﾋﾞﾃｨ";
+
+RunTextId.ActType="ﾃｷｽﾄ ﾒｯｾｰｼﾞ ｱｸﾃｨﾋﾞﾃｨ";
+RunViewId.ActType="視点ｱｸﾃｨﾋﾞﾃｨ";
+RunHlnkId.ActType="ﾊｲﾊﾟｰﾘﾝｸ ｱｸﾃｨﾋﾞﾃｨ";
+RunAnnotId.ActType="注釈ｱｸﾃｨﾋﾞﾃｨ";
+RunPauseId.ActType="ｼﾐｭﾚｰｼｮﾝ ｱｸﾃｨﾋﾞﾃｨを一時停止";
+RunVisId.ActType="可視ｱｸﾃｨﾋﾞﾃｨ";

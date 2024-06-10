@@ -1,0 +1,504 @@
+'===  
+Option Explicit
+'Language="VBSCRIPT"
+'===
+' Author : Vic Szeto (VSO)
+' Date: 12/98
+' Version: CXR2_1
+'
+'
+' Modified : Sudhi Gulur (SGL)
+' Date: Sept 7, 2000
+' Nature: Add support to copy template files
+'         and read data from CATCommandPath variable
+'===
+
+Dim EXCELapp As Object
+Dim EXCELwkBks As Object
+Dim EXCELwkBk As Object
+Dim EXCELSh As Object
+Dim objGEXCELwkBk As Object
+Dim InitEXCEL
+
+Const ReportColumnMax = 11
+Const ReportLabelOffset = 12
+Const ReportTitlePipeLine  = "PipeLine ID"
+Const ReportTitleSpec      = "Pipe Spec"
+Const ReportTitleNominOD   = "Nominal OD"
+Const ReportTitleCommod    = "Commodity Type"
+Const ReportTitleTemp      = "Temperature"
+Const ReportTitlePressure  = "Pressure"
+Const ReportTitleFromTo    = "From-To"
+Const ReportTitleMinor     = "Minor"
+Const ReportTitleMinorType = "Minor Type"
+Const ReportTitleMajor     = "Major"
+Const ReportTitleMajorType = "Major Type"
+
+Dim ReportCurrentRow 
+
+Dim CATIAV4Doc As Document
+Dim CATIAPlantRvwWkb As Workbench
+Dim CATIASelection As Selection
+Dim FirstFromToLine 
+
+'========== EXCEL template direction path
+Const strGReportTemplate = "C:\temp\PslV4PipingLineExtractToExcelTemplate.xls" 
+
+'---------- must name the sheet in the template accordingly
+Const strGReportEXCELSheetName = "Line Designation Table"
+
+'----------OUTPUT TEMP DIRECTORY
+Const strGOutputDirName = "C:\Temp"
+
+'========================================================================
+Sub DetailError()
+'========================================================================
+
+   If Err.Number <> 0 Then
+      Dim MsgString 
+      MsgString = "Error # =" + CStr(Err.Number) + Chr(13) + _
+                  "Error description = " + Err.Description + Chr(13) + _
+                  "Error source = " + Err.Source 
+      'MsgBox MsgString, 0, "Error Message"
+   End If
+
+End Sub
+
+'========================================================================
+Sub Copy_Files(strFileToCopy)
+'========================================================================
+
+ Dim strCATCommandPath           As String
+ Dim strNewFilePath              As String
+ Dim intSemiColonLocation        As Integer
+ Dim strDefaulLocationOfTemplate As String
+ Dim AppliFileSys                As FileSystem
+   
+   On Error Resume Next
+   strCATCommandPath = CATIA.SystemService.Environ("CATCommandPath")  
+   
+   intSemiColonLocation  = Instr(3, strCATCommandPath, ";")  
+          
+   Set AppliFileSys = CATIA.FileSystem
+   strDefaulLocationOfTemplate = ""
+   strNewFilePath              = strGOutputDirName + "\" + strFileToCopy
+   'CATIA.SystemService.Print strCATCommandPath
+
+   If (intSemiColonLocation > 0) Then    
+      Do While (intSemiColonLocation > 0)
+
+        intSemiColonLocation = intSemiColonLocation -1
+        strDefaulLocationOfTemplate = Left(strCATCommandPath, intSemiColonLocation) _
+                                    + "\" + strFileToCopy
+
+        If (AppliFileSys.FileExists(strDefaulLocationOfTemplate)) Then
+          Exit Do 
+        End If
+
+        Err.Clear
+        intSemiColonLocation =  intSemiColonLocation + 2
+        strCATCommandPath = Mid(strCATCommandPath, intSemiColonLocation)
+        intSemiColonLocation  = Instr(3, strCATCommandPath, ";")
+
+        'CATIA.SystemService.Print strCATCommandPath
+        'DbgTrace "intSemiColonLocation :" & intSemiColonLocation, 0
+
+      Loop     ' Exit outer loop immediately.
+   Else
+      strDefaulLocationOfTemplate = strCATCommandPath + "\" + strFileToCopy
+   End If
+  
+   AppliFileSys.CopyFile strDefaulLocationOfTemplate, strNewFilePath, true
+
+   If (Not(AppliFileSys.FileExists(strNewFilePath))) Then
+     Dim strMessage
+     strMessage  = "Error Copying Template File:" + strDefaulLocationOfTemplate + "to " + strGOutputDirName + Chr(13)
+     strMessage  = strMessage + Chr(13) + "Check the following...." + Chr(13)
+     strMessage  = strMessage + "(1)Template File has read-write capability" + Chr(13)
+     strMessage  = strMessage + "(2)Template File path is valid"
+     msgbox (strMessage)    
+     Exit Sub
+   End If
+
+End Sub '/////////////////////////////////////////////////////////// Copy_Files
+
+'========================================================================
+Sub Start_EXCEL()
+'========================================================================
+
+  On Error Resume Next
+
+  'CATIA.SystemService.Print "Starting Excel Setup"
+  Set EXCELapp = GetObject (,"EXCEL.Application")  
+  If Err.Number <> 0 Then   
+     Err.Clear
+     Set EXCELapp = CreateObject ("EXCEL.Application")
+  End If
+
+   EXCELapp.Application.Visible = True
+   Set EXCELwkBks = EXCELapp.Application.Workbooks
+
+   Copy_Files ("PslV4PipingLineExtractToExcelTemplate.xls")
+
+   '=== Add template to WorkBooks
+   'EXCELwkBks.Add strGReportTemplate
+
+   Err.Clear
+   Set objGEXCELwkBk = EXCELwkBks.Add (strGReportTemplate)
+
+   If Err.Number <> 0 Then
+    Dim strMessage
+    strMessage  = "Error Loading Template File:" + strGReportTemplate + Chr(13)
+    strMessage  = strMessage + Chr(13) + "Check the following...." + Chr(13)
+    strMessage  = strMessage + "(1)Template File has read-write capability" + Chr(13)
+    strMessage  = strMessage + "(2)Template File path is valid"
+    msgbox (strMessage)
+    Err.Clear
+   End If
+
+   '=== get the Workbook in the template
+   Set EXCELwkBk = EXCELwkBks ("PslV4PipingLineExtractToExcelTemplate1")
+      
+   '=== get the LDT sheet of the template
+   Set EXCELSh = EXCELwkBk.Sheets (strGReportEXCELSheetName)
+   Set EXCELSh = EXCELwkBk.Sheets ("Line Designation Table")
+        
+End Sub
+
+'========================================================================
+Sub WriteToEXCEL (iRow, iWhichCell, iString)
+'========================================================================
+   If (Not InitEXCEL) Then
+      Start_EXCEL
+      InitEXCEL = True
+   End If
+   
+   Dim WhichColumn
+   WhichColumn = 0
+   Select Case iWhichCell
+      Case ReportTitlePipeLine
+        WhichColumn = 1
+      Case ReportTitleSpec
+        WhichColumn = 2
+      Case ReportTitleNominOD
+        WhichColumn = 3
+      Case ReportTitleCommod
+        WhichColumn = 4
+      Case ReportTitleTemp
+        WhichColumn = 5
+      Case ReportTitlePressure
+        WhichColumn = 6
+      Case ReportTitleFromTo
+        WhichColumn = 7
+      Case ReportTitleMinor
+        WhichColumn = 8
+      Case ReportTitleMinorType
+        WhichColumn = 9
+      Case ReportTitleMajor
+        WhichColumn = 10
+      Case ReportTitleMajorType
+        WhichColumn = 11
+   End Select
+
+   If ((WhichColumn > 0) AND (WhichColumn <= ReportColumnMax)) Then 
+
+      EXCELSh.Cells(iRow, WhichColumn) = iString
+
+   End If
+ 
+ 
+   ' CATIA.SystemService.Print "iWhichCell   = " & iWhichCell
+   ' CATIA.SystemService.Print "WhichColumn  =" & WhichColumn
+   ' CATIA.SystemService.Print "input String = " & iString
+
+End Sub
+
+'========================================================================
+Sub FindThisObjectProp (iCATIAPlantObj)
+'========================================================================
+    
+   Dim NBOfProp
+   NBOfProp = iCATIAPlantObj.PropertiesCount
+   ' CATIA.SystemService.Print "NBOfProp =" &NBOfProp
+   ' CATIA.SystemService.Print "Current Row =" & ReportCurrentRow
+   
+   Dim PropName
+   Dim PropValue
+   Dim i 
+   For i=1 to NBOfProp
+      
+      PropName = iCATIAPlantObj.GetPropertyName(i)
+      PropValue = iCATIAPlantObj.GetPropertyValue(i)
+      ' CATIA.SystemService.Print "PropName = " & PropName
+      ' CATIA.SystemService.Print "PropValue = " & PropValue
+
+      If (Err.Number = 0) Then
+         call WriteToEXCEL(ReportCurrentRow, _
+                           PropName, _
+                           PropValue) 
+      ' Else
+         ' CATIA.SystemService.Print "Bad Property ********"
+         ' CATIA.SystemService.Print "Err Number = " & Err.Number
+      End If
+   Next
+
+End Sub
+
+'========================================================================
+Function ObjectIsInLine (iCATIAObj, iCATIAPipeLine) 
+'========================================================================
+   Dim i
+   Dim NBOfChildren
+   Dim CATIALineChild
+   Dim InputName
+   Dim NBNozzleConn
+
+   InputName = iCATIAObj.Name
+   ObjectIsInLine = False
+   NBOfChildren = iCATIAPipeLine.PlantChildrenCount
+   
+   For i = 1 to NBOfChildren
+     Set CATIALineChild = iCATIAPipeLine.GetPlantChild(i)
+     If (CATIALineChild.Name = InputName) Then
+        ObjectIsInLine = True
+        Exit For
+     End If
+   Next 'i
+
+End Function
+
+'========================================================================
+Sub FindMajorObject (iCATIAObj, oCATIAMajorObjName, oCATIAMajorObjType)
+                      
+'========================================================================
+   Dim i
+   Dim NBOfParents
+   Dim CATIAParentObj
+   Dim OutputSet
+   
+   NBOfParents = iCATIAObj.PlantParentsCount
+   OutputSet = False
+   
+   For i = 1 to NBOfParents
+
+     Set CATIAParentObj = iCATIAObj.GetPlantParent(i)
+     'CATIA.SystemService.Print "Parent Name = " & CATIAParentObj.Name
+     'CATIA.SystemService.Print "Parent Type = " & CATIAParentObj.TypeName
+
+     ' === Check for object in a Logical Line, if so return the line
+     ' the next one does not work
+     ' If (CATIAParentObj.IsSubType ("Logical Line") ) Then
+
+     ' === parent is a line, make that the major object
+     If ((CATIAParentObj.TypeName = "Piping Line") Or _
+         (CATIAParentObj.TypeName = "I&C Loop") Or _
+         (CATIAParentObj.TypeName = "Equipment Line")) Then  
+        'CATIA.SystemService.Print "Good Line : " & CATIAParentObj.Name 
+        oCATIAMajorObjName = CATIAParentObj.Name
+        oCATIAMajorObjType = CATIAParentObj.TypeName
+        OutputSet = True
+        Exit For
+     End If
+
+
+   Next 'i
+
+   If (Not OutputSet) Then
+     ' === Handle Nozzle - find connected-to equipment and
+     ' === output that as major
+     If (iCATIAObj.TypeName = "Nozzle Function") Then         
+        NBNozzleConn = iCATIAObj.PlantConnectedCount
+        If (NBNozzleConn > 0) Then
+          oCATIAMajorObjName = _
+                CATIAParentObj.GetPlantConnected(1).Name
+          oCATIAMajorObjType = _
+                CATIAParentObj.GetPlantConnected(1).TypeName
+        End If
+     Else
+        oCATIAMajorObjName = iCATIAObj.Name
+        oCATIAMajorObjType = iCATIAObj.TypeName
+     End If
+   End If
+
+End Sub     
+
+
+'========================================================================
+Sub FindFromToInfo(iCATIAPipeLine) 
+'========================================================================
+   Dim CATIAPlantObjType
+   Dim CATIALineChild
+   Dim CATIALineChildType
+   Dim CATIALineChildConnToObj
+   Dim CATIALineChildConnToObjType
+   Dim CATIAMajorObjName
+   Dim CATIAMajorObjType
+
+   Dim NBOfChildren
+   Dim NBOfChildConnToObjs
+
+   Dim i
+   Dim j
+
+   NBOfChildren = iCATIAPipeLine.PlantChildrenCount
+   ' CATIA.SystemService.Print "xxxxxx  NBOfChildren =" & NBOfChildren
+   
+   For i = 1 to NBOfChildren
+
+     Set CATIALineChild = iCATIAPipeLine.GetPlantChild(i)
+     If (Err.Number <> 0) Then DetailError
+     CATIALineChildType = CATIALineChild.TypeName
+     If (Err.Number <> 0) Then DetailError
+
+     ' CATIA.SystemService.Print "=====  Member =  " & i                           
+     'CATIA.SystemService.Print "-----  Type of Line member is " _
+     '                         & CATIALineChildType
+
+     ' === Get connected objects
+     NBOfChildConnToObjs = CATIALineChild.PlantConnectedCount
+     If (Err.Number <> 0) Then DetailError
+     'CATIA.SystemService.Print "------  NBOfChildConnToObjs = " _
+     '                          & NBOfChildConnToObjs
+
+     For j = 1 to NBOfChildConnToObjs
+
+       Set CATIALineChildConnToObj = Nothing
+       Set CATIALineChildConnToObj = CATIALineChild.GetPlantConnected(j)
+       If (Err.Number <> 0) Then DetailError
+
+       If (Not (CATIALineChildConnToObj Is Nothing)) Then
+          
+          CATIALineChildConnToObjType = CATIALineChildConnToObj.TypeName
+          If (Err.Number <> 0) Then DetailError
+
+          'CATIA.SystemService.Print "=== Connect to " & j
+          'CATIA.SystemService.Print "=== Is A " _
+          '                & CATIALineChildConnToObjType
+
+          If (Not (ObjectIsInLine (CATIALineChildConnToObj, _
+                                   iCATIAPipeLine)) ) Then 
+
+             ' === Increase the global row number by 1 AFTER
+             ' === the first From/To Info is written out
+             ' === on current row
+             If (FirstFromToLine) Then
+                FirstFromToLine = False
+             Else
+                ReportCurrentRow = ReportCurrentRow + 1
+             End If
+
+             '=== Get and write From To Info
+             '=== FROM TO INFO IS NOT AVAILABLE YET !!!
+             call WriteToEXCEL(ReportCurrentRow, _
+                           ReportTitleFromTo, _
+                           "N/A")
+
+             'CATIA.SystemService.Print "+++++ NOT IN LINE ++++"
+             '=== Get and write minor extremity object          
+             call WriteToEXCEL(ReportCurrentRow, _
+                           ReportTitleMinor, _
+                           CATIALineChildConnToObj.Name)
+ 
+             '=== Get and write minor (extremity) object
+             call WriteToEXCEL(ReportCurrentRow, _
+                           ReportTitleMinorType, _
+                           CATIALineChildConnToObjType)
+
+             '=== Find and write major object
+             call FindMajorObject (CATIALineChildConnToObj, _
+                        CATIAMajorObjName, _
+                        CATIAMajorObjType)
+
+             call WriteToEXCEL(ReportCurrentRow, _
+                           ReportTitleMajor, _
+                           CATIAMajorObjName)
+ 
+             call WriteToEXCEL(ReportCurrentRow, _
+                           ReportTitleMajorType, _
+                           CATIAMajorObjType)    
+
+
+
+             'CATIA.SystemService.Print "++++++++++++++++++++++"
+          Else
+             'CATIA.SystemService.Print "***** IN LINE ****"
+ 
+          End If 'Extremity object
+    
+       End If 'Valid Connected to object
+
+     Next 'End j
+
+   Next 'End i
+
+End Sub
+
+'========================================================================
+Sub CATMain()
+'========================================================================
+   
+   On Error Resume Next
+
+   Dim CATIAPlantObj As AnyObject
+   
+   '=== set the "output row" to ReportLabelOffset
+   ReportCurrentRow = ReportLabelOffset
+
+   '===  Scan the current model
+   Set CATIAV4Doc = CATIA.ActiveDocument
+   Set CATIASelection = CATIAV4Doc.Selection
+   Set CATIAPlantRvwWkb = CATIAV4Doc.GetWorkbench("PlantReviewWorkbench")
+   CATIAPlantRvwWkb.SelectByType("Piping Line")
+   
+   '=== Get next element in the selection 
+   Set CATIAPlantObj = CATIASelection.FindObject("CATIAPlantObject")
+
+   '=== For debug ...
+   'Dim Max, ICount
+   'Max = 3
+   'ICount = 1
+   ' Do Until (ICount >= Max)
+   '   ICount = ICount + 1
+   '===
+
+   '=== Loop through each member found
+   Dim DebugCount
+   DebugCount = 0
+   Do Until (CATIAPlantObj Is Nothing) 
+
+      DebugCount = DebugCount + 1
+      'CATIA.SystemService.Print "Found object #" & DebugCount
+
+      FirstFromToLine = True
+      ReportCurrentRow = ReportCurrentRow+1
+
+      '=== Get and write the Id of this object
+      call WriteToEXCEL(ReportCurrentRow, _
+                           ReportTitlePipeLine, _
+                           CATIAPlantObj.Name)
+
+      '===  Find and write all the required attributes on this object
+      call FindThisObjectProp (CATIAPlantObj)
+
+      '===  Find and write all From-To Info on this object
+      call FindFromToInfo (CATIAPlantObj)
+
+      On Error Resume Next
+      '=== Get next element in the selection 
+      Set CATIAPlantObj = CATIASelection.FindObject("CATIAPlantObject")
+      if (Err.Number <> 0) Then Set CATIAPlantObj = Nothing
+   Loop
+
+   '===  A kludge to hold the EXCEL application
+   MsgBox "Press OK to quit", 0, "Quit EXCEL Application?"
+   '
+   ' clean up goes here
+   '
+
+End Sub
+
+
+
+
+
+

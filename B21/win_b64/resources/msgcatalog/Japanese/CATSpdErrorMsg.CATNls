@@ -1,0 +1,347 @@
+// COPYRIGHT ImpactXoft 2003
+//===================================================================
+SpdInternalError="予期しないｴﾗｰ状態が発生しました｡";
+
+SpdProfileInp1="ｽｹｯﾁが指定されていないか非活動化されています｡";
+SpdProfileInp2="このﾌｨｰﾁｬｰは､関連ｽｹｯﾁを閉じる必要があります｡";
+SpdProfileInp3="このﾌｨｰﾁｬｰは､関連ｽｹｯﾁが空でない必要があります｡";
+SpdProfileInp4="このﾌｨｰﾁｬｰは､関連ｽｹｯﾁがｱｸﾃｨﾌﾞである必要があります｡";
+SpdProfileInp5="ｽｲｰﾌﾟ ﾌﾟﾛﾌｧｲﾙは平面状である必要があります｡";
+SpdProfileInp6="選択したｽｹｯﾁは､標準の形状ｴﾚﾒﾝﾄとして定義された点を含んでいます｡ \nこれらの点を補助ｴﾚﾒﾝﾄに変換する必要があります｡";
+SpdProfileInp7="閉じたﾜｲﾔｰによるｼｪﾙ: \n警告:入力ﾜｲﾔｰが自己交差しています｡ \n入力ﾜｲﾔｰを修正してください｡";
+SpdProfileInp8="ｼｪﾙ可ﾌｨｰﾁｬｰから形成されるﾎﾞﾘｭｰﾑがﾌﾟﾘｽﾞﾑを完全に通過していません｡ \nｼｪﾙ可ﾎﾞﾘｭｰﾑを拡大するかﾌﾟﾛﾌｧｲﾙを縮小して､形状を移動してみてください｡";
+SpdProfileInp9="少なくとも1つのｵﾌｾｯﾄ値をｾﾞﾛ以外にする必要があります｡";
+SpdProfileInp10="ﾌﾟﾘｽﾞﾑとｼｪﾙ可ﾌｨｰﾁｬｰから形成されるﾎﾞﾘｭｰﾑとの関係が複雑すぎます｡ \nﾌｨｰﾁｬｰのﾌﾟﾛﾌｧｲﾙがｼｪﾙ可ﾎﾞﾘｭｰﾑ内側に部分的にしかないことが原因に考えられます｡";
+SpdProfileInp11="ﾌﾟﾘｽﾞﾑと境界選択との関係が複雑すぎます｡ \n押し出したｽｹｯﾁが境界ｻｰﾌｪｽにより完全にﾄﾘﾑされていないことが原因に考えられます｡";
+SpdProfileInp12="ｼｪﾙまでのｵﾌﾟｼｮﾝには､ｼｪﾙ可ﾌｨｰﾁｬｰがあることが必要です｡";
+SpdProfileInp13="選択した輪郭は自分自身と交差します｡ \nこの構成は押し出し演算では使用できません｡ \n自分自身と交差しないﾜｲﾔｰを選択してください｡";
+SpdProfileInp14="ﾌﾟﾘｽﾞﾑの境界仕様が複雑すぎます｡ \nﾌﾟﾘｽﾞﾑの境界仕様を変更してください｡";
+
+SpdDraftTypeInvalid="ｽｲｰﾌﾟをﾍﾞｰｽにしたﾌｨｰﾁｬｰはﾄﾞﾗﾌﾄ ﾀｲﾌﾟの角度のみをｻﾎﾟｰﾄします｡";
+SpdDraftTypeInvalid2="寸法の境界が[貫通]または[ｼｪﾙまで] の場合､ﾄﾞﾗﾌﾄ ﾀｲﾌﾟの角度のみがｻﾎﾟｰﾄされます｡";
+SpdDraftLimit1Invalid="最初の境界寸法が[貫通]または[ｼｪﾙまで] の場合､ﾄﾞﾗﾌﾄ ﾆｭｰﾄﾗﾙ ｴﾚﾒﾝﾄが最初の境界平面であってはなりません｡";
+SpdDraftLimit2Invalid="2番目の境界寸法が[貫通]または[ｼｪﾙまで] の場合､ﾄﾞﾗﾌﾄ ﾆｭｰﾄﾗﾙ ｴﾚﾒﾝﾄが2番目の境界平面であってはなりません｡";
+SpdDraftAngleInvalid="ﾄﾞﾗﾌﾄ角度は-85.0度から85度でなければなりません｡";
+SpdDraftDoubleFillet="二重ﾄﾞﾗﾌﾄでは側面方向にﾌｨﾚｯﾄ処理できません｡";
+SpdDraftSketchHasNoPlane="ｽｹｯﾁ ｻﾎﾟｰﾄが無効のため､ﾄﾞﾗﾌﾄ ﾆｭｰﾄﾗﾙ平面を決定できません｡";
+SpdDraftPropsMissing="ﾄﾞﾗﾌﾄ ﾌﾟﾛﾊﾟﾃｨが不足しています｡";
+SpdDraftNeutralMissing="ﾄﾞﾗﾌﾄ ﾆｭｰﾄﾗﾙ ｴﾚﾒﾝﾄが不足しています｡";
+SpdDraftNeutralInvalid="選択したﾄﾞﾗﾌﾄ基準ｴﾚﾒﾝﾄは無効です｡";
+SpdDraftPartingUnresolved="ﾄﾞﾗﾌﾄ ﾊﾟｰﾃｨﾝｸﾞ ｴﾚﾒﾝﾄを解決できません｡";
+SpdDraftPartingMissing="ﾊﾟｰﾃｨﾝｸﾞ ｴﾚﾒﾝﾄをﾆｭｰﾄﾗﾙ ｴﾚﾒﾝﾄとして使用するときには､ﾊﾟｰﾃｨﾝｸﾞ ｴﾚﾒﾝﾄを選択する必要があります｡";
+SpdDraftBadPull="ﾄﾞﾗﾌﾄ抜き方向がﾆｭｰﾄﾗﾙ ｴﾚﾒﾝﾄに平行です｡";
+SpdDraftBadPartingPull="ﾄﾞﾗﾌﾄ抜き方向がﾊﾟｰﾃｨﾝｸﾞ ｴﾚﾒﾝﾄに平行です｡";
+SpdDraftFacesFailed="ﾄﾞﾗﾌﾄ抜き方向が､ﾄﾞﾗﾌﾄ処理されるﾌｪｰｽに垂直です｡";
+SpdDraftFailed="ﾄﾞﾗﾌﾄ操作が失敗しました｡ \nﾄﾞﾗﾌﾄ ﾊﾟﾗﾒｰﾀまたは形状を変更して試してください｡";
+SpdDraftFailedKindly="ﾄﾞﾗﾌﾄ操作が失敗しました - ﾛｰｶﾙ ﾄﾎﾟﾛｼﾞまたは形状が複雑すぎます｡";
+
+SpdReferencedPoint="頂点が認識されません｡";
+SpdReferencedAxis="軸が認識されません｡";
+SpdReferencedLine="ｴｯｼﾞが認識されません｡";
+SpdReferencedFace="ﾌｪｰｽが認識されません｡";
+SpdReferencedCuttingFace="ｶｯﾄ ｴﾚﾒﾝﾄとして使用されているﾌｪｰｽが認識されません｡";
+SpdReferencedPartingFace="ﾊﾟｰﾃｨﾝｸﾞ ｴﾚﾒﾝﾄとして使用されているﾌｪｰｽが認識されません｡";
+
+SpdEvalDataPath="このﾌｨｰﾁｬｰには､ﾊﾟｽを指定する必要があります｡";
+SpdEvalDataPathActive="このﾌｨｰﾁｬｰは､関連ﾊﾟｽがｱｸﾃｨﾌﾞである必要があります｡";
+SpdEvalDataDirection="長さの値の合計がｾﾞﾛであってはなりません｡";
+SpdEvalDataPathInvalid="ｻﾎﾟｰﾄされないﾊﾟｽ抜き方向です｡";
+SpdEvalDataPathSupport="ﾊﾟｽおよびﾌﾟﾛﾌｧｲﾙが同じｽｹｯﾁ ｻﾎﾟｰﾄを使用しています｡";
+SpdEvalDataPathParallel="ﾊﾟｽとﾌﾟﾛﾌｧｲﾙのｻﾎﾟｰﾄが平行です｡";
+
+SpdEvalDataFillet="負のﾌｨﾚｯﾄ半径は許可されません｡";
+SpdEvalDataThickFillet="厚み付けしたﾌｨｰﾁｬｰでは､各ﾌｨﾚｯﾄ半径を厚みの合計の半分以下にする必要があります｡";
+SpdEvalDataThickShell="ｼｪﾙ可ﾌｨｰﾁｬｰの厚みは､ｼｪﾙの厚みの2倍より大きくする必要があります｡";
+
+SpdEvalDataFillet1Sides="最初のﾌｨﾚｯﾄが､ﾌｨｰﾁｬｰの側面方向のﾌｪｰｽには大きすぎます";
+SpdEvalDataFillet2Sides="2番目のﾌｨﾚｯﾄが､ﾌｨｰﾁｬｰの側面方向のﾌｪｰｽには大きすぎます";
+SpdEvalDataFillet12Sides="最初と2番目のﾌｨﾚｯﾄを結合すると､ﾌｨｰﾁｬｰの側面方向のﾌｪｰｽには大きすぎます";
+SpdEvalDataFillet1End="最初のﾌｨﾚｯﾄが､ﾌｨｰﾁｬｰの境界1ﾌｪｰｽには大きすぎます";
+SpdEvalDataFillet2End="2番目のﾌｨﾚｯﾄが､ﾌｨｰﾁｬｰの境界2ﾌｪｰｽには大きすぎます";
+SpdFilletFailure="ﾌｨｰﾁｬｰの要求したﾌｨﾚｯﾄ操作を初期化できませんでした｡";
+
+SpdReinforcementFillet="側面方向のﾌｨﾚｯﾄが､ﾌｨｰﾁｬｰの側面方向のﾌｪｰｽには大きすぎます";
+SpdEvalDraftFillets="ﾌｨﾚｯﾄ後にﾄﾞﾗﾌﾄ ｵﾌﾟｼｮﾝは､このﾌｨｰﾁｬｰ ﾀｲﾌﾟではｻﾎﾟｰﾄされません｡";
+SpdEvalDraftFilletsErr="ﾌｨﾚｯﾄのﾄﾞﾗﾌﾄ操作が失敗しました｡ \nﾄﾞﾗﾌﾄ/ﾌｨﾚｯﾄ ﾊﾟﾗﾒｰﾀまたは形状を変更してください｡";
+
+SpdEvalDataWall="ｳｫｰﾙの厚みが無効です｡";
+SpdEvalDataWallHeight="ﾌｨｰﾁｬｰの長さは､ｳｫｰﾙの厚みより大きくなければなりません｡";
+SpdEvalDataVolume="このﾌｨｰﾁｬｰは､[厚み]ｵﾌﾟｼｮﾝを使用しないで､開いたｽｹｯﾁからｿﾘｯﾄﾞを作成できません｡";
+SpdEvalDataThin="厚みの値を入力すると､ｾﾞﾛ ﾎﾞﾘｭｰﾑになります｡";
+
+SpdEvalDataSplitDraft="分割ﾄﾞﾗﾌﾄの場合､高さ境界より大きい厚みはｻﾎﾟｰﾄされません｡";
+
+SpdAxis="回転軸を指定する必要があります｡";
+SpdAngle="2つの角度はｾﾞﾛ ﾎﾞﾘｭｰﾑを作成することになります｡";
+
+SpdBoundaryInside="境界ｽｹｯﾁ平面の場所および/または方向が正しくありません｡ \n平面はｼｪﾙ内にあってはなりませんし､ \n方向はｼｪﾙの内側に向いていなければなりません｡";
+SpdBoundaryTooLarge="境界ｽｹｯﾁが大きすぎるか､ｼｪﾙを捕らえられない可能性があります｡";
+SpdBoundaryTooLoopy="複数境界ﾙｰﾌﾟは許可されません｡";
+SpdBoundarySketch="境界ｽｹｯﾁを指定する必要があります｡";
+SpdBoundaryActive="境界ｽｹｯﾁはｱｸﾃｨﾌﾞでなければなりません｡";
+SpdBoundaryEmpty="境界ｽｹｯﾁは空であってはなりません｡";
+SpdBoundaryClosed="境界ｽｹｯﾁを閉じる必要があります｡";
+SpdBoundaryPoints="境界ｽｹｯﾁは､標準の形状ｴﾚﾒﾝﾄとして定義された点を含んでいます｡ \nこれらの点を補助ｴﾚﾒﾝﾄに変換する必要があります｡";
+SpdHeight="境界の高さは正でなければなりません｡";
+SpdWidth="境界の幅は正でなければなりません｡";
+SpdSpikeHeight="ｽﾊﾟｲｸの高さは正でなければなりません｡";
+SpdSpikeWidth="ｽﾊﾟｲｸの幅は正でなければなりません｡";
+SpdIslandSketch="ｱｲﾗﾝﾄﾞのｽｹｯﾁを閉じる必要があります｡";
+SpdSpikeMustExist="選択したﾄﾞﾗﾌﾄ ﾆｭｰﾄﾗﾙ ｴﾚﾒﾝﾄにはｽﾊﾟｲｸ形状が必要です｡";
+SpdRibMustExist="選択したﾄﾞﾗﾌﾄ ﾆｭｰﾄﾗﾙ ｴﾚﾒﾝﾄにはﾘﾌﾞ形状が必要です｡";
+
+SpdSpikePositionRib="ｽﾊﾟｲｸはﾘﾌﾞの下にあってはなりません｡";
+SpdSpikePositionBdy="ｽﾊﾟｲｸは境界の下にあってはなりません｡";
+SpdSpikeOffsets="ｽﾊﾟｲｸ ｵﾌｾｯﾄはｽﾊﾟｲｸを使用してはなりません｡";
+SpdRibHeight="ﾘﾌﾞの高さは正でなければなりません｡";
+SpdRibWidth="ﾘﾌﾞの幅は正でなければなりません｡";
+
+
+SpdThicknessClosed="厚みがｾﾞﾛの場合､ｽｹｯﾁを閉じる必要があります｡";
+SpdNoCuttingFaces="ｶｯﾃｨﾝｸﾞ ﾌｪｰｽが選択されていません｡";
+SpdMultipleTargets="ﾌｨｰﾁｬｰは複数ﾀｰｹﾞｯﾄをｻﾎﾟｰﾄしません｡";
+
+SpdNoThickenSrf="厚みを加えるために選択したｻｰﾌｪｽは､存在しません｡";
+SpdUnboundedSrf="厚みを加えるために選択したｻｰﾌｪｽは結合されていません｡";
+
+SpdUnresolvedDirectionId="基準方向を使用できません｡ \nCATIAはﾃﾞﾌｫﾙﾄの方向を選択します｡";
+SpdUnresolvedPathControlId="ﾊﾟｽ制御基準を使用できません｡ \nﾃﾞﾌｫﾙﾄのﾊﾟｽ制御が選択されます｡";
+SpdUnresolvedPathLimitsId="ﾊﾟｽを制限するための基準点を使用できません｡ \nﾃﾞﾌｫﾙﾄのﾊﾟｽ制限が選択されます｡";
+SpdUnresolvedFaceId="ﾌｪｰｽを解決できません｡ \n仕様は除去されます｡";
+SpdUnresolvedFacesId="/p1 ﾌｪｰｽを解決できません｡ \nその仕様は除去されます｡";
+SpdUnresolvedRevolveAxesId="基準軸を使用できません｡ \n仕様は除去されます｡";
+SpdUnresolvedCuttingFaceId="ｶｯﾃｨﾝｸﾞ ﾌｪｰｽを解決できません｡ \n仕様は除去されます｡";
+SpdUnresolvedCuttingFacesId="/p1 ｶｯﾃｨﾝｸﾞ ﾌｪｰｽを解決できません｡ \nその仕様は除去されます｡";
+SpdUnresolvedPartingFaceId="ﾊﾟｰﾃｨﾝｸﾞ ｴﾚﾒﾝﾄ ﾌｪｰｽを解決できません｡ \n仕様は除去されます｡";
+SpdUnresolvedPullingDirection="抜き方向を解決できません｡ \n仕様は除去されます｡";
+SpdUnresolvedLimitsId="境界ﾌｪｰｽを解決できません｡";
+SpdUnresolvedPathEdgeId="ﾊﾟｽ ｴｯｼﾞを解決できません｡ \n仕様は除去されます｡";
+SpdUnresolvedPathEdgesId="/p1 ﾊﾟｽ ｴｯｼﾞを解決できません｡ \nその仕様は除去されます｡";
+SpdUnresolvedDraftProperties="ﾄﾞﾗﾌﾄのﾌﾟﾛﾊﾟﾃｨを解決できません｡ \nﾄﾞﾗﾌﾄ処理は[なし]にﾘｾｯﾄされ､ﾌｨｰﾁｬｰはﾄﾞﾗﾌﾄされません｡";
+SpdUnresolvedDraftPartingFace="ﾊﾟｰﾃｨﾝｸﾞ ｴﾚﾒﾝﾄ ﾌｪｰｽ(ﾄﾞﾗﾌﾄのﾌﾟﾛﾊﾟﾃｨ)を解決できません｡";
+SpdUnresolvedDraftPullingDir="抜き方向(ﾄﾞﾗﾌﾄのﾌﾟﾛﾊﾟﾃｨ)を解決できません｡";
+SpdUnresolvedDraftNeutralElement="ﾆｭｰﾄﾗﾙ ｴﾚﾒﾝﾄを解決できません｡ \n仕様は除去されます｡";
+SpdUnresolvedLipPullingDirection="抜き方向を解決できません｡ \n垂直な分割ｴﾚﾒﾝﾄが使用されます｡";
+SpdUnresolvedPatternDir1="ﾊﾟﾀｰﾝの方向1を解決できません｡ \n仕様は除去されます｡";
+SpdUnresolvedPatternDir2="ﾊﾟﾀｰﾝの方向2を解決できません｡ \n仕様は除去されます｡";
+SpdUnresolvedMirrorElement="ﾐﾗｰﾘﾝｸﾞ ｴﾚﾒﾝﾄを解決できません｡ \n仕様は除去されます｡";
+SpdUnresolvedSymmetryRef="対称変換の基準ｴﾚﾒﾝﾄを解決できません｡ \n仕様は除去されます｡";
+SpdUnresolvedScalingRef="ｽｹｰﾙ変換の基準ｴﾚﾒﾝﾄを解決できません｡ \n仕様は除去されます｡";
+SpdUnresolvedStartPt="変換の始点を解決できません｡ \n仕様は除去されます｡";
+SpdUnresolvedEndPt="変換の終点を解決できません｡ \n仕様は除去されます｡";
+SpdUnresolvedAxisOrigin="変換の座標系原点を解決できません｡ \n仕様は除去されます｡";
+SpdUnresolvedXYPlane="変換の座標系XY平面を解決できません｡ \n仕様は除去されます｡";
+SpdUnresolvedXAxis="変換のX軸を解決できません｡ \n仕様は除去されます｡";
+SpdUnresolvedRefAxis="変換の基準座標系を解決できません｡ \n仕様は除去されます｡";
+SpdUnresolvedTgtAxis="変換のﾀｰｹﾞｯﾄ座標系を解決できません｡ \n仕様は除去されます｡";
+SpdUnresolvedElementId="ﾌﾟﾛﾌｧｲﾙ ｴﾚﾒﾝﾄを解決できません｡ \n仕様は除去されます｡";
+SpdUnresolvedElementsId="/p1 ﾌﾟﾛﾌｧｲﾙ ｴﾚﾒﾝﾄを解決できません｡ \nその仕様は除去されます｡";
+SpdUnresolvedBrepEdgeFilletId="ﾌｨﾚｯﾄのｴｯｼﾞを解決できません｡ \nその仕様は除去されます｡";
+SpdUnresolvedBrepEdgesFilletId="/p1 ｴｯｼﾞを解決できません｡ \nその仕様は除去されます｡";
+
+SpdWallInterference="厚みはﾎﾞﾃﾞｨｰの厚み以上でなければなりません｡そうでないと､ﾌﾟﾗｯﾄﾌｫｰﾑの内部がｱﾝﾀﾞｰｶｯﾄされます｡";
+
+SpdInvalidThickness="厚みの値は負であってはなりません｡";
+
+SpdBadDirection="選択した方向はｽｹｯﾁ平面に平行です｡";
+SpdBadRevolveAxis="ｽｹｯﾁ平面にある軸を指定する必要があります｡";
+SpdBadPath="選択したﾊﾟｽはｽｹｯﾁ平面に平行です｡";
+
+SpdPathLimitPtsAndMulti="ﾊﾟｽの境界点は､複数の輪郭を持つﾊﾟｽでは許可されません｡";
+SpdPathMoveToNeeded="ﾊﾟｽに複数の輪郭がある場合は､[ﾌﾟﾛﾌｧｲﾙをﾊﾟｽへ移動]ｵﾌﾟｼｮﾝを使用する必要があります｡";
+
+SpdMissingLimitSurface="境界平面または境界ｻｰﾌｪｽが不足しています｡";
+SpdLimitSketchBadNormal="境界のｽｹｯﾁ平面の法線は､押し出し方向と平行にできません｡";
+
+SpdShellDeleteErr="このｴﾚﾒﾝﾄはﾌｧﾝｸｼｮﾅﾙ ﾎﾞﾃﾞｨｰの必須仕様の一部なので､削除できません｡";
+SpdShellDeleteErr2="ﾌｧﾝｸｼｮﾅﾙ ﾎﾞﾃﾞｨｰにｼｰﾄ面ﾍﾞｰｽの仕様が存在するため､このｴﾚﾒﾝﾄを削除できません｡";
+SpdShellCopyErr="このｴﾚﾒﾝﾄはﾌｧﾝｸｼｮﾅﾙ ﾎﾞﾃﾞｨｰの必須仕様の一部なので､ｺﾋﾟｰできません｡";
+SpdShellNoOutput="ｼｪﾙ ﾌﾟﾛﾊﾟﾃｨ ﾌｨｰﾁｬｰ: すべてのﾎﾞﾃﾞｨｰのﾌｪｰｽが､除去するﾌｪｰｽとして選択されました｡ \n結果は空になります｡これは､自動接線伝播の結果の可能性があります｡";
+
+SpdFeatureCopyErr="このｴﾚﾒﾝﾄをｺﾋﾟｰできません｡";
+
+SpdBodyRefNoBody="基準ﾎﾞﾃﾞｨｰの結果を取り出せませんでした｡";
+SpdCloseOpError="閉じるｵﾍﾟﾚｰﾀから予期しないｴﾗｰが発生しました｡";
+
+SpdTwistError="選択したﾌﾟﾛﾌｧｲﾙおよび中心曲線を使用すると､ねじれた構成になります｡ \n中心曲線の曲率を小さくして使用してください｡";
+
+SpdPatNYI="ﾊﾟﾀｰﾝ機能はまだｲﾝﾌﾟﾘﾒﾝﾄされていません｡";
+SpdPatKey1="方向1の基準位置は0より大きくなければなりません｡";
+SpdPatKey2="[間隔および長さ]ｵﾌﾟｼｮﾝの使用時には､長さが間隔以上である必要があります｡";
+SpdPatSpaceTotalAng="[角度間隔および合計角度]ｵﾌﾟｼｮﾝの使用時には､合計角度が角度間隔以上である必要があります｡";
+SpdPatSpaceTotalLen="[間隔および長さ]ｵﾌﾟｼｮﾝの使用時には､長さが間隔以上である必要があります｡";
+SpdPatCountNeg="ｲﾝｽﾀﾝｽの数は0より大きくなければなりません｡";
+SpdPatCountTooBig="ｲﾝｽﾀﾝｽの数は10000以下である必要があります｡";
+SpdPatSpaceLen="間隔を0にすることはできません｡";
+SpdPatTotalLen="長さを0にすることはできません｡";
+SpdPatSpaceAng="角度間隔を0にすることはできません｡";
+SpdPatTotalAng="合計角度を0にすることはできません｡";
+SpdPatTotalAng360="合計角度は360度より小さくなければなりません｡必要に応じて[完全なｸﾗｳﾝ]ｵﾌﾟｼｮﾝを使用してください｡";
+SpdPatKeySuppress="ﾊﾟﾀｰﾝの基準ｵﾌﾞｼﾞｪｸﾄを削除できません｡";
+SpdPatUnresolvedDir1="ﾊﾟﾀｰﾝの方向1を解決できません｡";
+SpdPatUnresolvedDir2="ﾊﾟﾀｰﾝの方向2を解決できません｡";
+SpdPatNoAxes="ﾊﾟﾀｰﾝには少なくとも1つの方向が必要です｡";
+SpdPatParallelAxes="ﾊﾟﾀｰﾝの最初と2番目の方向を平行にすることはできません｡";
+SpdPatNoSketch="ﾕｰｻﾞｰ定義のﾊﾟﾀｰﾝにはｽｹｯﾁが必要です｡";
+SpdPatSketchEmpty="ﾕｰｻﾞｰ定義ﾊﾟﾀｰﾝのｽｹｯﾁは､補助点でない点を含む必要があります｡";
+SpdPatKeepSpec="ﾊﾟﾀｰﾝ化されたﾌｨｰﾁｬｰがﾓﾃﾞｨﾌｧｲﾔの場合､[仕様を保持]ｵﾌﾟｼｮﾝは許可されません｡";
+
+SpdJoinSketchEmpty="接合部用のｽｹｯﾁは､補助点でない点を含む必要があります｡";
+SpdJoinProfilePosition="指定されたﾌﾟﾛﾌｧｲﾙ位置では､有効な接合部を作成できませんでした｡";
+SpdJoinGuideHeight="ｶﾞｲﾄﾞの高さは､0以上である必要があります｡";
+SpdJoinDraftAngle="接合部ﾄﾞﾗﾌﾄ角度はすべて0以上である必要があります｡";
+SpdJoinClearance="ねじ部ｸﾘｱﾗﾝｽを除いて､接合部ｸﾘｱﾗﾝｽはすべて \n0以上である必要があります｡";
+SpdScrewHeight="ねじ高さは0以上である必要があります｡";
+SpdScrewHeight2="ねじ高さは0より大きくなければなりません｡";
+SpdScrewDiameter="ねじ直径はすべて0以上である必要があります｡";
+SpdThreadDiameter="有効なねじが定義されていません｡ \nねじ部の直径はｾﾞﾛより大きくなければなりません｡";
+SpdThreadHeight="有効なねじが定義されていません｡ \nねじ部の高さはｾﾞﾛより大きくなければなりません｡";
+SpdJoinNoEVT="有効な接合部を作成できません｡接合部ﾌｨｰﾁｬｰは､その配置されたﾎﾞﾃﾞｨｰの形状を使用して \n自らの形状を決定します｡";
+SpdJoinLump0="ねじ位置がﾊﾟｰﾂ ﾏﾃﾘｱﾙの内部に位置しています｡";
+SpdJoinLump1="ねじ位置またはﾍｯﾄﾞ/ねじ部ﾊﾟﾗﾒｰﾀ値が原因で､接合部ﾎﾞﾃﾞｨｰがﾊﾟｰﾂ ﾏﾃﾘｱﾙの外に出ています｡";
+SpdThreadWall="ねじ部ｳｫｰﾙはｸﾗﾝﾌﾟ ｶﾞｲﾄﾞと交差します｡問題を解決するには､ \nｸﾗﾝﾌﾟ ﾄﾞﾗﾌﾄ角度､ｸﾗﾝﾌﾟ側面ｸﾘｱﾗﾝｽ､またはｸﾗﾝﾌﾟ高さｸﾘｱﾗﾝｽを増やすか､ \nねじ部の外部ﾄﾞﾗﾌﾄ角度を減らしてください｡";
+SpdJoinSiblingAbsent="兄弟の接合部は不可能なので､この段階ではｽｹｯﾁを置換できません｡";
+SpdUnderCutShank="ﾊﾟﾗﾒｰﾀの組み合わせによっては､軸部の領域が両方向からｱﾝﾀﾞｰｶｯﾄされることがあります｡";
+SpdShankDraftLarge="軸部ﾄﾞﾗﾌﾄ角度が大きすぎるので､ﾍｯﾄﾞがｱﾝﾀﾞｰｶｯﾄされます｡";
+SpdHeadOuterDraft="ﾍｯﾄﾞ外部ﾄﾞﾗﾌﾄ角度またはｸﾗﾝﾌﾟ内部ﾄﾞﾗﾌﾄ角度が大きすぎるので､ｸﾗﾝﾌﾟ ｶﾞｲﾄﾞが \nｶｯﾄされます｡";
+SpdThreadTooLarge="ねじ部がｸﾗﾝﾌﾟ ｶﾞｲﾄﾞに適合しません｡ｶﾞｲﾄﾞを除去するか､ねじ部ｳｫｰﾙ､ \nねじ部直径､ねじ部側面ｸﾘｱﾗﾝｽ､またはｸﾗﾝﾌﾟ側面ｸﾘｱﾗﾝｽを減らしてください｡";
+SpdInvalidScrewDia="無効なねじ直径寸法が指定されました｡";
+SpdInvalidHeadDraft="ﾍｯﾄﾞ外部ﾄﾞﾗﾌﾄ角度はﾍｯﾄﾞ内部ﾄﾞﾗﾌﾄ角度以上でなければなりません｡";
+SpdMissingTrim="外側のねじ位置を部分的にﾄﾘﾑする際に使用する正のﾎﾞﾘｭｰﾑを入手できません｡";
+SpdJoinSSCTooSmall="軸部半径と軸部側面ｸﾘｱﾗﾝｽを加えた値がねじ部半径よりも小さい｡";
+SpdNoOSVDCC="接合部ﾌｨｰﾁｬｰは､2つのｳｫｰﾙ ﾎﾞﾃﾞｨｰを結合するよう設計された構造を作成します｡ \nﾎﾞﾃﾞｨｰがｿﾘｯﾄﾞの場合､代わりに穴を使用する必要があります｡";
+
+SpdJoinGussetTopOffset="ｶﾞｾｯﾄ ﾄｯﾌﾟ ｵﾌｾｯﾄは負にできません｡";
+SpdJoinGussetHeadWidth="ﾍｯﾄﾞ ｶﾞｾｯﾄを作成できません｡肩の幅を大きくしてください｡";
+SpdJoinGussetThreadWidth="ねじ部のｶﾞｾｯﾄを作成できません｡肩の幅を大きくしてください｡";
+SpdJoinGussetThickness="ｶﾞｾｯﾄのｳｫｰﾙの厚みは負にできません｡";
+SpdJoinGussetFilletRad1="ｶﾞｾｯﾄ ﾌｨﾚｯﾄ半径は負にできません｡";
+SpdJoinGussetFilletRad2="ｶﾞｾｯﾄ ﾌｨﾚｯﾄ半径は指定した厚みより大きすぎます｡";
+SpdJoinGussetBlendRad="ｶﾞｾｯﾄ ﾌﾞﾚﾝﾄﾞ半径は負にできません｡";
+SpdJoinGussetLimit1="ｶﾞｾｯﾄを作成できません｡ほとんどの場合､ﾊﾟﾗﾒｰﾀによってｶﾞｾｯﾄとｼｪﾙ ﾌﾟﾛﾊﾟﾃｨの除去するﾌｪｰｽが交差する結果になっています｡";
+
+SpdScrewDescNoRead="ｶﾀﾛｸﾞからねじの記述を読み取れませんでした｡";
+
+SpdDivideCutFailure="分割ｴﾚﾒﾝﾄをｶｯﾀｰとして有効な分割を行えませんでした｡";
+SpdCutCutFailure="ｶｯﾄ ｴﾚﾒﾝﾄを使用して有効なｶｯﾄを生成できませんでした｡";
+SpdCutTooSmall="ｶｯﾄ ｴﾚﾒﾝﾄが､選択したﾌｨｰﾁｬｰを完全に通過していません｡ｶｯﾃｨﾝｸﾞ ｻｰﾌｪｽを延長してみてください｡";
+SpdCutSurfaceParallelToExtrusion="ｶｯﾄ ｴﾚﾒﾝﾄを生成できません｡ｶｯﾃｨﾝｸﾞ ｻｰﾌｪｽの押し出し方向はｶｯﾃｨﾝｸﾞ ｻｰﾌｪｽと平行になりません｡ｶｯﾃｨﾝｸﾞ ｻｰﾌｪｽを修正してください｡";
+
+SpdDraftPropsPartingFaceId="ﾊﾟｰﾃｨﾝｸﾞ ｴﾚﾒﾝﾄ ﾌｪｰｽが不足しています｡";
+SpdDraftPropsPullingDirection="抜き方向が不足しています｡";
+
+SpdPPFClearance1="ｸﾘｱﾗﾝｽの距離は0以上である必要があります｡";
+SpdPPFClearance2="ｸﾘｱﾗﾝｽの距離または他のｸﾘｱﾗﾝｽ ﾌｪｰｽは0より大きくなければなりません｡";
+
+SpdLipSimpleAllLimitation="単純なすべてのﾘｯﾌﾟのﾙｰﾌﾟは､現行境界のために抽出できませんでした｡";
+SpdLipSimpleHeight="ﾘｯﾌﾟの高さは正の値である必要があります｡";
+SpdLipSimpleThickness="ﾘｯﾌﾟの厚みは正の値である必要があります｡";
+SpdLipSimpleAngle="ﾘｯﾌﾟ角度は-85から85度の間である必要があります｡";
+SpdLipSimpleInnerAngle="ﾘｯﾌﾟ内側の角度は-85から85度の間である必要があります｡";
+SpdLipSimpleClearance="ﾘｯﾌﾟ ｸﾘｱﾗﾝｽは正またはｾﾞﾛである必要があります｡";
+SpdLipPullParallel="ﾘｯﾌﾟ抜き方向は､ﾊﾟｽに平行であってはなりません｡";
+SpdLipProfilePerp="ﾘｯﾌﾟ抜き方向は､ﾌﾟﾛﾌｧｲﾙ平面上にあってはなりません｡";
+SpdLipSimpleSweep="ﾘｯﾌﾟ条件が複雑過ぎます｡ \nﾊﾟｽを単純にするか､厚みを小さくするか､高さを低くしてください｡";
+SpdLipPullingDirectionUnr="抜き方向を解決できません｡";
+SpdLipProfileClosed="ﾌﾟﾛﾌｧｲﾙは開いていて平面状である必要があります｡";
+SpdLipUpperProfileClosed="上部ﾌﾟﾛﾌｧｲﾙは開いていて平面状である必要があります｡";
+SpdLipLowerProfileClosed="下部ﾌﾟﾛﾌｧｲﾙは開いていて平面状である必要があります｡";
+SpdLipCutWithDivElemFail="ﾌｪｰｽ-ﾌｪｰｽ交差は失敗しました｡ \nﾘｯﾌﾟ ﾌﾟﾛﾌｧｲﾙ曲線が分割するｴﾚﾒﾝﾄにほぼ接しているかどうかﾁｪｯｸしてください｡";
+SpdLipIntxWithDivBodyFail="ﾌｪｰｽ-ﾌｪｰｽ交差は失敗しました｡ \nﾘｯﾌﾟ ﾌﾟﾛﾌｧｲﾙ曲線が分割したﾎﾞﾃﾞｨｰにほぼ接しているかどうかﾁｪｯｸしてください｡";
+SpdLipMultiContourProfile="ﾘｯﾌﾟ ﾌﾟﾛﾌｧｲﾙには複数の輪郭を含められません｡";
+SpdLipNoContourProfile="ﾘｯﾌﾟ ﾌﾟﾛﾌｧｲﾙに輪郭が含まれていません｡";
+
+SpdMirrorElementRequired="ﾐﾗｰﾘﾝｸﾞ ｴﾚﾒﾝﾄが必要です｡";
+SpdMirrorElementInActive="ﾐﾗｰﾘﾝｸﾞ ｴﾚﾒﾝﾄはｱｸﾃｨﾌﾞでなければなりません｡";
+
+SpdReinforcementThickness="このﾊﾟﾗﾒｰﾀの組み合わせによりﾏﾃﾘｱﾙ全体が追加されます｡ \n厚みの値を小さくしてください";
+
+SpdAffinityOrigin="ｱﾌｨﾝ座標系の原点は点でなければなりません｡";
+SpdAffinityOriginSolve="選択したｱﾌｨﾝ座標系の原点は解決できません｡";
+SpdAffinityMissingSelec="ｱﾌｨﾝ座標系に対してX軸､原点､またはXY平面を選択したので､すべてを選択する必要があります｡";
+SpdAffinityPlane="ｱﾌｨﾝ座標系のXY平面は平面でなければなりません｡";
+SpdAffinityPlaneSolve="選択したｱﾌｨﾝ座標系のXY平面は解決できません｡";
+SpdAffinityXScale="ｱﾌｨﾝX軸比率は0より大きくなければなりません｡";
+SpdAffinityYScale="ｱﾌｨﾝY軸比率は0より大きくなければなりません｡";
+SpdAffinityZScale="ｱﾌｨﾝZ軸比率は0より大きくなければなりません｡";
+SpdAffinityXAxis="ｱﾌｨﾝX軸は直線でなければなりません｡";
+SpdAffinityXAxisSolve="選択したｱﾌｨﾝX軸は解決できません｡";
+SpdAffinityXAxisInvalid="選択したX軸は､選択したXY平面内の点に投影します｡";
+
+SpdSweepPullParallel="抜き方向は､ﾊﾟｽに平行であってはなりません｡";
+SpdSweepRefSurface="入力ﾜｲﾔｰがｼｪﾙ ｻﾎﾟｰﾄ上にありません｡ｻﾎﾟｰﾄ上に投影して､その投影を使用してください｡";
+SpdSweepDistanceError="ｽｲｰﾌﾟの始点と終点が同じです｡ｽｲｰﾌﾟを作成できません";
+
+SpdExtractBadVolType="無効なﾎﾞﾘｭｰﾑ ﾀｲﾌﾟ ｾｯﾄ｡追加および保護されたﾀｲﾌﾟのみｻﾎﾟｰﾄされます｡";
+SpdExtractNoSource="ｿｰｽ ﾎﾞﾃﾞｨｰが必要です｡";
+SpdExtractOldGrill="選択したｸﾞﾘﾙ ﾌｨｰﾁｬｰはｿﾌﾄｳｪｱの以前のﾊﾞｰｼﾞｮﾝで作成されたので抽出できません｡";
+SpdExtractMissingGrill="ｸﾞﾘﾙ ﾌｨｰﾁｬｰを選択する必要があります｡";
+SpdExtractMissingFeatures="1つ以上のﾌｨｰﾁｬｰを選択する必要があります｡";
+
+SpdExtBehaviorOverrideConflict="ﾀｰｹﾞｯﾄ ﾌｨｰﾁｬｰのﾋﾞﾍｲﾋﾞｱを変更できません｡";
+SpdExtBehaviorInvalidTarget="ﾀｰｹﾞｯﾄ ﾌｨｰﾁｬｰを抽出できません｡次のﾌｨｰﾁｬｰは､ﾋﾞﾍｲﾋﾞｱを取り出せません｡ \nﾌﾟﾛﾊﾟﾃｨ ﾌｨｰﾁｬｰ \nﾏﾙﾁﾎﾞﾃﾞｨｰ ﾌｨｰﾁｬｰ \n複数のﾀｰｹﾞｯﾄを持つﾌｨｰﾁｬｰ ﾓﾃﾞｨﾌｧｲﾔ";
+
+SpdPocketBadWallVersion="V13以前に作成されたﾎﾟｹｯﾄは排除ｳｫｰﾙをｻﾎﾟｰﾄしません｡";
+SpdPocketOOnlyNoCWall="ﾎﾟｹｯﾄの外側のみの排除ｳｫｰﾙ値は0でなければなりません｡";
+SpdPocketCWallRequiresPWall="排除ｳｫｰﾙにはﾎﾟｹｯﾄ ｳｫｰﾙが必要です｡";
+
+SpdImportWallDirMismatch="ｼｪﾙのｳｫｰﾙ方向とｲﾝﾎﾟｰﾄ ﾌｨｰﾁｬｰのｳｫｰﾙ方向が一致しません｡";
+SpdImportWallDirMismatch2="ｿｰｽ ｼｪﾙのｳｫｰﾙ方向とﾀｰｹﾞｯﾄ ｼｪﾙのｳｫｰﾙ方向が一致しません｡ \nﾀｰｹﾞｯﾄのｿﾘｯﾄﾞ ﾌｧﾝｸｼｮﾅﾙ ｾｯﾄのｼｪﾙ ｳｫｰﾙ方向を変更してください";
+SpdImportWallDirMismatch3="ｿｰｽ ｼｪﾙのｳｫｰﾙ方向とﾀｰｹﾞｯﾄ ｼｪﾙのｳｫｰﾙ方向が一致しません｡ \nｼｪﾙのﾌﾟﾛﾊﾟﾃｨを作成して､ﾀｰｹﾞｯﾄのｿﾘｯﾄﾞ ﾌｧﾝｸｼｮﾅﾙ ｾｯﾄのｼｪﾙ ｳｫｰﾙ方向を変更してください";
+SpdImportWallDirMismatch4="ｿｰｽ ｼｪﾙのｳｫｰﾙ方向とﾀｰｹﾞｯﾄ ｼｪﾙのｳｫｰﾙ方向が一致しません｡ \nﾀｰｹﾞｯﾄのｿﾘｯﾄﾞ ﾌｧﾝｸｼｮﾅﾙ ｾｯﾄのｼｪﾙ ｳｫｰﾙ方向を変更し､同期してｲﾝﾎﾟｰﾄを更新してください";
+
+SpdImportWallTypeUseBodyTh="貼り付けの結果が予期した結果と異なるものになる可能性があります: ﾘﾌｧﾚﾝｽ ﾌｨｰﾁｬｰのｳｫｰﾙ ｵﾌﾟｼｮﾝが[ﾎﾞﾃﾞｨｰの厚みを使用]に設定されていることを確認してください｡";
+SpdImportExtAcrRemdFaces="貼り付けの結果が予期した結果と異なるものになる可能性があります: ﾘﾌｧﾚﾝｽ ﾌｨｰﾁｬｰのｵﾌﾟｼｮﾝ[除去ﾌｪｰｽを越える]が解除されていることを確認してください｡";
+SpdImportLimitUpToShell="貼り付けの結果が予期した結果と異なるものになる可能性があります: 両方のﾘﾌｧﾚﾝｽ ﾌｨｰﾁｬｰの境界がｼｪﾙまでに設定されていないことを確認してください｡";
+
+SpdImportWithTRPropagation="ｲﾝﾎﾟｰﾄを通じた技術結果の伝播に失敗しました｡";
+
+SpdFlangeTargetNeeded="ﾌﾗﾝｼﾞは､分割を含むﾊﾟｰﾂ上にのみ作成できます｡";
+SpdFlangeTargetData1="ﾌﾗﾝｼﾞの分割にﾃﾞｰﾀが欠落しています｡";
+SpdFlangeTargetData2="ﾌﾗﾝｼﾞの分割結果ではﾌﾗﾝｼﾞがｻﾎﾟｰﾄされません｡";
+SpdFlangeTargetData3="抜き方向への分割ｴｯｼﾞの投影により有効な結果が得られません｡ \n分割ｻｰﾌｪｽには､ﾌﾗﾝｼﾞを保持できるだけの大きさが必要です｡";
+SpdFlangeTargetData4="現在の制限により､分割ｴｯｼﾞの投影を計算できません｡";
+SpdFlangeTargetData5="分割したﾊﾟｰﾂによりﾌﾗﾝｼﾞを適用できないｴｯｼﾞが生じています｡ \n保護されたﾎﾞﾘｭｰﾑによりﾊﾟｰﾂ外側の境界が定義されている可能性があります｡";
+SpdFlangeWidth="ﾌﾗﾝｼﾞ幅は0より大きくなければなりません｡";
+SpdFlangeThickness="ﾌﾗﾝｼﾞ厚みは0より大きくなければなりません｡";
+SpdFlangeTopRadius="ﾌﾗﾝｼﾞ上部の半径は正の値である必要があります｡";
+SpdFlangeTopRadius2Big="ﾌﾗﾝｼﾞ上部の半径が大きすぎます｡";
+SpdFlangeBotRadius="ﾌﾗﾝｼﾞ下部の半径は正の値である必要があります｡";
+SpdFlangeBotRadius2Big="ﾌﾗﾝｼﾞ下部の半径が大きすぎます｡";
+SpdFlangeSidRadius="ﾌﾗﾝｼﾞ側面方向の半径は正の値である必要があります｡";
+SpdFlangeBothRadius2Big="ﾌﾗﾝｼﾞ下部の半径と組み合わせた上部の半径が大きすぎます｡";
+SpdFlangePullDirUnr="ﾌﾗﾝｼﾞの抜き方向を解決できません｡";
+SpdFlangeBoundaryProblem="分割境界ﾙｰﾌﾟを要求された幅に拡張できません｡ \n幅を小さく設定してください｡";
+SpdFlangePullBad="\nﾌﾗﾝｼﾞの抜き方向を変えて､分割からのｴｯｼﾞのﾙｰﾌﾟが明確に投影されるようにしてください｡";
+
+SpdSnapLockBadLength="ｽﾅｯﾌﾟ ﾛｯｸの長さは0より大きくなければなりません｡";
+SpdSnapLockRetAngle="ﾘﾃﾝｼｮﾝの角度は0より大きく､180度よりも小さくなければなりません｡";
+SpdSnapLockRetAngle2="ﾘﾃﾝｼｮﾝの角度は0より大きく､90度以下でなければなりません｡";
+SpdSnapLockInsertAngle="挿入部の角度は0以上で､90度よりも小さくなければなりません｡";
+SpdSnapLockInsertAngle2="挿入部の角度は0より大きく､90度以下でなければなりません｡";
+SpdSnapLockWidth="ｳｫｰﾙ側の幅は､ﾘﾃﾝｼｮﾝ側の幅以上でなければなりません｡";
+SpdSnapLockThick="ｳｫｰﾙ側の厚みは､ﾘﾃﾝｼｮﾝ側の厚み以上でなければなりません｡";
+SpdSnapLockRetLength="ﾘﾃﾝｼｮﾝの長さはﾌｯｸ先端の長さ以上である必要があります｡";
+SpdSnapLockTolerance="ﾄﾚﾗﾝｽは0以上である必要があります｡";
+SpdSnapLockWidth2="(幅 - ｻｲﾄﾞ1厚み - ｻｲﾄﾞ2厚み)は0より大きくなければなりません｡";
+SpdSnapLockBadLength2="(長さ - 上部厚み - ﾙｰﾌﾟ幅)は0より大きくなければなりません｡";
+SpdSnapLockWidth3="ﾘﾃﾝｼｮﾝ穴にあるｷｬｯﾁの部分は､ﾙｰﾌﾟ幅以下である必要があります｡";
+SpdSnapLockWidth4="(幅 - ｻｲﾄﾞ1厚み - ｻｲﾄﾞ2厚み - (2*ｷｬｯﾁ幅のﾄﾚﾗﾝｽ))は0より大きくなければなりません｡";
+SpdSnapLockBadLength3="指定された角度とﾌｯｸ先端の長さでは､ﾘﾃﾝｼｮﾝの長さが指定の最大値を超えます｡ \n角度またはﾘﾃﾝｼｮﾝの長さを増すか､ﾌｯｸ先端の長さを短くしてください｡";
+SpdSnapLockBadHeight1="指定された角度では､ﾘﾃﾝｼｮﾝの曲線が自己交差します｡ \n角度を大きくしてください｡";
+SpdSnapLockBadAngle="指定された角度では､ｷｬｯﾁ ﾍﾞｰｽの長さが0より小さくなります｡ \n角度を変更するか､ｷｬｯﾁ長さとｵﾌｾｯﾄを増やしてください｡";
+SpdSnapLockNoPos="ｸﾘｯﾌﾟ位置が選択されていません｡";
+SpdSnapLockNoEngage="ｷｬｯﾁ ｵﾌｾｯﾄがｷｬｯﾁ高さ以上であるため､ \nﾙｰﾌﾟを完成できません｡";
+
+SpdCFSBooleanNVStar="ｺｱ ﾎﾞﾘｭｰﾑから内部ﾎﾞﾘｭｰﾑを除去する際にｴﾗｰが発生しました｡ \n";
+SpdCFSBooleanSVC="ﾎﾞﾃﾞｨｰからｺｱ ﾎﾞﾘｭｰﾑを除去する際にｴﾗｰが発生しました｡ \n";
+SpdCFSBooleanFNV="ﾎﾞﾃﾞｨｰから保護ﾎﾞﾘｭｰﾑを除去する際にｴﾗｰが発生しました｡ \n";
+
+SpdEdgeFilletPartial="一部の結果: 一部のｴﾚﾒﾝﾄをﾌｨﾚｯﾄ処理できません｡";
+SpdEdgeFilletUseLess="変更された仕様では､ﾌｨｰﾁｬｰが使用できない場合があります｡";
+
+SpdThickenFailed="厚み操作が失敗しました｡1つ以上のﾌｪｰｽを厚みづけできません｡入力を修正してください｡";
+SpdThickenUnresolved="厚み操作が失敗しました｡一部のﾌｪｰｽを解決できません｡";
+
+SpdUpdateCycleError="選択するとﾌｨｰﾁｬｰ循環更新が設けられます｡";
+SpdShellPropsError="ﾌｨｰﾁｬｰがｼｪﾙ ﾌﾟﾛﾊﾟﾃｨによって異なる場合､ｿﾘｯﾄﾞ ﾌｧﾝｸｼｮﾅﾙ ｾｯﾄで使用可能なｼｪﾙ ﾌﾟﾛﾊﾟﾃｨ ﾌｨｰﾁｬｰはありません｡";

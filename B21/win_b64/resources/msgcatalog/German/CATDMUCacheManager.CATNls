@@ -1,0 +1,55 @@
+INFO_HELP="
+CATDMUCacheManager verwaltet die Cachedaten.\n
+Verwendung: \n
+   Die Hilfeinformationen abrufen:
+      CATDMUCacheManager -h\n
+   Den Inhalt eines Cacheverzeichnisses abrufen:
+      CATDMUCacheManager -content datei [-g cacheverz] [-s zeich] [-t typ]\n
+   Den Inhalt eines Cacheverzeichnisses löschen:
+      CATDMUCacheManager -purge wert\n
+Beispiele unter Windows:\n
+   CATDMUCacheManager -h
+   CATDMUCacheManager -content c:\u\output.txt
+   CATDMUCacheManager -content c:\u\output.txt -t 3dmap
+   CATDMUCacheManager -purge 10\n
+Beispiele unter Unix:\n
+   CATDMUCacheManager -h
+   CATDMUCacheManager -content /u/output
+   CATDMUCacheManager -content /u/output -t 3dmap
+   CATDMUCacheManager -purge 10\n
+Argumente:\n
+   -h            : Hilfe.
+   -content datei: Ausgabedatei mit der Liste der Cachedateien.
+                   Jede Zeile enthält die Kennung der Cachedatei, ein
+                   Trennzeichen, die Kennung der Originaldatei, ein Trennzeichen
+                   und die Zeitmarke im Format JJJJ-MM-TT-HH.MM.SS.
+   -g cacheverz  : Das zu durchsuchende Cacheverzeichnis.
+   -s zeich      : Definiert das Zeichen, das zum Trennen von Feldern in einer Zeile
+                   der Eingabe- oder Ausgabedatei dient.
+                   Standardmäßig wird ein Leerzeichen verwendet.
+   -t typ        : Definiert den Cachetyp (cgr, 3dmap ...).
+                   Standardmäßig wird cgr verwendet.
+   -purge wert   : Löscht die ältesten Dateien aus dem Cacheverzeichnis, um eine
+                   festgelegte Größe zu erreichen.
+                   Die Größe wird in Megabyte (MB) angegeben.\n
+Diagnose:\n
+   Mögliche Exit-Statuswerte:\n
+      0   Erfolgreicher Abschluss.\n
+      1   Fehler, der auf eine der folgenden Ursachen zurückzuführen ist:
+          - Lizenz nicht verfügbar
+          - Cacheverwaltung inaktiviert
+          - fehlende Argumente
+          - ungültiger Parameter
+          - fehlender Parameter nach einer Option
+          - Ausgabedatei kann nicht geöffnet werden\n
+      2   Verarbeitungsfehler.\n
+Fehlerbehebung:\n
+   Exit-Status = 1:
+      Befehlszeile oder Umgebung anhand der Informationen in der Standardfehlerdatei ändern.\n
+   Exit-Status = 2:
+      Die Anwenderunterstützung benachrichtigen.
+";
+ERR_PROCESSING="Fehler: CATDMUCacheManager kann nicht bearbeitet werden.";
+ERR_CACHE_ACCESS="Fehler: CATDMUCacheManager kann auf das folgende Cacheverzeichnis nicht zugreifen:";
+START_BATCH="CATDMUCacheManager startet um:";
+STOP_BATCH="CATDMUCacheManager stoppt nach einer Dauer von:";

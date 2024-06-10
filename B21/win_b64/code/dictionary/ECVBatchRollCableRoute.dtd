@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- @version: -->
+
+<!-- Electrical Cable Route Management Batch Roll Cable Route DTD - version 1.0 -->
+<!--     
+ This is the DTD file that describes the format to be used for the
+ XML file that is required input into the "ECVBatchRollCableRoute"  
+ batch application.  This application is used to "roll" cable routes
+ from one effectivity to another in the electrical cable database for 
+ the Electrical Cable Route Management (ECV) product.  The electrical 
+ cable database is abbreviated "ECDB" in the documentation below.
+                                                                   
+ Explanation of format:                                                 
+                                                                        
+ Every ECDB Batch Roll Cable Route XML file starts and ends with exactly     
+ one ECVBatchRollCableRoute tag.  The ECVBatchRollCableRoute tag         
+ contains exactly one LoginInfo section, one PRC section, and an   
+ optional ReportDef section.                                            
+                                                                          
+ The LoginInfo section contains the information necessary to log in to  
+ the ENOVIA database and consists of LCAUser, LCAPwd, LCAHost, LCAPort,    
+ and LCARole tags to allow you to provide the user ID, password,        
+ host (or server) and role desired for log in.  The password should be  
+ encrypted by implementing the "CATIUExitCrypt" interface.  See the     
+ CAA documentation for further information.  If you don't implement     
+ this interface, the passed in password is assumed to be encoded in an     
+ algorithm similar to the one used by the PLM Batch architecture.       
+ Therefore, using one of the PLM Batch application to connect to ENOVIA 
+ and saving the resulting parameter file will yield an encoded password 
+ that you can then pass in to this application. 
+ 
+ One occurrence of the LoginInfo section is required, containing        
+ exactly one occurrence of each of the LCAUser, LCAPwd, LCARole, LCAPort,  
+ and LCAHost tags.  Here is an example:   
+                               
+	<LoginInfo>	    
+		<LCAUser>LogonID</LCAUser>
+		<LCAPwd>EncryptedPassword</LCAPwd>
+		<LCARole>RoleX</LCARole>
+		<LCAHost>HostName</LCAHost>
+		<LCAPort>9999</LCAPort>		
+	</LoginInfo>
+                                                                        
+ There must be exactly one PRC section in the XML file.  The cable
+ routes you are interested in rolling should be aggregated under
+ this PRC.  
+  
+ PRCName,Effectivity,Overwrite?,Filter? 
+  
+ A PRC section consists of a PRCName element followed by an Effectivity
+ element, followed by zero or one Overwrite elements, followed by zero 
+ or one Filter elements.
+ 
+ The PRCName element is simply a text string that defines the PRC name
+ to process.  You can use wildcards (i.e., '*'), but the algorithm will
+ stop at the first PRC that matches the PRCName string in the ENOVIA 
+ database.
+ 
+ The Effectivity element contains exactly one RangeEffectivity element,
+ which in turn contains a FromRangeEffectivity element followed by a
+ ToRangeEffectivity element.  The "FromRangeEffectivity" and 
+ "ToRangeEffectivity" elements are text strings that describe the "from"
+ and "to" effectivity of the cable routes to be rolled.  They are expected 
+ to be integer strings.  The FromRangeEffectivity has to be greater than 
+ or equal to zero, and the ToRangeEffectivity has to be greater than or 
+ equal to one, and they cannot equal each other, or else the input is 
+ considered to be invalid.  Otherwise, there is no restrictions on these 
+ numbers. If the FromRangeEffectivity is zero, then you are asking to roll 
+ cable routes with no effectivity assigned to them.
+ 
+ The Overwrite element is an optional empty element that consists of the 
+ attribute "Reroll" with possible values "Yes" or "No".  If the Overwrite 
+ element is included, then the default is Reroll="Yes" if the Reroll 
+ attribute is not specified.  If the Overwrite element is not included at
+ all, then the default is Reroll="No".  If Reroll=Yes, then overwrites of 
+ existing cable routes while rolling cable routes are supported, otherwise, 
+ they are not. 
+ 
+ The CopyRouteStatus element is an optional empty element.  It controls
+ how to handle the route status of a rolled cable route.  It consists of 
+ the attribute "ForceOutOfDateRouteStatus" with a default value of "No". 
+ If ForceOutOfDateRouteStatus is "Yes", then every time a cable route is 
+ rolled, if the cable route status wasn't set to "Effectivity Inconsistent" 
+ as a result of the roll, then the cable route status on the rolled cable 
+ route is automatically set to "Out of Date" no matter what it was, which 
+ will require it to be validated later.  Otherwise, the route status of the 
+ rolled cable route will be set to what it was before the roll.
+ 
+ The Filter element defines a filter to be used in determining which 
+ cable routes of the PRC to roll.  The filter element consists of
+ zero or one CableInSchematicFilter elements.  A CableInSchematicFilter 
+ element contains one or more SchematicDocFilter elements.  A
+ SchematicDocFilter in turn consists of one SchematicDocID element
+ followed by one or more CableInstanceID elements.  The SchematicDocID
+ and CableInstanceID are simply text strings that describe the 
+ schematic document and the cable instances within that schematic document
+ whose associated cable routes you would like processed.  The text strings  
+ can contain wildcards. 
+ 
+ The filter element itself also has a series of optional "CableRouteStatus" 
+ attributes (CableRouteStatusFullyRouted, CableRouteStatusPartiallyRouted, 
+ CableRouteStatusOutOfDate, CableRouteStatusEffectivityInconsistent, 
+ CableRouteStatusCompleteRoute) with possible values of "Yes" or "No" that, 
+ taken together, serve to define the cable route status to be used for the 
+ filter.
+  
+ The Filter element itself is totally optional, as are most aspects of the
+ Filter element.  Here are the defaults that will be used by the
+ "ECVBatchRollCableRoute" batch application if these filter items
+ aren't provided:
+ 
+	CableRouteStatus - CableRouteStatusFullyRouted="Yes", 
+	                   CableRouteStatusPartiallyRouted="Yes",
+	                   CableRouteStatusOutOfDate="Yes",
+                     CableRouteStatusEffectivityInconsistent=Yes,
+                     CableRouteStatusCompleteRoute=Yes
+	(all cable route statuses will be processed)
+  
+	CableInSchematicFilter: 
+    SchematicDocID - "*" (i.e., all schematic documents will be processed)
+    CableInstanceID - "*" (i.e., all cable instances will be processed)
+    
+ Here are some examples of PRC sections with explanations:
+ 
+   <PRC>
+     <PRCName>ECV1_ehh</PRCName>
+     <Effectivity>
+       <RangeEffectivity>
+         <FromRangeEffectivity>1</FromRangeEffectivity>
+         <ToRangeEffectivity>2</ToRangeEffectivity>
+       </RangeEffectivity>
+     </Effectivity>
+     <Overwrite Reroll="Yes"/>
+     <Filter CableRouteStatusFullyRouted="Yes" 
+             CableRouteStatusPartiallyRouted="Yes">      
+       <CableInSchematicFilter>
+         <SchematicDocFilter>
+           <SchematicDocID>ELD1_ECV1_ehh</SchematicDocID>
+           <CableInstanceID>ehhCable13</CableInstanceID>
+           <CableInstanceID>ehhCable14</CableInstanceID>
+         </SchematicDocFilter>
+         <SchematicDocFilter>
+           <SchematicDocID>ELD2_ECV1_ehh</SchematicDocID>
+           <CableInstanceID>*</CableInstanceID>
+         </SchematicDocFilter>
+       </CableInSchematicFilter>
+     </Filter>
+   </PRC>
+              
+ This PRC record requests the rolling of cable routes from PRC "ECV1_ehh" 
+ from effectivity 1 to 2 (with overwrite) whose cable route status is
+ either "Fully Routed" or "Partially Routed" and whose associated cable
+ instance is either "ehhCable13" or "ehhCable14" from schematic document
+ "ELD1_ECV1_ehh", or any cable instance from schematic document 
+ "ELD2_ECV1_ehh".
+ 
+   <PRC>
+     <PRCName>ECV1_ehh</PRCName>
+     <Effectivity>
+       <RangeEffectivity>
+         <FromRangeEffectivity>1</FromRangeEffectivity>
+         <ToRangeEffectivity>2</ToRangeEffectivity>
+       </RangeEffectivity>
+     </Effectivity>
+   </PRC>
+       
+ This PRC record will result in the rolling of all cable routes in
+ PRC "ECV1_ehh" from effectivity 1 to 2 with no overwrite and regardless
+ of cable route status. 
+                                                                        
+ The "ReportDef" element should occur zero or one time.  Its purpose is
+ to specify a location and a file name for an output report that will
+ be generated for this batch import run, plus a format for that report.  
+ The ReportDef is defined by three attributes - DirectoryPath, FileName 
+ and Format.  Even though the ReportDef element is optional, if you do 
+ include one, then you must specify the first two attributes (the Format
+ attribute is optional with a default value of Text).  The FileName should
+ not include the file extension.  
+ Here is a sample:
+ 
+     <ReportDef DirectoryPath="D:\MySampleDirectory" 
+                FileName="SampleFileName" 
+                Format="CSV" />
+
+ This statement would lead to an output report being generated in 
+ "D:\MySampleDirectory\SampleFileName.<extension>", where <extension>
+ is the file extension as implied by the input report format.  
+ 
+ The output report would contain information about the batch run and the 
+ results of trying to import the work packages into the ECDB.  If you 
+ don't include a ReportDef element in your XML file (or this application 
+ doesn't get to successfully parse the XML file), then this application 
+ will write out all of its information to STDOUT and STDERR.                          
+-->
+
+<!ELEMENT ECVBatchRollCableRoute (LoginInfo,PRC,ReportDef?)>
+
+<!ELEMENT LoginInfo (LCAUser,LCAPwd,LCARole,LCAHost,LCAPort)>
+<!ELEMENT LCAUser (#PCDATA)>
+<!ELEMENT LCAPwd  (#PCDATA)>
+<!ELEMENT LCARole (#PCDATA)>
+<!ELEMENT LCAHost (#PCDATA)>
+<!ELEMENT LCAPort (#PCDATA)>
+
+<!ELEMENT PRC (PRCName,Effectivity,Overwrite?,CopyRouteStatus?,Filter?)>
+<!ELEMENT PRCName (#PCDATA)>
+
+<!--
+<!ELEMENT Effectivity ((RangeEffectivity|DateEffectivity))>
+-->
+
+<!ELEMENT Effectivity (RangeEffectivity)>
+<!ELEMENT RangeEffectivity (FromRangeEffectivity,ToRangeEffectivity)>
+<!ELEMENT FromRangeEffectivity (#PCDATA)>
+<!ELEMENT ToRangeEffectivity (#PCDATA)>
+
+<!--
+<!ELEMENT DateEffectivity (FromDateEffectivity,ToDateEffectivity)>
+<!ELEMENT FromDateEffectivity (Date)>
+<!ELEMENT ToDateEffectivity (Date)>
+<!ELEMENT Date (Day,Month,Year)>
+<!ELEMENT Day (#PCDATA)>
+<!ELEMENT Month (#PCDATA)>
+<!ELEMENT Year (#PCDATA)>
+-->
+
+<!ELEMENT Overwrite EMPTY>
+<!ATTLIST Overwrite Reroll (Yes|No) "Yes">
+
+<!ELEMENT CopyRouteStatus EMPTY>
+<!ATTLIST CopyRouteStatus ForceOutOfDateRouteStatus (Yes|No) "No">
+
+<!ELEMENT Filter (CableInSchematicFilter?)>
+
+<!--
+<!ELEMENT Filter ((CableInSchematicFilter|VolumeFilter)?)>
+-->
+
+<!ATTLIST Filter CableRouteStatusFullyRouted (Yes|No) #IMPLIED>
+<!ATTLIST Filter CableRouteStatusPartiallyRouted (Yes|No) #IMPLIED>
+<!ATTLIST Filter CableRouteStatusOutOfDate (Yes|No) #IMPLIED>
+<!ATTLIST Filter CableRouteStatusEffectivityInconsistent (Yes|No) #IMPLIED>
+<!ATTLIST Filter CableRouteStatusCompleteRoute (Yes|No) #IMPLIED>
+<!ELEMENT CableInSchematicFilter (SchematicDocFilter+)>
+<!ELEMENT SchematicDocFilter (SchematicDocID,CableInstanceID+)>
+<!ELEMENT SchematicDocID (#PCDATA)>
+<!ELEMENT CableInstanceID (#PCDATA)>
+
+<!--
+<!ELEMENT VolumeFilter (Xmin,Ymin,Zmin,Xmax,Ymax,Zmax)>
+<!ATTLIST VolumeFilter Unit (mm|m|cm|km|in|ft) #REQUIRED>
+<!ELEMENT Xmin (#PCDATA)>
+<!ELEMENT Ymin (#PCDATA)>
+<!ELEMENT Zmin (#PCDATA)>
+<!ELEMENT Xmax (#PCDATA)>
+<!ELEMENT Ymax (#PCDATA)>
+<!ELEMENT Zmax (#PCDATA)>
+-->
+
+<!ELEMENT ReportDef EMPTY>
+<!ATTLIST ReportDef DirectoryPath CDATA #IMPLIED>
+<!ATTLIST ReportDef FileName CDATA #IMPLIED>
+<!ATTLIST ReportDef Format (Text|CSV) "Text">

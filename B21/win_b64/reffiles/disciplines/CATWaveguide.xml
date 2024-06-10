@@ -1,0 +1,492 @@
+<!DOCTYPE Application SYSTEM "Application.dtd">
+
+<Application Name="CATWaveguide" Description="Waveguide Design Application" Visible = "no">
+
+     <Resource Name="WaveguideMaterialSpecCatalog" Description="Waveguide Material Specifications Catalog">
+           <ID  Type="Catia" Driver="File" Location="\startup\EquipmentAndSystems\Waveguide\MaterialSpecification\WaveguideMaterialSpecifications.catalog"/>
+     </Resource>
+
+     <Resource Name="WaveguideStandardsCatalog" Description="Waveguide Standards Catalog">
+           <ID  Type="Catia" Driver="File" Location="\startup\EquipmentAndSystems\Waveguide\Standards\WaveguideStandards.catalog"/>
+     </Resource>
+
+     <Resource Name="WaveguideDesignRulesCatalog" Description="Waveguide Design Rules Catalog">
+           <ID  Type="Catia" Driver="File" Location="\startup\EquipmentAndSystems\Waveguide\DesignRules\WaveguideDesignRules.catalog"/>
+     </Resource>
+
+     <Resource Name="WaveguidePartsCatalog" Description="Waveguide Parts Catalog">
+           <ID  Type="Catia" Driver="File" Location="\startup\EquipmentAndSystems\Waveguide\WaveguideDesign\ComponentCatalogs\Parametric\WaveguideParts.catalog"/>
+     </Resource>
+
+     <Resource Name="WaveguideLinesCatalog" Description="Waveguide Lines Shared Catalog">
+           <ID  Type="Catia" Driver="File" Location="\startup\EquipmentAndSystems\Waveguide\SampleData\WaveguideLines\CATPspWaveguideLine.catalog"/>
+     </Resource>
+
+     <Resource Name="LoosePartsCatalog" Description="Loose Parts Catalog">
+           <ID  Type="Catia" Driver="File" Location="\startup\EquipmentAndSystems\MultiDiscipline\ComponentCatalogs\LooseParts.catalog"/>
+     </Resource>
+
+<!--     <Resource Name="LineIDAttributeFilter" Description="List of attributes used to filter the Waveguide Line selection list">
+           <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\Waveguide\SampleData\WaveguideLineAttributeFilter.txt"/>
+     </Resource> -->
+
+     <Resource Name="WaveguideGraphicRepresentations" Description="Waveguide Graphic Representations">
+           <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\Waveguide\WaveguideDesign\ComponentCatalogs\GraphicRepresentations.txt"/>
+     </Resource>
+
+     <Resource Name="WaveguideConnectorAttributes" Description="Connector Attributes">
+           <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\Waveguide\WaveguideDesign\ComponentCatalogs\ConnectorAttributes.txt"/>
+     </Resource>
+
+     <Resource Name="WaveguideReportDefinitions" Description="Waveguide Report Definitions Directory">
+           <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\Waveguide\SampleData"/>
+     </Resource>
+
+     <Resource Name="ReportExpressions" Description="Report Expressions Directory">
+           <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\ReporterData"/>
+     </Resource>
+
+     <!--  Reporter Style Sheet Directory   -->
+     <Resource Name="ReportStyleSheet" Description="Report Style Sheet Directory">
+           <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\ReporterData"/>
+     </Resource>
+
+     <Resource Name="DiscreteValues" Description="Discrete Values Directory">
+           <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\DiscreteValues"/>
+     </Resource>
+
+     <Resource Name="SchematicDriven" Description="Schematic Driven Flag">
+           <ID  Type="Misc" Driver="File" Location="0"/>
+     </Resource>
+
+    <!-- *************** Option=1 Function Driven only                    *************** -->
+    <!-- *************** Option=2 Functionless, SchematicDriven = 0       *************** -->
+    <!-- *************** Option=3 Function Driven or Functionless.        *************** -->
+    <Resource Name="FunctionDriven" Description="Function driven equipment part placement">
+      <ID  Type="Misc" Driver="File" Location="3"/>
+    </Resource>
+    
+    <!-- *************** Option=0 Only display Tube/Pipe/Duct/Bendable if compatible to neighbor parts - Tools/Options LOCKED ******************* -->
+    <!-- *************** Option=1 Display Tube/Pipe/Duct/Bendable even if NOT compatible to neighbor parts - Tools/Options LOCKED *************** -->
+    <!-- *************** Option=2 Option is UNLOCKED - Default is from previous setting saved in CATSetting *************************************** -->
+    <Resource Name="IgnoreNeighborCompatibility" Description="Ignore compatibility with neighbor parts">
+      <ID  Type="Misc" Driver="File" Location="2"/>
+    </Resource>
+
+    <!-- *************** Option=0 Connect Tube/Pipe/Duct/Bendable only if compatible to neighbor parts - Tools/Options LOCKED ******************* -->
+    <!-- *************** Option=1 Connect Tube/Pipe/Duct/Bendable even if NOT compatible to neighbor parts - Tools/Options LOCKED *************** -->
+    <!-- *************** Option=2 Option is UNLOCKED - Default is from previous setting saved in CATSetting *************************************** -->  
+    <Resource Name="ConnectToInCompatibleNeighbor" Description="Connect part to incompatible neighbor parts">
+      <ID  Type="Misc" Driver="File" Location="2"/>
+    </Resource>
+
+    <!-- *************** Option=0 Do not display a warning message during Spec-driven part placement *************** -->
+    <!-- ***************          if the Spec of the part is different from the Spec of the Line     *************** -->
+    <!-- *************** Option=1 Display a warning message during Spec-driven part placement        *************** -->
+    <!-- ***************          if the Spec of the part is different from the Spec of the Line     *************** -->
+    <Resource Name="OutOfSpecWarning" Description="Out of Spec warning message display">
+      <ID  Type="Misc" Driver="File" Location="0"/>
+    </Resource>
+
+    <!-- *************** Option=0 Do not use the Spec of the Line during Respec of parts and runs    *************** -->
+    <!-- *************** Option=1 Use the Spec of the Line during Respec of parts and runs           *************** -->
+    <Resource Name="AlwaysUseSpecFromLine" Description="Use Line Spec during Respec of parts and runs">
+      <ID  Type="Misc" Driver="File" Location="0"/>
+    </Resource>
+
+    <!-- *************** Option=0 Use Line ID from selected run - Option is LOCKED        ****************** -->
+    <!-- *************** Option=1 Do not use Line ID from selected run - Option is LOCKED ****************** -->
+    <!-- *************** Option=2 Option is UNLOCKED - Default is from previous setting saved in CATSetting ** -->
+    <Resource Name="GetLineFromSelection" Description="Get LineID from selected run">
+      <ID  Type="Misc" Driver="File" Location="2"/>
+    </Resource>
+
+    <!-- *************** Option=0 Use Nominal Size from selected run - Option is LOCKED        ************* -->
+    <!-- *************** Option=1 Do not use Nominal Size from selected run - Option is LOCKED ************* -->
+    <!-- *************** Option=2 Option is UNLOCKED - Default is from previous setting saved in CATSetting ** -->
+    <Resource Name="GetSizeFromSelection" Description="Get Nominal Size from selected run">
+      <ID  Type="Misc" Driver="File" Location="2"/>
+    </Resource>
+
+    <!-- *************** Option=0 Use Spec from selected run - Option is LOCKED        ********************* -->
+    <!-- *************** Option=1 Do not use Spec from selected run - Option is LOCKED ********************* -->
+    <!-- *************** Option=2 Option is UNLOCKED - Default is from previous setting saved in CATSetting ** -->
+    <Resource Name="GetSpecFromSelection" Description="Get Specification from selected run">
+    <ID  Type="Misc" Driver="File" Location="2"/>
+    </Resource>
+
+    <!-- *************** Option=0 Do not use dimension rule from Standard to override      *************** -->
+    <!-- *************** the attributes. Design table or reference part already contain    *************** -->
+    <!-- *************** the data. Currently, affected attributes are OD and WallThickness *************** -->
+    <!-- *************** Option=1 Use dimension rule from Standard to retrieve and         *************** -->
+    <!-- *************** override the attributes.                                          *************** -->
+    <Resource Name="OverrideReferenceAttributesUsingDimensionRule" Description="Use dimension rule from Standard to override the attributes.">
+      <ID  Type="Misc" Driver="File" Location="0"/>
+    </Resource>
+
+    <!-- *************** Option=0 Allow selection of connectors from any application            *************** -->
+    <!-- *************** Option=1 Allow selection of connectors only for the active application *************** -->
+    <Resource Name="FilterOnApplicationCtrs" Description="Filter on application connectors during routing and part placement.">
+      <ID  Type="Misc" Driver="File" Location="1"/>
+    </Resource>
+
+	<Resource Name="OverrideFunctionalNominalSize" Description="In schematic-driven routing, allow the 3D designer to overide the nominal size defined in the schematic">
+		   <ID  Type="Misc" Driver="File" Location="0"/>
+	</Resource>
+
+	 <Resource Name="SchematicDriven" Description="Schematic Driven Flag">
+           <ID  Type="Misc" Driver="File" Location="0"/>
+     </Resource>
+
+	<!-- *************** Option=0 Break run (ON/OFF) controlled by Tools Option *************** -->
+	<!-- *************** Option=1 Always Break Run is enabled *************** -->
+	<!-- *************** Option=2 Always No Break Run *************** -->
+	<Resource Name="BreakRunAtEveryPlacedPart" Description="Break Run Flag">
+	   <ID  Type="Misc" Driver="File" Location="0"/>
+	</Resource>
+
+
+	<!-- *************** Option=1 Use name defined in Design table for the Part Number *************** -->
+	<!-- *************** Option=2 Use ID Schema to define the Part Number *************** -->
+	<Resource Name="UniqueReferencePartNumberOptions" Description="Unique Reference Part Number definition option">
+	   <ID  Type="Misc" Driver="File" Location="1"/>
+	</Resource>
+
+
+	<!-- *************** Option=1 Use name defined in Design table for the Part Number *************** -->
+	<!-- *************** Option=2 Use ID Schema to define the Part Number *************** -->
+	<Resource Name="PartiallyResolvedReferencePartNumberOptions" Description="Partially ResolvedReference Part Number definition option">
+	   <ID  Type="Misc" Driver="File" Location="2"/>
+	</Resource>
+
+  <!-- ******************************************************************************************** -->
+  <!-- ************    Options for File Name Of Unique Reference          ************************* -->
+  <!-- ************ Option=1 Use part number as the file name             ************************* -->
+  <!-- ************ Option=2 Use catalog file name plus a unique identifier as the file name   **** -->
+  <!-- ******************************************************************************************** -->
+  <Resource Name="UniqueReferenceFileNameOptions" Description="Unique Reference File Name definition option">
+     <ID  Type="Misc" Driver="File" Location="2"/>
+  </Resource>
+
+	<!-- ******************************************************************************************** -->
+	<!-- ************    Options for File Name Of Resolved Reference        ************************* -->
+	<!-- ************ Option=1 Use part number as the file name             ************************* -->
+	<!-- ************ Option=2 Use catalog file name as the file name       ************************* -->
+	<!-- ******************************************************************************************** -->
+	<Resource Name="PartiallyResolvedReferenceFileNameOptions" Description="Partially Resolved Reference File Name definition option">
+		<ID  Type="Misc" Driver="File" Location="2"/>
+	</Resource>
+
+  <!-- *************** Option=NoLimit   - No limit on part number length. *************** -->
+  <!-- *************** Option=Automatic - Automatically limit part number length based on detected file environment (File, EV5, VPM). ** -->
+  <!-- *************** Option=EV5       - Use the maximum part number length (40) allowed in ENOVIA V5 (including file extension.  ***** -->
+  <!-- *************** Option=VPM       - Use the maximum part number length (32) allowed in ENOVIA VPM. *************** -->
+  <!-- *************** Option=Integer>0 - User defined maximum length for part number *************** -->
+  <Resource Name="PartNumberMaximumLength" Description="Maximum Length Allowed for Part Number">
+    <ID  Type="Misc" Driver="File" Location="EV5"/>
+  </Resource>
+
+  <!-- *************** Option=NoLimit   - No limit on part file name length. *************** -->
+  <!-- *************** Option=Automatic - Automatically limit part file name length based on detected file environment (File, EV5, VPM). ** -->
+  <!-- *************** Option=EV5       - Use the maximum part file name length (40) allowed in ENOVIA V5 (including file extension.  ***** -->
+  <!-- *************** Option=Integer>0 - User defined maximum length for part file name *************** -->
+  <Resource Name="PartFileNameMaximumLength" Description="Maximum Length Allowed for file name">
+    <ID  Type="Misc" Driver="File" Location="EV5"/>
+  </Resource>
+
+  <!-- ***************************************************************** -->
+  <!--  The following resource defines the option to create an       *** -->
+  <!--  external link between a flexible route and a selected object *** -->
+  <!--    Option=0  Do not create external link                      *** -->
+  <!--    Option=1  The default: Create external link.               *** -->
+  <!-- ***************************************************************** -->
+  <Resource Name="CreateExternalLink" Description="Option to create an external link between objects">
+	      <ID  Type="Misc" Driver="File" Location="1"/>
+     </Resource>
+
+     <Resource Name="DeletePartOnRun" Description="Delete all parts on a run when the run is deleted">
+           <ID  Type="Misc" Driver="File" Location="0"/>
+     </Resource>
+
+     <Resource Name="GraphicRepresentations" Description="Design Graphic Representations">
+           <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\MultiDiscipline\SampleData\GraphicRepresentations.txt"/>
+     </Resource>
+
+  <!-- ************** HANGER DESIGN RESOURCES ************** -->
+
+     <Resource Name="HangerMaterialSpecCatalog" Description="Hanger Material Specifications Catalog">
+           <ID  Type="Catia" Driver="File" Location="\startup\EquipmentAndSystems\Hanger\MaterialSpecification\HangerMaterialSpecifications.catalog"/>
+     </Resource>
+
+     <Resource Name="HangerStandardsCatalog" Description="Hanger Standards Catalog">
+           <ID  Type="Catia" Driver="File" Location="\startup\EquipmentAndSystems\Hanger\Standards\HangerStandards.catalog"/>
+     </Resource>
+
+     <Resource Name="HangerDesignRulesCatalog" Description="Hanger Design Rules Catalog">
+           <ID  Type="Catia" Driver="File" Location="\startup\EquipmentAndSystems\Hanger\DesignRules\HangerDesignRules.catalog"/>
+     </Resource>
+
+     <Resource Name="HangerPartsCatalog" Description="Hanger Parts Catalog">
+           <ID  Type="Catia" Driver="File" Location="\startup\EquipmentAndSystems\Hanger\HangerDesign\ComponentCatalogs\Parametric\HangerParts.catalog"/>
+     </Resource>
+
+     <Resource Name="GrowthFactor" Description="Growth Factor">
+           <ID  Type="Misc" Driver="File" Location="0.2"/>
+     </Resource>
+
+  <!-- ************** ID SCHEMA RESOURCES ************** -->
+
+     <Resource Name="PipingIDSchema" Description="Piping ID Schema Directory">
+           <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\Piping\DataDictionary"/>
+     </Resource>
+
+     <Resource Name="EquipmentIDSchema" Description="Equipment ID Schema Directory">
+           <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\Equipment\DataDictionary"/>
+     </Resource>
+
+     <Resource Name="InstrumentIDSchema" Description="Instrument ID Schema Directory">
+           <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\Instrument\DataDictionary"/>
+     </Resource>
+
+     <Resource Name="HVACIDSchema" Description="HVAC ID Schema Directory">
+           <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\HVAC\DataDictionary"/>
+     </Resource>
+
+     <Resource Name="WaveguideIDSchema" Description="Waveguide ID Schema Directory">
+           <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\Waveguide\DataDictionary"/>
+     </Resource>
+
+     <Resource Name="TubingIDSchema" Description="Tubing ID Schema Directory">
+           <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\Tubing\DataDictionary"/>
+     </Resource>
+
+     <Resource Name="HangerIDSchema" Description="Hanger ID Schema Directory">
+           <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\Hanger\DataDictionary"/>
+     </Resource>
+
+     <Resource Name="ConduitIDSchema" Description="Conduit ID Schema Directory">
+           <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\Conduit\DataDictionary"/>
+     </Resource>
+
+     <Resource Name="RacewayIDSchema" Description="Raceway ID Schema Directory">
+           <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\Raceway\DataDictionary"/>
+     </Resource>
+
+     <Resource Name="MultiDisciplineIDSchema" Description="MultiDiscipline ID Schema Directory">
+           <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\MultiDiscipline\DataDictionary"/>
+     </Resource>
+
+     <Resource Name="StrPreliminaryLayoutIDSchema" Description="Structure Preliminary Layout ID Schema Directory">
+           <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\StructurePreliminaryLayout\DataDictionary"/>
+     </Resource>
+
+     <Resource Name="StrFunctionalDesignIDSchema" Description="Structure Functional Design ID Schema Directory">
+           <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\StructureFunctionalDesign\DataDictionary"/>
+     </Resource>
+
+     <Resource Name="CompAccessIDSchema" Description="Compartment Access ID Schema Directory">
+           <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\CompartmentAccess\DataDictionary"/>
+     </Resource>
+
+     <Resource Name="ElectricalIDSchema" Description="Electrical ID Schema Directory">
+           <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\Electrical\DataDictionary"/>
+     </Resource>
+
+     <!-- ************** Option=1   - Default : Update the instance ID after Build New Reference (BNR) is performed *************** -->
+     <!-- *************** Option=2   -  Do not update the instance ID after  Build New Reference (BNR) is performed  ******************** -->
+     <Resource Name="UpdateInstanceNameAfterBNR" Description="Update instance ID after Build New Reference">
+           <ID  Type="Misc" Driver="File" Location="1"/>
+     </Resource>
+
+  <!-- ************** USER DICTIONARY RESOURCES ************** -->
+
+     <Resource Name="EquipmentUserDictionary" Description="Equipment User Dictionary">
+           <ID  Type="Misc" Driver="File" Location="CATEquipmentSample.CATfct"/>
+     </Resource>
+
+     <Resource Name="HVACUserDictionary" Description="HVAC User Dictionary">
+           <ID  Type="Misc" Driver="File" Location="CATHVACSample.CATfct"/>
+     </Resource>
+
+     <Resource Name="InstrumentUserDictionary" Description="Instrument User Dictionary">
+           <ID  Type="Misc" Driver="File" Location="CATInstrumentSample.CATfct"/>
+     </Resource>
+
+     <Resource Name="PipingUserDictionary" Description="Piping User Dictionary">
+           <ID  Type="Misc" Driver="File" Location="CATPipingSample.CATfct"/>
+     </Resource>
+
+     <Resource Name="TubingUserDictionary" Description="Tubing User Dictionary">
+           <ID  Type="Misc" Driver="File" Location="CATTubingSample.CATfct"/>
+     </Resource>
+
+     <Resource Name="WaveguideUserDictionary" Description="Waveguide User Dictionary">
+           <ID  Type="Misc" Driver="File" Location="CATWaveguideSample.CATfct"/>
+     </Resource>
+
+     <Resource Name="MultiDisciplineUserDictionary" Description="MultiDiscipline User Dictionary">
+           <ID  Type="Misc" Driver="File" Location="CATMultiDisciplineSample.CATfct"/>
+     </Resource>
+
+     <Resource Name="StrPreLayoutUserDictionary" Description="Structure Preliminary Layout User Dictionary">
+           <ID  Type="Misc" Driver="File" Location="CATStrPreliminaryLayoutSample.CATfct"/>
+     </Resource>
+
+     <Resource Name="StrFuncDesignUserDictionary" Description="Structure Functional Design User Dictionary">
+           <ID  Type="Misc" Driver="File" Location="CATStructureFunctionalDesignSample.CATfct"/>
+     </Resource>
+
+     <Resource Name="CompAccessUserDictionary" Description="Compartment Access User Dictionary">
+           <ID  Type="Misc" Driver="File" Location="CATCompAccessSample.CATfct"/>
+     </Resource>
+
+     <Resource Name="ElectricalUserDictionary" Description="Electrical User Dictionary">
+           <ID  Type="Misc" Driver="File" Location="CATElectricalSample.CATfct"/>
+     </Resource>
+
+
+  <!-- ************** COMPUTED ATTRIBUTE RESOURCES ************** -->
+
+     <Resource Name="EquipmentComputedAttributes" Description="Equipment list of computed attribute names">
+           <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\MultiDiscipline\SampleData\EquipmentComputedAttributes.txt"/>
+     </Resource>
+
+     <Resource Name="PipingComputedAttributes" Description="Piping list of computed attribute names">
+           <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\MultiDiscipline\SampleData\PipingComputedAttributes.txt"/>
+     </Resource>
+
+     <Resource Name="InstrumentComputedAttributes" Description="Instrument list of computed attribute names">
+           <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\MultiDiscipline\SampleData\InstrumentComputedAttributes.txt"/>
+     </Resource>
+
+     <Resource Name="HVACComputedAttributes" Description="HVAC list of computed attribute names">
+           <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\MultiDiscipline\SampleData\HVACComputedAttributes.txt"/>
+     </Resource>
+
+     <Resource Name="TubingComputedAttributes" Description="Tubing list of computed attribute names">
+           <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\MultiDiscipline\SampleData\TubingComputedAttributes.txt"/>
+     </Resource>
+
+     <Resource Name="WaveguideComputedAttributes" Description="Waveguide list of computed attribute names">
+           <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\MultiDiscipline\SampleData\WaveguideComputedAttributes.txt"/>
+     </Resource>
+
+     <Resource Name="RacewayComputedAttributes" Description="Raceway list of computed attribute names">
+           <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\MultiDiscipline\SampleData\RacewayComputedAttributes.txt"/>
+     </Resource>
+
+     <Resource Name="ConduitComputedAttributes" Description="Conduit list of computed attribute names">
+           <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\MultiDiscipline\SampleData\ConduitComputedAttributes.txt"/>
+     </Resource>
+
+     <Resource Name="HangerComputedAttributes" Description="Hanger list of computed attribute names">
+           <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\MultiDiscipline\SampleData\HangerComputedAttributes.txt"/>
+     </Resource>
+
+     <Resource Name="CompAccessComputedAttributes" Description="Component Access list of computed attribute names">
+           <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\MultiDiscipline\SampleData\CompAccessComputedAttributes.txt"/>
+     </Resource>
+
+     <Resource Name="ElectricalComputedAttributes" Description="Electrical list of computed attribute names">
+           <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\MultiDiscipline\SampleData\ElectricalComputedAttributes.txt"/>
+     </Resource>
+
+	<!-- ***************************************************************** -->
+	<!--  The following resource defines the behavior on setting the    ** -->
+	<!--  association status for Equipment in the command               ** -->
+	<!--  "Analyze Functional-Physical Integration Status"              ** -->
+	<!-- ******Option=0 The default: Function is realized if it is      ** -->
+	<!-- ******         associated with an object in 3D documents.      ** -->
+	<!-- ******Option=1 Function is realized if an object with the      ** -->
+	<!-- ******         same name in the 3D documents even it is not    ** -->
+	<!-- ******         associated with an object.                      ** -->
+	<!-- ***************************************************************** -->
+	<Resource Name="2D3DAssociationStatusOption" Description="Function Physical Association Status option">
+		<ID  Type="Misc" Driver="File" Location="0"/>
+	</Resource>
+
+	 <!-- ******************************************************************* -->
+	 <!--  The following resource defines the resource for             ****** -->
+	 <!--  Design Validation command and 2D3DIntegrationStatusReport   ****** -->
+	 <!-- ******************************************************************* -->
+		<!-- Design Validation Report  -->
+		<!-- define the output file for the design validation report  -->
+		<Resource Name="DesignValidationReport" Description="Design Validation Report">
+			<ID  Type="Path" Driver="File" Location="C:\CATTemp\Validation\DesignValidation.txt"/>
+		</Resource>
+
+    <!-- for Waveguide Discipline -->
+    <!-- Waveguide Design Validation Mandatory Attributes  -->
+    <!-- define the file which lists all mandatory attributes  -->
+    <Resource Name="WaveguideDesignValidationMandatoryAttributes" Description="Waveguide Design Validation Mandatory Attributes">
+      <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\Waveguide\SampleData\WaveguideDesignValidationMandatoryAttributes.txt"/>
+    </Resource>
+
+    <!-- Waveguide Design Validation Input Criteria -->
+    <!-- define the file which lists all attributes with values that the validation process must meet -->
+    <Resource Name="WaveguideDesignValidationInputCriteria" Description="Waveguide Design Validation Input Criteria">
+      <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\Waveguide\SampleData\WaveguideDesignValidationInputCriteria.txt"/>
+    </Resource>
+
+    <!-- Required Waveguide Design Validation Checks -->
+    <!-- define the file which lists all checks that the validation process should check -->
+    <Resource Name="WaveguideRequiredDesignValidationChecks" Description="Required Waveguide Design Validation Checks">
+      <ID  Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\Waveguide\SampleData\WaveguideRequiredDesignValidationChecks.txt"/>
+    </Resource>
+
+    <!-- 2D3DIntegrationStatusReport  -->
+		<!-- define the output file for the Function Physical integration status report  -->
+		<Resource Name="2D3DIntegrationStatusReport" Description="Function Physical integration status report">
+			<ID  Type="Path" Driver="File" Location="C:\CATTemp\Integration\2D3DIntegrationStatusReport.txt"/>
+		</Resource> 
+		
+		<!-- Catalogs used for design validation and 2D3DIntegrationStatusReport-->
+		<Resource Name="PipingStandardsCatalog" Description="Piping Standards Catalog" >
+		<ID  Type="Catia" Driver="File" Location="\startup\EquipmentAndSystems\Piping\Standards\PipingStandards.catalog"/>
+		</Resource>	
+		<Resource Name="PipingDesignRulesCatalog" Description="Piping Design Rules Catalog" >
+			<ID  Type="Catia" Driver="File" Location="\startup\EquipmentAndSystems\Piping\DesignRules\PipingDesignRules.catalog"/>
+		</Resource>
+		<Resource Name="PipingSpecificationsCatalog" Description="Piping Specifications Catalog" >
+		<ID  Type="Catia" Driver="File" Location="\startup\EquipmentAndSystems\Piping\Specification\PipingSpecifications.catalog"/>
+		</Resource>
+
+		<Resource Name="TubingStandardsCatalog" Description="Tubing Standards Catalog" >
+			<ID  Type="Catia" Driver="File" Location="\startup\EquipmentAndSystems\Tubing\Standards\TubingStandards.catalog"/>
+		</Resource>
+		<Resource Name="TubingDesignRulesCatalog" Description="Tubing Design Rules Catalog" >
+			<ID  Type="Catia" Driver="File" Location="\startup\EquipmentAndSystems\Tubing\DesignRules\TubingDesignRules.catalog"/>
+		</Resource>
+		<Resource Name="TubingSpecificationsCatalog" Description="Tubing Specifications Catalog" >
+		<ID  Type="Catia" Driver="File" Location="\startup\EquipmentAndSystems\Tubing\Specification\TubingSpecifications.catalog"/>
+	    </Resource>
+
+		<Resource Name="RacewayStandardsCatalog" Description="Raceway Standards Catalog">
+			<ID  Type="Catia" Driver="File" Location="\startup\EquipmentAndSystems\Raceway\Standards\RacewayStandards.catalog"/>
+		</Resource>
+
+		<Resource Name="ConduitStandardsCatalog" Description="Conduit Standards Catalog">
+			<ID  Type="Catia" Driver="File" Location="\startup\EquipmentAndSystems\Conduit\Standards\ConduitStandards.catalog"/>
+		</Resource>
+		
+		<Resource Name="EquipDesignRulesCatalog" Description="Equipment Design Rules Catalog">
+        <ID  Type="Catia" Driver="File" Location="\startup\EquipmentAndSystems\Equipment\General\DesignRules\EquipmentDesignRules.catalog"/>
+        </Resource>
+
+		<Resource Name="HVACMaterialSpecCatalog" Description="HVAC Material Specifications Catalog" >
+			<ID  Type="Catia" Driver="File" Location="\startup\EquipmentAndSystems\HVAC\MaterialSpecification\MaterialSpecifications.catalog"/>
+		</Resource>
+	 <!-- ******************************************************************* -->
+	 <!-- ******************************************************************* -->
+
+  <!-- ID Sequence Number Definition Directory
+     <Resource Name="IDSequenceNumber" Description="ID Sequence Number Definition Directory">
+           <ID  Type="Path" Driver="File" Location="C:\CATTemp\IDSequenceNumbers"/>
+     </Resource>  -->
+
+  <!-- Resolved Waveguide Parts Directory
+     <Resource Name="ResolvedWaveguideParts" Description="Resolved Waveguide Parts Directory">
+           <ID  Type="Path" Driver="File" Location="C:\CATTemp\WaveguideDesign"/>
+     </Resource>  -->
+
+</Application>

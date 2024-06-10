@@ -1,0 +1,73 @@
+Usage1="使用法: CATDECGenerateCATPart [InputPartOrProduct|-L PartsList] -o [OutputFile|OutputDirectory] [-h]";
+Usage10="使用法: CATDECGenerateCATParFromCATProduct [InputProduct|-L ProductList] -o OutputFile [-h -trace [TraceFile] -color -merge -sketchSpecs -constraint]";
+Usage2=" ここで:";
+Usage3=" -L ﾊﾟｰﾂのﾘｽﾄのﾁｪｯｸを使用可能にする(ﾊﾟｰﾂ ﾊﾟｽ\\PartName.CATPart形式でﾘｽﾄ)｡";
+Usage30=" -L ﾌﾟﾛﾀﾞｸﾄのﾘｽﾄのﾁｪｯｸを使用可能にする(ﾌﾟﾛﾀﾞｸﾄ ﾊﾟｽ\\ProductName.CATProduct形式でﾘｽﾄ)｡";
+Usage4=" -o 出力ﾌｧｲﾙを宣言(絶対ﾊﾟｽを指定したCATPart)｡";
+Usage5=" -trace 出力結果でﾌｧｲﾙをﾄﾚｰｽ｡";
+Usage6=" 追加ｵﾌﾟｼｮﾝ: ";
+Usage7=" -prop  : ﾌﾟﾛﾀﾞｸﾄのﾌﾟﾛﾊﾟﾃｨを保持｡";
+Usage8=" -color : ｻﾌﾞｴﾚﾒﾝﾄの色および属性を保持 (入力ﾊﾟｰﾂのみ)｡";
+Usage80=" -color : ｻﾌﾞｴﾚﾒﾝﾄの色および属性を保持｡";
+Usage9=" -merge : それぞれのCATPartのすべてのﾎﾞﾃﾞｨｰを1つにﾏｰｼﾞ (入力ﾌﾟﾛﾀﾞｸﾄのみ)｡";
+Usage90=" -merge : それぞれのCATPartのすべてのﾎﾞﾃﾞｨｰを1つにﾏｰｼﾞ｡";
+UsageA=" -sketchSpecs: ｽｹｯﾁの仕様を保持｡";
+UsageB=" -sketchSpecs: ｽｹｯﾁの仕様と拘束を保持｡";
+UsageBlank=" ";
+UsageColon=" : ";
+
+Mess_1=" 処理の開始...:";
+Mess_2=" - Part: ";
+Mess_22=" - ﾌﾟﾛﾀﾞｸﾄ: ";
+Mess_3="    => 宛先ﾌｧｲﾙ:";
+Mess_4=" 処理の終了｡ ";
+Mess_5="  ";
+Mess_6="   変換中のｴﾗｰ:  ";
+Mess_7="  => ｵﾌﾟｼｮﾝは使用不可｡ ";
+
+Error_1="      -----> 開くことができません (ﾊﾟｰﾂ ﾘｽﾄ ﾌｧｲﾙが存在しません): ";
+Error_2="  ｴﾗｰ 無効な入力ﾊﾟｽ";
+Error_3="  ｴﾗｰ 無効な宛先:";
+Error_4="  ｴﾗｰ 変換に失敗しました:";
+Error_5="  ｴﾗｰ 無効なﾄﾚｰｽ ﾌｧｲﾙ ﾊﾟｽ";
+Error_6="ODT ｴﾗｰ ｺｰﾄﾞ45､無効なﾀﾞｰﾃｨｰ ﾄﾞｷｭﾒﾝﾄが次にあります: ";
+Error_7="  ｴﾗｰ 無効な入力ﾀｲﾌﾟ ";
+Error_8="  ｴﾗｰ 開くことができません (ﾌｧｲﾙが存在しないか､CATIAﾌｧｲﾙではありません) ";
+
+Usage1PrtPrt="使用法: CATDECGenerateCATPartFromCATPart [InputPart|-L PartsList] -o OutputFile [-h -trace [TraceFile] -prop -color -selectionset - layer -pub -annot -sketchSpecs -constraint]";
+Usage2PrtPrt=" ここで:";
+Usage33PrtPrt=" -L ﾊﾟｰﾂのﾘｽﾄのﾁｪｯｸを使用可能にする(ﾊﾟｰﾂ ﾊﾟｽ\\PartName.CATPart形式でﾘｽﾄ)｡";
+Usage3PrtPrt=" -o            : 出力ﾌｧｲﾙを宣言(絶対ﾊﾟｽを指定したCATPart)｡";
+Usage4PrtPrt=" 追加ｵﾌﾟｼｮﾝ: ";
+Usage5PrtPrt=" -trace : 出力結果でﾌｧｲﾙをﾄﾚｰｽ｡";
+Usage6PrtPrt=" -prop : ﾌﾟﾛﾀﾞｸﾄのﾌﾟﾛﾊﾟﾃｨを保持｡";
+Usage7PrtPrt=" -color: ｻﾌﾞｴﾚﾒﾝﾄの色および属性を保持｡";
+Usage8PrtPrt=" -selectionset: 選択ｾｯﾄを保持｡";
+Usage9PrtPrt=" -layer        : ﾚｲﾔとﾌｨﾙﾀ定義を保持｡";
+Usage10PrtPrt=" -pub          : ﾊﾟﾌﾞﾘｹｰｼｮﾝを保持｡";
+Usage11PrtPrt=" -annot        : 注釈を保持｡";
+Usage13PrtPrt=" -layout2DL    : 2Dﾚｲｱｳﾄを保持｡";
+Usage12PrtPrt=" ";
+
+Usage1PrdPrd="使用法: CATDECGenerateCATProductFromCATProduct [InputProduct|-L ProductList] -o OutputFile [-h -trace [TraceFile] -prop -color -selectionset -layer -pub -annot -sketchSpecs -constraint -suffix SuffixToAdd]";
+Usage2PrdPrd=" ここで:";
+Usage34PrdPrd=" -L ﾌﾟﾛﾀﾞｸﾄのﾘｽﾄのﾁｪｯｸを使用可能にする(ﾌﾟﾛﾀﾞｸﾄ ﾊﾟｽ\\ProducttName.CATProductt形式でﾘｽﾄ)｡";
+Usage3PrdPrd=" -o            : 出力ﾌｧｲﾙを宣言(絶対ﾊﾟｽを指定したCATProduct)｡";
+Usage4PrdPrd=" 追加ｵﾌﾟｼｮﾝ: ";
+Usage5PrdPrd=" -trace  : 出力結果でﾌｧｲﾙをﾄﾚｰｽ｡";
+Usage6PrdPrd=" -prop  : ﾌﾟﾛﾀﾞｸﾄのﾌﾟﾛﾊﾟﾃｨを保持｡";
+Usage7PrdPrd=" -color : ｻﾌﾞｴﾚﾒﾝﾄの色および属性を保持｡";
+Usage8PrdPrd=" -selectionset : 選択ｾｯﾄを保持｡";
+Usage9PrdPrd=" -layer        : ﾚｲﾔとﾌｨﾙﾀ定義を保持｡";
+Usage10PrdPrd=" -pub          : ﾊﾟﾌﾞﾘｹｰｼｮﾝを保持｡";
+Usage11PrdPrd=" -annot        : 注釈を保持｡";
+Usage12PrdPrd=" -suffix       : ﾊﾟｰﾂ番号と表示名に追加する接尾部を宣言｡";
+Usage13PrtPrt="  ";
+Usage14PrtPrt=" -V4           : V4ﾓﾃﾞﾙを保持｡";
+Usage15PrtPrt=" -hideInstance : 非表示構成要素をﾌﾟﾛﾀﾞｸﾄ･ｽﾄﾗｸﾁｬｰに保持｡";
+Usage16PrdPrd=" -layout2DL    : 2Dﾚｲｱｳﾄを保持｡";
+
+
+
+SupportPlane="\Support_plane";
+Solid="ｿﾘｯﾄﾞ";

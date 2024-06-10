@@ -1,0 +1,605 @@
+Language="VBSCRIPT"
+
+Sub CATMain()
+
+'----Release 1 - automatic creation of drillhole, taphole, pad and pocket
+
+on error resume next
+
+'------- Information ---- can be skipped
+'
+
+'-------   Need an active CATPart
+'
+
+Dim partDocument1 As Document
+Set partDocument1 = CATIA.ActiveDocument
+Set part1 = partDocument1.Part
+IKEEP=1
+if (Err<>0) then
+    Msgbox "The active document must be a CATPart"
+    IKEEP =0
+end if
+
+Set product1 = partDocument1.Product
+PartName = Part1.Name
+Set parameters1 = part1.Parameters
+Set product1 = partDocument1.GetItem(PartName)
+Set publications1 = product1.Publications
+Set selection1 = partDocument1.Selection
+Set visPropertySet1 = selection1.VisProperties
+
+'-------   Dialog parameters
+
+dim oneline as string
+dim blankLine as string
+dim doubleLine as string
+dim title1 as string
+
+IconeInterdit = 16
+IconeQuestion = 32
+IconeExclamation = 48
+IconeInfo = 64
+
+oneline = chr(13)
+blankline = chr(13)&chr(13)
+doubleline = chr(13)&chr(13)&chr(13)
+
+
+IINFO =1
+title1 = "BEFORE YOU START : Preparing manufacturing bodies of "&Partname
+msg1 = "Manufacturing Bodies are just PartBodies following name conventions"&BlankLine
+msg2 = "Each body can be characterized as splittable or not, during MTD split : non splitable bodies are prefixed by a double underscore"&Blankline 
+msg3 = "More Info : OK, Skip Info : Cancel"&Blankline 
+myreturn = msgbox (msg1&msg2&msg3, IconeINFO +1 ,Title1 )
+if ( myreturn = 2 ) then IINFO =0
+
+
+if ( IINFO = 1) then
+msg1 = "There are two ways to use the manufacturing bodies to associate impacts on a Die/Mold :"&BlankLine
+msg2 = "Standard association is created by commands : Add Component, Edit Component, Add New Instance, Drill Command, Final Holes and Pads Generation "&BlankLine
+msg3 = "Detailed association is created by command : Distributed Drills  "&BlankLine
+msg4 = "At any given time a component can be used with only one type of association  "&BlankLine	
+msg5 = "In general it is recommanded to use Detailed Associations for Assembled Components and Standard Associations for Simple Components   "	
+msg6 = "More Info : OK, Skip Info : Cancel"&Blankline 
+myreturn = msgbox (msg1&msg2&msg3&msg4&msg5&msg6, IconeINFO+1 ,Title1 )
+if ( myreturn = 2 ) then IINFO =0
+end if
+
+if ( IINFO = 1) then
+msg1 = "Standard Associations :"&BlankLine
+msg2 = " There are four types of manufacturing bodies characterized by name conventions : "&BlankLine
+msg3 = "*DrillHole*, *TapHole*, *Pad*, *Pocket*  "&BlankLine
+msg4 = "More Info : OK, Skip Info : Cancel"&Blankline 
+myreturn = msgbox (msg1&msg2&msg3&msg4, IconeINFO+1 ,Title1 )
+if ( myreturn = 2 ) then IINFO =0
+end if
+
+if ( IINFO = 1) then
+msg1 = "Detailed Associations :"&BlankLine
+msg2 = " In addition to names used for standard associations, it is possible to define new name conventions in the MTD Tools/Options "&BlankLine
+msg3 = " To improve productivity :  it is possible to specify that several manufacturing bodies will always impact the SAME plate/component by means of a preselection code _PS*"&BlankLine
+msg4 = " To improve productivity :  when a component impact is defined in Distributed Drill Command the same impact is applied automatically to all its sister instances"&BlankLine
+msg5 = "More Info : OK, Skip Info : Cancel"&Blankline 
+myreturn = msgbox (msg1&msg2&msg3&msg4&msg5, IconeINFO+1 ,Title1 )
+if ( myreturn = 2 ) then IINFO =0
+end if
+
+
+'---- END INFO -------------------------------------
+'---- BEGINNING DRILLS -------------------------------------
+
+    title1 = "DRILLHOLE  of "&Partname
+    Ikeep =1
+
+    IDRILL = 1
+	msg1 = "Do you want to create a DrillHole in this component? Reminder : "& BlankLine
+	msg2 = "   Standard association : this hole will impact all the selected plates/components except maybe the TO plate  "& BlankLine
+	msg3 = "   Standard association : during addition, edition of this component, this hole will not impact the TO plate if there is also a TapHole  "& BlankLine
+	msg4 = "Confirm : YES - Next step : NO - Give up : CANCEL "
+	myreturn = msgbox (msg1 & msg2&msg3&msg4, IconeQUESTION+3 ,Title1 )
+	if ( Myreturn =6 ) then
+		IKeep = 1
+	elseif ( Myreturn = 7 ) then
+        Ikeep =1
+        Idrill = 0
+    else
+		IKeep = 0
+	end if
+
+if ( IKEEP*IDRILL = 1 ) then
+
+'----------- Part characteristics
+
+     Set bodies1 = part1.Bodies
+     Set hybridBodies1 = part1.HybridBodies
+     Set shapeFactory1 = part1.ShapeFactory
+     Set hybridShapeFactory1 = part1.HybridShapeFactory
+     Set originElements1 = part1.OriginElements
+     Set hybridShapePlaneExplicit1 = originElements1.PlaneXY
+
+     Set  Selection1  =  partDocument1.Selection
+     Set  Selection2  =  partDocument1.Selection
+
+'- default geometry as needed
+
+	msg1 = "Create default Geometry OK - I will create DrillHole geometry later : CANCEL "&BlankLine
+	msg2 = "If you request creation of default Geometry, you MUST control and adapt the result "
+	myreturn = msgbox ( msg1&msg2, IconeQUESTION+1 ,Title1 )
+
+    IGEOMAUTO=0
+	if ( Myreturn =1 ) then
+       IGEOMAUTO=1
+'---  Creation of geometry of the DrillHole
+
+' in the DrillHole we create a negative copy of the component
+         Set body3 = bodies1.Item("PartBody")
+         Selection1.Clear
+         Selection1.add(body3)
+         Selection1.copy
+
+         Selection2.Clear
+         Selection2.Add part1
+         Selection2.PasteSpecial  "CATPrtResult"
+          Set LastBody = bodies1.Item(Bodies1.count)
+          LastBody.Name = "AutoCopy of Main Part Body"
+         Part1.update
+    end if
+
+
+'---  Creation of the DrillHole
+       Set body1 = bodies1.Add()
+
+'--- DrillHole name according to splitability :
+
+	msg2 = "Splitable : OK - Not Splitable : CANCEL "
+	myreturn = msgbox ( msg2, IconeQUESTION+1 ,Title1 )
+	if ( Myreturn =1 ) then
+		body1.name = "__DrillHole"
+	else
+		body1.name = "DrillHole"
+	end if
+    part1.Update 
+'
+'-   it is published with same name
+    Set reference2 = product1.CreateReferenceFromName(Part1.name&"/!"&Body1.name)
+    Set publication2 = publications1.Add(Body1.name)
+    publications1.SetDirect Body1.name, reference2
+
+'-- the main part body is removed if autom	atic geoemtry is required needed
+     part1.InWorkObject = body1
+
+
+
+        if ( IGEOMAUTO=1) then 
+              Set body2 = bodies1.Item( "AutoCopy of Main Part Body")
+              Set remove1 = shapeFactory1.AddNewRemove(body2)
+              Part1.update
+        end if
+
+'-- UnHide the main part body which was hidden by the remove
+'         Set shapes1 = body3.Shapes
+'         Set LastShape = shapes1.Item(Shapes1.count)
+'         Set shapes1 = LastShape.Parent
+'         selection1.Add LastShape
+'         Set visPropertySet1 = visPropertySet1.Parent
+'         visPropertySet1.SetShow 0
+'         selection1.Clear 
+
+'--- Hide the drillHole
+        Set visPropertySet1 = selection1.VisProperties
+        selection1.Add body1
+        Set visPropertySet1 = visPropertySet1.Parent
+        visPropertySet1.SetShow 1
+        selection1.Clear 
+                                
+'-- simplified holes needed ? if so a circle is created by default
+    ISIMPL = 0
+	msg1 = "Associated Simplified DrillHole ( standard associations only): OK - Not needed : CANCEL "
+	myreturn = msgbox ( msg1, IconeQUESTION+1 ,Title1 )
+	if ( Myreturn =1 ) then
+           ISIMPL = 1
+           Set hybridBodies1 = part1.HybridBodies
+           Set Body2 = hybridBodies1.Add()
+           body2.name = Body1.name&"_S"
+           Set reference2 = product1.CreateReferenceFromName(Part1.name&"/!"&Body2.name)
+           Set publication2 = publications1.Add(Body2.name)
+           publications1.SetDirect Body2.name, reference2
+           Set visPropertySet1 = selection1.VisProperties
+           selection1.Add body2
+           Set visPropertySet1 = visPropertySet1.Parent
+           visPropertySet1.SetShow 1
+           selection1.Clear 
+           Set hybridShapePointCoord1 = hybridShapeFactory1.AddNewPointCoord(0.000000, 0.000000, 0.000000)
+           Body2.AppendHybridShape hybridShapePointCoord1
+           part1.InWorkObject = hybridShapePointCoord1
+           part1.Update 
+          Set reference2 = part1.CreateReferenceFromObject(hybridShapePointCoord1)
+          Set reference3 = part1.CreateReferenceFromObject(hybridShapePlaneExplicit1)
+          Set CircleCtrRad1 = hybridShapeFactory1.AddNewCircleCtrRad(reference2, reference3, False, 5.000000)
+          CircleCtrRad1.SetLimitation 1
+          Body2.AppendHybridShape CircleCtrRad1
+          part1.InWorkObject = CircleCtrRad1
+          part1.update
+          Set reference4 = part1.CreateReferenceFromObject(CircleCtrRad1)
+          hybridShapeFactory1.changefeaturename reference4,Part1.Name&"_S"
+	end if
+    part1.update
+
+
+'-- Preselection code ? 
+    if ( ISIMPL = 0 ) then
+
+	msg1 = "Detailed associations only - Preselection code 0 : YES - Preselection code 1 : NO - Not needed : CANCEL "
+	myreturn = msgbox ( msg1, IconeQUESTION+3 ,Title1 )
+	if ( Myreturn =6 ) then
+           body1.name = Body1.name&"_PS0"
+    elseif ( Myreturn =7 ) then
+           body1.name = Body1.name&"_PS1"
+	end if
+    part1.update
+
+    END IF
+
+	msg1 = "End Creation of DRILLHOLE . Create or adjust the geometry as needed "&BlankLine
+	msg2 = "Continue : OK - Done : CANCEL "
+	myreturn = msgbox ( msg1&msg2, IconeQUESTION+1 ,Title1 )
+
+end if
+'-------------- End creation of DrillHoles
+
+
+
+'---- BEGINNING TAP -------------------------------------
+if ( Ikeep = 1 ) then
+    title1 = "TAPHOLE  of "&Partname
+
+    ITAP = 1
+	msg1 = "Do you want to create a TapHole in this component? Reminder : "& BlankLine
+	msg2 = "   Standard association : this hole will impact only the TO plate  "& BlankLine
+	msg4 = "Confirm : YES - Next step : NO - Done : CANCEL "
+	myreturn = msgbox (msg1 & msg2&msg4, IconeQUESTION+3 ,Title1 )
+	if ( Myreturn =6 ) then
+		IKeep = 1
+	elseif ( Myreturn = 7 ) then
+        Ikeep =1
+        ITAP = 0
+    else
+		IKeep = 0
+	end if
+end if
+if ( IKEEP*ITAP = 1 ) then
+
+'----------- Part characteristics
+
+     Set bodies1 = part1.Bodies
+     Set hybridBodies1 = part1.HybridBodies
+     Set shapeFactory1 = part1.ShapeFactory
+     Set hybridShapeFactory1 = part1.HybridShapeFactory
+     Set originElements1 = part1.OriginElements
+     Set hybridShapePlaneExplicit1 = originElements1.PlaneXY
+
+     Set  Selection1  =  partDocument1.Selection
+     Set  Selection2  =  partDocument1.Selection
+
+
+
+'---  Creation of the TapHole
+       Set body1 = bodies1.Add()
+
+'--- TapHole name according to splitability :
+
+	msg2 = "Splitable : OK - Not Splitable : CANCEL "
+	myreturn = msgbox ( msg2, IconeQUESTION+1 ,Title1 )
+	if ( Myreturn =1 ) then
+		body1.name = "__TapHole"
+	else
+		body1.name = "TapHole"
+	end if
+    part1.Update 
+'
+'-   it is published with same name
+    Set reference2 = product1.CreateReferenceFromName(Part1.name&"/!"&Body1.name)
+    Set publication2 = publications1.Add(Body1.name)
+    publications1.SetDirect Body1.name, reference2
+
+'--- Hide the TapHole
+        Set visPropertySet1 = selection1.VisProperties
+        selection1.Add body1
+        Set visPropertySet1 = visPropertySet1.Parent
+        visPropertySet1.SetShow 1
+        selection1.Clear 
+                                
+'-- simplified holes needed ? if so a circle is created by default
+    ISIMPL = 0
+	msg1 = "Associated Simplified TapHole ( standard associations only): OK - Not needed : CANCEL "
+	myreturn = msgbox ( msg1, IconeQUESTION+1 ,Title1 )
+	if ( Myreturn =1 ) then
+           ISIMPL = 1
+           Set hybridBodies1 = part1.HybridBodies
+           Set Body2 = hybridBodies1.Add()
+           body2.name = Body1.name&"_S"
+           Set reference2 = product1.CreateReferenceFromName(Part1.name&"/!"&Body2.name)
+           Set publication2 = publications1.Add(Body2.name)
+           publications1.SetDirect Body2.name, reference2
+           Set visPropertySet1 = selection1.VisProperties
+           selection1.Add body2
+           Set visPropertySet1 = visPropertySet1.Parent
+           visPropertySet1.SetShow 1
+           selection1.Clear 
+           Set hybridShapePointCoord1 = hybridShapeFactory1.AddNewPointCoord(0.000000, 0.000000, 0.000000)
+           Body2.AppendHybridShape hybridShapePointCoord1
+           part1.InWorkObject = hybridShapePointCoord1
+           part1.Update 
+          Set reference2 = part1.CreateReferenceFromObject(hybridShapePointCoord1)
+          Set reference3 = part1.CreateReferenceFromObject(hybridShapePlaneExplicit1)
+          Set CircleCtrRad1 = hybridShapeFactory1.AddNewCircleCtrRad(reference2, reference3, False, 5.000000)
+          CircleCtrRad1.SetLimitation 1
+          Body2.AppendHybridShape CircleCtrRad1
+          part1.InWorkObject = CircleCtrRad1
+          part1.update
+          Set reference4 = part1.CreateReferenceFromObject(CircleCtrRad1)
+          hybridShapeFactory1.changefeaturename reference4,Part1.Name&"_S"
+	end if
+    part1.update
+
+'-- Preselection code ? 
+    if ( ISIMPL = 0 ) then
+
+	msg1 = "Detailed associations only - Preselection code 0 : YES - Preselection code 1 : NO - Not needed : CANCEL "
+	myreturn = msgbox ( msg1, IconeQUESTION+3 ,Title1 )
+	if ( Myreturn =6 ) then
+           body1.name = Body1.name&"_PS0"
+    elseif ( Myreturn =7 ) then
+           body1.name = Body1.name&"_PS1"
+	end if
+    part1.update
+
+    END IF
+
+	msg1 = "End Creation of TAPHOLE . Create or adjust the geometry as needed "&BlankLine
+	msg2 = "Continue : OK - Done : CANCEL "
+	myreturn = msgbox ( msg1&msg2, IconeQUESTION+1 ,Title1 )
+
+end if
+
+
+'-------------- End creation of TAPHoles
+
+
+
+'---- BEGINNING Pocket -------------------------------------
+
+
+if ( Ikeep = 1 ) then
+    title1 = "POCKET  of "&Partname
+
+    IPOCKET = 1
+	msg1 = "Do you want to create a Pocket in this component? Reminder : "& BlankLine
+	msg2 = "   Standard association : this Pocket will impact only the FROM plate  "& BlankLine
+	msg4 = "Confirm : YES - Next step : NO - Done : CANCEL "
+	myreturn = msgbox (msg1 & msg2&msg4, IconeQUESTION+3 ,Title1 )
+	if ( Myreturn =6 ) then
+		IKeep = 1
+	elseif ( Myreturn = 7 ) then
+        Ikeep =1
+        IPOCKET = 0
+    else
+		IKeep = 0
+	end if
+end if
+if ( IKEEP*IPOCKET = 1 ) then
+
+'----------- Part characteristics
+
+     Set bodies1 = part1.Bodies
+     Set hybridBodies1 = part1.HybridBodies
+     Set shapeFactory1 = part1.ShapeFactory
+     Set hybridShapeFactory1 = part1.HybridShapeFactory
+     Set originElements1 = part1.OriginElements
+     Set hybridShapePlaneExplicit1 = originElements1.PlaneXY
+
+     Set  Selection1  =  partDocument1.Selection
+     Set  Selection2  =  partDocument1.Selection
+
+
+
+'---  Creation of the Pocket
+       Set body1 = bodies1.Add()
+
+'--- Pocket name according to splitability :
+
+	msg2 = "Splitable : OK - Not Splitable : CANCEL "
+	myreturn = msgbox ( msg2, IconeQUESTION+1 ,Title1 )
+	if ( Myreturn =1 ) then
+		body1.name = "__Pocket"
+	else
+		body1.name = "Pocket"
+	end if
+    part1.Update 
+'
+'-   it is published with same name
+    Set reference2 = product1.CreateReferenceFromName(Part1.name&"/!"&Body1.name)
+    Set publication2 = publications1.Add(Body1.name)
+    publications1.SetDirect Body1.name, reference2
+
+'--- Hide the Pocket
+        Set visPropertySet1 = selection1.VisProperties
+        selection1.Add body1
+        Set visPropertySet1 = visPropertySet1.Parent
+        visPropertySet1.SetShow 1
+        selection1.Clear 
+                                
+'-- simplified pocket needed ? if so a circle is created by default
+    ISIMPL = 0
+	msg1 = "Associated Simplified Pocket ( standard associations only): OK - Not needed : CANCEL "
+	myreturn = msgbox ( msg1, IconeQUESTION+1 ,Title1 )
+	if ( Myreturn =1 ) then
+           ISIMPL = 1
+           Set hybridBodies1 = part1.HybridBodies
+           Set Body2 = hybridBodies1.Add()
+           body2.name = Body1.name&"_S"
+           Set reference2 = product1.CreateReferenceFromName(Part1.name&"/!"&Body2.name)
+           Set publication2 = publications1.Add(Body2.name)
+           publications1.SetDirect Body2.name, reference2
+           Set visPropertySet1 = selection1.VisProperties
+           selection1.Add body2
+           Set visPropertySet1 = visPropertySet1.Parent
+           visPropertySet1.SetShow 1
+           selection1.Clear 
+           Set hybridShapePointCoord1 = hybridShapeFactory1.AddNewPointCoord(0.000000, 0.000000, 0.000000)
+           Body2.AppendHybridShape hybridShapePointCoord1
+           part1.InWorkObject = hybridShapePointCoord1
+           part1.Update 
+          Set reference2 = part1.CreateReferenceFromObject(hybridShapePointCoord1)
+          Set reference3 = part1.CreateReferenceFromObject(hybridShapePlaneExplicit1)
+          Set CircleCtrRad1 = hybridShapeFactory1.AddNewCircleCtrRad(reference2, reference3, False, 5.000000)
+          CircleCtrRad1.SetLimitation 1
+          Body2.AppendHybridShape CircleCtrRad1
+          part1.InWorkObject = CircleCtrRad1
+          part1.update
+          Set reference4 = part1.CreateReferenceFromObject(CircleCtrRad1)
+          hybridShapeFactory1.changefeaturename reference4,Part1.Name&"_S"
+	end if
+    part1.update
+
+'-- Preselection code ? 
+    if ( ISIMPL = 0 ) then
+
+	msg1 = "Detailed associations only - Preselection code 0 : YES - Preselection code 1 : NO - Not needed : CANCEL "
+	myreturn = msgbox ( msg1, IconeQUESTION+3 ,Title1 )
+	if ( Myreturn =6 ) then
+           body1.name = Body1.name&"_PS0"
+    elseif ( Myreturn =7 ) then
+           body1.name = Body1.name&"_PS1"
+	end if
+    part1.update
+
+    END IF
+
+	msg1 = "End Creation of POCKET . Create or adjust the geometry as needed "&BlankLine
+	msg2 = "Continue : OK - Done : CANCEL "
+	myreturn = msgbox ( msg1&msg2, IconeQUESTION+1 ,Title1 )
+
+end if
+
+'-------------- End creation of Pocket
+
+
+
+'---- BEGINNING Pad -------------------------------------
+if ( Ikeep = 1 ) then
+    title1 = "PAD  of "&Partname
+
+    IPAD = 1
+	msg1 = "Do you want to create a Pad in this component? Reminder : "& BlankLine
+	msg2 = "   Standard association : this Pad will impact only the FROM plate  "& BlankLine
+	msg4 = "Confirm : OK  - Give up : CANCEL "
+	myreturn = msgbox (msg1 & msg2&msg4, IconeQUESTION+1 ,Title1 )
+	if ( Myreturn =1 ) then
+		IKeep = 1
+        IPAD = 1
+    else
+		IKeep = 0
+	end if
+end if
+if ( IKEEP*IPAD = 1 ) then
+
+'----------- Part characteristics
+
+     Set bodies1 = part1.Bodies
+     Set hybridBodies1 = part1.HybridBodies
+     Set shapeFactory1 = part1.ShapeFactory
+     Set hybridShapeFactory1 = part1.HybridShapeFactory
+     Set originElements1 = part1.OriginElements
+     Set hybridShapePlaneExplicit1 = originElements1.PlaneXY
+
+     Set  Selection1  =  partDocument1.Selection
+     Set  Selection2  =  partDocument1.Selection
+
+
+
+'---  Creation of the Pad
+       Set body1 = bodies1.Add()
+
+'--- Pad name according to splitability :
+
+	msg2 = "Splitable : OK - Not Splitable : CANCEL "
+	myreturn = msgbox ( msg2, IconeQUESTION+1 ,Title1 )
+	if ( Myreturn =1 ) then
+		body1.name = "__Pad"
+	else
+		body1.name = "Pad"
+	end if
+    part1.Update 
+'
+'-   it is published with same name
+    Set reference2 = product1.CreateReferenceFromName(Part1.name&"/!"&Body1.name)
+    Set publication2 = publications1.Add(Body1.name)
+    publications1.SetDirect Body1.name, reference2
+
+'--- Hide the Pad
+        Set visPropertySet1 = selection1.VisProperties
+        selection1.Add body1
+        Set visPropertySet1 = visPropertySet1.Parent
+        visPropertySet1.SetShow 1
+        selection1.Clear 
+                                
+'-- simplified pad needed ? if so a circle is created by default
+    ISIMPL = 0
+	msg1 = "Associated Simplified Pad ( standard associations only): OK - Not needed : CANCEL "
+	myreturn = msgbox ( msg1, IconeQUESTION+1 ,Title1 )
+	if ( Myreturn =1 ) then
+           ISIMPL = 1
+           Set hybridBodies1 = part1.HybridBodies
+           Set Body2 = hybridBodies1.Add()
+           body2.name = Body1.name&"_S"
+           Set reference2 = product1.CreateReferenceFromName(Part1.name&"/!"&Body2.name)
+           Set publication2 = publications1.Add(Body2.name)
+           publications1.SetDirect Body2.name, reference2
+           Set visPropertySet1 = selection1.VisProperties
+           selection1.Add body2
+           Set visPropertySet1 = visPropertySet1.Parent
+           visPropertySet1.SetShow 1
+           selection1.Clear 
+           Set hybridShapePointCoord1 = hybridShapeFactory1.AddNewPointCoord(0.000000, 0.000000, 0.000000)
+           Body2.AppendHybridShape hybridShapePointCoord1
+           part1.InWorkObject = hybridShapePointCoord1
+           part1.Update 
+          Set reference2 = part1.CreateReferenceFromObject(hybridShapePointCoord1)
+          Set reference3 = part1.CreateReferenceFromObject(hybridShapePlaneExplicit1)
+          Set CircleCtrRad1 = hybridShapeFactory1.AddNewCircleCtrRad(reference2, reference3, False, 5.000000)
+          CircleCtrRad1.SetLimitation 1
+          Body2.AppendHybridShape CircleCtrRad1
+          part1.InWorkObject = CircleCtrRad1
+          part1.update
+          Set reference4 = part1.CreateReferenceFromObject(CircleCtrRad1)
+          hybridShapeFactory1.changefeaturename reference4,Part1.Name&"_S"
+	end if
+    part1.update
+
+'-- Preselection code ? 
+    if ( ISIMPL = 0 ) then
+
+	msg1 = "Detailed associations only - Preselection code 0 : YES - Preselection code 1 : NO - Not needed : CANCEL "
+	myreturn = msgbox ( msg1, IconeQUESTION+3 ,Title1 )
+	if ( Myreturn =6 ) then
+           body1.name = Body1.name&"_PS0"
+    elseif ( Myreturn =7 ) then
+           body1.name = Body1.name&"_PS1"
+	end if
+    part1.update
+
+    END IF
+
+	msg1 = "End Creation of PAD. Create or adjust the geometry as needed "&BlankLine
+	myreturn = msgbox ( msg1, IconeINFO ,Title1 )
+
+end if
+
+'-------------- End creation of PAD
+
+
+
+
+End Sub

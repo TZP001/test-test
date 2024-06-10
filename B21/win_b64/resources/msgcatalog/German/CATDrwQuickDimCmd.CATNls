@@ -1,0 +1,179 @@
+//=====================================================================================
+//                                     CNEXT - CXRn
+//                          COPYRIGHT DASSAULT SYSTEMES 1998 
+//-------------------------------------------------------------------------------------
+// FILENAME    :    CATDrwQuickDimCmd
+// LOCATION    :    DraftingIntCommands
+// AUTHOR      :    jmt
+// BUT         :    Commande de creation de cote
+// DATE        :    ??.10.1998
+//-------------------------------------------------------------------------------------
+// DESCRIPTION :    
+//-------------------------------------------------------------------------------------
+// COMMENTS    :    
+//-------------------------------------------------------------------------------------
+// MODIFICATIONS     user  date        purpose
+//    HISTORY        ----  ----        -------
+//      01           fgx   04.10.2000  Rearchitecturation CXR6
+//=====================================================================================
+
+//******************************************************************************
+// Command
+//******************************************************************************
+CATDrwQuickDimCmd.UndoTitle="Bemaﬂungserzeugung";
+
+//******************************************************************************
+// Agents
+//******************************************************************************
+CATDrwQuickDimCmd._agentSet.UndoTitle = " Auswahl";
+
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+// Interactive Dimension Cmd : SwitchAgent related to Orientation purpose ...
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+CATDrwQuickDimCmd.OrientBarRessource.Bar.Title="Ausrichtung";
+
+//******************************************************************************
+// Reference Element Button - V5R3 Only
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource.RefElem.Title = "Referenzelement";
+CATDrwQuickDimCmd.OrientBarRessource.RefElem.ShortHelp="Referenzelement";
+CATDrwQuickDimCmd.OrientBarRessource.RefElem.Help=
+"Maﬂlinienausrichtung ist abh‰ngig vom ausgew‰hlten Element";
+CATDrwQuickDimCmd.OrientBarRessource.RefElem.LongHelp=
+"Elementreferenz
+Maﬂlinienausrichtung ist abh‰ngig vom ausgew‰hlten Element";
+
+//******************************************************************************
+// Reference View Button - V5R3 Only
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource.RefVue.Title = "Referenz anzeigen";
+CATDrwQuickDimCmd.OrientBarRessource.RefVue.ShortHelp="Referenz anzeigen";
+CATDrwQuickDimCmd.OrientBarRessource.RefVue.Help=
+"Maﬂlinienausrichtung ist mit den Ansichtsrichtungen verkn¸pft";
+CATDrwQuickDimCmd.OrientBarRessource.RefVue.LongHelp=
+"Referenz anzeigen
+Maﬂlinienausrichtung ist mit den Ansichtsrichtungen verkn¸pft";
+
+//******************************************************************************
+// Projected dimension Button
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource._RefElem.Title = "Projizierte Bemaﬂung";
+CATDrwQuickDimCmd.OrientBarRessource._RefElem.ShortHelp="Projizierte Bemaﬂung";
+CATDrwQuickDimCmd.OrientBarRessource._RefElem.Help=
+"Maﬂlinienausrichtung ist abh‰ngig von Mausposition";
+CATDrwQuickDimCmd.OrientBarRessource._RefElem.LongHelp=
+"Projizierte Bemaﬂung
+Maﬂlinienausrichtung ist abh‰ngig von Mausposition.";
+
+//******************************************************************************
+// Force dimension on element Button
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource._RefAuto.Title = "Bemaﬂung f¸r Element erzwingen";
+CATDrwQuickDimCmd.OrientBarRessource._RefAuto.ShortHelp="Bemaﬂung f¸r Element erzwingen";
+CATDrwQuickDimCmd.OrientBarRessource._RefAuto.Help=
+"Erzwingen, dass die Maﬂlinie parallel zum bemaﬂten Element verl‰uft";
+CATDrwQuickDimCmd.OrientBarRessource._RefAuto.LongHelp=
+"Bemaﬂung f¸r Element erzwingen
+Erzwingen, dass die Maﬂlinie parallel zum bemaﬂten Element verl‰uft.";
+
+//******************************************************************************
+// Force horizontal dimension Button
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource._RefHoriz.Title = "Horizontale Bemaﬂung in Ansicht erzwingen";
+CATDrwQuickDimCmd.OrientBarRessource._RefHoriz.ShortHelp="Horizontale Bemaﬂung in Ansicht erzwingen";
+CATDrwQuickDimCmd.OrientBarRessource._RefHoriz.Help=
+"Erzwingen, dass die Maﬂlinie in der Ansicht horizontal verl‰uft";
+CATDrwQuickDimCmd.OrientBarRessource._RefHoriz.LongHelp=
+"Horizontale Bemaﬂung in der Ansicht erzwingen
+Erzwingt, dass die Maﬂlinie in der Ansicht horizontal verl‰uft.";
+
+//******************************************************************************
+// Force vertical dimension Button
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource._RefVert.Title = "Vertikale Bemaﬂung in Ansicht erzwingen";
+CATDrwQuickDimCmd.OrientBarRessource._RefVert.ShortHelp="Vertikale Bemaﬂung in Ansicht erzwingen";
+CATDrwQuickDimCmd.OrientBarRessource._RefVert.Help=
+"Erzwingen, dass die Maﬂlinie in der Ansicht vertikal verl‰uft";
+CATDrwQuickDimCmd.OrientBarRessource._RefVert.LongHelp=
+"Vertikale Bemaﬂung in der Ansicht erzwingen
+Erzwingt, dass die Maﬂlinie in der Ansicht vertikal verl‰uft.";
+
+//******************************************************************************
+// Force user defined dimension Button
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource._RefUser.Title = "Bemaﬂung entlang einer Richtung erzwingen";
+CATDrwQuickDimCmd.OrientBarRessource._RefUser.ShortHelp="Bemaﬂung entlang einer Richtung erzwingen";
+CATDrwQuickDimCmd.OrientBarRessource._RefUser.Help=
+"Erzwingt, dass die Maﬂlinie entlang einer Richtung verl‰uft";
+CATDrwQuickDimCmd.OrientBarRessource._RefUser.LongHelp=
+"Bemaﬂung entlang einer Richtung erzwingen
+Erzwingt, dass die Maﬂlinie entlang einer Richtung verl‰uft.";
+
+//******************************************************************************
+// True length dimension Button
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource.VraiGrandeur.Title = "Maﬂst‰blich dargestelltes Maﬂ";
+CATDrwQuickDimCmd.OrientBarRessource.VraiGrandeur.ShortHelp="Maﬂst‰blich dargestelltes Maﬂ";
+CATDrwQuickDimCmd.OrientBarRessource.VraiGrandeur.Help=
+"Erzeugt eine Bemaﬂung im Modus f¸r maﬂst‰bliche Darstellung der L‰nge";
+CATDrwQuickDimCmd.OrientBarRessource.VraiGrandeur.LongHelp=
+"Maﬂst‰blich dargestelltes Maﬂ
+Erzeugt eine Bemaﬂung im Modus f¸r maﬂst‰bliche Darstellung der L‰nge";
+
+//******************************************************************************
+// Force dimension along direction Button
+//******************************************************************************
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionParallel.Title = "Bemaﬂung entlang einer Richtung";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionParallel.ShortHelp="Bemaﬂung entlang einer Richtung";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionParallel.Help=
+"Legt die Maﬂlinie entlang einer Richtung fest";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionParallel.LongHelp=
+"Bemaﬂung entlang einer Richtung
+Legt die Maﬂlinie entlang einer Richtung fest.";
+
+//******************************************************************************
+// Force dimension perpendicular to direction Button
+//******************************************************************************
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionPerpendicular.Title = "Bemaﬂung senkrecht zu einer Richtung";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionPerpendicular.ShortHelp="Bemaﬂung senkrecht zu einer Richtung";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionPerpendicular.Help=
+"Legt die Maﬂlinie senkrecht zu einer Richtung fest";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionPerpendicular.LongHelp=
+"Bemaﬂung senkrecht zu einer Richtung
+Legt die Maﬂlinie senkrecht zu einer Richtung fest.";
+
+//******************************************************************************
+// Force dimension along a fixed angle in view Button
+//******************************************************************************
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionAngle.Title = "Bemaﬂung in einem festen Winkel in der Ansicht";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionAngle.ShortHelp="Bemaﬂung in einem festen Winkel in der Ansicht";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionAngle.Help=
+"Legt die Maﬂlinie in einem festen Winkel in der Ansicht fest";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionAngle.LongHelp=
+"Bemaﬂung in einem festen Winkel in der Ansicht
+Legt die Maﬂlinie in einem festen Winkel in der Ansicht fest.";
+
+//******************************************************************************
+// Intersection detection switch
+//******************************************************************************
+CATDrwQuickDimCmd.IntersectionAgentResource.Check.Title="Erkennung von Schnittpunkten";
+CATDrwQuickDimCmd.IntersectionAgentResource.Check.ShortHelp="Erkennung von Schnittpunkten";
+CATDrwQuickDimCmd.IntersectionAgentResource.Check.Help=
+"Erkennt Schnittpunkte bei der Bemessung";
+CATDrwQuickDimCmd.IntersectionAgentResource.Check.LongHelp=
+"Erkennung von Schnittpunkten
+Erkennt Schnittpunkte bei der Bemessung.";
+
+//******************************************************************************
+// Angle
+//******************************************************************************
+CATDrwQuickDimCmd.Angle.Dimension.EnglobingFrame.IntermediateFrame.Label.Title = "Winkel:  ";
+CATDrwQuickDimCmd.Angle.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp = "Den Richtungswinkel eingeben";
+
+//******************************************************************************
+// Driving Dim Value
+//******************************************************************************
+CATDrwQuickDimCmd.Value.Dimension.EnglobingFrame.IntermediateFrame.Label.Title = "Wert:    ";
+CATDrwQuickDimCmd.Value.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp = "Den Wert der steuernden Bemaﬂung eingeben.";
+

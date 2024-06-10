@@ -1,0 +1,27 @@
+'// ---------- CATIAV5 application objects
+
+'====================================================================================
+Sub CATMain() 'Method To create TagGroup From Factory and Tag from TagGroup
+'====================================================================================
+
+Set Parentobject = CATIA.ActiveDocument.Selection.FindObject("CATIAProduct")	
+Set objCATIAV5Tag = Parentobject.GetTechnologicalObject("TagGroupFactory")
+
+Dim objTagGroup As TagGroup
+Dim ModifyRef As Boolean
+
+ModifyRef = FALSE
+objCATIAV5Tag.CreateTagGroup "My_Group", ModifyRef, Parentobject, objTagGroup
+
+msgbox("Created TagGroup is")
+Dim name As String
+name = objTagGroup.Name
+msgbox(name)
+
+Dim objTag As Tag
+objTagGroup.CreateTag objTag
+msgbox("Created Tag is")
+objTag.GetName Name
+msgbox(Name)
+
+End Sub '/////////////////////////////////////////////////////////// CATMain

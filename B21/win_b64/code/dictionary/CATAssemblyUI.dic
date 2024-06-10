@@ -1,0 +1,99 @@
+# Product Settings management bindings
+# ====================================
+CATEditorManager	CATIAsmMassEditFactory	libCATAssCommands
+CATAsmMassEdit		CATIEditProperties	libCATAssCommands
+
+CATEditorManager	CATIAsmDftEditFactory	libCATAssCommands
+CATAsmDftEdit		CATIEditProperties	libCATAssCommands
+
+#onglet Assembly General
+CATAssSettingsEditor	CATIUserSettings	libCATAssSettings
+CATUserSettingsManager	CATIAssEditorFactory	libCATAssSettings
+
+#onglet Assembly Constraints
+CATAssSettingsCstEditor	CATIUserSettings	libCATAssSettings
+CATUserSettingsManager	CATIAssCstEditorFactory	libCATAssSettings
+
+CATAsmGeneralSettingCtrl  CATIAAsmGeneralSettingAtt  libCATAssSettings
+CATAsmGeneralSettingCtrl  AsmGeneralSettingAtt       libCATAssSettings
+CATAsmGeneralSettingCtrl  CATIAsmGeneralSettingAtt   libCATAssSettings
+CATAsmGeneralSettingCtrl  CATISysSettingController   libCATAssSettings
+CATAsmGeneralSettingCtrl  CATICreateInstance         libCATAssSettings
+CATAsmGeneralSettingCtrl  CATIAsmGeneralSettingInternal  libCATAssSettings
+
+CATAsmConstraintSettingCtrl  CATIAAsmConstraintSettingAtt  libCATAssSettings
+CATAsmConstraintSettingCtrl  AsmConstraintSettingAtt       libCATAssSettings
+CATAsmConstraintSettingCtrl  CATIAsmConstraintSettingAtt   libCATAssSettings
+CATAsmConstraintSettingCtrl  CATISysSettingController      libCATAssSettings
+CATAsmConstraintSettingCtrl  CATICreateInstance            libCATAssSettings
+CATAsmConstraintSettingCtrl  CATIAsmConstraintSettingInternal   libCATAssSettings
+
+# Product Edit In Context bindings
+# ================================
+Assembly		CATIWorkbench				libCATAssWkbAssembly
+Assembly		CATIPRDWorkshopConfiguration		libCATAssWkbAssembly
+CATApplicationFrame	CATIAsmWorkshopConfigurationFactory	libCATAssWkbAssembly
+Assembly_init		CATIWorkbenchInitialization		libCATAssWorkshop
+Assembly_init	CATICommandSet	libCATAssWorkshop
+
+
+# Product Workshop bindings
+# =========================
+
+# pcc le 10/02/99, suppression des deux adhesions ci-dessous
+#AsmWorkshop		CATIPRDWorkshopToolbar		libCATAssWorkshop
+#CATApplicationFrame	CATIAsmWorkshopToolbarFactory	libCATAssWorkshop
+
+# R11 dve : Set de contraintes
+CATAsmCstsNode      CATIContextualSubMenu   libCATAssWorkshop	IsAsmCstSetAvailable
+CATAsmCstsNode      CATIContextualMenu      libCATAssWorkshop	IsAsmCstSetAvailable
+CATAsmCstsNode      CATIAlias               libCATAssWorkshop	IsAsmCstSetAvailable
+ASMCSTSET			CATIContextualSubMenu   libCATAssWorkshop
+
+ConstraintASM		CATIContextualMenu		libCATAssWorkshop
+ConstraintASM		CATIAsmCtxSubMenu		libCATAssWorkshop
+AsmBloc                 CATIAsmCtxSubMenu               libCATAssWorkshop
+AsmBloc                 CATIContextualSubMenu           libCATAssWorkshop
+ASMPRODUCT		CATIAsmCtxSubMenu		libCATAssWorkshop
+
+ReconnectAssembly	CATIReconnect			libCATAssCommands
+
+CATAsmIsThereACst	CATIHeaderSpecialize	libCATAssWorkshop
+AsmIsProdUpToDate	CATIHeaderSpecialize	libCATAssWorkshop
+AsmIsProdUpToDatePower	CATIHeaderSpecialize	libCATAssWorkshop
+AsmCstSolve		CATIHeaderSpecialize	libCATAssWorkshop
+CATAsdStdHeader		CATIHeaderSpecialize	libCATAssWorkshop
+CATAsmCmdFlexHdr		CATIHeaderSpecialize	libCATAssWorkshop
+CATAsdSafeSaveOnUIHeader		CATIHeaderSpecialize	libCATAssWorkshop
+
+# For Search
+# ==========
+CATAsmSearch                    CATISearchInformation           libCATAssSearch
+CATMultiselManager		CATIAsmSearchFactory	        libCATAssSearch
+
+# Preview Multi-Instances
+#========================
+CATAsmRuledLineAgent 		CATI3DGeoVisu	libCATAssCommands
+CATAsmRuledLineAgent 		CATIVisu	    libCATAssCommands
+
+CATAsmPreviewInstancesAgent	CATI3DGeoVisu	libCATAssCommands
+CATAsmPreviewInstancesAgent	CATIVisu	    libCATAssCommands
+
+# Snap/SmartMove
+#========================
+CATAsmArrowAgent		CATI3DGeoVisu	        libCATAssCommands
+
+# Progressive Update Assistant
+#=============================
+PowUpdtProdNode				CATINavigateObject		libCATAssCommands
+PowUpdtProdNode_node		CATINavigModify			libCATAssCommands
+PowUpdtProdNode_node		CATINavigElement		libCATAssCommands
+PowUpdtBlocNode				CATINavigateObject		libCATAssCommands
+PowUpdtBlocNode_node		CATINavigModify			libCATAssCommands
+PowUpdtBlocNode_node		CATINavigElement		libCATAssCommands
+PowUpdtFeatNode				CATINavigateObject		libCATAssCommands
+PowUpdtFeatNode_node		CATINavigModify			libCATAssCommands
+PowUpdtFeatNode_node		CATINavigElement		libCATAssCommands
+PowUpdtCstBlocNode			CATINavigateObject		libCATAssCommands
+PowUpdtCstBlocNode_node		CATINavigModify			libCATAssCommands
+PowUpdtCstBlocNode_node		CATINavigElement		libCATAssCommands

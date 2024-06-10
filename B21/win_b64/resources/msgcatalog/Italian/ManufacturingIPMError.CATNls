@@ -1,0 +1,155 @@
+// =====================================================================
+//
+// Erreurs Framework Manufacturing dedie a la generation de l'IPM
+// =================================
+//
+// Deux manieres de formater vos messages : 
+//
+// a- Specifier en delimitant avec le caractere '\n' :
+//       Request      (ce que l'on tentait de faire)
+//       Diagnostic   (ce qui est arrive)
+//       Advice       (...ce qu'il pourrait faire si possible)
+//
+//     Exemple :
+//       ERR_3000 = "Initializing '/p1' attribute in '/p2'.\nAttribute does not exist.\nContact your local support.";  
+//       
+//               NOTE : Le parametrage des messages se fait via SetNLSParameter
+//
+// ou bien
+//
+// b- Specifier vos messages avec la cle + les 3 facettes Request/Diagnostic/Advice
+//
+//     Exemple :
+//       ERR_3000.Request    "Initializing '/p1' attribute in '/p2'." 
+//       ERR_3000.Diagnostic "Attribute does not exist."
+//       ERR_3000.Advice     "\nContact your local support."
+// 
+//               NOTE : Le parametrage de chaque facette se fait par :
+//                         Request    : SetNLSRequestParams
+//                         Diagnostic : SetNLSDiagnosticParams
+//                         Advice     : SetNLSAdviceParams
+//
+// =====================================================================
+
+
+//************************************************************
+// Plage reservee aux messages generiques ERR_0000 a ERR_0999
+//************************************************************
+ERR_0100.Request="Errore durante la creazione o la visualizzazione del volume IPM.";
+ERR_0100.Diagnostic="\nIl volume IPM non può essere creato o visualizzato poiché la rappresentazione dell'utente è stata aggiunta\nallo strumento o l'assieme di strumenti non è valido.";
+ERR_0100.Advice="\nVerificare che la rappresentazione dell'utente dello strumento o dell'assieme di strumenti sia stata definita correttamente.";
+
+ERR_0150.Request="Avviso durante la creazione o la visualizzazione del volume IPM.";
+ERR_0150.Diagnostic="\nIl volume IPM non viene creato o visualizzato poiché la rappresentazione dell'utente è stata aggiunta\nallo strumento o l'assieme di strumenti è uno strumento di ripulitura.";
+ERR_0150.Advice="\nModificare o rimuovere la rappresentazione dell'utente dello strumento o dell'assieme di strumenti per ottenere il volume IPM";
+
+ERR_0200.Request="Errore durante la creazione o la visualizzazione del volume IPM.";
+ERR_0200.Diagnostic="\nLa creazione e la visualizzazione del volume IPM non sono ancora supportate per questa operazione di lavorazione.";
+ERR_0200.Advice="\nQuesta operazione di lavorazione verrà ignorata durante la creazione di IPM.";
+
+ERR_0250.Diagnostic="La modalità di creazione IPM corrente non è supportata per questa operazione di lavorazione.";
+ERR_0250.Advice="\nModificare la modalità di creazione del modello in corso in Strumenti->Opzioni.";
+
+ERR_0300.Request="Errore durante il calcolo del grezzo di immissione";
+ERR_0300.Diagnostic="\nL'aggiornamento del grezzo di immissione relativo all'operazione '/p1' non è riuscito ";
+ERR_0300.Advice="\nModificare l'operazione '/p1' e aggiornare il grezzo di immissione ";
+
+ERR_0350.Request="Errore durante la creazione o la visualizzazione del volume IPM.";
+ERR_0350.Diagnostic="\nL'aggiornamento del volume IPM relativo all'operazione '/p1' non è riuscito.";
+ERR_0350.Advice="\nModificare l'operazione '/p1' e aggiornare l'IPM ";
+
+ERR_0400.Request="Errore durante la creazione o l'aggiornamento di IPM.";
+ERR_0400.Diagnostic="\nCreazione di IPM dal template definito dall'utente non eseguita correttamente. La creazione di IPM verrà interrotta.";
+ERR_0400.Advice="\nVerificare che il percorso del template di IPM definito dall'utente sia valido in Strumenti->Opzioni.";
+
+ERR_0450.Request="Errore durante la creazione del volume IPM.";
+ERR_0450.Diagnostic="\nLa creazione IPM richiede la pubblicazione dei body grezzi";
+ERR_0450.Advice="\nPubblicare tutti i body grezi e aggiornare IPM ";
+
+
+ERR_0500.Request="Errore durante la creazione o la visualizzazione del volume IPM.";
+ERR_0500.Diagnostic="\nIl volume IPM non può essere creato, la modalità di creazione IPM selezionata non è supportata";
+ERR_0500.Advice="\nModificare la modalità di creazione IPM localizzata";
+
+ERR_0600.Request="Errore durante la creazione o la visualizzazione del volume IPM.";
+ERR_0600.Diagnostic="\nIl volume IPM non può essere creato, l'utensile non è selezionato";
+ERR_0600.Advice="\nSelezionare l'utensile per creare IPM ";
+
+ERR_0700.Request="Errore durante la creazione o la visualizzazione del volume IPM.";
+ERR_0700.Diagnostic="MO non è attivo per la creazione IPM.";
+ERR_0700.Advice="\nAttivare MO in modo che partecipi alla creazione IPM.";
+
+//************************************************************
+// Plage reservee aux erreurs Curve Following ERR_1000 a ERR_1499
+//************************************************************
+ERR_1000.Request="Errore durante la creazione o la visualizzazione del volume IPM.";
+ERR_1000.Diagnostic="\nIl volume IPM non può essere creato o visualizzato poiché l'Asse dell'utensile non è ortogonale alle curve.";
+ERR_1000.Advice="\nVerificare che la definizione geometrica dell'operazione Lavorazione curva a seguire sia corretta \ne che l'Asse dell'utensile sia ortogonale alle curve.";
+
+//************************************************************
+// Plage reservee aux erreurs Point to Point ERR_1500 a ERR_1999
+//************************************************************
+ERR_1500.Request="Errore durante la creazione o la visualizzazione del volume IPM.";
+ERR_1500.Diagnostic="\nIl volume IPM non può essere creato o visualizzato poiché tutte le traiettorie non si trovano sullo stesso piano \no/e il piano non è ortogonale all'asse dell'utensile.";
+ERR_1500.Advice="\nVerificare che la definizione geometrica di tutte le traiettorie dell'operazione Lavorazione punto-punto si trovi sullo stesso piano \ne che l'asse dell'utensile sia ortogonale a tale piano.";
+
+//************************************************************
+// Area for Profile Contouring errors from ERR_2000 to ERR_2499
+//************************************************************
+ERR_2000.Request="Errore durante la creazione o la visualizzazione del volume IPM.";
+ERR_2000.Diagnostic="\nIl volume IPM non può essere creato o visualizzato poiché la modalità Lavorazione di profili selezionata non è supportata.";
+ERR_2000.Advice="\nSelezionare la modalità Lavorazione di profili tra due piani nella pagina di geometria dell'editor Lavorazione di profili.";
+
+ERR_2010.Request="Errore durante la creazione o la visualizzazione del volume IPM.";
+ERR_2010.Diagnostic="\nIl volume IPM non può essere creato o visualizzato poiché l'utensile assegnato all'attività non è supportato.";
+ERR_2010.Advice="\nAssegnare un utensile Fresa frontale o TSlotter all'operazione Lavorazione di profili.";
+
+ERR_2020.Request="Errore durante la creazione o la visualizzazione del volume IPM.";
+ERR_2020.Diagnostic="\nIl volume IPM non può essere creato o visualizzato poiché la rappresentazione dell'utente assegnata all'utensile non è supportata per questa operazione.";
+ERR_2020.Advice="\nRimuovere la rappresentazione dell'utente assegnata all'utensile.";
+
+//************************************************************
+// Area for Assembly Station errors from ERR_2500 to ERR_2999
+//************************************************************
+ERR_2500.Request="Errore durante la creazione o la visualizzazione del volume IPM per la stazione di assiemi.";
+ERR_2500.Diagnostic="\nIl volume IPM non può essere creato o visualizzato poiché la stazione di assiemi dispone di una o più attività figlie.";
+ERR_2500.Advice="\nVerificare che la stazione di assiemi non disponga di alcuna attività figlia.";
+
+//************************************************************
+// Area for Pocketing errors from ERR_3000 to ERR_3499
+//************************************************************
+ERR_3000.Request="Errore durante la creazione o la visualizzazione del volume IPM.";
+ERR_3000.Diagnostic="\nIl volume IPM non può essere creato o visualizzato poiché l'angolo di sformo automatico non è supportato.";
+ERR_3000.Advice="\nImpostare l'angolo di sformo automatico su zero.";
+
+//************************************************************
+// Area for Prismatic Roughing errors from ERR_3500 to ERR_3999
+//************************************************************
+ERR_3500.Request="Errore durante la creazione o la visualizzazione del volume IPM.";
+ERR_3500.Diagnostic="\nLa creazione del volume IPM o la visualizzazione relativa all'operazione di sgrossatura prismatica non è riuscita.";
+ERR_3500.Advice="\nModificare l'operazione di sgrossatura prismatica e creare o visualizzare l'IPM ";
+
+
+//************************************************************
+// Area for generic errors for pocketing/facing operations from ERR_4000 to ERR_4500
+//************************************************************
+ERR_4000.Request="Errore durante la creazione o la visualizzazione del volume IPM.";
+ERR_4000.Diagnostic="\nIl volume IPM non può essere creato o visualizzato poiché l'asse dell'utensile non è normale al piano inferiore.";
+ERR_4000.Advice="\nModificare l'asse dell'utensile o selezionare un altro piano inferiore.";
+
+ERR_4010.Request="Errore durante la creazione o la visualizzazione del volume IPM.";
+ERR_4010.Diagnostic="\nIl volume IPM non può essere creato o visualizzato poiché il valore Offset su superiore e il valore Offset su inferiore non sono compatibili.";
+ERR_4010.Advice="\nModificare il valore Offset su superiore o il valore Offset su inferiore";
+
+ERR_4020.Request="Errore durante la creazione o la visualizzazione del volume IPM.";
+ERR_4020.Diagnostic="\nImpossibile generare o visualizzare il volume IPM a causa del diametro non corretto del foro, della filettatura o dell'utensile.";
+ERR_4020.Advice="\nModificare il diametro della filettatura, del foro o dell'utensile";
+
+
+
+
+
+
+ERR_5000.Request="Mancata corrispondenza nell'opzione Ibrida";
+ERR_5000.Diagnostic="\nIl volume IPM non può essere creato o visualizzato poiché esiste una mancata corrispondenza nella modalità in cui il progetto è stato creato e la modalità corrente nell'impostazione Strumenti->Opzione";
+ERR_5000.Advice="\nTenere entrambe le modalità sincronizzate";

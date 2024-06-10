@@ -1,0 +1,578 @@
+//NLS-ENGLISH VERSION
+//=======================================================================
+// MODULE :  IgesDataExchange
+//=======================================================================
+
+// JRX 2002-08-09 : Ajout de messages d'erreur pour CATIgesConicArc
+// KVL 2002-06-04 : Creation de CATIgesImport.CATNls et refonte des anciens CATNls Iges.
+// DFB 2001-11-15 : Ajout de messages d'erreur pour la detection de trous 3D 
+//				   (CATIgesCurveOnParametricSurface et CATIgesBoundary)
+// DFB 2001-11-22 : Ajout de Bad_GetEndPPoints, Hole2DLoop et OrientPCurves
+// DFB 2001-12-11 : Ajout de Bad_ControlPoints2D
+// JRX 2001-10-24 : Ajout de messages d'erreur pour le Parsing (fsbDataTreatment)
+// MEF 2003-03-14 : Ajout de message d'erreur dans le traitement de la global data
+// mef 2004-02-05 : Ajout d'un warning si probleme de licence sur l'insert
+// CNY 2004-05-19 : Ajout d'un message info "mode CGR" pour CATIgesExportTypeManager
+// OPC 2006-06-23 : Reecriture des messages niveau Customer pour meilleure comprehension
+// wbu 28/03/2007 : ajout des messages d'erreur sur le parsing utilisable par le protocole CATIReporter et GetLastError
+
+
+// Numeros utilises : (import Iges : de [1001] a [1999]
+// [1000] a [1099] : fsb*
+// [1100] a [1149] : CATIgesCurveOnParametricSurface et CATIgesBoundary
+// [1150] a [1199] : CATIgesTrimmedParametricSurface
+// [1200] a [1299] : CATIgesElement (Actuellement utilises : 1200 a 1202) 
+// [1300] a [1399] : fileIges*
+// [1500] a [1549] : CATIgesBSplineSurface
+// [1550] a [1599] : CATIgesBSplineCurve
+// [1600] a [1649] : CATIgesCompositeCurve
+// [1650] a [1699] : CATIgesParametricSplineCurve
+// [1701] a [1750] : CATIgesConicArc
+// [1751] a [1770] : CATEIgesShapeFileSelection
+// [1800] a [1820] : CATIgesExportTypeManager
+// [1850] a [1860] : CATIgesExchangeDocu CATIgesInterface
+
+
+//--------------------------------------
+//  Messages from CATIgesExchangeDocu (CATIgesInterface.cpp)
+//--------------------------------------
+
+
+CATIgesExchangeDocu.Error.IGES = 
+"   <E> [1850] IGESﾌｧｲﾙに問題があります｡
+!!            構文解析ﾌｪｰｽﾞが異常終了しました｡";
+
+CATIgesExchangeDocu.Error.IGSS = 
+"   <E> [1851] 開始ｾｸｼｮﾝ内に問題があります｡
+!!            構文解析ﾌｪｰｽﾞが異常終了しました｡";
+
+CATIgesExchangeDocu.Error.IGGS = 
+"   <E> [1852] ｸﾞﾛｰﾊﾞﾙ ｾｸｼｮﾝ内に問題があります｡
+!!            構文解析ﾌｪｰｽﾞが異常終了しました｡";
+
+CATIgesExchangeDocu.Error.IGSPD = 
+"   <E> [1853] DEまたはPDｾｸｼｮﾝ内に問題があります｡
+!!            構文解析ﾌｪｰｽﾞが異常終了しました｡";
+
+
+//--------------------------------------
+//  Messages from CATIgesInterface
+//--------------------------------------
+
+CATDXFileServices.Error.InputFileNotReadable = 
+"!! <E> [1858] IGESﾌｧｲﾙを読み取れません(ｴﾗｰ PathERR_1001):
+               IGESﾌｧｲﾙが存在しないか､読み取り可能ではありません｡
+               ﾌｧｲﾙが存在するかどうか､および読み取り権限があるかどうかを確認してください｡" ;
+
+CATDXFileServices.Error.InvalidName = 
+"!! <E> [1859] 開こうとするIGESﾌｧｲﾙの名前が無効です(ｴﾗｰ PathERR_1021):
+               ﾌｧｲﾙ名に非ASCII文字が含まれているか､空です｡
+               ﾌｧｲﾙ名に無効な文字がないか確認してください｡必要な場合は名前を変更して､もう一度開いてみてください｡";
+
+CATIgesInterface.Error.TitreMsg =
+"\n o=====================================================o";
+
+
+
+//-----------------------------------------------
+//  Messages from CATIgesCurveOnParametricSurface
+//  Messages from CATIgesBoundary
+//-----------------------------------------------
+
+// Warning : Trou dans la loop 143 ou 144 3D du fichier iges - dfb
+CATIgesCurveOnParametricSurface.Warning.HoledLoop3D=
+"   <W> [1100] [T=/p2] [/p1] ﾃﾞｰﾀが無効です｡3D境界に穴があります｡ /p4 /p3"; 
+
+// Warning : Trou dans la loop 143 ou 144 2D du fichier iges - dfb
+CATIgesCurveOnParametricSurface.Warning.HoledLoop2D =
+"   <W> [1101] [T=/p2] [/p1] ﾃﾞｰﾀが無効です｡ﾊﾟﾗﾒﾄﾘｯｸ境界に穴があります｡ /p4 /p3"; 
+
+// Warning : Si la methode GetEndPPoints n'est pas implementee, on ne peut reorienter la loop 2D - dfb
+CATIgesCurveOnParametricSurface.Warning.Bad_GetEndPPoints =
+"   <W> [1102] [T=/p2] [/p1] 終了点が見つかりません｡境界の2D表現を反転できません /p4"; 
+
+// Warning : Mauvaise orientation des PCurves 2D  - dfb
+CATIgesCurveOnParametricSurface.Warning.OrientPCurves =
+"   <W> [1103] [T=/p2] [/p1] 境界には反転された2D曲線が含まれます /p3"; 
+
+
+//-----------------------------------------------
+//  Messages from CATIgesTrimmedParametricSurface
+// [1150] a [1199]
+//-----------------------------------------------
+
+// Erreur : Pas de Surface pour cette face
+CATIgesTrimmedParametricSurface.Error.NoSurface=
+"   <E> [1150] このﾌｪｰｽにはｻｰﾌｪｽがありません｡IGESﾌｧｲﾙの完全性をﾁｪｯｸしてください /p3"; 
+
+
+//--------------------------------------
+//  Messages from CATIgesElement
+//--------------------------------------
+
+
+CATIgesElement.Msg.Name_406 = 
+"   <I> [1200] [T=/p2] [/p1] ｴﾝﾃｨﾃｨ名がﾀｲﾌﾟ406､ﾌｫｰﾑ15のｴﾝﾃｨﾃｨによって指定されています: /p3";
+
+CATIgesElement.Msg.Name_DE = 
+"   <I> [1201] [T=/p2] [/p1] ｴﾝﾃｨﾃｨ名がDEの18番目と19番目のﾌｨｰﾙﾄﾞによって指定されています: /p3";
+
+CATIgesElement.Msg.Name_Undef = 
+"   <I> [1202] [T=/p2] [/p1] このｴﾝﾃｨﾃｨには名前が指定されていません｡";
+
+
+
+//--------------------------
+//  Messages from fileIges* 
+//--------------------------
+
+
+fileIGEStool.Error.IGES = 
+"   <E> [1317] IGESﾌｧｲﾙ /p1 を読み取り中に問題がありました";
+
+
+fileIGEStool.Error.IGBAD = 
+"   <E> [1318] ﾌｧｲﾙ /p1 を開くために不適切なｵﾌﾟｼｮﾝが使用されています";
+
+
+fileIGEStool.Error.IGST = 
+"   <E> [1319] IGES ﾌｧｲﾙ ｴﾗｰ: 終了ﾚｺｰﾄﾞが見つからないか､終了ｾｸｼｮﾝの後に行があります /p1";
+
+
+fileIGEStool.Error.IGGS = 
+"   <E> [1320] IGESﾌｧｲﾙ /p1 内のｸﾞﾛｰﾊﾞﾙ ｾｸｼｮﾝに問題があります";
+
+
+fileIGEStool.Error.IGSPD = 
+"   <E> [1321] IGESﾌｧｲﾙ /p1 内のPDｾｸｼｮﾝに問題があります";
+
+
+fileIGEStool.Error.EOF = 
+"   <E> [1301] ﾌｧｲﾙ /p1 内のPDﾚｺｰﾄﾞ# /p2 の読み取り時に､不完全なﾌｧｲﾙの終わりに到達しました";
+
+
+fileIGEStool.Error.IncBloc = 
+"   <E> [1302] ﾌｧｲﾙ /p1 内のPDﾚｺｰﾄﾞ# /p2 の読み取り時に､ﾌﾞﾛｯｸが不完全でした";
+
+
+fileIGES.Error.IGFILE = "IGESﾌｧｲﾙ /p1 が見つからないか､ｱｸｾｽが拒否されました";
+
+
+fileIGES.Error.IGESF = 
+"   <E> [1323] ﾌｧｲﾙ /p1 は .igsﾌｧｲﾙではありません";
+
+
+fileIGES.Error.IGESO = 
+"   <E> [1322] IGES ﾌｧｲﾙ /p1 を開けません";
+
+
+fileIGES.Error.IGESC = "IGESﾌｧｲﾙ /p1 を閉じることができません";
+
+
+fileIGES.Msg.IGESS = 
+"   <W> [1324] 警告! 1つ以上の開始ﾚｺｰﾄﾞが必要です｡"; 
+
+
+fileIGES.Msg.IGProdIdSend = 
+"   <W> [1325] IGES ﾌｧｲﾙ ｴﾗｰ: 送信側からのﾌﾟﾛﾀﾞｸﾄ識別番号に問題があります｡";
+
+
+fileIGES.Msg.IGFileN = 
+"   <W> [1326] ﾌｧｲﾙ名に問題があります:";
+
+
+fileIGES.Msg.IGSysId = 
+"   <W> [1327] ﾈｲﾃｨﾌﾞ ｼｽﾃﾑIDに問題があります";
+
+
+fileIGES.Msg.IGPrepVers = 
+"   <W> [1328] ﾌﾟﾘﾌﾟﾛｾｯｻのﾊﾞｰｼﾞｮﾝに問題があります";
+
+
+fileIGES.Msg.IGIntRep = 
+"   <W> [1329] 整数表現に問題があります";
+
+
+fileIGES.Msg.IGSingPrecMag = 
+"   <W> [1330] 単精度の大きさに問題があります";
+
+
+fileIGES.Msg.IGSingPrecSig = 
+"   <W> [1331] 単精度の有効桁数に問題があります";
+
+
+fileIGES.Msg.IGDbPrecMag = 
+"   <W> [1332] 倍精度の大きさに問題があります";
+
+
+fileIGES.Msg.IGDbPrecSig = 
+"   <W> [1333] 倍精度の有効桁数に問題があります";
+
+
+fileIGES.Msg.IGProdIdRec = 
+"   <W> [1312] 受信側のﾌﾟﾛﾀﾞｸﾄ識別番号に問題があります";
+
+
+fileIGES.Msg.IGSca = 
+"   <W> [1334] ﾓﾃﾞﾙ ｽﾍﾟｰｽ ｽｹｰﾙに問題があります:";
+
+
+fileIGES.Msg.IGUnitFlg = 
+"   <W> [1335] 単位ﾌﾗｸﾞに問題があります";
+
+
+fileIGES.Msg.IGUnitNam = 
+"   <W> [1336] 単位に問題があります";
+
+
+fileIGES.Msg.IGMaxLinGrad = 
+"   <W> [1337] 最大の強調線の階調に問題があります";
+
+
+fileIGES.Msg.IGMaxLinUnit = 
+"   <W> [1338] 指定単位での強調線の最大幅に問題があります";
+
+
+fileIGES.Msg.IGDateGen = 
+"   <W> [1339] 交換ﾌｧｲﾙ生成の日時に問題があります";
+
+
+fileIGES.Msg.IGMinUserRes = 
+"   <W> [1340] ﾕｰｻﾞｰ指定の最小解像度に問題があります";
+
+
+fileIGES.Msg.IGAppMaxCoord = 
+"   <W> [1341] 近似の最大座標値に問題があります";
+
+
+fileIGES.Msg.IGNamAut = 
+"   <W> [1342] IGES ﾌｧｲﾙ: 作成者の名前に問題があります｡";
+
+
+fileIGES.Msg.IGAutOrg = 
+"   <W> [1343] 作成者の組織に問題があります";
+
+
+fileIGES.Msg.IGVersNum = 
+"   <W> [1344] ﾊﾞｰｼﾞｮﾝ番号に問題があります";
+
+
+fileIGES.Msg.IGDraftStd = 
+"   <W> [1345] ﾄﾞﾗﾌﾃｨﾝｸﾞ標準ｺｰﾄﾞに問題があります";
+
+
+fileIGES.Msg.IGDateMod = 
+"   <W> [1346] ﾓﾃﾞﾙの作成/修正の日時に問題があります";
+
+
+fileIGES.Msg.IGMilSpec = 
+"   <W> [1347] MIL仕様に問題があります";
+
+
+fileIGES.Msg.defaultParameter = 
+"   <W> [1348] IGES ﾌｧｲﾙ: ﾊﾟﾗﾒｰﾀの値がﾃﾞﾌｫﾙﾄ値に設定されました";
+
+
+fileIGES.Msg.InvalidParameter = 
+"   <W> [1349] 警告! 次のﾊﾟﾗﾒｰﾀの値が無効です";
+
+
+fileIGES.Error.IGES = 
+"   <W> [1313] IGESﾌｧｲﾙ /p1 を読み取り中に問題がありました";
+
+
+fileIGES.Error.IGMissPD = 
+"   <W> [1314] IGES ﾌｧｲﾙ /p1 内のPDｾｸｼｮﾝがありません(または正しくないﾌｧｲﾙ構成)";
+
+IGMissPDERR_1001.Request="IGESﾌｧｲﾙがIGES標準に準拠していません " ;
+IGMissPDERR_1001.Diagnostic="IGESﾌｧｲﾙ内のPDｾｸｼｮﾝがないか､読み取りに問題があります " ;
+IGMissPDERR_1001.Advice="ﾌｧｲﾙ行が80列であることを確認してください｡または､
+すべてのﾊﾟﾗﾒｰﾀ行の列66から72に､ｴﾝﾃｨﾃｨ ﾀｲﾌﾟ番号のDEの先頭行の順序番号が含まれていることを確認してください..." ;
+
+
+fileIGESelement.Msg.IGPar = 
+"   <W> [1315] PDｾｸｼｮﾝ内のﾊﾟﾗﾒｰﾀ行 /p1 が無効です";
+
+//erb
+fileIGESelement.Msg.InvalidePD= 
+"   <W> [1316] ｴﾝﾃｨﾃｨDEに対するPDｾｸｼｮﾝが無効または欠落しています: ﾀｲﾌﾟ /p1 の /p2";
+
+
+fileIGESelement.Msg.InvNurbsConv =  "/p1 からNURBSｻｰﾌｪｽへの変換が無効です";
+
+
+fileIGESelement.Msg.UnavailableMethod = "/p2 ｵﾌﾞｼﾞｪｸﾄに対するﾒｿｯﾄﾞ /p1 はまだ使用できません｡";
+
+
+fileIGESelement.Msg.ObjCreationKO = "ｵﾌﾞｼﾞｪｸﾄの作成が失敗しました｡ /p1 ｸﾗｽ ｵﾌﾞｼﾞｪｸﾄは作成されていません｡";
+
+
+fileIGESelement.Msg.PbInMethod =
+"   <W> [1303] ｸﾗｽ ｵﾌﾞｼﾞｪｸﾄ /p2 のﾒｿｯﾄﾞ /p1 の問題です｡";
+
+
+fileIGES.Error.IGWrite = "IGESﾌｧｲﾙ /p1 を書き込み中に問題がありました";
+
+
+fileIGESelement.Msg.Knot="/p1 : Bｽﾌﾟﾗｲﾝ曲線のﾉｯﾄ ﾍﾞｸﾄﾙの多重ﾉｯﾄはｻﾎﾟｰﾄされません";
+
+//Example of utilization of this message:
+//The entity DE=1269 of type 104 form 2 is not supported.
+fileIGESelement.Msg.MyForme=" 形式 ";
+
+fileIGESopenElement.Reading.Entity =
+"   <I> [1300] [T=/p2] [/p1] 構文解析ﾌﾟﾛｸﾞﾗﾑ: ｴﾝﾃｨﾃｨの読み取り中です (/p3) <S>";
+
+
+fileIGESopenElement.error.Ptr3DCurve= "ﾀｲﾌﾟ142のｴﾝﾃｨﾃｨの3D曲線のDEへのﾎﾟｲﾝﾀがありません";
+
+fileIGESopenElement.Error.Traitement =
+"\nﾀｲﾌﾟ /p2 のｴﾝﾃｨﾃｨDE= /p1 はｻﾎﾟｰﾄされていません ";
+
+fileIGESopenElement.Error.dimention2 =
+"\n警告: ﾌｧｲﾙに2D形状が含まれています｡ \n";
+
+
+fileIGEStool.Error.IgsControlChars = "ﾌｧｲﾙ /p1 が基準に準拠していません: 読み取りｱｸｾｽで許可されない /p2 文字が検出されたので､ｸﾘｰﾝが試行されました｡";
+fileIGEStool.Error.IgsNoASCIIChars=
+"   <W> [1350] ﾌｧｲﾙ /p1 は標準に準拠していません: /p2 文字は許可されません｡これらは置換されました｡";
+
+fileIGESopenElement.Warning.Copiousdata=
+"   <W> [1304] !! ﾀｲﾌﾟCopious Dataの1つのｴﾝﾃｨﾃｨが､ﾒﾓﾘ不足状態のため変換されません";
+
+fileIGEStool.Warning.PtrDE =
+"!! <E> [1305] [T=/p2] [#/p1] IGES ﾌｧｲﾙ ｴﾗｰ: ｴﾝﾃｨﾃｨのﾊﾟﾗﾒｰﾀ ﾃﾞｰﾀ内のﾃﾞｨﾚｸﾄﾘ ｴﾝﾄﾘ ﾎﾟｲﾝﾀが無効です( /p3 )";
+
+fileIGESopenElement.Warning.EntNonSup =
+"!! <W> [1306] [T=/p2] [#/p1] このｴﾝﾃｨﾃｨ ﾀｲﾌﾟは現在ｻﾎﾟｰﾄされていません｡";
+
+fileIGESopenElement.Warning.FormNonSup =
+"!! <W> [1307] [T=/p2] [#/p1] このｴﾝﾃｨﾃｨ形式( /p3 )は現在ｻﾎﾟｰﾄされていません｡";
+
+fileIGESopenElement.Error.MidDE =
+"!! <E> [1308] [T=/p2] [#/p1] IGES ﾌｧｲﾙ ｴﾗｰ: ﾊﾟﾗﾒｰﾀ ﾃﾞｰﾀのﾎﾟｲﾝﾀがｴﾝﾃｨﾃｨのﾊﾟﾗﾒｰﾀ ﾃﾞｰﾀ ﾌﾞﾛｯｸの最初のﾚｺｰﾄﾞを指していません｡";
+
+fileIGESopenElement.Warning.ConicBadForm=
+"   <W> [1309] [T=/p2] [#/p1] IGESﾌｧｲﾙ内のﾃﾞｰﾀが無効です｡このｴﾝﾃｨﾃｨの形式が不適切です｡形式0によって置換されました｡";
+
+fileIGESelement.Msg.InterruptConversion=
+"   <W> [1310] 転送割り込みﾎﾞﾀﾝが活動化されました｡変換は停止されました｡";
+
+fileIGES.Error.GlobalDataDefault =
+"****************************
+!! <E> [1311] 無効なﾃﾞｰﾀ: IGESﾌｧｲﾙ内のｸﾞﾛｰﾊﾞﾙ ｾｸｼｮﾝを読み取れません! ﾃﾞﾌｫﾙﾄ値が反映されます...
+****************************";
+
+
+//---------------------
+//  Messages from fsb*
+//---------------------
+
+fsb.Msg.GlobaleSection  =
+"\n ***** ﾌｧｲﾙIGES情報: ｸﾞﾛｰﾊﾞﾙ ｾｸｼｮﾝ *****";
+
+fsb.Msg.IdentificationSender =
+"\n送信側からのﾌﾟﾛﾀﾞｸﾄ識別番号: ";
+
+fsb.Msg.FileName =
+"\nﾌｧｲﾙ名: ";
+
+fsb.Msg.SystemID =
+"\nｼｽﾃﾑI.D.: ";
+
+fsb.Msg.Preprocessor =
+"\nﾌﾟﾘﾌﾟﾛｾｯｻのﾊﾞｰｼﾞｮﾝ: ";
+
+fsb.Msg.NbBinary =
+"\n整数表現のﾊﾞｲﾅﾘ ﾋﾞｯﾄ数: ";
+
+fsb.Msg.SingleMagnitude =
+"\n単精度の大きさ: ";
+
+fsb.Msg.SingleSignifiance =
+"\n単精度の有効桁数: ";
+
+fsb.Msg.DoubleMagnitude =
+"\n倍精度の大きさ: ";
+
+fsb.Msg.DoubleSignifiance =
+"\n倍精度の有効桁数: ";
+
+fsb.Msg.IdentificationReceiver =
+"\n受信側のﾌﾟﾛﾀﾞｸﾄ識別番号: ";
+
+fsb.Msg.SpaceScale =
+"\nﾓﾃﾞﾙ ｽﾍﾟｰｽ ｽｹｰﾙ: ";
+
+fsb.Msg.Flag =
+"\n単位ﾌﾗｸﾞ: ";
+
+fsb.Msg.Units =
+"\n単位: ";
+
+fsb.Msg.Gradations =
+"\n線幅階調の最大数: ";
+
+fsb.Msg.WidthUnits =
+"\n指定単位による最大線幅: ";
+
+fsb.Msg.DateTimeExchange =
+"\n交換ﾌｧｲﾙ生成の日時: ";
+
+fsb.Msg.Resolution =
+"\nﾕｰｻﾞｰ指定の最小解像度: ";
+
+fsb.Msg.Coordinate =
+"\n近似の最大座標値: ";
+
+fsb.Msg.Author =
+"\n作成者の名前: ";
+
+fsb.Msg.Organization =
+"\n作成者の組織: ";
+
+fsb.Msg.Version =
+"\nﾊﾞｰｼﾞｮﾝ番号: ";
+
+fsb.Msg.Code =
+"\nﾄﾞﾗﾌﾃｨﾝｸﾞ標準ｺｰﾄﾞ: ";
+
+fsb.Msg.DateTimeModif =
+"\nﾓﾃﾞﾙが作成/修正された日時: ";
+
+fsb.Msg.Specification =
+"\nﾐﾙ仕様(ﾌﾟﾛﾄｺﾙW.E.I.Y.I.): ";
+
+fsb.Msg.StartSection =
+"\n \n \n ***** ﾌｧｲﾙIGES情報: 開始ｾｸｼｮﾝ ***** \n";
+
+fsb.Msg.Info =
+"情報なし";
+
+fsb.Msg.Error =
+"
+!! <E> [1007] 入力ﾌｧｲﾙの構成は､IGES標準に適合せず無効です｡                                              このｾｸｼｮﾝを読み取れません｡IGESﾌｧｲﾙをﾁｪｯｸしてください｡ \n";
+
+fsbDataTreatment.Warning.ThereIsInvalidData =
+"\n *****  警告  ***** \n <W> [1000] このﾌｧｲﾙには､IGES標準に適合しないﾃﾞｰﾀが含まれています: /p3 \n";
+
+fsbDataTreatment.Warning.No3DCrvInLoop =
+"   <W> [1001] 3D曲線がないﾙｰﾌﾟがあります /p3";
+
+fsbDataTreatment.Warning.No2DCrvInLoop =
+"   <W> [1002] ﾊﾟﾗﾒﾄﾘｯｸ曲線がないﾙｰﾌﾟがあります /p3";
+
+fsbDataTreatement.Processtopo.Storing =
+"   <I> [1003] [T=/p2] [/p1] 構文解析ﾌﾟﾛｸﾞﾗﾑ: ｴﾝﾃｨﾃｨの格納中です (/p3) <D>";
+
+fsbDataTreatement.Processtopo.514Invalid =
+"   <E> [1004] [T=/p2] [/p1] 構文解析ﾌﾟﾛｸﾞﾗﾑ｡ｼｪﾙが無効です｡使用されるﾌｪｰｽの数が1より少ないです｡";
+
+fsbDataTreatement.Processtopo.186Invalid =
+"   <E> [1005] [T=/p2] [/p1] 構文解析ﾌﾟﾛｸﾞﾗﾑ｡多様体ｿﾘｯﾄﾞのB-REPｵﾌﾞｼﾞｪｸﾄが無効です｡外部ｼｪﾙDEを入手できません";
+
+fsbDataTreatment.Warning.3DCrvWithFlag2D =
+"   <W> [1006] [T=/p2] [/p1] ｴﾝﾃｨﾃｨ使用ﾌﾗｸﾞ(2D)が不適切で､考慮されませんでした ";
+
+//----------------------------------------------
+//  Messages from CATIgesBSplineSurface
+//---------------------------------------------
+
+CATIgesBSplineSurface.Warning.BSplSurfMLK=
+"   <W> [1500] [T=/p2] [/p1] MLK /p3";
+
+CATIgesBSplineSurface.Warning.CopyElemTabError=
+"   <W> [1501] [T=/p2] [/p1] 配列の範囲外にｱﾄﾞﾚｯｼﾝｸﾞしています /p3";
+
+
+
+//-----------------------------------------------
+//  Messages from CATIgesBSplineCurve
+//-----------------------------------------------
+ 
+CATIgesBSplineCurve.Warning.ActiveSplitKO=
+"   <W> [1550] [T=/p2] [/p1] 3d曲線の分割処理中に例外が検出されました /p3";
+
+CATIgesBSplineCurve.Warning.GetLimitsOnCvKO=
+"   <W> [1551] [T=/p2] [/p1] 曲線ﾊﾟﾗﾒｰﾀの復元中に例外が検出されました /p3";
+
+
+
+//---------------------------------------------
+//  Messages from CATIgesParametricSplineCurve
+//---------------------------------------------
+
+// Warning : Probleme sur les points de controle de la loop 2D - dfb
+CATIgesParametricSplineCurve.Warning.Bad_ControlPoints2D = 
+"   <W> [1650] [T=/p2] [/p1] ﾊﾟﾗﾒﾄﾘｯｸ ｽﾌﾟﾗｲﾝ曲線の制御点が不適切です｡3D表現で境界を処理しています /p4"; 
+
+CATIgesParametricSplineCurve.Error.Bad_Data= 
+"   <W> [1651] [T=/p2] [/p1] このﾌｧｲﾙには無効なﾃﾞｰﾀが含まれています /p3"; 
+
+
+//----------------------------------------------
+//  Messages from CATIgesConicArc
+//---------------------------------------------
+
+CATIgesConicArc.Error.IncorrectEllipse=
+"   <W> [1701] ﾃﾞｰﾀが無効またはｻﾎﾟｰﾄされていません｡円錐弧形式 /p4 が楕円 /p3 として検出されません";
+
+CATIgesConicArc.Error.IncorrectHyperbola=
+"   <W> [1702] ﾃﾞｰﾀが無効です｡円錐弧形式2が双曲線 /p3 として検出されません";
+
+CATIgesConicArc.Error.IncorrectParabola=
+"   <W> [1703] ﾃﾞｰﾀが無効です｡円錐弧形式3が放物線 /p3 として検出されません";
+
+
+//--------------------------------------
+//  Messages from CATEIgesShapeFileSelection 
+//--------------------------------------
+
+GlobalFrame.NoLicense=
+"この拡張機能にｱｸｾｽするにはMultiCadﾗｲｾﾝｽが必要です";
+
+
+//------------------------------------------
+//  Messages from CATIgesExportTypeManager 
+//------------------------------------------
+
+// Info : Import en mode CGR
+CATIgesExportTypeManager.Info.CGRMode=
+"   <I> [1800] CGRﾓｰﾄﾞでｲﾝﾎﾟｰﾄを開始中です"; 
+
+
+//------------------------------------------
+//  Messages for CATIReporter 
+//------------------------------------------
+
+PathERR_1001.Request="IGESﾌｧｲﾙを読み取れません｡" ;
+PathERR_1001.Diagnostic="IGESﾌｧｲﾙは存在しないか読み取れません｡" ;
+PathERR_1001.Advice="ﾌｧｲﾙが存在するかどうか､および読み取り権限があるかどうかﾁｪｯｸしてください｡" ;
+
+PathERR_1021.Request="開こうとするIGESﾌｧｲﾙの名前が無効です｡" ;
+PathERR_1021.Diagnostic="IGESﾌｧｲﾙ名に非ASCII文字が含まれているか､空です｡" ;
+PathERR_1021.Advice="ﾌｧｲﾙ名に無効な文字がないか確認してください｡必要な場合はIGESﾌｧｲﾙの名前を変更して､ もう一度開いてみてください｡" ;
+
+IGProdIdSend_1001.Request="送信側からのﾌﾟﾛﾀﾞｸﾄ識別番号に問題があります｡" ;
+IGProdIdSend_1001.Diagnostic="IGESﾌｧｲﾙのｸﾞﾛｰﾊﾞﾙ ｾｸｼｮﾝ内に問題があります｡送信側からのﾌﾟﾛﾀﾞｸﾄ識別番号に誤りがあります" ;
+IGProdIdSend_1001.Advice="IGESﾌｧｲﾙのｸﾞﾛｰﾊﾞﾙ ｾｸｼｮﾝ内で､送信側の名前からﾌﾟﾛﾀﾞｸﾄ識別番号を確認してください｡" ;
+
+IGProdIdSend_1001.Request="ﾌｧｲﾙ名に問題があります" ;
+IGProdIdSend_1001.Diagnostic="IGESﾌｧｲﾙのｸﾞﾛｰﾊﾞﾙ ｾｸｼｮﾝ内に問題があります｡ﾌｧｲﾙ名に問題があります" ;
+IGProdIdSend_1001.Advice="IGESﾌｧｲﾙのｸﾞﾛｰﾊﾞﾙ ｾｸｼｮﾝ内で､ﾌｧｲﾙ名を確認してください｡" ;
+
+IGSysId_1001.Request="ﾈｲﾃｨﾌﾞ ｼｽﾃﾑIDに問題があります" ;
+IGSysId_1001.Diagnostic="IGESﾌｧｲﾙのｸﾞﾛｰﾊﾞﾙ ｾｸｼｮﾝ内に問題があります｡ﾈｲﾃｨﾌﾞ ｼｽﾃﾑIDに問題があります" ;
+IGSysId_1001.Advice="IGESﾌｧｲﾙのｸﾞﾛｰﾊﾞﾙ ｾｸｼｮﾝ内で､ﾈｲﾃｨﾌﾞ ｼｽﾃﾑIDを確認してください｡" ;
+
+IGPrepVers_1001.Request="ﾌﾟﾘﾌﾟﾛｾｯｻのﾊﾞｰｼﾞｮﾝに問題があります" ;
+IGPrepVers_1001.Diagnostic="IGESﾌｧｲﾙのｸﾞﾛｰﾊﾞﾙ ｾｸｼｮﾝ内に問題があります｡ﾌﾟﾘﾌﾟﾛｾｯｻのﾊﾞｰｼﾞｮﾝに問題があります" ;
+IGPrepVers_1001.Advice="IGESﾌｧｲﾙのｸﾞﾛｰﾊﾞﾙ ｾｸｼｮﾝ内で､ﾌﾟﾘﾌﾟﾛｾｯｻのﾊﾞｰｼﾞｮﾝを確認してください｡" ;
+
+InvalidParameter_1001.Request="ﾊﾟﾗﾒｰﾀの値が無効です" ;
+InvalidParameter_1001.Diagnostic="IGESﾌｧｲﾙのｸﾞﾛｰﾊﾞﾙ ｾｸｼｮﾝ内に問題があります｡ﾊﾟﾗﾒｰﾀの値が無効です｡詳細はﾒｯｾｰｼﾞ ﾌｧｲﾙを参照してください(*.err)" ;
+InvalidParameter_1001.Advice="IGESﾌｧｲﾙのｸﾞﾛｰﾊﾞﾙ ｾｸｼｮﾝ内で､ﾊﾟﾗﾒｰﾀを確認してください｡" ;
+
+InvalidMandatoryParameters_1001.Request="有用なﾊﾟﾗﾒｰﾀの値が無効です" ;
+InvalidMandatoryParameters_1001.Diagnostic="IGESﾌｧｲﾙのｸﾞﾛｰﾊﾞﾙ ｾｸｼｮﾝ内に問題があります｡有用なﾊﾟﾗﾒｰﾀの値が無効です｡詳細はﾒｯｾｰｼﾞ ﾌｧｲﾙを参照してください(*.err)" ;
+InvalidMandatoryParameters_1001.Advice="IGESﾌｧｲﾙのｸﾞﾛｰﾊﾞﾙ ｾｸｼｮﾝ内で､有用なﾊﾟﾗﾒｰﾀを確認してください｡" ;

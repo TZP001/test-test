@@ -1,0 +1,162 @@
+#===============================================================================
+# COPYRIGHT DASSAULT SYSTEMES 1999
+#===============================================================================
+# Dictionary DNBSimulationBase.dic associated with framework DNBSimulationBase
+#===============================================================================
+#  HISTORY:
+#      Author       Date         Purpose
+#      ------       ----         -------
+#      hrn          01/01/1999   Initial implementation
+#      sha          01/26/2002   Moved SHUTTLE/EXPERIMENT dictionary entries to
+#                                DNBAsyActivityBase.dic (DPM Assembly)
+#      mmh          03/25/2002   Rename DNBIProcessController->DNBISimEnv
+#      mmh          03/28/2002   Add implementation for DNBIFunctorMgr
+#      mmh          05/15/2002   Implement the DNBISelectionConfig interface
+#      mmh          10/04/2002   Implement DNBIAnalysisConfiguration->CATProduct
+#      sha          10/19/2002   Add entries for attachements
+#      sha          10/22/2002   Add more entries for attachements
+#      sha          10/23/2002   Reorganized the attachement section
+#      mmh          10/31/2002   Move the implementation of DNBISimEnv to
+#                                DNBSimulationCommands
+#      sha          03/17/2003   Add DNBIProcletExt for Feeder/Deliver
+#      mmh          06/24/2003   Implement DNBIBuild for Plant Layout data
+#      mmh          09/05/2003   Fix mkCheckArchi P0 errors: DNBIBuild 
+#                                implementation for ASMPRODUCT, PRODUCT
+#      sha          09/09/2003   Implement CATInit for DNBSimInitStateCont
+#      mmh          09/18/2003   Fix mkCheckArchi P1 errors: NNDE
+#      sha          10/24/2003   Implement CATInit for DNBSimInitStateCont
+#      mmh          04/07/2004   Remove DNBIProcletExt for Feeder/Deliver
+#      sha          09/08/2004   Add support for CATProduct document
+#      sha          11/16/2004   Add support for DNBMfgAssy object
+#      mmg          05/05/2005   Add support for SECTIONPLANE object
+#      smw          05/15/2006   Added the fact that ASMPRODUCT now implements
+#                                DNBIProcletExt.  This is to support resource-centric
+#                                simulation, since resources are ASMPRODUCT s and they
+#                                don't have a dedicated late-type.
+#      mmh          05/15/2007   Implement DNBIASimulationInitState
+#      mmh          05/18/2007   Implement CATITechnoObjProvider on SimulationInitState
+#      mmh          06/28/2007   Implement DNBIHasPletExt on ASMPRODUCT
+#      mmh          10/22/2009   Provide CATDUA rule for DNBSimInitialStateCont
+#      mmh          05/13/2010   Implement CATINavigateObject on DNBSimInitialStateCont, DNBSimInitStateCont
+#===============================================================================
+
+CATProduct          DNBIPersistentInitState     libDNBSimulationBase
+CATProcess          DNBIPersistentInitState     libDNBSimulationBase
+ASMPRODUCT          DNBIItemPersistentInitState libDNBSimulationBase
+
+DNBSimInitStateCont DNBISimInitStateFactory     libDNBSimulationBase 
+DNBSimInitStateCont CATINavigateObjectPPR       libDNBSimulationBase 
+DNBSimInitStateCont CATINavigateObject          libDNBSimulationBase 
+DNBSimInitStateCont CATInit                     libDNBSimulationBase 
+DNBSimInitStateCont CATICleanObject             libCATClnDMR
+DNBSimInitStateCont CATICheckObject             libCATClnDMR
+
+DNBSimInitialStateCont DNBISimInitStateFactory  libDNBSimulationBase 
+DNBSimInitialStateCont CATINavigateObjectPPR    libDNBSimulationBase 
+DNBSimInitialStateCont CATINavigateObject       libDNBSimulationBase 
+DNBSimInitialStateCont CATInit                  libDNBSimulationBase 
+DNBSimInitialStateCont CATICleanObject          libCATClnDMR
+DNBSimInitialStateCont CATICheckObject          libCATClnDMR
+
+PRODUCT             DNBIWDMExt                  libDNBSimulationBase
+ASMPRODUCT          DNBIWDMExt                  libDNBSimulationBase isASimulatableResource
+Activity            DNBIWDMExt                  libDNBSimulationBase 
+CATProduct          DNBIWDMExt                  libDNBSimulationBase 
+CATProcess          DNBIWDMExt                  libDNBSimulationBase 
+Weld                DNBIWDMExt                  libDNBSimulationBase
+
+Activity            DNBIProcletExt              libDNBSimulationBase
+ASMPRODUCT          DNBIProcletExt              libDNBSimulationBase
+
+CATProduct          DNBIAnalysisConfiguration   libDNBSimulationBase
+CATProcess          DNBIAnalysisConfiguration   libDNBSimulationBase
+
+CATProduct          DNBISelectionConfig         libDNBSimulationBase
+CATProcess          DNBISelectionConfig         libDNBSimulationBase
+
+CATProduct          DNBIWDMMgt                  libDNBSimulationBase 
+CATProcess          DNBIWDMMgt                  libDNBSimulationBase 
+
+CATProcess          DNBIStdChannelMgr           libDNBSimulationBase 
+CATProduct          DNBIStdChannelMgr           libDNBSimulationBase 
+Activity            DNBIChannelMgr              libDNBSimulationBase
+
+ASMPRODUCT          DNBIChannelMgr              libDNBSimulationBase
+SECTIONPLANE          DNBIChannelMgr              libDNBSimulationBase
+
+Activity            DNBIResourceProcessMgt      libDNBSimulationBase
+
+ASMPRODUCT          DNBIFunctorMgr              libDNBSimulationBase
+CATProduct          DNBIFunctorMgr              libDNBSimulationBase 
+CATProcess          DNBIFunctorMgr              libDNBSimulationBase 
+
+#
+# Attachments
+#
+AttachExt           DNBISubscriber              libDNBSimulationBase
+AttachExt           DNBIBuild                   libDNBSimulationBase
+AttachExt           DNBIItemPersistentInitState libDNBSimulationBase
+
+ArrExtensionCont    DNBISubscriber              libDNBSimulationBase
+ArrExtensionCont    DNBIBuild                   libDNBSimulationBase
+ArrExtensionCont    DNBIItemPersistentInitState libDNBSimulationBase
+
+ArrIgpAttachCont    DNBISubscriber              libDNBSimulationBase
+ArrIgpAttachCont    DNBIBuild                   libDNBSimulationBase
+ArrIgpAttachCont    DNBIItemPersistentInitState libDNBSimulationBase
+
+CATCompoundCont     DNBISubscriber              libDNBSimulationBase
+
+ASMPRODUCT          DNBIBuild                   libDNBSimulationBase
+PRODUCT             DNBIBuild                   libDNBSimulationBase
+
+#
+# Plant Layout data
+#
+ArrBox              DNBIBuild                   libDNBSimulationBase
+ArrGrid             DNBIBuild                   libDNBSimulationBase
+ArrGridPlane        DNBIBuild                   libDNBSimulationBase
+ArrNet              DNBIBuild                   libDNBSimulationBase
+ArrSpatialPart      DNBIBuild                   libDNBSimulationBase
+RoutableContour     DNBIBuild                   libDNBSimulationBase
+RoutablePrism       DNBIBuild                   libDNBSimulationBase
+RoutableString      DNBIBuild                   libDNBSimulationBase
+
+DNBSimTracePath     CATICreateInstance          libDNBSimulationBase
+DNBSimTracePath     DNBISimTracePath            libDNBSimulationBase
+DNBSimTracePath     CATIModelEvents             libDNBSimulationBase
+
+
+DNBSimTracePoint    CATICreateInstance          libDNBSimulationBase
+DNBSimTracePoint    DNBISimTracePoint           libDNBSimulationBase
+DNBSimTracePoint    CATI3DGeoVisu               libDNBSimulationBase
+DNBSimTracePoint    CATIModelEvents             libDNBSimulationBase
+DNBSimTracePoint    DNBISimTraceGraphics        libDNBSimulationBase
+
+ASMProduct          DNBISimTrace                libDNBSimulationBase
+
+#
+# Mfg Assy
+#
+DNBMBomNodesCont    DNBIItemPersistentInitState libDNBSimulationBase
+DNBMfgAssy          DNBIItemPersistentInitState libDNBSimulationBase
+DNBMfgAssy          DNBIBuild                   libDNBSimulationBase
+DNBMfgAssy          DNBIWDMExt                  libDNBSimulationBase
+DNBMfgAssy          DNBIFunctorMgr              libDNBSimulationBase
+DNBMfgAssy          DNBIChannelMgr              libDNBSimulationBase
+
+SimInitStateObject  DNBISimInitState            libDNBSimulationBase
+SimInitStateObject  DNBIRemoveContext           libDNBSimulationBase
+
+Activity            CATIInstanceNav             libDNBSimulationBase 
+
+DNBSimInitialStatePRD      DNBISimInitState     libDNBSimulationBase
+DNBSimInitialStateV5Attach DNBISimInitState     libDNBSimulationBase
+DNBSimInitialStateMA       DNBISimInitState     libDNBSimulationBase
+
+CATProduct          DNBIASimulationInitState    libDNBSimulationBase
+CATProcess          DNBIASimulationInitState    libDNBSimulationBase
+
+SimulationInitState CATITechnoObjProvider       libDNBSimulationBase
+
+ASMPRODUCT          DNBIHasPletExt              libDNBSimulationBase

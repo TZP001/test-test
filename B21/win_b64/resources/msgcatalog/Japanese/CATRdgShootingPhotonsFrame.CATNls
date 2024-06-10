@@ -1,0 +1,103 @@
+// COPYRIGHT DASSAULT SYSTEMES 1998
+//===========================================================================
+//
+// CATRdgShootingPhotonsFrame
+//
+//===========================================================================
+
+//--------------------------------------
+// Gather frame
+//--------------------------------------
+gatherFrame.HeaderFrame.Global.Title = "最終収束";
+
+gatherFrame.IconAndOptionsFrame.OptionsFrame.gatherParametersFrame.gatherCheck.Title = "ｱｸﾃｨﾌﾞ";
+gatherFrame.IconAndOptionsFrame.OptionsFrame.gatherParametersFrame.gatherCheck.Help = "最終収束を切り替えます";
+gatherFrame.IconAndOptionsFrame.OptionsFrame.gatherParametersFrame.gatherCheck.ShortHelp = "最終収束を切り替え";
+gatherFrame.IconAndOptionsFrame.OptionsFrame.gatherParametersFrame.gatherCheck.LongHelp =
+"最終収束のｵﾝ/ｵﾌを切り替えます｡最終収束とは､ｼｪｰﾃﾞｨﾝｸﾞされた各点において適切な方向に光線を送り込むことにより､上半球がｻﾝﾌﾟﾘﾝｸﾞされることです｡その結果直接ｲﾙﾐﾈｰｼｮﾝに加えて間接ｲﾙﾐﾈｰｼｮﾝの計算も可能になります｡";
+
+gatherFrame.IconAndOptionsFrame.OptionsFrame.gatherParametersFrame.gatherAccuracyLabel.Title = "光線: ";
+gatherFrame.IconAndOptionsFrame.OptionsFrame.gatherParametersFrame.gatherAccuracySpinner.Help = "光線の数を定義します";
+gatherFrame.IconAndOptionsFrame.OptionsFrame.gatherParametersFrame.gatherAccuracySpinner.ShortHelp = "光線";
+gatherFrame.IconAndOptionsFrame.OptionsFrame.gatherParametersFrame.gatherAccuracySpinner.LongHelp =
+"間接ｲﾙﾐﾈｰｼｮﾝを計算するために､各ﾋﾟｸｾﾙから放つ光線の数を定義します｡数が多いと精度は増すがﾊﾟﾌｫｰﾏﾝｽは低下します｡数があまりにも小さいとﾗｲﾄのｿﾌﾄ ﾊﾟﾀｰﾝや影が現れます｡";
+
+gatherFrame.IconAndOptionsFrame.OptionsFrame.gatherParametersFrame.gatherMaxRadiusLabel.Title = "最大半径: ";
+gatherFrame.IconAndOptionsFrame.OptionsFrame.gatherParametersFrame.gatherMaxRadiusSpinner.Help = "最大半径を定義します";
+gatherFrame.IconAndOptionsFrame.OptionsFrame.gatherParametersFrame.gatherMaxRadiusSpinner.ShortHelp = "補間最大半径";
+gatherFrame.IconAndOptionsFrame.OptionsFrame.gatherParametersFrame.gatherMaxRadiusSpinner.LongHelp =
+"他の最終収束ｽﾃｯﾌﾟの結果が補間のために使用する最大距離を定義します｡値が小さいと最終収束ｽﾃｯﾌﾟ数が増大し､ﾊﾟﾌｫｰﾏﾝｽは低下しますが精度は向上します｡0にｾｯﾄされた場合は距離はｼｰﾝの範囲から計算されます｡";
+
+gatherFrame.IconAndOptionsFrame.OptionsFrame.gatherParametersFrame.gatherMinRadiusLabel.Title = "最小半径: ";
+gatherFrame.IconAndOptionsFrame.OptionsFrame.gatherParametersFrame.gatherMinRadiusSpinner.Help = "最小半径を定義します";
+gatherFrame.IconAndOptionsFrame.OptionsFrame.gatherParametersFrame.gatherMinRadiusSpinner.ShortHelp = "補間最小半径";
+gatherFrame.IconAndOptionsFrame.OptionsFrame.gatherParametersFrame.gatherMinRadiusSpinner.LongHelp =
+"最終収束結果がこの距離以内であれば､補間のために使用する必要があることを指定します｡このﾊﾟﾗﾒｰﾀは最大半径よりもﾚﾝﾀﾞﾘﾝｸﾞ品質に影響を与えない傾向にあります｡0にｾｯﾄされた場合は使用される距離は最大半径の10%となります｡";
+
+//--------------------------------------
+// Global frame
+//--------------------------------------
+globalFrame.HeaderFrame.Global.Title = "ｸﾞﾛｰﾊﾞﾙ ｲﾙﾐﾈｰｼｮﾝ";
+
+globalFrame.IconAndOptionsFrame.OptionsFrame.globalParametersFrame.globalCheck.Title = "ｱｸﾃｨﾌﾞ";
+globalFrame.IconAndOptionsFrame.OptionsFrame.globalParametersFrame.globalCheck.Help = "ｸﾞﾛｰﾊﾞﾙ ｲﾙﾐﾈｰｼｮﾝを切り替えます";
+globalFrame.IconAndOptionsFrame.OptionsFrame.globalParametersFrame.globalCheck.ShortHelp = "ｸﾞﾛｰﾊﾞﾙ ｲﾙﾐﾈｰｼｮﾝを切り替え";
+globalFrame.IconAndOptionsFrame.OptionsFrame.globalParametersFrame.globalCheck.LongHelp =
+"ｸﾞﾛｰﾊﾞﾙ ｲﾙﾐﾈｰｼｮﾝのｵﾝ/ｵﾌを切り替えます｡
+ｸﾞﾛｰﾊﾞﾙ ｲﾙﾐﾈｰｼｮﾝとは､(ｺｰｽﾃｨｯｸを除く)画像内のすべての光の相互反射効果のｼﾐｭﾚｰｼｮﾝです｡これには､隣接する壁の間で色がにじむような効果が含まれます｡ｸﾞﾛｰﾊﾞﾙ ｲﾙﾐﾈｰｼｮﾝ効果は微妙ですが､臨場感を増します｡ｸﾞﾛｰﾊﾞﾙ ｲﾙﾐﾈｰｼｮﾝの計算は､ﾌｫﾄﾝが光源から放射され､ﾌｫﾄﾝ ﾄﾚｰｽを使用して画像からﾄﾚｰｽするﾌｫﾄﾝのﾌﾟﾘﾌﾟﾛｾｽ ｽﾃｯﾌﾟで生成されるﾌｫﾄﾝ ﾏｯﾌﾟが必要です｡ｻｰﾌｪｽ ｼｪｰﾃﾞｨﾝｸﾞ時に､ﾌｫﾄﾝ ﾏｯﾌﾟを使用して間接照明を加えます｡";
+
+globalFrame.IconAndOptionsFrame.OptionsFrame.globalParametersFrame.globalAccuracyLabel.Title = "ﾌｫﾄﾝ: ";
+globalFrame.IconAndOptionsFrame.OptionsFrame.globalParametersFrame.globalAccuracySpinner.Help = "使用するｸﾞﾛｰﾊﾞﾙ ｲﾙﾐﾈｰｼｮﾝ ﾌｫﾄﾝの数を定義します";
+globalFrame.IconAndOptionsFrame.OptionsFrame.globalParametersFrame.globalAccuracySpinner.ShortHelp = "使用するｸﾞﾛｰﾊﾞﾙ ｲﾙﾐﾈｰｼｮﾝ ﾌｫﾄﾝ";
+globalFrame.IconAndOptionsFrame.OptionsFrame.globalParametersFrame.globalAccuracySpinner.LongHelp =
+"ｸﾞﾛｰﾊﾞﾙ ｲﾙﾐﾈｰｼｮﾝの局所的輝度を計算するのに使用されるﾌｫﾄﾝの最大数を定義します｡
+ﾃﾞﾌｫﾙﾄは500です｡2000などの大きな数では､ｸﾞﾛｰﾊﾞﾙ ｲﾙﾐﾈｰｼｮﾝはｽﾑｰｽﾞになりますが遅くなります｡";
+
+globalFrame.IconAndOptionsFrame.OptionsFrame.globalParametersFrame.globalRadiusLabel.Title = "最大半径: ";
+globalFrame.IconAndOptionsFrame.OptionsFrame.globalParametersFrame.globalRadiusSpinner.Help = "ﾌｫﾄﾝの最大半径を定義します";
+globalFrame.IconAndOptionsFrame.OptionsFrame.globalParametersFrame.globalRadiusSpinner.ShortHelp = "ﾌｫﾄﾝ最大半径";
+globalFrame.IconAndOptionsFrame.OptionsFrame.globalParametersFrame.globalRadiusSpinner.LongHelp =
+"ｸﾞﾛｰﾊﾞﾙ ｲﾙﾐﾈｰｼｮﾝの局所的な輝度を計算するのに､画像でﾌｫﾄﾝを検索する深さを定義します｡
+設定が0なら､距離は画像の延長から計算されます｡";
+
+//--------------------------------------
+// Caustic frame
+//--------------------------------------
+causticFrame.HeaderFrame.Global.Title = "ｺｰｽﾃｨｯｸ";
+
+causticFrame.IconAndOptionsFrame.OptionsFrame.causticParametersFrame.causticCheck.Title = "ｱｸﾃｨﾌﾞ";
+causticFrame.IconAndOptionsFrame.OptionsFrame.causticParametersFrame.causticCheck.Help = "ｺｰｽﾃｨｯｸを切り替えます";
+causticFrame.IconAndOptionsFrame.OptionsFrame.causticParametersFrame.causticCheck.ShortHelp = "ｺｰｽﾃｨｯｸを切り替え";
+causticFrame.IconAndOptionsFrame.OptionsFrame.causticParametersFrame.causticCheck.LongHelp =
+"ｺｰｽﾃｨｯｸのｵﾝ/ｵﾌを切り替えます｡
+ｺｰｽﾃｨｯｸとは､光源からの光が1つ以上の正反射または伝播によって拡散ｻｰﾌｪｽを照明するときに作成される光のﾊﾟﾀｰﾝです｡
+例:
+- ｽｲﾐﾝｸﾞ ﾌﾟｰﾙの底に作成される光のﾊﾟﾀｰﾝ｡
+- ｺｯﾌﾟの水によって収束する光｡
+ｺｰｽﾃｨｯｸの計算は､ﾌｫﾄﾝが光源から放射され､ﾌｫﾄﾝ ﾄﾚｰｽを使用して画像からﾄﾚｰｽするﾌｫﾄﾝのﾌﾟﾘﾌﾟﾛｾｽ ｽﾃｯﾌﾟで生成されるﾌｫﾄﾝ ﾏｯﾌﾟが必要です｡ｻｰﾌｪｽ ｼｪｰﾃﾞｨﾝｸﾞ時に､ﾌｫﾄﾝ ﾏｯﾌﾟを使用して間接照明を加えます｡";
+
+causticFrame.IconAndOptionsFrame.OptionsFrame.causticParametersFrame.causticAccuracyLabel.Title = "ﾌｫﾄﾝ: ";
+causticFrame.IconAndOptionsFrame.OptionsFrame.causticParametersFrame.causticAccuracySpinner.Help = "使用するｺｰｽﾃｨｯｸ ﾌｫﾄﾝの数を定義します";
+causticFrame.IconAndOptionsFrame.OptionsFrame.causticParametersFrame.causticAccuracySpinner.ShortHelp = "使用するｺｰｽﾃｨｯｸ ﾌｫﾄﾝ";
+causticFrame.IconAndOptionsFrame.OptionsFrame.causticParametersFrame.causticAccuracySpinner.LongHelp =
+"ｺｰｽﾃｨｯｸの明るさの局所的輝度を計算するのに使用されるﾌｫﾄﾝの最大数を定義します｡
+ﾃﾞﾌｫﾙﾄは100です｡200などの大きな数では､ｺｰｽﾃｨｯｸはﾉｲｽﾞが少なくなりますが､ぼやけたり遅くなります｡";
+
+causticFrame.IconAndOptionsFrame.OptionsFrame.causticParametersFrame.causticRadiusLabel.Title = "最大半径: ";
+causticFrame.IconAndOptionsFrame.OptionsFrame.causticParametersFrame.causticRadiusSpinner.Help = "ﾌｫﾄﾝの最大半径を定義します";
+causticFrame.IconAndOptionsFrame.OptionsFrame.causticParametersFrame.causticRadiusSpinner.ShortHelp = "ﾌｫﾄﾝ最大半径";
+causticFrame.IconAndOptionsFrame.OptionsFrame.causticParametersFrame.causticRadiusSpinner.LongHelp =
+"局所的な明るさの局所的な輝度を計算するのに､画像でﾌｫﾄﾝを検索する深さを定義します｡
+設定が0なら､距離は画像の延長から計算されます｡";
+
+//--------------------------------------
+// Ambient frame
+//--------------------------------------
+ambientFrame.HeaderFrame.Global.Title = "ﾏﾃﾘｱﾙ";
+
+ambientFrame.IconAndOptionsFrame.OptionsFrame.ambientParametersFrame.ambientCheck.Title = "周辺の使用なし";
+ambientFrame.IconAndOptionsFrame.OptionsFrame.ambientParametersFrame.ambientCheck.Help = "ﾏﾃﾘｱﾙの周辺の使用を停止します";
+ambientFrame.IconAndOptionsFrame.OptionsFrame.ambientParametersFrame.ambientCheck.ShortHelp = "ﾏﾃﾘｱﾙの周辺の停止";
+ambientFrame.IconAndOptionsFrame.OptionsFrame.ambientParametersFrame.ambientCheck.LongHelp =
+"ﾏﾃﾘｱﾙの周辺ﾊﾟﾗﾒｰﾀの使用を使用可能または停止します｡
+間接ｲﾙﾐﾈｰｼｮﾝの使用時にﾏﾃﾘｱﾙの周辺ﾊﾟﾗﾒｰﾀを使用しないでください｡";

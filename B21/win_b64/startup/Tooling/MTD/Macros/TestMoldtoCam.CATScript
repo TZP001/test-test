@@ -1,0 +1,272 @@
+Language="VBSCRIPT"
+
+Sub CATMain()
+
+'---  Input a list of components
+'---  This macro is intended to detect drillholes and taphole containing mutliple features for the list of components given as input.
+'---  Some directories must be defined in the first lines of the macro
+'**********************************************************************
+'------------------------------------------------------------------------------------
+' ------------------------------------------------------------------------------
+' ------------------------------------------------------------------------------
+' ------------------------------------------------------------------------------
+
+' Sample of commands to launch in a command prompt to get the path and name of components in a txt file 
+'find E:\MyDir\startup\components\MoldCatalog\Sleeve\Dme\ -name "*.CATPart" |sed -e "s/\//\\/g">ListOfCmp.txt
+'
+' or else :
+' in run : cmd  ( to get a command window )
+' in this window : E: ( to be positionned in appropriate drive )
+' in this window : cd NoBackup\downloadOfCXR20Rel\intel_a\startup\components\MoldCatalog  ( to be postionned in right directory )
+' in this window : dir /s /B  *.CATPart > outputfile.txt
+'------------------------------------------------------------------------------------
+' ------------------------------------------------------------------------------
+' ------------------------------------------------------------------------------
+' ------------------------------------------------------------------------------
+'**********************************************************************
+
+'**********************************************************************
+'------------------------------------------------------------------------------------
+' ------------------------------------------------------------------------------
+' ------------------------------------------------------------------------------
+' ------------------------------------------------------------------------------
+' Please, the following path of files can be modified to meet your requirements.
+
+
+' this is the path of directory where the list of components will be found
+    FromDir = "E:\MyFolder\Input\"
+' this is the path of the directory where the output files will be created
+    WhereDir =  "E:\MyFolder\Output\"
+' this is the name of the list of components ( a txt file containing all the component path, one per line, no suffix )
+    ListOfComponents = "MyListofComponents"
+' this is the name of the report file
+    ReportFileName = "MyReportFile"        '   ( no suffix )
+
+
+
+'------------------------------------------------------------------------------------
+' ------------------------------------------------------------------------------
+' ------------------------------------------------------------------------------
+' ------------------------------------------------------------------------------
+'**********************************************************************
+err.clear
+
+	Dim COLORBGHTML As String, COLORTXTHTML As String
+	Dim LANCEMENT_EN_BATCH As String
+	LANCEMENT_EN_BATCH  = CATIA.SystemService.Environ("RUN_BATCH")
+
+	COLORBGHTML=WHITE
+	COLORTXTHTML=BLACK
+
+'**********************************************************************
+	ListOfCmpFile = FromDir&ListOfComponents&".txt"	' for the input file
+	ReportFile = WhereDir&ReportFileName&".txt"   '  for report file
+
+
+' ListOfCmp.txt = file that contains the path of all components (CATPart) to test
+' -------------------------------------------------------------------------------
+Dim filesys, MyCmp
+Set filesys = CreateObject("Scripting.FileSystemObject") 
+on error resume next
+Set MyCmp = filesys.OpenTextFile(ListOfCmpFile)
+If (Err <> 0) Then
+	Msg = "The file: " &ListOfCmpFile  & " of components to test does not exist"
+	MsgBox Msg
+	On Error Goto 0
+Else
+
+' ReportIndexFile.txt = File that contains all the files read
+' -------------------------------------------------------------------------------------------------------------------
+	Dim filesysIF, textIF
+	Set filesysIF = CreateObject("Scripting.FileSystemObject") 
+
+' ReportNoFile.txt = File that contains the results of the files not found
+' -------------------------------------------------------------------------------------------------------------------
+	Dim filesysNF, textNF
+	Set filesysNF = CreateObject("Scripting.FileSystemObject") 
+
+' ReportFileName.txt = file that contains the report
+' -------------------------------------------------------------------------------------------------------------------
+	Dim filesysRP, textRP
+	Set filesysRP = CreateObject("Scripting.FileSystemObject") 
+
+'------------------------------------------------------------------------------------------------------------------------
+'------------------------------------------------------------------------------------------------------------------------
+'------------------------------------------------------------------------------------------------------------------------
+'------------------------------------------------------------------------------------------------------------------------
+'------------------------------------------------------------------------------------------------------------------------
+'------------------------------------------------------------------------------------------------------------------------
+'------------------------------------------------------------------------------------------------------------------------------------------------
+	Dim encore, wego
+	encore = true
+	wego = true
+    tstrp = false
+
+' Ask to analyze ?
+' ------------------------------
+    Msgbox "Make sure the Tools/option -no automatic back up- is -ON-"
+	Message = "Would you like to analyze structure of DrillHoles and TapHoles ?"
+	Style = vbYesNo + vbDefaultButton2    'Define buttons.
+	Title = "Report DrillHoles and TapHoles which are multi shapes"
+	Response = MsgBox(Message, Style, Title)
+	If Response = vbYes Then
+        tstRP= true
+	End If
+
+	if ( tstrp  ) then  Set textRP = filesys.CreateTextFile(ReportFile , True)
+
+
+'--------------end of dialog -------------------------------------------
+
+	If (not tstrp) then
+		MsgBox "Sorry there are no other option available !!!"
+		wego = false
+	else
+
+' The tests start !!!
+        NBcmp=0
+		do while (encore)
+
+'            Checking if this is the last component
+			CmpRead = MyCmp.AtEndOfStream
+			if (CmpRead) then
+'				MsgBox "End"
+				encore = false
+			else
+'				MsgBox "Go on"
+'               Reading the next component
+				CmpRead = MyCmp.ReadLine
+                Nbcmp=Nbcmp+1
+'               Opening it
+				Set documents1 = CATIA.Documents
+				tstNF = true
+                on error resume next
+				Set partDocument1 = documents1.Open(CmpRead)
+				If (Err <> 0) Then
+                    msgbox "The file: " &CmpRead  & " does not exist"
+					tstNF = false
+                    err.clear
+                else
+
+'               The component is good
+'				MsgBox "Current line = " &CmpRead
+				if (tstRP) then
+					textRP.WriteLine Nbcmp &" Component: " & CmpRead
+					ProcessComponents  textRP, CmpRead
+				end if
+	            PartDocument1.Close
+				end if
+			end if
+		loop
+	end if
+
+	MyCmp.Close
+	if (tstRP) then textRP.Close
+
+	if (wego) then MsgBox "We hope you enjoy the results !!!"
+End If
+
+End Sub
+
+'----------------------------------------------------------------------------------------
+' Sub to report DrillHoles and TapHoles
+'----------------------------------------------------------------------------------------
+Sub ProcessComponents (  text, CmpFile )
+
+NbPbEncountered = 0
+COLORBGHTML="BLUE"
+COLORTXTHTML="WHITE"
+
+err.clear
+    On Error goto 0
+
+	Set partDocument1 = CATIA.ActiveDocument
+	Dim part1 As Part
+	Set part1 = partDocument1.Part
+    Set product1=partDocument1.product
+
+	Dim selection1 As Selection
+	Set selection1 = partDocument1.Selection
+	selection1.Clear 
+
+	Dim visPropertySet1 As VisPropertySet
+	Set visPropertySet1 = selection1.VisProperties
+
+	Dim bodies1 As Bodies
+	Set bodies1 = part1.Bodies
+
+    Set parameters1 = part1.Parameters
+
+	Dim body1 As Body
+    On Error resume next
+	Set body1 = bodies1.Item("DrillHole")
+
+    if (Err=0 ) then
+
+
+    Set SShapes= body1.Shapes
+    NBShapes= -1
+    NBShapes= SShapes.count
+
+'    text.WriteLine NBShapes
+    if (NBShapes>1) then
+    For I=1 to NBShapes 
+          text.WriteLine "     DrillHole Shape      "&SShapes.Item(I).Name 
+   next
+   end if
+
+    Set HBodies= body1.HybridBodies
+    NBBodies= -1
+    NBBodies= Hbodies.count
+    if (NBBodies>1) then
+    For I=1 to NBBodies
+          BName = Hbodies.Item(I).Name
+          text.WriteLine  "     DrillHole Body      "&BName
+   next
+   end if
+
+else
+     err.clear
+end if
+
+	Set body1 = bodies1.Item("TapHole")
+
+    if (Err=0 ) then
+
+
+    Set SShapes= body1.Shapes
+    NBShapes= -1
+    NBShapes= SShapes.count
+
+'    text.WriteLine NBShapes
+    if (NBShapes>1) then
+    For I=1 to NBShapes 
+          text.WriteLine "     TapHole Shape      "&SShapes.Item(I).Name 
+   next
+   end if
+
+    Set HBodies= body1.HybridBodies
+    NBBodies= -1
+    NBBodies= Hbodies.count
+'          text.WriteLine HBodies.count
+   if (NBBodies>1) then
+    For I=1 to NBBodies
+          BName = Hbodies.Item(I).Name
+          text.WriteLine  "     TapHole Body      "&BName
+   next
+   end if
+
+else
+     err.clear
+end if
+
+
+
+
+
+
+
+
+
+End Sub 
+'-----------------------

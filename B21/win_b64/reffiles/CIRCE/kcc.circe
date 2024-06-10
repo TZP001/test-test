@@ -1,0 +1,200 @@
+#%IF () THEN
+--
+-- definition of some obsolete keyword
+--
+-- 
+define EQ Eq__
+define NE Ne__
+define GT Gt__
+define LE Le__
+define GE Ge__
+define LT Lt__
+define AND And__
+define OR  Or__
+define abs Abs__
+define cos Cos__
+define sin Sin__
+define tan Tan__
+define atan Atan__
+define acos Acos__
+define asin Asin__
+define sub Sub__
+define neg Neg__
+define log Log10__
+define ln Log__
+define exp Exp__
+define say Say__
+define sayln Sayln__
+define mod Mod__
+end_define
+
+-- Definition of some synonyms
+--
+define KNBASE KB
+define VAR
+define END_VAR
+--define AND ;
+define KNOWLEDGE_DOMAIN DOMAIN;
+end_define
+--
+-- synonyme francophiles
+--
+--define BASE_DE_CONNAISSANCES KB
+--define DANS :
+--define ET And__
+--define OU Or__
+--define TEL_QUE ;
+--define CLASSE class
+--define PAQUET_DE_REGLE rule_set
+--define REGLE rule
+--define SI if
+--define ALORS then
+--define FIN_REGLE end_rule --rule
+--define FIN_PAQUET_DE_REGLE end_rule_set --rule
+--define SOIT
+--define END_SOIT
+--define FIN_SOIT
+--define IL_N_EXISTE_PAS none              
+--end_define
+-- 
+#
+# intrinsic functions
+#
+kb kcc use none;
+--program Stop();
+--function Abs(i: real) : real;
+--function Sqrt(i: real) : real;
+--function Exp(i:real) : real;
+--function Log(i:real) : real;
+--function Log10(i:real) : real;
+--function Sin(i:real) : real;
+--function Cos(i:real) : real;
+--function Tan(i:real) : real;
+--function Asin(i:real) : real;
+--function Acos(i:real) : real;
+--function Atan(i:real) : real;
+--function Length(i:string) : integer;
+--function Lobound(i:String) : integer;
+--function Hibound(i:String) : integer ;
+--function Stoi(i:String) : integer;
+--function Stor(i:String) : real;
+function Substring(i:String;i1:integer;i2:integer) : string ;
+--function Format(f : in Real) : string ;
+
+--Fact control
+--function TestDomainFact__ (op1: in Any_Entity; op2: in string): boolean;
+--program AddDomainFact__ (op1: out Any_Entity; op2: in string);
+--program RemoveDomainFact__ (op1: out Any_Entity; op2: in string);
+--program AddHolderDomainFact__ (op1: out Holder; op2: in string);
+--program RemoveHolderDomainFact__ (op1: out Holder; op2: in string);
+
+--function TestFact__ (op1: in Instance): boolean;
+--program AddFact__ (op1: out Instance);
+--program RemoveFact__ (op1: out Instance);
+--program AddHolderFact__ (op1: out Holder);
+--program RemoveHolderFact__ (op1: out Holder);
+
+--program Delete__(op1 : out Any_entity);
+
+define TestDomainFact TestDomainFact__
+define AddDomainFact AddDomainFact__
+define RemoveDomainFact RemoveDomainFact__
+define AddHolderDomainFact AddHolderDomainFact__
+define RemoveHolderDomainFact RemoveHolderDomainFact__
+
+define TestFact TestFact__
+define AddFact AddFact__
+define AddHolderFact AddHolderFact__
+define RemoveFact RemoveFact__
+define Remove RemoveFact__
+define RemoveHolderFact RemoveHolderFact__
+
+define delete Delete__
+end_define
+
+--program Load(op1: Any_entity; op2: Any_entity);
+--program Unload(op1:Any_entity);
+--program Deduce(op1:Any_entity;op2:Any_entity);
+
+-- Instance Control
+--program Unset(op1: Any_entity);
+--program Is_set(op1: Any_entity) : Boolean;
+--program Is_unset(op1: Any_entity) : Boolean;
+--program Known(op1: Any_entity) : Boolean;
+--program Unknown(op1: Any_entity) : Boolean;
+--program Set__(op1: Out Any_entity; op2 : Any_entity);
+--program Dot__(op1: Any_entity; attr : String) : Any_entity;
+
+--function SizeOf(op1: In Holder Of Integer) : Boolean;
+--function SizeOf(op1: In Holder Of String) : Boolean;
+--function SizeOf(op1: In Holder Of Real) : Boolean;
+--function SizeOf(op1: In Holder Of Boolean) : Boolean;
+--function SizeOf(op1: In Holder Of Instance) : Boolean;
+
+--function SizeOf(op1: In Holder) : Integer;
+
+--function IsMember(op1: In In Holder Of Instance; op2 : In Instance) : Boolean;
+--function AddMember(op1: In Holder Of Instance; op2 : In Instance) : Boolean;
+--function RemoveMember(op1: In Holder Of Instance; op2 : In Instance) : Boolean;
+
+--function IsInstanceMember(op1: In Holder; op2 : In Instance) : Boolean;
+--function IsStringMember(op1: In Holder; op2 : In String) : Boolean;
+--function IsRealMember(op1: In Holder; op2 : In Real) : Boolean;
+--function IsIntegerMember(op1: In Holder; op2 : In Integer) : Boolean;
+--function IsBooleanMember(op1: In Holder; op2 : In Boolean) : Boolean;
+
+--function AddInstanceMember(op1: In Holder; op2 : In Instance) : Boolean;
+--function AddStringMember(op1: In Holder; op2 : In String) : Boolean;
+--function AddRealMember(op1: In Holder; op2 : In Real) : Boolean;
+--function AddIntegerMember(op1: In Holder; op2 : In Integer) : Boolean;
+--function AddBooleanMember(op1: In Holder; op2 : In Boolean) : Boolean;
+
+--function RemoveInstanceMember(op1: In Holder; op2 : In Instance) : Boolean;
+--function RemoveStringMember(op1: In Holder; op2 : In String) : Boolean;
+--function RemoveRealMember(op1: In Holder; op2 : In Real) : Boolean;
+--function RemoveIntegerMember(op1: In Holder; op2 : In Integer) : Boolean;
+--function RemoveBooleanMember(op1: In Holder; op2 : In Boolean) : Boolean;
+
+function Say__(op1: Any_entity) : Boolean;
+function Sayln__() : Boolean;
+
+-- arithmetic operators
+-- Number was a pseudo type name 
+function Add__(op1: Number; op2:Number) : Number;
+function Sub__(op1: Number; op2:Number) : Number;
+function Div__(op1: Number; op2:Number) : Number;
+function Mul__(op1: Number; op2:Number) : Number;
+function Pow__(op1: Number; op2:Number) : Number;
+function Mod__(op1: Number; op2:Number) : Number;
+function Neg__(op1: Number) : Number;
+function And__(op1: Number; op2:Number) : Boolean;
+function Or__ (op1: Number; op2:Number) : Boolean;
+
+
+function Ne__(op1: Number; op2:Number) : Boolean;
+function Eq__(op1: Number; op2:Number) : Boolean;
+function Gt__(op1: Number; op2:Number) : Boolean;
+function Ge__(op1: Number; op2:Number) : Boolean;
+function Lt__(op1: Number; op2:Number) : Boolean;
+function Le__(op1: Number; op2:Number) : Boolean;
+
+-- define elementary operators
+function Add__ := '%1 + %2' ;
+function Sub__ := '%1 - %2' ;
+function Div__ := '%1 / %2' ;
+function Mul__ := '%1 * %2' ;
+function And__ := '%1 AND %2'; -- plante je ne sais pourquoi
+function Or__ := '%1 OR %2'; -- plante je ne sais pourquoi...
+function Mod__ := '%1 mod %2' ;
+function Neg__ := '- %1' ;
+
+function Ne__ := '%1 != %2' ;
+function Eq__ := '%1 == %2' ;
+function Gt__ := '%1 > %2' ;
+function Ge__ := '%1 >= %2' ;
+function Lt__ := '%1 < %2' ;
+function Le__ := '%1 <= %2' ;
+function Substring := '%1[%2:%3]';
+--function Subscript__ := '%1[%2]';
+
+#%ENDIF

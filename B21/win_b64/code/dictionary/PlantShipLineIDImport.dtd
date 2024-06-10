@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- @version: -->
+
+<!-- Line ID Import DTD - version 1.0                                       -->
+<!--                                                                        -->
+<!-- Explanation of format:                                                 -->
+<!--                                                                        -->
+<!-- Every LineID Import XML file starts and ends with exactly one          --> 
+<!-- LineIDImport tag.  The LineIDImport tag contains an optional Units     -->
+<!-- section followed by one or more LineIDRecord sections.                 -->
+<!--                                                                        -->  
+<!-- The Units section may appear once or not at all.  If you have a Units  -->
+<!-- section, that means you are overriding the default units defined for   -->
+<!-- some of the magnitudes on your CNext session.  For example, the        -->
+<!-- default unit for the Length magnitude for you CNext session might be   -->
+<!-- in (inches).  If you don't override this magnitude in your LineID      -->
+<!-- Import XML file, then we will assume that every "Length" property      -->
+<!-- value you are specifying in your XML file is in inches.  If you do     -->
+<!-- override it by specifying mm (millmeter) units for the Length          -->
+<!-- magnitude, then we will assume that every "Length" property value      -->
+<!-- you are specifying is in millimeters.  To specify a unit for one of    -->
+<!-- the predefined magnitudes listed below, you would use an empty tag     -->
+<!-- for the relevant magnitude with a Unit attribute using one of the      -->
+<!-- predefined choice of units.  For example:                              -->
+<!--   <Length Unit="mm"/>                                                  -->
+<!-- Since you can specify your own units and magnitudes in CNext, we also  -->
+<!-- allow for the input of one or more UserUnit tags as follows:           -->
+<!--   <UserUnit Magnitude="UserMagnitude1" Unit="UserUnit1"/>              -->
+<!--                                                                        -->
+<!-- There must be one or more LineIDRecord sections in the XML file.  A    -->
+<!-- LineIDRecord section consists of a LineID element followed by zero or  -->
+<!-- more Property elements.  The LineIDRecord itself has a Type attribute  -->
+<!-- describing the type of Line ID to be processed, like so:               -->
+<!--   <LineIDRecord Type="PipingLine">                                     -->
+<!-- The LineID element contains string data that defines the LineID, for   -->
+<!-- example:                                                               -->
+<!--     <LineID>UserPipeLine1</LineID>                                     -->
+<!-- For every new Line ID created, a CATProduct document is produced which -->
+<!-- defines the Line ID reference object.  The name of this document is    -->
+<!-- uniquely generated using a time stamp.  If you want to override the    -->
+<!-- name used for this file with one that is more significant to you,      -->
+<!-- you can specify the file name to use in the LineID element using the   -->
+<!-- FileName attribute like so:                                            -->
+<!--     <LineID FileName="UserPipeLine1">UserPipeLine1</LineID>            -->
+<!--                                                                        -->
+<!-- Each Property element contains one PropertyName element specifying     -->
+<!-- the property name followed by one PropertyValue element specifying     -->
+<!-- the property value.  For example,                                      -->
+<!--     <Property>                                                         -->
+<!--       <PropertyName>Design temperature</PropertyName>                  -->
+<!--       <PropertyValue>32.0</PropertyValue>                              -->
+<!--     </Property>                                                        -->
+<!-- The name of the property used for the PropertyName element should be   -->
+<!-- the same one you see under the interactive Edit+Properties command for -->
+<!-- the Line ID object.                                                    -->
+<!--                                                                        -->
+
+<!ELEMENT LineIDImport (Units?,LineIDRecord+)>
+
+<!ELEMENT Units (Angle|AngularAcceleration|AngularFeedRate|AngularSpindleSpeed|
+                 AngularStiffness|Area|Density|ElectricIntensity|ElectricPower|
+                 ElectricResistance|Energy|Force|Frequency|Inertia|
+                 InertiaMoment|LinearAcceleration|LinearFeedRate|LinearMass|
+                 LinearSpindleSpeed|LinearStiffness|Length|Mass|MassicFlow|
+                 Moment|Pressure|Speed|StrainEnergy|SurfacicMass|
+                 SurfacicSpindleSpeed|Temperature|Time|Voltage|Volume|
+                 VolumetricFlow|VolumicForce|UserUnit)+>
+<!ELEMENT Angle EMPTY>
+<!ATTLIST Angle Unit (deg|rad|grad|DegMinSec) #REQUIRED>
+<!ELEMENT AngularAcceleration EMPTY>
+<!ATTLIST AngularAcceleration Unit (rad_s2) #REQUIRED>
+<!ELEMENT AngularFeedRate EMPTY>
+<!ATTLIST AngularFeedRate Unit (mm_turn|in_turn) #REQUIRED>
+<!ELEMENT AngularSpindleSpeed EMPTY>
+<!ATTLIST AngularSpindleSpeed Unit (turn_mn|rad_s) #REQUIRED>
+<!ELEMENT AngularStiffness EMPTY>
+<!ATTLIST AngularStiffness Unit (Nxm_rad|Nxmm_mrd|lbfxin_r) #REQUIRED>
+<!ELEMENT Area EMPTY>
+<!ATTLIST Area Unit (m2|mm2|cm2|in2|ft2) #REQUIRED>
+<!ELEMENT Density EMPTY>
+<!ATTLIST Density Unit (kg_m3|lb_ft3|lb_in3) #REQUIRED>
+<!ELEMENT ElectricIntensity EMPTY>
+<!ATTLIST ElectricIntensity Unit (A|kA|mA) #REQUIRED>
+<!ELEMENT ElectricPower EMPTY>
+<!ATTLIST ElectricPower Unit (W|kW|CV|HP) #REQUIRED>
+<!ELEMENT ElectricResistance EMPTY>
+<!ATTLIST ElectricResistance Unit (Ohm|kOhm|mOhm) #REQUIRED>
+<!ELEMENT Energy EMPTY>
+<!ATTLIST Energy Unit (J|Wxh|Btu|ftlbf) #REQUIRED>
+<!ELEMENT Force EMPTY>
+<!ATTLIST Force Unit (N|lbf) #REQUIRED>
+<!ELEMENT Frequency EMPTY>
+<!ATTLIST Frequency Unit (Hz|kHz) #REQUIRED>
+<!ELEMENT Inertia EMPTY>
+<!ATTLIST Inertia Unit (m4|mm4|cm4|in4|ft4) #REQUIRED>
+<!ELEMENT InertiaMoment EMPTY>
+<!ATTLIST InertiaMoment Unit (gmm2|kgm2|lb_in2) #REQUIRED>
+<!ELEMENT LinearAcceleration EMPTY>
+<!ATTLIST LinearAcceleration Unit (m_s2|ft_s2|in_s2) #REQUIRED>
+<!ELEMENT LinearFeedRate EMPTY>
+<!ATTLIST LinearFeedRate Unit (mm_mn|in_mn) #REQUIRED>
+<!ELEMENT LinearMass EMPTY>
+<!ATTLIST LinearMass Unit (kg_m|lb_ft|lb_in) #REQUIRED>
+<!ELEMENT LinearSpindleSpeed EMPTY>
+<!ATTLIST LinearSpindleSpeed Unit (m_mn|ft_mn) #REQUIRED>
+<!ELEMENT LinearStiffness EMPTY>
+<!ATTLIST LinearStiffness Unit (N_m|N_mm|lbf_ft|lbf_in) #REQUIRED>
+<!ELEMENT Length EMPTY>
+<!ATTLIST Length Unit (mm|m|cm|km|in|ft) #REQUIRED>
+<!ELEMENT Mass EMPTY>
+<!ATTLIST Mass Unit (kg|g|mg|T|lb|oz) #REQUIRED>
+<!ELEMENT MassicFlow EMPTY>
+<!ATTLIST MassicFlow Unit (kg_s|lb_h|kg_h|lb_min) #REQUIRED>
+<!ELEMENT Moment EMPTY>
+<!ATTLIST Moment Unit (Nxm|lbfxin|Nxmm) #REQUIRED>
+<!ELEMENT Pressure EMPTY>
+<!ATTLIST Pressure Unit (N_m2|Pa|psi) #REQUIRED>
+<!ELEMENT Speed EMPTY>
+<!ATTLIST Speed Unit (m_s|ft_s|mph|km_h|fpm|ft_h) #REQUIRED>
+<!ELEMENT StrainEnergy EMPTY>
+<!ATTLIST StrainEnergy Unit (Nxm|lbfxin|Nxmm) #REQUIRED>
+<!ELEMENT SurfacicMass EMPTY>
+<!ATTLIST SurfacicMass Unit (kg_m2|lb_in2) #REQUIRED>
+<!ELEMENT SurfacicSpindleSpeed EMPTY>
+<!ATTLIST SurfacicSpindleSpeed Unit (mm2_mn|in2_mn) #REQUIRED>
+<!ELEMENT Temperature EMPTY>
+<!ATTLIST Temperature Unit (Kdeg|Cdeg|Fdeg) #REQUIRED>
+<!ELEMENT Time EMPTY>
+<!ATTLIST Time Unit (s|ms|h|mn) #REQUIRED>
+<!ELEMENT Voltage EMPTY>
+<!ATTLIST Voltage Unit (V|kV|mV) #REQUIRED>
+<!ELEMENT Volume EMPTY>
+<!ATTLIST Volume Unit (m3|mm3|cm3|in3|ft3|L) #REQUIRED>
+<!ELEMENT VolumetricFlow EMPTY>
+<!ATTLIST VolumetricFlow Unit (m3_s|m3_h|ft3_h|gal_min|brl_h|brl_day|cfm|L_s) #REQUIRED>
+<!ELEMENT VolumicForce EMPTY>
+<!ATTLIST VolumicForce Unit (N_m3|lbf_in3) #REQUIRED>
+<!ELEMENT UserUnit EMPTY>
+<!ATTLIST UserUnit 
+          Magnitude CDATA #REQUIRED
+          Unit      CDATA #REQUIRED>
+
+<!ELEMENT LineIDRecord (LineID,Property*)>
+<!ATTLIST LineIDRecord Type (PipingLine|InstrICLoop|HVACLine|TubingLine|WaveguideLine|
+                             ConduitLine|RacewayLine) #REQUIRED>
+
+<!ELEMENT Property (PropertyName,PropertyValue)>
+
+<!ELEMENT LineID (#PCDATA)>
+<!ATTLIST LineID FileName CDATA #IMPLIED>
+<!ELEMENT PropertyName (#PCDATA)>
+<!ELEMENT PropertyValue (#PCDATA)>

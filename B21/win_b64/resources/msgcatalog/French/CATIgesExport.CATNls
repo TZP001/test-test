@@ -1,0 +1,129 @@
+//NLS-ENGLISH VERSION
+//=======================================================================
+// MODULE :  IgesDataExchange
+//=======================================================================
+
+
+// KVL 2002-06-04 : Creation de CATIgesExport.CATNls et refonte des anciens CATNls Iges.
+// DFB 2002-03-07 : Ajout de CircleReparam 
+// KVL 2002-04-15 : CATIgesCompositeCurve  
+// KVL 2002-05-30 : CATIgesInit : info sur le choix des options BSpline ou Standard à l'export 
+// KVL 2002-06-07 : CATIgesInit : info sur le choix de l'export des entités en NoShow et des options wireframe ou Surfacic
+// KVL 2002-06-19 : CATIgesVirtualBody et CATIgesElement : Info sur chaque élément crée (Type, Show, Layer, Name, Color)
+// KVL 2002-07-03 : CATIgesCurveOnParametricSurface : échec de création des PCurve.
+// OPC 2006-06-23 : Reecriture des messages niveau Customer pour meilleure compréhension
+
+// Numeros utilises : (export Iges : de [6001] a [6999]
+// [6001] a [6049] : CATIgesBSplineCurve
+// [6050] a [6099] : CATIgesCompositeCurve
+// [6100] a [6149] : CATIgesInit
+// [6150] a [6199] : CATIgesVirtualBody
+// [6200] a [6249] : CATIgesElement
+// [6250] a [6299] : CATIgesCurveOnParametricSurface
+// [6300] a [6349] : CATIgesTrimmedParametricSurface
+// [6350] a [6370] : CATSaveAsIGS
+// [6850] a [6860] : CATIgesInterface
+
+//----------------------------------------------
+//  Messages from CATIgesBSplineCurve
+//---------------------------------------------
+
+CATIgesBSplineCurve.Info.CircleReparam="   <I> [6001] [T=/p2] [/p1] Le cercle exporté est reparamétrisé /p3";
+
+CATIgesBSplineCurve.Info.ParamInverse="   <I> [6002] [T=/p2] [/p1] Les paramètres de la courbe BSpline sont inversés /p3";
+
+CATIgesBSplineCurve.Info.BSplineFermee="   <I> [6003] [T=/p2] [/p1] La courbe BSpline est fermée /p3";
+
+//-----------------------------------------------
+//  Messages from CATIgesCompositeCurve
+//-----------------------------------------------
+
+CATIgesCompositeCurve.Info.hierar="   <I> [6050] [T=/p2] [#/p4] Toutes les entités dépendant de cette entité hériteront de ses attributs /p3";
+
+
+
+//-----------------------------------------------
+//  Messages from CATIgesInit
+//-----------------------------------------------
+
+CATIgesInit.Info.optionBSpline="   <I> [6100] Vous avez sélectionné l'option BSpline pour l'export /p3 \n";
+
+CATIgesInit.Info.optionStandard="   <I> [6101] Vous avez sélectionné l'option Standard pour l'export /p3 \n";
+
+CATIgesInit.Info.optionNoShowRef="   <I> [6102] Vous avez choisi de ne pas exporter les entités cachées /p3 \n";
+
+CATIgesInit.Info.optionNoShowAcc="   <I> [6103] Vous avez choisi d'exporter les entités cachées /p3 \n";
+
+CATIgesInit.Info.optionWireframe="   <I> [6104] Vous avez sélectionné l'option Filaire pour l'export /p3 \n";
+
+CATIgesInit.Info.optionSurfacic="   <I> [6105] Vous avez sélectionné l'option Surfacique pour l'export /p3 \n";
+
+CATIgesInit.Info.optionMSBO="   <I> [6106] Vous avez sélectionné l'option MSBO pour l'export (Pour les volumes, coques et faces) /p3 \n";
+
+
+//-----------------------------------------------
+//  Messages from CATIgesVirtualBody (messages utilises parfois dans CATIgesCldBody)
+//-----------------------------------------------
+
+CATIgesVirtualBody.Info.ProcessingBody="\n***TRAITEMENT D'UN CORPS ";
+
+CATIgesVirtualBody.Info.ProcessingElement="\n **TRAITEMENT DE L'ELEMENT [T=/p2] [#/p1]";
+
+CATIgesVirtualBody.Info.Name="   <I> [6150] [T=/p2] [#/p1] Le nom de l'entité V5 est /p3";
+
+CATIgesVirtualBody.Info.NoName="   <I> [6151] [T=/p2] [#/p1] Aucun nom n'a été spécifié pour cette entité";
+
+CATIgesVirtualBody.Info.NbElem="   <I> [6152] Le corps est composé de /p2 /p1 /p3";
+
+CATIgesVirtualBody.Info.Wire="   <I> [6153] [T=/p2] [#/p1] Le wire est fermé";
+
+CATIgesVirtualBody.Error.ElementNotExported="!! <E> [6154] [T=/p2] [#/p1] Impossible d'exporter cet élément (en raison de données d'entrée incorrectes). /p3";
+
+
+//-----------------------------------------------
+//  Messages from CATIgesElement
+//-----------------------------------------------
+
+CATIgesElement.Info.NoShow="   <I> [6200] [T=/p2] [#/p1] Entité cachée";
+
+CATIgesElement.Info.Layer="   <I> [6201] [T=/p2] [#/p1] Le niveau est /p3";
+
+CATIgesElement.Info.Color="   <I> [6202] [T=/p2] [#/p1] La couleur de l'entité est R=/p3 G=/p4 B=/p5";
+
+CATIgesElement.Warning.IgsControlName="   <W> [6203] Le nom de l'entité est invalide : /p1 caractère(s) non autorisé(s) rencontré(s): une tentative de nettoyage est réalisée.";
+
+//-----------------------------------------------
+//  Messages from CATIgesCurveOnParametricSurface
+//-----------------------------------------------
+CATIgesCurveOnParametricSurface.Warning.PCurveNotCreated="   <W> [6250] [T=/p2] [#/p1] Courbe paramétrique IGES non créée /p3";
+
+
+//-----------------------------------------------
+//  Messages from CATIgesTrimmedParametricSurface
+//-----------------------------------------------
+CATIgesTrimmedParametricSurface.Warning.PCurveNotExported="   <W> [6300] [T=/p2] [#/p1] Courbes paramétriques IGES non exportées /p3";
+
+//-----------------------------------------------
+//  Messages from CATSaveAsIGS
+//-----------------------------------------------
+CATSaveAsIGS.TranscriptChild.NoChild="   <W> [6350] aucun enfant n'a été trouvé ! ";
+CATSaveAsIGS.Error.ConvertV4ToV5="   <E> [6351] Impossible de convertir le modèle V4 en CATPart ! ";
+CATSaveAsIGS.Info.ConvertV4ToV5="   <I> [6352] Le modèle V4 appelé : /p1 est converti";
+
+//--------------------------------------
+//  Messages from CATIgesInterface
+//--------------------------------------
+
+CATDXFileServices.Error.InvalidName="!! <E> [6859] Le nom du fichier IGES à sauvegarder n'est pas valide (erreur PathERR_1021) :
+               Le nom de fichier contient des caractères non ASCII ou est vide.
+               Recherchez les caractères non admis dans le nom de fichier. Choisissez un autre nom si nécessaire, puis tentez à nouveau de sauvegarder le fichier.";
+
+
+//------------------------------------------
+//  Messages for CATIReporter 
+//------------------------------------------
+
+PathERR_1021.Request="Le nom du fichier IGES à sauvegarder n'est pas valide.";
+PathERR_1021.Diagnostic="Le nom de fichier contient des caractères non ASCII ou est vide.";
+PathERR_1021.Advice="Recherchez les caractères non admis dans le nom de fichier. Choisissez un autre nom si nécessaire, puis tentez à nouveau de sauvegarder le fichier.";
+

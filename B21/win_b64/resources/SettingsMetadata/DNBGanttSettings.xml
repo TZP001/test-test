@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="utf-8"?>
+<st:repository xsi:schemaLocation="urn:com:dassault_systemes:settings settings.xsd" xmlns:st="urn:com:dassault_systemes:settings" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <st:Description name="DNBGanttSettings" PrimaryTabpage="/DPManufacturing/Gantt Chart" ConnectionBehavior="PostConnection">
+    <st:role visibility="Exposed">Settings to handle the Gantt Chart Window Parameters</st:role>
+    <st:RepositoryFile>DNBGanttSettings</st:RepositoryFile>
+    <st:version>1</st:version>
+    <st:compatibility>
+      <st:FullCompatibilityfromLevel>1</st:FullCompatibilityfromLevel>
+      <st:UpwardCompatibilityfromLevel>1</st:UpwardCompatibilityfromLevel>
+    </st:compatibility>
+    <st:DedicatedController>
+      <st:Framework_CPP>DNBDpmInterfaces</st:Framework_CPP>
+      <st:Interface_CPP>DNBIDPMGanttSettingAtt</st:Interface_CPP>
+      <st:Framework_IDL>DNBDpmInterfaces</st:Framework_IDL>
+      <st:Interface_IDL>DNBIAGanttSettingAtt</st:Interface_IDL>
+      <st:LateType>DNBDPMGanttSettingCtrl</st:LateType>
+    </st:DedicatedController>
+  </st:Description> 
+  
+  <st:attributes>
+     <st:attribute Name="DisplayBase" alias="DisplayBase">
+      <st:role>Sets the base for displaying the Time Bars for Leaf Nodes in the Gantt Chart</st:role>
+      <st:detailedRole>Sets the base for displaying the Time Bars for Leaf Nodes.It can be based either on Specified Cycle Time or Calculated Cycle Time</st:detailedRole>
+      <st:int>
+        <st:enum>
+          <st:role>DNBGanttSpecified</st:role>
+          <st:value>0</st:value>
+          <st:role>DNBGanttCalculated</st:role>
+          <st:value>1</st:value>
+          <st:role/>
+        </st:enum>
+      <st:default>
+          <st:value>0</st:value>
+        </st:default>
+      </st:int>
+    </st:attribute>
+   
+    <st:attribute Name="Reference" alias="Reference">
+      <st:role>Sets the base for displaying the Time Bars for Leaf Nodes</st:role>
+      <st:detailedRole>Sets the base for displaying the Time Bars for Parent Nodes.It can be based either on Specified Cycle Time or Calculated Cycle Time or\nthe user can even choose not to display the Time Bars for the Parent nodes by selecting the None option</st:detailedRole>
+      <st:int>
+        <st:enum>
+          <st:role>DNBGanttSpecified</st:role>
+          <st:value>0</st:value>
+          <st:role>DNBGanttCalculated</st:role>
+          <st:value>1</st:value>
+          <st:role>DNBGanttNone</st:role>
+          <st:value>2</st:value>
+        </st:enum>
+        <st:default>
+          <st:value>2</st:value>
+        </st:default>      
+      </st:int>
+    </st:attribute>
+
+    <st:attribute Name="SortOrderMode" alias="SortOrderMode">
+      <st:role>Sets the Sort order for the Gantt Rows</st:role>
+      <st:detailedRole>Sets the Sort order for the Gantt Rows while opening the Gantt Chart. The Rows can be sorted based on the PPR tree or based on the Begin Times or based on Logical Grouping of the activities</st:detailedRole>
+      <st:int>
+        <st:enum>
+          <st:role>eDNBGanttSortPPR</st:role>
+          <st:value>0</st:value>
+          <st:role>eDNBGanttSortBeginTimes</st:role>
+          <st:value>1</st:value>
+          <st:role>eDNBGanttSortLogicalGrouping</st:role>
+          <st:value>2</st:value>
+        </st:enum>
+        <st:default>
+          <st:value>0</st:value>
+        </st:default>
+      </st:int>
+    </st:attribute>
+   
+    <st:attribute Name="SpecifiedTimeBarColor" alias="SpecifiedTimeBarColor">
+      <st:role>Sets the color of the Specified Cycle Time Bars</st:role>
+      <st:detailedRole>Sets the color of the Time Bars which are based on Specified Cycle Time</st:detailedRole>
+      <st:int size="1">
+        <st:default>
+          <st:value>8421504</st:value>
+        </st:default>
+      </st:int>
+    </st:attribute>
+    
+    <st:attribute Name="TextAlignment" alias="TextAlignment">
+      <st:role>Sets the Alignment of the text within the Cells in the Gantt Chart</st:role>
+      <st:detailedRole>Sets the Alignment of the text within the Cells in the Gantt Chart</st:detailedRole>
+      <st:int>
+         <st:enum>
+          <st:role>eDNBGanttLeftJustified</st:role>
+          <st:value>0</st:value>
+          <st:role>eDNBGanttCenter</st:role>
+          <st:value>1</st:value>
+          <st:role>eDNBGanttRightJustified</st:role>
+          <st:value>2</st:value>
+        </st:enum>
+         <st:default>
+          <st:value>2</st:value>
+        </st:default>
+      </st:int>
+    </st:attribute>
+   
+    <st:attribute Name="CalculatedTimeBarColor" alias="CalculatedTimeBarColor">
+      <st:role>Sets the color of the Calculated Cycle Time Bars</st:role>
+      <st:detailedRole>Sets the color of the Time Bars which are based on Calculated Cycle Time</st:detailedRole>
+      <st:int size="1">
+        <st:default>
+          <st:value>8421504</st:value>
+        </st:default>
+      </st:int>
+    </st:attribute>
+    
+    <st:attribute Name="StackedDisplayMode" alias="StackedDisplayMode">
+      <st:role>Gives a Stacked Display of the Time Bars in Resource Gantt</st:role>
+      <st:detailedRole>Gives a Stacked Display of the Time Bars in Resource Gantt</st:detailedRole>
+      <st:boolean size="1">
+        <st:default>
+          <st:value>false</st:value>
+        </st:default>
+      </st:boolean>
+    </st:attribute>
+    
+    <st:attribute Name="MaxCycleGrid" alias="MaxCycleGrid">
+      <st:role>Sets the Step size of the the Cycle Time Bar</st:role>
+      <st:detailedRole>Sets the Step size for moving the Cycle Time Bar</st:detailedRole>
+      <st:double size="1">
+        <st:default>
+          <st:value>0.0</st:value>
+        </st:default>
+      </st:double>
+    </st:attribute>
+ 
+   <st:attribute Name="LogicalActivitiesMode" alias="LogicalActivitiesMode">
+      <st:role>Displays Logical Activities in Gantt</st:role>
+      <st:detailedRole>Displays Logical Activities in Gantt</st:detailedRole>
+      <st:boolean size="1">
+        <st:default>
+          <st:value>false</st:value>
+        </st:default>
+      </st:boolean>
+    </st:attribute>
+    
+    <st:attribute Name="CyclesMode" alias="CyclesMode">
+      <st:role>Displays Cycle Time Bars in Gantt Chart</st:role>
+      <st:detailedRole>Displays Cycle Time Bars in Gantt Chart</st:detailedRole>
+      <st:boolean size="1">
+        <st:default>
+          <st:value>false</st:value>
+        </st:default>
+      </st:boolean>
+    </st:attribute>
+   
+    <st:attribute Name="ControlFlowMode" alias="ControlFlowMode">
+      <st:role>Displays Control Flows in the Gantt Chart</st:role>
+      <st:detailedRole>Displays Control Flows in the Gantt Chart</st:detailedRole>
+      <st:boolean size="1">
+        <st:default>
+          <st:value>false</st:value>
+        </st:default>
+      </st:boolean>
+    </st:attribute>
+
+    <st:attribute Name="PrecedenceFlowMode" alias="PrecedenceFlowMode">
+      <st:role>Displays Precedence Constraints in the Gantt Chart</st:role>
+      <st:detailedRole>Displays Precedence Constraints in the Gantt Chart</st:detailedRole>
+      <st:boolean size="1">
+        <st:default>
+          <st:value>false</st:value>
+        </st:default>
+      </st:boolean>
+    </st:attribute>
+  
+    <st:attribute Name="PrevCycleFlowMode" alias="PrevCycleFlowMode">
+      <st:role>Displays Previous Cycle Constraints in the Gantt Chart</st:role>
+      <st:detailedRole>Displays Previous Cycle Constraints in the Gantt Chart</st:detailedRole>
+      <st:boolean size="1">
+        <st:default>
+          <st:value>false</st:value>
+        </st:default>
+      </st:boolean>
+    </st:attribute>
+ 
+    <st:attribute Name="SyncFlowMode" alias="SyncFlowMode">
+      <st:role>Displays Start-Start/End-End Synchronization Constraints in the Gantt Chart</st:role>
+      <st:detailedRole>Displays Start-Start/End-End Synchronization Constraints in the Gantt Chart</st:detailedRole>
+      <st:boolean size="1">
+        <st:default>
+          <st:value>false</st:value>
+        </st:default>
+      </st:boolean>
+    </st:attribute>
+  
+    <st:attribute Name="PrecActMode" alias="PrecActMode">
+      <st:role>Displays Preceding Activity Constraints in the Gantt Chart</st:role>
+      <st:detailedRole>Displays Preceding Activity Constraints in the Gantt Chart</st:detailedRole>
+      <st:boolean size="1">
+        <st:default>
+          <st:value>false</st:value>
+        </st:default>
+      </st:boolean>
+    </st:attribute>
+  
+    <st:attribute Name="ShiftActivitiesMode" alias="ShiftActivitiesMode">
+      <st:role>Shift Activities to the Latest Start Time</st:role>
+      <st:detailedRole>Shift Activities to the Latest Start Time</st:detailedRole>
+      <st:boolean size="1">
+        <st:default>
+          <st:value>false</st:value>
+        </st:default>
+      </st:boolean>
+    </st:attribute>
+    
+    <st:attribute Name="XMLViewerEnabled" alias="XMLViewerEnabled">
+      <st:role>Enables an external application to view the XML file generated from the Export to XML command</st:role>
+      <st:detailedRole>Enables dumping the Gantt Table into an XML</st:detailedRole>
+      <st:boolean size="1">
+        <st:default>
+          <st:value>false</st:value>
+        </st:default>
+      </st:boolean>
+    </st:attribute>
+  
+    <st:attribute Name="XMLViewerLocation" alias="XMLViewerLocation">
+      <st:role>Location of the application to view the exported XML of the Gantt Chart</st:role>
+      <st:detailedRole>Location of the application to view the exported XML of the Gantt Chart</st:detailedRole>
+      <st:string size="1">
+        <st:default>
+          <st:value>""</st:value>
+        </st:default>
+      </st:string>
+    </st:attribute>
+    
+    <st:attribute Name="ScaleZoom" alias="ScaleZoom">
+      <st:role>Gantt Zoom scale</st:role>
+      <st:detailedRole>Gantt Zoom scale</st:detailedRole>
+      <st:double size="1">
+        <st:default>
+          <st:value>1.0</st:value>
+        </st:default>
+      </st:double>
+    </st:attribute>
+  
+    <st:attribute Name="ScaleMultiplier" alias="ScaleMultiplier">
+      <st:role>Gantt Scale Mutliplier</st:role>
+      <st:detailedRole>Gantt Scale Mutliplier</st:detailedRole>
+      <st:double size="1">
+        <st:default>
+          <st:value>10.0</st:value>
+        </st:default>
+      </st:double>
+    </st:attribute>
+   
+    <st:attribute Name="ScaleUnitSymbol" alias="ScaleUnitSymbol">
+      <st:role>Unit Symbol for Gantt Scale</st:role>
+      <st:detailedRole>Unit Symbol for Gantt Scale</st:detailedRole>
+      <st:string size="1">
+        <st:default>
+          <st:value>s</st:value>
+        </st:default>
+      </st:string>
+    </st:attribute>
+ 
+    <st:attribute Name="ColumnWidths" alias="ColumnWidths">
+      <st:role>Gantt Column Widths</st:role>
+      <st:detailedRole>Gantt Column Widths</st:detailedRole>
+      <st:int size="1">
+        <st:default>
+          <st:value>15</st:value>
+        </st:default>
+      </st:int>
+    </st:attribute>
+   
+    <st:attribute Name="ColumnSortOrder" alias="ColumnSortOrder">
+      <st:role>Sort order of the Gantt Columns</st:role>
+      <st:detailedRole>Sort order of the Gantt Columns</st:detailedRole>
+      <st:int size="1">
+        <st:default>
+          <st:value>2147483647</st:value>
+        </st:default>
+      </st:int>
+    </st:attribute>
+  
+    <st:attribute Name="ColumnShow" alias="ColumnShow">
+      <st:role>Column Hide show status</st:role>
+      <st:detailedRole/>
+      <st:boolean size="1">
+        <st:default>
+          <st:value>true</st:value>
+        </st:default>
+      </st:boolean>
+    </st:attribute>
+  
+    <st:attribute Name="SummaryBarInRed" alias="SummaryBarInRed">
+      <st:role>Sets the color of the Summary Bar when the Roll-up time EQUALS Displayed Time</st:role>
+      <st:detailedRole>Sets the color of the Summary Bar when the Roll-up time EQUALS Displayed Time</st:detailedRole>
+      <st:boolean size="1">
+        <st:default>
+          <st:value>true</st:value>
+        </st:default>
+      </st:boolean>
+    </st:attribute>
+
+    <st:attribute Name="NewColumnAtts" alias="NewColumnAtts">
+      <st:role>New column attrributes</st:role>
+      <st:detailedRole>New column attrributes</st:detailedRole>
+      <st:string size="1">
+        <st:default>
+          <st:value>""</st:value>
+        </st:default>
+      </st:string>
+    </st:attribute>
+
+    <st:attribute Name="ColumnNamesSize" alias="ColumnNamesSize">
+      <st:role>Sort order of the Gantt Columns</st:role>
+      <st:detailedRole>Sort order of the Gantt Columns</st:detailedRole>
+      <st:int size="1">
+        <st:default>
+          <st:value>0</st:value>
+        </st:default>
+      </st:int>
+    </st:attribute>
+
+    <st:attribute Name="ColumnNames" alias="ColumnNames">
+      <st:role>Sort order of the Gantt Columns</st:role>
+      <st:detailedRole>Sort order of the Gantt Columns</st:detailedRole>
+      <st:string size="*">
+        <st:default size="0"/>
+      </st:string>
+    </st:attribute>
+
+    <st:attribute Name="SavedQueryListSize" alias="SavedQueryListSize">
+      <st:role>Sort order of the Gantt Columns</st:role>
+      <st:detailedRole>Sort order of the Gantt Columns</st:detailedRole>
+      <st:int size="1">
+        <st:default>
+          <st:value>0</st:value>
+        </st:default>
+      </st:int>
+    </st:attribute>
+
+    <st:attribute Name="SavedQueryList" alias="SavedQueryList">
+      <st:role>Sort order of the Gantt Columns</st:role>
+      <st:detailedRole>Sort order of the Gantt Columns</st:detailedRole>
+      <st:string size="*">
+        <st:default size="0"/>
+      </st:string>
+    </st:attribute>
+
+  <st:attribute Name="GanttZoom" alias="GanttZoom">
+    <st:role>Displays Previous Cycle Constraints in the Gantt Chart</st:role>
+    <st:detailedRole>Displays Previous Cycle Constraints in the Gantt Chart</st:detailedRole>
+    <st:float size="1">
+      <st:default>
+        <st:value>0.0</st:value>
+      </st:default>
+    </st:float>
+  </st:attribute>
+  
+  <st:attribute Name="GanttSplitterPosition" alias="GanttSplitterPosition">
+    <st:role>Displays Previous Cycle Constraints in the Gantt Chart</st:role>
+    <st:detailedRole>Displays Previous Cycle Constraints in the Gantt Chart</st:detailedRole>
+    <st:double size="1">
+      <st:default>
+        <st:value>0.0</st:value>
+      </st:default>
+    </st:double>
+  </st:attribute>
+ 
+  <st:attribute Name="HoldFullSolve" alias="HoldFullSolve">
+    <st:role>Holds the status of the solver</st:role>
+    <st:detailedRole>Holds the status of the solver</st:detailedRole>
+    <st:int size="1">
+      <st:default>
+        <st:value>0</st:value>
+      </st:default>
+    </st:int>
+  </st:attribute>
+ 
+  <st:attribute Name="MixedModeInUse" alias="MixedModeInUse">
+    <st:role>Attribute to get the status of an option which is no longer used. In case of previous CATSetting versions</st:role>
+    <st:detailedRole>Attribute to get the status of an option which is no longer used. In case of previous CATSetting versions</st:detailedRole>
+    <st:int size="1">
+      <st:default>
+        <st:value>1</st:value>
+      </st:default>
+    </st:int>
+  </st:attribute>
+  
+  <st:attribute Name="MixedMode" alias="MixedMode">
+    <st:role>Attribute for a previously used option</st:role>
+    <st:detailedRole>Attribute for a previously used option</st:detailedRole>
+    <st:boolean size="1">
+      <st:default>
+        <st:value>false</st:value>
+      </st:default>
+    </st:boolean>
+  </st:attribute>
+
+    <st:attribute Name="ProductFlowMode" Tabpage="/DPManufacturing/DNBMSDWkb/General">
+    <st:role>Option to determine if the Product Flow is to be considered</st:role>
+    <st:detailedRole>This option determines if the Product Flow is to be considered. The Product flow is considered if checked on and not considered otherwise</st:detailedRole>
+    <st:boolean size="1">
+      <st:default>
+        <st:value>false</st:value>
+      </st:default>
+    </st:boolean>
+  </st:attribute>
+  </st:attributes>
+ 
+    <st:relations>
+      <st:relation src="ColumnNamesSize" dest="ColumnNames" kind="dimensionOfArray"/>
+      <st:relation src="SavedQueryListSize" dest="SavedQueryList" kind="dimensionOfArray"/>
+    </st:relations>   
+</st:repository>

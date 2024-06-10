@@ -1,0 +1,101 @@
+'// COPYRIGHT DASSAULT SYSTEMES  2000
+'//============================================================================
+'// CATPspImportExport.CATScript
+'//
+'// Language="VBSCRIPT"
+'// 
+'//
+'//============================================================================
+'// Major CATIA interface used:
+'//
+'// interface                VB Name         Remarks
+'// -----------            ------------    --------------
+'// CATIADocument          Document        access the current document
+'// CATIAPspWorkbench      PspWorkbench    access the property export engine
+'//
+'//
+'//============================================================================           
+'//
+'// Audit Trail:
+'//----------------------------------------------------------------------------
+'//   Author     : Vic Szeto
+'//   Date       : 10/01
+'//   Chg id     :
+'//   Chg nature :
+'//----------------------------------------------------------------------------
+'//   Author     : Anil Gupta
+'//   Date       : Jan 2005
+'//   Chg id     :
+'//   Chg nature : Migrated to use the new IDL mechanism
+
+'//============================================================================
+
+Option Explicit
+
+'******************************************************************************
+'  GLOBAL variable declarations section
+'******************************************************************************
+'// ---------- Debug Traces
+Const intG_TRACEON = 0
+Dim strMessage
+
+'------------------------------------------------------------------------------
+Sub DbgTrace (iStrMsgString, iIntYesError)
+'------------------------------------------------------------------------------
+If (intG_TRACEON = 1) Then
+  CATIA.SystemService.Print iStrMsgString 
+  If (iIntYesError = 1) Then 
+    CATIA.SystemService.Print "Err Number = " & Err.Number
+  End If
+End If
+
+End Sub '///////////////////////////////////////////////////////////// DbgTrace
+
+
+'====================================================================================
+Sub CATMain ()
+'====================================================================================
+  Dim intD        As Integer
+  Dim intDocCount As Integer
+  Dim intNbDocuments As Integer
+  Dim objCATIAV5DocCollection As Documents
+  Dim objCATIAV5CurDocument As Document    
+  Dim objCATIAV5PspWorkbench As PspWorkbench    
+
+  Set objCATIAV5CurDocument = CATIA.ActiveDocument  
+
+  
+  '//--- Get Workbench
+  If ( objCATIAV5CurDocument Is Nothing  ) Then
+     CATIA.SystemService.Print "Unable to Active document"               
+  Else     
+     CATIA.SystemService.Print "Succeeded in getting Active document"               
+     Set objProductRoot = objCATIAV5CurDocument.Product
+  End If
+
+  If ( objProductRoot Is Nothing  ) Then
+     CATIA.SystemService.Print "Unable to get Root node"               
+  Else
+     CATIA.SystemService.Print "Success in getting Root node"          
+     Set objCATIAV5PspWorkbench = objProductRoot.GetTechnologicalObject ("PspWorkbench")
+  End If
+
+  '//--- ExportProperties
+
+  Dim Ret  
+  Ret = 1
+  If (Not (objCATIAV5PspWorkbench Is Nothing)) Then
+     CATIA.SystemService.Print "Success in get objCATIAV5PspWorkbench"               
+     Ret = objCATIAV5PspWorkbench.ExportProperties objCATIAV5CurDocument, "tempIDL.xml"
+  Else
+     CATIA.SystemService.Print "Unable to get objCATIAV5PspWorkbench"          
+  End If
+
+  If ( Ret = 0 ) Then
+    CATIA.SystemService.Print "Export Data Complete"          
+  Else
+    CATIA.SystemService.Print "Export Data Failed"          
+  End If
+   	 
+
+End Sub '/////////////////////////////////////////////////////////// CATMain

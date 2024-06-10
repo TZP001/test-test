@@ -1,0 +1,215 @@
+//=====================================================================================
+//                                     CNEXT - CXRn
+//                          COPYRIGHT DASSAULT SYSTEMES 2000 
+//-------------------------------------------------------------------------------------
+// FILENAME    :    CATDrwOptManip
+// LOCATION    :    DraftingUI
+// AUTHOR      :    fgx
+// BUT         :    
+// DATE        :    30.10.2000
+//-------------------------------------------------------------------------------------
+// DESCRIPTION :    Tools/Option du Drafting
+//-------------------------------------------------------------------------------------
+// COMMENTS    :    
+//-------------------------------------------------------------------------------------
+// MODIFICATIONS     user  date        purpose
+//    HISTORY        ----  ----        -------
+//	01			lgk		17.12.02	Revision
+//=====================================================================================
+
+Title="図";
+
+
+frameGenElem.HeaderFrame.Global.Title="形状の生成/ﾄﾞﾚｽｱｯﾌﾟ";
+frameGenElem.HeaderFrame.Global.LongHelp="形状を生成
+どの形状ｴﾚﾒﾝﾄを生成するかを定義します｡";
+frameGenElem.IconAndOptionsFrame.OptionsFrame._checkGenAxis.Title="軸線を生成";
+frameGenElem.IconAndOptionsFrame.OptionsFrame._checkGenAxis.LongHelp="軸線を生成します";
+frameGenElem.IconAndOptionsFrame.OptionsFrame._checkGenCenter.Title="中心線を生成";
+frameGenElem.IconAndOptionsFrame.OptionsFrame._checkGenCenter.LongHelp="中心線を生成します";
+frameGenElem.IconAndOptionsFrame.OptionsFrame._checkGenThread.Title="ねじ切りを生成";
+frameGenElem.IconAndOptionsFrame.OptionsFrame._checkGenThread.LongHelp="ねじ切りを生成します";
+frameGenElem.IconAndOptionsFrame.OptionsFrame._checkGenHiddenLines.Title="隠線を生成";
+frameGenElem.IconAndOptionsFrame.OptionsFrame._checkGenHiddenLines.LongHelp="隠線を生成します";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frameButtonGenFil._checkGenFil.Title="ﾌｨﾚｯﾄを生成";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frameButtonGenFil._checkGenFil.LongHelp="ﾌｨﾚｯﾄを生成します";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frameButtonGenFil.pushGenFil.Title="構成";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frameButtonGenFil.pushGenFil.LongHelp="ﾌｨﾚｯﾄ投影を構成します";
+frameGenElem.IconAndOptionsFrame.OptionsFrame._checkGen3DColors.Title="3Dｶﾗｰを継承";
+frameGenElem.IconAndOptionsFrame.OptionsFrame._checkGen3DColors.LongHelp="3Dｶﾗｰを継承します";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frmWireFrame.checkGenWireFrame.Title="3Dﾜｲﾔｰﾌﾚｰﾑを投影";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frmWireFrame.checkGenWireFrame.LongHelp="3Dﾜｲﾔｰﾌﾚｰﾑを投影します";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frmWireFrame.pushGenWireFrameMod.Title="構成";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frmWireFrame.pushGenWireFrameMod.LongHelp="ﾜｲﾔｰﾌﾚｰﾑ投影を構成します";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.checkGenApplyUncut.Title="3D仕様を適用";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.checkGenApplyUncut.LongHelp="3D仕様を適用します";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frameButtonLinetype.labelLinetype.Title="図の線種";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frameButtonLinetype.labelLinetype.LongHelp="図の線種";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frameButtonLinetype.linetypePushButton.Title="構成";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frameButtonLinetype.linetypePushButton.LongHelp="線種と線幅を構成します";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frameProject3DPts.checkProject3DPts.Title="3D点を投影";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frameProject3DPts.checkProject3DPts.LongHelp="3D点を投影します";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frameProject3DPts.project3DPtsPushButton.Title="構成";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frameProject3DPts.project3DPtsPushButton.LongHelp="3D点投影を設定します";
+
+genGeomMngt.HeaderFrame.Global.Title="生成された形状";
+genGeomMngt.HeaderFrame.Global.LongHelp="生成された形状";
+genGeomMngt.IconAndOptionsFrame.OptionsFrame.chkGMECreation.Title="形状に手動で設定したｸﾞﾗﾌｨｯｸ ﾄﾞﾚｽｱｯﾌﾟを保持";
+genGeomMngt.IconAndOptionsFrame.OptionsFrame.chkGMECreation.LongHelp="形状に手動で設定したｸﾞﾗﾌｨｯｸ ﾄﾞﾚｽｱｯﾌﾟを保持します｡";
+
+
+frameGenView.HeaderFrame.Global.Title="図の生成";
+frameGenView.HeaderFrame.Global.LongHelp="生成図の作成に使用するﾊﾟﾗﾒｰﾀを定義します｡";
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmViewMod.lbl.Title="図の生成ﾓｰﾄﾞ";
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmViewMod.lbl.LongHelp="図の生成方法を定義します";
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmViewMod.combViewMod.LongHelp="図の生成方法を定義します";
+ExactView="ｲｸﾞｻﾞｸﾄ図";
+CGRView="CGR";
+PictureView="ﾗｽﾀ";
+HRV="近似";
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmViewMod.pushRasterOptions.Title="構成";
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmViewMod.pushRasterOptions.LongHelp="ﾗｽﾀ ｵﾌﾟｼｮﾝを設定します";
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmViewMod.frmPict.chkAutoLOD.Title="自動詳細ﾚﾍﾞﾙ";
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmViewMod.frmPict.chkAutoLOD.LongHelp="DPIは表示および印刷用に自動的にﾌｨｯﾄ
+します｡";
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmViewMod.frmPict.lbl1.Title="表示DPI";
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmViewMod.frmPict.lbl1.LongHelp="表示DPI";
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmViewMod.frmPict.lbl2.Title="印刷DPI";
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmViewMod.frmPict.lbl2.LongHelp="印刷DPI";
+frameGenView.IconAndOptionsFrame.OptionsFrame.chkExactPreview.Title="図を生成するためのｲｸﾞｻﾞｸﾄ ﾌﾟﾚﾋﾞｭｰ";
+frameGenView.IconAndOptionsFrame.OptionsFrame.chkExactPreview.LongHelp="表示ﾓｰﾄﾞで作業中でも設計ﾓｰﾄﾞで図をﾌﾟﾚﾋﾞｭｰできます｡
+このｵﾌﾟｼｮﾝを
+選択しなければ､3Dﾄﾞｷｭﾒﾝﾄに組み込まれた表示ﾃﾞｰﾀがﾌﾟﾚﾋﾞｭｰに
+使用されます｡";
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmGenBox.checkGenBox.Title="この値より大きなﾊﾟｰﾂのみを生成";
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmGenBox.checkGenBox.LongHelp="指定したｻｲｽﾞより大きなﾊﾟｰﾂのみを生成します｡";
+frameGenView.IconAndOptionsFrame.OptionsFrame.chkOcclusionCulling.Title="隠面消去を使用可能化";
+frameGenView.IconAndOptionsFrame.OptionsFrame.chkOcclusionCulling.LongHelp="隠面消去を活動化または非活動化します｡ 隠面消去は､隠れたｴﾚﾒﾝﾄの再表示を回避して表示のﾊﾟﾌｫｰﾏﾝｽを改善します｡ 特に工場やﾋﾞﾙのように区画に分けられた場所の表示に有効です｡";
+frameGenView.IconAndOptionsFrame.OptionsFrame.chkSelBodyInAss.Title="ｱｾﾝﾌﾞﾘｰでﾎﾞﾃﾞｨｰを選択";
+frameGenView.IconAndOptionsFrame.OptionsFrame.chkSelBodyInAss.LongHelp="ｱｾﾝﾌﾞﾘｰでﾎﾞﾃﾞｨｰの選択を活動化､または非活動化します｡";
+
+frameGenView.IconAndOptionsFrame.OptionsFrame._frameViewStatus._labelViewStatus.Title="近似/ﾗｽﾀ/CGR 図の更新状況";
+frameGenView.IconAndOptionsFrame.OptionsFrame._frameViewStatus._labelViewStatus.LongHelp="図を更新する必要があるかどうかを判別するのに使用する製品情報を定義します";
+frameGenView.IconAndOptionsFrame.OptionsFrame._frameViewStatus._frameViewStatusRadio._frameViewStatusRadiolocked._radioViewUpdateStatusDataVisu.Title="表示ﾃﾞｰﾀに基づく";
+frameGenView.IconAndOptionsFrame.OptionsFrame._frameViewStatus._frameViewStatusRadio._frameViewStatusRadiolocked._radioViewUpdateStatusDataVisu.LongHelp="ﾊﾟｰﾂ表示ﾃﾞｰﾀのﾀｲﾑ ｽﾀﾝﾌﾟ(CGRﾃﾞｰﾀ)を使用します";
+frameGenView.IconAndOptionsFrame.OptionsFrame._frameViewStatus._frameViewStatusRadio._frameViewStatusRadiolocked._radioViewUpdateStatusDataDesign.Title="設計ﾃﾞｰﾀに基づく";
+frameGenView.IconAndOptionsFrame.OptionsFrame._frameViewStatus._frameViewStatusRadio._frameViewStatusRadiolocked._radioViewUpdateStatusDataDesign.LongHelp="ﾊﾟｰﾂ設計ﾃﾞｰﾀのﾀｲﾑ ｽﾀﾝﾌﾟを使用します";
+
+
+frameClipping.HeaderFrame.Global.Title="ｸﾘｯﾋﾟﾝｸﾞ図";
+frameClipping.HeaderFrame.Global.LongHelp="ｸﾘｯﾋﾟﾝｸﾞ図に使用するﾊﾟﾗﾒｰﾀを定義します";
+frameClipping.IconAndOptionsFrame.OptionsFrame.chkDimClipNoShow.Title="非表示形状に対する寸法を非表示にする";
+frameClipping.IconAndOptionsFrame.OptionsFrame.chkDimClipNoShow.LongHelp="非表示形状に対する寸法､及び位置的に関連する注釈を､非表示にします｡";
+
+frameView3D.HeaderFrame.Global.Title="3Dからの図";
+frameView3D.HeaderFrame.Global.LongHelp="3Dから抽出した図に使用するﾊﾟﾗﾒｰﾀを定義します";
+frameView3D.IconAndOptionsFrame.OptionsFrame.chkFTAAnnotLay.Title="2D抽出注釈のﾚｲｱｳﾄとﾄﾞﾚｽｱｯﾌﾟを保持";
+frameView3D.IconAndOptionsFrame.OptionsFrame.chkFTAAnnotLay.LongHelp="2D抽出注釈のﾚｲｱｳﾄとﾄﾞﾚｽｱｯﾌﾟを保持";
+frameView3D.IconAndOptionsFrame.OptionsFrame.chkGeomOf2DLView.Title="2D形状を生成";
+frameView3D.IconAndOptionsFrame.OptionsFrame.chkGeomOf2DLView.LongHelp="ﾚｲｱｳﾄ ﾋﾞｭｰから2D形状を生成します｡";
+frameView3D.IconAndOptionsFrame.OptionsFrame.chkGenRedCross.Title="注釈上に赤いｸﾛｽﾏｰｸを生成";
+frameView3D.IconAndOptionsFrame.OptionsFrame.chkGenRedCross.LongHelp="形状が現在のﾋﾞｭｰから抽出されていない場合､
+または現在のﾋﾞｭｰに隠れている場合は､
+3Dから抽出された注釈は赤いｸﾛｽでﾏｰｸを付けられています｡";
+frameView3D.IconAndOptionsFrame.OptionsFrame.chkSyncUpdate.Title="更新時に同期化";
+frameView3D.IconAndOptionsFrame.OptionsFrame.chkSyncUpdate.LongHelp="更新時に図面のすべての図とｼｰﾄを同期します｡";
+
+
+viewGenFillet.Title="ﾌｨﾚｯﾄを生成";
+viewGenFillet.frameButtonGenFil.HeaderFrame.Global.Title="ﾌｨﾚｯﾄ生成を設定";
+viewGenFillet.frameButtonGenFil.HeaderFrame.Global.LongHelp="ﾌｨﾚｯﾄ生成を設定
+ﾌｨﾚｯﾄ生成の設定を行います｡";
+viewGenFillet.frameButtonGenFil.IconAndOptionsFrame.OptionsFrame.frameRadioGenFil.frameRadioGenFillocked.radioBoundaries.Title="境界";
+viewGenFillet.frameButtonGenFil.IconAndOptionsFrame.OptionsFrame.frameRadioGenFil.frameRadioGenFillocked.radioBoundaries.LongHelp="境界
+図に \"境界ﾌｨﾚｯﾄ \"を表示するかどうかを定義します｡";
+viewGenFillet.frameButtonGenFil.IconAndOptionsFrame.OptionsFrame.frameRadioGenFil.frameRadioGenFillocked.radioSymbo.Title="ｼﾝﾎﾞﾘｯｸ";
+viewGenFillet.frameButtonGenFil.IconAndOptionsFrame.OptionsFrame.frameRadioGenFil.frameRadioGenFillocked.radioSymbo.LongHelp="ｼﾝﾎﾞﾘｯｸ
+図に \"ｼﾝﾎﾞﾘｯｸ ﾌｨﾚｯﾄ \"を表示するかどうかを定義します｡";
+viewGenFillet.frameButtonGenFil.IconAndOptionsFrame.OptionsFrame.frameRadioGenFil.frameRadioGenFillocked.radioProjEd.Title="投影された元のｴｯｼﾞ";
+viewGenFillet.frameButtonGenFil.IconAndOptionsFrame.OptionsFrame.frameRadioGenFil.frameRadioGenFillocked.radioProjEd.LongHelp="投影された元のｴｯｼﾞ
+図に \"投影された元のｴｯｼﾞ \"を表示するかどうかを定義します｡";
+viewGenFillet.frameButtonGenFil.IconAndOptionsFrame.OptionsFrame.frameRadioGenFil.frameRadioGenFillocked.radioOrigEd.Title="近似された元のｴｯｼﾞ";
+viewGenFillet.frameButtonGenFil.IconAndOptionsFrame.OptionsFrame.frameRadioGenFil.frameRadioGenFillocked.radioOrigEd.LongHelp="近似された元のｴｯｼﾞ
+図に \"元のｴｯｼﾞ \"を表示するかどうかを定義します｡";
+
+
+viewGenWireFrame.Title="3Dﾜｲﾔｰﾌﾚｰﾑ投影ﾓｰﾄﾞ";
+viewGenWireFrame.frmWireFrameMod.HeaderFrame.Global.Title="投影された3Dﾜｲﾔｰﾌﾚｰﾑ";
+viewGenWireFrame.frmWireFrameMod.HeaderFrame.Global.LongHelp="投影された3Dﾜｲﾔｰﾌﾚｰﾑ \n投影された3Dﾜｲﾔｰﾌﾚｰﾑを非表示にできるか \n常に表示するかをｲﾝﾃﾞｨｹｰﾄします｡";
+viewGenWireFrame.frmWireFrameMod.IconAndOptionsFrame.OptionsFrame.radioFrmWireFrameMod.radioFrmWireFrameModlocked.radioHidden.Title="非表示可能";
+viewGenWireFrame.frmWireFrameMod.IconAndOptionsFrame.OptionsFrame.radioFrmWireFrameMod.radioFrmWireFrameModlocked.radioHidden.LongHelp="非表示可能 \n投影された3Dﾜｲﾔｰﾌﾚｰﾑを非表示にできるようｲﾝﾃﾞｨｹｰﾄします｡";
+viewGenWireFrame.frmWireFrameMod.IconAndOptionsFrame.OptionsFrame.radioFrmWireFrameMod.radioFrmWireFrameModlocked.radioVisible.Title="常に表示";
+viewGenWireFrame.frmWireFrameMod.IconAndOptionsFrame.OptionsFrame.radioFrmWireFrameMod.radioFrmWireFrameModlocked.radioVisible.LongHelp="常に表示 \n投影された3Dﾜｲﾔｰﾌﾚｰﾑを常に表示するようｲﾝﾃﾞｨｹｰﾄします｡";
+
+
+viewGen3DPoints.Title="3D点を投影";
+viewGen3DPoints.frameButtonProject3DPts.HeaderFrame.Global.Title="3D点を投影";
+viewGen3DPoints.frameButtonProject3DPts.HeaderFrame.Global.LongHelp="3D点を投影
+投影された3D点が､3Dから継承されたｼﾝﾎﾞﾙを表示するか
+選択されたｼﾝﾎﾞﾙを表示するかを示します｡";
+viewGen3DPoints.frameButtonProject3DPts.IconAndOptionsFrame.OptionsFrame.frameRadio3DSymbol.frameRadio3DSymbollocked.radioSymbolInherit.Title="3Dｼﾝﾎﾞﾙを継承";
+viewGen3DPoints.frameButtonProject3DPts.IconAndOptionsFrame.OptionsFrame.frameRadio3DSymbol.frameRadio3DSymbollocked.radioSymbolInherit.LongHelp="3Dｼﾝﾎﾞﾙを継承
+3Dから継承されたｼﾝﾎﾞﾙを表示します｡";
+viewGen3DPoints.frameButtonProject3DPts.IconAndOptionsFrame.OptionsFrame.frameRadio3DSymbol.frameRadio3DSymbollocked.radioSymbol.Title="ｼﾝﾎﾞﾙ";
+viewGen3DPoints.frameButtonProject3DPts.IconAndOptionsFrame.OptionsFrame.frameRadio3DSymbol.frameRadio3DSymbollocked.radioSymbol.LongHelp="ｼﾝﾎﾞﾙ
+選択したｼﾝﾎﾞﾙを表示します｡";
+viewGen3DPoints.frameButtonProject3DPts.IconAndOptionsFrame.OptionsFrame.frameRadio3DSymbol.frameRadio3DSymbollocked.comboSymbol.Title="ｼﾝﾎﾞﾙ";
+viewGen3DPoints.frameButtonProject3DPts.IconAndOptionsFrame.OptionsFrame.frameRadio3DSymbol.frameRadio3DSymbollocked.comboSymbol.LongHelp="ｼﾝﾎﾞﾙ
+選択したｼﾝﾎﾞﾙを表示します｡";
+
+
+viewLineType.Title="線種と線幅";
+viewLineType.frameButtonLinetype.HeaderFrame.Global.Title="線種と線幅";
+viewLineType.frameButtonLinetype.HeaderFrame.Global.LongHelp="線種と線幅";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.lblSection.Title="断面図";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.lblSection.LongHelp="断面図";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.lblDetail.Title="部分拡大図";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.lblDetail.LongHelp="部分拡大図";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.lblBroken.Title="分断した図";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.lblBroken.LongHelp="分断した図";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.lblBreakout.Title="ﾌﾞﾚｰｸｱｳﾄ図";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.lblBreakout.LongHelp="ﾌﾞﾚｰｸｱｳﾄ図";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.lblSkin.Title="ｽｷﾝ断面図";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.lblSkin.LongHelp="ｽｷﾝ断面図";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.comboSectionLinetype.LongHelp="線種を選択します";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.comboDetailLinetype.LongHelp="線種を選択します";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.comboBrokenLinetype.LongHelp="線種を選択します";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.comboBreakoutLinetype.LongHelp="線種を選択します";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.comboSkinLinetype.LongHelp="線種を選択します";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.comboSectionThickness.LongHelp="線幅を選択します";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.comboDetailThickness.LongHelp="線幅を選択します";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.comboBrokenThickness.LongHelp="線幅を選択します";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.comboBreakoutThickness.LongHelp="線幅を選択します";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.comboSkinThickness.LongHelp="線幅を選択します";
+
+
+viewGenModApproximate.Title="近似ﾓｰﾄﾞ";
+viewGenModApproximate.frmHRVOptions.HeaderFrame.Global.Title="近似ﾓｰﾄﾞ ｵﾌﾟｼｮﾝ";
+viewGenModApproximate.frmHRVOptions.HeaderFrame.Global.LongHelp="近似ﾓｰﾄﾞのｵﾌﾟｼｮﾝを構成します";
+viewGenModApproximate.frmHRVOptions.IconAndOptionsFrame.OptionsFrame.lblHRVLOD.Title="詳細設定ﾚﾍﾞﾙ:";
+viewGenModApproximate.frmHRVOptions.IconAndOptionsFrame.OptionsFrame.lblHRVLOD.LongHelp="詳細設定ﾚﾍﾞﾙ:";
+XGraph="LOD";
+YGraph="時間";
+
+viewGenModRaster.Title="ﾗｽﾀ ﾓｰﾄﾞ ｵﾌﾟｼｮﾝ";
+viewGenModRaster.frmRasterOptions.HeaderFrame.Global.Title="ﾗｽﾀ ﾓｰﾄﾞ ｵﾌﾟｼｮﾝ";
+viewGenModRaster.frmRasterOptions.HeaderFrame.Global.LongHelp="ﾗｽﾀ ﾋﾞｭｰ ｵﾌﾟｼｮﾝを設定します";
+viewGenModRaster.frmRasterOptions.IconAndOptionsFrame.OptionsFrame.lblRasterMode.Title="ﾓｰﾄﾞ";
+viewGenModRaster.frmRasterOptions.IconAndOptionsFrame.OptionsFrame.lblRasterMode.LongHelp="ﾓｰﾄﾞ";
+viewGenModRaster.frmRasterOptions.IconAndOptionsFrame.OptionsFrame.lblLOD.Title="詳細設定ﾚﾍﾞﾙ:";
+viewGenModRaster.frmRasterOptions.IconAndOptionsFrame.OptionsFrame.lblLOD.LongHelp="詳細設定ﾚﾍﾞﾙ:";
+viewGenModRaster.frmRasterOptions.IconAndOptionsFrame.OptionsFrame.lblLODVisu.Title="確認表示用";
+viewGenModRaster.viewGenModRaster.IconAndOptionsFrame.OptionsFrame.lblLODVisu.LongHelp="確認表示用";
+viewGenModRaster.frmRasterOptions.IconAndOptionsFrame.OptionsFrame.lblLODPrint.Title="印刷用";
+viewGenModRaster.frmRasterOptions.IconAndOptionsFrame.OptionsFrame.lblLODPrint.LongHelp="印刷用";
+
+HRD="動的隠線消去";
+Shading="ｼｪｰﾃﾞｨﾝｸﾞ";
+ShadingWithEdges="ｴｯｼﾞ付きのｼｪｰﾃﾞｨﾝｸﾞ";
+ShadingNoLight="ｼｪｰﾃﾞｨﾝｸﾞ､光源なし";
+ShadingWithEdgesNoLight="ｴｯｼﾞ付きのｼｪｰﾃﾞｨﾝｸﾞ､光源なし";
+
+LowQualityMode="低品質";
+NormalQualityMode="標準品質";
+HighQualityMode="高品質";
+CustomizeMode="ｶｽﾀﾏｲｽﾞ";

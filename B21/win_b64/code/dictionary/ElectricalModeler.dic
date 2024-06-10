@@ -1,0 +1,1760 @@
+#******************************************************************************
+# CATIA Version 5 Release 1 Framework ElectricalModelerBase
+# Copyright Dassault Systemes 1998
+#******************************************************************************
+#  Abstract:
+#  ---------
+#
+#******************************************************************************
+#  Usage:
+#  ------
+#
+#******************************************************************************
+#  Historic
+#  --------
+#
+#  Author: Julio RIVERTI
+#  Date  : 18/02/98
+#  Goal  : Creation
+#
+#******************************************************************************
+#
+#-------------------------   CATIElecWorkset  -------------------------------
+#                            ---------------
+CATProdCont	                 CATIElecWorkset	               libCATEleModeler
+#
+#-------------------------   CATIElecFnctFactory  ---------------------------
+#                            -------------------
+CATProdCont	                 CATIElecFnctFactory	           libCATEleModeler
+#
+#--------------------------  CATIElecFactoryInternal  -----------------------
+#                            -----------------------
+ASMPRODUCT	                 CATIElecFactoryInternal           libCATEleModeler
+#
+#--------------------------  CATIElecInstFactory  ---------------------------
+#                            -------------------
+ASMPRODUCT	                 CATIElecInstFactory               libCATEleModeler
+#
+# ---------------------------CATIElecProduct-----------------------------------
+ASMPRODUCT					         CATIElecProduct                   libCATEleModeler
+#
+#--------------------------  CATIElecReferenceFactory  ------------------------
+#                            ------------------------
+ASMPRODUCT	                 CATIElecReferenceFactory	       libCATEleModeler
+#
+#--------------------------  CATIElecBundle  ----------------------------------
+#                            -------------
+ElecBundle	                 CATIElecBundle	                   libCATEleModeler
+#
+#--------------------------  CATIElecBundleLink  ------------------------------
+#                            ------------------
+ElecBundleLink	             CATIElecBundleLink	               libCATEleModeler
+#
+#--------------------------  CATIElecBundleSegment  ---------------------------
+#                            ---------------------
+ElecBundleSegmentE           CATIElecBundleSegment             libCATEleModeler
+#
+#--------------------------  CATIElecComputedBundleSegment  -------------------
+#                            ---------------------
+ElecBundleSegmentE           CATIElecComputedBundleSegment     libCATEleRouting
+#
+#--------------------------  CATIElecBundleSegmentExtremity  ------------------
+#                            ------------------------------
+ElecBundleSegmentExtremity   CATIElecBundleSegmentExtremity    libCATEleModeler
+#
+#--------------------------  CATIElecGeoBundle --------------------------------
+#                            -----------------
+ElecGeoBundleE        	     CATIElecGeoBundle                 libCATEleModeler
+#
+#--------------------------  CATIElecWire  ------------------------------------
+#                            -------------
+ElecWire	                   CATIElecWire	               libCATEleModeler
+ElecWireLight                CATIElecWire	               libCATEleModeler
+#
+#--------------------------  CATIElecWireInternal  ----------------------------
+#                            --------------------
+ElecWire                     CATIElecWireInternal	       libCATEleModeler
+ElecWireLight                CATIElecWireInternal	       libCATEleModeler
+#
+#--------------------------  CATIElecWireExtremity  ---------------------------
+#                            ---------------------
+ElecWireExtremity	     CATIElecWireExtremity             libCATEleModeler
+ElecWireExtremityLight	     CATIElecWireExtremity             libCATEleModeler
+#
+#--------------------------  CATIElecWireExtremityInternal  -------------------
+#                            -----------------------------
+ElecWireExtremity	     CATIElecWireExtremityInternal     libCATEleModeler
+ElecWireExtremityLight	     CATIElecWireExtremityInternal     libCATEleModeler
+#
+#--------------------------  CATIElecSignalRoute ------------------------------
+#                            -------------------
+ElecSignalRoute	             CATIElecSignalRoute	       libCATEleModeler
+ElecSignalRoute              CATIElecSignalRouteInternal       libCATEleModeler
+#
+#--------------------------  CATIElecSignalRouteExtremity ---------------------
+#                            ----------------------------
+ElecSignalRouteExtremity  CATIElecSignalRouteExtremity         libCATEleModeler
+ElecSignalRouteExtremity  CATIElecSignalRouteExtremityInternal libCATEleModeler
+#
+#--------------------------  CATIElecPhysical ---------------------------------
+#                            ----------------
+ElecWire                     CATIElecPhysical                  libCATEleModeler
+ElecWireLight                CATIElecPhysical                  libCATEleModeler
+ElecEqtPartE                 CATIElecPhysical                  libCATEleModeler
+ElecSicConE                  CATIElecPhysical                  libCATEleModeler
+ElecMicConE                  CATIElecPhysical                  libCATEleModeler
+ElecStudE              	     CATIElecPhysical                  libCATEleModeler
+ElecTermStripE               CATIElecPhysical                  libCATEleModeler
+ElecExtSpliceE               CATIElecPhysical                  libCATEleModeler
+ElecTermBlockE               CATIElecPhysical                  libCATEleModeler
+ElecCavity 					         CATIElecPhysical                  libCATEleModeler
+ElecTermination	             CATIElecPhysical                  libCATEleModeler
+ElecTerminationCst           CATIElecPhysical                  libCATEleModeler
+#
+ElecConShellE	               CATIElecPhysical                  libCATEleModeler
+ElecContactE	               CATIElecPhysical                  libCATEleModeler
+ElecIntSpliceE	             CATIElecPhysical                  libCATEleModeler
+ElecMountingEquipmentE	             CATIElecPhysical                  libCATEleModeler
+ElecWireGroup               CATIElecPhysical                  libCATEleModeler
+
+#
+#--------------------------  CATIElecFunctional ------------------------------
+#                            ----------------
+ElecGroupSignal              CATIElecFunctional               libCATEleModeler
+ElecGroundSignal             CATIElecFunctional               libCATEleModeler
+ElecShieldingSignal          CATIElecFunctional               libCATEleModeler
+ElecVideoSignal              CATIElecFunctional               libCATEleModeler
+ElecPowerSignal              CATIElecFunctional               libCATEleModeler
+ElecCommandSignal            CATIElecFunctional               libCATEleModeler
+ElecFnctEqt                  CATIElecFunctional               libCATEleModeler
+ElecFnctCon                  CATIElecFunctional               libCATEleModeler
+ElecFnctCntPt                CATIElecFunctional               libCATEleModeler
+#
+ElecGroupSignal              CATIElecFunctionalInternal       libCATEleModeler
+ElecGroundSignal             CATIElecFunctionalInternal       libCATEleModeler
+ElecShieldingSignal          CATIElecFunctionalInternal       libCATEleModeler
+ElecVideoSignal              CATIElecFunctionalInternal       libCATEleModeler
+ElecPowerSignal              CATIElecFunctionalInternal       libCATEleModeler
+ElecCommandSignal            CATIElecFunctionalInternal       libCATEleModeler
+ElecFnctEqt                  CATIElecFunctionalInternal       libCATEleModeler
+ElecFnctCon                  CATIElecFunctionalInternal       libCATEleModeler
+ElecFnctCntPt                CATIElecFunctionalInternal       libCATEleModeler
+#
+#----------------------------  CATICreateInstance   ------------------------------
+#                              ------------------
+CATIAttributeAccessExt						     CATICreateInstance			      libCATEleModeler
+CATElecAttributeAccessCnctique				 CATICreateInstance			      libCATEleModeler
+CATElecWireAttributeAccessExt				   CATICreateInstance			      libCATEleModeler
+CATElecBundleSegmentAttributeAccessExt CATICreateInstance			      libCATEleModeler
+CATElecAttrFromToAccessExt					   CATICreateInstance			      libCATEleModeler
+
+#
+#
+#
+#--------------------------  CATIElecAttrAccess  -------------------------
+#                            ------------------
+ElecBundle						CATIElecAttrAccess					libCATEleModeler
+ElecBundleLink					CATIElecAttrAccess					libCATEleModeler
+ElecBundleSegmentCnx			CATIElecAttrAccess					libCATEleModeler
+ElecBundleSegmentExtremity		CATIElecAttrAccess					libCATEleModeler
+ElecBundleSegmentE				CATIElecAttrAccess					libCATEleModeler
+ElecMultipleSegmentsE        	CATIElecAttrAccess					libCATEleModeler
+ElecCnx							CATIElecAttrAccess					libCATEleModeler
+ElecFnctCntPt					CATIElecAttrAccess					libCATEleModeler
+ElecFnctCnx						CATIElecAttrAccess					libCATEleModeler
+ElecFnctCon						CATIElecAttrAccess					libCATEleModeler
+ElecFnctEqt						CATIElecAttrAccess					libCATEleModeler
+ElecFromToCnx					CATIElecAttrAccess					libCATEleModeler
+ElecGeoBundleE					CATIElecAttrAccess					libCATEleModeler
+ElecGroundSignal				CATIElecAttrAccess					libCATEleModeler
+ElecGroupSignal					CATIElecAttrAccess					libCATEleModeler
+ElecIntSpliceCnx				CATIElecAttrAccess					libCATEleModeler
+ElecLogicalContact				CATIElecAttrAccess					libCATEleModeler
+ElecLogTerm						CATIElecAttrAccess					libCATEleModeler
+ElecOffSheet					CATIElecAttrAccess					libCATEleModeler
+ElecNetworkCnx					CATIElecAttrAccess					libCATEleModeler
+ElecNetworkExtremityCnx			CATIElecAttrAccess					libCATEleModeler
+ElecOffSheetCnx					CATIElecAttrAccess					libCATEleModeler
+ElecPotential					CATIElecAttrAccess					libCATEleModeler
+ElecPowerSignal					CATIElecAttrAccess					libCATEleModeler
+ElecCommandSignal				CATIElecAttrAccess					libCATEleModeler
+ElecShieldingSignal				CATIElecAttrAccess					libCATEleModeler
+ElecSignalExtremity				CATIElecAttrAccess					libCATEleModeler
+ElecSystem						CATIElecAttrAccess					libCATEleModeler
+ElecVideoSignal					CATIElecAttrAccess					libCATEleModeler
+ElecWire						CATIElecAttrAccess					libCATEleModeler
+ElecWireLight					CATIElecAttrAccess					libCATEleModeler
+ElecWireCnx						CATIElecAttrAccess					libCATEleModeler
+ElecWireExtremity				CATIElecAttrAccess					libCATEleModeler
+ElecWireExtremityLight			CATIElecAttrAccess					libCATEleModeler
+ElecSignalRoute					CATIElecAttrAccess					libCATEleModeler
+ElecSignalRouteCnx				CATIElecAttrAccess					libCATEleModeler
+ElecSignalRouteExtremity		CATIElecAttrAccess					libCATEleModeler
+ElecRealizeCnx					CATIElecAttrAccess					libCATEleModeler
+ElecReserveCnx					CATIElecAttrAccess					libCATEleModeler
+ElecCurve						CATIElecAttrAccess					libCATEleModeler
+ElecWireGroup					CATIElecAttrAccess					libCATEleModeler
+# - internal protection reference
+EleRefInternalAdaptiveProtectionE             CATIElecAttrAccess        libCATEleModeler      
+EleRefInternalFixedProtectionE                CATIElecAttrAccess        libCATEleModeler      
+EleRefInternalTapeProtectionE                 CATIElecAttrAccess        libCATEleModeler      
+EleRefInternalCorrugatedProtectionE           CATIElecAttrAccess        libCATEleModeler      
+# - internal protection instance
+ElecAdaptiveProtection                        CATIElecAttrAccess        libCATEleModeler      
+ElecFixedProtection                           CATIElecAttrAccess        libCATEleModeler      
+ElecTapeProtection                            CATIElecAttrAccess        libCATEleModeler      
+ElecCorrugatedProtection                      CATIElecAttrAccess        libCATEleModeler  
+
+#
+#--------------------------  CATIElecParmPublisher  -------------------------
+#                            ------------------
+ElecTapeE			 		 CATIElecParmPublisher					libCATEleModeler
+ElecCorrugateTubeE			 CATIElecParmPublisher					libCATEleModeler
+ElecBackShellE			 	 CATIElecParmPublisher					libCATEleModeler
+ElecBppAttrE	             CATIElecParmPublisher					libCATEleModeler
+ElecBundleSegmentE			 CATIElecParmPublisher					libCATEleModeler
+ElecConShellE				 CATIElecParmPublisher					libCATEleModeler
+ElecContactE				 CATIElecParmPublisher					libCATEleModeler
+ElecEqtPartE				 CATIElecParmPublisher					libCATEleModeler
+ElecExtSpliceE				 CATIElecParmPublisher					libCATEleModeler
+ElecFillerPlugE				 CATIElecParmPublisher					libCATEleModeler
+ElecGeoBundleE				 CATIElecParmPublisher					libCATEleModeler
+ElecIntSpliceE				 CATIElecParmPublisher					libCATEleModeler
+ElecSicConE					 CATIElecParmPublisher					libCATEleModeler
+ElecMicConE          CATIElecParmPublisher					libCATEleModeler
+ElecStudE					 CATIElecParmPublisher					libCATEleModeler
+ElecTermBlockE				 CATIElecParmPublisher					libCATEleModeler
+ElecTermStripE				 CATIElecParmPublisher					libCATEleModeler
+ElecMountingEquipmentE		 CATIElecParmPublisher					libCATEleModeler
+ElecMultipleSegmentsE		 CATIElecParmPublisher					libCATEleModeler
+
+
+
+#--------------------------  CATIParmPublisher  -------------------------
+#                            ------------------
+ElecSystem                   CATIParmPublisher				        libCATEleModeler
+ElecBundle                   CATIParmPublisher					    libCATEleModeler
+ElecFnctCon                  CATIParmPublisher			            libCATEleModeler
+ElecFnctEqt                  CATIParmPublisher	                    libCATEleModeler
+ElecGroundSignal             CATIParmPublisher					    libCATEleModeler
+ElecGroupSignal              CATIParmPublisher						libCATEleModeler
+ElecPowerSignal              CATIParmPublisher						libCATEleModeler
+ElecCommandSignal            CATIParmPublisher						libCATEleModeler
+ElecShieldingSignal          CATIParmPublisher						libCATEleModeler
+ElecVideoSignal              CATIParmPublisher						libCATEleModeler
+ElecWire                     CATIParmPublisher						libCATEleModeler
+ElecWireLight                CATIParmPublisher						libCATEleModeler
+ElecSignalRoute              CATIParmPublisher						libCATEleModeler
+# jri Archi Electrical					 CATIParmPublisher						libCATEleModeler
+ElecCavity 					 CATIParmPublisher						libCATEleModeler
+ElecCavityCst				 CATIParmPublisher						libCATEleModeler
+ElecContactPoint			 CATIParmPublisher						libCATEleModeler
+ElecTermination 			 CATIParmPublisher						libCATEleModeler
+ElecTerminationCst 			 CATIParmPublisher						libCATEleModeler
+ElecSchProduct				 CATIParmPublisher						libCATEleModeler
+ElecWireGroup				 CATIParmPublisher						libCATEleModeler
+ElecBundleSegmentExtremity	 CATIParmPublisher						libCATEleModeler
+
+#
+#--------------------------     CATIInstance     -------------------------
+#                               ------------
+ElecAssCnx						CATIInstance                   libCATEleModeler
+ElecPotentialCnx				CATIInstance                   libCATEleModeler
+ElecMatingCnx				    CATIInstance                   libCATEleModeler
+ElecRelationCnx				    CATIInstance                   libCATEleModeler
+ElecBundle                 		CATIInstance                   libCATEleModeler
+ElecBundleLink             		CATIInstance                   libCATEleModeler
+ElecBundleSegmentExtremity 		CATIInstance                   libCATEleModeler
+ElecBundleSegmentCnx 			CATIInstance                   libCATEleModeler
+ElecCavity 						CATIInstance                   libCATEleModeler
+ElecCnx							CATIInstance                   libCATEleModeler                              
+ElecFnctCntPt 				    CATIInstance                   libCATEleModeler             
+ElecFnctCnx   				    CATIInstance                   libCATEleModeler             
+ElecFnctCon   				    CATIInstance                   libCATEleModeler             
+ElecFnctEqt   				    CATIInstance                   libCATEleModeler             
+ElecFromToCnx   				CATIInstance                   libCATEleModeler         
+ElecGroundSignal  			    CATIInstance                   libCATEleModeler         
+ElecGroupSignal 	    	    CATIInstance                   libCATEleModeler           
+ElecCommandSignal 			    CATIInstance                   libCATEleModeler           
+ElecLogicalContact  			CATIInstance                   libCATEleModeler       
+ElecLogTerm     				CATIInstance                   libCATEleModeler
+ElecNetworkCnx   			    CATIInstance                   libCATEleModeler 
+ElecNetworkExtremityCnx			CATIInstance                   libCATEleModeler
+ElecOffSheet    				CATIInstance                   libCATEleModeler           
+ElecOffSheetCnx   			    CATIInstance                   libCATEleModeler
+ElecPowerSignal  		        CATIInstance                   libCATEleModeler            
+ElecShieldingSignal 			CATIInstance                   libCATEleModeler       
+ElecSignalExtremity  		    CATIInstance                   libCATEleModeler
+# jri Archi ElecStudE						CATIInstance                   libCATEleModeler
+ElecSystem      				CATIInstance                   libCATEleModeler         
+ElecVideoSignal  			    CATIInstance                   libCATEleModeler          
+ElecWire       				    CATIInstance                   libCATEleModeler           
+ElecWireLight  				    CATIInstance                   libCATEleModeler           
+ElecWireCnx     			    CATIInstance                   libCATEleModeler           
+ElecWireExtremity  			    CATIInstance                   libCATEleModeler        
+ElecWireExtremityLight		    CATIInstance                   libCATEleModeler        
+ElecSignalRoute  			    CATIInstance                   libCATEleModeler                
+ElecSignalRouteCnx 			    CATIInstance                   libCATEleModeler               
+ElecSignalRouteExtremity 	    CATIInstance                   libCATEleModeler
+ElecRealizeCnx          	    CATIInstance                   libCATEleModeler    
+ElecReserveCnx				    CATIInstance                   libCATEleModeler    
+ElecBundleSegmentC	    	    CATIInstance                   libCATEleModeler    
+//ElecWireGroup	    	    CATIInstance                   libCATEleModeler    
+
+
+# Devices CXR5 - Connectors
+# -------------------------
+ElecTermination				     CATIInstance                   libCATEleModeler
+ElecTerminationCst				 CATIInstance                   libCATEleModeler
+ElecLogicalTermination			 CATIInstance                   libCATEleModeler
+ElecCavityCnctPt				 CATIInstance                   libCATEleModeler
+ElecShellCnctPt				   CATIInstance                   libCATEleModeler
+ElecBundleCnctPt				 CATIInstance                   libCATEleModeler
+ElecConnectorCnctPt				 CATIInstance                   libCATEleModeler
+ElecBackShellCnctPt				 CATIInstance                   libCATEleModeler
+
+ElecBppAttrE					CATIInstanceExtension            libElecCkeUserView
+
+#--------------------------  CATIAttributeAccess  -----------------------------
+#                            -------------------
+CATIAttributeAccessExt						  CATIAttributeAccess		    libCATEleModeler
+CATElecWireAttributeAccessExt			      CATIAttributeAccess		    libCATEleModeler
+CATElecAttributeAccessCnctique				  CATIAttributeAccess		    libCATEleModeler
+CATElecBundleSegmentAttributeAccessExt		  CATIAttributeAccess		    libCATEleModeler
+CATElecAttrFromToAccessExt					  CATIAttributeAccess		    libCATEleModeler
+
+#--------------------------  CATIPathAccess  ----------------------------------
+#                            --------------
+ElecBundleSegmentC          CATIPathAccess 				   libCATEleModeler
+ElecBranchable		        CATIPathAccess 				   libCATEleModeler
+
+#--------------------------  CATIElecObject  ----------------------------------
+#    
+
+ElecBackShellCnctPt          CATIElecObject 				           libCATEleModeler
+ElecBundle                   CATIElecObject                    libCATEleModeler
+ElecBundleCnctPt             CATIElecObject                    libCATEleModeler
+ElecBundleLink               CATIElecObject   	               libCATEleModeler
+ElecBundleSegmentExtremity   CATIElecObject   	               libCATEleModeler
+ElecBundleSegmentCnx	       CATIElecObject   	               libCATEleModeler
+ElecCavity				        	 CATIElecObject   	               libCATEleModeler
+ElecCavityCnctPt		      	 CATIElecObject   	               libCATEleModeler
+ElecShellCnctPt		        	 CATIElecObject   	               libCATEleModeler
+ElecCnx                      CATIElecObject                    libCATEleModeler
+ElecConnectorCnctPt          CATIElecObject                    libCATEleModeler
+ElecFnctCntPt                CATIElecObject   	               libCATEleModeler
+ElecFnctCnx                  CATIElecObject   	               libCATEleModeler
+ElecFnctCon                  CATIElecObject   	               libCATEleModeler
+ElecFnctEqt                  CATIElecObject   	               libCATEleModeler
+ElecFromToCnx                CATIElecObject   	               libCATEleModeler
+ElecGroundSignal             CATIElecObject   	               libCATEleModeler
+ElecGroupSignal              CATIElecObject                    libCATEleModeler
+ElecIntSpliceCnx			 CATIElecObject                    libCATEleModeler
+ElecLogicalContact           CATIElecObject                    libCATEleModeler
+ElecLogicalTermination       CATIElecObject                    libCATEleModeler
+ElecLogTerm                  CATIElecObject                    libCATEleModeler
+ElecNetworkCnx               CATIElecObject					   libCATEleModeler
+ElecOffSheet                 CATIElecObject                    libCATEleModeler
+ElecOffSheetCnx              CATIElecObject					   libCATEleModeler
+ElecPowerSignal              CATIElecObject   	               libCATEleModeler
+ElecCommandSignal            CATIElecObject   	               libCATEleModeler
+ElecShieldingSignal          CATIElecObject   	               libCATEleModeler
+ElecSignalExtremity          CATIElecObject   	               libCATEleModeler
+ElecSystem                   CATIElecObject   	               libCATEleModeler
+ElecTermination              CATIElecObject   	               libCATEleModeler
+ElecTerminationCst           CATIElecObject   	               libCATEleModeler
+ElecVideoSignal              CATIElecObject   	               libCATEleModeler
+ElecWire                     CATIElecObject   	               libCATEleModeler
+ElecWireLight                CATIElecObject   	               libCATEleModeler
+ElecWireCnx                  CATIElecObject   	               libCATEleModeler
+ElecWireExtremity            CATIElecObject   	               libCATEleModeler
+ElecWireExtremityLight       CATIElecObject   	               libCATEleModeler
+ElecSignalRoute              CATIElecObject   	               libCATEleModeler
+ElecSignalRouteCnx           CATIElecObject   	               libCATEleModeler
+ElecSignalRouteExtremity     CATIElecObject   	               libCATEleModeler
+ElecBppAttrE           	     CATIElecObject                    libCATEleModeler
+ElecGeoBundleE        	     CATIElecObject                    libCATEleModeler
+ElecBundleSegmentE           CATIElecObject                    libCATEleModeler
+ElecRealizeCnx               CATIElecObject                    libCATEleModeler
+ElecReserveCnx               CATIElecObject                    libCATEleModeler
+ElecSchResCnx                CATIElecObject                    libCATEleModeler
+ElecSchCableRouteCnx         CATIElecObject                    libCATEleModeler
+ElecBundleCnx			     CATIElecObject                    libCATEleModeler
+ElecRouteCnx			     CATIElecObject                    libCATEleModeler
+ElecWireGroup                CATIElecObject                    libCATEleModeler
+# - internal protection reference
+EleRefInternalAdaptiveProtectionE             CATIElecObject        libCATEleModeler      
+EleRefInternalFixedProtectionE                CATIElecObject        libCATEleModeler      
+EleRefInternalTapeProtectionE                 CATIElecObject        libCATEleModeler      
+EleRefInternalCorrugatedProtectionE           CATIElecObject        libCATEleModeler      
+# - internal protection instance
+ElecAdaptiveProtection                        CATIElecObject        libCATEleModeler      
+ElecFixedProtection                           CATIElecObject        libCATEleModeler      
+ElecTapeProtection                            CATIElecObject        libCATEleModeler      
+ElecCorrugatedProtection                      CATIElecObject        libCATEleModeler      
+#--------------------------  CATIElecEntity  ----------------------------------
+#         
+ElecBackShellCnctPt          CATIElecEntity					   libCATEleModeler
+ElecBundle                   CATIElecEntity                    libCATEleModeler
+ElecBundleCnctPt             CATIElecEntity                    libCATEleModeler
+ElecBundleLink               CATIElecEntity   	               libCATEleModeler
+ElecBundleSegmentExtremity   CATIElecEntity   	               libCATEleModeler
+ElecBundleSegmentCnx		     CATIElecEntity   	               libCATEleModeler
+ElecCavity                   CATIElecEntity                    libCATEleModeler
+ElecCavityCnctPt             CATIElecEntity                    libCATEleModeler
+ElecShellCnctPt              CATIElecEntity                    libCATEleModeler
+ElecCnx                      CATIElecEntity                    libCATEleModeler
+ElecConnectorCnctPt          CATIElecEntity                    libCATEleModeler
+# jri archi ElecDiscipline               CATIElecEntity                    libCATEleModeler
+ElecFnctCntPt                CATIElecEntity   	               libCATEleModeler
+ElecFnctCnx                  CATIElecEntity   	               libCATEleModeler
+ElecFnctCon                  CATIElecEntity   	               libCATEleModeler
+ElecFnctEqt                  CATIElecEntity   	               libCATEleModeler
+ElecFromToCnx                CATIElecEntity   	               libCATEleModeler
+ElecGeoBundleE	             CATIElecEntity   	               libCATEleModeler			
+ElecGroundSignal             CATIElecEntity   	               libCATEleModeler
+ElecGroupSignal              CATIElecEntity                    libCATEleModeler
+ElecIntSpliceCnx			 CATIElecEntity                    libCATEleModeler
+ElecLogicalContact           CATIElecEntity                    libCATEleModeler
+ElecLogicalTermination       CATIElecEntity                    libCATEleModeler
+ElecLogTerm                  CATIElecEntity                    libCATEleModeler
+ElecNetworkCnx				 CATIElecEntity                    libCATEleModeler
+ElecOffSheet                 CATIElecEntity                    libCATEleModeler
+ElecOffSheetCnx              CATIElecEntity                    libCATEleModeler
+ElecPowerSignal              CATIElecEntity   	               libCATEleModeler
+ElecCommandSignal            CATIElecEntity   	               libCATEleModeler
+ElecShieldingSignal          CATIElecEntity   	               libCATEleModeler
+ElecSignalExtremity          CATIElecEntity   	               libCATEleModeler
+ElecSystem                   CATIElecEntity   	               libCATEleModeler
+ElecTermination              CATIElecEntity   	               libCATEleModeler
+ElecTerminationCst           CATIElecEntity   	               libCATEleModeler
+ElecVideoSignal              CATIElecEntity   	               libCATEleModeler
+ElecWire                     CATIElecEntity   	               libCATEleModeler
+ElecWireLight                CATIElecEntity   	               libCATEleModeler
+ElecWireCnx                  CATIElecEntity   	               libCATEleModeler
+ElecWireExtremity            CATIElecEntity   	               libCATEleModeler
+ElecWireExtremityLight       CATIElecEntity   	               libCATEleModeler
+ElecSignalRoute              CATIElecEntity   	               libCATEleModeler
+ElecSignalRouteCnx           CATIElecEntity   	               libCATEleModeler
+ElecSignalRouteExtremity     CATIElecEntity   	               libCATEleModeler
+ElecBppAttrE                 CATIElecEntity                    libCATEleModeler
+ElecBundleSegmentE           CATIElecEntity                    libCATEleModeler
+ElecRealizeCnx               CATIElecEntity                    libCATEleModeler
+ElecReserveCnx               CATIElecEntity                    libCATEleModeler
+ElecSchCableRouteCnx         CATIElecEntity                    libCATEleModeler
+ElecRouteCnx		         CATIElecEntity                    libCATEleModeler
+ElecBundleCnx		         CATIElecEntity                    libCATEleModeler
+ElecWireGroup               CATIElecEntity   	               libCATEleModeler
+
+# - internal protection reference
+EleRefInternalAdaptiveProtectionE             CATIElecEntity        libCATEleModeler      
+EleRefInternalFixedProtectionE                CATIElecEntity        libCATEleModeler      
+EleRefInternalTapeProtectionE                 CATIElecEntity        libCATEleModeler      
+EleRefInternalCorrugatedProtectionE           CATIElecEntity        libCATEleModeler      
+# - internal protection instance
+ElecAdaptiveProtection                        CATIElecEntity        libCATEleModeler      
+ElecFixedProtection                           CATIElecEntity        libCATEleModeler      
+ElecTapeProtection                            CATIElecEntity        libCATEleModeler      
+ElecCorrugatedProtection                      CATIElecEntity        libCATEleModeler  
+#
+#--------------------------  CATIElecFnctConnector  ---------------------------
+#                            ----------------------
+ElecFnctCon                  CATIElecFnctConnector             libCATEleModeler
+#
+#--------------------------  CATIElecFnctContactPoint  ------------------------
+#                            ------------------------
+ElecFnctCntPt                CATIElecFnctContactPoint          libCATEleModeler
+#
+#--------------------------  CATIElecFnctEquipment  ---------------------------
+#                            ---------------------
+ElecFnctEqt                  CATIElecFnctEquipment             libCATEleModeler
+#
+#--------------------------  CATIElecWireConnection  --------------------------
+#                            ----------------------
+ElecWireCnx                  CATIElecWireConnection    	       libCATEleModeler
+#
+#--------------------------  CATIElecFromToConnection  --------------------------
+#                            ----------------------
+ElecFromToCnx                CATIElecFromToConnection          libCATEleModeler
+#
+#--------------------------  CATIElecSignalRouteConnection  -------------------
+#                            -----------------------------
+ElecSignalRouteCnx           CATIElecSignalRouteConnection     libCATEleModeler
+#
+#--------------------------  CATIElecRealizeCnx -------------------------------
+#                            ------------------ 
+ElecRealizeCnx               CATIElecRealizeCnx                libCATEleModeler
+#
+#--------------------------  CATIElecReserveConnection ------------------------
+#                            -------------------------
+ElecReserveCnx               CATIElecReserveConnection         libCATEleModeler
+#
+#--------------------------  CATIElecSystem  ----------------------------------
+#                            --------------  
+ElecSystem                   CATIElecSystem                    libCATEleModeler
+#
+#--------------------------  CATIElecSignal  ----------------------------------
+#                            --------------  
+ElecGroupSignal              CATIElecSignal                    libCATEleModeler
+ElecGroundSignal             CATIElecSignal                    libCATEleModeler
+ElecShieldingSignal          CATIElecSignal                    libCATEleModeler
+ElecVideoSignal              CATIElecSignal                    libCATEleModeler
+ElecPowerSignal              CATIElecSignal                    libCATEleModeler
+ElecCommandSignal            CATIElecSignal                    libCATEleModeler
+#
+#--------------------------  CATIElecGroupSignal  ------------------------------
+#                            --------------  
+ElecGroupSignal              CATIElecGroupSignal               libCATEleModeler
+#
+#--------------------------  CATIElecMultiSheetSignal  -------------------------
+#                            ------------------------
+ElecGroupSignal              CATIElecMultiSheetSignal          libCATEleModeler   CATElecSignalPreCond
+ElecGroundSignal             CATIElecMultiSheetSignal          libCATEleModeler   CATElecSignalPreCond
+ElecShieldingSignal          CATIElecMultiSheetSignal          libCATEleModeler   CATElecSignalPreCond
+ElecVideoSignal              CATIElecMultiSheetSignal          libCATEleModeler   CATElecSignalPreCond
+ElecPowerSignal              CATIElecMultiSheetSignal          libCATEleModeler   CATElecSignalPreCond
+ElecCommandSignal            CATIElecMultiSheetSignal          libCATEleModeler   CATElecSignalPreCond
+#
+#
+#--------------------------  CATIElecMultiSheetInternal  -----------------------
+#                            --------------------------
+ElecGroupSignal              CATIElecMultiSheetInternal        libCATEleModeler   CATElecSignalPreCond
+ElecGroundSignal             CATIElecMultiSheetInternal        libCATEleModeler   CATElecSignalPreCond
+ElecShieldingSignal          CATIElecMultiSheetInternal        libCATEleModeler   CATElecSignalPreCond
+ElecVideoSignal              CATIElecMultiSheetInternal        libCATEleModeler   CATElecSignalPreCond
+ElecPowerSignal              CATIElecMultiSheetInternal        libCATEleModeler   CATElecSignalPreCond
+ElecCommandSignal            CATIElecMultiSheetInternal        libCATEleModeler   CATElecSignalPreCond
+#
+#--------------------------  CATIElecSignalExtremity  --------------------------
+#                            -----------------------
+ElecSignalExtremity          CATIElecSignalExtremity           libCATEleModeler
+#
+#--------------------------  CATIElecSignalOffSheet  ---------------------------
+#                            ---------------------- 
+ElecOffSheet                 CATIElecSignalOffSheet            libCATEleModeler
+#
+#--------------------------  CATIElecOffSheetLink  -----------------------------
+#                            --------------------
+ElecOffSheetCnx              CATIElecOffSheetLink              libCATEleModeler
+#
+#--------------------------  CATIElecNetworkCnx  -------------------------------
+#                            ------------------
+ElecNetworkCnx               CATIElecNetworkCnx                libCATEleModeler
+#
+#--------------------------  CATIElecIntSpliceCnx  -------------------------------
+#                            ------------------
+ElecIntSpliceCnx             CATIElecIntSpliceCnx              libCATEleModeler
+#
+#--------------------------  CATIElecNetworkExtremityCnx  ----------------------
+#                            ---------------------------
+ElecNetworkExtremityCnx      CATIElecNetworkExtremityCnx       libCATEleModeler
+#
+# ----------------------------  CATIElecNavigateObject --------------------------
+#                               ----------------------
+ElecFnctEqt             	CATIElecNavigateObject          libCATEleModeler
+ElecFnctCon              	CATIElecNavigateObject          libCATEleModeler
+#
+#--------------------------  CATEleModeler  -------------------------------------
+#                            ------------
+ASMPRODUCT                   CATIElecConnectable               libCATEleModeler
+CONNECTION                   CATIElecConnection                libCATEleModeler
+#
+# -- light connection R14 : on implemente CATIElecConnector uniquement sur les types elec 
+#    R13   CONNECTOR                    CATIElecConnection                libCATEleModeler
+#
+ElecReservationCtr           CATIElecConnector                 libCATEleModeler
+ElecPhysicalCtrLight         CATIElecConnector                 libCATEleModeler
+ElecLogicalCtr               CATIElecConnector                 libCATEleModeler
+ElecLogicalCtrLight          CATIElecConnector                 libCATEleModeler
+ElecFunctionalCtr            CATIElecConnector                 libCATEleModeler
+ElecSchCtr                   CATIElecConnector                 libCATEleModeler
+#  sub-types of ElecPhysicalCtr
+ElecPhysicalCntPt            CATIElecConnector                 libCATEleModeler
+ElecWireExtremity            CATIElecConnector                 libCATEleModeler
+ElecCavityCnctPt             CATIElecConnector                 libCATEleModeler
+ElecShellCnctPt              CATIElecConnector                 libCATEleModeler
+ElecBundleCnctPt             CATIElecConnector                 libCATEleModeler
+ElecConnectorCnctPt          CATIElecConnector                 libCATEleModeler
+ElecBackShellCnctPt          CATIElecConnector                 libCATEleModeler
+#
+ElecBundleSegmentExtremity   CATIElecConnector                 libCATEleModeler
+# SSR
+RoutableConnector            CATIElecConnector                 libCATEleModeler
+#
+#--------------------------  CATIElecInteropFactory  ---------------------------
+#                            ------------------------
+ASMPRODUCT                   CATIElecInteropFactory            libCATEleModeler
+#
+#--------------------------  CATIElecBasicServ ------------------------------
+#                            -----------------
+ASMPRODUCT                   CATIElecBasicServ                 libCATEleModeler
+CONNECTOR                    CATIElecBasicServ                 libCATEleModeler
+CONNECTION                   CATIElecBasicServ                 libCATEleModeler
+FeatureBORDERFVERTEX         CATIElecBasicServ                 libCATEleModeler
+GSMPoint                     CATIElecBasicServ                 libCATEleModeler
+GSMProject                   CATIElecBasicServ                 libCATEleModeler
+GSMZeroDim                   CATIElecBasicServ                 libCATEleModeler
+GSMIntersect                 CATIElecBasicServ                 libCATEleModeler
+GSMExtract                   CATIElecBasicServ                 libCATEleModeler
+GSMNear                      CATIElecBasicServ                 libCATEleModeler
+GSMAffinity                  CATIElecBasicServ                 libCATEleModeler
+GSMScaling                   CATIElecBasicServ                 libCATEleModeler
+GSMSymmetry                  CATIElecBasicServ                 libCATEleModeler
+GSMRotate                    CATIElecBasicServ                 libCATEleModeler
+GSMTranslate                 CATIElecBasicServ                 libCATEleModeler
+2DOutput                     CATIElecBasicServ                 libCATEleModeler
+#
+#--------------------------  CATIElecEditableObject ------------------------------
+#                            ----------------------
+ASMPRODUCT					 CATIElecEditableObject            libCATEleModeler
+CONNECTOR					 CATIElecEditableObject            libCATEleModeler
+CONNECTION                   CATIElecEditableObject            libCATEleModeler
+FeatureBORDERFVERTEX		 CATIElecEditableObject            libCATEleModeler
+GSMPoint                     CATIElecEditableObject            libCATEleModeler
+GSMProject                   CATIElecEditableObject            libCATEleModeler
+GSMZeroDim                   CATIElecEditableObject            libCATEleModeler
+GSMIntersect                 CATIElecEditableObject            libCATEleModeler
+GSMExtract                   CATIElecEditableObject            libCATEleModeler
+GSMNear                      CATIElecEditableObject            libCATEleModeler
+GSMAffinity                  CATIElecEditableObject            libCATEleModeler
+GSMScaling                   CATIElecEditableObject            libCATEleModeler
+GSMSymmetry                  CATIElecEditableObject            libCATEleModeler
+GSMRotate                    CATIElecEditableObject            libCATEleModeler
+GSMTranslate                 CATIElecEditableObject            libCATEleModeler
+#
+#--------------------------  CATIElecRelation -------------------------------
+#                            -----------------
+ASMPRODUCT                   CATIElecRelation                  libCATEleModeler
+CONNECTOR                    CATIElecRelation                  libCATEleModeler
+CONNECTION                   CATIElecRelation                  libCATEleModeler
+RoutableSubObject            CATIElecRelation                  libCATEleModeler
+ElecUpdateSensor             CATIElecRelation                  libCATEleModeler
+#
+#--------------------------  CATIBuild         -------------------------------
+#                            -----------------
+ElecUpdateSensor             CATIBuild                         libCATEleModeler
+ElecWireGroup               CATIBuild                         libCATEleModeler      
+# 
+#
+#-------------------------   CATIElecBuild  -----------------------------------
+#                            -------------
+ElecBundleSegmentE           CATIElecBuild  	               libEHIModeler
+#
+#-------------------------   CATIElecLogTerm  ---------------------------------
+#                            ---------------
+ElecLogTerm                  CATIElecLogTerm  	               libCATEleModeler
+ElecLogTermLight             CATIElecLogTerm  	               libCATEleModeler
+#
+#--------------------------  CATIElecArrNetworkArc --------------------------
+#                            ---------------------
+ArrPathway                   CATIElecArrNetworkArc             libCATEleModeler
+#
+#--------------------------  CATIArrNetworkArc --------------------------
+#                            ---------------------
+ElecBundleSegmentE           CATIArrNetworkArc             libCATEleModeler
+ElecBackShellE               CATIArrNetworkArc             libCATEleModeler
+#
+#--------------------------  CATIArrNetworkNode -------------------------
+#                            ----------------------
+ElecBundleSegmentExtremity   CATIArrNetworkNode            libCATEleModeler
+ElecBundleCnctPt             CATIArrNetworkNode            libCATEleModeler
+ElecBackShellCnctPt          CATIArrNetworkNode            libCATEleModeler
+#
+#--------------------------  CATIElecAttribute ------------------------------
+#                            -----------------
+Literal 	             CATIElecAttribute                 libCATEleModeler
+CATSpecNewLitt           CATIElecAttribute                 libCATEleModeler
+
+#                           
+# Ajouter dans l'arbre produit un noeud regroupant les wire cnx sous le bundle
+# ----------------------------------------------------------------------------
+ElecBundle_node               CATINavigModify                  libCATEleModeler
+ElecBundle                    CATINavigateObject               libCATEleModeler
+ElecFnctCntPt				  CATINavigateObject               libCATEleModeler
+ElecBundle                    CATIAsmNavigateStruct            libCATEleModeler
+
+#
+ElecWireCnx_node              CATINavigModify                  libCATEleModeler
+ElecWireCnx                   CATINavigateObject               libCATEleModeler
+#
+CATElecWireCnxContainer_node  CATINavigModify                  libCATEleModeler
+CATElecWireCnxContainer       CATINavigateObject               libCATEleModeler
+CATElecWireCnxContainer       CATIAsmNavigateStruct            libCATEleModeler
+# 
+#-------------------------  CATINavigModify  ---------------------------------
+#                           ---------------
+# Mode CXR4
+ElecFnctCon_node                  CATINavigModify         libCATEleModeler
+ElecFnctEqt_node                  CATINavigModify         libCATEleModeler
+ElecFnctCntPt_node                CATINavigModify         libCATEleModeler
+ElecGroupSignal_node              CATINavigModify         libCATEleModeler 
+ElecGroundSignal_node             CATINavigModify         libCATEleModeler
+ElecShieldingSignal_node          CATINavigModify         libCATEleModeler
+ElecVideoSignal_node              CATINavigModify         libCATEleModeler
+ElecPowerSignal_node              CATINavigModify         libCATEleModeler
+ElecCommandSignal_node            CATINavigModify         libCATEleModeler
+ElecSystem_node                   CATINavigModify         libCATEleModeler
+ElecWire_node                     CATINavigModify         libCATEleModeler
+ElecWireLight_node                CATINavigModify         libCATEleModeler
+ElecSignalRoute_node              CATINavigModify         libCATEleModeler
+#
+#--------------------------  CATIElecSignal  ----------------------------------
+#                            --------------  
+ElecGroupSignal              CATIRoutingSpecification          libCATEleModeler
+ElecGroundSignal             CATIRoutingSpecification          libCATEleModeler
+ElecShieldingSignal          CATIRoutingSpecification          libCATEleModeler
+ElecVideoSignal              CATIRoutingSpecification          libCATEleModeler
+ElecPowerSignal              CATIRoutingSpecification          libCATEleModeler
+ElecCommandSignal            CATIRoutingSpecification          libCATEleModeler
+ElecWire                     CATIRoutingSpecification          libCATEleModeler
+ElecWireLight                CATIRoutingSpecification          libCATEleModeler
+ElecWireGroup               CATIRoutingSpecification          libCATEleModeler
+
+
+#
+#--------------------------  CATI3DGeoVisu  ----------------------------------
+#
+ElecSignalRoute              CATI3DGeoVisu                     libCATEleModeler
+ElecWire                     CATI3DGeoVisu                     libCATEleModeler
+ElecWireLight                CATI3DGeoVisu                     libCATEleModeler
+ElecFnctEqt                  CATI3DGeoVisu                     libCATEleModeler
+ElecFnctCon                  CATI3DGeoVisu                     libCATEleModeler
+ElecSystem                   CATI3DGeoVisu                     libCATEleModeler
+ElecGroupSignal              CATI3DGeoVisu                     libCATEleModeler
+ElecGroundSignal             CATI3DGeoVisu                     libCATEleModeler
+ElecShieldingSignal          CATI3DGeoVisu                     libCATEleModeler
+ElecVideoSignal              CATI3DGeoVisu                     libCATEleModeler
+ElecPowerSignal              CATI3DGeoVisu                     libCATEleModeler
+ElecCommandSignal            CATI3DGeoVisu                     libCATEleModeler
+ElecSchEquipment             CATI3DGeoVisu                     libCATEleModeler 
+ElecBundleSegmentC           CATI3DGeoVisu	                   libEHIModeler 
+ElecBundleSegmentC           CATISelectShow                    libEHIModeler
+ElecWireGroup               CATI3DGeoVisu                     libCATEleModeler
+#
+ElecBundleSegmentC           CATIElec3DGeoVisu                 libEHIModeler 
+ElecSignalRoute              CATIElec3DGeoVisu                 libCATEleModeler
+ElecWire                     CATIElec3DGeoVisu                 libCATEleModeler
+ElecWireLight                CATIElec3DGeoVisu                 libCATEleModeler
+ElecFnctEqt                  CATIElec3DGeoVisu                 libCATEleModeler
+ElecFnctCon                  CATIElec3DGeoVisu                 libCATEleModeler
+ElecSystem                   CATIElec3DGeoVisu                 libCATEleModeler
+ElecGroupSignal              CATIElec3DGeoVisu                 libCATEleModeler
+ElecGroundSignal             CATIElec3DGeoVisu                 libCATEleModeler
+ElecSchEquipment			 CATIElec3DGeoVisu                 libCATEleModeler
+ElecShieldingSignal          CATIElec3DGeoVisu                 libCATEleModeler
+ElecVideoSignal              CATIElec3DGeoVisu                 libCATEleModeler
+ElecPowerSignal              CATIElec3DGeoVisu                 libCATEleModeler
+ElecCommandSignal            CATIElec3DGeoVisu                 libCATEleModeler
+ElecWireGroup               CATIElec3DGeoVisu                 libCATEleModeler
+#
+#--------------------------  LifeCycleObject --------------------------------
+#                            ---------------
+ElecWire                     LifeCycleObject                    libCATEleModeler
+ElecWireLight                LifeCycleObject                    libCATEleModeler
+ElecWireCnx                  LifeCycleObject                    libCATEleModeler
+ElecSignalRoute              LifeCycleObject                    libCATEleModeler
+ElecWireGroup                LifeCycleObject                    libCATEleModeler
+#
+# -------------------------  CATICstChanged ---------------------------------
+#                            --------------
+ElecIntSpliceCnx			 CATICstChanged                     libCATEleModeler
+ElecNetworkCnx               CATICstChanged                     libCATEleModeler
+ElecNetworkExtremityCnx      CATICstChanged                     libCATEleModeler
+ElecReserveCnx               CATICstChanged                     libCATEleModeler
+ElecRealizeCnx               CATICstChanged                     libCATEleModeler
+ElecSignalRouteCnx           CATICstChanged                     libCATEleModeler
+#
+ElecBundleLink               CATICstChanged                     libCATEleModeler
+ElecWireCnx                  CATICstChanged                     libCATEleModeler
+ElecFromToCnx                CATICstChanged                     libCATEleModeler
+ElecOffSheetCnx              CATICstChanged                     libCATEleModeler
+ElecSchResCnx                CATICstChanged                     libCATEleModeler
+#
+#--------------------------  Search Editor  ----------------------------------
+#                            ---------------
+CATElectricalSearch 		 CATISearchInformation		        libCATEleModeler
+CATElectricalUserSearch      CATISearchInformation		        libCATEleModeler
+
+#
+#--------------------------  CATIElecReservation --------------------------------
+#                            -------------------
+ASMPRODUCT                   CATIElecReservation                libCATEleModeler
+#
+ASMPRODUCT                   CATIElecReservationInternal	libCATEleModeler
+#
+#--------------------------  CATIElecVisuServ  ----------------------------------
+#                            ----------------
+ElecWire                     CATIElecVisuServ                   libCATEleModeler
+ElecWireLight                CATIElecVisuServ                   libCATEleModeler
+ElecSignalRoute              CATIElecVisuServ					libCATEleModeler
+ElecFnctEqt					 CATIElecVisuServ					libCATEleModeler
+ElecFnctCon                  CATIElecVisuServ					libCATEleModeler
+ElecSystem				     CATIElecVisuServ	        		libCATEleModeler
+ElecGroupSignal              CATIElecVisuServ                   libCATEleModeler
+ElecGroundSignal             CATIElecVisuServ                   libCATEleModeler
+ElecShieldingSignal          CATIElecVisuServ                   libCATEleModeler
+ElecVideoSignal              CATIElecVisuServ                   libCATEleModeler
+ElecPowerSignal              CATIElecVisuServ                   libCATEleModeler
+ElecCommandSignal            CATIElecVisuServ                   libCATEleModeler
+ElecSchEquipment             CATIElecVisuServ                   libCATEleModeler
+ElecWireGroup               CATIElecVisuServ                   libCATEleModeler
+#
+#--------------------------  CATInit              --------------------------------
+#                            -------
+CATElecBehaviourCont   	     CATInit                            libCATEleModeler
+#
+#--------------------------  CATINavigateProvider --------------------------------
+#                            ---------------------
+CATElecBehaviourCont   	     CATINavigateProvider               libCATEleModeler
+CATElecBehaviourCont   	     CATIIconProvider                   libCATEleModeler
+CATElecBehaviourCont   	     CATICtxMenuProvider                libCATEleModeler
+CATElecBehaviourCont   	     CATIUIActivateProvider             libCATEleModeler
+CATElecBehaviourCont   	     CATIParmProvider                   libCATEleModeler
+CATElecBehaviourCont         CATI3DVisuProvider	                libCATEleModeler
+CATPrtCont_ElectricalData         CATIInitOnInit				          libCATEleModeler
+
+#
+#--------------------------  CATIPrdTypeProvider --------------------------------
+# 
+CATElecBehaviourCont	     CATIPrdTypeProvider				libElecCkeUserView
+
+#
+# 
+#
+# ------------------------------------------------------------------------------
+# ---------------------------------- EHI ---------------------------------------
+# ------------------------------------------------------------------------------
+#
+ElecBppAttrE           	     CATIFlexCurvePoint				libEHIModeler
+#
+ElecCurve 	                 CATIFlexCurveInternalParameter libEHIModeler
+ElecCurve 	                 CATIFlexCurveParameter         libEHIModeler
+ElecCurve 	                 CATIFlexCurveBuild    	        libEHIModeler
+ElecCurve_node               CATINavigModify 	            libEHIModeler
+#   
+#ElecCurve 	                 CATIBuild           	        libEHIModeler
+ElecLogTerm 	             CATIBuild           	        libEHIModeler
+ElecLogTermLight             CATIBuild           	        libEHIModeler
+ElecWire  	                 CATIBuild           	        libCATEleModeler
+ElecWireLight                CATIBuild           	        libCATEleModeler
+#
+ElecBundleSegmentE           CATIEhiBundleSegment           libEHIModeler
+ElecBundleSegmentE           CATIBuild                      libEHIModeler
+#
+ASMPRODUCT                   CATIEhiFactory	                libEHIModeler
+ASMPRODUCT	                 CATIEHIInternalFactory			libEHIModeler
+#
+ElecBundleSegmentCnx         CATIElecBundleSegmentCnx       libCATEleModeler
+#
+ElecBundleSegmentExtremity_node CATINavigModify             libCATEleModeler
+#
+ElecGeoBundleE                CATIEhiGeoBundle              libEHIModeler
+#
+#                               Pour le routage ....
+ElecBundleSegmentCnx          CATIElecBundleJunction        libEHIModeler
+#
+# ---- CAA2 - Ehi - V5R8
+#
+ElecEqtPartE                    CATIEhiNetwork                   libEHIModeler
+ElecConShellE                   CATIEhiNetwork                   libEHIModeler
+ElecBackShellE                  CATIEhiNetwork                   libEHIModeler
+ElecContactE                    CATIEhiNetwork                   libEHIModeler
+ElecSicConE                     CATIEhiNetwork                   libEHIModeler
+ElecMicConE                     CATIEhiNetwork                   libEHIModeler
+ElecStudE                       CATIEhiNetwork                   libEHIModeler
+ElecTermStripE                  CATIEhiNetwork                   libEHIModeler
+ElecExtSpliceE                  CATIEhiNetwork                   libEHIModeler
+ElecTermBlockE                  CATIEhiNetwork                   libEHIModeler
+ElecBundleSegmentE              CATIEhiNetwork                   libEHIModeler
+ElecMountingEquipmentE                   CATIEhiNetwork                   libEHIModeler
+ElecBundleSegmentC              CATIEhiNetwork                   libEHIModeler
+#
+ElecBundleSegmentExtremity      CATIEhiNetworkExtremity          libEHIModeler
+ElecBundleCnctPt                CATIEhiNetworkExtremity          libEHIModeler
+ElecConnectorCnctPt             CATIEhiNetworkExtremity          libEHIModeler
+#
+# ---- CAA - Ehi - V5R9
+#
+ElecBundleSegmentExtremity      CATIEhiBnlSegmentExtremity       libEHIModeler
+ElecBppAttrE           	        CATIEhiPositionPoint             libEHIModeler
+#
+# ---- CAA2 - Ehi - fin
+#
+# --- multi segment R9-SP
+ElecBundleSegmentC           CATIEhiInternalSegment	               libEHIModeler
+ElecBundleSegmentC           CATIBuild                             libEHIModeler
+ElecRouteBody                CATIEhiSegmentBody  	               libEHIModeler
+ElecRouteBody								 CATIBuild													 libEHIModeler
+# ----
+# ------------------------------------------------------------------------------
+# ---------------------------- ELB : DEVICES CXR5 ------------------------------
+# ------------------------------------------------------------------------------
+#
+############
+# PRODUCTS #
+############
+#
+ASMPRODUCT   	                  CATIElbFactory                  libCATEleDevices
+ASMPRODUCT   	                  CATIElbSupport                  libCATEleDevices  CATEElbSupportPreCond_IsASMPrdElecSupport
+ASMPRODUCT   	                  CATIElbSupportServices          libCATEleDevices  CATEElbSupportPreCond_IsASMPrdElecSupportServices
+#
+ElecSicConE                     CATIElecSingleConnector         libCATEleDevices 
+ElecSicConE                     CATIElbSingleConnector          libCATEleDevices 
+ElecSicConE                     CATIElbSingleConnectorReference libCATEleDevices  CATElbDevicePreCond_Reference
+#
+ElecMicConE                     CATIElbMultiConnector           libCATEleDevices
+ElecMicConE                     CATIElbMultiConnectorReference  libCATEleDevices  CATElbDevicePreCond_Reference
+#
+ElecEqtPartE                    CATIElecEquipment               libCATEleDevices
+ElecEqtPartE                    CATIElbEquipment                libCATEleDevices
+ElecEqtPartE                    CATIElbEquipmentReference       libCATEleDevices  CATElbDevicePreCond_Reference
+#
+ElecConShellE                   CATIElecConnectorShell          libCATEleDevices
+ElecConShellE                   CATIElbConnectorShell           libCATEleDevices
+ElecConShellE                   CATIElbConnectorShellReference  libCATEleDevices  CATElbDevicePreCond_Reference
+#
+ElecContactE                    CATIElecContact                 libCATEleDevices
+ElecContactE                    CATIElbContact                  libCATEleDevices
+ElecContactE                    CATIElbContactReference         libCATEleDevices  CATElbDevicePreCond_Reference
+#
+ElecFillerPlugE                 CATIElecFillerPlug              libCATEleDevices
+ElecFillerPlugE                 CATIElbFillerPlug               libCATEleDevices
+ElecFillerPlugE                 CATIElbFillerPlugReference      libCATEleDevices  CATElbDevicePreCond_Reference
+#
+ElecStudE             			    CATIElbGroundStud               libCATEleDevices
+ElecStudE              			    CATIElbGroundStudReference      libCATEleDevices  CATElbDevicePreCond_Reference
+#
+ElecTermStripE              	  CATIElbTerminalStrip            libCATEleDevices
+ElecTermStripE              	  CATIElbTerminalStripReference   libCATEleDevices  CATElbDevicePreCond_Reference
+#
+ElecExtSpliceE              	  CATIElbExternalSplice           libCATEleDevices
+ElecExtSpliceE              	  CATIElbExternalSpliceReference  libCATEleDevices  CATElbDevicePreCond_Reference
+#
+ElecTermBlockE              	  CATIElbTerminalBlock            libCATEleDevices	
+ElecTermBlockE              	  CATIElbTerminalBlockReference   libCATEleDevices  CATElbDevicePreCond_Reference
+#
+ElecBackShellE                  CATIElecBackShell               libCATEleDevices
+ElecBackShellE              	  CATIElbBackShell                libCATEleDevices
+ElecBackShellE              	  CATIElbBackShellReference       libCATEleDevices  CATElbDevicePreCond_Reference
+#
+ElecIntSpliceE              	  CATIElecInternalSplice          libCATEleDevices
+ElecIntSpliceE              	  CATIElbInternalSplice           libCATEleDevices
+ElecIntSpliceE              	  CATIElbInternalSpliceReference  libCATEleDevices  CATElbDevicePreCond_Reference
+#
+ElecMountingEquipmentE	        CATIElbMountingEquipment	          libCATEleDevices
+ElecMountingEquipmentE	        CATIElbMountingEquipmentReference	  libCATEleDevices  CATElbDevicePreCond_Reference
+#
+ElecDeviceE	                    CATIElbDeviceInstance	          libCATEleDevices
+ElecMountingEquipmentE          CATIElbDeviceInstance             libCATEleDevices
+ElecMicConE                     CATIElbDeviceInstance             libCATEleDevices
+#
+# ----------------------------  CATIElecConnectorPart ---------------------------
+#                               ---------------------
+ElecSicConE                     CATIElecConnectorPart           libCATEleDevices	
+ElecMicConE                     CATIElecConnectorPart           libCATEleDevices	
+ElecExtSpliceE                  CATIElecConnectorPart           libCATEleDevices	
+ElecIntSpliceE                  CATIElecConnectorPart           libCATEleDevices
+ElecTermBlockE                  CATIElecConnectorPart           libCATEleDevices	
+ElecTermStripE                  CATIElecConnectorPart           libCATEleDevices	
+ElecStudE                       CATIElecConnectorPart           libCATEleDevices
+#
+# ----------------------------  CATIElecNavigateObject --------------------------
+#                               ----------------------
+ElecEqtPartE             		  CATIElecNavigateObject          libCATEleDevices
+ElecConShellE              		CATIElecNavigateObject          libCATEleDevices
+ElecSicConE               		CATIElecNavigateObject          libCATEleDevices
+ElecMicConE                   CATIElecNavigateObject          libCATEleDevices
+ElecStudE                    	CATIElecNavigateObject          libCATEleDevices
+ElecTermStripE              	CATIElecNavigateObject          libCATEleDevices
+ElecExtSpliceE              	CATIElecNavigateObject          libCATEleDevices
+ElecIntSpliceE              	CATIElecNavigateObject          libCATEleDevices
+ElecTermBlockE              	CATIElecNavigateObject          libCATEleDevices
+ElecContactE              		CATIElecNavigateObject          libCATEleDevices
+ElecFillerPlugE              	CATIElecNavigateObject          libCATEleDevices
+ElecBackShellE              	CATIElecNavigateObject          libCATEleDevices
+ElecMountingEquipmentE        CATIElecNavigateObject          libCATEleDevices
+#
+# ----------------------------  CATIElecDevice  ---------------------------------
+#                               --------------
+ElecEqtPartE                    CATIElecDevice                  libCATEleModeler
+ElecConShellE                   CATIElecDevice                  libCATEleModeler
+ElecSicConE                     CATIElecDevice                  libCATEleModeler
+ElecMicConE                     CATIElecDevice                  libCATEleModeler
+ElecStudE              	        CATIElecDevice                  libCATEleModeler
+ElecTermStripE                  CATIElecDevice                  libCATEleModeler
+ElecExtSpliceE                  CATIElecDevice                  libCATEleModeler
+ElecIntSpliceE         	        CATIElecDevice                  libCATEleModeler
+ElecTermBlockE                  CATIElecDevice                  libCATEleModeler
+ElecContactE                    CATIElecDevice                  libCATEleModeler
+ElecFillerPlugE                 CATIElecDevice                  libCATEleModeler
+ElecBackShellE         	        CATIElecDevice                  libCATEleModeler
+ElecMountingEquipmentE          CATIElecDevice                  libCATEleModeler
+#
+# ----------------------------  CATIElecFnctDevice  ---------------------------------
+#                               --------------
+ElecFnctDevice                  CATIElecFnctDevice              libCATEleModeler
+#
+# ----------------------------  CATIElecAttrAccess  -----------------------------
+#                               ------------------
+ElecBundleSegmentExtremityE		CATIElecAttrAccess              libCATEleModeler
+ElecEqtPartE					        CATIElecAttrAccess              libCATEleModeler
+ElecConShellE					        CATIElecAttrAccess              libCATEleModeler
+ElecSicConE               		CATIElecAttrAccess              libCATEleModeler
+ElecMicConE               		CATIElecAttrAccess              libCATEleModeler
+ElecStudE              			  CATIElecAttrAccess              libCATEleModeler
+ElecTermStripE              	CATIElecAttrAccess              libCATEleModeler
+ElecExtSpliceE              	CATIElecAttrAccess              libCATEleModeler
+ElecIntSpliceE              	CATIElecAttrAccess              libCATEleModeler
+ElecTermBlockE              	CATIElecAttrAccess              libCATEleModeler
+ElecContactE              		CATIElecAttrAccess              libCATEleModeler
+ElecFillerPlugE              	CATIElecAttrAccess              libCATEleModeler
+ElecBackShellE              	CATIElecAttrAccess              libCATEleModeler
+ElecMountingEquipmentE					      CATIElecAttrAccess              libCATEleModeler
+#
+# ----------------------------  CATIElecObject  ---------------------------------
+#                               --------------
+ElecEqtPartE              		CATIElecObject                  libCATEleModeler
+ElecConShellE              		CATIElecObject                  libCATEleModeler
+ElecSicConE					        	CATIElecObject                  libCATEleModeler
+ElecMicConE					        	CATIElecObject                  libCATEleModeler
+ElecStudE              			  CATIElecObject                  libCATEleModeler
+ElecTermStripE              	CATIElecObject                  libCATEleModeler
+ElecExtSpliceE              	CATIElecObject                  libCATEleModeler
+ElecIntSpliceE              	CATIElecObject                  libCATEleModeler
+ElecTermBlockE              	CATIElecObject                  libCATEleModeler
+ElecContactE					        CATIElecObject                  libCATEleModeler
+ElecFillerPlugE              	CATIElecObject                  libCATEleModeler
+ElecBackShellE              	CATIElecObject                  libCATEleModeler
+ElecLogTermLight              CATIElecObject                  libCATEleModeler
+ElecMountingEquipmentE             		CATIElecObject                  libCATEleModeler
+
+#
+# ----------------------------  CATIElecEntity  ---------------------------------
+#                               --------------
+ElecEqtPartE					        CATIElecEntity                  libCATEleModeler
+ElecConShellE					        CATIElecEntity                  libCATEleModeler
+ElecSicConE						        CATIElecEntity                  libCATEleModeler
+ElecMicConE						        CATIElecEntity                  libCATEleModeler
+ElecStudE              			  CATIElecEntity                  libCATEleModeler
+ElecTermStripE              	CATIElecEntity                  libCATEleModeler
+ElecExtSpliceE              	CATIElecEntity                  libCATEleModeler
+ElecIntSpliceE              	CATIElecEntity                  libCATEleModeler
+ElecTermBlockE              	CATIElecEntity                  libCATEleModeler
+ElecContactE				        	CATIElecEntity                  libCATEleModeler
+ElecFillerPlugE              	CATIElecEntity                  libCATEleModeler
+ElecBackShellE              	CATIElecEntity                  libCATEleModeler
+ElecLogTermLight             	CATIElecEntity                  libCATEleModeler
+ElecMountingEquipmentE				        CATIElecEntity                  libCATEleModeler
+
+#
+#
+##############
+# CONNECTORS #
+##############
+#
+ElecCavity						CATIElecCavity                  libCATEleDevices
+ElecCavity 						CATIElbCavity                   libCATEleDevices
+#
+ElecTermination	                CATIElecTermination             libCATEleDevices
+ElecTermination	                CATIElbTermination              libCATEleDevices
+#
+ElecTerminationCst				CATIElecTerminationCst          libCATEleDevices
+ElecTerminationCst				CATIElbTerminationCst           libCATEleDevices
+#
+ElecCavityCnctPt			        	CATIElecCavityCnctPt            libCATEleDevices
+ElecCavityCnctPt                CATIElbCavityCnctPt             libCATEleDevices
+#
+ElecShellCnctPt			        	  CATIElecShellCnctPt              libCATEleDevices
+ElecShellCnctPt                 CATIElbShellCnctPt               libCATEleDevices
+#
+ElecBundleCnctPt                CATIElecBundleCnctPt            libCATEleDevices
+ElecBundleCnctPt                CATIElbBundleCnctPt             libCATEleDevices
+#
+ElecConnectorCnctPt             CATIElecConnectorCnctPt         libCATEleDevices
+ElecConnectorCnctPt             CATIElbConnectorCnctPt          libCATEleDevices
+#
+ElecBackShellCnctPt             CATIElecBackShellCnctPt         libCATEleDevices
+ElecBackShellCnctPt             CATIElbBackShellCnctPt          libCATEleDevices
+#
+ElecLogicalTermination          CATIElbLogicalTermination       libCATEleDevices
+#
+# Ajouter dans l'arbre produit un noeud regroupant les connectors electriques sous un device
+# ------------------------------------------------------------------------------------------
+#
+CATElecConnectorContainer_node  CATINavigModify                  libCATEleModeler
+CATElecConnectorContainer       CATINavigateObject               libCATEleModeler
+CATElecConnectorContainer       CATIAsmNavigateStruct            libCATEleModeler
+
+CATElecNoLicenceContainer_node  CATINavigModify                  libCATEleModeler
+CATElecNoLicenceContainer       CATINavigateObject               libCATEleModeler
+CATElecNoLicenceContainer       CATIAsmNavigateStruct            libCATEleModeler
+
+
+#
+# ----------------------------  CATIElecDeviceConnector  -------------------------
+#                               -----------------------
+ElecCavity 						CATIElecDeviceConnector         libCATEleModeler
+ElecTermination	                CATIElecDeviceConnector         libCATEleModeler
+ElecTerminationCst				CATIElecDeviceConnector         libCATEleModeler
+ElecLogicalTermination          CATIElecDeviceConnector         libCATEleModeler
+ElecCavityCnctPt                CATIElecDeviceConnector         libCATEleModeler
+ElecShellCnctPt                 CATIElecDeviceConnector         libCATEleModeler
+ElecBundleCnctPt                CATIElecDeviceConnector         libCATEleModeler
+ElecConnectorCnctPt             CATIElecDeviceConnector         libCATEleModeler
+ElecBackShellCnctPt             CATIElecDeviceConnector         libCATEleModeler
+#
+# ----------------------------  CATINavigateObject  ------------------------------
+#                               ------------------
+ElecCavity 						CATINavigateObject              libCATEleModeler
+ElecTermination	                CATINavigateObject              libCATEleModeler
+ElecTerminationCst				CATINavigateObject              libCATEleModeler
+ElecCavityCnctPt                CATINavigateObject              libCATEleModeler
+ElecShellCnctPt                 CATINavigateObject              libCATEleModeler
+ElecBundleCnctPt                CATINavigateObject              libCATEleModeler
+ElecConnectorCnctPt             CATINavigateObject              libCATEleModeler
+ElecBackShellCnctPt             CATINavigateObject              libCATEleModeler
+#
+# ----------------------------  CATINavigModify  ---------------------------------
+#                               ---------------
+ElecCavity_node	                CATINavigModify                	libCATEleModeler
+ElecTermination_node            CATINavigModify                 libCATEleModeler
+ElecTerminationCst_node	        CATINavigModify                 libCATEleModeler
+ElecCavityCnctPt_node           CATINavigModify                 libCATEleModeler
+ElecShellCnctPt_node            CATINavigModify                 libCATEleModeler
+ElecBundleCnctPt_node           CATINavigModify                 libCATEleModeler
+ElecConnectorCnctPt_node        CATINavigModify                 libCATEleModeler
+ElecBackShellCnctPt_node        CATINavigModify                 libCATEleModeler
+ElecWireGroup_node              CATINavigModify                 libCATEleModeler
+#
+# ----------------------------  CATIElecAttrAccess  ------------------------------
+#                               ------------------
+ElecBppAttrE					CATIElecAttrAccess				libCATEleModeler
+ElecCavity 						CATIElecAttrAccess				libCATEleModeler
+ElecTermination	                CATIElecAttrAccess              libCATEleModeler
+ElecTerminationCst				CATIElecAttrAccess				libCATEleModeler
+ElecLogicalTermination          CATIElecAttrAccess              libCATEleModeler
+ElecCavityCnctPt                CATIElecAttrAccess              libCATEleModeler
+ElecShellCnctPt                 CATIElecAttrAccess              libCATEleModeler
+ElecBundleCnctPt                CATIElecAttrAccess              libCATEleModeler
+ElecConnectorCnctPt             CATIElecAttrAccess              libCATEleModeler
+ElecBackShellCnctPt             CATIElecAttrAccess              libCATEleModeler
+#
+###############
+# CONNECTIONS #
+###############
+#
+ElecAssCnx                      CATIElecAssConnection           libCATEleModeler
+#
+ElecMatingCnx                   CATIElecMatingConnection        libCATEleModeler
+#
+# ----------------------------  CATICstChanged  ---------------------------------
+#                               --------------
+ElecRelationCnx                 CATICstChanged                  libCATEleModeler
+ElecMatingCnx                   CATICstChanged                  libCATEleModeler
+ElecAssCnx                      CATICstChanged                  libCATEleModeler
+ElecPotentialCnx                CATICstChanged                  libCATEleModeler
+ElecBundleSegmentCnx            CATICstChanged                  libCATEleModeler
+#
+# ----------------------------  CATIElecAttrAccess  -----------------------------
+#                               ------------------
+ElecAssCnx                      CATIElecAttrAccess              libCATEleModeler
+ElecPotentialCnx                CATIElecAttrAccess              libCATEleModeler
+ElecMatingCnx                   CATIElecAttrAccess              libCATEleModeler
+ElecRelationCnx                 CATIElecAttrAccess              libCATEleModeler
+#
+# ----------------------------  CATIElecObject  ---------------------------------
+#                               --------------
+ElecAssCnx                      CATIElecObject                  libCATEleModeler
+ElecPotentialCnx                CATIElecObject                  libCATEleModeler
+ElecMatingCnx                   CATIElecObject                  libCATEleModeler
+ElecRelationCnx                 CATIElecObject                  libCATEleModeler
+#
+# ----------------------------  CATIElecEntity  ---------------------------------
+#                               --------------
+ElecAssCnx                      CATIElecEntity                  libCATEleModeler
+ElecPotentialCnx                CATIElecEntity                  libCATEleModeler
+ElecMatingCnx                   CATIElecEntity                  libCATEleModeler
+ElecNetworkExtremityCnx			CATIElecEntity                  libCATEleModeler
+ElecRelationCnx                 CATIElecEntity                  libCATEleModeler
+ElecSchResCnx					CATIElecEntity                  libCATEleModeler
+#
+#
+# ------------------------------------------------------------------------------
+# ---------------------------------- EFD ---------------------------------------
+# ------------------------------------------------------------------------------
+#
+#
+ElecFnctCon			    CATIEfdConnector				libCATEFDModeler
+ElecFnctCntPt			CATIEfdContactPoint				libCATEFDModeler
+ElecFnctEqt			    CATIEfdEquipment				libCATEFDModeler
+CATProdCont				CATIEfdFactory					libCATEFDModeler
+ElecGroupSignal			CATIEfdGroupSignal				libCATEFDModeler
+ElecGroupSignal			CATIEfdMultiSheetSignal			libCATEFDModeler
+# ajout DDQ le 16/02/01 
+# but : faire adherer tous les signaux a CATIEfdMultiSheetSignal
+#       (necessite une precond)
+#       confirmer avec JRI
+ElecGroundSignal                CATIEfdMultiSheetSignal                 libCATEFDModeler  
+ElecShieldingSignal             CATIEfdMultiSheetSignal                 libCATEFDModeler  
+ElecVideoSignal                 CATIEfdMultiSheetSignal                 libCATEFDModeler  
+ElecPowerSignal                 CATIEfdMultiSheetSignal                 libCATEFDModeler   
+ElecCommandSignal               CATIEfdMultiSheetSignal                 libCATEFDModeler 
+# fin ajout DDQ le 16/02/01 
+ElecOffSheet			CATIEfdOffSheetCompatibility	libCATEFDModeler
+ElecOffSheet			CATIEfdOffSheet					libCATEFDModeler
+ElecOffSheet			CATIAlias						libCATEFDModeler
+ElecOffSheetCnx			CATIEfdOffSheetLink				libCATEFDModeler
+ElecGroupSignal         CATIEfdSignal                   libCATEFDModeler
+ElecGroundSignal        CATIEfdSignal                   libCATEFDModeler
+ElecShieldingSignal     CATIEfdSignal                   libCATEFDModeler
+ElecVideoSignal         CATIEfdSignal                   libCATEFDModeler
+ElecPowerSignal         CATIEfdSignal                   libCATEFDModeler
+ElecCommandSignal       CATIEfdSignal                   libCATEFDModeler
+ElecSignalExtremity		CATIEfdSignalExtremity			libCATEFDModeler
+ElecSystem				CATIEfdSignalResolution			libCATEFDModeler
+ElecSystem				CATIEfdSystem					libCATEFDModeler
+
+
+#
+# ------------------------------------------------------------------------------
+# ------------------------ Object User View pour CKE ---------------------------
+# ------------------------------------------------------------------------------
+
+
+#
+# ----------------------------  Dynamic Add of Types  ----------------------------
+#
+CATElecCkeLibrary            CATIAddLibrary                    libElecCkeUserView
+CATElecCkeLibrary            CATICreateInstance                libElecCkeUserView
+
+
+CATElecPackageElectricalFunctionsExt            CATIAddLibrary                    libElecCkeUserView
+CATElecPackageElectricalFunctionsExt            CATICreateInstance                libElecCkeUserView
+
+ElecBundleSegmentC            CATICkeFeature                libElecCkeUserView
+
+#CATElecPackageVisualModeExt            CATIAddLibrary                    libElecCkeUserView
+#CATElecPackageVisualModeExt            CATICreateInstance                libElecCkeUserView
+
+
+# ------------------------------------------------------------------------------
+# ------------------------		Exposed Object View	 ---------------------------
+# ------------------------------------------------------------------------------
+#
+CATElecPackageElectricalExt			CATIAddTypeLibrary			libElecCkeUserView
+CATElecPackageElectricalExt			CATICreateInstance			libElecCkeUserView
+
+CATElecPackageElectricalUserExt			CATIAddTypeLibrary			libElecCkeUserView
+CATElecPackageElectricalUserExt			CATICreateInstance			libElecCkeUserView
+
+#
+# ------------------------------------------------------------------------------
+# ---------------------------- EDI : SCHEMATIC R7 ------------------------------
+# ------------------------------------------------------------------------------
+#
+############
+# Internal #
+############
+#
+# ---------------------------- Object Navigator --------------------------------
+#
+ElecSchWidePinCtr_node         CATINavigModify                libCATEleModeler
+ElecSchPinCtr_node             CATINavigModify                libCATEleModeler
+#          
+# ---------------------------- CATIElecObject  ---------------------------------
+ElecNetworkExtremityCnx  		   CATIElecObject                 libCATEleModeler
+ElecSchProduct                 CATIElecObject                 libCATEleModeler            
+ElecSchCnx                     CATIElecObject                 libCATEleModeler           
+ElecSchCtr                     CATIElecObject                 libCATEleModeler          
+#
+# ---------------------------- CATIElecEntity  ---------------------------------
+ElecSchProduct                 CATIElecEntity                 libCATEleModeler         
+ElecSchCnx                     CATIElecEntity                 libCATEleModeler      
+ElecSchCtr                     CATIElecEntity                 libCATEleModeler       
+#
+#
+#
+# ----------------------- CATIArrSpatialDomain --------------------------------
+CATElecDomain             CATIArrSpatialDomain                 libCATEleModeler
+#
+# ----------------------    CATIEleDocServices          ------------------------
+CATDocument					CATIEleDocServices                  libCATEleModeler
+#
+# ----------------------        CATIConnector          ------------------------
+ElecPhysicalCtr					        CATIConnector                  libCATEleModeler
+ElecPhysicalCtrLight            CATIConnector                  libCATEleModeler
+ElecLogicalCtr	                CATIConnector                  libCATEleModeler
+#
+# ----------------------        CATIElecAllConnection    ------------------------
+ElecAssCnx		                CATIElecAllConnection          libCATEleModeler
+ElecReservationCnx              CATIElecAllConnection          libCATEleModeler
+ElecFunctionalCnx               CATIElecAllConnection          libCATEleModeler
+ElecPhysicalCnx	                CATIElecAllConnection          libCATEleModeler
+ElecPhysicalCnxLight	        CATIElecAllConnection          libCATEleModeler
+ElecLogicalCnx	                CATIElecAllConnection          libCATEleModeler
+ElecSchCnx		                CATIElecAllConnection          libCATEleModeler
+ElecSchResCnx	                CATIElecAllConnection          libCATEleModeler
+#
+# ---------------------- Interfaces pour la navigation ------------------------
+ElecSchSwitch            CATIElec2DSwitch                      libCATEleModeler
+ElecSchCable             CATIElec2DCable                       libCATEleModeler
+ElecSchCableExtremityCtr CATIElec2DCableExtremity              libCATEleModeler
+ElecSchEquipment         CATIElec2DEquipment                   libCATEleModeler
+ElecSchJunctionBox       CATIElec2DJunctionBox                 libCATEleModeler
+ElecSchPinCtr            CATIElec2DPin                         libCATEleModeler
+ElecSchPlug              CATIElec2DPlug                        libCATEleModeler
+ElecSchSocket            CATIElec2DSocket                      libCATEleModeler
+ElecSchTerminalBoard     CATIElec2DTerminalBoard               libCATEleModeler
+ElecSchWidePinCtr        CATIElec2DWidePin                     libCATEleModeler
+ElecSchWire              CATIElec2DWire                        libCATEleModeler
+ElecSchWireExtremityCtr  CATIElec2DWireExtremity               libCATEleModeler
+ElecSchAssemblyCtr       CATIElec2DAssemblyCtr                 libCATEleModeler
+ElecSchMatingCtr         CATIElec2DMatingCtr                   libCATEleModeler
+#
+# ------------------------------------------------------------------------------
+# Ouvertures logicielles
+# ------------------------------------------------------------------------------
+
+CATElecSoftwareOpennessImpl         CATIEleUipFilteringCriteriaInternal libCATElecProcessInterfacing
+CATElecSoftwareOpennessImpl         CATIEleUipSystemsInternal					  libCATElecProcessInterfacing
+CATElecSoftwareOpennessImpl         CATIElbUipDevicesInternal					  libCATElecProcessInterfacing
+CATElecSoftwareOpennessImpl         CATIEwrUipWiresInternal						  libCATElecProcessInterfacing
+CATElecSoftwareOpennessImpl         CATIEwrUipEquipotentialsInternal    libCATElecProcessInterfacing
+
+#
+#
+#  JRI R8 SP3 Missing Entries in Dictionary
+#
+#
+#CAT_*ELEC_E3D_BNS			CATIInstance				libElecCkeUserView      
+ElecSignal					CATIInstance				libCATEleModeler   
+# 
+#
+#  ---   Dev R9 SP3 -- Multiple Bundle Segment  ---
+#
+# 
+ElecBundleSegmentE           CATIEhiBundleSegmentFamily     libEHIModeler
+ElecMultipleSegmentsE        CATIEhiBundleSegmentFamily     libEHIModeler
+#
+#
+ElecMultipleSegmentsE        CATIEhiMultipleSegments        libEHIModeler
+#
+ElecBundleSegmentC           CATIElecEntity					libCATEleModeler
+ElecMultipleSegmentsE        CATIElecEntity					libCATEleModeler
+ElecCurve					 CATIElecEntity					libCATEleModeler
+#
+ElecBundleSegmentC			 CATIParmPublisher				libCATEleModeler
+ElecBundleSegmentC			 CATIArrNetworkArc				libCATEleModeler
+ElecBundleSegmentC			 CATICstChanged					libCATEleModeler
+ElecBundleSegmentC			 CATIElecBundleSegment			libEHIModeler
+ElecBundleSegmentC			 CATIEhiBundleSegment			libEHIModeler
+ElecBundleSegmentC			 CATIElecComputedBundleSegment	libCATEleRouting
+ElecBundleSegmentC			 CATIElecVisuServ				libEHIModeler
+#
+ElecBundleSegmentC           CATIElecObject					libCATEleModeler
+ElecMultipleSegmentsE        CATIElecObject					libCATEleModeler
+ElecCurve					 CATIElecObject					libCATEleModeler
+#
+ElecBundleSegmentC			 CATIElecAttrAccess				libCATEleModeler
+#
+ElecMultipleSegmentsE        CATIElecNavigateObject			libEHIModeler
+ElecBundleSegmentC			 CATINavigateObject				libEHIModeler
+ElecBundleSegmentC			 CATIRedrawEvent 				libEHIModeler
+#
+ElecBundleSegmentC_node		 CATINavigModify				libEHIModeler
+#
+# ElecMultipleSegmentsE        CATIBuild						libEHIModeler
+#
+ElecLogicalCtrLight			 CATIConnector					libCATEleModeler
+#-------------------------- FormBoard -------------------------------------------
+ElecFormboardParameters      CATIElecFmbdParam              libCATEleModeler
+
+# PVN
+ElecWireCnx	                 CATI3DGeoVisu	                libCATEleModeler
+CATElecWireCnxContainer		  CATI3DGeoVisu					libCATEleModeler
+
+# ----- Protections ----
+ElecProtectionE	             CATIElecObject					libCATEleModeler
+ElecProtectionE				 CATIElecEntity					libCATEleModeler
+ElecProtectionE				 CATIElecAttrAccess             libCATEleModeler
+ElecProtectionE				 CATIEhiProtection				libEHIModeler
+
+# ------------------------internal protection reference------------------------------------
+EleRefInternalProtectionE                     CATIEleProtectionReference   libCATEleDevices
+
+# ------------------------internal protection instance-------------------------------------
+ElecInternalProtection                            CATIEhiProtection                              libEHIModeler
+ElecInternalProtection                            CATIEleInternalProtection                      libElecHarnessProtection
+ElecInternalProtection                            CATIVisProperties                     	     libElecHarnessProtection
+ElecInternalProtection                            CATICCPable                                    libEHIModeler
+ElecInternalProtection                            CATICutAndPastable                             libElecHarnessProtection
+ElecInternalProtection                            CATISpecVisibleChild                           libElecHarnessProtection
+  
+  
+EhiSweep                                         CATIEleInternalProtection3DRep                  libElecHarnessProtection
+EhiSweep                                         CATICCPable                                     libEHIModeler
+EhiSweep                                         CATICutAndPastable                              libElecHarnessProtection
+
+ElecProtectionSet                                CATIEleInternalProtectionSet                    libElecHarnessProtection
+ElecProtectionSet                                CATICCPable                                     libEHIModeler
+
+ElecTapeProtection                               CATIEleInternalAdaptiveProtection               libElecHarnessProtection
+ElecAdaptiveProtection                           CATIEleInternalAdaptiveProtection               libElecHarnessProtection
+
+ElecProtectionSweep                              CATIGSMSweepType       libElecHarnessProtection                 
+EhiSweep                                         CATIBuild              libElecHarnessProtection  
+#
+#  ------------------  JRI Missing Ties Achi R10 ----------------------
+#
+ElecBundleLink               CATIConnection					libCATEleModeler
+ElecBundleLink               CATIPublicationImpacts			libCATEleModeler
+ElecBundleSegmentC           CATIConnection					libCATEleModeler
+ElecBundleSegmentC           CATIPublicationImpacts			libCATEleModeler
+ElecFromToCnx                CATIConnection					libCATEleModeler
+ElecFromToCnx                CATIPublicationImpacts			libCATEleModeler
+ElecNetworkCnx               CATIConnection					libCATEleModeler
+ElecNetworkCnx               CATIPublicationImpacts			libCATEleModeler
+ElecNetworkExtremityCnx      CATIConnection					libCATEleModeler
+ElecNetworkExtremityCnx      CATIPublicationImpacts			libCATEleModeler
+ElecOffSheetCnx				 CATIConnection					libCATEleModeler
+ElecOffSheetCnx			     CATIPublicationImpacts			libCATEleModeler
+ElecRealizeCnx				 CATIConnection					libCATEleModeler
+ElecRealizeCnx			     CATIPublicationImpacts			libCATEleModeler
+ElecReserveCnx				 CATIConnection					libCATEleModeler
+ElecReserveCnx			     CATIPublicationImpacts			libCATEleModeler
+ElecSchResCnx				 CATIConnection					libCATEleModeler
+ElecSchResCnx			     CATIPublicationImpacts			libCATEleModeler
+
+ElecRelationCnx				 CATIConnection					libCATEleModeler
+ElecRelationCnx			     CATIPublicationImpacts			libCATEleModeler
+ElecMatingCnx				 CATIConnection					libCATEleModeler
+ElecMatingCnx			     CATIPublicationImpacts			libCATEleModeler
+ElecAssCnx					 CATIConnection					libCATEleModeler
+ElecAssCnx				     CATIPublicationImpacts			libCATEleModeler
+ElecPotentialCnx			 CATIConnection					libCATEleModeler
+ElecPotentialCnx		     CATIPublicationImpacts			libCATEleModeler
+ElecWireCnx					 CATIConnection					libCATEleModeler
+ElecWireCnx				     CATIPublicationImpacts			libCATEleModeler
+ElecSignalRouteCnx			 CATIConnection					libCATEleModeler
+ElecSignalRouteCnx		     CATIPublicationImpacts			libCATEleModeler
+ElecBundleSegmentCnx		 CATIConnection					libCATEleModeler
+ElecBundleSegmentCnx	     CATIPublicationImpacts			libCATEleModeler
+ElecIntSpliceCnx			  CATIConnection					libCATEleModeler
+ElecIntSpliceCnx		    CATIPublicationImpacts			libCATEleModeler
+#
+ElecSignalRoute					CATISpecObject				libCATEleModeler
+ElecSignalRoute					CATIProperty				libCATEleModeler
+ElecSignalRoute					CATIUuid					libCATEleModeler
+ElecWire						    CATISpecObject				libCATEleModeler
+ElecWire						    CATIProperty				libCATEleModeler
+ElecWire						    CATIUuid					libCATEleModeler
+ElecPhysicalCtr					LifeCycleObject				libCATEleModeler
+ElecPhysicalCtr					CATIPrdInverseLink			libCATEleModeler
+ElecPhysicalCtr					CATICstChanged				libCATEleModeler
+ElecPhysicalCtr					CATIAlias					libCATEleModeler
+ElecPhysicalCtr					CATIProperty				libCATEleModeler
+ElecPhysicalCtr					CATIUuid					libCATEleModeler
+ElecPhysicalCtr					CATISpecObject				libCATEleModeler
+ElecPhysicalCtr					CATIBuild					libCATEleModeler
+ElecPhysicalCtrLight		LifeCycleObject				libCATEleModeler
+ElecPhysicalCtrLight		CATIPrdInverseLink			libCATEleModeler
+ElecPhysicalCtrLight		CATICstChanged				libCATEleModeler
+ElecPhysicalCtrLight		CATIAlias					libCATEleModeler
+ElecPhysicalCtrLight		CATIProperty				libCATEleModeler
+ElecPhysicalCtrLight		CATIUuid					libCATEleModeler
+ElecPhysicalCtrLight		CATISpecObject				libCATEleModeler
+ElecPhysicalCtrLight		CATIBuild					libCATEleModeler
+ElecBundle						  CATIInstanceAttributes		libCATEleModeler
+ElecBundle						  CATIAttributesDescription	libCATEleModeler
+ElecBundle						  CATIDynamicAttributes		libCATEleModeler
+ElecSystem						  CATIInstanceAttributes		libCATEleModeler
+ElecSystem						  CATIAttributesDescription	libCATEleModeler
+ElecSystem						  CATIDynamicAttributes		libCATEleModeler
+ElecFnctCon						  CATIInstanceAttributes		libCATEleModeler
+ElecFnctCon						  CATIAttributesDescription	libCATEleModeler
+ElecFnctCon						  CATIDynamicAttributes		libCATEleModeler
+ElecFnctEqt						  CATIInstanceAttributes		libCATEleModeler
+ElecFnctEqt						  CATIAttributesDescription	libCATEleModeler
+ElecFnctEqt						  CATIDynamicAttributes		libCATEleModeler
+ElecGroupSignal					CATIInstanceAttributes		libCATEleModeler
+ElecGroupSignal					CATIAttributesDescription	libCATEleModeler
+ElecGroupSignal					CATIDynamicAttributes		libCATEleModeler
+ElecGroundSignal				CATIInstanceAttributes		libCATEleModeler
+ElecGroundSignal				CATIAttributesDescription	libCATEleModeler
+ElecGroundSignal				CATIDynamicAttributes		libCATEleModeler
+ElecShieldingSignal			CATIInstanceAttributes		libCATEleModeler
+ElecShieldingSignal			CATIAttributesDescription	libCATEleModeler
+ElecShieldingSignal			CATIDynamicAttributes		libCATEleModeler
+ElecVideoSignal					CATIInstanceAttributes		libCATEleModeler
+ElecVideoSignal					CATIAttributesDescription	libCATEleModeler
+ElecVideoSignal					CATIDynamicAttributes		libCATEleModeler
+ElecPowerSignal					CATIInstanceAttributes		libCATEleModeler
+ElecPowerSignal					CATIAttributesDescription	libCATEleModeler
+ElecPowerSignal					CATIDynamicAttributes		libCATEleModeler
+ElecCommandSignal 			CATIInstanceAttributes		libCATEleModeler
+ElecCommandSignal				CATIAttributesDescription	libCATEleModeler
+ElecCommandSignal				CATIDynamicAttributes		libCATEleModeler          
+ElecSignalRoute					CATIInstanceAttributes		libCATEleModeler
+ElecSignalRoute					CATIAttributesDescription	libCATEleModeler
+ElecSignalRoute					CATIDynamicAttributes		libCATEleModeler
+ElecWire						    CATIInstanceAttributes		libCATEleModeler
+ElecWire						    CATIAttributesDescription	libCATEleModeler
+ElecWire						    CATIDynamicAttributes		libCATEleModeler
+//ElecWireGroup			      CATIInstanceAttributes		libCATEleModeler
+//ElecWireGroup			      CATIAttributesDescription	libCATEleModeler
+//ElecWireGroup			      CATIDynamicAttributes		libCATEleModeler
+
+ElecWireLight					  CATIInstanceAttributes		libCATEleModeler
+ElecWireLight					  CATIAttributesDescription	libCATEleModeler
+ElecWireLight					  CATIDynamicAttributes		libCATEleModeler
+ElecSchProduct					CATIInstanceAttributes		libCATEleModeler
+ElecSchProduct					CATIAttributesDescription	libCATEleModeler
+ElecSchProduct					CATIDynamicAttributes		libCATEleModeler
+
+#
+#  ------------------  LRO ----------------------
+#
+ElecFmbdE						CATIElecFmbdObject			libCATEleModeler
+ElecFmbdBundleSegmentE			CATIElecFmbdObject			libCATEleModeler
+ElecBundleSegmentE	    	    CATIEleBranchableRoute      libEHIModeler
+
+ElecBranchableC					CATIElecAttrAccess			libCATEleModeler
+ElecBranchableC					CATIElecObject				libCATEleModeler
+ElecBranchableC					CATIElecEntity				libCATEleModeler
+ElecBranchableC					CATIPublicationImpacts		libCATEleModeler
+ElecBranchableC					CATICstChanged				libCATEleModeler
+ElecBranchableC					CATIConnection				libCATEleModeler
+ElecBranchableC	    			CATIInstance                libCATEleModeler
+ElecBranchableC					CATIParmPublisher			libCATEleModeler
+ElecBranchableC					CATICSOFilter				libEHIModeler
+ElecBranchableC					CATICutAndPastable			libEHIModeler
+ElecBranchableC					CATI3DGeoVisu	            libEHIModeler
+ElecBranchableC		            CATIElec3DGeoVisu           libEHIModeler
+ElecBranchableC					CATIElecVisuServ			libEHIModeler
+ElecBranchableC					CATINavigateObject	        libEHIModeler
+ElecBranchableC					CATIEhiBranchable			libEHIModeler
+ElecBranchableC					CATIRedrawEvent 			libEHIModeler
+ElecBranchableC					CATIEleBranchableRoute 		libEHIModeler
+ElecBranchable_node				CATINavigModify				libEHIModeler
+ElecMultipleSegmentsE			CATIEhiMultiBranchable		libEHIModeler
+ElecBundleSegmentExtremity CATI3DGeoVisu	      libEHIModeler
+ElecBundleSegmentExtremity CATIElec3DGeoVisu    libEHIModeler
+ElecBundleSegmentExtremity CATINavigateObject   libEHIModeler
+
+#
+#  ------------------  PVN ----------------------
+#
+
+CATElec3DVisuSpliceImpl CATI3DGeoVisu   libCATEleModeler
+ElecIntSpliceE			CATIElec3DGeoVisu   libCATEleModeler
+GSMPoint                CATIElecPointOnSurface   libEHIModeler   CATElecPointSurfaceCond
+CATFeatCont				CATIElecPointOnSurfaceFactory     libEHIModeler
+
+
+# --- cleaner CATDUA 
+#
+# EHI_1 rule
+ElecRouteBody                CATICheckObject  	               libCATClnElecModeler
+ElecRouteBody                CATICleanObject  	               libCATClnElecModeler
+# EHI_2 rule 
+ElecMultipleSegmentsE        CATICheckObject  	               libCATClnElecModeler
+ElecMultipleSegmentsE        CATICleanObject  	               libCATClnElecModeler
+# EHI_3 rule 
+ElecGeoBundleE               CATICheckObject  	               libCATClnElecModeler
+ElecGeoBundleE			     CATICleanObject  	               libCATClnElecModeler
+# EHI_4 rule 
+ElecProtectionE              CATICheckObject  	               libCATClnElecModeler
+ElecProtectionE			     CATICleanObject  	               libCATClnElecModeler
+# EHI_5 rule 
+ElecBundleSegmentC           CATICheckObject  	               libCATClnElecModeler
+ElecBundleSegmentC		     CATICleanObject  	               libCATClnElecModeler
+# EHI_11 rule 
+ElecBranchableC              CATICheckObject  	               libCATClnElecModeler
+ElecBranchableC	   	         CATICleanObject  	               libCATClnElecModeler
+
+# EHI_13 rule 
+ElecBundleSegmentE           CATICheckObject  	               libCATClnElecModeler
+ElecBundleSegmentE           CATICleanObject  	               libCATClnElecModeler
+
+
+# EDL_1 rule 
+ElecEqtPartE                 CATICheckObject  	               libCATClnElecModeler
+ElecConShellE                CATICheckObject  	               libCATClnElecModeler
+ElecSicConE                  CATICheckObject  	               libCATClnElecModeler 
+ElecMicConE                  CATICheckObject  	               libCATClnElecModeler 
+ElecStudE                    CATICheckObject  	               libCATClnElecModeler
+ElecTermStripE               CATICheckObject  	               libCATClnElecModeler
+ElecExtSpliceE               CATICheckObject  	               libCATClnElecModeler
+ElecIntSpliceE               CATICheckObject  	               libCATClnElecModeler
+ElecTermBlockE               CATICheckObject  	               libCATClnElecModeler
+ElecContactE                 CATICheckObject  	               libCATClnElecModeler 
+ElecFillerPlugE              CATICheckObject  	               libCATClnElecModeler
+ElecBackShellE               CATICheckObject  	               libCATClnElecModeler
+ElecMountingEquipmentE       CATICheckObject  	               libCATClnElecModeler
+#
+ElecEqtPartE                 CATICleanObject  	               libCATClnElecModeler
+ElecConShellE                CATICleanObject  	               libCATClnElecModeler
+ElecSicConE                  CATICleanObject  	               libCATClnElecModeler 
+ElecMicConE                  CATICleanObject  	               libCATClnElecModeler 
+ElecStudE                    CATICleanObject  	               libCATClnElecModeler
+ElecTermStripE               CATICleanObject  	               libCATClnElecModeler
+ElecExtSpliceE               CATICleanObject  	               libCATClnElecModeler
+ElecIntSpliceE               CATICleanObject  	               libCATClnElecModeler
+ElecTermBlockE               CATICleanObject  	               libCATClnElecModeler
+ElecContactE                 CATICleanObject  	               libCATClnElecModeler 
+ElecFillerPlugE              CATICleanObject  	               libCATClnElecModeler
+ElecBackShellE               CATICleanObject  	               libCATClnElecModeler
+ElecMountingEquipmentE       CATICleanObject  	               libCATClnElecModeler
+
+
+# EDL_2 rule
+ElecCavity                  CATICleanObject  	               libCATClnElecModeler
+ElecCavityCnctPt            CATICleanObject  	               libCATClnElecModeler
+ElecConnectorCnctPt         CATICleanObject  	               libCATClnElecModeler
+ElecBundleCnctPt            CATICleanObject  	               libCATClnElecModeler
+ElecBackShellCnctPt         CATICleanObject  	               libCATClnElecModeler
+ElecShellCnctPt             CATICleanObject  	               libCATClnElecModeler
+ElecTermination             CATICleanObject  	               libCATClnElecModeler
+ElecTerminationCst          CATICleanObject  	               libCATClnElecModeler
+
+ElecCavity                  CATICheckObject  	               libCATClnElecModeler
+ElecCavityCnctPt            CATICheckObject  	               libCATClnElecModeler
+ElecConnectorCnctPt         CATICheckObject  	               libCATClnElecModeler
+ElecBundleCnctPt            CATICheckObject  	               libCATClnElecModeler
+ElecBackShellCnctPt         CATICheckObject  	               libCATClnElecModeler
+ElecShellCnctPt             CATICheckObject  	               libCATClnElecModeler
+ElecTermination             CATICheckObject  	               libCATClnElecModeler
+ElecTerminationCst          CATICheckObject  	               libCATClnElecModeler
+
+CATEElecCleanerPluginType   CATIOsmCleanerSolver               libCATClnElecModeler
+
+#
+#
+#  ------------------  CATIAlias (EHI) ----------------------
+#
+ElecBranchableC					CATIAlias					libEHIModeler
+ElecBundleSegmentC				CATIAlias					libEHIModeler
+#  ------------------------- CATIElecWireGroup ------------------------------------
+#
+#
+ElecWireGroup               CATIElecWireGroup                 libCATEleModeler
+#
+#  ------------------------- CATIElecWireGroupInternal ----------------------------
+#
+ElecWireGroup               CATIElecWireGroupInternal         libCATEleModeler
+#
+#  ------------------------- CATIElecWireGroupExtremity ----------------------------
+#
+#
+ElecWireGroupExtremity	     CATIElecWireGroupExtremity	       libCATEleModeler
+#  ------------------  CATIEwrRouteSegment (MSA 25/11/2004)  ------------------
+#
+ElecBackShellE               CATIEwrRouteSegment               libCATEleModeler
+ElecBundleSegmentC           CATIEwrRouteSegment               libCATEleModeler
+ElecBundleSegmentE           CATIEwrRouteSegment               libCATEleModeler
+
+#  ------------------  CATICutAndPastable (AZL 09-07-2004) -------------
+#
+CATIAEleAttrAccessImpl	CATIAElectricalAttributeAccess	libCATEleModeler
+
+ElecWire					CATIPrdCSOFilter					   libCATEleModeler
+ElecWireLight				CATIPrdCSOFilter					   libCATEleModeler
+ElecWireGroup				CATIPrdCSOFilter					   libCATEleModeler
+
+
+#ElecBranchableC		CATIEhiFLEX		libCAAEhiFLEXImpl
+
+#--------------------------  Elec2DDrawing ---------------------------------
+Elec2DProxy                 CATIElec2DRepresentation            libCATEleModeler
+CATDrawing                  CATIEleDrawingServices              libCATEleModeler
+
+ElecBundleSegmentc          CATIElec2DRepresentable             libCATEleModeler
+ElecBundleSegmentE          CATIElec2DRepresentable             libCATEleModeler
+ElecSicConE                 CATIElec2DRepresentable             libCATEleModeler
+ElecWire                    CATIElec2DRepresentable             libCATEleModeler
+ElecWireLight               CATIElec2DRepresentable             libCATEleModeler
+
+ElecBundleSegmentc          CATIElecDecode2DRepresentation      libCATEleModeler
+ElecBundleSegmentE          CATIElecDecode2DRepresentation      libCATEleModeler
+ElecSicConE                 CATIElecDecode2DRepresentation      libCATEleModeler
+ElecWire                    CATIElecDecode2DRepresentation      libCATEleModeler
+ElecWireLight               CATIElecDecode2DRepresentation      libCATEleModeler
+
+
+#--------------------------  Ehi rib loft R18  ---------------------------------
+#
+EhiBundleSegmentRib           CATIEleBundleSegment3DRep   libEHIModeler 
+EhiBundleSegmntLoft           CATIEleBundleSegment3DRep   libEHIModeler 
+#
+ElecRouteBody                 CATICCPable                 libEHIModeler
+EhiBundleSegmentBody          CATICCPable                 libEHIModeler
+EhiBundleSegmentRib           CATICCPable                 libEHIModeler 
+EhiBundleSegmntLoft           CATICCPable                 libEHIModeler 
+#
+EhiBundleSegmentRib           CATICutAndPastable          libEHIModeler 
+EhiBundleSegmntLoft           CATICutAndPastable          libEHIModeler 
+#
+EhiBundleSegmentRib           CATISelectShow              libEHIModeler 
+EhiBundleSegmntLoft           CATISelectShow              libEHIModeler
+#
+#--------------------------  ExternalLinks ---------------------------------
+CATElecBehaviourCont            CATIExternalLinks               libCATEleModeler
+CATElecExternalLinkImpl         CATIExternalLink                libCATEleModeler
+CATElecExternalLinkImpl	        CATIExternalLinkValuate	        libCATEleModeler
+CATElecExternalLinkImpl	        CATIExternalSourceControl	    libCATEleModeler
+CATElecExternalLinkImpl	        CATIDocumentProxy	            libCATEleModeler
+
+# --- From V5R16SP5, Implementation of EHF, to avoid archi error.
+CATElecEgfExternalLinkExt       CATIExternalLink                libCATEleModeler
+CATElecEgfExternalLinkExt       CATIExternalLinkValuate         libCATEleModeler
+
+
+ElecContactE                 CATIElbContactInstance  	        libCATEleModeler 
+ElecFillerPlugE              CATIElbFillerPlugInstance			libCATEleModeler
+
+ElecCavity					CATICCPable					libCATEleDevices
+ElecTermination					CATICCPable					libCATEleDevices
+ElecTerminationCst					CATICCPable					libCATEleDevices
+ElecCavityCnctPt					CATICCPable					libCATEleDevices
+ElecBundleCnctPt					CATICCPable					libCATEleDevices
+ElecConnectorCnctPt					CATICCPable					libCATEleDevices
+ElecBackShellCnctPt					CATICCPable					libCATEleDevices
+ElecShellCnctPt					CATICCPable					libCATEleDevices
+# cvv 07:01:06 Added implementation of CATIInstance and CATIParmPublisher for Internal Protections
+ElecAdaptiveProtection        CATIInstance                libCATEleModeler
+ElecFixedProtection           CATIInstance                libCATEleModeler
+ElecTapeProtection            CATIInstance                libCATEleModeler
+ElecCorrugatedProtection      CATIInstance                libCATEleModeler
+ElecAdaptiveProtection        CATIParmPublisher           libCATEleModeler
+ElecFixedProtection           CATIParmPublisher           libCATEleModeler
+ElecTapeProtection            CATIParmPublisher           libCATEleModeler
+ElecCorrugatedProtection      CATIParmPublisher           libCATEleModeler
+
+# THE CATCAA2 WIZARDS HAS INSERTED CODE AT THE BOTTOM OF THIS FILE
+# YOU MAY HAVE TO RELOCATE THIS SOURCE IF COMPILATION FAILS
+# DO NOT EDIT :: THE CAA2 WIZARDS WILL ADD CODE HERE
+
+
+	ElecProtectionSet	CATICutAndPastable	libElecHarnessProtection
+
+
+CATElecNoLicenceContainer		CATICCPable					libCATEleDevices
+
+
+#CATElecNoLicenceContainer       CATIEdit						 libCATEleModeler
+
+ElecEqtPartE					CATIEleManageKweRule		libCATEleModeler
+
+GeometricalElement3D  CATIEhiMechanicalImport    libEHIModeler  CATEleEHIObjectPreCond
+
+# cvv 08:01:18 Added implementation of CATICkeFeautre and CATIParmPublisher for Internal protection reference
+# for R19 highlight "Define user attributes on Light Protection with Knowledge Parameters"
+EleRefInternalAdaptiveProtectionE         CATICkeFeature                libElecCkeUserView
+EleRefInternalFixedProtectionE            CATICkeFeature                libElecCkeUserView
+EleRefInternalTapeProtectionE			  CATICkeFeature                libElecCkeUserView
+EleRefInternalCorrugatedProtectionE       CATICkeFeature                libElecCkeUserView
+
+EleRefInternalAdaptiveProtectionE        CATIParmPublisher           libCATEleModeler
+EleRefInternalFixedProtectionE           CATIParmPublisher           libCATEleModeler
+EleRefInternalTapeProtectionE            CATIParmPublisher           libCATEleModeler
+EleRefInternalCorrugatedProtectionE      CATIParmPublisher           libCATEleModeler

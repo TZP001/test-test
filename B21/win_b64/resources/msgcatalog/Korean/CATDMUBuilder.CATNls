@@ -1,0 +1,101 @@
+INFO_HELP="
+CATDMUBuilder는 문서 목록에 해당되는 프로덕트를 빌드하고 관련 데이터가 있는
+              캐시를 공급합니다. \n
+사용법: \n
+   도움말 정보 검색:
+      CATDMUBuilder -h\n
+   프로덕트 빌드 및 캐시 공급:
+      CATDMUBuilder inputlocation
+                    [-db dbx -user user -spwd cryppwd -role role -server srv]
+                    [-static][-selins]
+                    -product dirprod [-prefix prefix]
+                    [-replacebycgr dircgr][-activate|-deactivate][-onlyone]
+                    [-nocache][-force][-copycache]\n
+   캐시 데이터 공급:
+      CATDMUBuilder inputlocation
+                    [-db dbx -user user -spwd cryppwd -role role -server srv]
+                    [-static][-selins]\n
+Windows 예제: \n
+   CATDMUBuilder -h
+   CATDMUBuilder c:\u\input.txt -product c:\proddir\n
+Unix 예제: \n
+   CATDMUBuilder -h
+   CATDMUBuilder /u/input1
+   CATDMUBuilder /u/input2 -user user1 -spwd user1pwd -role user1role -server server2\n
+인수: \n
+   -h                   : 도움말.
+   inputlocation        : 처리할 문서 목록을 정의합니다.
+                          다음의 경로가 될 수 있습니다.
+                          - 문서 목록을 포함하는 파일.
+                            행마다 하나의 문서 경로를 포함해야 합니다(결국
+                            'CATDLN://'이 앞에 붙은 DLName 포함).
+                          - 문서를 포함하는 디렉토리.
+                            이 디렉토리의 모든 문서가 처리됩니다.
+                            이 디렉토리는 'CATDLN://'이 앞에 붙은 DLName이 될 수 있습니다.
+                          서로 다른 유형의 문서가 처리됩니다(CATProduct, CATVpm,
+                          psn, Scene4D, xml 또는 MultiCAD 어셈블리).
+   -db dbx              : 데이터베이스를 정의합니다(VPM, VPMServer 또는 ENOVIAV5).
+   -user user           : 사용자를 정의합니다.
+   -pwd  pwd            : 사용자의 암호를 정의합니다(-spwd와 함께 사용할 수 없습니다.).
+   -spwd cryppwd        : 사용자의 암호를 정의합니다.
+                          사용 이전에 암호 해독됩니다.
+   -role role           : 사용자 역할을 정의합니다.
+   -server srv          : 서버를 정의합니다.
+   -serverid id         : 기존 서버에 연결합니다(ENOVIAV5에서만).
+   -host hostid         : 서버 시스템을 정의합니다(VPMServer에서만).
+   -static              : static 옵션으로 psn 파일을 엽니다(psn의 경우에만 유효).
+                          디폴트로, dynamic 옵션으로 열립니다.
+   -selins              : 선택된 인스턴스로 psn 파일을 엽니다(psn의 경우에만 유효).
+                          디폴트로, 모든 인스턴스를 사용하여 열립니다.
+   -product dirprod     : 디렉토리 dirprod에서 프로덕트를 저장합니다.
+                          이 디렉토리는 'CATDLN://'이 앞에 붙은 DLName이 될 수 있습니다.
+   -prefix prefix       : 해당 이름의 접두부를 사용하여 모든 프로덕트를 저장합니다.
+   -replacebycgr dircgr : 디렉토리 dircgr에 복사된 관련 cgr로 모든 컴포넌트를
+                          교체합니다.
+                          이 디렉토리는 'CATDLN://'이 앞에 붙은 DLName이 될 수 있습니다.
+   -activate            : 모든 모양을 활성화하고 활성화 상태를 저장합니다.
+   -deactivate          : 모든 모양을 비활성화하고 활성화 상태를 저장합니다.
+   -onlyone             : 루트 프로덕트에서 모든 컴포넌트를 통합합니다.
+   -nocache             : 캐시 준비 단계를 피합니다.
+   -force               : 캐시된 데이터를 강제로 다시 계산합니다.
+   -copycache           : 로컬 캐시 디렉토리의 캐시된 모든 데이터를 복사합니다.
+   -noreplace           : 복사 중 파일 교체를 방지합니다.
+   -mp                  : 다중 처리가 사용 가능하도록 합니다.
+   -listcomp dircomp    : 각 프로덕트의 모든 컴포넌트를 나열합니다. 디렉토리에는
+                          프로덕트마다 하나의 텍스트 파일이 포함됩니다(동일한 이름). 각 파일에는
+                          행마다 하나의 컴포넌트가 있습니다.
+   -outputformat xx yy  : 제공된 포맷(xx, yy) 목록의 프로덕트 구조를 반출합니다.
+                          이 옵션을 사용하려면 -product 옵션이 있어야 합니다. dirprod
+                          디렉토리에서 각 파일이 반출됩니다.
+   -savedata            : 동일 디렉토리에서 프로덕트 구조에 링크된 데이터를 저장합니다. \n
+   NB: 문서가 VPM을 참조하는 경우 user, spwd, role 및 server 매개변수는 필수입니다. \n
+진단: \n
+   가능한 종료 상태 값: \n
+      0   성공적 완료. \n
+      1   다음으로 실패:
+          - 라이센스를 사용할 수 없음
+          - 캐시 관리 비활성화됨
+          - 인수 누락
+          - 유효하지 않은 매개변수
+          - 옵션 뒤의 매개변수 누락
+          - 입력 파일 누락
+          - 파일을 찾을 수 없음
+          - 입력 파일을 열 수 없음
+          - 잘못된 문서 유형 \n
+      2   처리 오류, \n
+      3   부분적 처리. \n
+문제점 해결: \n
+   종료 상태 = 1:
+      표준 오류 파일에 있는 정보를 사용하여 명령행 또는 환경을
+      수정하십시오. \n
+   종료 상태 = 2:
+      로컬 지원을 문의하십시오. \n
+   종료 상태 = 3:
+      문제점을 야기하는 파일을 수정하십시오. 파일 이름은 표준 오류 파일에 들어 있습니다.
+      파일을 대화식으로 사용하면 문제점에 대해 알릴 수 있습니다.
+";
+ERR_PROCESSING="오류: CATDMUBuilder 처리에 실패했습니다.";
+ERR_TREATMENT="오류: 다음 문서/디렉토리를 처리할 수 없습니다.";
+OK_TREATMENT="확인: 다음 문서/디렉토리가 처리되었습니다.";
+START_BATCH="CATDMUBuilder 시작 위치: ";
+STOP_BATCH="CATDMUBuilder는 다음 지속 기간 후 중지함 : ";

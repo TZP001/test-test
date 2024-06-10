@@ -1,0 +1,64 @@
+INFO_HELP="
+CATDMUCacheSettings lit et/ou modifie les paramètres du cache.\n
+Syntaxe :\n
+   Extraire les informations d'aide :
+      CATDMUCacheSettings -h\n
+   Lire les valeurs en cours des paramètres du cache :
+      CATDMUCacheSettings -r outputfile [-unit string]\n
+   Modifier les valeurs des paramètres du cache :
+      CATDMUCacheSettings [-r outputfile] [-a|-d]
+                          [-u localdir] [-g reldir1[ reldir2..]]
+                          [-tscheck|-notscheck] [-size value1]
+                          [-sag value2] [-vox value3] [-unit string]\n
+Exemples sous Windows :\n
+   CATDMUCacheSettings -h
+   CATDMUCacheSettings -r c:\u\currentvalues.txt -unit INCH
+   CATDMUCacheSettings -a\n
+Exemples sous Unix :\n
+   CATDMUCacheSettings -h
+   CATDMUCacheSettings -a -u /u/local -sag 0.1
+   CATDMUCacheSettings -r /u/currentvalues -a -u /u/local -sag 0.1\n
+Arguments :\n
+   -h            : Aide.
+   -r outputfile : Pour lire les paramètres (avant modification, le cas échéant).
+                   Le format de la ligne de commande s'utilise avec les mêmes options.
+   -a            : Pour activer la gestion du cache.
+   -d            : Pour désactiver la gestion du cache.
+   -u localdir   : Pour définir le répertoire de cache local.
+   -g reldir1 .. : Pour définir les répertoires de cache diffusés.
+   -tscheck      : Pour vérifier l'horodatage.
+   -notscheck    : Pour ne pas vérifier l'horodatage.
+   -size value1  : Pour définir la taille maximale du cache local.
+                   La taille est exprimée en méga-octets (Mo).
+   -sag value2   : Pour générer un fichier cgr avec une valeur de sag spécifiée.
+   -vox value3   : Pour générer un fichier 3dmap avec une valeur de voxel spécifiée.
+   -unit string  : Pour définir l'unité des valeurs de longueur.
+                   Les unités de valeur possibles sont les suivantes :
+                   - MM pour les millimètres
+                   - CM pour les centimètres
+                   - M pour les mètres
+                   - INCH pour les pouces
+                   - FOOT pour les pieds
+                   L'unité par défaut est le millimètre (MM).\n
+Diagnostic :\n
+   Les valeurs d'état de fermeture possibles sont les suivantes :\n
+      0   Traitement réussi.\n
+      1   Traitement impossible pour l'un des motifs suivants :
+          - licence non disponible
+          - arguments manquants
+          - combinaison d'options non valide
+          - paramètre manquant après une option
+          - fichier de sortie introuvable
+          - écriture impossible dans le fichier de sortie
+          - répertoire non valide\n
+      2   Erreur de traitement.\n
+Corrections :\n
+   Code de retour = 1 :
+      Modifier la ligne de commande ou l'environnement en utilisant les messages
+      de la sortie d'erreur standard.\n
+   Code de retour = 2 :
+      Contacter votre support local.
+";
+ERR_PROCESSING="ERREUR : CATDMUCacheSettings n'a pas pu effectuer le traitement.";
+START_BATCH="CATDMUCacheSettings démarre à :";
+STOP_BATCH="CATDMUCacheSettings se termine après une durée de :";

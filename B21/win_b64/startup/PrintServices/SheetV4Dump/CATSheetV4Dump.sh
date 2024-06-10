@@ -1,0 +1,13 @@
+# 
+# CATSheetV4Dump SHEET_PATH DUMP_PATH
+#
+
+set SHEET_PATH=$1
+set DUMP_PATH=$2
+set SHEET_TEMP=/tmp/Input.sheet
+
+cp $SHEET_PATH $SHEET_TEMP
+
+CATPrtSheet $SHEET_TMP $DUMP_PATH
+
+rm -f $SHEET_TEMP

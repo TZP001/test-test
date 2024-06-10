@@ -1,0 +1,694 @@
+module Pervasives = 
+struct 
+  type pure = | $"()"
+
+  type bool = | $"true" | $"false"
+
+    @[ModDef {$"AUTIsNotVisible" = 1} extern $"not" : bool -> bool = "not" @]
+	@[ModDef { $"AUTIsNotVisible" = 1}  extern $"and" : bool * bool -> bool = "and" @]
+    @[ModDef { $"AUTIsNotVisible" = 1} extern $"or" : bool * bool -> bool = "or"@]
+
+  extern $"=" : ('a [:] !d) * ('a [:] !d) -> bool = "="
+  extern $"<>" : ('a [:] !d) * ('a [:] !d) -> bool = "<>"
+  extern $"if" : bool * ('a [:] !d) * ('a [:] !d) -> ('a [:] !d) = "if"
+
+  class Orderable ('a) {
+	val $"<" : ('a [:] !d) * ('a [:] !d) -> bool
+	val $">" : ('a [:] !d) * ('a [:] !d) -> bool
+	val $"<=" : ('a [:] !d) * ('a [:] !d) -> bool
+	val $">=" : ('a [:] !d) * ('a [:] !d) -> bool
+  }
+
+  class Number ('a) <= Orderable ('a) {
+	val $"+" : ('a [:] 'd) * ('a [:] 'd) -> ('a [:] 'd)
+	val $"-" : ('a [:] 'd) * ('a [:] 'd) -> ('a [:] 'd)
+	val $"*" : ('a [:] 'd1) * ('a [:] 'd2) -> ('a [:] 'd1 . 'd2)
+	val $"/" : ('a [:] 'd1) * ('a [:] 'd2) -> ('a [:] 'd1 . 'd2^-1)
+	val $"**" : ('a [:] 1) * ('a [:] 1) -> ('a [:] 1)
+  }
+
+  class Floating ('a) <= Number ('a) {
+	val sin : ('a [:] 1) -> ('a [:] 1)
+	val cos : ('a [:] 1) -> ('a [:] 1)
+	val sqrt : ('a [:] 'd) -> ('a [:] 'd^1/2)
+	val exp : ('a [:] 1) -> ('a [:] 1)
+	val log : ('a [:] 1) -> ('a [:] 1)
+	val log10 : ('a [:] 1) -> ('a [:] 1)
+	val tan : ('a [:] 1) -> ('a [:] 1)
+	val acos : ('a [:] 1) -> ('a [:] 1)
+	val asin : ('a [:] 1) -> ('a [:] 1)
+	val atan : ('a [:] 1) -> ('a [:] 1)
+	val atan2 : ('a [:] 1) * ('a [:] 1) -> ('a [:] 1)
+	val cosh : ('a [:] 1) -> ('a [:] 1)
+	val sinh : ('a [:] 1) -> ('a [:] 1)
+	val tanh : ('a [:] 1) -> ('a [:] 1)
+  }
+	
+  class Integer ('a) <= Number ('a) {
+	val $"%" : ('a [:] 'd1) * ('a [:] 'd2) -> ('a [:] 'd1)
+	val $"&" : ('a [:] 'd) * ('a [:] 'd) -> ('a [:] 'd)
+	val $"|" : ('a [:] 'd) * ('a [:] 'd) -> ('a [:] 'd)
+	val $"~" : ('a [:] 'd) -> ('a [:] 'd)
+	val $"<<" : ('a [:] 'd) * ('a [:] 1) -> ('a [:] 'd)
+	val $">>" : ('a [:] 'd) * ('a [:] 1) -> ('a [:] 'd)
+	val $"^^" : ('a [:] 'd) * ('a [:] 'd) -> ('a [:] 'd)
+  }
+
+  class String ('a) <= Orderable ('a) {
+	val $"concat" : 'a * 'a -> 'a
+  }
+
+  class Char ('a) <= Orderable ('a)
+   
+  type int8 = "LCMInt8"
+  instance Integer (int8) {
+    extern $"+" : int8 * int8 -> int8 = "plus_LCMInt8"
+    extern $"-" : int8 * int8 -> int8 = "minus_LCMInt8"
+    extern $"*" : int8 * int8 -> int8 = "times_LCMInt8"
+    extern $"/" : int8 * int8 -> int8 = "div_LCMInt8"
+    extern $"**" : int8 * int8 -> int8 = "pow_LCMInt8"
+    extern $"<" : int8 * int8 -> bool = "less_LCMInt8"
+    extern $">" : int8 * int8 -> bool = "greater_LCMInt8"
+    extern $"<=" : int8 * int8 -> bool = "lessequal_LCMInt8"
+    extern $">=" : int8 * int8 -> bool = "greaterequal_LCMInt8"
+    extern $"%" : int8 * int8 -> int8 = "mod_LCMInt8"
+    extern $"&" : int8 * int8 -> int8 = "land_LCMInt8"
+    extern $"|" : int8 * int8 -> int8 = "lor_LCMInt8"
+    extern $"~" : int8 -> int8 = "lnot_LCMInt8"
+    extern $"<<" : int8 * int8 -> int8 = "shiftleft_LCMInt8"
+    extern $">>" : int8 * int8 -> int8 = "shiftright_LCMInt8"
+    extern $"^^" : int8 * int8 -> int8 = "lxor_LCMInt8"
+  }
+
+  type int16 = "LCMInt16" 
+  instance Integer (int16) {
+    extern $"+" : int16 * int16 -> int16 = "plus_LCMInt16"
+    extern $"-" : int16 * int16 -> int16 = "minus_LCMInt16"
+    extern $"*" : int16 * int16 -> int16 = "times_LCMInt16"
+    extern $"/" : int16 * int16 -> int16 = "div_LCMInt16"
+    extern $"**" : int16 * int16 -> int16 = "pow_LCMInt16"
+    extern $"<" : int16 * int16 -> bool = "less_LCMInt16"
+    extern $">" : int16 * int16 -> bool = "greater_LCMInt16"
+    extern $"<=" : int16 * int16 -> bool = "lessequal_LCMInt16"
+    extern $">=" : int16 * int16 -> bool = "greaterequal_LCMInt16"
+    extern $"%" : int16 * int16 -> int16 = "mod_LCMInt16"
+    extern $"&" : int16 * int16 -> int16 = "land_LCMInt16"
+    extern $"|" : int16 * int16 -> int16 = "lor_LCMInt16"
+    extern $"~" : int16 -> int16 = "lnot_LCMInt16"
+    extern $"<<" : int16 * int16 -> int16 = "shiftleft_LCMInt16"
+    extern $">>" : int16 * int16 -> int16 = "shiftright_LCMInt16"
+    extern $"^^" : int16 * int16 -> int16 = "lxor_LCMInt16"
+  }
+
+  type int32 = "LCMInt32"
+  instance Integer (int32) {
+    extern $"+" : int32 * int32 -> int32 = "plus_LCMInt32"
+    extern $"-" : int32 * int32 -> int32 = "minus_LCMInt32"
+    extern $"*" : int32 * int32 -> int32 = "times_LCMInt32"
+    extern $"/" : int32 * int32 -> int32 = "div_LCMInt32"
+    extern $"**" : int32 * int32 -> int32 = "pow_LCMInt32"
+    extern $"<" : int32 * int32 -> bool = "less_LCMInt32"
+    extern $">" : int32 * int32 -> bool = "greater_LCMInt32"
+    extern $"<=" : int32 * int32 -> bool = "lessequal_LCMInt32"
+    extern $">=" : int32 * int32 -> bool = "greaterequal_LCMInt32"
+    extern $"%" : int32 * int32 -> int32 = "mod_LCMInt32"
+    extern $"&" : int32 * int32 -> int32 = "land_LCMInt32"
+    extern $"|" : int32 * int32 -> int32 = "lor_LCMInt32"
+    extern $"~" : int32 -> int32 = "lnot_LCMInt32"
+    extern $"<<" : int32 * int32 -> int32 = "shiftleft_LCMInt32"
+    extern $">>" : int32 * int32 -> int32 = "shiftright_LCMInt32"
+    extern $"^^" : int32 * int32 -> int32 = "lxor_LCMInt32"
+  }
+
+  type int64 = "LCMInt64"
+  instance Integer (int64) {
+    extern $"+" : int64 * int64 -> int64 = "plus_LCMInt64"
+    extern $"-" : int64 * int64 -> int64 = "minus_LCMInt64"
+    extern $"*" : int64 * int64 -> int64 = "times_LCMInt64"
+    extern $"/" : int64 * int64 -> int64 = "div_LCMInt64"
+    extern $"**" : int64 * int64 -> int64 = "pow_LCMInt64"
+    extern $"<" : int64 * int64 -> bool = "less_LCMInt64"
+    extern $">" : int64 * int64 -> bool = "greater_LCMInt64"
+    extern $"<=" : int64 * int64 -> bool = "lessequal_LCMInt64"
+    extern $">=" : int64 * int64 -> bool = "greaterequal_LCMInt64"
+    extern $"%" : int64 * int64 -> int64 = "mod_LCMInt64"
+    extern $"&" : int64 * int64 -> int64 = "land_LCMInt64"
+    extern $"|" : int64 * int64 -> int64 = "lor_LCMInt64"
+    extern $"~" : int64 -> int64 = "lnot_LCMInt64"
+    extern $"<<" : int64 * int64 -> int64 = "shiftleft_LCMInt64"
+    extern $">>" : int64 * int64 -> int64 = "shiftright_LCMInt64"
+    extern $"^^" : int64 * int64 -> int64 = "lxor_LCMInt64"
+  }
+
+  type uint8 = "LCMUint8"
+  instance Integer (uint8) {
+    extern $"+" : uint8 * uint8 -> uint8 = "plus_LCMUint8"
+    extern $"-" : uint8 * uint8 -> uint8 = "minus_LCMUint8"
+    extern $"*" : uint8 * uint8 -> uint8 = "times_LCMUint8"
+    extern $"/" : uint8 * uint8 -> uint8 = "div_LCMUint8"
+    extern $"**" : uint8 * uint8 -> uint8 = "pow_LCMUint8"
+    extern $"<" : uint8 * uint8 -> bool = "less_LCMUint8"
+    extern $">" : uint8 * uint8 -> bool = "greater_LCMUint8"
+    extern $"<=" : uint8 * uint8 -> bool = "lessequal_LCMUint8"
+    extern $">=" : uint8 * uint8 -> bool = "greaterequal_LCMUint8"
+    extern $"%" : uint8 * uint8 -> uint8 = "mod_LCMUint8"
+    extern $"&" : uint8 * uint8 -> uint8 = "land_LCMUint8"
+    extern $"|" : uint8 * uint8 -> uint8 = "lor_LCMUint8"
+    extern $"~" : uint8 -> uint8 = "lnot_LCMUint8"
+    extern $"<<" : uint8 * uint8 -> uint8 = "shiftleft_LCMUint8"
+    extern $">>" : uint8 * uint8 -> uint8 = "shiftright_LCMUint8"
+    extern $"^^" : uint8 * uint8 -> uint8 = "lxor_LCMUint8"
+  }
+
+  type uint16 = "LCMUint16" 
+  instance Integer (uint16) {
+    extern $"+" : uint16 * uint16 -> uint16 = "plus_LCMUint16"
+    extern $"-" : uint16 * uint16 -> uint16 = "minus_LCMUint16"
+    extern $"*" : uint16 * uint16 -> uint16 = "times_LCMUint16"
+    extern $"/" : uint16 * uint16 -> uint16 = "div_LCMUint16"
+    extern $"**" : uint16 * uint16 -> uint16 = "pow_LCMUint16"
+    extern $"<" : uint16 * uint16 -> bool = "less_LCMUint16"
+    extern $">" : uint16 * uint16 -> bool = "greater_LCMUint16"
+    extern $"<=" : uint16 * uint16 -> bool = "lessequal_LCMUint16"
+    extern $">=" : uint16 * uint16 -> bool = "greaterequal_LCMUint16"
+    extern $"%" : uint16 * uint16 -> uint16 = "mod_LCMUint16"
+    extern $"&" : uint16 * uint16 -> uint16 = "land_LCMUint16"
+    extern $"|" : uint16 * uint16 -> uint16 = "lor_LCMUint16"
+    extern $"~" : uint16 -> uint16 = "lnot_LCMUint16"
+    extern $"<<" : uint16 * uint16 -> uint16 = "shiftleft_LCMUint16"
+    extern $">>" : uint16 * uint16 -> uint16 = "shiftright_LCMUint16"
+    extern $"^^" : uint16 * uint16 -> uint16 = "lxor_LCMUint16"
+  }
+
+  type uint32 = "LCMUint32"
+  instance Integer (uint32) {
+    extern $"+" : uint32 * uint32 -> uint32 = "plus_LCMUint32"
+    extern $"-" : uint32 * uint32 -> uint32 = "minus_LCMUint32"
+    extern $"*" : uint32 * uint32 -> uint32 = "times_LCMUint32"
+    extern $"/" : uint32 * uint32 -> uint32 = "div_LCMUint32"
+    extern $"**" : uint32 * uint32 -> uint32 = "pow_LCMUint32"
+    extern $"<" : uint32 * uint32 -> bool = "less_LCMUint32"
+    extern $">" : uint32 * uint32 -> bool = "greater_LCMUint32"
+    extern $"<=" : uint32 * uint32 -> bool = "lessequal_LCMUint32"
+    extern $">=" : uint32 * uint32 -> bool = "greaterequal_LCMUint32"
+    extern $"%" : uint32 * uint32 -> uint32 = "mod_LCMUint32"
+    extern $"&" : uint32 * uint32 -> uint32 = "land_LCMUint32"
+    extern $"|" : uint32 * uint32 -> uint32 = "lor_LCMUint32"
+    extern $"~" : uint32 -> uint32 = "lnot_LCMUint32"
+    extern $"<<" : uint32 * uint32 -> uint32 = "shiftleft_LCMUint32"
+    extern $">>" : uint32 * uint32 -> uint32 = "shiftright_LCMUint32"
+    extern $"^^" : uint32 * uint32 -> uint32 = "lxor_LCMUint32"
+  }
+
+  type uint64 = "LCMUint64"
+  instance Integer (uint64) {
+    extern $"+" : uint64 * uint64 -> uint64 = "plus_LCMUint64"
+    extern $"-" : uint64 * uint64 -> uint64 = "minus_LCMUint64"
+    extern $"*" : uint64 * uint64 -> uint64 = "times_LCMUint64"
+    extern $"/" : uint64 * uint64 -> uint64 = "div_LCMUint64"
+    extern $"**" : uint64 * uint64 -> uint64 = "pow_LCMUint64"
+    extern $"<" : uint64 * uint64 -> bool = "less_LCMUint64"
+    extern $">" : uint64 * uint64 -> bool = "greater_LCMUint64"
+    extern $"<=" : uint64 * uint64 -> bool = "lessequal_LCMUint64"
+    extern $">=" : uint64 * uint64 -> bool = "greaterequal_LCMUint64"
+    extern $"%" : uint64 * uint64 -> uint64 = "mod_LCMUint64"
+    extern $"&" : uint64 * uint64 -> uint64 = "land_LCMUint64"
+    extern $"|" : uint64 * uint64 -> uint64 = "lor_LCMUint64"
+    extern $"~" : uint64 -> uint64 = "lnot_LCMUint64"
+    extern $"<<" : uint64 * uint64 -> uint64 = "shiftleft_LCMUint64"
+    extern $">>" : uint64 * uint64 -> uint64 = "shiftright_LCMUint64"
+    extern $"^^" : uint64 * uint64 -> uint64 = "lxor_LCMUint64"
+  }
+
+  type float32 = "LCMFloat32"
+  instance Floating (float32) {
+    extern $"+" : float32 * float32 -> float32 = "plus_LCMFloat32"
+    extern $"-" : float32 * float32 -> float32 = "minus_LCMFloat32"
+    extern $"*" : float32 * float32 -> float32 = "times_LCMFloat32"
+    extern $"/" : float32 * float32 -> float32 = "div_LCMFloat32"
+    extern $"**" : float32 * float32 -> float32 = "pow_LCMFloat32"
+    extern $"<" : float32 * float32 -> bool = "less_LCMFloat32"
+    extern $">" : float32 * float32 -> bool = "greater_LCMFloat32"
+    extern $"<=" : float32 * float32 -> bool = "lessequal_LCMFloat32"
+    extern $">=" : float32 * float32 -> bool = "greaterequal_LCMFloat32"
+    extern sin : float32 -> float32 = "sin_LCMFloat32"
+    extern cos : float32 -> float32 = "cos_LCMFloat32"
+    extern sqrt : float32 -> float32 = "sqrt_LCMFloat32" 
+	extern exp : float32 -> float32 = "exp_LCMFloat32" 
+	extern log : float32 -> float32 = "log_LCMFloat32" 
+	extern log10 : float32 -> float32 = "log10_LCMFloat32" 
+	extern tan : float32 -> float32 = "tan_LCMFloat32" 
+	extern acos : float32 -> float32 = "acos_LCMFloat32" 
+	extern asin : float32 -> float32 = "asin_LCMFloat32" 
+	extern atan : float32 -> float32 = "atan_LCMFloat32" 
+	extern atan2 : float32 * float32 -> float32 = "atan2_LCMFloat32" 
+	extern cosh : float32 -> float32 = "cosh_LCMFloat32" 
+	extern sinh : float32 -> float32 = "sinh_LCMFloat32" 
+	extern tanh : float32 -> float32 = "tanh_LCMFloat32" 
+  }
+
+  type float64 = "LCMFloat64"
+  instance Floating (float64) {
+    extern $"+" : float64 * float64 -> float64 = "plus_LCMFloat64"
+    extern $"-" : float64 * float64 -> float64 = "minus_LCMFloat64"
+    extern $"*" : float64 * float64 -> float64 = "times_LCMFloat64"
+    extern $"/" : float64 * float64 -> float64 = "div_LCMFloat64"
+    extern $"**" : float64 * float64 -> float64 = "pow_LCMFloat64"
+    extern $"<" : float64 * float64 -> bool = "less_LCMFloat64"
+    extern $">" : float64 * float64 -> bool = "greater_LCMFloat64"
+    extern $"<=" : float64 * float64 -> bool = "lessequal_LCMFloat64"
+    extern $">=" : float64 * float64 -> bool = "greaterequal_LCMFloat64"
+    extern sin : float64 -> float64 = "sin_LCMFloat64"
+    extern cos : float64 -> float64 = "cos_LCMFloat64"
+    extern sqrt : float64 -> float64 = "sqrt_LCMFloat64" 
+	extern exp : float64 -> float64 = "exp_LCMFloat64" 
+	extern log : float64 -> float64 = "log_LCMFloat64" 
+	extern log10 : float64 -> float64 = "log10_LCMFloat64" 
+	extern tan : float64 -> float64 = "tan_LCMFloat64" 
+	extern acos : float64 -> float64 = "acos_LCMFloat64" 
+	extern asin : float64 -> float64 = "asin_LCMFloat64" 
+	extern atan : float64 -> float64 = "atan_LCMFloat64" 
+	extern atan2 : float64 * float64 -> float64 = "atan2_LCMFloat64" 
+	extern cosh : float64 -> float64 = "cosh_LCMFloat64" 
+	extern sinh : float64 -> float64 = "sinh_LCMFloat64" 
+	extern tanh : float64 -> float64 = "tanh_LCMFloat64" 
+  }
+(*
+  type float128 = "LCMFloat128"
+  instance Floating (float128) {
+    extern $"+" : float128 * float128 -> float128 = "plus_LCMFloat128"
+    extern $"-" : float128 * float128 -> float128 = "minus_LCMFloat128"
+    extern $"*" : float128 * float128 -> float128 = "times_LCMFloat128"
+    extern $"/" : float128 * float128 -> float128 = "div_LCMFloat128"
+    extern $"**" : float128 * float128 -> float128 = "pow_LCMFloat128"
+    extern $"<" : float128 * float128 -> bool = "less_LCMFloat128"
+    extern $">" : float128 * float128 -> bool = "greater_LCMFloat128"
+    extern $"<=" : float128 * float128 -> bool = "lessequal_LCMFloat128"
+    extern $">=" : float128 * float128 -> bool = "greaterequal_LCMFloat128"
+    extern sin : float128 -> float128 = "sin_LCMFloat128"
+    extern cos : float128 -> float128 = "cos_LCMFloat128"
+    extern sqrt : float128 -> float128 = "sqrt_LCMFloat128" 
+	extern exp : float128 -> float128 = "exp_LCMFloat128" 
+	extern log : float128 -> float128 = "log_LCMFloat128" 
+	extern log10 : float128 -> float128 = "log10_LCMFloat128" 
+	extern tan : float128 -> float128 = "tan_LCMFloat128" 
+	extern acos : float128 -> float128 = "acos_LCMFloat128" 
+	extern asin : float128 -> float128 = "asin_LCMFloat128" 
+	extern atan : float128 -> float128 = "atan_LCMFloat128" 
+	extern atan2 : float128 * float128 -> float128 = "atan2_LCMFloat128" 
+	extern cosh : float128 -> float128 = "cosh_LCMFloat128" 
+	extern sinh : float128 -> float128 = "sinh_LCMFloat128" 
+	extern tanh : float128 -> float128 = "tanh_LCMFloat128" 
+  }
+*)
+  type string8 = "LCMString8"
+  instance String (string8) {
+    extern $"<" : string8 * string8 -> bool = "less_LCMString8"
+    extern $">" : string8 * string8 -> bool = "greater_LCMString8"
+    extern $"<=" : string8 * string8 -> bool = "lessequal_LCMString8"
+    extern $">=" : string8 * string8 -> bool = "greaterequal_LCMString8"
+    extern $"concat" : string8 * string8 -> string8 = "concat_LCMString8"
+  }
+
+  type char8 = "LCMChar8"
+  instance Char (char8) {
+    extern $"<" : char8 * char8 -> bool = "less_LCMChar8"
+    extern $">" : char8 * char8 -> bool = "greater_LCMChar8"
+    extern $"<=" : char8 * char8 -> bool = "lessequal_LCMChar8"
+    extern $">=" : char8 * char8 -> bool = "greaterequal_LCMChar8"
+  }
+
+  class Word ('a) {
+	val SHL : 'a * int32 -> 'a (* returns input left-shifted by n bits, zero-filled on right *)
+	val SHR : 'a * int32 -> 'a (* returns input right-shifted by n bits, zero-filled on left *)
+	val ROR : 'a * int32 -> 'a (* returns input right-rotated by n bits, circular *)
+	val ROL : 'a * int32 -> 'a (* returns input left-rotated by n bits, circular *)
+	val AND : 'a * 'a -> 'a
+	val OR : 'a * 'a -> 'a
+	val XOR : 'a * 'a -> 'a
+	val NOT : 'a -> 'a
+  }
+
+  type word8 = "LCMWord8"
+  instance Word (word8) {
+	extern SHL : word8 * int32 -> word8 = "shl_LCMWord8"
+	extern SHR : word8 * int32 -> word8 = "shr_LCMWord8"
+	extern ROR : word8 * int32 -> word8 = "ror_LCMWord8"
+	extern ROL : word8 * int32 -> word8 = "rol_LCMWord8"
+	extern AND : word8 * word8 -> word8 = "and_bits_LCMWord8"
+	extern OR : word8 * word8 -> word8 = "or_bits_LCMWord8"
+	extern XOR : word8 * word8 -> word8 = "xor_bits_LCMWord8"
+	extern NOT : word8 -> word8 = "not_bits_LCMWord8"
+  }
+
+  type word16 = "LCMWord16"
+  instance Word (word16) {
+	extern SHL : word16 * int32 -> word16 = "shl_LCMWord16"
+	extern SHR : word16 * int32 -> word16 = "shr_LCMWord16"
+	extern ROR : word16 * int32 -> word16 = "ror_LCMWord16"
+	extern ROL : word16 * int32 -> word16 = "rol_LCMWord16"
+	extern AND : word16 * word16 -> word16 = "and_bits_LCMWord16"
+	extern OR : word16 * word16 -> word16 = "or_bits_LCMWord16"
+	extern XOR : word16 * word16 -> word16 = "xor_bits_LCMWord16"
+	extern NOT : word16 -> word16 = "not_bits_LCMWord16"
+  }
+
+  type word32 = "LCMWord32"
+  instance Word (word32) {
+	extern SHL : word32 * int32 -> word32 = "shl_LCMWord32"
+	extern SHR : word32 * int32 -> word32 = "shr_LCMWord32"
+	extern ROR : word32 * int32 -> word32 = "ror_LCMWord32"
+	extern ROL : word32 * int32 -> word32 = "rol_LCMWord32"
+	extern AND : word32 * word32 -> word32 = "and_bits_LCMWord32"
+	extern OR : word32 * word32 -> word32 = "or_bits_LCMWord32"
+	extern XOR : word32 * word32 -> word32 = "xor_bits_LCMWord32"
+	extern NOT : word32 -> word32 = "not_bits_LCMWord32"
+  }
+
+  type word64 = "LCMWord64"
+  instance Word (word64) {
+	extern SHL : word64 * int32 -> word64 = "shl_LCMWord64"
+	extern SHR : word64 * int32 -> word64 = "shr_LCMWord64"
+	extern ROR : word64 * int32 -> word64 = "ror_LCMWord64"
+	extern ROL : word64 * int32 -> word64 = "rol_LCMWord64"
+	extern AND : word64 * word64 -> word64 = "and_bits_LCMWord64"
+	extern OR : word64 * word64 -> word64 = "or_bits_LCMWord64"
+	extern XOR : word64 * word64 -> word64 = "xor_bits_LCMWord64"
+	extern NOT : word64 -> word64 = "not_bits_LCMWord64"
+  }
+
+
+  extern get_cycle_time : pure -> int32 = "_get_cycle_time"
+
+  @[ModDef { (*$"AUTIsNotVisible" = 1*)} extern get_instance_id_string : pure -> string8 = "get_instance_id_string"@]
+  @[ModDef { (*$"AUTIsNotVisible" = 1*)} extern get_instance_id_int : pure -> int32 = "get_instance_id_int"@]
+  let get_instance_id = get_instance_id_string
+
+	@[ModDef { $"AUTIsNotVisible" = 1; $"AUTCOMMENT" = @[AssocData@[Latetype AUTCsmISData@]{} 
+"Magic function to get the id of the vm"@]} extern get_vm_id :  @[TypeExpr@[Latetype AUTCsmExtFn@]{} pure -> int32@] = "get_vm_id"@]
+	@[ModDef { $"AUTIsNotVisible" = 1; $"AUTCOMMENT" = @[AssocData@[Latetype AUTCsmISData@]{} 
+"Magic function to get the uuid of the object which call this function"@]} extern get_uuid :  @[TypeExpr@[Latetype AUTCsmExtFn@]{} pure -> string8@] = "get_uuid"@]
+	@[ModDef { $"AUTIsNotVisible" = 1; $"AUTCOMMENT" = @[AssocData@[Latetype AUTCsmISData@]{} 
+"Magic function to get the uuid of the instance of the block in which this object is run"@]} extern get_instance_uuid : @[TypeExpr@[Latetype AUTCsmExtFn@]{}pure -> string8 @] = "get_instance_uuid"@]
+	@[ModDef { $"AUTIsNotVisible" = 1; $"AUTCOMMENT" = @[AssocData@[Latetype AUTCsmISData@]{} 
+"Magic function to get the uuid instance path of object is run : 
+a vector of size n where n is the depth of the object instance in the instance tree (the one which you can see in the debugger)
+-element 0 is the instance uuid
+-element 1 is the instance uuid of the instance uuid ,...
+To use with CAUTION : the result of this function must NOT be assigned to any\r\nsignal or port but DIRECTLY passed to a external function (because its type is a array of polymoprhic size, size which is magically known at compile time)"@]} extern get_instance_uuid_path : @[TypeExpr@[Latetype AUTCsmExtFn@]{}pure -> string8[?n] @]= "get_instance_uuid_path"@]
+
+	@[ModDef {$"AUTIsNotVisible" = 1} let max = @[Expr {$"AUTIsNotVisible" = 1} fun (x,y) ->  if x > y then x else y @]@]
+	@[ModDef {$"AUTIsNotVisible" = 1} let min = @[Expr {$"AUTIsNotVisible" = 1} fun (x,y) -> if x < y then x else y @]@]
+
+
+    module Bool = struct
+	  let $"not" = $"not"
+	  let $"and" = $"and"
+	  let $"or" = $"or"
+      let xor = @[Expr {$"AUTIsNotVisible" = 1} fun (a:bool,b:bool) -> a <> b @]
+    end
+
+
+	module Orderable = struct
+	  let $"=" = $"="
+	  let $"<>" = $"<>"
+
+	  let $">" = $">"
+	  let $"<" = $"<"
+	  let $">=" = $">="
+	  let $"<=" = $"<="
+
+	  let max = max
+	  let min = min
+	end
+	@[ModDef {$"AUTIsNotVisible" = 1} let abs = @[Expr {$"AUTIsNotVisible" = 1} fun x -> if x < dimension(0) then dimension(0) - x else x@]@]
+	module Number = struct
+	  let $"+" = $"+"
+      let $"-" = $"-"
+      let $"*" = $"*"
+      let $"/" = $"/"
+      let $"**" = $"**"
+	  let abs = abs
+	end
+	module Floating = struct
+	  let sin = sin
+      let cos = cos
+	  let sqrt = sqrt
+	  let exp = exp
+	  let log = log
+	  let log10 = log10
+	  let tan = tan
+	  let acos = acos
+	  let asin = asin
+	  let atan = atan
+	  let atan2 = atan2
+	  let cosh = cosh
+	  let sinh = sinh
+	  let tanh = tanh
+
+	end
+	module Integer = struct
+	  let $"%" = $"%"
+      let $"&" = $"&"
+      let $"|" = $"|"
+      let $"~" = $"~"
+      let $"<<" = $"<<"
+      let $">>" = $">>"
+      let $"^^" = $"^^"
+	end
+
+	module Random = struct
+	  extern max : int32 = "LCMRandMax"
+	  extern rand : pure -> int32 = "LCMRand"
+	  extern srand : uint32 -> pure = "LCMSRand"
+	end
+
+	module Word = struct
+	  let SHR = SHR
+	  let SHL = SHL
+	  let ROR = ROR
+	  let ROL = ROL
+	  let AND = AND
+	  let OR = OR
+	  let XOR = XOR
+	  let NOT = NOT
+	end
+
+  module Conversion = struct
+	extern float32_to_float64  : float32 -> float64  = "LCMFloat32_to_LCMFloat64"
+(*	extern float32_to_float128 : float32 -> float128 = "LCMFloat32_to_LCMFloat128" *)
+	extern float32_to_int8     : float32 -> int8     = "LCMFloat32_to_LCMInt8"
+	extern float32_to_int16    : float32 -> int16    = "LCMFloat32_to_LCMInt16"
+	extern float32_to_int32    : float32 -> int32    = "LCMFloat32_to_LCMInt32"
+	extern float32_to_int64    : float32 -> int64    = "LCMFloat32_to_LCMInt64"
+	extern float32_to_uint8    : float32 -> uint8    = "LCMFloat32_to_LCMUint8"
+	extern float32_to_uint16   : float32 -> uint16   = "LCMFloat32_to_LCMUint16"
+	extern float32_to_uint32   : float32 -> uint32   = "LCMFloat32_to_LCMUint32"
+	extern float32_to_uint64   : float32 -> uint64   = "LCMFloat32_to_LCMUint64"
+
+	extern float64_to_float32  : float64 -> float32  = "LCMFloat64_to_LCMFloat32"
+(*	extern float64_to_float128 : float64 -> float128 = "LCMFloat64_to_LCMFloat128" *)
+	extern float64_to_int8     : float64 -> int8     = "LCMFloat64_to_LCMInt8"
+	extern float64_to_int16    : float64 -> int16    = "LCMFloat64_to_LCMInt16"
+	extern float64_to_int32    : float64 -> int32    = "LCMFloat64_to_LCMInt32"
+	extern float64_to_int64    : float64 -> int64    = "LCMFloat64_to_LCMInt64"
+	extern float64_to_uint8    : float64 -> uint8    = "LCMFloat64_to_LCMUint8"
+	extern float64_to_uint16   : float64 -> uint16   = "LCMFloat64_to_LCMUint16"
+	extern float64_to_uint32   : float64 -> uint32   = "LCMFloat64_to_LCMUint32"
+	extern float64_to_uint64   : float64 -> uint64   = "LCMFloat64_to_LCMUint64"
+(*
+	extern float128_to_float32  : float128 -> float32  = "LCMFloat128_to_LCMFloat32"
+	extern float128_to_float64  : float128 -> float64  = "LCMFloat128_to_LCMFloat64"
+	extern float128_to_int8     : float128 -> int8     = "LCMFloat128_to_LCMInt8"
+	extern float128_to_int16    : float128 -> int16    = "LCMFloat128_to_LCMInt16"
+	extern float128_to_int32    : float128 -> int32    = "LCMFloat128_to_LCMInt32"
+	extern float128_to_int64    : float128 -> int64    = "LCMFloat128_to_LCMInt64"
+	extern float128_to_uint8    : float128 -> uint8    = "LCMFloat128_to_LCMUint8"
+	extern float128_to_uint16   : float128 -> uint16   = "LCMFloat128_to_LCMUint16"
+	extern float128_to_uint32   : float128 -> uint32   = "LCMFloat128_to_LCMUint32"
+	extern float128_to_uint64   : float128 -> uint64   = "LCMFloat128_to_LCMUint64"
+*)
+	extern int8_to_float32  : int8 -> float32   = "LCMInt8_to_LCMFloat32"
+	extern int8_to_float64  : int8 -> float64   = "LCMInt8_to_LCMFloat64"
+(*	extern int8_to_float128 : int8 -> float128  = "LCMInt8_to_LCMFloat128" *)
+	extern int8_to_int16    : int8 -> int16     = "LCMInt8_to_LCMInt16"
+	extern int8_to_int32    : int8 -> int32     = "LCMInt8_to_LCMInt32"
+	extern int8_to_int64    : int8 -> int64     = "LCMInt8_to_LCMInt64"
+    extern int8_to_uint8    : int8 -> uint8     = "LCMInt8_to_LCMUint8"
+	extern int8_to_uint16   : int8 -> uint16    = "LCMInt8_to_LCMUint16"
+	extern int8_to_uint32   : int8 -> uint32    = "LCMInt8_to_LCMUint32"
+	extern int8_to_uint64   : int8 -> uint64    = "LCMInt8_to_LCMUint64"
+
+	extern int16_to_float32  : int16 -> float32   = "LCMInt16_to_LCMFloat32"
+	extern int16_to_float64  : int16 -> float64   = "LCMInt16_to_LCMFloat64"
+(*	extern int16_to_float128 : int16 -> float128  = "LCMInt16_to_LCMFloat128" *)
+    extern int16_to_int8     : int16 -> int8      = "LCMInt16_to_LCMInt8"
+	extern int16_to_int32    : int16 -> int32     = "LCMInt16_to_LCMInt32"
+	extern int16_to_int64    : int16 -> int64     = "LCMInt16_to_LCMInt64"
+    extern int16_to_uint8    : int16 -> uint8      = "LCMInt16_to_LCMUint8"
+	extern int16_to_uint16   : int16 -> uint16    = "LCMInt16_to_LCMUint16"
+	extern int16_to_uint32   : int16 -> uint32    = "LCMInt16_to_LCMUint32"
+	extern int16_to_uint64   : int16 -> uint64    = "LCMInt16_to_LCMUint64"
+
+	extern int32_to_float32  : int32 -> float32   = "LCMInt32_to_LCMFloat32"
+	extern int32_to_float64  : int32 -> float64   = "LCMInt32_to_LCMFloat64"
+(*	extern int32_to_float128 : int32 -> float128  = "LCMInt32_to_LCMFloat128" *)
+    extern int32_to_int8     : int32 -> int8      = "LCMInt32_to_LCMInt8"
+	extern int32_to_int16    : int32 -> int16     = "LCMInt32_to_LCMInt16"
+	extern int32_to_int64    : int32 -> int64     = "LCMInt32_to_LCMInt64"
+    extern int32_to_uint8    : int32 -> uint8     = "LCMInt32_to_LCMUint8"
+	extern int32_to_uint16   : int32 -> uint16    = "LCMInt32_to_LCMUint16"
+	extern int32_to_uint32   : int32 -> uint32    = "LCMInt32_to_LCMUint32"
+	extern int32_to_uint64   : int32 -> uint64    = "LCMInt32_to_LCMUint64"
+
+	extern int64_to_float32  : int64 -> float32   = "LCMInt64_to_LCMFloat32"
+	extern int64_to_float64  : int64 -> float64   = "LCMInt64_to_LCMFloat64"
+(*	extern int64_to_float128 : int64 -> float128  = "LCMInt64_to_LCMFloat128" *)
+    extern int64_to_int8     : int64 -> int8      = "LCMInt64_to_LCMInt8"
+	extern int64_to_int16    : int64 -> int16     = "LCMInt64_to_LCMInt16"
+	extern int64_to_int32    : int64 -> int32     = "LCMInt64_to_LCMInt32"
+    extern int64_to_uint8    : int64 -> uint8     = "LCMInt64_to_LCMUint8"
+	extern int64_to_uint16   : int64 -> uint16    = "LCMInt64_to_LCMUint16"
+	extern int64_to_uint32   : int64 -> uint32    = "LCMInt64_to_LCMUint32"
+	extern int64_to_uint64   : int64 -> uint64    = "LCMInt64_to_LCMUint64"
+
+
+	extern uint8_to_float32  : uint8 -> float32   = "LCMUint8_to_LCMFloat32"
+	extern uint8_to_float64  : uint8 -> float64   = "LCMUint8_to_LCMFloat64"
+(*	extern uint8_to_float128 : uint8 -> float128  = "LCMUint8_to_LCMFloat128" *)
+    extern uint8_to_int8     : uint8 -> int8      = "LCMUint8_to_LCMInt8"
+	extern uint8_to_int16    : uint8 -> int16     = "LCMUint8_to_LCMInt16"
+	extern uint8_to_int32    : uint8 -> int32     = "LCMUint8_to_LCMInt32"
+	extern uint8_to_int64    : uint8 -> int64     = "LCMUint8_to_LCMInt64"
+	extern uint8_to_uint16   : uint8 -> uint16    = "LCMUint8_to_LCMUint16"
+	extern uint8_to_uint32   : uint8 -> uint32    = "LCMUint8_to_LCMUint32"
+	extern uint8_to_uint64   : uint8 -> uint64    = "LCMUint8_to_LCMUint64"
+
+	extern uint16_to_float32  : uint16 -> float32   = "LCMUint16_to_LCMFloat32"
+	extern uint16_to_float64  : uint16 -> float64   = "LCMUint16_to_LCMFloat64"
+(*	extern uint16_to_float128 : uint16 -> float128  = "LCMUint16_to_LCMFloat128" *)
+    extern uint16_to_int8     : uint16 -> int8      = "LCMUint16_to_LCMInt8"
+	extern uint16_to_int16    : uint16 -> int16     = "LCMUint16_to_LCMInt16"
+	extern uint16_to_int32    : uint16 -> int32     = "LCMUint16_to_LCMInt32"
+	extern uint16_to_int64    : uint16 -> int64     = "LCMUint16_to_LCMInt64"
+    extern uint16_to_uint8    : uint16 -> uint8     = "LCMUint16_to_LCMUint8"
+	extern uint16_to_uint32   : uint16 -> uint32    = "LCMUint16_to_LCMUint32"
+	extern uint16_to_uint64   : uint16 -> uint64    = "LCMUint16_to_LCMUint64"
+
+	extern uint32_to_float32  : uint32 -> float32   = "LCMUint32_to_LCMFloat32"
+	extern uint32_to_float64  : uint32 -> float64   = "LCMUint32_to_LCMFloat64"
+(*	extern uint32_to_float128 : uint32 -> float128  = "LCMUint32_to_LCMFloat128" *)
+    extern uint32_to_int8     : uint32 -> int8      = "LCMUint32_to_LCMInt8"
+	extern uint32_to_int16    : uint32 -> int16     = "LCMUint32_to_LCMInt16"
+	extern uint32_to_int32    : uint32 -> int32     = "LCMUint32_to_LCMInt32"
+	extern uint32_to_int64    : uint32 -> int64     = "LCMUint32_to_LCMInt64"
+    extern uint32_to_uint8    : uint32 -> uint8     = "LCMUint32_to_LCMUint8"
+	extern uint32_to_uint16   : uint32 -> uint16    = "LCMUint32_to_LCMUint16"
+	extern uint32_to_uint64   : uint32 -> uint64    = "LCMUint32_to_LCMUint64"
+
+	extern uint64_to_float32  : uint64 -> float32   = "LCMUint64_to_LCMFloat32"
+	extern uint64_to_float64  : uint64 -> float64   = "LCMUint64_to_LCMFloat64"
+(*	extern uint64_to_float128 : uint64 -> float128  = "LCMUint64_to_LCMFloat128" *)
+    extern uint64_to_int8     : uint64 -> int8      = "LCMUint64_to_LCMInt8"
+	extern uint64_to_int16    : uint64 -> int16     = "LCMUint64_to_LCMInt16"
+	extern uint64_to_int32    : uint64 -> int32     = "LCMUint64_to_LCMInt32"
+	extern uint64_to_int64    : uint64 -> int64     = "LCMUint64_to_LCMInt64"
+    extern uint64_to_uint8    : uint64 -> uint8     = "LCMUint64_to_LCMUint8"
+	extern uint64_to_uint16   : uint64 -> uint16    = "LCMUint64_to_LCMUint16"
+	extern uint64_to_uint32   : uint64 -> uint32    = "LCMUint64_to_LCMUint32"
+	
+	extern word8_to_word16   : word8 -> word16    = "LCMWord8_to_LCMWord16"
+	extern word8_to_word32   : word8 -> word32    = "LCMWord8_to_LCMWord32"
+	extern word8_to_word64   : word8 -> word64    = "LCMWord8_to_LCMWord64"
+
+    extern word16_to_word8    : word16 -> word8     = "LCMWord16_to_LCMWord8"
+	extern word16_to_word32   : word16 -> word32    = "LCMWord16_to_LCMWord32"
+	extern word16_to_word64   : word16 -> word64    = "LCMWord16_to_LCMWord64"
+
+    extern word32_to_word8    : word32 -> word8     = "LCMWord32_to_LCMWord8"
+	extern word32_to_word16   : word32 -> word16    = "LCMWord32_to_LCMWord16"
+	extern word32_to_word64   : word32 -> word64    = "LCMWord32_to_LCMWord64"
+
+    extern word64_to_word8    : word64 -> word8     = "LCMWord64_to_LCMWord8"
+	extern word64_to_word16   : word64 -> word16    = "LCMWord64_to_LCMWord16"
+	extern word64_to_word32   : word64 -> word32    = "LCMWord64_to_LCMWord32"
+	
+	extern uint8_to_word8	: uint8 -> word8	= "LCMUint8_to_LCMWord8"
+	extern uint16_to_word16 : uint16 -> word16  = "LCMUint16_to_LCMWord16"
+	extern uint32_to_word32 : uint32 -> word32  = "LCMUint32_to_LCMWord32"
+	extern uint64_to_word64 : uint64 -> word64  = "LCMUint64_to_LCMWord64"
+	
+	extern word8_to_uint8	: word8 -> uint8	= "LCMWord8_to_LCMUint8"
+	extern word16_to_uint16 : word16 -> uint16  = "LCMWord16_to_LCMUint16"
+	extern word32_to_uint32 : word32 -> uint32  = "LCMWord32_to_LCMUint32"
+	extern word64_to_uint64 : word64 -> uint64  = "LCMWord64_to_LCMUint64"
+
+	
+    @[ModDef{$"AUTIsNotVisible" = 1} 	extern int_to_float  : int32 -> float32   = "LCMInt32_to_LCMFloat32" @]
+    @[ModDef{$"AUTIsNotVisible" = 1} 	extern float_to_double  : float32 -> float64   = "LCMFloat32_to_LCMFloat64" @]
+    @[ModDef{$"AUTIsNotVisible" = 1} 	extern double_to_float  : float64 -> float32   = "LCMFloat64_to_LCMFloat32" @]
+    @[ModDef{$"AUTIsNotVisible" = 1} 	extern float_to_int  : float32 -> int32   = "LCMFloat32_to_LCMInt32" @]
+  end
+  include Conversion
+  
+
+  @[ModDef{$"AUTIsNotVisible" = 1} module Array @[Module{$"AUTIsNotVisible" = 1}= struct
+	(* extern iterators*)
+	@[ModDef{$"AUTIsNotVisible" = 1}extern $"_mapi" : (int32 * 'a -> 'b) * 'a[?n] -> 'b[?n] = "mapi" @]
+	@[ModDef{$"AUTIsNotVisible" = 1}extern $"_foldi" : (int32 * 'a * 'b -> 'a) * 'a * 'b[?n] -> 'a = "foldi" @]
+	@[ModDef{$"AUTIsNotVisible" = 1}extern $"_mapi2" : (int32 * 'a * 'b -> 'c) * 'a[?n] * 'b[?n] -> 'c[?n] = "mapi2" @]
+	(* currified iterators*)
+	let mapi f v = $"_mapi" ((fun (i, e) -> f i e), v)
+	let map f v = mapi (fun _ -> f) v
+	let foldi f accu v = $"_foldi" ((fun (i, accu, e) -> f i accu e), accu, v)
+	let fold f accu v = foldi (fun _ -> f) accu v
+	let mapi2 f v1 v2 = $"_mapi2" ((fun (i, e1, e2) -> f i e1 e2), v1, v2)
+	let map2 f v1 v2 = mapi2 (fun _ -> f) v1 v2
+  end @]@]
+
+  module Vector = struct
+	let map f v = Array@map f v
+	let mapi f v = Array@mapi (fun i e -> f (i, e)) v
+	let map2 f (v1, v2) = Array@map2 (fun x y -> f (x, y)) v1 v2
+	let fold f (accu, v) = Array@fold (fun accu e -> f (accu, e)) accu v
+	let foldi f (accu, v) = Array@foldi (fun i accu e -> f (i, accu, e)) accu v
+	let length (v: '_[?n]) = #n
+  end
+
+  module Matrix = struct
+	let map f m = Array@map (Array@map f) m
+	let mapij f m = Array@mapi (fun i -> Array@mapi (fun j e -> f (i, j, e))) m
+	let map2 f (m1, m2) = Array@map2 (Array@map2 (fun x y -> f (x, y))) m1 m2
+	let fold f (accu, m) = Array@fold (Array@fold (fun accu e -> f (accu, e))) accu m
+	let foldij f (accu, m) = Array@foldi (fun i accu v -> Array@foldi (fun j accu e -> f(i, j, accu, e)) accu v) accu m
+	let rows (m: '_[?n,?p]) = #n
+	let columns (m: '_[?n,?p]) = #p
+  end
+  
+  @[ModDef{$"AUTIsNotVisible" = 1} type sword = word16 @]
+  @[ModDef{$"AUTIsNotVisible" = 1} type word = word32 @]
+  @[ModDef{$"AUTIsNotVisible" = 1} type lword = word64 @]
+  
+  @[ModDef{$"AUTIsNotVisible" = 1} type sint = int16 @]
+  @[ModDef{$"AUTIsNotVisible" = 1} type int = int32 @]
+  @[ModDef{$"AUTIsNotVisible" = 1} type lint = int64 @]
+  
+  @[ModDef{$"AUTIsNotVisible" = 1} type usint = uint16 @]
+  @[ModDef{$"AUTIsNotVisible" = 1} type uint = uint32 @]
+  @[ModDef{$"AUTIsNotVisible" = 1} type ulint = uint64 @]
+  @[ModDef{$"AUTIsNotVisible" = 1} type float = float32 @]
+  @[ModDef{$"AUTIsNotVisible" = 1} type double = float64 @]
+  @[ModDef{$"AUTIsNotVisible" = 1} type char = char8 @]
+  @[ModDef{$"AUTIsNotVisible" = 1} type string = string8 @]
+
+  @[ModDef{$"AUTIsNotVisible" = 1} let shl = SHL@]
+  @[ModDef{$"AUTIsNotVisible" = 1} let shr = SHR@]
+  @[ModDef{$"AUTIsNotVisible" = 1} let ror = ROR@]
+  @[ModDef{$"AUTIsNotVisible" = 1} let rol = ROL@]
+  @[ModDef{$"AUTIsNotVisible" = 1} let and_bits = AND@]
+  @[ModDef{$"AUTIsNotVisible" = 1} let or_bits = OR@]
+  @[ModDef{$"AUTIsNotVisible" = 1} let xor_bits = XOR@]
+  @[ModDef{$"AUTIsNotVisible" = 1} let not_bits = NOT@]
+
+  
+end

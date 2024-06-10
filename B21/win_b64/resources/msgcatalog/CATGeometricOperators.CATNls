@@ -1,0 +1,415 @@
+//------------------------------------------------------
+// Resource file for input geometric operators errors 
+// En_EN
+//------------------------------------------------------
+// NLD 10/07/03 GeoOpInSweepC0Point_ERR_3028
+//              GeoOpInSweepC0MeridianCurve_ERR_3029
+// NLD 03/11/03 Modification des messages 3008 et 3009
+// CCK 12/12/03 GeoOpInSpineInvalidInput_ERR_3030
+// NLD 23/12/03 GeoOpInSweepEdgeCurveCreation_ERR_3031
+// NLD 23/12/03 GeoOpInSweepDegenerateCurve_ERR_3032
+// NLD 20/02/04 GeoOpInLoftTangencyIncompatibleWithGuide_ERR_3033
+// NLD 28/04/04 GeoOpInSweepInvalidDraftAngle_ERR_3034
+// NLD 29/07/04 GeoOpInSegmentSweepImpossibleLimitation_ERR_3036
+//              GeoOpInSegmentSweepNullLength_ERR_3037
+//              GeoOpInSweepImplicitProfileDegenerated_ERR_3038
+// JSX 27/07/04 GeoOpInSweepTooComplexSurface_ERR_3039
+// NLD 22/10/04 GeoOpInInternalError_ERR_3040
+// NLD 26/07/05 GeoOpInSweepImplicitProfileEvaluation_ERR_3041
+// JSX 28/08/05 GeoOpInSweepSurfaceConstructionPatchMin_WAR_3042
+// JSX 23/01/07 GeoOpInLoft_MayExceedUsersDeviation_WAR_3043
+// NLD 27/03/07 GeoOpInSweepUnorderedAngles_ERR_3044
+// NLD 12/04/07 GeoOpInSweepImpossibleLawExtrapolation_ERR_3045
+// NLD 27/05/10 GeoOpInSweepImpossibleMVDOnClosedGuide_WAR_3046
+// JSX 14/10/10 GeoOpInLoftNonTangentSection_ERR_3016 Modification
+//              GeoOpInLoftImpossibleTangencyOnInnerGuide_WAR_3047 New
+//================================================================
+//                           INPUT
+//================================================================
+//----------------------------------Null or invalid input
+//
+GeoOpInCreation =
+     "The operator /p1 cannot be created. 
+      Check the dictionary.";
+// 
+GeoOpInIncompatibleArgument =
+     "Invalid input: the two inputs of /p1 type must lie on the same /p2.";
+// 
+GeoOpInInvalidArgument =
+     "Invalid input: the /p1 must be one of those used for the creation of /p2
+      (/p3 method)";
+// 
+GeoOpInInvalidDomain =
+     "The /p1 CATSurLimits must be contained inside the /p2 surface";
+// 
+GeoOpInMethodCallOrder =
+     "Invalid methods calls order. The method /p1 should be called after /p2.";
+// 
+GeoOpInInvalidIndicationPoint =
+     " /p1 is not a valid indication point.";
+// 
+GeoOpInInvalidImplementation =
+     " The implementation of /p1 cannot be used with the /p2 operator.";
+// 
+GeoOpInInvalidObject =
+     " Impossible modification of a geometrical operator.
+       Only a /p1 can be replaced by the /p2 method in the definition of a /p3 operator.
+       Create a new operator or modify your input object";
+// 
+GeoOpInInvalidSupport =
+     " /p1 has an invalid geometrical support:
+       it should lie on a /p2 to be used in a /p3 operator.";
+// 
+GeoOpInNonPositive =
+     " /p1 should be striclty positive.";
+// 
+GeoOpInNullPointer =
+     " Cannot create a /p1 with a null /p2.";
+// 
+GeoOpInSameArgument =
+     " A /p2 operator cannot operate a /p1 with itself.";
+// 
+GeoOpInUnavailableMethod =
+     " The /p1 method cannot be called for a /p2.";
+//================================================================
+//                           interne
+//================================================================
+//
+GeoOpIntImpossibleParameter =
+     "The parameter value cannot be provided for the /p1 object.";
+// 
+GeoOpIntImpossiblePCurve =
+     "The CATPCurve cannot be provided for the /p1 surface.";
+// 
+GeoOpIntMarchingStop =
+     "A numerical problem stops the computation of the intersection
+      Diagnostic: /p1.";
+// 
+GeoOpIntSignatureError =
+     "The /p1 operator stops due to a singularity.";
+// 
+GeoOpIntUnavailableImplementation =
+     "/p1 is not implemented yet.";
+//
+GeoOpIntBadGeometry =
+       "An internal error /p1 leads to a bad geometrical configuration.";
+//
+GeoOpIntMath =
+       "Error /P1 in the mathematical package.";
+//
+//  3001-3049     sweep and loft
+//  3050-3099     connect
+//  3100-3149     blend 
+//  3150-3199     evaluator
+//  3200-3249.....spiral
+//
+GeoOpInSweepInvalidSpine_ERR_3001.Request="Geometric sweep or loft operator:";
+GeoOpInSweepInvalidSpine_ERR_3001.Diagnostic="Invalid spine continuity.";
+GeoOpInSweepInvalidSpine_ERR_3001.Advice="The spine must be at least G1 (tangency) continuous.";
+//
+GeoOpInSweepNoIntersectionWithGuides_ERR_3002.Request ="Geometric sweep or loft operator:"; 
+GeoOpInSweepNoIntersectionWithGuides_ERR_3002.Diagnostic = "The moving plane (perpendicular to the spine) 
+and the guides do not always intersect.";
+GeoOpInSweepNoIntersectionWithGuides_ERR_3002.Advice ="This can be due to: \n
+- too short guides with regards to the spine\n
+- guides parallel to the moving plane\n
+- a too large spine curvature.";
+//
+GeoOpInLoftInvalidTangency_ERR_3003.Request ="Geometric loft operator:";
+GeoOpInLoftInvalidTangency_ERR_3003.Diagnostic = "The spine direction and the tangency conditions defined
+by the first and last sections are incompatible.";
+GeoOpInLoftInvalidTangency_ERR_3003.Advice = "The tangent conditions on the first and last section 
+must not be perpendicular to the spine."; 
+//
+GeoOpInLoftCoplanarSection_ERR_3004.Request ="Geometric operator with implicit spine:";
+GeoOpInLoftCoplanarSection_ERR_3004.Diagnostic ="Impossible to automatically compute the implicit spine, 
+due to two coplanar sections.";
+GeoOpInLoftCoplanarSection_ERR_3004.Advice ="Add a guide between the two sections or impose a tangency condition.";
+//
+GeoOpInLoftLinearProfile_ERR_3005.Request ="Geometric operator with implicit spine:";
+GeoOpInLoftLinearProfile_ERR_3005.Diagnostic ="The profile is linear.";
+GeoOpInLoftLinearProfile_ERR_3005.Advice ="Select a guide.";
+//
+GeoOpInSweepClosedProfile_ERR_3006.Request ="Geometric sweep birail operator:";
+GeoOpInSweepClosedProfile_ERR_3006.Diagnostic ="The profile is closed, 
+so that the operator cannot adjust the profile start and end to each guide.";
+GeoOpInSweepClosedProfile_ERR_3006.Advice ="Choose an open profile.";
+//
+GeoOpInSweepInvalidRadius_ERR_3007.Request ="Circular sweep or fillet operator:";
+GeoOpInSweepInvalidRadius_ERR_3007.Diagnostic ="The radius value is too small.";
+GeoOpInSweepInvalidRadius_ERR_3007.Advice ="Enter a larger radius value.";
+//
+GeoOpInLoftNoIntersection_ERR_3008.Request ="Geometric loft operator:";
+GeoOpInLoftNoIntersection_ERR_3008.Diagnostic ="A guide does not intersect one profile (or section). 
+This may be also due to the definition of the spine: 
+After the relimitation of the guide by the plane orthogonal to the spine, the guide does not intersect the profile (or section) anymore.";
+GeoOpInLoftNoIntersection_ERR_3008.Advice ="Select guides such that each guide intersects each profile (or section), or change the spine.";
+//
+GeoOpInLoftIdenticalGuides_ERR_3009.Request ="Geometric sweep or loft operator:";
+GeoOpInLoftIdenticalGuides_ERR_3009.Diagnostic ="Some guides or some profiles are geometrically identical.";
+GeoOpInLoftIdenticalGuides_ERR_3009.Advice="Select guides and profiles that are all geometrically different.";
+//
+GeoOpInSweepClosedProfile_ERR_3010.Request="Sweep bi-rail operator:";
+GeoOpInSweepClosedProfile_ERR_3010.Diagnostic="In case of a closed profile,
+this profile must intersect the two guides."; 
+GeoOpInSweepClosedProfile_ERR_3010.Advice="Modify the profile or change the guides to fulfill
+this condition.";
+//
+GeoOpInLoftNoCoplanarIntersect_ERR_3011.Request ="Geometric loft operator:";
+GeoOpInLoftNoCoplanarIntersect_ERR_3011.Diagnostic ="The intersection points between the guides and at least one of the
+profiles are not coplanar.";
+GeoOpInLoftNoCoplanarIntersect_ERR_3011.Advice ="Select a planar profile.";
+//
+GeoOpInLoftClosedProfile_ERR_3012.Request ="Geometric loft operator:";
+GeoOpInLoftClosedProfile_ERR_3012.Diagnostic ="The profile is closed and the two guides are intersecting on the profile:\n
+the operator cannot define the loft axis system.";
+GeoOpInLoftClosedProfile_ERR_3012.Advice ="Add another guide to define the loft axis system.";
+//
+GeoOpInSweepAlignedPoints_ERR_3013.Request ="Circular sweep operator:";
+GeoOpInSweepAlignedPoints_ERR_3013.Diagnostic ="The intersection between the guides and the moving frame plane leads
+to three aligned points: the circular section cannot be computed.";
+GeoOpInSweepAlignedPoints_ERR_3013.Advice ="Modify the guides.";
+//
+GeoOpInSweepDegeneratedSurface_ERR_3014.Request ="Geometric sweep or loft operator:";
+GeoOpInSweepDegeneratedSurface_ERR_3014.Diagnostic ="A profile (or section) is tangent to the guides.\n
+The surface is degenerated at the tangency points. ";
+GeoOpInSweepDegeneratedSurface_ERR_3014.Advice ="Modify the profile (or section).";
+//
+GeoOpInSweepReferenceSurface_ERR_3015.Request ="Geometric sweep or loft operator:";
+GeoOpInSweepReferenceSurface_ERR_3015.Diagnostic ="The normals to the reference surface and the moving plane are colinear. ";
+GeoOpInSweepReferenceSurface_ERR_3015.Advice ="Modify the reference surface.";
+//
+GeoOpInLoftNonTangentSection_ERR_3016.Request ="Geometric loft operator:";
+GeoOpInLoftNonTangentSection_ERR_3016.Diagnostic ="A section doesn't respect tangency or curvature condition imposed by guide reference.";
+GeoOpInLoftNonTangentSection_ERR_3016.Advice ="Check intersection with guides and modify the section to fulfill this condition.";
+//
+GeoOpInLoftSamePoints_ERR_3017.Request ="Geometric operator with implicit spine:";
+GeoOpInLoftSamePoints_ERR_3017.Diagnostic ="Two imposed points are the same.";
+GeoOpInLoftSamePoints_ERR_3017.Advice ="As these points are implicitely computed,  \n
+- Modify or impose the starting point of the spine \n
+- Change the imposed profiles and planes.";
+//
+GeoOpInConicSweepInvalidTangent_ERR_3018.Request ="Geometric sweep with conic section:";
+GeoOpInConicSweepInvalidTangent_ERR_3018.Diagnostic ="The tangent is aligned with the points resulting
+of the intersection between the guides and the moving frame plane.";
+GeoOpInConicSweepInvalidTangent_ERR_3018.Advice ="Modify the guides or \n
+Modify the reference surfaces.";
+//
+GeoOpInConicSweepNullTangent_ERR_3019.Request ="Geometric sweep with conic section:";
+GeoOpInConicSweepNullTangent_ERR_3019.Diagnostic ="A tangent is null.";
+GeoOpInConicSweepNullTangent_ERR_3019.Advice ="Modify the reference surfaces.";
+//
+GeoOpInConicSweepInvalidPoints_ERR_3020.Request ="Geometric sweep with conic section:";
+GeoOpInConicSweepInvalidPoints_ERR_3020.Diagnostic ="The points are not on the same plane side defined by the tangent or \n
+are not in the triangle defined by two tangents.";
+GeoOpInConicSweepInvalidPoints_ERR_3020.Advice ="Modify the guides.";
+//
+GeoOpInConicSweepIdenticalPoints_ERR_3021.Request ="Geometric sweep with conic section:";
+GeoOpInConicSweepIdenticalPoints_ERR_3021.Diagnostic ="The intersection between the guides and the moving frame plane
+leads to identical points.";
+GeoOpInConicSweepIdenticalPoints_ERR_3021.Advice ="Choose guides that are not intersecting each other.";
+//
+GeoOpInConicSweepInvalidParameter_ERR_3022.Request ="Geometric sweep with conic section:";
+GeoOpInConicSweepInvalidParameter_ERR_3022.Diagnostic ="The conic parameter value is null.";
+GeoOpInConicSweepInvalidParameter_ERR_3022.Advice ="Enter a strictly positive parameter value.";
+//
+GeoOpInConicSweepColinearTangent_ERR_3023.Request ="Geometric sweep with conic section:";
+GeoOpInConicSweepColinearTangent_ERR_3023.Diagnostic ="Two tangents are colinear.";
+GeoOpInConicSweepColinearTangent_ERR_3023.Advice ="Modify the guides or \n
+Modify the reference surfaces.";
+//
+GeoOpInSweepSmoothData_ERR_3024.Request ="Geometric sweep with smooth option:";
+GeoOpInSweepSmoothData_ERR_3024.Diagnostic ="The spine or a reference surface can't be smoothed.
+It may be due to one of the following reasons : 
+-The angular threshold is too small
+-The inputs are not clean.\n";
+GeoOpInSweepSmoothData_ERR_3024.Advice ="-Modify the continuity of the spine or
+-Modify the continuity of the reference surfaces or
+-Clean the inputs or
+-Increase the angular threshold.";
+//
+GeoOpInSweepCouplingTwist_ERR_3025.Request ="Sweep or Loft operator:";
+GeoOpInSweepCouplingTwist_ERR_3025.Diagnostic ="The intersection between one guide and the moving frame plane leads \n
+to more than one point: the coupling between Spine and Guide parameters cannot be computed.";
+GeoOpInSweepCouplingTwist_ERR_3025.Advice ="Select guides such that each moving frame plane intersects each guide on one point, or change the spine.";
+//
+GeoOpInSweepSpineTwist_ERR_3026.Request ="Sweep or Loft or Implicit Spine operator:";
+GeoOpInSweepSpineTwist_ERR_3026.Diagnostic ="The spine is twisted.";
+GeoOpInSweepSpineTwist_ERR_3026.Advice ="Change the orientation of the first plane.";
+//
+GeoOpInSweepMarching_ERR_3027.Request ="Sweep, Loft or Blend operator:";
+GeoOpInSweepMarching_ERR_3027.Diagnostic ="The result contains at least one invalid surface.";
+GeoOpInSweepMarching_ERR_3027.Advice ="Check orientations and laws.";
+//
+GeoOpInSweepC0Point_ERR_3028.Request ="Sweep or Loft:";
+GeoOpInSweepC0Point_ERR_3028.Diagnostic ="Impossible to compute edges intersection at tangency discontinuity point.";
+GeoOpInSweepC0Point_ERR_3028.Advice ="Check spine continuity.";
+//
+GeoOpInSweepC0MeridianCurve_ERR_3029.Request ="Sweep or Loft:";
+GeoOpInSweepC0MeridianCurve_ERR_3029.Diagnostic ="Impossible to compute meridian curve by surfaces intersection at tangency discontinuity point.";
+GeoOpInSweepC0MeridianCurve_ERR_3029.Advice ="Check spine continuity.";
+//
+GeoOpInSpineInvalidInput_ERR_3030.Request ="Spine operator:";
+GeoOpInSpineInvalidInput_ERR_3030.Diagnostic ="Impossible to compute the spine.";
+GeoOpInSpineInvalidInput_ERR_3030.Advice ="Change your inputs \n
+or select a start point.";
+//
+GeoOpInSweepEdgeCurveCreation_ERR_3031.Request ="Extrude or Sweep or Loft or Blend operator:";
+GeoOpInSweepEdgeCurveCreation_ERR_3031.Diagnostic ="Impossible to compute the edge curve between two surfaces.";
+GeoOpInSweepEdgeCurveCreation_ERR_3031.Advice ="Change your inputs.";
+//
+GeoOpInSweepDegeneratedCurve_ERR_3032.Request ="Extrude or Sweep or Loft or Blend operator:";
+GeoOpInSweepDegeneratedCurve_ERR_3032.Diagnostic ="An edge curve is degenerated.";
+GeoOpInSweepDegeneratedCurve_ERR_3032.Advice ="Change your inputs.";
+//
+GeoOpInLoftTangencyIncompatibleWithGuide_ERR_3033.Request ="Geometric loft operator:";
+GeoOpInLoftTangencyIncompatibleWithGuide_ERR_3033.Diagnostic = "The guide directions and the tangency conditions defined
+by the first and last sections are incompatible.";
+GeoOpInLoftTangencyIncompatibleWithGuide_ERR_3033.Advice = "The tangent conditions on the first and last section
+must be parallel to the guides at intersection points between guides and sections."; 
+//
+GeoOpInSweepInvalidDraftAngle_ERR_3034.Request ="Geometric sweep operator:";
+GeoOpInSweepInvalidDraftAngle_ERR_3034.Diagnostic = "The draft angle is not compatible with spine tangent and draft direction.";
+GeoOpInSweepInvalidDraftAngle_ERR_3034.Advice = "Change your inputs."; 
+//
+GeoOpInLoftInvalidNbOfGuideForAreaOption_ERR_3035.Request ="Geometric Loft operator:";
+GeoOpInLoftInvalidNbOfGuideForAreaOption_ERR_3035.Diagnostic = "The number of Guide is not compatible with the area constraint.";
+GeoOpInLoftInvalidNbOfGuideForAreaOption_ERR_3035.Advice = "Select zero one or two guides."; 
+//
+GeoOpInSegmentSweepImpossibleLimitation_ERR_3036.Request ="Geometric sweep with linear section:";
+GeoOpInSegmentSweepImpossibleLimitation_ERR_3036.Diagnostic ="The linear section is parallel to the limiting plane
+and cannot be relimited.";
+GeoOpInSegmentSweepImpossibleLimitation_ERR_3036.Advice ="Change your inputs.";
+//
+GeoOpInSegmentSweepNullLength_ERR_3037.Request ="Geometric sweep with linear section:";
+GeoOpInSegmentSweepNullLength_ERR_3037.Diagnostic ="Evaluated section has a null length.";
+GeoOpInSegmentSweepNullLength_ERR_3037.Advice ="Change your inputs.";
+//
+GeoOpInSweepImplicitProfileDegenerated_ERR_3038.Request ="Geometric sweep with implicit section:";
+GeoOpInSweepImplicitProfileDegenerated_ERR_3038.Diagnostic ="Evaluated section is degenerated.";
+GeoOpInSweepImplicitProfileDegenerated_ERR_3038.Advice ="Change your inputs.";
+//
+GeoOpInSweepTooComplexSurface_ERR_3039.Request ="Extrude or Sweep or Loft or Blend operator:";
+GeoOpInSweepTooComplexSurface_ERR_3039.Diagnostic = "The Spine is too long or the geometry is too complex.";
+GeoOpInSweepTooComplexSurface_ERR_3039.Advice = "Change your inputs. Split the Spine."; 
+//
+GeoOpInInternalError_ERR_3040.Request="Geometrical operator: internal error.";
+GeoOpInInternalError_ERR_3040.Diagnostic="Operation cannot be performed.";
+GeoOpInInternalError_ERR_3040.Advice="Change your inputs.";
+//
+// N.B voir aussi TopOpInSweepImplicitProfileEvaluation_ERR_7066 qui va le remplacer
+GeoOpInSweepImplicitProfileEvaluation_ERR_3041.Request ="Geometric sweep with implicit section:";
+GeoOpInSweepImplicitProfileEvaluation_ERR_3041.Diagnostic ="Section cannot be evaluated.";
+GeoOpInSweepImplicitProfileEvaluation_ERR_3041.Advice ="Change your inputs.";
+//
+GeoOpInSweepSurfaceConstructionPatchMin_WAR_3042.Request ="Geometric sweep, loft or blend:";
+GeoOpInSweepSurfaceConstructionPatchMin_WAR_3042.Diagnostic ="Too complex or long guide. Surface may not respect input specifications.";
+GeoOpInSweepSurfaceConstructionPatchMin_WAR_3042.Advice ="Change your inputs. Reduce the length";
+//
+GeoOpInLoft_MayExceedUsersDeviation_WAR_3043.Request = "Multi-sections surface:";
+GeoOpInLoft_MayExceedUsersDeviation_WAR_3043.Diagnostic = "Gap detected between sections and guides. The distance between the surface and the sections may be greater than the deviation.:";
+GeoOpInLoft_MayExceedUsersDeviation_WAR_3043.Advice = "Check the distance and if required, increase the deviation or reduce gaps.";
+//
+GeoOpInSweepUnorderedAngles_ERR_3044.Request ="Circular sweep operator:";
+GeoOpInSweepUnorderedAngles_ERR_3044.Diagnostic ="The end angle must be greater than the start angle
+: the circular section cannot be computed.";
+GeoOpInSweepUnorderedAngles_ERR_3044.Advice ="Change your inputs.";
+//
+// voir aussi TopOpInSweepImpossibleLawExtrapolation_ERR_7069 qui va le remplacer
+GeoOpInSweepImpossibleLawExtrapolation_ERR_3045.Request ="Geometric sweep with implicit section:";
+GeoOpInSweepImpossibleLawExtrapolation_ERR_3045.Diagnostic ="Law cannot be consistently extrapolated at tangency discontinuity vertices.";
+GeoOpInSweepImpossibleLawExtrapolation_ERR_3045.Advice ="Change your inputs.";
+//
+GeoOpInSweepImpossibleMVDOnClosedGuide_WAR_3046.Request ="Geometric sweep:";
+GeoOpInSweepImpossibleMVDOnClosedGuide_WAR_3046.Diagnostic ="Swap from multiple to global viewing direction because of angular slide at closure.";
+GeoOpInSweepImpossibleMVDOnClosedGuide_WAR_3046.Advice ="";
+//
+GeoOpInLoftImpossibleTangencyOnInnerGuide_WAR_3047.Request ="Multi-sections surface:";
+GeoOpInLoftImpossibleTangencyOnInnerGuide_WAR_3047.Diagnostic ="Tangency constraint on an inner guide is not guarantee.";
+GeoOpInLoftImpossibleTangencyOnInnerGuide_WAR_3047.Advice ="Split profiles, and build two multi-sections surfaces ";
+//
+//    ----- 3050-3099connect input error
+// 
+GeoOpInConnectTooLargeOffset_ERR_3050.Request ="Parallel operator:";
+GeoOpInConnectTooLargeOffset_ERR_3050.Diagnostic ="The offset value of the parallel
+operation is greater than the curvature radius of the curve.";
+GeoOpInConnectTooLargeOffset_ERR_3050.Advice ="Decrease the offset value.";
+//
+//    ----- 3100-3149 blend input error
+// 
+GeoOpInBlendIntersectingCurves_ERR_3100.Request ="Blend operator:";
+GeoOpInBlendIntersectingCurves_ERR_3100.Diagnostic ="The supporting curves of the blend
+to build are intersecting each other.";
+GeoOpInBlendIntersectingCurves_ERR_3100.Advice ="Choose curves that are not intersecting each other.";
+//
+GeoOpInBlendTwist_ERR_3101.Request ="Blend operator:";
+GeoOpInBlendTwist_ERR_3101.Diagnostic ="The result contains at least one twisted surface.";
+GeoOpInBlendTwist_ERR_3101.Advice ="Reduce tension or invert wire direction.";
+//
+//    ----- 3150-3199 evaluator
+// 
+GeoOpInParameterFromLength_ERR_3150.Request ="Parameter computation from a length:";
+GeoOpInParameterFromLength_ERR_3150.Diagnostic ="The input length leads to a computed parameter that is 
+outside the maximum limits of the curve or surface.";
+GeoOpInParameterFromLength_ERR_3150.Advice ="Decrease the length value.";
+//
+GeoOpInToNurbsConversion_ERR_3151.Request ="Curve to NURBS curve conversion:";
+GeoOpInToNurbsConversion_ERR_3151.Diagnostic ="The input curve cannot be computed as a NURBS on surface,\n 
+because it is not itself defined on surface.";
+GeoOpInToNurbsConversion_ERR_3151.Advice ="Choose an input curve on surface, 
+or directly retrieve the result as a 3D curve.";
+//
+GeoOpInToNurbsConversion_ERR_3152.Request ="Curve to NURBS curve conversion:";
+GeoOpInToNurbsConversion_ERR_3152.Diagnostic ="The curve cannot be computed as a 3D NURBS curve 
+or a NURBS curve on a surface. This may be due to:\n
+- The underlying surface of the CATPNurbs is not a plane\n
+- The 3D Curve is not on a surface and therefore cannot be computed as a CATPNurbs\n
+- The constraints on the NURBS to compute are not fulfilled\n
+- The curve is not convertible.";
+GeoOpInToNurbsConversion_ERR_3152.Advice ="Modify the constraints or the type of curve to compute.";
+//
+GeoOpInInvalidLimits_ERR_3153="The current limits are outside the max limits (domain on which the evaluation can be done)";
+//
+GeoOpIntNonEvaluableLaw_ERR_3154="Internal error: the law cannot be evaluated.";
+//
+//  3200-3249.....spiral
+//
+GeoOpInSpiralPitchTooSmall_ERR_3200.Request ="Spiral operator:";
+GeoOpInSpiralPitchTooSmall_ERR_3200.Diagnostic ="Spiral pitch.is too small.";
+GeoOpInSpiralPitchTooSmall_ERR_3200.Advice ="Choose a pitch larger than geometry factory resolution.";
+//
+GeoOpInSpiralLengthTooSmall_ERR_3201.Request ="Spiral operator:";
+GeoOpInSpiralLengthTooSmall_ERR_3201.Diagnostic ="The generated curve is smaller than geometry factory resolution.";
+GeoOpInSpiralLengthTooSmall_ERR_3201.Advice ="Increase pitch, end angle or end radius\n
+or decrease start radius.";
+//
+//    ----- sweep internal error
+// 
+GeoOpIntSweepInvalidError_ERR_3500=
+"Geometric sweep operator: internal error /p.";
+// 
+GeoOpIntLoftInvalidError_ERR_3501=
+"Geometric loft operator: internal error /p.";
+// 
+GeoOpIntDistanceMin_ERR_3502=
+"Minimum distance computation: no solution found.";
+//
+GeoOpIntLoftInvalidError_ERR_3502.Request="Geometric loft operator:";
+GeoOpIntLoftInvalidError_ERR_3502.Diagnostic="Invalid order for the profile selection.";
+GeoOpIntLoftInvalidError_ERR_3502.Advice="Reorder the selection.";
+// 
+GeoOpIntNurbsConversion_ERR_3503="Internal error in the NURBS conversion software.";
+
+// 
+GeoOpInNoProjectionForGlobalDeformation_ERR_3600.Request ="Global Deformation Operator:";
+GeoOpInNoProjectionForGlobalDeformation_ERR_3600.Diagnostic ="There is no projection on reference or guide 
+surfaces .";
+GeoOpInNoProjectionForGlobalDeformation_ERR_3600.Advice ="Extrapolate reference or guide surfaces.";
+//
+GeoOpInAdaptiveSweepInvalidCDS_Solver_ERR_3700.Request ="Adative Sweep Operator : Solver can't be initialized:";
+GeoOpInAdaptiveSweepInvalidCDS_Solver_ERR_3700.Diagnostic ="Too Complex or Unsuported constraint in Sketch .";
+GeoOpInAdaptiveSweepInvalidCDS_Solver_ERR_3700.Advice ="Simplify Sketch, Use Intermediate Tangent Constraint with line.";
+//
+GeoOpInAdaptiveSweepInvalidCDS_Solver_WAR_3701.Request ="Adative Sweep Operator : Fast Solver can't be initialized:";
+GeoOpInAdaptiveSweepInvalidCDS_Solver_WAR_3701.Diagnostic ="Standard Solver is used, computation may be slow .";
+GeoOpInAdaptiveSweepInvalidCDS_Solver_WAR_3701.Advice ="Simplify Sketch, Use Intermediate Tangent Constraint with line.";

@@ -1,0 +1,74 @@
+//=====================================================================================
+//                                     CNEXT - CXRn
+//                          COPYRIGHT DASSAULT SYSTEMES 2001 
+//-------------------------------------------------------------------------------------
+// FILENAME    :    CATDrwDimThreadCmd
+// LOCATION    :    DraftingIntCommands
+// AUTHOR      :    fgx
+// BUT         :    Commande de creation de cotes sur threads (top and/or side views)
+// DATE        :    07.03.2001
+//-------------------------------------------------------------------------------------
+// DESCRIPTION :    
+//-------------------------------------------------------------------------------------
+// COMMENTS    :    
+//-------------------------------------------------------------------------------------
+// MODIFICATIONS     user  date        purpose
+//    HISTORY        ----  ----        -------
+//=====================================================================================
+
+//******************************************************************************
+// Command
+//******************************************************************************
+CATDrwDimThreadCmd.Title = "Gewindebemaﬂung";
+CATDrwDimThreadCmd.UndoTitle = "Gewindebemaﬂungserzeugung";
+
+//******************************************************************************
+// States
+//******************************************************************************
+CATDrwDimThreadCmd.waitForSelState.Message = "Die Darstellung des zu bemaﬂenden Gewindes ausw‰hlen";
+CATDrwDimThreadCmd.waitFor2sdLineState.Message = "Eine zweite 2D-Linie ausw‰hlen, die parallel zur ersten liegt";
+
+//******************************************************************************
+// Agents
+//******************************************************************************
+CATDrwDimThreadCmd._agentSet._elemAgent.UndoTitle = "Auswahl der Gewindedarstellung";
+CATDrwDimThreadCmd._agentSet._lineAgent1.UndoTitle = "Auswahl der zweiten 2D-Linie";
+CATDrwDimThreadCmd._agentSet.2DPointIndication.UndoTitle = " Auswahl";
+
+CATDrwDimThreadCmd.OrientBarRessource.Bar.Title="Ausrichtung";
+
+//******************************************************************************
+// Force dimension on element Button
+//******************************************************************************
+CATDrwDimThreadCmd.OrientBarRessource._refElem.Title = "Bemaﬂung f¸r Element erzwingen";
+CATDrwDimThreadCmd.OrientBarRessource._refElem.ShortHelp="Bemaﬂung f¸r Element erzwingen";
+CATDrwDimThreadCmd.OrientBarRessource._refElem.Help=
+"Erzwingen, dass die Maﬂlinie parallel zum bemaﬂten Element verl‰uft";
+CATDrwDimThreadCmd.OrientBarRessource._refElem.LongHelp=
+"Bemaﬂung f¸r Element erzwingen
+Erzwingen, dass die Maﬂlinie parallel zum bemaﬂten Element verl‰uft.";
+
+//******************************************************************************
+// Force horizontal dimension Button
+//******************************************************************************
+CATDrwDimThreadCmd.OrientBarRessource._refHori.Title = "Horizontale Bemaﬂung erzwingen";
+CATDrwDimThreadCmd.OrientBarRessource._refHori.ShortHelp="Horizontale Bemaﬂung erzwingen";
+CATDrwDimThreadCmd.OrientBarRessource._refHori.Help=
+"Erzwingen, dass die Maﬂlinie horizontal verl‰uft";
+CATDrwDimThreadCmd.OrientBarRessource._refHori.LongHelp=
+"Horizontale Bemaﬂung erzwingen
+Erzwingen, dass die Maﬂlinie horizontal verl‰uft.";
+
+//******************************************************************************
+// Force vertical dimension Button
+//******************************************************************************
+CATDrwDimThreadCmd.OrientBarRessource._refVert.Title = "Vertikale Bemaﬂung erzwingen";
+CATDrwDimThreadCmd.OrientBarRessource._refVert.ShortHelp="Vertikale Bemaﬂung erzwingen";
+CATDrwDimThreadCmd.OrientBarRessource._refVert.Help=
+"Erzwingen, dass die Maﬂlinie senkrecht verl‰uft";
+CATDrwDimThreadCmd.OrientBarRessource._refVert.LongHelp=
+"Senkrechte Bemaﬂung erzwingen
+Erzwingen, dass die Maﬂlinie senkrecht verl‰uft.";
+
+FakeThreadDim="Nicht assoziative Gewindebemaﬂung erzeugt.";
+

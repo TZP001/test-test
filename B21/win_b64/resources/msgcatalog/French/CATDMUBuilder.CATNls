@@ -1,0 +1,101 @@
+INFO_HELP="
+CATDMUBuilder génère des produits correspondant à la liste de documents et alimente le cache
+              avec les données appropriées.\n
+Syntaxe : \n
+   Extraire les informations de l'aide :
+      CATDMUBuilder -h\n
+   Générer des produits et alimenter le cache :
+      CATDMUBuilder inputlocation
+                    [-db dbx -user user -spwd cryppwd -role role -server srv]
+                    [-static][-selins]
+                    -product dirprod [-prefix prefix]
+                    [-replacebycgr dircgr][-activate|-deactivate][-onlyone]
+                    [-nocache][-force][-copycache]\n
+   Alimenter le cache :
+      CATDMUBuilder inputlocation
+                    [-db dbx -user user -spwd cryppwd -role role -server srv]
+                    [-static][-selins]\n
+Exemple sous Windows :\n
+   CATDMUBuilder -h
+   CATDMUBuilder c:\u\input.txt -product c:\proddir\n
+Exemple sous Unix :\n
+   CATDMUBuilder -h
+   CATDMUBuilder /u/input1
+   CATDMUBuilder /u/input2 -user user1 -spwd user1pwd -role user1role -server server2\n
+Arguments :\n
+   -h                   : Aide.
+   inputlocation        : Pour définir la liste des documents à traiter.
+                          Il peut s'agir du chemin d'accès :
+                          - d'un fichier contenant une liste de documents.
+                            Ce dernier doit contenir un chemin d'accès à un document par ligne (avec
+                            éventuellement un DLName précédé de 'CATDLN://').
+                          - d'un répertoire contenant des documents.
+                            Tous les documents de ce répertoire sont traités.
+                            Il peut s'agir d'un DLName précédé de 'CATDLN://'.
+                          Différents types de documents sont traités : CATProduct, CATVpm,
+                          psn, Scene4D, xml ou assemblages MultiCAD.
+   -db dbx              : Pour définir la base de données (VPM, VPMServer ou ENOVIAV5).
+   -user user           : Pour définir l'utilisateur.
+   -pwd  pwd            : Pour définir le mot de passe de l'utilisateur (ne peut être utilisé avec -spwd).
+   -spwd cryppwd        : Pour définir le mot de passe de l'utilisateur.
+                          Il est décrypté avant utilisation.
+   -role role           : Pour définir le rôle de l'utilisateur.
+   -server srv          : Pour définir le serveur.
+   -serverid id         : Pour se connecter à un serveur existant (avec ENOVIAV5 uniquement).
+   -host hostid         : Pour définir la machine du serveur (avec VPMServer uniquement).
+   -static              : Pour ouvrir un fichier psn avec l'option static (uniquement pour psn).
+                          Par défaut, il est ouvert avec l'option dynamic.
+   -selins              : Pour ouvrir un fichier psn avec les instances sélectionnées (uniquement pour psn).
+                          Par défaut, il est ouvert avec toutes les instances.
+   -product dirprod     : Pour stocker des produits dans le répertoire dirprod.
+                          Celui-ci peut être un DLName précédé de 'CATDLN://'.
+   -prefix prefix       : Pour enregistrer tous les produits dont le nom comporte un préfixe.
+   -replacebycgr dircgr : Pour remplacer tous les composants par des cgr associés copiés dans le
+                          répertoire dircgr.
+                          Celui-ci peut être un DLName précédé de 'CATDLN://'.
+   -activate            : Pour activer toutes les formes et enregistrer l'état d'activation.
+   -deactivate          : Pour désactiver toutes les formes et enregistrer l'état d'activation.
+   -onlyone             : Intégrer tous les composants dans le produit racine.
+   -nocache             : Pour éviter l'étape de préparation du cache.
+   -force               : Pour forcer le recalcul des données du cache.
+   -copycache           : Pour copier toutes les données du cache dans le cache local.
+   -noreplace           : Pour éviter le remplacement du fichier pendant la copie.
+   -mp                  : Pour activer le multitraitement.
+   -listcomp dircomp    : Pour dresser la liste de tous les composants de chaque produit. Le répertoire
+                          contiendra un fichier texte par produit (même nom). Chaque fichier
+                          contient un composant par ligne.
+   -outputformat xx yy  : Pour exporter la structure du produit dans une liste de formats donnés
+                          (xx, yy). Cette option nécessite l'option -product. Chaque fichier
+                          est exporté dans le répertoire dirprod.
+   -savedata            : Pour enregistrer les données liées à la structure du produit dans le même répertoire.\n
+   NB : Les paramètres user, spwd, role et server sont requis si les documents font référence à VPM.\n
+Diagnostics :\n
+   Les valeurs de retours possibles sont :\n
+      0   Exécution terminée avec succès.\n
+      1   Panne due à une des causes suivantes :
+          - licence non disponible
+          - gestion du cache désactivée
+          - arguments manquants
+          - paramètre non valide
+          - paramètre manquant après une option
+          - fichier d'entrée manquant
+          - fichier introuvable
+          - ouverture d'un fichier d'entrée impossible
+          - type de document erroné\n
+      2   Erreur de traitement.\n
+      3   Traitement partiel.\n
+Corrections :\n
+   Code de retour = 1:
+      Modifiez la ligne de commande ou l'environnement à l'aide des informations contenues dans
+      le fichier d'erreur standard.\n
+   Code de retour = 2 :
+      Prenez contact avec l'assistance technique locale.\n
+   Code de retour = 3 :
+      Corrigez les fichiers posant problème : leurs noms sont indiqués dans le fichier d'erreur standard.
+      Une utilisation interactive des fichiers peut vous informer de l'erreur.
+";
+ERR_PROCESSING="ERREUR: CATDMUBuilder n'a pas pu effectuer le traitement.";
+ERR_TREATMENT="ERREUR: Le répertoire/fichier suivant ne peut être traité:";
+OK_TREATMENT="OK: Le répertoire/fichier suivant a été traité:";
+START_BATCH="CATDMUBuilder est lancé à :";
+STOP_BATCH="CATDMUBuilder s'arrête après une durée de :";

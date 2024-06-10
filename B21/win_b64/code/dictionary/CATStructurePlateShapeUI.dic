@@ -1,0 +1,71 @@
+#*****************************************************************************
+# CATIA Version 5 Release 11 Framework CATStructurePlateShapeUI
+# Copyright Dassault Systemes 2002
+#*****************************************************************************
+#  Abstract:
+#  ---------
+#    
+#*****************************************************************************
+#  Usage:
+#  ------
+#    
+#*****************************************************************************
+#  Historic
+#  --------
+#
+#  Author: Philip Berlioz (pbr)
+#  Date  : 12/16/2002
+#  Goal  : Creation
+#
+#*****************************************************************************
+
+#*****************************************************************************
+# Workbench
+#*****************************************************************************
+CATSpsConfig	                CATIPRDWorkshopConfiguration	        libCATStructurePlateShapeCfg
+CATSpsConfig	                CATIWorkbench	                        libCATStructurePlateShapeCfg
+CATSpsConfig_init	            CATIWorkbenchInitialization	          libCATStructurePlateShapeCfg
+CATApplicationFrame	          CATISpsConfigurationFactory           libCATStructurePlateShapeCfg
+CATStructurePlateShapeSearch  CATISearchInformation                 libCATStructurePlateShapeCfg
+CATMultiselManager            CATIStructurePlateShapeSearchFactory  libCATStructurePlateShapeCfg
+CATEditorManager2             CATISpsSettingsEditorFactory          libCATStructurePlateShapeCfg
+CATUserSettingsManager        CATISpsSettingsEditorFactory          libCATStructurePlateShapeCfg
+CATSpsSettingsEditor          CATIUserSettings   		                libCATStructurePlateShapeCfg
+CATSpsConfig_init	            CATICommandSet	                      libCATStructurePlateShapeCfg
+#*****************************************************************************
+# Attributes
+#*****************************************************************************
+CATEditorManager				       CATISpsPropAttributesEditorFactory	  libCATSpsEditProperties
+CATSpsPropAttributesEditor		 CATIEditProperties					          libCATSpsEditProperties
+STRPlate  						         CATIRootProperties					          libCATSpsEditProperties
+STRMember  						         CATIRootProperties					          libCATSpsEditProperties
+
+
+#*****************************************************************************
+# PHX -  Manipulators R18 sp4 
+#*****************************************************************************
+STRMember				       CATIFlipManip	  libCATSpsManipulator
+STRMember				       CATIOrientManip	  libCATSpsManipulator
+STRMember				       CATIAnchorPtManip	  libCATSpsManipulator
+
+#*****************************************************************************
+# RPG -  Double-click of Plate & Shape
+#*****************************************************************************
+STRPlate  						         CATIEdit					          libCATSpsDsaPiecePart
+STRMember  						         CATIEdit					          libCATSpsDsaPiecePart
+
+#*****************************************************************************
+# CNA Membershipe R19GA - PHX
+#*****************************************************************************
+# to enable membership 
+CATStdShapeExt                        CATIEsuEncloseable        libCATSpsCNAMemberShip
+CATStdPlateExt                        CATIEsuEncloseable        libCATSpsCNAMemberShip
+# to display object tab
+CATStdShapeExt                        CATIPspObjectTab        libCATSpsCNAMemberShip
+CATStdPlateExt                        CATIPspObjectTab        libCATSpsCNAMemberShip
+
+
+# THE CAA2 WIZARDS HAS INSERTED CODE AT THE BOTTOM OF THIS FILE
+# YOU MAY HAVE TO RELOCATE THIS SOURCE IF COMPILATION FAILS
+# DO NOT EDIT :: THE CAA2 WIZARDS WILL ADD CODE HERE
+

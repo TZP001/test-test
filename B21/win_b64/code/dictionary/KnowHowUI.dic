@@ -1,0 +1,35 @@
+# le workshop Expert
+CATApplicationFrame			CATIExpertKnowWorkshopFactory	libCATExpertKnowWorkshop
+CATExpertKnowWorkshop		CATIWorkshop					libCATExpertKnowWorkshop	CATIsKnowledgeExpertInside@libCATKWERule
+CATExpertKnowWorkshop_trans	CATIWorkbenchTransition			libCATExpertKnowWorkshop	CATIsKnowledgeExpertInside@libCATKWERule
+
+#pour declarer la rulebase comme uiactive
+CATKWERuleBase				CATIUIActivate					libCATExpertKnowWorkshop	CATIsKnowledgeExpertInside@libCATKWERule
+
+#pour declarer la rulebase comme site en environnement TP
+CATKWERuleBase				CATInPlaceSite					libCATExpertKnowWorkshop	TPConditionalAdhesionKWE
+
+# l interface pour l edition en context
+CATKWERuleBaseComponent		CATIEdit						libCATExpertKnowWorkshop	CATIsKnowledgeExpertInside@libCATKWERule
+
+#pour le sous menu
+CATKWEGenericRuleBaseComponent	CATIContextualSubMenu		libCATExpertKnowWorkshop
+CATGenericRuleBaseComponentVol	CATIContextualSubMenu		libCATExpertKnowWorkshop
+
+#pour l affichage des commandes
+CATKWEGenericRuleBaseComponent	CATICSOFilter				libCATExpertKnowWorkshop
+
+#copy cut paste
+CATKWEGenericRuleBaseComponent	CATICutAndPastable			libCATExpertKnowWorkshop	CATIsKnowledgeExpertInside@libCATKWERule
+
+#pour les properties
+CATEditorManager			CATIKWEPropertyFactory			libCATExpertKnowWorkshop
+CATKWEProperty				CATIEditProperties				libCATExpertKnowWorkshop
+CATKWERuleBase				CATIRootProperties				libCATExpertKnowWorkshop
+
+#pour les catalogues
+CATKWERuleBase				CATICatalogInstantiation		libCATExpertKnowWorkshop	CATIsKnowledgeExpertRuntimeInside@libCATKWERule
+CATKWERuleBase				CATICatalogEnable				libCATExpertKnowWorkshop	CATIsKnowledgeExpertRuntimeInside@libCATKWERule
+
+CATWizardKWEDescription		CATIWizardDescription			libCATExpertKnowWorkshop	CATIsKnowledgeExpertInside@libCATKWERule
+CATWizardKWEDescription		CATICreateInstance				libCATExpertKnowWorkshop	CATIsKnowledgeExpertInside@libCATKWERule

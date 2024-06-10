@@ -1,0 +1,415 @@
+//
+//  04/09/2002 Claude Guinamard :
+//          Supression de la "frame Export : Precision" (RI 331407)
+//  05/12/2003 Claude Guinamard :
+//          Ajout "toggle" Mode Part / ProductStructure
+//
+
+// ==============================================================================================
+// Nouvelle boite de dialogue
+// ==============================================================================================
+
+
+// ==============================================================================================
+// General 
+// ==============================================================================================
+
+_ToolsGeneral.HeaderFrame.Global.Title =
+"Allgemein";
+
+
+// ----------------------------------------------------------------------------------------------
+// General : show de la boite de fin de transfert
+// ----------------------------------------------------------------------------------------------
+
+_ToolsGeneral.IconAndOptionsFrame.OptionsFrame._FrameShowBox._LblShowBox.Title=
+"- Dialogfenster 'Anzeigen/Verdecken':  ";
+
+_ToolsGeneral.IconAndOptionsFrame.OptionsFrame._FrameShowBox._ShowBox.Title =
+"Dialogfenster zur Fertigstellung anzeigen";
+
+//_ToolsGeneral.IconAndOptionsFrame.OptionsFrame._FrameShowBox._ShowBox.ShortHelp =
+//"Show Completion Dialog Box";
+
+_ToolsGeneral.IconAndOptionsFrame.OptionsFrame._FrameShowBox._ShowBox.LongHelp = 
+"Dialogfenster zur Fertigstellung (Completion) am Ende der Übertragung anzeigen.";
+
+
+// ==============================================================================================
+// Export 
+// ==============================================================================================
+
+_ToolsExport.HeaderFrame.Global.Title =
+"Exportieren";
+
+
+// ----------------------------------------------------------------------------------------------
+// Export : B Spline
+// ----------------------------------------------------------------------------------------------
+
+_ToolsExport.IconAndOptionsFrame.OptionsFrame._FrameCourbe._LblExportBS.Title=
+"- Kurven- und Flächentyp: ";
+
+_ToolsExport.IconAndOptionsFrame.OptionsFrame._FrameCourbe.CourbeStd.Title =
+"Standard";
+
+//_ToolsExport.IconAndOptionsFrame.OptionsFrame._FrameCourbe.CourbeStd.ShortHelp =
+//"Export of entities to appropriate IGES type";
+
+_ToolsExport.IconAndOptionsFrame.OptionsFrame._FrameCourbe.CourbeStd.LongHelp = 
+"Exportiert Elemente in den äquivalenten IGES-Typ (nicht unbedingt B-Spline-Typen).";
+
+_ToolsExport.IconAndOptionsFrame.OptionsFrame._FrameCourbe.CourbeBSpl.Title =
+"B-Spline";
+
+//_ToolsExport.IconAndOptionsFrame.OptionsFrame._FrameCourbe.CourbeBSpl.ShortHelp =
+//"Export of entities to B-Spline";
+
+_ToolsExport.IconAndOptionsFrame.OptionsFrame._FrameCourbe.CourbeBSpl.LongHelp = 
+"Exportiert alle Flächentypen als B-Spline-Flächen (Element 128),
+Drahtmodell- und Hilfslinien als B-Spline-Kurven (Element 126).";
+
+
+// ----------------------------------------------------------------------------------------------
+// Export : Representation Surf / Wireframe
+// ----------------------------------------------------------------------------------------------
+
+_ToolsExport.IconAndOptionsFrame.OptionsFrame._FrameRepres._LblRepresSurf.Title=
+"- Darstellungsmodus:   ";
+
+_ToolsExport.IconAndOptionsFrame.OptionsFrame._FrameRepres.RepresSurf.Title =
+"Fläche";
+
+//_ToolsExport.IconAndOptionsFrame.OptionsFrame._FrameRepres.RepresSurf.ShortHelp =
+//"Export of faces as IGES faces";
+
+_ToolsExport.IconAndOptionsFrame.OptionsFrame._FrameRepres.RepresSurf.LongHelp = 
+"Exportiert Teilflächen als getrimmte (parametrische) IGES-Flächenelemente (Element 144).";
+
+_ToolsExport.IconAndOptionsFrame.OptionsFrame._FrameRepres.RepresFil.Title =
+"Drahtmodell";
+
+//_ToolsExport.IconAndOptionsFrame.OptionsFrame._FrameRepres.RepresFil.ShortHelp =
+//"Export of faces as a set of edges";
+
+_ToolsExport.IconAndOptionsFrame.OptionsFrame._FrameRepres.RepresFil.LongHelp = 
+"Exportiert Teilflächen als Kantenset.";
+
+_ToolsExport.IconAndOptionsFrame.OptionsFrame._FrameRepres._ExpMSBO.Title =
+"Volumenkörper - Schalenelement " ;
+
+//_ToolsExport.IconAndOptionsFrame.OptionsFrame._FrameRepres._ExpMSBO.ShortHelp =
+//"To Export all Solids, Shells and Faces as the corresponding IGES New Entities " ;
+
+_ToolsExport.IconAndOptionsFrame.OptionsFrame._FrameRepres._ExpMSBO.LongHelp =
+"Exportiert Volumenkörper, Schalenelemente und Teilflächen als neue IGES-Elemente:
+- Volumenkörper werden als aus mehreren Volumenkörpern bestehende B-Rep-Objekte (Typ 186, Format 0) exportiert
+- Schalenelemente werden als offene oder geschlossene Schalenelementeinheiten exportiert (Typ 514, Format 2 oder 1)
+- Teilflächen werden als Teilflächenelemente (Typ 510, Format 1) exportiert
+! Teilflächen werden mit dieser Option NICHT als getrimmte (parametrische) Flächenelemente (Typ 144) exportiert" ;
+
+
+// ----------------------------------------------------------------------------------------------
+// Export : Show/No Show
+// ----------------------------------------------------------------------------------------------
+
+_ToolsExport.IconAndOptionsFrame.OptionsFrame._FrameSaveOnlyShow.SaveOnlyShow.Title =
+"Nur angezeigte Einheiten sichern ";
+
+//_ToolsExport.IconAndOptionsFrame.OptionsFrame._FrameSaveOnlyShow.SaveOnlyShow.ShortHelp =
+//"Save only shown entities";
+
+_ToolsExport.IconAndOptionsFrame.OptionsFrame._FrameSaveOnlyShow.SaveOnlyShow.LongHelp = 
+"Sichert nur Einheiten, die sich im Modus 'Anzeigen' befinden.";
+
+
+// ----------------------------------------------------------------------------------------------
+// Export : Nom et organisation de l'auteur
+// ----------------------------------------------------------------------------------------------
+// JRX - 2002-10-31
+
+_ToolsExport.HeaderFrame._FrameAuthorInfos.Global.Title=
+"- Name und Organisation des Autors";
+
+_ToolsExport.IconAndOptionsFrame.OptionsFrame._FrameAuthorInfos._LblAuthorName.Title=
+"- Name des Autors: ";
+
+//_ToolsExport.IconAndOptionsFrame.OptionsFrame._FrameAuthorInfos._LblAuthorName.ShortHelp=
+//"To write the author's name in the IGES file";
+
+_ToolsExport.IconAndOptionsFrame.OptionsFrame._FrameAuthorInfos._LblAuthorName.LongHelp=
+"Schreibt den Namen des Autors in den globalen Bereich der IGES-Datei.";
+
+_ToolsExport.IconAndOptionsFrame.OptionsFrame._FrameAuthorInfos._LblAuthorOrganization.Title=
+"- Organisation des Autors: ";
+
+//_ToolsExport.IconAndOptionsFrame.OptionsFrame._FrameAuthorInfos._LblAuthorOrganization.ShortHelp=
+//"To write the author's organization in the IGES file.";
+
+_ToolsExport.IconAndOptionsFrame.OptionsFrame._FrameAuthorInfos._LblAuthorOrganization.LongHelp=
+"Schreibt die Organisation des Autors in den globalen Bereich der IGES-Datei.";
+
+
+
+// ==============================================================================================
+// Import 
+// ==============================================================================================
+
+_ToolsImport.HeaderFrame.Global.Title =
+"Importieren";
+
+_ToolsImport.IconAndOptionsFrame.OptionsFrame._FrameImport._LblBlank.Title=
+"  ";
+
+
+// ----------------------------------------------------------------------------------------------
+// Import : Mode Part or ProductStructure
+// ----------------------------------------------------------------------------------------------
+
+_ToolsImport.IconAndOptionsFrame.OptionsFrame._FramePartProdMode._LblPartProdMode.Title=
+"- Importmodus:  ";
+
+_ToolsImport.IconAndOptionsFrame.OptionsFrame._FramePartProdMode._ModePart.Title =
+"Ein CATPart generieren";
+
+_ToolsImport.IconAndOptionsFrame.OptionsFrame._FramePartProdMode._ModeProdStruct.Title =
+"Die IGES-Elemente 308/408 einer Produktstruktur zuordnen";
+
+_ToolsImport.IconAndOptionsFrame.OptionsFrame._FramePartProdMode._LblPartProdMode.LongHelp=
+"Importiert die IGES-Datei in ein CATPart oder in mehrere CATProduct, die auf CATPart verweisen.";
+
+
+// ----------------------------------------------------------------------------------------------
+// Import : Join
+// ----------------------------------------------------------------------------------------------
+
+_ToolsImport.IconAndOptionsFrame.OptionsFrame._FrameJoin._LblJoin.Title=
+"- Zusammenfügen:  ";
+
+_ToolsImport.IconAndOptionsFrame.OptionsFrame._FrameJoin.ApplyJoin.Title =
+"Flächen des Modells zusammenfügen";
+
+_FrameJoin.SpinnerLabel.Title =
+"Toleranz:";
+
+//_ToolsImport.IconAndOptionsFrame.OptionsFrame._FrameJoin.ApplyJoin.ShortHelp =
+//"Join surfaces of the model";
+
+_ToolsImport.IconAndOptionsFrame.OptionsFrame._FrameJoin.ApplyJoin.LongHelp = 
+"Importiert ein aus mehreren Teilen bestehendes IGES-Modell in eine Verbindung.";
+
+
+
+// ----------------------------------------------------------------------------------------------
+// Nouvelle frame Import Curves & Surfaces Optimization
+// ----------------------------------------------------------------------------------------------
+// DFB 2003-01-07
+
+_ToolsImport.IconAndOptionsFrame.OptionsFrame._FrameOptC2New._LblOptBlank.Title=
+"    ";
+
+_ToolsImport.IconAndOptionsFrame.OptionsFrame._FrameOptC2New._LblOptimize.Title=
+"- Optimierung der Stetigkeit von Kurven und Flächen:  ";
+
+_ToolsImport.IconAndOptionsFrame.OptionsFrame._FrameOptC2New._ModeNoOptC2New.Title =
+"Keine Optimierung";
+
+//_ToolsImport.IconAndOptionsFrame.OptionsFrame._FrameOptC2New._ModeNoOptC2New.ShortHelp =
+//"Cut Curves and Surfaces at the discontinuity points";
+
+_ToolsImport.IconAndOptionsFrame.OptionsFrame._FrameOptC2New._ModeNoOptC2New.LongHelp = 
+"Passt Elemente durch Aufbrechen der Elemente an den Unstetigkeitspunkten an das Modellierungsprogramm an.";
+
+_ToolsImport.IconAndOptionsFrame.OptionsFrame._FrameOptC2New._ModeOptC2New.Title =
+"Automatische Optimierung";
+
+//_ToolsImport.IconAndOptionsFrame.OptionsFrame._FrameOptC2New._ModeOptC2New.ShortHelp =
+//"Optimize by automatic geometric deformation";
+
+_ToolsImport.IconAndOptionsFrame.OptionsFrame._FrameOptC2New._ModeOptC2New.LongHelp = 
+"Passt Elemente durch automatisch gesteuerte Verformung der Geometrie an das Modellierungsprogramm an.";
+
+_ToolsImport.IconAndOptionsFrame.OptionsFrame._FrameOptC2New._ModeAdvancedOptC2New.Title =
+"Erweiterte Optimierung";
+
+//_ToolsImport.IconAndOptionsFrame.OptionsFrame._FrameOptC2New._ModeAdvancedOptC2New.ShortHelp =
+//"Optimize by geometric deformation controlled by user parameters";
+
+_ToolsImport.IconAndOptionsFrame.OptionsFrame._FrameOptC2New._ModeAdvancedOptC2New.LongHelp = 
+"Passt Elemente durch Verformung der Geometrie, die von Benutzerparametern gesteuert wird, an das Modellierungsprogramm an.";
+
+_ToolsImport.IconAndOptionsFrame.OptionsFrame._FrameOptC2New._ParameterPushButton.Title =
+"Parameter ...";
+
+
+// ----------------------------------------------------------------------------------------------
+// Nouvelle frame Import Detection d'invalidite geom
+// ----------------------------------------------------------------------------------------------
+// DFB 2002-10
+
+_ToolsImport.IconAndOptionsFrame.OptionsFrame._FrameOptInvalidGeom._LblInvBlank.Title=
+"    ";
+
+_ToolsImport.IconAndOptionsFrame.OptionsFrame._FrameOptInvalidGeom._LblInvalidGeom.Title=
+"- Erkennen von ungültiger Eingabegeometrie:  ";
+
+_ToolsImport.IconAndOptionsFrame.OptionsFrame._FrameOptInvalidGeom._ModeZeroInvalidGeom.Title =
+"Keine Erkennung";
+
+//_ToolsImport.IconAndOptionsFrame.OptionsFrame._FrameOptInvalidGeom._ModeZeroInvalidGeom.ShortHelp =
+//"No detection";
+
+_ToolsImport.IconAndOptionsFrame.OptionsFrame._FrameOptInvalidGeom._ModeZeroInvalidGeom.LongHelp = 
+"Berücksichtigt die in der IGES-Datei beschriebene Geometrie.";
+
+_ToolsImport.IconAndOptionsFrame.OptionsFrame._FrameOptInvalidGeom._ModeManuInvalidGeom.Title =
+"Erkennung";
+
+//_ToolsImport.IconAndOptionsFrame.OptionsFrame._FrameOptInvalidGeom._ModeManuInvalidGeom.ShortHelp =
+//"Detection of invalid geometry of faces (in millimeter)";
+
+_ToolsImport.IconAndOptionsFrame.OptionsFrame._FrameOptInvalidGeom._ModeManuInvalidGeom.LongHelp = 
+"Ermöglicht die Erkennung ungültiger Geometrie bei Teilflächen: Nicht geschlossene oder weit von den Flächen entfernte Schleifen, innerhalb einer Toleranz.";
+
+_ToolsImport.IconAndOptionsFrame.OptionsFrame._FrameOptInvalidGeom._LabelTolInvalidGeom.Title =
+"Toleranz:";
+
+//_ToolsImport.IconAndOptionsFrame.OptionsFrame._FrameOptInvalidGeom._LabelTolInvalidGeom.ShortHelp =
+//"Maximum tolerance allowed";
+
+_ToolsImport.IconAndOptionsFrame.OptionsFrame._FrameOptInvalidGeom._LabelTolInvalidGeom.LongHelp =
+"Definiert die maximale Bohrung, die innerhalb der Schleife zulässig ist, oder den maximalen Abstand zwischen einer Schleife und ihrer Stützfläche (in Millimeter)." ;
+
+// Boite de dialogue en cas d'erreur de saisie
+
+ToleranceOptInvalidGeomNotification.Text = 
+"Der Toleranzwert für die Ungültigkeitserkennung liegt außerhalb des gültigen Bereichs.
+Einen anderen Wert angeben...
+
+Gültige Werte: ";
+
+ToleranceOptInvalidGeomNotification.Title = 
+"Toleranzwert";
+
+
+// ----------------------------------------------------------------------------------------------
+// Nouvelle frame Import Loop Mode 3D
+// ----------------------------------------------------------------------------------------------
+// JRX 2002-05-31
+
+_ToolsImport.IconAndOptionsFrame.OptionsFrame._FrameOptMode3D._Lbl3DBlank.Title=
+"    ";
+
+_ToolsImport.IconAndOptionsFrame.OptionsFrame._FrameOptMode3D._LblMode3D.Title=
+"- Darstellung für Teilflächenbegrenzungen:  " ;
+
+_ToolsImport.IconAndOptionsFrame.OptionsFrame._FrameOptMode3D._ModeLoopPrefFichier.Title =
+"Dateivorgaben beibehalten" ;
+
+//_ToolsImport.IconAndOptionsFrame.OptionsFrame._FrameOptMode3D._ModeLoopPrefFichier.ShortHelp =
+//"Keep the File preferred representation" ;
+
+_ToolsImport.IconAndOptionsFrame.OptionsFrame._FrameOptMode3D._ModeLoopPrefFichier.LongHelp =
+"Behält die in der Datei vorgegebene Darstellung für Teilflächenbegrenzungen (2D oder 3D) bei.
+Enthält die Datei keine Vorgaben, wird die parametrische Darstellung (2D) berücksichtigt. Schlägt die 2D-Verarbeitung fehl, wird 3D-Verarbeitung versucht." ;
+
+_ToolsImport.IconAndOptionsFrame.OptionsFrame._FrameOptMode3D._ModeLoop3D.Title =
+"3D-Darstellung erzwingen" ;
+
+//_ToolsImport.IconAndOptionsFrame.OptionsFrame._FrameOptMode3D._ModeLoop3D.ShortHelp =
+//"Force 3D representation of faces boundaries" ;
+
+_ToolsImport.IconAndOptionsFrame.OptionsFrame._FrameOptMode3D._ModeLoop3D.LongHelp =
+"Ermöglicht abhängig von der in der Datei vorgegebenen Darstellung nur die Modellbereichsdarstellung (3D) von Teilflächenbegrenzungen." ;
+
+
+// ----------------------------------------------------------------------------------------------
+// Unites
+// ----------------------------------------------------------------------------------------------
+// JRX 2003-07-15
+
+
+_ToolsExport.IconAndOptionsFrame.OptionsFrame._FrameUnit._LabelUnit.Title =
+"- Einheiten exportieren als: " ;
+
+//_ToolsExport.IconAndOptionsFrame.OptionsFrame._FrameUnit._LabelUnit.ShortHelp =
+//"Force the unit to be exported in IGES" ;
+
+_ToolsExport.IconAndOptionsFrame.OptionsFrame._FrameUnit._LabelUnit.LongHelp =
+"Erzwingt den Export der Benutzereinheit in die IGES-Datei.
+Der Standardwert (Benutzereinheit beibehalten) entspricht der auf der Registerkarte 'Einheiten' vom Benutzer
+getroffenen Auswahl. Bei nicht durch die IGES-Norm unterstützten Einheiten lautet die Einheit Millimeter (mm)." ;
+
+
+// Combo
+
+_FrameUnit._ExportUnitCombo.Default =
+"Benutzereinheit beibehalten " ;
+
+_FrameUnit._ExportUnitCombo.Inches =
+"Zoll (in)" ;
+
+_FrameUnit._ExportUnitCombo.Millimeters =
+"Millimeter (mm)" ;
+
+_FrameUnit._ExportUnitCombo.Feet =
+"Fuß (ft)" ;
+
+_FrameUnit._ExportUnitCombo.Miles =
+"Meile (mi)" ;
+    
+_FrameUnit._ExportUnitCombo.Meters =
+"Meter (m)" ;
+
+_FrameUnit._ExportUnitCombo.Kilometers =
+"Kilometer (km)" ;
+
+_FrameUnit._ExportUnitCombo.Mils =
+"Milli-Inch - d. h. 0,001 Inch (mil)" ;
+    
+_FrameUnit._ExportUnitCombo.Microns =
+"Mikron (um)" ;
+    
+_FrameUnit._ExportUnitCombo.Centimeters =
+"Zentimeter (cm)" ;
+    
+_FrameUnit._ExportUnitCombo.Microninches =
+"Mikro-Inch (uin)" ;
+
+
+
+// ==============================================================================================
+// Import : Insert Existing Component mise a jour Manuelle du fichier 
+// ==============================================================================================
+
+//_ToolsManualUpdate.HeaderFrame.Global.Title =
+//"Insert Existing Component : Update resulting file on demand";
+
+//_ToolsManualUpdate.IconAndOptionsFrame.OptionsFrame._ManualUpdate.Title =
+//"Manual Update";
+
+//_ToolsManualUpdate.IconAndOptionsFrame.OptionsFrame._ManualUpdate.ShortHelp =
+//"Manual Update of file";
+
+//_ToolsManualUpdate.IconAndOptionsFrame.OptionsFrame._ManualUpdate.LongHelp =
+//"Update file on demand";
+
+
+// ==============================================================================================
+// Import : Groupes transferes comme Selection Sets
+// ==============================================================================================
+
+_ToolsImport.IconAndOptionsFrame.OptionsFrame._FrameImportGroupAsSelSet._LabelImportGroupAsSelSet.Title =
+" - Gruppen importieren:  ";
+
+_ToolsImport.IconAndOptionsFrame.OptionsFrame._FrameImportGroupAsSelSet._ImportGroupAsSelSet.Title =
+"IGES-Gruppen als Auswahlsets übertragen";
+
+//_ToolsImport.IconAndOptionsFrame.OptionsFrame._FrameImportGroupAsSelSet._ImportGroupAsSelSet.ShortHelp =
+//"For each IGES Group, a Selection Set will be created";
+
+_ToolsImport.IconAndOptionsFrame.OptionsFrame._FrameImportGroupAsSelSet._ImportGroupAsSelSet.LongHelp =
+"Ermöglicht das Verarbeiten von Gruppen. IGES-Gruppen werden Auswahlsets zugeordnet:
+Für jede Gruppe von IGES-Dateien (Elementtyp 402, Formate 1, 7, 14, 15),
+wird ein Auswahlset erzeugt, das alle logisch abhängigen geometrischen Elemente der Gruppe enthält.";
+

@@ -1,0 +1,221 @@
+'// COPYRIGHT DASSAULT SYSTEMES  1999
+'//============================================================================
+'//
+'// Language="VBSCRIPT"
+'// Sample of macro to extract the Bill of material
+'// Author: Jean-Luc MINIER
+'// Date  : August 7th, 2002
+'// Rev.  : 01
+'//
+'//============================================================================
+'// This CATScript assumes that the user has selected Structural objects
+'// from the CATIA Specification Viewer or the 3D Window.
+'//
+'// It is advised that the user understand the VBScript and VBA concepts before
+'// attempting to modify the code to suit their needs. Microsoft Excel 97
+'// provides excellent documentation on the use of VBScript and VBA.
+'//============================================================================
+
+dim excel as AnyObject
+dim workbooks as AnyObject
+dim workbook as AnyObject
+dim sheets as AnyObject
+dim sheet as AnyObject
+dim excemTemplateDir as String
+dim excelTemplate as String
+dim excelTemplatePath as String
+dim currentRow as integer
+
+'//---------------------------------------------------------------------------
+'// Default path of the excel file template 
+'//---------------------------------------------------------------------------
+excelTemplateDir  = "e:\users\jcm\bom"
+excelTemplate     = "template_nomenclature.xls"
+excelTemplatePath = InputBox("Path of the template:", _
+                             "Input path for the EXCEL Template", _
+                              excelTemplateDir  + "\" + excelTemplate)
+
+'//---------------------------------------------------------------------------
+'// User customization of the attributes which will be extracted
+'//---------------------------------------------------------------------------
+dim nbColumns as integer
+nbColumns = 15
+dim column(15)
+column(1)  = "Quantite"
+column(2)  = "Reference"
+column(3)  = "H"
+column(4)  = "La"
+column(5)  = "Lo"
+column(6)  = "Ep"
+column(7)  = "Nbtrous"
+column(8)  = "M"
+column(9)  = "Repere"
+column(10) = "`N° plan`"
+column(11) = "Matiere"
+column(12) = "Poids"
+column(13) = "DataString"
+column(14) = "DataLength"
+column(15) = "DataReal"
+
+'//---------------------------------------------------------------------------
+'// Start Excel
+'//---------------------------------------------------------------------------
+Sub StartEXCEL()
+
+   Err.Clear
+   On Error Resume Next
+   Set excel = GetObject (,"EXCEL.Application")
+   If Err.Number <> 0 Then
+	   Err.Clear 
+           Set excel = CreateObject ("EXCEL.Application") 
+   End If 
+
+   excel.Application.Visible = TRUE
+   set workbooks = excel.Application.WorkBooks
+   set workbook  = workbooks.Add(excelTemplatePath)
+   If Err.Number <> 0 Then 
+   	Dim strMessage 
+        strMessage  = "Error Loading Template File:" + excelTemplatePath + Chr(13) 
+        strMessage  = strMessage + Chr(13) + "Check the following...." + Chr(13)
+        strMessage  = strMessage + "(1)Template File has read-write capability" + Chr(13) 
+        strMessage  = strMessage + "(2)Template File path is valid" 
+        msgbox (strMessage)
+        Err.Clear
+   End If  
+   set sheets = workbook.Worksheets
+   set sheet = sheets("Nomenclature")
+   sheet.Select
+
+End Sub 
+
+'//---------------------------------------------------------------------------
+'// Exit Excel
+'//---------------------------------------------------------------------------
+Sub EndEXCEL()
+
+   workbook.Close
+   excel.Quit
+
+End Sub 
+
+'//---------------------------------------------------------------------------
+'// Write in Excel
+'//---------------------------------------------------------------------------
+Sub WriteInExcel(iRow, iColumn, iString)
+
+   On Error Resume Next
+
+   sheet.Cells(iRow, iColumn) = iString
+   sheet.Cells(iRow, iColumn).Select
+
+End Sub
+
+'//---------------------------------------------------------------------------
+'// Find parameters value
+'//---------------------------------------------------------------------------
+Sub PrintParameters(iProduct, currentRow)
+
+    On Error Resume Next
+
+	Dim parameters As Parameters
+    Dim param As Parameter
+    Dim nbParam, i As Integer
+
+    '// Find all parameters defined on the reference product
+    set parameters = iProduct.ReferenceProduct.Parameters
+    nbParameters = parameters.Count
+ 
+    If (nbParameters > 0) Then
+        For i = 1 To nbColumns
+            Err.Clear
+
+	     	If (column(i) = "Quantite") Then
+     			WriteInExcel currentRow, 1, 1
+ 	     	ElseIf (column(i) = "Reference") Then
+     			WriteInExcel currentRow, i, iProduct.PartNumber
+     		ElseIf (column(i) = "Matiere") Then
+				set param = parameters.Item("Matériau")
+                If (Err.Number <> 0) Then set param = Nothing
+	            If (Not(param Is Nothing)) Then
+				    WriteInExcel currentRow, i, param.ValueasString
+                End If
+			Else
+				set param = parameters.Item(column(i))
+                If (Err.Number <> 0) Then set param = Nothing
+	            If (Not(param Is Nothing)) Then
+				    WriteInExcel currentRow, i, param.ValueasString
+                End If
+       	    End If
+        Next
+    End If
+End Sub
+
+'//---------------------------------------------------------------------------
+'// Main
+'//---------------------------------------------------------------------------
+Sub CATMain()
+    On Error Resume Next
+
+    '// Start Excel Software and load the template
+    StartExcel
+
+    dim ActiveDoc As Document
+    Set ActiveDoc = CATIA.ActiveDocument 
+
+    '// Check that the active document is a CATProduct
+    If (InStr(ActiveDoc.Name,".CATProduct")) <> 0 Then
+
+        dim product As Product
+        dim selectedElts As Selection
+
+        '// Read the selection defined for instance using the Edit/Search/General with the following options
+		'// Workbench = Assembly Design & Type = Product
+		'// ==> All the Products will be selected
+		 
+        set selectedElts = ActiveDoc.Selection
+        selectedElts.Search("Product,all")
+ 
+        dim number, currentRow, i, ind As Integer
+		dim refName As String
+		dim lfound As Boolean
+		dim quantity As double
+
+		'// Number of selected Products
+        number = SelectedElts.Count
+
+        msgbox "Nb selected elements: " & Cstr(number)
+
+		'// Initialize the first line of data
+		currentRow = 2
+        For i=1 To number
+     
+            set product = SelectedElts.FindObject("CATIAProduct")
+
+			'// Check if the current product has been already selected (instance of same reference)
+			'// Find the name of the reference product
+			'// We compare with the data of the column "Reference"
+
+			refName = product.ReferenceProduct.Name
+ 
+			lfound = false
+			For ind = 1 To currentRow
+                If (sheet.Cells(ind, 2) = refName) Then
+                    quantity = sheet.Cells(ind, 1)
+                    quantity = quantity + 1
+                    sheet.Cells(ind, 1) = quantity
+		            lfound = true
+                End If
+            Next
+
+			'// If new instance then write data in the Excel file
+			If (lfound = false) Then
+                currentRow = currentRow + 1
+                PrintParameters product, currentRow
+            End If
+
+        Next
+    End If
+
+    msgbox "The End"
+
+End Sub 

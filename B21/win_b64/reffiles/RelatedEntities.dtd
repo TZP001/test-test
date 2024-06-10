@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- COPYRIGHT DASSAULT SYSTEMES 2003 -->
+
+<!-- 2 Descriptions
+     1- A list with At least One Product (PDMObjectList) ,
+     2- A list of highly level strutured objects (AllRelatedEntities); eventually empty list
+        
+     with 0..n SimpleRelatedEntity , 0..n Connexion,
+     SimpleRelatedEntity or Connexion have, at least, one pointedObject
+     Shoud Uuid (Numeric) be ID rather than CDATA ?
+-->
+
+<!ELEMENT PDMObjectList (PDMObject+)>
+<!ELEMENT PDMObject EMPTY>
+<!ELEMENT AllRelatedEntities (EntityList*)>
+<!ELEMENT EntityList (PDMObject,Publication*,Dependency*,Connexion*)>
+<!ELEMENT Publication (PointedObject+)>
+<!ELEMENT Dependency (PointedObject+)>
+<!ELEMENT Connexion (PointedObject+)>
+<!ELEMENT PointedObject (Connector?)>
+<!ELEMENT Connector EMPTY>
+
+
+<!ATTLIST PDMObject
+	Uuid CDATA #REQUIRED
+	Type (VPMPSPartVersion|VPMPSItemInstance) #IMPLIED
+	CATIAType (Part | Product) #IMPLIED
+	EnoType (Root|Instance|Reference|StringProperty) #IMPLIED
+>
+
+<!ATTLIST Publication
+	Uuid CDATA #REQUIRED
+	Name CDATA #REQUIRED
+	TStamp CDATA #REQUIRED
+	DBsync (Yes | No) #REQUIRED
+	Intrinsic (Yes | No) "No"
+        Feat_CATIA_Id CDATA #REQUIRED
+        BlobConnector CDATA #IMPLIED
+	Blob_CATARPath_?? CDATA #IMPLIED
+>
+<!ATTLIST Dependency
+	Uuid CDATA #REQUIRED
+	Name CDATA #REQUIRED
+	TStamp CDATA #REQUIRED
+	DBsync (Yes | No) #REQUIRED
+        Feat_CATIA_Id CDATA #REQUIRED
+>
+<!ATTLIST Connexion
+	Uuid CDATA #REQUIRED
+	Name CDATA #REQUIRED
+	TStamp CDATA #REQUIRED
+	DBsync (Yes | No) #REQUIRED
+>
+
+<!ATTLIST PointedObject
+	Role (GeoInstance | Geometry | RefInstance ) #REQUIRED
+	Type (VPMPSItemInstance | VPMTPProperty | VPMPSPartVersion) #REQUIRED
+	TStamp CDATA #REQUIRED
+	DBsync (Yes | No) #REQUIRED
+	Uuid CDATA #IMPLIED
+>
+

@@ -1,0 +1,216 @@
+//=====================================================================================
+//                                     CNEXT - CXRn
+//                          COPYRIGHT DASSAULT SYSTEMES 2000 
+//-------------------------------------------------------------------------------------
+// FILENAME    :    CATDrwOptManip
+// LOCATION    :    DraftingUI
+// AUTHOR      :    fgx
+// BUT         :    
+// DATE        :    30.10.2000
+//-------------------------------------------------------------------------------------
+// DESCRIPTION :    Tools/Option du Drafting
+//-------------------------------------------------------------------------------------
+// COMMENTS    :    
+//-------------------------------------------------------------------------------------
+// MODIFICATIONS     user  date        purpose
+//    HISTORY        ----  ----        -------
+//	01			lgk		17.12.02	Revision
+//=====================================================================================
+
+Title="뷰";
+
+
+frameGenElem.HeaderFrame.Global.Title="지오메트리 생성 / 드레스업";
+frameGenElem.HeaderFrame.Global.LongHelp=
+"지오메트리 생성
+생성되는 지오메트리 요소를 정의합니다.";
+frameGenElem.IconAndOptionsFrame.OptionsFrame._checkGenAxis.Title="축 생성";
+frameGenElem.IconAndOptionsFrame.OptionsFrame._checkGenAxis.LongHelp="축선 생성";
+frameGenElem.IconAndOptionsFrame.OptionsFrame._checkGenCenter.Title="중심선 생성";
+frameGenElem.IconAndOptionsFrame.OptionsFrame._checkGenCenter.LongHelp="중심선들을 생성";
+frameGenElem.IconAndOptionsFrame.OptionsFrame._checkGenThread.Title="스레드 생성";
+frameGenElem.IconAndOptionsFrame.OptionsFrame._checkGenThread.LongHelp="스레드들을 생성";
+frameGenElem.IconAndOptionsFrame.OptionsFrame._checkGenHiddenLines.Title="은선 생성";
+frameGenElem.IconAndOptionsFrame.OptionsFrame._checkGenHiddenLines.LongHelp="숨겨진 선들을 생성";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frameButtonGenFil._checkGenFil.Title="필렛 생성";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frameButtonGenFil._checkGenFil.LongHelp="필렛 생성";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frameButtonGenFil.pushGenFil.Title="구성";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frameButtonGenFil.pushGenFil.LongHelp="필렛 프로젝션 구성";
+frameGenElem.IconAndOptionsFrame.OptionsFrame._checkGen3DColors.Title="3D 색상 상속";
+frameGenElem.IconAndOptionsFrame.OptionsFrame._checkGen3DColors.LongHelp="3D 색상 상속";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frmWireFrame.checkGenWireFrame.Title="3D 와이어프레임 프로젝트";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frmWireFrame.checkGenWireFrame.LongHelp="3D 와이어프레임 프로젝트";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frmWireFrame.pushGenWireFrameMod.Title="구성";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frmWireFrame.pushGenWireFrameMod.LongHelp="와이어프레임 프로젝션 구성";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.checkGenApplyUncut.Title="3D 스펙 적용";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.checkGenApplyUncut.LongHelp="3D 스펙 적용";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frameButtonLinetype.labelLinetype.Title="선 유형 보기";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frameButtonLinetype.labelLinetype.LongHelp="선 유형 보기";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frameButtonLinetype.linetypePushButton.Title="구성";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frameButtonLinetype.linetypePushButton.LongHelp="선 종류와 두께 구성";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frameProject3DPts.checkProject3DPts.Title="3D 점 프로젝트";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frameProject3DPts.checkProject3DPts.LongHelp="3D 점 프로젝트";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frameProject3DPts.project3DPtsPushButton.Title="구성";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frameProject3DPts.project3DPtsPushButton.LongHelp="3D 점 프로젝션 구성";
+
+genGeomMngt.HeaderFrame.Global.Title="생성된 지오메트리";
+genGeomMngt.HeaderFrame.Global.LongHelp="생성된 지오메트리";
+genGeomMngt.IconAndOptionsFrame.OptionsFrame.chkGMECreation.Title="그래픽 드레스업을 지오메트리에 수동으로 설정해 두십시오.";
+genGeomMngt.IconAndOptionsFrame.OptionsFrame.chkGMECreation.LongHelp="그래픽 드레스업을 지오메트리에 수동으로 설정해 두십시오.";
+
+
+frameGenView.HeaderFrame.Global.Title="뷰 생성";
+frameGenView.HeaderFrame.Global.LongHelp="생성적인 뷰 작성에 사용되는 매개변수를 정의합니다.";        
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmViewMod.lbl.Title="뷰 생성 모드";
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmViewMod.lbl.LongHelp="뷰가 생성되는 방법을 정의합니다.";
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmViewMod.combViewMod.LongHelp="뷰가 생성되는 방법을 정의합니다.";
+ExactView="정확한 뷰";
+CGRView="CGR";
+PictureView="래스터";
+HRV="근사치";
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmViewMod.pushRasterOptions.Title="구성";
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmViewMod.pushRasterOptions.LongHelp="래스터 옵션 구성";
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmViewMod.frmPict.chkAutoLOD.Title="자동 세부사항 레벨";
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmViewMod.frmPict.chkAutoLOD.LongHelp="시각화 및 인쇄에 대한 DPI는
+자동으로 맞추어집니다.";
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmViewMod.frmPict.lbl1.Title="시각화 DPI";
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmViewMod.frmPict.lbl1.LongHelp="시각화 DPI";
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmViewMod.frmPict.lbl2.Title="인쇄 DPI";
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmViewMod.frmPict.lbl2.LongHelp="인쇄 DPI";
+frameGenView.IconAndOptionsFrame.OptionsFrame.chkExactPreview.Title="뷰 생성의 정확한 미리보기";
+frameGenView.IconAndOptionsFrame.OptionsFrame.chkExactPreview.LongHelp="시각화 모드에서 작업 중이라도
+뷰를 디자인 모드로 미리볼 수 있도록 합니다.
+이 옵션을 선택하지 않으면 3D 문서에 임베드된
+시각화 데이터를 미리보기에 사용합니다. ";
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmGenBox.checkGenBox.Title="다음보다 큰 파트만 생성";
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmGenBox.checkGenBox.LongHelp="지정된 크기보다 큰 파트만 생성합니다. ";
+frameGenView.IconAndOptionsFrame.OptionsFrame.chkOcclusionCulling.Title="단절 버리기 사용";
+frameGenView.IconAndOptionsFrame.OptionsFrame.chkOcclusionCulling.LongHelp="단절 버리기를 활성화하거나 비활성화합니다.
+단절 버리기는 숨겨진 요소의 재표시를 방지하여 표시 성능을 향상시키며, 특히 생산 설비 및 빌딩과
+같이 많은 구획으로 나누어져 있는 화면을 볼 경우에 더 유용합니다. ";
+frameGenView.IconAndOptionsFrame.OptionsFrame.chkSelBodyInAss.Title="어셈블리에서 본문 선택";
+frameGenView.IconAndOptionsFrame.OptionsFrame.chkSelBodyInAss.LongHelp="어셈블리에서 본문 선택을 활성화하거나 비활성화합니다.";
+
+frameGenView.IconAndOptionsFrame.OptionsFrame._frameViewStatus._labelViewStatus.Title="예측/래스터/CGR 뷰 갱신 상태";
+frameGenView.IconAndOptionsFrame.OptionsFrame._frameViewStatus._labelViewStatus.LongHelp="뷰를 갱신해야 하는지 여부를 판별하는 데 사용할 프로덕트 정보를 정의합니다.";
+frameGenView.IconAndOptionsFrame.OptionsFrame._frameViewStatus._frameViewStatusRadio._frameViewStatusRadiolocked._radioViewUpdateStatusDataVisu.Title="시각화 데이터 기반";
+frameGenView.IconAndOptionsFrame.OptionsFrame._frameViewStatus._frameViewStatusRadio._frameViewStatusRadiolocked._radioViewUpdateStatusDataVisu.LongHelp="파트 시각화 데이터 시각표시(cgr 데이터)를 사용합니다.";
+frameGenView.IconAndOptionsFrame.OptionsFrame._frameViewStatus._frameViewStatusRadio._frameViewStatusRadiolocked._radioViewUpdateStatusDataDesign.Title="디자인 데이터 기반";
+frameGenView.IconAndOptionsFrame.OptionsFrame._frameViewStatus._frameViewStatusRadio._frameViewStatusRadiolocked._radioViewUpdateStatusDataDesign.LongHelp="파트 디자인 데이터 시각표시를 사용합니다.";
+
+
+frameClipping.HeaderFrame.Global.Title="클리핑 뷰";
+frameClipping.HeaderFrame.Global.LongHelp="클리핑 뷰에 사용되는 매개변수를 정의합니다. ";        
+frameClipping.IconAndOptionsFrame.OptionsFrame.chkDimClipNoShow.Title="시각화하지 않는 지오메트리에 표시 안함 치수 넣기";
+frameClipping.IconAndOptionsFrame.OptionsFrame.chkDimClipNoShow.LongHelp="위치에 연계된 주석 및 시각화하지 않는 지오메트리에 표시 안함 치수를 넣습니다. ";
+
+frameView3D.HeaderFrame.Global.Title="3D에서 뷰";
+frameView3D.HeaderFrame.Global.LongHelp="3D에서 추출된 뷰에 사용되는 매개변수를 정의합니다. ";        
+frameView3D.IconAndOptionsFrame.OptionsFrame.chkFTAAnnotLay.Title="2D 추출된 주석의 레이아웃 및 드레스업 유지";
+frameView3D.IconAndOptionsFrame.OptionsFrame.chkFTAAnnotLay.LongHelp="2D 추출된 주석의 레이아웃 및 드레스업을 유지합니다. ";
+frameView3D.IconAndOptionsFrame.OptionsFrame.chkGeomOf2DLView.Title="2D 지오메트리 생성";
+frameView3D.IconAndOptionsFrame.OptionsFrame.chkGeomOf2DLView.LongHelp="레이아웃 뷰에서 2D 지오메트리를 생성합니다.";
+frameView3D.IconAndOptionsFrame.OptionsFrame.chkGenRedCross.Title="주석에서 빨간색 십자 모양 생성";
+frameView3D.IconAndOptionsFrame.OptionsFrame.chkGenRedCross.LongHelp="지오메트리가 추출되지 않거나 지오메트리가 현재 뷰에서 숨겨져 있는 경우 3D에서 추출한 주석이 빨간색 십자로 표시됩니다.";
+frameView3D.IconAndOptionsFrame.OptionsFrame.chkSyncUpdate.Title="갱신 중 동기화";
+frameView3D.IconAndOptionsFrame.OptionsFrame.chkSyncUpdate.LongHelp="갱신 중에 도면의 모든 뷰와 시트를 동기화합니다.";
+
+
+viewGenFillet.Title="필렛 생성";
+viewGenFillet.frameButtonGenFil.HeaderFrame.Global.Title="필렛 생성 구성";
+viewGenFillet.frameButtonGenFil.HeaderFrame.Global.LongHelp="필렛 생성 구성
+필렛 생성을 구성할 수 있습니다.";
+viewGenFillet.frameButtonGenFil.IconAndOptionsFrame.OptionsFrame.frameRadioGenFil.frameRadioGenFillocked.radioBoundaries.Title="경계";
+viewGenFillet.frameButtonGenFil.IconAndOptionsFrame.OptionsFrame.frameRadioGenFil.frameRadioGenFillocked.radioBoundaries.LongHelp="경계
+\"필렛 경계\"를 뷰에 표시할 것인지 여부를 정의합니다.";
+viewGenFillet.frameButtonGenFil.IconAndOptionsFrame.OptionsFrame.frameRadioGenFil.frameRadioGenFillocked.radioSymbo.Title="기호";
+viewGenFillet.frameButtonGenFil.IconAndOptionsFrame.OptionsFrame.frameRadioGenFil.frameRadioGenFillocked.radioSymbo.LongHelp="기호
+\"기호 필렛\"을 뷰에 표시할 것인지 여부를 정의합니다.";
+viewGenFillet.frameButtonGenFil.IconAndOptionsFrame.OptionsFrame.frameRadioGenFil.frameRadioGenFillocked.radioProjEd.Title="투영된 원본 모서리";
+viewGenFillet.frameButtonGenFil.IconAndOptionsFrame.OptionsFrame.frameRadioGenFil.frameRadioGenFillocked.radioProjEd.LongHelp="투영된 원본 모서리
+\"투영된 원본 모서리\"를 뷰에 표시할 것인지 여부를 정의합니다. ";
+viewGenFillet.frameButtonGenFil.IconAndOptionsFrame.OptionsFrame.frameRadioGenFil.frameRadioGenFillocked.radioOrigEd.Title="근접한 원본 모서리";
+viewGenFillet.frameButtonGenFil.IconAndOptionsFrame.OptionsFrame.frameRadioGenFil.frameRadioGenFillocked.radioOrigEd.LongHelp="근접한 원본 모서리
+\"원본 모서리\"를 뷰에 표시할 것인지 여부를 정의합니다. ";
+
+
+viewGenWireFrame.Title="3D 와이어프레임 프로젝션 모드";
+viewGenWireFrame.frmWireFrameMod.HeaderFrame.Global.Title="투영된 3D 와이어프레임";
+viewGenWireFrame.frmWireFrameMod.HeaderFrame.Global.LongHelp="투영된 3D 와이어프레임 \n투영된 3D 와이어프레임을 숨길 수 있는지 \n또는 항상 표시할 수 있는지 여부를 나타냅니다.";
+viewGenWireFrame.frmWireFrameMod.IconAndOptionsFrame.OptionsFrame.radioFrmWireFrameMod.radioFrmWireFrameModlocked.radioHidden.Title="숨기기 가능";
+viewGenWireFrame.frmWireFrameMod.IconAndOptionsFrame.OptionsFrame.radioFrmWireFrameMod.radioFrmWireFrameModlocked.radioHidden.LongHelp="숨기기 가능 \n투영된 3D 와이어프레임을 숨기기 가능을 나타냅니다.";
+viewGenWireFrame.frmWireFrameMod.IconAndOptionsFrame.OptionsFrame.radioFrmWireFrameMod.radioFrmWireFrameModlocked.radioVisible.Title="항상 표시";
+viewGenWireFrame.frmWireFrameMod.IconAndOptionsFrame.OptionsFrame.radioFrmWireFrameMod.radioFrmWireFrameModlocked.radioVisible.LongHelp="항상 표시 \n투영된 3D 와이어프레임이 항상 표시됨을 나타냅니다.";
+
+
+viewGen3DPoints.Title="3D 점 프로젝션";
+viewGen3DPoints.frameButtonProject3DPts.HeaderFrame.Global.Title="3D 점 프로젝트";
+viewGen3DPoints.frameButtonProject3DPts.HeaderFrame.Global.LongHelp="3D 점 투영
+투영된 3D 점이 3D 기호나 선택한 기호에서 상속된 기호를
+표시하는지 여부를 나타냅니다.";
+viewGen3DPoints.frameButtonProject3DPts.IconAndOptionsFrame.OptionsFrame.frameRadio3DSymbol.frameRadio3DSymbollocked.radioSymbolInherit.Title="3D 기호 상속";
+viewGen3DPoints.frameButtonProject3DPts.IconAndOptionsFrame.OptionsFrame.frameRadio3DSymbol.frameRadio3DSymbollocked.radioSymbolInherit.LongHelp="3D 기호 상속
+3D에서 상속된 기호를 표시합니다.";
+viewGen3DPoints.frameButtonProject3DPts.IconAndOptionsFrame.OptionsFrame.frameRadio3DSymbol.frameRadio3DSymbollocked.radioSymbol.Title="기호";
+viewGen3DPoints.frameButtonProject3DPts.IconAndOptionsFrame.OptionsFrame.frameRadio3DSymbol.frameRadio3DSymbollocked.radioSymbol.LongHelp="기호
+선택한 기호를 표시합니다.";
+viewGen3DPoints.frameButtonProject3DPts.IconAndOptionsFrame.OptionsFrame.frameRadio3DSymbol.frameRadio3DSymbollocked.comboSymbol.Title="기호";
+viewGen3DPoints.frameButtonProject3DPts.IconAndOptionsFrame.OptionsFrame.frameRadio3DSymbol.frameRadio3DSymbollocked.comboSymbol.LongHelp="기호
+선택한 기호를 표시합니다.";
+
+
+viewLineType.Title="선 유형 및 두께";
+viewLineType.frameButtonLinetype.HeaderFrame.Global.Title="선 유형 및 두께";
+viewLineType.frameButtonLinetype.HeaderFrame.Global.LongHelp="선 유형 및 두께";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.lblSection.Title="섹션 뷰";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.lblSection.LongHelp="섹션 뷰";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.lblDetail.Title="세부사항 뷰";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.lblDetail.LongHelp="세부사항 뷰";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.lblBroken.Title="끊어진 뷰";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.lblBroken.LongHelp="끊어진 뷰";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.lblBreakout.Title="브레이크아웃 뷰";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.lblBreakout.LongHelp="브레이크아웃 뷰";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.lblSkin.Title="스킨 섹션 뷰";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.lblSkin.LongHelp="스킨 섹션 뷰";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.comboSectionLinetype.LongHelp="선 유형을 선택하십시오.";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.comboDetailLinetype.LongHelp="선 유형을 선택하십시오.";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.comboBrokenLinetype.LongHelp="선 유형을 선택하십시오.";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.comboBreakoutLinetype.LongHelp="선 유형을 선택하십시오.";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.comboSkinLinetype.LongHelp="선 유형을 선택하십시오.";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.comboSectionThickness.LongHelp="두께를 선택하십시오.";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.comboDetailThickness.LongHelp="두께를 선택하십시오.";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.comboBrokenThickness.LongHelp="두께를 선택하십시오.";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.comboBreakoutThickness.LongHelp="두께를 선택하십시오.";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.comboSkinThickness.LongHelp="두께를 선택하십시오.";
+
+
+viewGenModApproximate.Title="근사값 모드";
+viewGenModApproximate.frmHRVOptions.HeaderFrame.Global.Title="근사값 모드 옵션";
+viewGenModApproximate.frmHRVOptions.HeaderFrame.Global.LongHelp="근사값 모드 옵션을 구성합니다. ";
+viewGenModApproximate.frmHRVOptions.IconAndOptionsFrame.OptionsFrame.lblHRVLOD.Title = "세부사항 레벨 : ";
+viewGenModApproximate.frmHRVOptions.IconAndOptionsFrame.OptionsFrame.lblHRVLOD.LongHelp = "세부사항 레벨 : ";
+XGraph = "LOD";
+YGraph = "시간";
+
+viewGenModRaster.Title="래스터 모드 옵션";
+viewGenModRaster.frmRasterOptions.HeaderFrame.Global.Title="래스터 모드 옵션";
+viewGenModRaster.frmRasterOptions.HeaderFrame.Global.LongHelp="래스터 뷰 옵션을 구성합니다.";
+viewGenModRaster.frmRasterOptions.IconAndOptionsFrame.OptionsFrame.lblRasterMode.Title=" 모드";
+viewGenModRaster.frmRasterOptions.IconAndOptionsFrame.OptionsFrame.lblRasterMode.LongHelp=" 모드";
+viewGenModRaster.frmRasterOptions.IconAndOptionsFrame.OptionsFrame.lblLOD.Title="세부사항 레벨:";
+viewGenModRaster.frmRasterOptions.IconAndOptionsFrame.OptionsFrame.lblLOD.LongHelp="세부사항 레벨:";
+viewGenModRaster.frmRasterOptions.IconAndOptionsFrame.OptionsFrame.lblLODVisu.Title="비주얼의 경우";
+viewGenModRaster.viewGenModRaster.IconAndOptionsFrame.OptionsFrame.lblLODVisu.LongHelp="비주얼의 경우";
+viewGenModRaster.frmRasterOptions.IconAndOptionsFrame.OptionsFrame.lblLODPrint.Title="인쇄용";
+viewGenModRaster.frmRasterOptions.IconAndOptionsFrame.OptionsFrame.lblLODPrint.LongHelp="인쇄용";
+
+HRD = "동적 은선 제거";
+Shading = "음영처리";
+ShadingWithEdges = "모서리 포함한 음영처리";
+ShadingNoLight = "음영처리, 광원 없음";
+ShadingWithEdgesNoLight = "모서리 포함한 음영처리, 광원 없음";
+
+LowQualityMode       = "낮은 품질";
+NormalQualityMode    = "일반 품질";
+HighQualityMode      = "높은 품질";
+CustomizeMode        = "사용자 정의";

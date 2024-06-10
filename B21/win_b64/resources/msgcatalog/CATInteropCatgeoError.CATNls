@@ -1,0 +1,256 @@
+// Fw V4CGMInteroperability 
+//  module V4ToM2
+//JNV170706V4 //______________________________________________________________
+//JNV170706V4 // 1-100 errors aparaissant dans le constructeur de MMMObject 
+//JNV170706V4 //class CATInteropCatgeoError, InteropCatgeo , CATInternalError
+//JNV170706V4 //_______________________________________________________________
+//JNV170706V4 // 1__99 erreurs varies
+//JNV170706V4 MigrationERR_001.Request="Conversion of a V4 element:";
+//JNV170706V4 MigrationERR_001.Diagnostic="The V4 element could not be converted. Invalid element in input model";
+//JNV170706V4 MigrationERR_001.Advice="Clean the model with CATCLN utility or re-design manualy the element in CATIA V4.";
+//JNV170706V4 //
+//JNV170706V4 // For IER = 105
+//JNV170706V4 MigrationERR_002.Request="Conversion of a V4 element:";
+//JNV170706V4 MigrationERR_002.Diagnostic="Invalid Merged Edges in input model";
+//JNV170706V4 MigrationERR_002.Advice="The Gap between two face boudaries is higher than Intersection Curves Tolerance";
+//JNV170706V4 // 100_199 for Solide Error *SOL
+//JNV170706V4 //
+//JNV170706V4 SolideERR_100.Request="Conversion of a V4 solid:";
+//JNV170706V4 SolideERR_100.Diagnostic="The V4 solid could not be converted.";
+//JNV170706V4 SolideERR_100.Advice="Force the solid update.";
+//JNV170706V4 //
+//JNV170706V4 // 200_249 for *Ski   error
+//JNV170706V4 //
+//JNV170706V4 SkinERR_200.Request="Conversion of a V4 skin";
+//JNV170706V4 SkinERR_200.Diagnostic="The V4 skin could not be converted";
+//JNV170706V4 SkinERR_200.Advice="Check the skin.";
+//JNV170706V4 //
+//JNV170706V4 // 250_299 for *VOL  error
+//JNV170706V4 //
+//JNV170706V4 VolumeERR_250.Request="Conversion of a V4 Volume:";
+//JNV170706V4 VolumeERR_250.Diagnostic="The V4 volume could not be converted.";
+//JNV170706V4 VolumeERR_250.Advice="Check the volume.";
+//
+//-------------------------------------------------------------------------
+//
+//class CATM2V5InternalError, InteropInt , CATInternalError
+//-------------------------------------------------------------------------
+//
+MiscErrorERR_300.Request="Face Migration : ";
+MiscErrorERR_300.Diagnostic= "Internal error in face import ";
+MiscErrorERR_300.Advice="Please report the problem.";
+//
+CurveERR_301.Request="Curve or composite curve import:";
+CurveERR_301.Diagnostic="Internal error in curve import.";
+CurveERR_301.Advice="Please report the problem.";
+//
+//JNV170706V4 SurfaceERR_302.Request="Surface import:";
+//JNV170706V4 SurfaceERR_302.Diagnostic="Internal error in surface import.";
+//JNV170706V4 SurfaceERR_302.Advice="Please report the problem.";
+//
+//JNV170706V4 ReversedEdgeERR_303.Request="Edge transfert:";
+//JNV170706V4 ReversedEdgeERR_303.Diagnostic="The curve cannot be projected on the surface.";
+//JNV170706V4 ReversedEdgeERR_303.Advice="Reverse the orientation of the edge.";
+//
+//JNV170706V4 NoResultForSurfaceERR_304.Request="Surface import:";
+//JNV170706V4 NoResultForSurfaceERR_304.Diagnostic="No output given when computing the surface.";
+//JNV170706V4 NoResultForSurfaceERR_304.Advice="Remove degenerated patch from the surface.";
+//
+//JNV170706V4 NoResultForCurveERR_305.Request="Curve import: ";
+//JNV170706V4 NoResultForCurveERR_305.Diagnostic="No output given when computing the curve.";
+//JNV170706V4 NoResultForCurveERR_305.Advice="Remove degenerated arc from the curve.";
+//
+//JNV170706V4 NoResultForEdgeERR_306.Request="Edge import:";
+//JNV170706V4 NoResultForEdgeERR_306.Diagnostic="No output given when computing the edge.";
+//JNV170706V4 NoResultForEdgeERR_306.Advice="Remove degenerated arc from the edge.";
+//
+//JNV170706V4 WrongResultForEdgeERR_307.Request="Edge import:";
+//JNV170706V4 WrongResultForEdgeERR_307.Diagnostic="No output given when computing the edge.";
+//JNV170706V4 WrongResultForEdgeERR_307.Advice="Please report the problem.";
+//
+//JNV170706V4 NullTangentOnCurveERR_308.Request="Curve import:";
+//JNV170706V4 NullTangentOnCurveERR_308.Diagnostic="Null tangent on a non-degenerated curve.";
+//JNV170706V4 NullTangentOnCurveERR_308.Advice="Correct the curve to surpress the null tangent points.";
+//
+//JNV170706V4 NullTangentOnSurfaceERR_309.Request="Surface import:";
+//JNV170706V4 NullTangentOnSurfaceERR_309.Diagnostic="Null tangent on a non-degenerated surface.";
+//JNV170706V4 NullTangentOnSurfaceERR_309.Advice="Correct the surface to surpress the null tangent points.";
+//
+LowMemoryERR_310.Request="Import conversion:";
+LowMemoryERR_310.Diagnostic="Interruption because of low memory.";
+LowMemoryERR_310.Advice="Simplify your model to decrease model size.";
+//
+//-------------------------------------------------------------------------
+// Classe gerant les erreurs d'entree/sortie 
+//class CATM2V5InputError, InteropInput , CATInputError
+//-------------------------------------------------------------------------
+//
+ZEdgeERR_400.Request="Edge migration: ";
+ZEdgeERR_400.Diagnostic="A Z shaped edge is detected. This configuration is not supported.";
+ZEdgeERR_400.Advice=	"Modify the edge to suppress this Z configuration.";
+//
+USurfaceERR_401.Request="Surface Migration:";
+USurfaceERR_401.Diagnostic="A U shaped surface is detected.";
+USurfaceERR_401.Advice="Modify the surface to suppress this U configuration.";
+//
+XFaceERR_402.Request="Face Migration:";
+XFaceERR_402.Diagnostic="An X shaped face is detected.";
+XFaceERR_402.Advice="Modify the face to suppress this X configuration.";
+//
+MisOrientedFaceERR_403.Request="Face Migration:";
+MisOrientedFaceERR_403.Diagnostic="A face is not consistantly oriented with regards to its owning shell domain.";
+MisOrientedFaceERR_403.Advice=" Modify the face orientation.";
+//
+UnMergedEdgeERR_404.Request="Face boundary  migration:";
+UnMergedEdgeERR_404.Diagnostic="An illegal boundary edge is detected.";
+UnMergedEdgeERR_404.Advice="Check that all the edges properly bound the faces.";
+//
+ZEdgeERR_405.Request="Edge migration: \n
+";
+ZEdgeERR_405.Diagnostic="A Z shaped edge is detected at space location: /p1.\n
+";
+ZEdgeERR_405.Advice="Modify the edge to suppress this Z configuration .";
+//
+XEdgeERR_406.Request="Edge Curve Merger: \n
+";
+XEdgeERR_406.Diagnostic="Invalid curves orientations in the edge \n
+";
+XEdgeERR_406.Advice="Curves orientations are invalid.";
+//
+//JNV170706V4 ControlPointsTooCloseERR_407.Request="Edge migration : \n
+//JNV170706V4 ";
+//JNV170706V4 ControlPointsTooCloseERR_407.Diagnostic="Too closed control points are detected.\n
+//JNV170706V4 ";
+//JNV170706V4 ControlPointsTooCloseERR_407.Advice="Redo the edge to suppress this error.";
+//
+DegeneratedFaceERR_408.Request="Face Migration :\n
+";
+DegeneratedFaceERR_408.Diagnostic="Face area is null.\n
+";
+DegeneratedFaceERR_408.Advice="Suppress this face.";
+//
+//JNV170706V4 InvalidFaceERR_409.Request="Face Migration :\n
+//JNV170706V4 ";
+//JNV170706V4 InvalidFaceERR_409.Diagnostic="A Face is lying on two surfaces.\n
+//JNV170706V4 ";
+//JNV170706V4 InvalidFaceERR_409.Advice="Clean the model with CATCLN utility.";
+//
+InvalidDomainERR_410.Request="Face Migration :\n
+";
+InvalidDomainERR_410.Diagnostic="Face boundary domains are not valid \n
+";
+InvalidDomainERR_410.Advice="Check if first domain contains the others.\n
+ Any two of domains must have no intersection.\n
+  Any others domain cannot be included in each other ";
+//
+FaceKoERR_411.Request="Face Migration : 
+";
+FaceKoERR_411.Diagnostic="Face KO. 
+";
+FaceKoERR_411.Advice="Check Error Message in report file.";
+//
+IntersectingLoopsERR_412.Request="Face Migration :\n
+";
+IntersectingLoopsERR_412.Diagnostic="Face boundary domains are crossing at space location: /p1 .
+";
+IntersectingLoopsERR_412.Advice="Modify the face to suppress this configuration.";
+//
+ThinFaceERR_414.Request="Face Migration :\n
+";
+ThinFaceERR_414.Diagnostic="All edges are confused in face (thin face).\n
+";
+ThinFaceERR_414.Advice="Suppress this face.";
+//
+InvalidEdgeConfigurationERR_415.Request="Edge Migration :\n
+";
+InvalidEdgeConfigurationERR_415.Diagnostic="Invalid edge configuration detected at space location: /p1 .
+";
+InvalidEdgeConfigurationERR_415.Advice="Check that edge configuration from input model is valid.";
+//
+InvalidInputFaceERR_416.Request="Face Migration :\n
+";
+InvalidInputFaceERR_416.Diagnostic="Invalid Input Data.\n
+";
+InvalidInputFaceERR_416.Advice="Correct this face from input model.";
+//
+//JNV170706V4 InvalidInputVolumeOrSkinERR_417.Request="Migration :\n
+//JNV170706V4 ";
+//JNV170706V4 InvalidInputVolumeOrSkinERR_417.Diagnostic="Faces migrated seperately because of /p1 face(s) with invalid input data.\n
+//JNV170706V4 ";
+//JNV170706V4 InvalidInputVolumeOrSkinERR_417.Advice="Correct invalid face(s) from input model.";
+//
+NotSplittedFaceERR_418.Request="Face Migration :\n
+";
+NotSplittedFaceERR_418.Diagnostic="Face is lying on only one closed surface, not splitted whereas SplitSurf mode is activated. \n
+";
+NotSplittedFaceERR_418.Advice="Split this surface.";
+
+CurveOutsideSupportMaxLimitsERR_419.Request="Face Migration :\n";
+CurveOutsideSupportMaxLimitsERR_419.Diagnostic="Curve is defined outside the max limits of its support.\n";
+CurveOutsideSupportMaxLimitsERR_419.Advice="";
+
+InvalidWireGapERR_420.Request="Wire Migration :\n";
+InvalidWireGapERR_420.Diagnostic="An invalid internal gap between two curves is detected in wire\n";
+InvalidWireGapERR_420.Advice="Correct this wire from input model.";
+
+//
+//JNV170706V4 //______________________________________________________________
+//JNV170706V4 // Module V4MUToM2 
+//JNV170706V4 // 1000 - 1099 : erreurs emises lors de la migration d'un
+//JNV170706V4 //               solide polyhedrique V4.
+//JNV170706V4 //
+//JNV170706V4 // class CATInteropInputErrorMUV4, CATInputError.
+//JNV170706V4 //_______________________________________________________________
+//JNV170706V4 // 
+//JNV170706V4 ConfusedPointsERR_1000.Request="Conversion of a V4 Solid mock-up Face :\n
+//JNV170706V4 ";
+//JNV170706V4 ConfusedPointsERR_1000.Diagnostic="Face Vertices are confused.\n
+//JNV170706V4 ";
+//JNV170706V4 ConfusedPointsERR_1000.Advice="Remove this degenerated face.";
+//JNV170706V4 //
+//JNV170706V4 InLinePointsERR_1001.Request="Conversion of a V4 Solid mock-up Face :\n
+//JNV170706V4 ";
+//JNV170706V4 InLinePointsERR_1001.Diagnostic="Face Vertices are in line.\n
+//JNV170706V4 ";
+//JNV170706V4 InLinePointsERR_1001.Advice="Remove this degenerated face.";
+//JNV170706V4 //
+//JNV170706V4 InsufficientPointsERR_1002.Request="Conversion of a V4 Solid mock-up Face :\n
+//JNV170706V4 ";
+//JNV170706V4 InsufficientPointsERR_1002.Diagnostic="Insufficient Vertices are given to make a face.\n
+//JNV170706V4 ";
+//JNV170706V4 InsufficientPointsERR_1002.Advice="Remove this degenerated face.";
+//JNV170706V4 //
+//JNV170706V4 MiddlePlaneNotDefinedERR_1003.Request="Conversion of a V4 Solid mock-up Face :\n
+//JNV170706V4 ";
+//JNV170706V4 MiddlePlaneNotDefinedERR_1003.Diagnostic="Middle plane not defined. No Face can be created.\n
+//JNV170706V4 ";
+//JNV170706V4 MiddlePlaneNotDefinedERR_1003.Advice="";
+//
+//-------------------------------------------
+//BLI le 8/09/2002
+//  Liste des Warnings
+// Les warnings sont destines a Logger des anomalies
+// rencontrees lors de la migration qui n empechent 
+// pas de migrer l element mais pour autant le 
+// resultat est de qualite douteus
+// le numero est > 2000 
+//-------------------------------------------
+EdgeGapInLoopERR_2001.Request="Loop Conversion\n
+";
+EdgeGapInLoopERR_2001.Diagnostic="An Abnormal Gap Length /p1 is found between two boundary curves \n
+";
+EdgeGapInLoopERR_2001.Advice="The Gap between two curves boundaries \n
+ is higher than Intersection Curves Tolerance";
+//
+EmptyShellERR_2002.Request="Shell Conversion\n
+";
+EmptyShellERR_2002.Diagnostic="An empty shell is detected \n
+";
+EmptyShellERR_2002.Advice="";
+//
+ThinFaceERR_2003.Request="Face Conversion\n
+";
+ThinFaceERR_2003.Diagnostic="A thin face is detected.\n
+";
+ThinFaceERR_2003.Advice="";
+

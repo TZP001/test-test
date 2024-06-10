@@ -1,0 +1,28 @@
+// COPYRIGHT DASSAULT SYSTEMES 2005
+// here follow basic block definition
+// - internal use only
+// - any modification to this file must be checked before deliveries
+// 
+block CATEarlyExternalDataEvol2 {
+  int $allocate #offset(2)
+  int $list #offset(1)
+  int MustBeDeletedAtUpdate #offset(1)
+  int NbTransfoStabilizer #offset(2) #list
+  string $allocate #offset(1)
+  string TRName #offset(1)
+  component $allocate #offset(1)
+  component $list #offset(1)
+  component TransfoStabilizer #offset(1) #list
+  external $allocate #offset(3)
+  external Product #offset(1) #external_link_meta_data(DFTProjectedMD)
+  external SpecFeature #offset(2) #external_link_meta_data(DFTProjectedMD)
+  external SecondSpecFeat #offset(3) #list #external_link_meta_data(DFTProjectedMD)
+}
+external_link_meta_data DFTProjectedMD
+{
+	meta_data_relation -> category = "Reference3"
+	meta_data_relation -> role = "DFT_ViewProjectedObject"
+	meta_data_link -> logical_reroute_button= "true"
+	meta_data_link -> sync_button = "false"
+	meta_data_link -> deactivation_button = "false"
+}

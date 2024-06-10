@@ -1,0 +1,22 @@
+
+'// ---------- CATIAV5 application objects
+'====================================================================================
+Sub CATMain () 'Method to Create Tag from TagFactory
+'====================================================================================
+
+  Dim objCATIAV5TagFactory As TagFactory
+  Set Parentobject = CATIA.ActiveDocument.Selection.FindObject("CATIAProduct")	
+  Set objCATIAV5TagFactory = Parentobject.GetTechnologicalObject("TagFactory")
+
+  Dim objCATIAV5Tag As Tag
+  Dim TagName As String
+
+  TagName =  "MY_TAG"
+  objCATIAV5TagFactory.CreateTag TagName, objCATIAV5Tag
+
+  msgbox("Created Tag is")
+  Dim Name As String
+  objCATIAV5Tag.GetName Name
+  msgbox(Name)
+
+End Sub '/////////////////////////////////////////////////////////// CATMain

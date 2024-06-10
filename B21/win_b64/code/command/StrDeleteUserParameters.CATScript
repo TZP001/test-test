@@ -1,0 +1,126 @@
+'// COPYRIGHT DASSAULT SYSTEMES  1999
+'//============================================================================
+'//
+'// Language="VBSCRIPT"
+'// Sample of macro to remove attributes
+'// Author: Jean-Luc MINIER
+'// Date  : September 20th, 2002
+'// Rev.  : 01
+'//
+'//============================================================================
+'// It is advised that the user understand the VBScript and VBA concepts before
+'// attempting to modify the code to suit their needs. Microsoft Excel 97
+'// provides excellent documentation on the use of VBScript and VBA.
+'// 
+'// 
+'//============================================================================
+
+dim workbooks as AnyObject
+dim workbook as AnyObject
+dim strWB as Workbench
+dim strServ as AnyObject
+
+'//---------------------------------------------------------------------------
+'// User customization of the attributes which will be removed
+'// tabAttribute is an array which defines the name of the attributes
+'//---------------------------------------------------------------------------
+dim nbAttributes as integer
+nbAttributes = 4
+dim tabAttributes(4)
+
+tabAttributes(1) = "DataString"
+tabAttributes(2) = "DataReal"
+tabAttributes(3) = "DataInteger"
+tabAttributes(4) = "DataLength"
+
+'//---------------------------------------------------------------------------
+'// Remove parameters value
+'//---------------------------------------------------------------------------
+Sub RemoveParameters(iProduct)
+   
+   On Error Resume Next
+
+   dim parameters as Parameters
+   dim userParameters as Parameters
+   dim param as Parameter
+   dim paramName as string
+
+   dim RefProduct as Product
+   set RefProduct = iProduct.ReferenceProduct
+
+   set parameters = iProduct.ReferenceProduct.Parameters
+   set userParameters = iProduct.ReferenceProduct.UserRefProperties
+
+   dim nbParameters As Integer
+   nbParameters = RefParameters.Count
+
+   dim sInstanceName As String
+   dim sPartNumber As String
+   sInstanceName = iProduct.Name
+   sPartNumber = iProduct.ReferenceProduct.Name
+
+   Err.Clear
+
+   dim i As Integer
+   if (nbAttributes > 0) then
+	  for i = 1 to nbAttributes
+
+		Err.Clear
+
+		paramName = sPartNumber & "\Properties\" & tabAttributes(i)
+
+        for j = 1 To userParameters.Count
+			if (userParameters.Item(j).Name = paramName) then
+				userParameters.Remove(j)
+            end if
+        next 				 
+				
+	  Next
+   end if
+End Sub
+
+'//---------------------------------------------------------------------------
+'// Main
+'//---------------------------------------------------------------------------
+Sub CATMain()
+    On Error Resume Next
+
+    '// Start Excel Software and load the template
+    StartExcel
+
+    dim ActiveDoc As Document
+    Set ActiveDoc = CATIA.ActiveDocument 
+
+    '// Check that the active document is a CATProduct
+    If (InStr(ActiveDoc.Name,".CATProduct")) <> 0 Then
+
+        dim product As Product
+        dim selectedElts As Selection
+
+        '// Read the selection defined for instance using the Edit/Search/General with the following options
+		'// Workbench = Assembly Design & Type = Part
+		'// ==> All the Products will be selected
+		 
+        set selectedElts = ActiveDoc.Selection
+        selectedElts.Search("Product,all")
+ 
+        dim number, i, ind As Integer
+
+		'// Number of selected Products
+        number = SelectedElts.Count
+
+        msgbox "Nb selected elements: " & Cstr(number)
+
+		'// Initialize the first line of data
+        For i=1 To number
+     
+            set product = SelectedElts.FindObject("CATIAProduct")
+
+            RemoveParameters product
+
+        Next
+    End If
+
+    msgbox "The End"
+
+End Sub 

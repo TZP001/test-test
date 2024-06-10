@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--COPYRIGHT DASSAULT SYSTEMES 2005-2010 -->
+
+<ParametersList>
+
+   <Parameter Name="Type"     Type="String" Alias="%CATPDMReconcileAutoRules:FilterOnDoc_Type%"     Shown="Yes" AccessMode="ReadWrite" MultiValuated="No"/>
+
+   <Parameter Name="DocType"  Type="String" Alias="%CATPDMReconcileAutoRules:FilterOnDoc_DocExt%"   Shown="Yes" AccessMode="ReadWrite" MultiValuated="Yes" DefaultListExtensible="No">
+      <DefaultValuesList>
+         <DefaultValue></DefaultValue>
+         <DefaultValue>CATProduct</DefaultValue>
+         <DefaultValue>CATPart</DefaultValue>
+         <DefaultValue>CATDrawing</DefaultValue>
+         <DefaultValue>model</DefaultValue>
+         <DefaultValue>CATShape</DefaultValue>
+         <DefaultValue>cgr</DefaultValue>
+         <DefaultValue>catalog</DefaultValue>
+         <DefaultValue>CATMaterial</DefaultValue>
+         <DefaultValue>CATAnalysis</DefaultValue>
+         <DefaultValue>CATAnalysisResults</DefaultValue>
+         <DefaultValue>CATAnalysisComputations</DefaultValue>
+         <DefaultValue>CDMAmodel</DefaultValue>
+      </DefaultValuesList>
+   </Parameter>
+
+   <Parameter Name="Mode"     Type="String" Alias="Mode: "                                          Shown="No"  AccessMode="Read"      MultiValuated="No">
+      <CurrentValue>PUBEXP</CurrentValue>
+   </Parameter>
+
+   <Parameter Name="FileName" Type="String" Alias="%CATPDMReconcileAutoRules:FilterOnDoc_FileName%" Shown="Yes" AccessMode="ReadWrite" MultiValuated="No"/>
+
+   <RenderingForm>
+      <MainFrame>
+         <Label ref="Parameter[@Name='Type']/@Alias" Name="FrmElemLabel1"/>
+         <GC A="L" H="1" J="H" W="1" X="0" Y="1" Name="FrmElemLabel1"/>
+
+         <DefaultFormSelect1 ref="Parameter[@Name='Type']/CurrentValue" Name="FrmElemInput1">
+            <Select1Item>
+               <ItemLabel>%CATPDMReconcileAutoRules:FilterOnDoc_ANYDOC%</ItemLabel>
+               <ItemValue>ANYDOC</ItemValue>
+            </Select1Item>
+
+            <Select1Item>
+               <ItemLabel>%CATPDMReconcileAutoRules:FilterOnDoc_DOC%</ItemLabel>
+               <ItemValue>DOC</ItemValue>
+            </Select1Item>
+
+            <Select1Item>
+               <ItemLabel>%CATPDMReconcileAutoRules:FilterOnDoc_PROXYDOC%</ItemLabel>
+               <ItemValue>PROXYDOC</ItemValue>
+            </Select1Item>
+         </DefaultFormSelect1>
+         <GC A="L" H="1" J="" W="2" X="1" Y="1" Name="FrmElemInput1"/>
+
+         <Label ref="Parameter[@Name='DocType']/@Alias" Name="FrmElemLabel2"/>
+         <GC A="L" H="1" J="H" W="1" X="0" Y="2" Name="FrmElemLabel2"/>
+
+         <DefaultFormSelect1 ref="Parameter[@Name='DocType']/CurrentValue" Name="FrmElemInput2"/>
+         <GC A="L" H="1" J="" W="2" X="1" Y="2" Name="FrmElemInput2"/>
+
+         <Label ref="Parameter[@Name='FileName']/@Alias" Name="FrmElemLabel5"/>
+         <GC A="L" H="1" J="H" W="1" X="0" Y="3" Name="FrmElemLabel5"/>
+
+         <DefaultFormInput ref="Parameter[@Name='FileName']" Name="FrmElemInput5"/>
+         <GC A="L" H="1" J="H" W="2" X="1" Y="3" Name="FrmElemInput5"/>
+
+      </MainFrame>
+   </RenderingForm>
+</ParametersList>

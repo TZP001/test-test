@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- COPYRIGHT DASSAULT SYSTEMES 2001 -->
+<!-- Sept 2001  Creation of this DTD for syntax of project definition in PRM--> 
+
+<!ELEMENT Project ( (Alias | Resource | Application | Discipline)*	) >
+
+<!ATTLIST Project 
+				Name 	ID #REQUIRED>
+
+
+<!ELEMENT Alias EMPTY>
+
+<!ATTLIST Alias
+		Name 	 CDATA #REQUIRED
+		Value	 CDATA #REQUIRED
+>
+
+<!ELEMENT Discipline ( ( Application | Resource )* )>
+
+<!ATTLIST Discipline 
+				Name 			ID		#REQUIRED
+				Description 	CDATA 	#REQUIRED
+				Parent CDATA			"No Parent"
+ >
+
+<!ELEMENT Application (Resource*) 	 >
+
+<!ATTLIST Application
+		Name 	CDATA #REQUIRED
+		Description CDATA "No Description"
+		Visible (yes | no) "yes"	>
+
+
+
+<!ELEMENT Resource (ID?) 	 >
+
+<!ATTLIST Resource 
+    Name 	CDATA										#REQUIRED  										            
+	Description CDATA									"No Description" 	 
+	Visible (yes | no)									"yes"
+>
+
+<!ELEMENT ID EMPTY > 
+<!ATTLIST ID 
+	Type 	(Catia | Misc | Path)						"Misc"
+	Path	    CDATA									"No Description" 
+	Location 	CDATA									#REQUIRED 
+	Driver 		CDATA									"No Description"
+	Access	(R | RW)									"R"				
+>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT Vector				EMPTY>
+<!ELEMENT Point					EMPTY>
+<!ELEMENT Date					EMPTY>
+<!ELEMENT Matrix				(Vector+ , Point)>
+<!ELEMENT Product				(Matrix*)>
+<!ELEMENT Specification			(Product+)>
+<!ELEMENT ClashSpec				(Specification*)>
+<!ELEMENT Elements				(LinkToInterference+)>
+<!ELEMENT FederatorClashElement (ClashSpec, Elements)>
+<!ATTLIST FederatorClashElement Responsible				CDATA		#IMPLIED
+								CATDocument				CDATA		#IMPLIED
+								Version					(1.0|1.1|1.2)   "1.2">
+<!ATTLIST LinkToInterference    Link					CDATA		#REQUIRED
+								FirstProductName		CDATA		#IMPLIED
+								SecondProductName		CDATA		#IMPLIED
+								FirstProductId			CDATA		#IMPLIED
+								SecondProductId			CDATA		#IMPLIED
+								FirstProductURL			CDATA		#IMPLIED
+								SecondProductURL		CDATA		#IMPLIED>
+<!ATTLIST Product				Alias					CDATA		#REQUIRED
+								ProcessMode				(ENOVIAV5|ENOVIAVPM|STANDALONE) "ENOVIAV5"
+								DescriptionID			CDATA		#IMPLIED
+								ShapeSource				CDATA		#IMPLIED
+								ShapeName				CDATA		#REQUIRED
+								Alien					(YES|NO)    "YES">
+<!ATTLIST Point					Ux						CDATA		#REQUIRED
+								Uy						CDATA		#REQUIRED
+								Uz						CDATA		#REQUIRED>
+<!ATTLIST Vector				CorrespondingData		(Rx|Ry|Rz)  "Rx"
+								Vx						CDATA		#REQUIRED
+								Vy						CDATA		#REQUIRED
+								Vz						CDATA		#REQUIRED>
+<!ATTLIST ClashSpec				Name					CDATA		#REQUIRED
+								DistanceClearance		CDATA		#IMPLIED
+								TabTitle				CDATA		#REQUIRED
+								TabListTitle			CDATA		#REQUIRED
+								SelectMode				(INSIDE|OUTSIDE|ALL|TWO_LIST) "ALL"
+								CaseOfCalc				(INTERFERE_CONT|INTERFERE_CLEAR|INTERFERE_PENETR_CLASH|INTERFERE_RULE) "INTERFERE_CONT">

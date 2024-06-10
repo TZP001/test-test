@@ -1,0 +1,103 @@
+// COPYRIGHT DASSAULT SYSTEMES 2000
+//===================================================================
+//
+// Catalog for CATKweSetOfEquationsEditorDlg class
+//
+//===================================================================
+//
+// Usage notes:
+//
+//===================================================================
+//
+//  Mar 2000  Creation:           Dmitri Ouchakov, LEDAS Ltd. (vtn1)
+//  Jul 2000  Modification (adding SetInputsButton, etc.)
+//                                Dmitri Ouchakov, LEDAS Ltd. (vtn1)
+//  Sep 2000  Correction of mistakes: D. Ouchakov, LEDAS Ltd. (vtn1)
+//  Feb 2002  Add TabOptions            W.Sidorov, LEDAS Ltd. (vtn3)
+//  Nov 2002  Add ParsePushButton and SwitchPushButton
+//                                   A.Leshchenko, LEDAS Ltd. (anz)
+//  Jun 2003
+//===================================================================
+Active.Title = "Editeur d'équations : /P1 Actif";
+Inactive.Title = "Editeur d'équations : /P1 Inactif";
+
+text_editor.Help = "écrivez le corps de l'ensemble d'équations";
+text_editor.LongHelp = "Editeur de l'ensemble d'équations\n",
+                       "Un ensemble d'équations permet de créer des paramètres de liaison de contraintes.\n\n",
+                       "La syntaxe suivante doit être utilisée :\n",
+                       "PartBody\Pad.1\FirstLimit\Length * Real.5 == PartBody\Pad.1\SecondLimit\Length\n",
+                       "and\n",
+                       "PartBody\Pad.1\FirstLimit\Length * Real.5 + PartBody\Pad.1\SecondLimit\Length == 12mm\n\n",
+                       "Pour entrer les noms des paramètres, les entrer directement, utiliser le dictionnaire fourni ci-dessous, ou\n",
+                       "sélectionner les contraintes associées à chaque paramètre dans la vue 3D.\n",
+                       "Pour afficher les contraintes 3D, sélectionner une entité dans la géométrie ou dans l'arbre de spécifications.\n";
+
+
+InputsLabel.Title = "Paramètres Constants";
+OutputsLabel.Title = "Paramètres Inconnus";
+
+SetInputsButton.Title="Placez Les Entrées";
+SetInputsButton.Help="Place des paramètres d'entrée pour l'ensemble d'équations";
+SetInputsButton.ShortHelp="Place des paramètres d'entrées";
+SetInputsButton.LongHelp="Place des paramètres d'entrée pour l'ensemble d'équations.\nUn dialogue spécial vous permet de diviser des paramètres sur deux groupes: entrées et sorties";
+
+ButtonFrame.MoveToInputsPushButton.ShortHelp = "Mettre en entrée.";
+ButtonFrame.MoveToInputsPushButton.Help = "Le paramètre sélectionné devient une entrée (c.-à-d. une constante) du problème.";
+ButtonFrame.MoveToInputsPushButton.LongHelp = "Le paramètre sélectionné devient une entrée du problème. Ce paramètre devient alors une constante dans le problème considéré.";
+ButtonFrame.MoveToOutputsPushButton.ShortHelp = "Mettre en sortie.";
+ButtonFrame.MoveToOutputsPushButton.Help = "Le paramètre sélectionné devient une sortie (c.-à-d. une variable) du problème.";
+ButtonFrame.MoveToOutputsPushButton.LongHelp = "Le paramètre sélectionné devient une sortie du problème. Ce paramètre devient alors une variable dans le problème considéré.";
+ButtonFrame.ParsePushButton.ShortHelp = "Analyser.";
+ButtonFrame.ParsePushButton.Help = "Analyse le corps de l'ensemble d'équations.";
+ButtonFrame.ParsePushButton.LongHelp = "Analyse le corps de l'ensemble d'équations.\nIdentifie les variables en tant que paramètres inconnus.";
+ButtonFrame.SwitchPushButton.ShortHelp = "Echange les entrées et les sorties.";
+ButtonFrame.SwitchPushButton.Help = "Echange les paramètres d'entrée et de sortie.";
+ButtonFrame.SwitchPushButton.LongHelp = "Echange les paramètres d'entrée et de sortie.\nChaque entrée devient une sortie et inversement.";
+
+
+InputsSelectorList.Help = "Liste des paramètre d'entrée (constants).";
+InputsSelectorList.LongHelp = "Cette liste montre les paramètres constants du problème d'optimisation.\n";
+InputsSelectorList.ColumnTitle1 = "Nom";
+InputsSelectorList.ColumnTitle2 = "Valeur";
+
+OutputsSelectorList.Help = "Liste des paramètre de sortie (variables).";
+OutputsSelectorList.LongHelp = "Cette liste montre les paramètres variables du problème d'optimisation.\n";
+OutputsSelectorList.ColumnTitle1 = "Nom";
+OutputsSelectorList.ColumnTitle2 = "Valeur";
+
+TabOptions.EpsBaseText.Title = "Précision";
+TabOptions.EpsBaseValue.Help = "Entrer la précision de calcul entre les bornes [1e-10, 0.1]";
+TabOptions.EpsBaseValue.ShortHelp="Entrer la précision de calcul";
+TabOptions.EpsBaseValue.LongHelp = "La précision de l'Ensemble d'équations.\n",
+                       "Le paramètre a un impact sur la précision de la solution.\n",
+                       "Les valeurs possible du paramètre doivent être entre les bornes [1e-10, 0.1].";
+
+TabOptions.GaussText.Title = "Utiliser la méthode Gauss pour les systèmes d'équations linéaires.";
+TabOptions.GaussValue.Title = "";
+
+TabOptions.StopText.Title = "Afficher le dialogue 'Stop'  ";
+TabOptions.StopValue.Title = "";
+TabOptions.TimeText.Title = "Le temps de calcul maximum (sec.)  ";
+TabOptions.TimeValue.Help = "Entrer le temps de calcul maximum";
+TabOptions.TimeValue.ShortHelp="Entrer le temps de calcul maximum";
+TabOptions.TimeValue.LongHelp = "Le temps de calcul maximum.\n",
+                       "Ce paramètre est utilisé pour limiter le temps de calcul.\n",
+                       "Si la durée de calcul de l'Ensemble d'Equations est plus longue que le temps indiqué,\n",
+                       "le calcul est arrêté.\n\n",
+                       "Si ce paramètre est égal à 0, le temps de calcul n'est pas limité.";
+
+TabOptions.SetDefault.Title = "Par défaut";
+TabOptions.Empty1.Title = "    ";
+ParseWarning = "Aucune résolution n'est faite lors du premier appel à Appliquer.";
+ParseWarning.Title = "Avertissement : Première Application";
+
+TabOptions.ErrorsText.Title = "Générer la description des erreurs étendues.";
+TabOptions.ErrorsValue.Title = "";
+
+TabOptions.SolverOptionsFrame.Title = "Algorithme";
+TabOptions.StopOptionsFrame.Title   = "Critères d'arrêt";
+
+Solve.Title = "Résoudre";
+Solve.Help  = "Trouver les solutions";
+Solve.LongHelp = "Résoud les équations de ce modèle.";
+

@@ -1,0 +1,124 @@
+# COPYRIGHT Dassault Systemes 2004
+#======================================================================
+# Dictionary CATTechResult.dic
+#  associated with framework CATTechResult
+#======================================================================
+#
+#  Mar 2004  Creation: juw
+#======================================================================
+CATTerTechnoResultServicesImpl					CATITerTechnoResultServices				libCATTerTechnoResultServices
+CATTerTechnoResultServicesImpl					CATICreateInstance								libCATTerTechnoResultServices
+CATTerTechnoResultImportServicesImpl		CATITerTechnoResultImportServices	libCATTerTechnoResultServices
+CATTerTechnoResultImportServicesImpl		CATICreateInstance              	libCATTerTechnoResultServices
+CATTerFTABiDiHighlight                  CATICreateInstance								libCATTerTechnoResultServices
+CATTerFTABiDiHighlight                  CATIFTAAssociativeHighlight				libCATTerTechnoResultServices
+
+
+CATListCATITerTechResToPropagateImpl		CATIListCATITerTechResToPropagate				libCATTerTechnoResultToPropagate
+CATListCATITerTechResToPropagateImpl		CATICreateInstance											libCATTerTechnoResultToPropagate
+CATTerTechResToPropagate								CATITerTechResToPropagateBase						libCATTerTechnoResultToPropagate
+CATTerTechResToPropagate								CATITerTechResToPropagateContributions	libCATTerTechnoResultToPropagate
+
+MechanicalTool	CATITerBody	            libCATTerTechnoResult 
+HybridBody			CATITerBody	            libCATTerTechnoResult
+CATFeatCont	    CATITerFactory	        libCATTerTechnoResult
+CATPart	        CATITerDocument	        libCATTerTechnoResult
+
+CATTechnoResultBase	        CATITerTechResBase	        libCATTerTechnoResult
+CATTechnoResultBase	        CATITerTechResBaseAccess    libCATTerTechnoResult
+CATTechnoResultBase	        CATITerTechResBaseImported	libCATTerTechnoResult
+CATTechnoResultBase	        CATIContextualMenu	        libCATTerTechnoResult
+CATTechnoResultBase	        CATICutAndPastable	        libCATTerTechnoResult
+CATTechnoResultBase	        CATIModelEvents	            libCATTerTechnoResult
+CATTechnoResultBase_node    CATINavigModify	            libCATTerTechnoResult
+
+CATTechnoResultBody	        CATITerTechResBody					libCATTerTechnoResult
+
+CATTechnoResultContainer		CATITerTechResContainer			libCATTerTechnoResult
+
+# SXU R16GA : old model
+CATTechnoResultImportRoot		CATITerTechResImportRoot		libCATTerTechnoResult
+CATTechnoResultImportRoot		CATITerTechResGenerator			libCATTerTechnoResult
+
+CATTechnoResultOutput				CATIBuild							libCATTerTechnoResult
+CATTechnoResultOutput				CATIReplace							libCATTerTechnoResult
+CATTechnoResultOutput				CATIAttrBehavior					libCATTerTechnoResult
+CATTechnoResultOutput				CATINavigateObject					libCATTerTechnoResult
+CATTechnoResultOutput				CATIMechanicalProperties			libCATTerTechnoResult
+CATTechnoResultOutput				CATITerTechResOutput				libCATTerTechnoResult
+CATTechnoResultOutput				CATIContextualMenu					libCATTerTechnoResult
+CATTechnoResultOutput				CATIContextualSubMenu				libCATTerTechnoResult
+CATTechnoResultOutput				CATICutAndPastable					libCATTerTechnoResult
+CATTechnoResultOutput				CATIVisuGraph						libCATTerTechnoResult
+CATTechnoResultOutput				CATISpecObject						libCATTerTechnoResult
+CATTechnoResultOutput				CATIModelEvents						libCATTerTechnoResult
+CATTechnoResultOutput				CATIMechanicalFeature				libCATTerTechnoResult
+
+CATTechnoResultOutput2				CATIBuild							libCATTerTechnoResult
+CATTechnoResultOutput2				CATISpecObject						libCATTerTechnoResult
+
+
+CATListCATITerTechResImpl				CATIListCATITerTechRes	    libCATTerTechnoResult
+CATListCATITerTechResImpl       CATICreateInstance          libCATTerTechnoResult
+CATListCATITerTechResBodyImpl		CATIListCATITerTechResBody	libCATTerTechnoResult
+CATListCATITerTechResBodyImpl   CATICreateInstance          libCATTerTechnoResult
+
+UdfFeature	CATITerTechResModifier	libCATTerTechnoResultServices	CATTerTRUserFeatureModifierPrecond
+RectPattern	CATITerTechResModifier	libCATTerTechnoResultServices
+UserPattern	CATITerTechResModifier	libCATTerTechnoResultServices
+CircPattern	CATITerTechResModifier	libCATTerTechnoResultServices
+Mirror			CATITerTechResModifier	libCATTerTechnoResultServices
+GSMTransfo	CATITerTechResModifier	libCATTerTechnoResultServices
+
+# SXU R16SP1 : new model
+# => TRBodyImport implements CATITerTechResGenerator instead of Solid
+# because of multi-implementation problems
+CATTechnoResultBody	        CATITerTechResGenerator	     libCATTerTechnoResult	CATTerTRBodyImportGeneratorPrecond
+
+# SXU R16SP4 : for DCS only
+CATTechnoResultParameterSet	CATITerTechResParameterSet	libCATTerTechnoResult
+CATTechnoResultParameterSet	CATITerTechResParameterSetToPropagate	libCATTerTechnoResult CATTerTRPSTPParameterSetImportPrecond
+
+# SXU R16SP4 : correction of update status of Technological Results
+CATTerTechnoResultUpdateServicesImpl	    CATITerTechnoResultUpdateServices	libCATTerTechnoResultServices
+CATTerTechnoResultUpdateServicesImpl	    CATICreateInstance								libCATTerTechnoResultServices
+
+# SXU R16SP4 : creation of CATDUA Rules
+CATTechnoResultOutput				CATICheckObject		libCATClnTechnoResult
+CATTechnoResultOutput				CATICleanObject		libCATClnTechnoResult
+CATTechnoResultBody					CATICheckObject		libCATClnTechnoResult
+CATTechnoResultBody					CATICleanObject		libCATClnTechnoResult
+CATTechnoResultImportRoot		CATICheckObject		libCATClnTechnoResult
+CATTechnoResultImportRoot		CATICleanObject		libCATClnTechnoResult
+CATTechnoResultContainer		CATICheckObject		libCATClnTechnoResult
+CATTechnoResultContainer		CATICleanObject		libCATClnTechnoResult
+
+# SXU R18 : Generic propagation algorithm
+MechanicalTool		CATITerTechResContextRetriever		libCATTerTechnoResultServices
+HybridBody				CATITerTechResContextRetriever		libCATTerTechnoResultServices
+BooleanOperation	CATITerTechResContextRetriever		libCATTerTechnoResultServices
+RectPattern				CATITerTechResContextRetriever		libCATTerTechnoResultServices		CATTerTRPatternCtxRetrieverPrecond
+UserPattern				CATITerTechResContextRetriever		libCATTerTechnoResultServices		CATTerTRPatternCtxRetrieverPrecond
+CircPattern				CATITerTechResContextRetriever		libCATTerTechnoResultServices		CATTerTRPatternCtxRetrieverPrecond
+Mirror						CATITerTechResContextRetriever		libCATTerTechnoResultServices		CATTerTRPatternCtxRetrieverPrecond
+UdfFeature				CATITerTechResContextRetriever		libCATTerTechnoResultServices
+Solid							CATITerTechResContextRetriever		libCATTerTechnoResultServices		CATTerTRSolidCtxRetrieverPrecond
+
+# LOC R18 : debug services exposure
+CATETerTechnoResultServicesDebug			CATITerTechnoResultServicesDebug		libCATTerTechnoResultServices
+CATETerTechnoResultServicesDebug			CATICreateInstance									libCATTerTechnoResultServices
+
+# LOC R204 : exposure of CATITerTRModifierServices
+CATETerTRModifierServices							CATITerTRModifierServices				libCATTerTechnoResultServices
+CATETerTRModifierServices							CATICreateInstance							libCATTerTechnoResultServices
+CATTerTRModifierLetter								CATITerTRModifierServices				libCATTerTechnoResultServices
+CATTerTRModifierLetter								CATITerTechResModifier          libCATTerTechnoResultServices
+
+# LOC R206 : Propagation through Functional Import
+CATETerTechResContribution							CATITerTechResContribution								libCATTerTechnoResult
+CATListCATITerTechResContributionImpl		CATIListCATITerTechResContribution				libCATTerTechnoResult
+CATListCATITerTechResContributionImpl		CATICreateInstance												libCATTerTechnoResult
+
+CATTerTechnoResultPropagationServicesImpl		CATITerTechnoResultPropagationServices	libCATTerTechnoResultServices
+CATTerTechnoResultPropagationServicesImpl		CATICreateInstance											libCATTerTechnoResultServices
+

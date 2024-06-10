@@ -1,0 +1,52 @@
+#===============================================================================
+# COPYRIGHT DASSAULT SYSTEMES 2003
+#===============================================================================
+# Dictionary DNBSimulationUI.dic associated with framework DNBSimulationUI
+#===============================================================================
+#  HISTORY:
+#      Author       Date         Purpose
+#      ------       ----         -------
+#      sha          03/25/2003   Initial implementation
+#      sha          01/07/2004   Moved the settings related code
+#      mmh          05/07/2004   Implement SimTrace tab-page
+#      mmh          05/23/2006   Implement DNBISpecialSelect on PhysicalActivity
+#===============================================================================
+# DO NOT EDIT :: THE CAA2 WIZARDS WILL ADD CODE HERE
+DNBSimSimTraceSettingCtrl    CATISysSettingController           libDNBSimTraceSettings
+DNBSimSimTraceSettingCtrl    CATICreateInstance                 libDNBSimTraceSettings
+DNBSimSimTraceSettingCtrl    DNBISimSimTraceSettingAtt          libDNBSimTraceSettings
+DNBSimSimTraceSettingCtrl    DNBIASimTraceSettingAtt            libDNBSimTraceSettings
+
+DNBSimSimulationSettingCtrl  CATISysSettingController           libDNBSimulationSettings
+DNBSimSimulationSettingCtrl  CATICreateInstance                 libDNBSimulationSettings
+DNBSimSimulationSettingCtrl  DNBISimSimulationSettingAtt        libDNBSimulationSettings
+DNBSimSimulationSettingCtrl  DNBIASimulationSettingAtt          libDNBSimulationSettings
+
+DNBSimAnalysisSettingCtrl    CATISysSettingController           libDNBAnalysisSettings
+DNBSimAnalysisSettingCtrl    CATICreateInstance                 libDNBAnalysisSettings
+DNBSimAnalysisSettingCtrl    DNBISimAnalysisSettingAtt          libDNBAnalysisSettings
+DNBSimAnalysisSettingCtrl    DNBIAAnalysisSettingAtt            libDNBAnalysisSettings
+# END WIZARD EDITION ZONE
+
+# IPD management
+DNBSimulationIPDAuthAct      CATIIPDAuthorizedActivities        libDNBSimulationUI
+
+#for selection under device/product selection mode
+PhysicalActivity             DNBISpecialSelect                  libDNBSimulationUI
+
+#------------------------------------------------------------------------------
+#  Tools Options
+#------------------------------------------------------------------------------
+CATUserSettingsManager      DNBISimulationSettingsEditorFactory libDNBSimulationSettings
+CATEditorManager2           DNBISimulationSettingsEditorFactory libDNBSimulationSettings
+DNBSimulationSettingsEditor CATIUserSettings                    libDNBSimulationSettings
+
+CATUserSettingsManager      DNBIAnalysisSettingsEditorFactory   libDNBAnalysisSettings
+CATEditorManager2           DNBIAnalysisSettingsEditorFactory   libDNBAnalysisSettings
+DNBAnalysisSettingsEditor   CATIUserSettings                    libDNBAnalysisSettings
+
+CATUserSettingsManager      DNBISimTraceSettingsEditorFactory   libDNBSimTraceSettings
+CATEditorManager2           DNBISimTraceSettingsEditorFactory   libDNBSimTraceSettings
+DNBSimTraceSettingsEditor   CATIUserSettings                    libDNBSimTraceSettings
+
+

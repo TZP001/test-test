@@ -1,0 +1,2751 @@
+<!DOCTYPE Project SYSTEM "Project.dtd">
+
+<Project Name="Sample_Project">
+
+<!-- Aliases in the project file -->
+<Alias Name="Startup_Directory" Value="..\..\EquipmentAndSystems" />
+<Alias Name="Components_Directory" Value="..\..\components" />
+<Alias Name="MultiDiscSample" Value="MultiDiscipline\SampleData" />
+
+<!-- **************  PROJECT RESOURCES  ************** -->
+
+<!--  ID SCHEMA RESOURCES  -->
+<Resource Name="PipingIDSchema" Description="Piping ID Schema Directory">
+   <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Piping\DataDictionary"/>
+</Resource>
+
+<Resource Name="EquipmentIDSchema" Description="Equipment ID Schema Directory">
+   <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Equipment\DataDictionary"/>
+</Resource>
+
+<Resource Name="InstrumentIDSchema" Description="Instrument ID Schema Directory">
+   <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Instrument\DataDictionary"/>
+</Resource>
+
+<Resource Name="HVACIDSchema" Description="HVAC ID Schema Directory">
+   <ID  Type="Path" Driver="File" Location="${Startup_Directory}\HVAC\DataDictionary"/>
+</Resource>
+
+<Resource Name="TubingIDSchema" Description="Tubing ID Schema Directory">
+   <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Tubing\DataDictionary"/>
+</Resource>
+
+<Resource Name="WaveguideIDSchema" Description="Waveguide ID Schema Directory">
+   <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Waveguide\DataDictionary"/>
+</Resource>
+
+<Resource Name="HangerIDSchema" Description="Hanger ID Schema Directory">
+   <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Hanger\DataDictionary"/>
+</Resource>
+
+<Resource Name="ConduitIDSchema" Description="Conduit ID Schema Directory">
+   <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Conduit\DataDictionary"/>
+</Resource>
+
+<Resource Name="RacewayIDSchema" Description="Raceway ID Schema Directory">
+   <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Raceway\DataDictionary"/>
+</Resource>
+
+<Resource Name="MultiDisciplineIDSchema" Description="MultiDiscipline ID Schema Directory">
+   <ID  Type="Path" Driver="File" Location="${Startup_Directory}\MultiDiscipline\DataDictionary"/>
+</Resource>
+
+<Resource Name="StrPreliminaryLayoutIDSchema" Description="Structure Preliminary Layout ID Schema Directory">
+    <ID  Type="Path" Driver="File" Location="${Startup_Directory}\StructurePreliminaryLayout\DataDictionary"/>
+</Resource>
+
+<Resource Name="StructureDesignIDSchema" Description="Structure Design ID Schema Directory">
+  <ID  Type="Path" Driver="File" Location="${Startup_Directory}\StructureDesign\DataDictionary"/>
+</Resource>
+
+<Resource Name="CompAccessIDSchema" Description="Compartment Access ID Schema Directory">
+   <ID  Type="Path" Driver="File" Location="${Startup_Directory}\CompartmentAccess\DataDictionary"/>
+</Resource>
+
+<Resource Name="ElectricalIDSchema" Description="Electrical ID Schema Directory">
+   <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Electrical\DataDictionary"/>
+</Resource>
+
+<!-- ************** Option=1   - Default : Update the instance ID after Build New Reference (BNR) is performed *************** -->
+<!-- *************** Option=2   -  Do not update the instance ID after  Build New Reference (BNR) is performed  ******************** -->
+<Resource Name="UpdateInstanceNameAfterBNR" Description="Update instance ID after Build New Reference">
+   <ID  Type="Misc" Driver="File" Location="1"/>
+</Resource>
+
+<!--  Color SCHEMA RESOURCES  
+<Resource Name="PipingColorSchema" Description="Piping Color Schema Directory">
+   <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Piping\DataDictionary"/>
+</Resource>
+
+<Resource Name="EquipmentColorSchema" Description="Equipment Color Schema Directory">
+   <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Equipment\DataDictionary"/>
+</Resource>
+
+<Resource Name="HVACColorSchema" Description="HVAC Color Schema Directory">
+   <ID  Type="Path" Driver="File" Location="${Startup_Directory}\HVAC\DataDictionary"/>
+</Resource>
+
+<Resource Name="TubingColorSchema" Description="Tubing Color Schema Directory">
+   <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Tubing\DataDictionary"/>
+</Resource>
+
+<Resource Name="WaveguideColorSchema" Description="Waveguide Color Schema Directory">
+   <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Waveguide\DataDictionary"/>
+</Resource>
+
+<Resource Name="HangerColorSchema" Description="Hanger Color Schema Directory">
+   <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Hanger\DataDictionary"/>
+</Resource>
+
+<Resource Name="ConduitColorSchema" Description="Conduit Color Schema Directory">
+   <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Conduit\DataDictionary"/>
+</Resource>
+
+<Resource Name="RacewayColorSchema" Description="Raceway Color Schema Directory">
+   <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Raceway\DataDictionary"/>
+</Resource>
+
+<Resource Name="MultiDisciplineColorSchema" Description="MultiDiscipline Color Schema Directory">
+   <ID  Type="Path" Driver="File" Location="${Startup_Directory}\MultiDiscipline\DataDictionary"/>
+</Resource>
+
+<Resource Name="CompAccessColorSchema" Description="Compartment Access Color Schema Directory">
+   <ID  Type="Path" Driver="File" Location="${Startup_Directory}\CompartmentAccess\DataDictionary"/>
+</Resource>
+
+<Resource Name="ElectricalColorSchema" Description="Electrical Color Schema Directory">
+   <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Electrical\DataDictionary"/>
+</Resource>
+-->
+
+<!-- *****KWE Rule document containing rule that is fired during Ok/Apply of Properties window  ***** 
+<Resource Name="MechToElecAttributeSynchRule" Description="KWE Rule document containing rules to update attributes" Visible="yes">
+  <ID Type="Catia" Driver="File" Location="${Startup_Directory}\Equipment\General\KweRules\KweRulesMechToElec.CATProduct" Access="R" />
+</Resource>
+  -->
+
+<!--  *** KWE Multiple Dictionaries available to knowledgeware packages and Report generator ***
+      *** In order to load project PRM by KWE engine, define an environment variable EQUIPSYSTEMS_PROJECT as follows
+      *** set EQUIPSYSTEMS_PROJECT=<ThisProjectFileNameWithNoExtension>                     *********           
+      *** For this file it will be-> set EQUIPSYSTEMS_PROJECT=Project                       *********           
+      *** Pointed resource file (UserDictionaries.txt)should contain a list of CATfct files *********
+      *** whose types will be KWE exposed.                                                 *********
+<Resource Name="EQUIPSYSTEMS_USERDICTIONARIES" Description="Dictionaries available to Knowledgeware packages and the report generator" Visible="yes">
+   <ID  Type="Path" Driver="File" Location="${Startup_Directory}\${MultiDiscSample}\UserDictionaries.txt"/>
+</Resource>
+-->
+
+  <!--  USER DICTIONARY RESOURCES  -->
+<Resource Name="EquipmentUserDictionary" Description="Equipment User Dictionary">
+   <ID  Type="Misc" Driver="File" Location="CATEquipmentSample.CATfct"/>
+</Resource>
+
+<Resource Name="PipingUserDictionary" Description="Piping User Dictionary">
+   <ID  Type="Misc" Driver="File" Location="CATPipingSample.CATfct"/>
+</Resource>
+
+<Resource Name="InstrumentUserDictionary" Description="Instrument User Dictionary">
+    <ID  Type="Misc" Driver="File" Location="CATInstrumentSample.CATfct"/>
+</Resource>
+
+<Resource Name="HVACUserDictionary" Description="HVAC User Dictionary">
+   <ID  Type="Misc" Driver="File" Location="CATHVACSample.CATfct"/>
+</Resource>
+
+<Resource Name="TubingUserDictionary" Description="Tubing User Dictionary">
+   <ID  Type="Misc" Driver="File" Location="CATTubingSample.CATfct"/>
+</Resource>
+
+<Resource Name="WaveguideUserDictionary" Description="Waveguide User Dictionary">
+   <ID  Type="Misc" Driver="File" Location="CATWaveguideSample.CATfct"/>
+</Resource>
+
+<Resource Name="RacewayUserDictionary" Description="Raceway User Dictionary">
+   <ID  Type="Misc" Driver="File" Location="CATRacewaySample.CATfct"/>
+</Resource>
+
+<Resource Name="ConduitUserDictionary" Description="Conduit User Dictionary">
+   <ID  Type="Misc" Driver="File" Location="CATConduitSample.CATfct"/>
+</Resource>
+
+<Resource Name="HangerUserDictionary" Description="Hanger User Dictionary">
+   <ID  Type="Misc" Driver="File" Location="CATHangerSample.CATfct"/>
+</Resource>
+
+<Resource Name="MultiDisciplineUserDictionary" Description="MultiDiscipline User Dictionary">
+   <ID  Type="Misc" Driver="File" Location="CATMultiDisciplineSample.CATfct"/>
+</Resource>
+
+<Resource Name="StrPreLayoutUserDictionary" Description="Structure Preliminary Layout User Dictionary">
+   <ID  Type="Misc" Driver="File" Location="CATStrPreliminaryLayoutSample.CATfct"/>
+</Resource>
+
+<Resource Name="ImporterCATfcts" Description="CATfcts to be input/output in this directory during an import run">
+   <ID  Type="Path" Driver="File" Location="SET PATH BEFORE USE"/>
+</Resource>
+
+<Resource Name="CompAccessUserDictionary" Description="Compartment Access User Dictionary">
+   <ID  Type="Misc" Driver="File" Location="CATCompAccessSample.CATfct"/>
+</Resource>
+
+<Resource Name="ElectricalUserDictionary" Description="Electrical User Dictionary">
+   <ID  Type="Misc" Driver="File" Location="CATElectricalSample.CATfct"/>
+</Resource>
+
+
+<!--  COMPUTED ATTRIBUTE RESOURCES  -->
+<Resource Name="EquipmentComputedAttributes" Description="Equipment list of computed attribute names">
+   <ID  Type="Path" Driver="File" Location="${Startup_Directory}\${MultiDiscSample}\EquipmentComputedAttributes.txt"/>
+</Resource>
+
+<Resource Name="PipingComputedAttributes" Description="Piping list of computed attribute names">
+   <ID  Type="Path" Driver="File" Location="${Startup_Directory}\${MultiDiscSample}\PipingComputedAttributes.txt"/>
+</Resource>
+
+<Resource Name="InstrumentComputedAttributes" Description="Instrument list of computed attribute names">
+    <ID  Type="Path" Driver="File" Location="${Startup_Directory}\${MultiDiscSample}\InstrumentComputedAttributes.txt"/>
+</Resource>
+
+<Resource Name="HVACComputedAttributes" Description="HVAC list of computed attribute names">
+   <ID  Type="Path" Driver="File" Location="${Startup_Directory}\${MultiDiscSample}\HVACComputedAttributes.txt"/>
+</Resource>
+
+<Resource Name="TubingComputedAttributes" Description="Tubing list of computed attribute names">
+   <ID  Type="Path" Driver="File" Location="${Startup_Directory}\${MultiDiscSample}\TubingComputedAttributes.txt"/>
+</Resource>
+
+<Resource Name="WaveguideComputedAttributes" Description="Waveguide list of computed attribute names">
+   <ID  Type="Path" Driver="File" Location="${Startup_Directory}\${MultiDiscSample}\WaveguideComputedAttributes.txt"/>
+</Resource>
+
+<Resource Name="RacewayComputedAttributes" Description="Raceway list of computed attribute names">
+   <ID  Type="Path" Driver="File" Location="${Startup_Directory}\${MultiDiscSample}\RacewayComputedAttributes.txt"/>
+</Resource>
+
+<Resource Name="ConduitComputedAttributes" Description="Conduit list of computed attribute names">
+   <ID  Type="Path" Driver="File" Location="${Startup_Directory}\${MultiDiscSample}\ConduitComputedAttributes.txt"/>
+</Resource>
+
+<Resource Name="HangerComputedAttributes" Description="Hanger list of computed attribute names">
+   <ID  Type="Path" Driver="File" Location="${Startup_Directory}\${MultiDiscSample}\HangerComputedAttributes.txt"/>
+</Resource>
+
+<Resource Name="CompAccessComputedAttributes" Description="Component Access list of computed attribute names">
+   <ID  Type="Path" Driver="File" Location="${Startup_Directory}\${MultiDiscSample}\CompAccessComputedAttributes.txt"/>
+</Resource>
+
+<Resource Name="ElectricalComputedAttributes" Description="Electrical list of computed attribute names">
+   <ID  Type="Path" Driver="File" Location="${Startup_Directory}\${MultiDiscSample}\ElectricalComputedAttributes.txt"/>
+</Resource>
+
+<Resource Name="MultiDisciplineComputedAttributes" Description="MultiDiscipline list of computed attribute names">
+   <ID  Type="Path" Driver="File" Location="${Startup_Directory}\${MultiDiscSample}\MultiDisciplineComputedAttributes.txt"/>
+</Resource>
+
+<Resource Name="ZonesCatalog" Description="Zones Shared Catalog">
+   <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\${MultiDiscSample}\Zones\CATMldZone.catalog"
+        Access="RW"/>
+</Resource>
+
+<Resource Name="LoosePartsCatalog" Description="Loose Parts Catalog">
+   <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\MultiDiscipline\ComponentCatalogs\LooseParts.catalog"/>
+</Resource>
+
+<Resource Name="AnnotationCatalog" Description="3D Annotation Catalog">
+   <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\MultiDiscipline\ComponentCatalogs\Annotation-3D.catalog"/>
+</Resource>
+	  
+<Resource Name="DiscreteValues" Description="Discrete Values Directory">
+    <ID  Type="Path" Driver="File" Location="${Startup_Directory}\DiscreteValues"/>
+</Resource>
+
+<Resource Name="SchematicDriven" Description="Schematic Driven Flag">
+   <ID  Type="Misc" Driver="File" Location="0"/>
+</Resource>
+
+<!-- *** Option=0 (Default) Existing behavior, use OD from xxxDimension table            *** -->
+<!-- *** Option=1 OD is calculated from TurnRule table: OD = BendRadius / DiameterFactor *** -->
+<Resource Name="UseCalculatedOD" Description="Calculate OD from TurnRule data-do not look up OD from xxxDimension table">
+   <ID  Type="Misc" Driver="File" Location="0"/>
+</Resource>
+
+<!-- *************** Option=0 Break run (ON/OFF) controlled by Tools Option *************** -->
+<!-- *************** Option=1 Always Break Run is enabled *************** -->
+<!-- *************** Option=2 Always No Break Run *************** -->
+<Resource Name="BreakRunAtEveryPlacedPart" Description="Break Run Flag">
+   <ID  Type="Misc" Driver="File" Location="0"/>
+</Resource>
+
+<Resource Name="OverrideFunctionalNominalSize" Description="In schematic-driven routing, allow the 3D designer to overide the nominal size defined in the schematic">
+   <ID  Type="Misc" Driver="File" Location="0"/>
+</Resource>
+
+<!-- *************** Option=1 Use name defined in Design table for the Part Number *************** -->
+<!-- *************** Option=2 Use ID Schema to define the Part Number *************** -->
+<Resource Name="UniqueReferencePartNumberOptions" Description="Unique Reference Part Number definition option">
+   <ID  Type="Misc" Driver="File" Location="2"/>
+</Resource>
+
+<!-- *************** Option=1 Use name defined in Design table for the Part Number *************** -->
+<!-- *************** Option=2 Use ID Schema to define the Part Number *************** -->
+<Resource Name="PartiallyResolvedReferencePartNumberOptions" Description="Partially ResolvedReference Part Number definition option">
+   <ID  Type="Misc" Driver="File" Location="1"/>
+</Resource>
+
+<!-- ******************************************************************************************** -->
+<!-- ************    Options for File Name Of Unique Reference          ************************* -->
+<!-- ************ Option=1 Use part number as the file name             ************************* -->
+<!-- ************ Option=2 Use catalog file name plus a unique identifier as the file name   **** -->
+<!-- ******************************************************************************************** -->
+<Resource Name="UniqueReferenceFileNameOptions" Description="Unique Reference File Name definition option">
+   <ID  Type="Misc" Driver="File" Location="2"/>
+</Resource>
+
+<!-- ******************************************************************************************** -->
+<!-- ************    Options for File Name Of Resolved Reference        ************************* -->
+<!-- ************ Option=1 Use part number as the file name             ************************* -->
+<!-- ************ Option=2 Use catalog file name as the file name       ************************* -->
+<!-- ******************************************************************************************** -->
+<Resource Name="PartiallyResolvedReferenceFileNameOptions" Description="Partially Resolved Reference File Name definition option">
+	<ID  Type="Misc" Driver="File" Location="2"/>
+</Resource>
+
+<!-- *************** Option=NoLimit   - No limit on part number length. *************** -->
+<!-- *************** Option=Automatic - Automatically limit part number length based on detected file environment (File, EV5, VPM). ** -->
+<!-- *************** Option=EV5       - Use the maximum part number length (40) allowed in ENOVIA V5 (including file extension.  ***** -->
+<!-- *************** Option=VPM       - Use the maximum part number length (32) allowed in ENOVIA VPM. *************** -->
+<!-- *************** Option=Integer>0 - User defined maximum length for part number *************** -->
+<Resource Name="PartNumberMaximumLength" Description="Maximum Length Allowed for Part Number">
+  <ID  Type="Misc" Driver="File" Location="EV5"/>
+</Resource>
+
+<!-- *************** Option=NoLimit   - No limit on part file name length. *************** -->
+<!-- *************** Option=Automatic - Automatically limit part file name length based on detected file environment (File, EV5, VPM). ** -->
+<!-- *************** Option=EV5       - Use the maximum part file name length (40) allowed in ENOVIA V5 (including file extension.  ***** -->
+<!-- *************** Option=Integer>0 - User defined maximum length for part file name *************** -->
+<Resource Name="PartFileNameMaximumLength" Description="Maximum Length Allowed for file name">
+  <ID  Type="Misc" Driver="File" Location="EV5"/>
+</Resource>
+
+  <!-- *************** Option=0 Only display Tube/Pipe/Duct/Bendable if compatible to neighbor parts - Tools/Options LOCKED ******************* -->
+<!-- *************** Option=1 Display Tube/Pipe/Duct/Bendable even if NOT compatible to neighbor parts - Tools/Options LOCKED *************** -->
+<!-- *************** Option=2 Option is UNLOCKED - Default is from previous setting saved in CATSetting *************************************** -->
+<Resource Name="IgnoreNeighborCompatibility" Description="Ignore compatibility with neighbor parts">
+  <ID  Type="Misc" Driver="File" Location="2"/>
+</Resource>
+
+<!-- *************** Option=0 Connect Tube/Pipe/Duct/Bendable only if compatible to neighbor parts - Tools/Options LOCKED ******************* -->
+<!-- *************** Option=1 Connect Tube/Pipe/Duct/Bendable even if NOT compatible to neighbor parts - Tools/Options LOCKED *************** -->
+<!-- *************** Option=2 Option is UNLOCKED - Default is from previous setting saved in CATSetting *************************************** -->
+<Resource Name="ConnectToInCompatibleNeighbor" Description="Connect part to incompatible neighbor parts">
+  <ID  Type="Misc" Driver="File" Location="2"/>
+</Resource>
+
+<!-- *************** Option=0 Do not display a warning message during Spec-driven part placement *************** -->
+<!-- ***************          if the Spec of the part is different from the Spec of the Line     *************** -->
+<!-- *************** Option=1 Display a warning message during Spec-driven part placement        *************** -->
+<!-- ***************          if the Spec of the part is different from the Spec of the Line     *************** -->
+<Resource Name="OutOfSpecWarning" Description="Out of Spec warning message display">
+  <ID  Type="Misc" Driver="File" Location="0"/>
+</Resource>
+
+<!-- *************** Option=0 Do not use the Spec of the Line during Respec of parts and runs    *************** -->
+<!-- *************** Option=1 Use the Spec of the Line during Respec of parts and runs           *************** -->
+<Resource Name="AlwaysUseSpecFromLine" Description="Use Line Spec during Respec of parts and runs">
+  <ID  Type="Misc" Driver="File" Location="0"/>
+</Resource>
+
+<!-- *************** Option=0 Use Line ID from selected run - Option is LOCKED         *************** -->
+<!-- *************** Option=1 Do not use Line ID from selected run - Option is LOCKED  *************** -->
+<!-- *************** Option=2 Option is UNLOCKED - Default is from previous setting in repository  ***** -->
+<Resource Name="GetLineFromSelection" Description="Get LineID from selected run">
+  <ID  Type="Misc" Driver="File" Location="2"/>
+</Resource>
+
+<!-- *************** Option=0 Use Nominal Size from selected run - Option is LOCKED        *********** -->
+<!-- *************** Option=1 Do not use Nominal Size from selected run - Option is LOCKED *********** -->
+<!-- *************** Option=2 Option is UNLOCKED - Default is from previous setting in repository  ***** -->
+<Resource Name="GetSizeFromSelection" Description="Get Nominal Size from selected run">
+  <ID  Type="Misc" Driver="File" Location="2"/>
+</Resource>
+
+<!-- *************** Option=0 Use Spec from selected run - Option is LOCKED            *************** -->
+<!-- *************** Option=1 Do not use Spec from selected run - Option is LOCKED     *************** -->
+<!-- *************** Option=2 Option is UNLOCKED - Default is from previous setting in repository  ***** -->
+<Resource Name="GetSpecFromSelection" Description="Get Specification from selected run">
+    <ID  Type="Misc" Driver="File" Location="2"/>
+</Resource>
+
+<!-- *************** Option=0 Do not use dimension rule from Standard to override      *************** -->
+<!-- *************** the attributes. Design table or reference part already contain    *************** -->
+<!-- *************** the data. Currently, affected attributes are OD and WallThickness *************** -->
+<!-- *************** Option=1 Use dimension rule from Standard to retrieve and         *************** -->
+<!-- *************** override the attributes.                                          *************** -->
+<Resource Name="OverrideReferenceAttributesUsingDimensionRule" Description="Use dimension rule from Standard to override the attributes.">
+   <ID  Type="Misc" Driver="File" Location="0"/>
+</Resource>
+
+<!-- *************** Option=0 Allow selection of connectors from any application            *************** -->
+<!-- *************** Option=1 Allow selection of connectors only for the active application *************** -->
+<Resource Name="FilterOnApplicationCtrs" Description="Filter on application connectors during routing and part placement.">
+   <ID  Type="Misc" Driver="File" Location="1"/>
+</Resource>
+
+<!-- *************** Option=0 Raceway and Conduit application are NOT for cableway definition.************** -->
+<!-- *************** Option=1 Raceway and Conduit application are used to define cableway network. ********* -->
+<!-- Impact: branch connections are not allow, only end connection => a node point will be added at the branch location. -->
+<Resource Name="RacewayRunCablewayNetwork" Description="Raceway and Conduit applications are used to define the cableway network.">
+   <ID  Type="Misc" Driver="File" Location="0"/>
+</Resource>
+
+  <!-- ***************************************************************** -->
+  <!--  For "Electrical Cable Database importer" command  - IR29196   ** -->
+  <!--  The PRM resource "TypeofECVDataToBeImported" defines the      ** -->
+  <!--  behavior on type of part to be imported in EnoviaDB. This     ** -->
+  <!--  setting is only for hangers/lofts and conduit/raceway runs    ** -->
+  <!-- ******Option=1 Hangers + Lofts(Loft sections/pathways/spatial lofts) ** -->
+  <!-- ******Option=2 Conduit and Raceway runs                        ** -->
+  <!-- ******NOTE: Equipment,Electrical eqpts etc are always imported ** -->
+  <!-- ****** irrespective of the flag set                            ** -->
+  <!-- ***************************************************************** -->
+  <Resource Name="TypeofECVDataToBeImported" Description="Type of ECV data(Hangers and Lofts OR Conduit and Raceway runs) to be imported">
+    <ID  Type="Misc" Driver="File" Location="1"/>
+  </Resource>
+
+<Resource Name="DeletePartOnRun" Description="Delete all parts on a run when the run is deleted">
+   <ID  Type="Misc" Driver="File" Location="0"/>
+</Resource>
+
+<Resource Name="GraphicRepresentations" Description="Design Graphic Representations">
+   <ID  Type="Path" Driver="File" Location="${Startup_Directory}\${MultiDiscSample}\GraphicRepresentations.txt"/>
+</Resource>
+
+<!--  Reporter Style Sheet Directory   -->
+<Resource Name="ReportStyleSheet" Description="Report Style Sheet Directory">
+   <ID  Type="Path" Driver="File" Location="${Startup_Directory}\ReporterData"/>
+</Resource>
+
+<!--  ID Sequence Number Definition Directory
+<Resource Name="IDSequenceNumber" Description="ID Sequence Number Definition Directory">
+   <ID  Type="Path" Driver="File" Location="C:\CATTemp\IDSequenceNumbers"
+        Access="RW"/>
+</Resource>  -->
+
+<!--  Selective Attribute Display Order Directory 
+<Resource Name="AttributeDisplayList" Description="Selective Attribute Display Order Directory">
+   <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Equipment\DataDictionary"/>
+</Resource>-->
+
+<!-- *** The following resource will allow the user to specify a    *** -->
+<!-- *** list of protected attributes to edit on the instance.      *** -->  
+<!-- *** By default these attributes are protected (grayed out)     *** -->
+<!-- *** and can not be modified. Ex: WallThickness.  The user may  *** -->
+<!-- *** choose to remove the protection by using this resource.    *** -->
+<!-- *** Define a text file including a list of attributes that     *** -->
+<!-- *** will be editable, i.e. unprotected.                        *** -->
+<!-- 
+<Resource Name="AttributesThatCanbeModified" Description="List of instance attributes that can be modified">
+   <ID  Type="Path" Driver="File" Location="${Startup_Directory}\${MultiDiscSample}\AttributesThatCanbeModified.txt"/>
+</Resource>-->
+
+<!-- ************** Project Reference Planes *********** -->
+<Resource Name="ProjectReferencePlanes" Description="Defines the reference planes definition" Visible="yes">
+   <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Structure\ReferencePlanesSystem.xml"/>
+</Resource>
+  
+<!--***** Project Parameters *****--> 
+<Resource Name="ProjectParameters" Description="Contains setup parameters like ship positioning, ship caracteristic planes, etc..." Visible="yes">
+  <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Structure\ProjectParameters.xml"/>
+</Resource>
+
+<!-- ********************************************************************************* -->
+<!--  The following resource gives an options to Break or Not Break             ****** -->
+<!--  RUN when placing round parts with different cntr orientations             ****** -->
+<!--  Location=1 Break Run for Round Parts with diff. Cntr. Orientation         ****** -->
+<!--  Location=0 Don't break run for Round Parts having diff. Cntr. Orientation ****** -->
+<Resource Name="BreakRunOnRoundPartWithUnmatchUpDirections" Description="Break run for round parts when there is unmatching up directions">
+  <ID  Type="Misc" Driver="File" Location="0"/>
+</Resource>  
+  
+<!-- ******************************************************************* -->
+<!--  The following resource defines the option to create         ****** -->
+<!--  publication based cross document connections.               ****** -->
+<!--    Location=1 Create publication based connections           ****** -->
+<!--    Location=0 Create non-publication based connections       ****** -->
+<!--                                                              ****** -->
+<!--  For ENOVIA-LCA environment, always set Location=1 to create ****** -->
+<!--  publication based connections.                              ****** -->
+<!--  By default, if the document originates from ENOVIA-LCA,     ****** -->
+<!--  publication based cross document connections will be        ****** -->
+<!--  created.                                                    ****** -->
+<!--                                                              ****** -->
+<!--  If this resource is not defined, non-publication based      ****** -->
+<!--  cross document connections are created.                     ****** -->
+<!-- ******************************************************************* -->
+<Resource Name="PublicationBasedConnections" Description="Create publication based cross document connections">
+   <ID  Type="Misc" Driver="File" Location="0"/>
+</Resource>
+
+<!-- ***************************************************************** -->
+<!--  The following resource defines the behavior on setting the    ** -->
+<!--  association status for Equipment in the command               ** -->
+<!--  "Analyze Functional-Physical Integration Status"              ** -->
+<!-- ******Option=0 The default: Function is realized if it is      ** -->
+<!-- ******         associated with an object in 3D documents.      ** -->
+<!-- ******Option=1 Function is realized if an object with the      ** -->
+<!-- ******         same name in the 3D documents even it is not    ** -->
+<!-- ******         associated with an object.                      ** -->
+<!-- ***************************************************************** -->
+<Resource Name="2D3DAssociationStatusOption" Description="Function Physical Association Status option">
+	<ID  Type="Misc" Driver="File" Location="0"/>
+</Resource>
+
+<!-- ******************************************************************** -->
+<!--  The following resource defines a text file of obsolete fct files ** -->
+<!--  With infrastructure change, Broken links or probable ghost links ** -->
+<!--  are started reported for documents that may not be necessary to  ** -->
+<!--  open particular document.With this Resource user is able to      ** -->
+<!--  specify the fcts those are not neccessary/are obsolete.          ** -->
+<!--  Application can then get this information and won't report them  ** -->
+<!--  as a broken links.                                               ** -->
+<!-- ******************************************************************** -->
+<!--
+<Resource Name="ObsoleteFcts" Description="List of obsolete fct files">
+  <ID Type="Path" Driver="File" Location="${Startup_Directory}\Piping\SampleData\fct.txt"/>
+</Resource>
+-->
+  
+<!--  HANGER DESIGN RESOURCES  -->
+
+<Resource Name="HangerMaterialSpecCatalog" Description="Hanger Material Specifications Catalog">
+   <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Hanger\MaterialSpecification\HangerMaterialSpecifications.catalog"/>
+</Resource>
+
+<Resource Name="HangerStandardsCatalog" Description="Hanger Standards Catalog">
+   <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Hanger\Standards\HangerStandards.catalog"/>
+</Resource>
+
+<Resource Name="HangerDesignRulesCatalog" Description="Hanger Design Rules Catalog">
+   <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Hanger\DesignRules\HangerDesignRules.catalog"/>
+</Resource>
+
+<Resource Name="HangerPartsCatalog" Description="Hanger Parts Catalog">
+   <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Hanger\HangerDesign\ComponentCatalogs\Parametric\HangerParts.catalog"/>
+</Resource>
+
+<Resource Name="GrowthFactor" Description="Growth Factor">
+   <ID  Type="Misc" Driver="File" Location="0.2"/>
+</Resource>
+
+<!-- Resolved Hanger Parts Directory
+<Resource Name="ResolvedHangerParts" Description="Resolved Hanger Parts Directory">
+   <ID  Type="Path" Driver="File" Location="C:\CATTemp\HangerDesign"
+       Access="RW"/>
+</Resource>  -->
+	
+
+	<!-- **************  EQUIPMENT APPLICATION RESOURCES  ************** -->
+
+<Application Name="CATEquipment" Description="Equipment Design Application" Visible = "yes">
+
+   <Resource Name="EquipDesignRulesCatalog" Description="Equipment Design Rules Catalog">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Equipment\General\DesignRules\EquipmentDesignRules.catalog"/>
+   </Resource>
+
+   <Resource Name="EquipPartsCatalog" Description="Equipment Parts Catalog">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Equipment\EquipmentAndNozzles.catalog"/>
+   </Resource>
+
+   <Resource Name="InsulationPartsCatalog" Description="Insulation Parts Catalog">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Equipment\EquipmentAndNozzles.catalog"/>
+   </Resource>
+
+   <Resource Name="Graphic2DSymbolsCatalog" Description="Catalog containing 2D Symbols for drawing customization">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Equipment\General\EquipmentArrangement\DrawingCatalogs\Equipment2DSymbols-Customization.catalog"/>
+   </Resource>
+
+   <Resource Name="EquipGraphicRepresentations" Description="Equipment Graphic Representations">
+       <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Equipment\General\EquipmentArrangement\ComponentCatalogs\GraphicRepresentations.txt"/>
+   </Resource>
+
+   <Resource Name="DisciplineSuperClasses" Description="List of Equipment classes for the active discipline">
+       <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Equipment\General\DesignRules\DisciplineSuperClasses-All.txt"/>
+   </Resource>
+
+   <Resource Name="EquipConnectorAttributes" Description="Connector Attributes">
+       <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Equipment\General\EquipmentArrangement\ComponentCatalogs\ConnectorAttributes.txt"/>
+   </Resource>
+
+   <Resource Name="EquipReportDefinitions" Description="Equipment Report Definitions Directory">
+       <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Equipment\General\SampleData"/>
+   </Resource>
+
+    <!-- *************** Option=1 Function Driven only                    *************** -->
+    <!-- *************** Option=2 Functionless, SchematicDriven = 0       *************** -->
+    <!-- *************** Option=3 Function Driven or Functionless.        *************** -->
+   <Resource Name="FunctionDriven" Description="Function driven equipment part placement">
+       <ID  Type="Misc" Driver="File" Location="3"/>
+   </Resource>
+   
+   <!-- Resolved Equipment Parts Directory
+   <Resource Name="ResolvedEquipmentParts" Description="Resolved Equipment Parts Directory">
+       <ID  Type="Path" Driver="File" Location="C:\CATTemp\EquipmentArrangement"
+          Access="RW"/>
+   </Resource>  -->
+
+</Application>
+
+<!-- **************  HANGER DESIGN APPLICATION RESOURCES  ************** -->
+
+<Application Name="CATHanger" Description="Hanger Design Application" Visible = "yes">
+
+   <Resource Name="HangerConnectorAttributes" Description="Connector Attributes">
+       <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Hanger\HangerDesign\ComponentCatalogs\ConnectorAttributes.txt"/>
+   </Resource>
+
+   <Resource Name="HangerGraphicRepresentations" Description="Hanger Graphic Representations">
+       <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Hanger\HangerDesign\ComponentCatalogs\GraphicRepresentations.txt"/>
+   </Resource>
+
+   <Resource Name="DisciplineSuperClasses" Description="List of Hanger classes for the active discipline">
+       <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Hanger\DesignRules\DisciplineSuperClasses.txt"/>
+   </Resource>
+
+   <Resource Name="HangerReportDefinitions" Description="Hanger Report Definitions Directory">
+       <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Hanger\SampleData"/>
+   </Resource>
+
+   <Resource Name="HangerCableClearance" Description="Cable Clearance in mm">
+       <ID  Type="Misc" Driver="File" Location="19.05"/>
+   </Resource>
+
+</Application>
+
+<!-- **************  MANUFACTURING DISCIPLINE RESOURCES  ************** -->
+
+<Discipline Name="Manufacturing" Description="Manufacturing Discipline" Parent="Sample_Project">
+
+   <Resource Name="EquipDesignRulesCatalog" Description="Equipment Design Rules Catalog">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Equipment\Manufacturing\DesignRules\ResourceDesignRules.catalog"/>
+   </Resource>
+
+   <Resource Name="EquipPartsCatalog" Description="Equipment Parts Catalog">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Equipment\Manufacturing\EquipmentArrangement\ComponentCatalogs\ResourceParts.catalog"/>
+   </Resource>
+
+   <Resource Name="DisciplineSuperClasses" Description="List of Equipment classes for the active discipline">
+       <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Equipment\Manufacturing\DesignRules\DisciplineSuperClasses-Manufacturing.txt"/>
+   </Resource>
+
+   <Resource Name="EquipGraphicRepresentations" Description="Equipment Graphic Representations">
+       <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Equipment\Manufacturing\EquipmentArrangement\ComponentCatalogs\ResourceGraphicRepresentations.txt"/>
+   </Resource>
+
+   <Resource Name="EquipConnectorAttributes" Description="Connector Attributes">
+       <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Equipment\Manufacturing\EquipmentArrangement\ComponentCatalogs\ResourceConnectorAttributes.txt"/>
+   </Resource>
+
+   <Resource Name="EquipReportDefinitions" Description="Equipment Report Definitions Directory">
+       <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Equipment\Manufacturing\SampleData"/>
+   </Resource>
+
+   <Resource Name="FunctionDriven" Description="Function driven equipment part placement">
+       <ID  Type="Misc" Driver="File" Location="2"/>
+   </Resource>
+
+</Discipline>
+
+
+<!-- **************  PIPING DISCIPLINE RESOURCES  ************** -->
+
+<Discipline Name="Piping" Description="Piping Discipline" Parent="Sample_Project">
+
+   <Resource Name="PipingSpecificationsCatalog" Description="Piping Specifications Catalog" Visible="no">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Piping\Specification\PipingSpecifications.catalog"/>
+   </Resource>
+
+   <Resource Name="PipingInsulationSpecCatalog" Description="Piping Insulation Specifications Catalog" Visible="no">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Piping\InsulationSpecification\PipingInsulationSpecifications.catalog"/>
+   </Resource>
+
+   <Resource Name="PipingStandardsCatalog" Description="Piping Standards Catalog" Visible="no">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Piping\Standards\PipingStandards.catalog"/>
+   </Resource>
+
+   <Resource Name="PipingDesignRulesCatalog" Description="Piping Design Rules Catalog" Visible="no">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Piping\DesignRules\PipingDesignRules.catalog"/>
+   </Resource>
+
+   <Resource Name="PipingPartsCatalog" Description="Piping Parts Catalog" Visible="no">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Piping\PipingDesign\ComponentCatalogs\Parametric\PipingParts.catalog"/>
+   </Resource>
+
+   <Resource Name="PipingLinesCatalog" Description="Piping Lines Shared Catalog" Visible="no">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Piping\SampleData\PipingLines\CATPspPipingLine.catalog"
+          Access="RW"/>
+   </Resource>
+
+   <Resource Name="LineIDAttributeFilter" Description="List of attributes used to filter the Piping Line selection list" Visible="no">
+       <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Piping\SampleData\PipingLineAttributeFilter.txt"/>
+   </Resource>
+
+   <Resource Name="PipingReportDefinitions" Description="Piping Report Definitions Directory" Visible="no">
+       <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Piping\SampleData"/>
+   </Resource>
+
+   <Resource Name="ReportExpressions" Description="Report Expressions Directory" Visible="no">
+       <ID  Type="Path" Driver="File" Location="${Startup_Directory}\ReporterData"/>
+   </Resource>
+
+<!--  EQUIPMENT DESIGN APPLICATION  -->
+
+  <Application Name="CATEquipment" Description="Equipment Design Application" Visible = "yes">
+
+     <Resource Name="DisciplineSuperClasses" Description="List of Equipment classes for Piping discipline">
+         <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Equipment\Piping\DesignRules\DisciplineSuperClasses-Piping.txt"/>
+     </Resource>
+
+     <Resource Name="EquipDesignRulesCatalog" Description="Equipment Design Rules Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Equipment\Piping\DesignRules\PipingEquipDesignRules.catalog"/>
+     </Resource>
+
+     <Resource Name="EquipPartsCatalog" Description="Equipment Parts Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Equipment\Piping\EquipmentArrangement\ComponentCatalogs\PipingEquipmentAndNozzle.catalog"/>
+     </Resource>
+
+     <Resource Name="EquipGraphicRepresentations" Description="Equipment Graphic Representations">
+         <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Equipment\Piping\EquipmentArrangement\ComponentCatalogs\PipingEqtGraphicRepresentations.txt"/>
+     </Resource>
+
+     <Resource Name="EquipConnectorAttributes" Description="Connector Attributes">
+         <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Equipment\Piping\EquipmentArrangement\ComponentCatalogs\PipingEqtConnectorAttributes.txt"/>
+     </Resource>
+
+  </Application>
+
+<!--  PIPING DESIGN APPLICATION  -->
+
+  <Application Name="CATPiping" Description="Piping Design Application" Visible = "yes">
+
+     <Resource Name="PipingSpecificationsCatalog" Visible="yes"> </Resource>
+
+     <Resource Name="PipingInsulationSpecCatalog" Visible="yes"> </Resource>
+
+     <Resource Name="PipingStandardsCatalog" Visible="yes"> </Resource>
+
+     <Resource Name="PipingDesignRulesCatalog" Visible="yes"> </Resource>
+
+     <Resource Name="PipingPartsCatalog" Visible="yes"> </Resource>
+
+     <Resource Name="PipingLinesCatalog" Visible="yes"> </Resource>
+
+     <Resource Name="InsulationPartsCatalog" Description="Insulation Parts Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Piping\PipingDesign\ComponentCatalogs\Parametric\PipingParts.catalog"/>
+     </Resource>
+
+<!--     <Resource Name="LineIDAttributeFilter" Visible="yes"> </Resource> -->
+
+     <Resource Name="PipingReportDefinitions" Visible="yes"> </Resource>
+
+     <Resource Name="ReportExpressions" Visible="yes"> </Resource>
+
+     <Resource Name="PipingGraphicRepresentations" Description="Piping Graphic Representations">
+         <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Piping\PipingDesign\ComponentCatalogs\GraphicRepresentations.txt"/>
+     </Resource>
+
+     <Resource Name="PipingConnectorAttributes" Description="Connector Attributes">
+         <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Piping\PipingDesign\ComponentCatalogs\ConnectorAttributes.txt"/>
+     </Resource>
+
+     <Resource Name="Graphic2DSymbolsCatalog" Description="Catalog containing 2D Symbols for drawing customization">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Piping\PipingDesign\DrawingCatalogs\Piping2DSymbols-Customization.catalog"/>
+     </Resource>
+
+     <!-- Resolved Piping Parts Directory
+     <Resource Name="ResolvedPipingParts" Description="Resolved Piping Parts Directory"> 
+         <ID  Type="Path" Driver="File" Location="C:\CATTemp\PipingDesign"
+            Access="RW"/>
+     </Resource>  -->
+
+     <!-- ******************************************************************* -->
+     <!--  The following resource defines the option to create         ****** -->
+     <!--  bendables using a poly line.  The old way of creating       ****** -->
+     <!--  the bendable geometry was to always recreate the center line****** -->
+     <!--  composed of lines and arcs.  The recreation did not         ****** -->
+     <!--  allow the preservation of drafting dimensions.              ****** -->
+     <!--                                                              ****** -->
+     <!--  If this resource is not defined, bendables will be created  ****** -->
+     <!--  using lines and arcs for the center line.                   ****** -->
+     <!--    Location=1 Create bendables using a poly line             ****** -->
+     <!--    Location=0 Create bendables using lines and arcs          ****** -->
+     <!--                                                              ****** -->
+     <!-- ******************************************************************* -->
+     <Resource Name="BendablePolyLine" Description="Create bendables using a poly line center line">
+         <ID  Type="Misc" Driver="File" Location="0"/>
+     </Resource>
+     
+     <!-- *************** Option=0 User control during Part placement  *************** -->
+     <!-- *************** Option=1 Always Spec driven                  *************** -->
+     <!-- *************** Option=2 Always Non-Spec driven              *************** -->
+     <Resource Name="SpecDriven" Description="Spec Driven Flag">
+        <ID  Type="Misc" Driver="File" Location="0"/>
+     </Resource>
+
+  </Application>
+
+<!--  PID APPLICATION  -->
+
+  <Application Name="CATPID" Description="PID Application" Visible = "yes">
+
+     <Resource Name="PIDCatalog" Description="PID Component Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Piping\PipingDiagrams\ComponentCatalogs\PID_ANSI.catalog"/>
+     </Resource>
+
+     <Resource Name="PIDOffSheetsCatalog" Description="PID OffSheets Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Piping\PipingDiagrams\ComponentCatalogs\PID_ANSI_OffSheets.catalog"/>
+     </Resource>
+
+     <Resource Name="AnnotationBreakCatalog" Description="PID Annotation Break Symbols Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Piping\PipingDiagrams\ComponentCatalogs\PID_AnnotationBreaks.catalog"/>
+     </Resource>
+
+     <Resource Name="AnnotationSymbolCatalog" Description="PID Annotation Symbols Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Piping\PipingDiagrams\ComponentCatalogs\PID_AnnotationSymbols.catalog"/>
+     </Resource>
+
+     <Resource Name="InstrumentLinesCatalog" Description="Instrument Lines Shared Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Instrument\SampleData\InstrumentLines\CATPspICLoop.catalog"
+            Access="RW"/>
+     </Resource>
+
+<!--     <Resource Name="InstrumentLineAttributeFilter" Description="List of attributes used to filter the Instrument Line selection list">
+         <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Instrument\SampleData\InstrumentLoopAttributeFilter.txt"/>
+     </Resource> -->
+
+     <Resource Name="PIDAnnotationCatalog" Description="Annotation Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Piping\SampleData\PipingAnnotations.catalog"/>
+     </Resource>
+
+     <Resource Name="RulesChecksCatalog" Description="Knowledgeware Rules And Checks Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Piping\DesignRules\PipingDiagramRulesAndChecks.catalog"/>
+     </Resource>
+
+     <Resource Name="PIDGraphicNames" Description="PID Graphic Names">
+         <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Piping\SampleData"/>
+     </Resource>
+
+     <Resource Name="PipingLinesCatalog" Visible="yes"> </Resource>
+
+<!--     <Resource Name="LineIDAttributeFilter" Visible="yes"> </Resource> -->
+
+     <Resource Name="PipingSpecificationsCatalog" Visible="yes"> </Resource>
+
+     <Resource Name="PipingInsulationSpecCatalog" Visible="yes"> </Resource>
+
+     <Resource Name="PipingStandardsCatalog" Visible="yes"> </Resource>
+
+     <Resource Name="PipingDesignRulesCatalog" Visible="yes"> </Resource>
+
+     <Resource Name="PipingPartsCatalog" Visible="yes"> </Resource>
+
+     <Resource Name="PipingReportDefinitions" Visible="yes"> </Resource>
+
+     <Resource Name="ReportExpressions" Visible="yes"> </Resource>
+
+     <Resource Name="DisciplineSuperClasses" Description="List of Equipment classes for Piping discipline">
+         <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Equipment\Piping\DesignRules\DisciplineSuperClasses-Piping.txt"/>
+     </Resource>
+
+     <Resource Name="EquipDesignRulesCatalog" Description="Equipment Design Rules Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Equipment\Piping\DesignRules\PipingEquipDesignRules.catalog"/>
+     </Resource>
+
+     <Resource Name="EquipPartsCatalog" Description="Equipment Parts Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Equipment\Piping\EquipmentArrangement\ComponentCatalogs\PipingEquipmentAndNozzle.catalog"/>
+     </Resource>
+
+  </Application>
+</Discipline>
+
+
+<!-- **************  HVAC DISCIPLINE RESOURCES  ************** -->
+
+<Discipline Name="HVAC" Description="HVAC Discipline" Parent="Sample_Project">
+
+   <Resource Name="HVACMaterialSpecCatalog" Description="HVAC Material Specifications Catalog" Visible="no">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\HVAC\MaterialSpecification\MaterialSpecifications.catalog"/>
+   </Resource>
+
+   <Resource Name="HVACInsulationSpecCatalog" Description="HVAC Insulation Specifications Catalog" Visible="no">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\HVAC\InsulationSpecification\InsulationSpecifications.catalog"/>
+   </Resource>
+
+   <Resource Name="HVACStandardsCatalog" Description="HVAC Standards Catalog" Visible="no">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\HVAC\Standards\HVACStandards.catalog"/>
+   </Resource>
+
+   <Resource Name="HVACDesignRulesCatalog" Description="HVAC Design Rules Catalog" Visible="no">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\HVAC\DesignRules\HVACDesignRules.catalog"/>
+   </Resource>
+
+   <Resource Name="HVACPartsCatalog" Description="HVAC Parts Catalog" Visible="no">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\HVAC\HvacDesign\ComponentCatalogs\Parametric\HVACParts.catalog"/>
+   </Resource>
+
+   <Resource Name="HVACLinesCatalog" Description="HVAC Lines Shared Catalog" Visible="no">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\HVAC\SampleData\HVACLines\CATPspHVACLine.catalog"
+          Access="RW"/>
+   </Resource>
+
+   <Resource Name="LineIDAttributeFilter" Description="List of attributes used to filter the HVAC Line selection list" Visible="no">
+       <ID  Type="Path" Driver="File" Location="${Startup_Directory}\HVAC\SampleData\HVACLineAttributeFilter.txt"/>
+   </Resource>
+
+   <Resource Name="HVACReportDefinitions" Description="HVAC Report Definitions Directory" Visible="no">
+       <ID  Type="Path" Driver="File" Location="${Startup_Directory}\HVAC\SampleData"/>
+   </Resource>
+
+   <Resource Name="ReportExpressions" Description="Report Expressions Directory" Visible="no">
+       <ID  Type="Path" Driver="File" Location="${Startup_Directory}\ReporterData"/>
+   </Resource>
+
+   <!-- *************** Option=1 Use name defined in Design table for the Part Number *************** -->
+   <!-- *************** Option=2 Use ID Schema to define the Part Number *************** -->
+   <Resource Name="PartiallyResolvedReferencePartNumberOptions" Description="Partially ResolvedReference Part Number definition option">
+      <ID  Type="Misc" Driver="File" Location="2"/>
+   </Resource>
+
+<!--  EQUIPMENT DESIGN APPLICATION  -->
+
+  <Application Name="CATEquipment" Description="Equipment Design Application" Visible = "yes">
+
+     <Resource Name="DisciplineSuperClasses" Description="List of Equipment classes for HVAC discipline">
+         <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Equipment\HVAC\DesignRules\DisciplineSuperClasses-HVAC.txt"/>
+     </Resource>
+
+     <Resource Name="EquipDesignRulesCatalog" Description="Equipment Design Rules Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Equipment\HVAC\DesignRules\HVACEquipDesignRules.catalog"/>
+     </Resource>
+
+     <Resource Name="EquipPartsCatalog" Description="Equipment Parts Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Equipment\HVAC\EquipmentArrangement\ComponentCatalogs\HVACEquipmentAndNozzle.catalog"/>
+     </Resource>
+
+     <Resource Name="EquipGraphicRepresentations" Description="Equipment Graphic Representations">
+         <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Equipment\HVAC\EquipmentArrangement\ComponentCatalogs\HVACEqtGraphicRepresentations.txt"/>
+     </Resource>
+
+     <Resource Name="EquipConnectorAttributes" Description="Connector Attributes">
+         <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Equipment\HVAC\EquipmentArrangement\ComponentCatalogs\HVACEqtConnectorAttributes.txt"/>
+     </Resource>
+
+  </Application>
+
+<!--  HVAC DESIGN APPLICATION  -->
+
+  <Application Name="CATHVAC" Description="HVAC Design Application" Visible = "yes">
+
+     <Resource Name="HVACMaterialSpecCatalog" Visible="yes"> </Resource>
+
+     <Resource Name="HVACInsulationSpecCatalog" Visible="yes"> </Resource>
+
+     <Resource Name="HVACStandardsCatalog" Visible="yes"> </Resource>
+
+     <Resource Name="HVACDesignRulesCatalog" Visible="yes"> </Resource>
+
+     <Resource Name="HVACPartsCatalog" Visible="yes"> </Resource>
+
+     <Resource Name="HVACLinesCatalog" Visible="yes"> </Resource>
+
+     <Resource Name="InsulationPartsCatalog" Description="Insulation Parts Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\HVAC\HvacDesign\ComponentCatalogs\Parametric\HVACParts.catalog"/>
+     </Resource>
+
+<!--     <Resource Name="LineIDAttributeFilter" Visible="yes"> </Resource> -->
+
+     <Resource Name="HVACReportDefinitions" Visible="yes"> </Resource>
+
+     <Resource Name="ReportExpressions" Visible="yes"> </Resource>
+
+     <!-- *************** New for HVAC R19 (similar to the entry for Piping) *************** -->
+     <Resource Name="Graphic2DSymbolsCatalog" Description="Catalog containing 2D Symbols for drawing customization">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\HVAC\HvacDesign\DrawingCatalogs\HVAC2DSymbols-Customization.catalog_DISABLE"/>
+     </Resource>
+
+     <Resource Name="HVACGraphicRepresentations" Description="HVAC Graphic Representations">
+         <ID  Type="Path" Driver="File" Location="${Startup_Directory}\HVAC\HvacDesign\ComponentCatalogs\GraphicRepresentations.txt"/>
+     </Resource>
+
+     <Resource Name="HVACConnectorAttributes" Description="Connector Attributes">
+         <ID  Type="Path" Driver="File" Location="${Startup_Directory}\HVAC\HvacDesign\ComponentCatalogs\ConnectorAttributes.txt"/>
+     </Resource>     
+     
+    <Resource Name="HVACUpDirectionRule" Description="xy(where x represents the rule to follows when routing Horizontal and y represents the rule to follow when routing Vertical.  0=no rule, 1=X-axis, 2=Y-axis, 3=Z-axis, 4=smaller of the 2 sizes)">
+        <ID  Type="Misc" Driver="File" Location="00"/>
+    </Resource>
+
+    <!-- ***************************************************************** -->
+    <!--  The following resource defines the option to create an       *** -->
+    <!--  external link between a flexible route and a selected object *** -->
+    <!--    Option=0  Do not create external link                      *** -->
+    <!--    Option=1  The default: Create external link.               *** -->
+    <!-- ***************************************************************** -->
+    <Resource Name="CreateExternalLink" Description="Option to create an external link between objects">
+	      <ID  Type="Misc" Driver="File" Location="1"/>
+    </Resource>
+
+    <!-- Resolved HVAC Parts Directory
+     <Resource Name="ResolvedHVACParts" Description="Resolved HVAC Parts Directory">
+         <ID  Type="Path" Driver="File" Location="C:\CATTemp\HVACDesign"
+            Access="RW"/>
+     </Resource>  -->
+  </Application>
+
+<!--  HVAC DIAGRAM APPLICATION  -->
+
+  <Application Name="CATHVACDiagram" Description="HVAC Diagram Application" Visible = "yes">
+
+     <Resource Name="HVACDiagramCatalog" Description="HVAC Diagram Component Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\HVAC\HVACDiagrams\ComponentCatalogs\HVAC_ANSI.catalog"/>
+     </Resource>
+
+     <Resource Name="HVACDiagramOffSheetsCatalog" Description="HVAC Diagram OffSheets Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\HVAC\HVACDiagrams\ComponentCatalogs\HVAC_ANSI_OffSheets.catalog"/>
+     </Resource>
+
+     <Resource Name="AnnotationBreakCatalog" Description="HVAC Diagram Annotation Break Symbols Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\HVAC\HVACDiagrams\ComponentCatalogs\HVacDiagram_AnnotationBreaks.catalog"/>
+     </Resource>
+
+     <Resource Name="AnnotationSymbolCatalog" Description="HVAC Diagram Annotation Symbols Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\HVAC\HVACDiagrams\ComponentCatalogs\HVacDiagram_AnnotationSymbols.catalog"/>
+     </Resource>
+
+     <Resource Name="HVACAnnotationCatalog" Description="Annotation Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\HVAC\SampleData\HVACAnnotations.catalog"/>
+     </Resource>
+
+     <Resource Name="RulesChecksCatalog" Description="Knowledgeware Rules And Checks Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\HVAC\DesignRules\HVACDiagramRulesAndChecks.catalog"/>
+     </Resource>
+
+     <Resource Name="HVACGraphicNames" Description="HVAC Graphic Names">
+         <ID  Type="Path" Driver="File" Location="${Startup_Directory}\HVAC\SampleData"/>
+     </Resource>
+
+     <Resource Name="HVACLinesCatalog" Visible="yes"> </Resource>
+
+<!--     <Resource Name="LineIDAttributeFilter" Visible="yes"> </Resource> -->
+
+     <Resource Name="HVACMaterialSpecCatalog" Visible="yes"> </Resource>
+
+     <Resource Name="HVACInsulationSpecCatalog" Visible="yes"> </Resource>
+
+     <Resource Name="HVACStandardsCatalog" Visible="yes"> </Resource>
+
+     <Resource Name="HVACDesignRulesCatalog" Visible="yes"> </Resource>
+
+     <Resource Name="HVACPartsCatalog" Visible="yes"> </Resource>
+
+     <Resource Name="HVACReportDefinitions" Visible="yes"> </Resource>
+
+     <Resource Name="ReportExpressions" Visible="yes"> </Resource>
+
+     <Resource Name="DisciplineSuperClasses" Description="List of Equipment classes for HVAC discipline">
+         <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Equipment\HVAC\DesignRules\DisciplineSuperClasses-HVAC.txt"/>
+     </Resource>
+
+     <Resource Name="EquipDesignRulesCatalog" Description="Equipment Design Rules Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Equipment\HVAC\DesignRules\HVACEquipDesignRules.catalog"/>
+     </Resource>
+
+     <Resource Name="EquipPartsCatalog" Description="Equipment Parts Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Equipment\HVAC\EquipmentArrangement\ComponentCatalogs\HVACEquipmentAndNozzle.catalog"/>
+     </Resource>
+
+  </Application>
+</Discipline>
+
+
+<!-- **************  TUBING DISCIPLINE RESOURCES  ************** -->
+
+<Discipline Name="Tubing" Description="Tubing Discipline" Parent="Sample_Project">
+
+   <Resource Name="TubingSpecificationsCatalog" Description="Tubing Specifications Catalog" Visible="no">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Tubing\Specification\TubingSpecifications.catalog"/>
+   </Resource>
+
+   <Resource Name="TubingStandardsCatalog" Description="Tubing Standards Catalog" Visible="no">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Tubing\Standards\TubingStandards.catalog"/>
+   </Resource>
+
+   <Resource Name="TubingDesignRulesCatalog" Description="Tubing Design Rules Catalog" Visible="no">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Tubing\DesignRules\TubingDesignRules.catalog"/>
+   </Resource>
+
+   <Resource Name="TubingPartsCatalog" Description="Tubing Parts Catalog" Visible="no">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Tubing\TubingDesign\ComponentCatalogs\Parametric\TubingParts.catalog"/>
+   </Resource>
+
+   <Resource Name="TubingLinesCatalog" Description="Tubing Lines Share Catalog" Visible="no">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Tubing\SampleData\TubingLines\CATTubTubingLine.catalog"
+          Access="RW"/>
+   </Resource>
+
+   <Resource Name="LineIDAttributeFilter" Description="List of attributes used to filter the Tubing Line selection list" Visible="no">
+       <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Tubing\SampleData\TubingLineAttributeFilter.txt"/>
+   </Resource>
+
+   <Resource Name="TubingReportDefinitions" Description="Tubing Report Definitions Directory" Visible="no">
+       <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Tubing\SampleData"/>
+   </Resource>
+
+   <Resource Name="ReportExpressions" Description="Report Expressions Directory" Visible="no">
+       <ID  Type="Path" Driver="File" Location="${Startup_Directory}\ReporterData"/>
+   </Resource>
+      
+<!--  EQUIPMENT DESIGN APPLICATION  -->
+
+  <Application Name="CATEquipment" Description="Equipment Design Application" Visible = "yes">
+
+     <Resource Name="DisciplineSuperClasses" Description="List of Equipment classes for Tubing discipline">
+         <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Equipment\Tubing\DesignRules\DisciplineSuperClasses-Tubing.txt"/>
+     </Resource>
+
+     <Resource Name="EquipDesignRulesCatalog" Description="Equipment Design Rules Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Equipment\Tubing\DesignRules\TubingEquipDesignRules.catalog"/>
+     </Resource>
+
+     <Resource Name="EquipPartsCatalog" Description="Equipment Parts Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Equipment\Tubing\EquipmentArrangement\ComponentCatalogs\TubingEquipmentAndNozzle.catalog"/>
+     </Resource>
+
+     <Resource Name="EquipGraphicRepresentations" Description="Equipment Graphic Representations">
+         <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Equipment\Tubing\EquipmentArrangement\ComponentCatalogs\TubingEqtGraphicRepresentations.txt"/>
+     </Resource>
+
+     <Resource Name="EquipConnectorAttributes" Description="Connector Attributes">
+         <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Equipment\Tubing\EquipmentArrangement\ComponentCatalogs\TubingEqtConnectorAttributes.txt"/>
+     </Resource>
+
+  </Application>
+
+<!-- TUBING DESIGN APPLICATION -->
+
+  <Application Name="CATTubing" Description="Tubing Design Application" Visible = "yes">
+
+     <Resource Name="TubingSpecificationsCatalog" Visible="yes"> </Resource>
+
+     <Resource Name="TubingStandardsCatalog" Visible="yes"> </Resource>
+
+     <Resource Name="TubingDesignRulesCatalog" Visible="yes"> </Resource>
+
+     <Resource Name="TubingPartsCatalog" Visible="yes"> </Resource>
+
+     <Resource Name="TubingLinesCatalog" Visible="yes"> </Resource>
+
+<!--     <Resource Name="LineIDAttributeFilter" Visible="yes"> </Resource> -->
+
+     <Resource Name="TubingReportDefinitions" Visible="yes"> </Resource>
+
+     <Resource Name="ReportExpressions" Visible="yes"> </Resource>
+
+     <Resource Name="TubingGraphicRepresentations" Description="Tubing Graphic Representations">
+         <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Tubing\TubingDesign\ComponentCatalogs\GraphicRepresentations.txt"/>
+     </Resource>
+
+     <Resource Name="TubingConnectorAttributes" Description="Connector Attributes">
+         <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Tubing\TubingDesign\ComponentCatalogs\ConnectorAttributes.txt"/>
+     </Resource>
+
+     <!-- Resolved Tubing Parts Directory
+     <Resource Name="ResolvedTubingParts" Description="Resolved Tubing Parts Directory">
+         <ID  Type="Path" Driver="File" Location="C:\CATTemp\TubingDesign"
+            Access="RW"/>
+     </Resource>  -->
+
+     <!-- ******************************************************************* -->
+     <!--  The following resource defines the option to create         ****** -->
+     <!--  bendables using a poly line.  The old way of creating       ****** -->
+     <!--  the bendable geometry was to always recreate the center line****** -->
+     <!--  composed of lines and arcs.  The recreation did not         ****** -->
+     <!--  allow the preservation of drafting dimensions.              ****** -->
+     <!--                                                              ****** -->
+     <!--  If this resource is not defined, bendables will be created  ****** -->
+     <!--  using lines and arcs for the center line.                   ****** -->
+     <!--    Location=1 Create bendables using a poly line             ****** -->
+     <!--    Location=0 Create bendables using lines and arcs          ****** -->
+     <!--                                                              ****** -->
+     <!-- ******************************************************************* -->
+     <Resource Name="BendablePolyLine" Description="Create bendables using a poly line center line">
+        <ID  Type="Misc" Driver="File" Location="0"/>
+     </Resource>
+     
+     <!-- *************** Option=0 User control during Part placement  *************** -->
+     <!-- *************** Option=1 Always Spec driven                  *************** -->
+     <!-- *************** Option=2 Always Non-Spec driven              *************** -->
+     <Resource Name="SpecDriven" Description="Spec Driven Flag">
+        <ID  Type="Misc" Driver="File" Location="0"/>
+     </Resource>
+
+    <!-- ***************************************************************** -->
+    <!--  The following resource defines the option to create an       *** -->
+    <!--  external link between a flexible route and a selected object *** -->
+    <!--    Option=0  Do not create external link                      *** -->
+    <!--    Option=1  The default: Create external link.               *** -->
+    <!-- ***************************************************************** -->
+    <Resource Name="CreateExternalLink" Description="Option to create an external link between objects">
+	      <ID  Type="Misc" Driver="File" Location="1"/>
+    </Resource>
+
+  </Application>
+
+<!-- TUBING DIAGRAM APPLICATION -->
+
+  <Application Name="CATTubingDiagram" Description="Tubing Diagram Application" Visible = "yes">
+
+     <Resource Name="TubingDiagramCatalog" Description="Tubing Diagram Component Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Tubing\TubingDiagrams\ComponentCatalogs\Tubing_SAE.catalog"/>
+     </Resource>
+
+     <Resource Name="TubingDiagramOffSheetsCatalog" Description="Tubing Diagram OffSheets Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Tubing\TubingDiagrams\ComponentCatalogs\Tubing_SAE_OnOffSheets.catalog"/>
+     </Resource>
+
+     <Resource Name="AnnotationBreakCatalog" Description="Tubing Diagram Annotation Break Symbols Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Tubing\TubingDiagrams\ComponentCatalogs\Tubing_AnnotationBreaks.catalog"/>
+     </Resource>
+
+     <Resource Name="AnnotationSymbolCatalog" Description="Tubing Diagram Annotation Symbols Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Tubing\TubingDiagrams\ComponentCatalogs\Tubing_AnnotationSymbols.catalog"/>
+     </Resource>
+
+     <Resource Name="TubingAnnotationCatalog" Description="Annotation Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Tubing\SampleData\TubingAnnotations.catalog"/>
+     </Resource>
+
+     <Resource Name="RulesChecksCatalog" Description="Knowledgeware Rules And Checks Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Tubing\DesignRules\TubingDiagramRulesAndChecks.catalog"/>
+     </Resource>
+
+     <Resource Name="TubingGraphicNames" Description="Tubing Graphic Names">
+         <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Tubing\SampleData"/>
+     </Resource>
+
+     <Resource Name="TubingLinesCatalog" Visible="yes"> </Resource>
+
+<!--     <Resource Name="LineIDAttributeFilter" Visible="yes"> </Resource> -->
+
+     <Resource Name="TubingSpecificationsCatalog" Visible="yes"> </Resource>
+
+     <Resource Name="TubingStandardsCatalog" Visible="yes"> </Resource>
+
+     <Resource Name="TubingDesignRulesCatalog" Visible="yes"> </Resource>
+
+     <Resource Name="TubingPartsCatalog" Visible="yes"> </Resource>
+
+     <Resource Name="TubingReportDefinitions" Visible="yes"> </Resource>
+
+     <Resource Name="ReportExpressions" Visible="yes"> </Resource>
+
+     <Resource Name="DisciplineSuperClasses" Description="List of Equipment classes for Tubing discipline">
+         <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Equipment\Tubing\DesignRules\DisciplineSuperClasses-Tubing.txt"/>
+     </Resource>
+
+     <Resource Name="EquipDesignRulesCatalog" Description="Equipment Design Rules Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Equipment\Tubing\DesignRules\TubingEquipDesignRules.catalog"/>
+     </Resource>
+
+     <Resource Name="EquipPartsCatalog" Description="Equipment Parts Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Equipment\Tubing\EquipmentArrangement\ComponentCatalogs\TubingEquipmentAndNozzle.catalog"/>
+     </Resource>
+
+  </Application>
+</Discipline>
+
+<!-- **************  TUBING DISCIPLINE RESOURCES  ************** -->
+
+<Discipline Name="TubingMM" Description="TubingMM Discipline" Parent="Sample_Project">
+
+   <Resource Name="TubingSpecificationsCatalog" Description="Tubing Specifications Catalog" Visible="no">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Tubing\Specification\TubingSpecificationsMM.catalog"/>
+   </Resource>
+
+   <Resource Name="TubingStandardsCatalog" Description="Tubing Standards Catalog" Visible="no">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Tubing\Standards\TubingStandardsMM.catalog"/>
+   </Resource>
+
+   <Resource Name="TubingDesignRulesCatalog" Description="Tubing Design Rules Catalog" Visible="no">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Tubing\DesignRules\TubingDesignRules.catalog"/>
+   </Resource>
+
+   <Resource Name="TubingPartsCatalog" Description="Tubing Parts Catalog" Visible="no">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Tubing\TubingDesign\ComponentCatalogs\Parametric\TubingParts.catalog"/>
+   </Resource>
+
+   <Resource Name="TubingLinesCatalog" Description="Tubing Lines Share Catalog" Visible="no">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Tubing\SampleData\TubingLines\CATTubTubingLineMM.catalog"
+          Access="RW"/>
+   </Resource>
+
+   <Resource Name="LineIDAttributeFilter" Description="List of attributes used to filter the Tubing Line selection list" Visible="no">
+       <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Tubing\SampleData\TubingLineAttributeFilter.txt"/>
+   </Resource>
+
+   <Resource Name="TubingReportDefinitions" Description="Tubing Report Definitions Directory" Visible="no">
+       <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Tubing\SampleData"/>
+   </Resource>
+
+   <Resource Name="ReportExpressions" Description="Report Expressions Directory" Visible="no">
+       <ID  Type="Path" Driver="File" Location="${Startup_Directory}\ReporterData"/>
+   </Resource>
+      
+<!--  EQUIPMENT DESIGN APPLICATION  -->
+
+  <Application Name="CATEquipment" Description="Equipment Design Application" Visible = "yes">
+
+     <Resource Name="DisciplineSuperClasses" Description="List of Equipment classes for Tubing discipline">
+         <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Equipment\Tubing\DesignRules\DisciplineSuperClasses-Tubing.txt"/>
+     </Resource>
+
+     <Resource Name="EquipDesignRulesCatalog" Description="Equipment Design Rules Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Equipment\Tubing\DesignRules\TubingEquipDesignRules.catalog"/>
+     </Resource>
+
+     <Resource Name="EquipPartsCatalog" Description="Equipment Parts Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Equipment\Tubing\EquipmentArrangement\ComponentCatalogs\TubingEquipmentAndNozzle.catalog"/>
+     </Resource>
+
+     <Resource Name="EquipGraphicRepresentations" Description="Equipment Graphic Representations">
+         <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Equipment\Tubing\EquipmentArrangement\ComponentCatalogs\TubingEqtGraphicRepresentations.txt"/>
+     </Resource>
+
+     <Resource Name="EquipConnectorAttributes" Description="Connector Attributes">
+         <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Equipment\Tubing\EquipmentArrangement\ComponentCatalogs\TubingEqtConnectorAttributes.txt"/>
+     </Resource>
+
+  </Application>
+
+<!-- TUBING DESIGN APPLICATION -->
+
+  <Application Name="CATTubing" Description="Tubing Design Application" Visible = "yes">
+
+     <Resource Name="TubingSpecificationsCatalog" Visible="yes"> </Resource>
+
+     <Resource Name="TubingStandardsCatalog" Visible="yes"> </Resource>
+
+     <Resource Name="TubingDesignRulesCatalog" Visible="yes"> </Resource>
+
+     <Resource Name="TubingPartsCatalog" Visible="yes"> </Resource>
+
+     <Resource Name="TubingLinesCatalog" Visible="yes"> </Resource>
+
+<!--     <Resource Name="LineIDAttributeFilter" Visible="yes"> </Resource> -->
+
+     <Resource Name="TubingReportDefinitions" Visible="yes"> </Resource>
+
+     <Resource Name="ReportExpressions" Visible="yes"> </Resource>
+
+     <Resource Name="TubingGraphicRepresentations" Description="Tubing Graphic Representations">
+         <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Tubing\TubingDesign\ComponentCatalogs\GraphicRepresentations.txt"/>
+     </Resource>
+
+     <Resource Name="TubingConnectorAttributes" Description="Connector Attributes">
+         <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Tubing\TubingDesign\ComponentCatalogs\ConnectorAttributes.txt"/>
+     </Resource>
+
+     <!-- Resolved Tubing Parts Directory
+     <Resource Name="ResolvedTubingParts" Description="Resolved Tubing Parts Directory">
+         <ID  Type="Path" Driver="File" Location="C:\CATTemp\TubingDesign"
+            Access="RW"/>
+     </Resource>  -->
+
+     <!-- ******************************************************************* -->
+     <!--  The following resource defines the option to create         ****** -->
+     <!--  bendables using a poly line.  The old way of creating       ****** -->
+     <!--  the bendable geometry was to always recreate the center line****** -->
+     <!--  composed of lines and arcs.  The recreation did not         ****** -->
+     <!--  allow the preservation of drafting dimensions.              ****** -->
+     <!--                                                              ****** -->
+     <!--  If this resource is not defined, bendables will be created  ****** -->
+     <!--  using lines and arcs for the center line.                   ****** -->
+     <!--    Location=1 Create bendables using a poly line             ****** -->
+     <!--    Location=0 Create bendables using lines and arcs          ****** -->
+     <!--                                                              ****** -->
+     <!-- ******************************************************************* -->
+     <Resource Name="BendablePolyLine" Description="Create bendables using a poly line center line">
+         <ID  Type="Misc" Driver="File" Location="0"/>
+     </Resource>
+     
+     <!-- *************** Option=0 User control during Part placement  *************** -->
+     <!-- *************** Option=1 Always Spec driven                  *************** -->
+     <!-- *************** Option=2 Always Non-Spec driven              *************** -->
+     <Resource Name="SpecDriven" Description="Spec Driven Flag">
+        <ID  Type="Misc" Driver="File" Location="0"/>
+     </Resource>
+
+    <!-- ***************************************************************** -->
+    <!--  The following resource defines the option to create an       *** -->
+    <!--  external link between a flexible route and a selected object *** -->
+    <!--    Option=0  Do not create external link                      *** -->
+    <!--    Option=1  The default: Create external link.               *** -->
+    <!-- ***************************************************************** -->
+    <Resource Name="CreateExternalLink" Description="Option to create an external link between objects">
+	      <ID  Type="Misc" Driver="File" Location="1"/>
+    </Resource>
+
+  </Application>
+
+<!-- TUBING DIAGRAM APPLICATION -->
+
+  <Application Name="CATTubingDiagram" Description="Tubing Diagram Application" Visible = "yes">
+
+     <Resource Name="TubingDiagramCatalog" Description="Tubing Diagram Component Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Tubing\TubingDiagrams\ComponentCatalogs\Tubing_SAE.catalog"/>
+     </Resource>
+
+     <Resource Name="TubingDiagramOffSheetsCatalog" Description="Tubing Diagram OffSheets Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Tubing\TubingDiagrams\ComponentCatalogs\Tubing_SAE_OnOffSheets.catalog"/>
+     </Resource>
+
+     <Resource Name="AnnotationBreakCatalog" Description="Tubing Diagram Annotation Break Symbols Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Tubing\TubingDiagrams\ComponentCatalogs\Tubing_AnnotationBreaks.catalog"/>
+     </Resource>
+
+     <Resource Name="AnnotationSymbolCatalog" Description="Tubing Diagram Annotation Symbols Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Tubing\TubingDiagrams\ComponentCatalogs\Tubing_AnnotationSymbols.catalog"/>
+     </Resource>
+
+     <Resource Name="TubingAnnotationCatalog" Description="Annotation Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Tubing\SampleData\TubingAnnotations.catalog"/>
+     </Resource>
+
+     <Resource Name="RulesChecksCatalog" Description="Knowledgeware Rules And Checks Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Tubing\DesignRules\TubingDiagramRulesAndChecks.catalog"/>
+     </Resource>
+
+     <Resource Name="TubingGraphicNames" Description="Tubing Graphic Names">
+         <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Tubing\SampleData"/>
+     </Resource>
+
+     <Resource Name="TubingLinesCatalog" Visible="yes"> </Resource>
+
+<!--     <Resource Name="LineIDAttributeFilter" Visible="yes"> </Resource> -->
+
+     <Resource Name="TubingSpecificationsCatalog" Visible="yes"> </Resource>
+
+     <Resource Name="TubingStandardsCatalog" Visible="yes"> </Resource>
+
+     <Resource Name="TubingDesignRulesCatalog" Visible="yes"> </Resource>
+
+     <Resource Name="TubingPartsCatalog" Visible="yes"> </Resource>
+
+     <Resource Name="TubingReportDefinitions" Visible="yes"> </Resource>
+
+     <Resource Name="ReportExpressions" Visible="yes"> </Resource>
+
+     <Resource Name="DisciplineSuperClasses" Description="List of Equipment classes for Tubing discipline">
+         <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Equipment\Tubing\DesignRules\DisciplineSuperClasses-Tubing.txt"/>
+     </Resource>
+
+     <Resource Name="EquipDesignRulesCatalog" Description="Equipment Design Rules Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Equipment\Tubing\DesignRules\TubingEquipDesignRules.catalog"/>
+     </Resource>
+
+     <Resource Name="EquipPartsCatalog" Description="Equipment Parts Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Equipment\Tubing\EquipmentArrangement\ComponentCatalogs\TubingEquipmentAndNozzle.catalog"/>
+     </Resource>
+
+  </Application>
+</Discipline>
+
+<!-- **************  WAVEGUIDE DISCIPLINE RESOURCES  ************** -->
+
+<Discipline Name="Waveguide" Description="Waveguide Discipline" Parent="Sample_Project">
+
+   <Resource Name="WaveguideMaterialSpecCatalog" Description="Waveguide Material Specifications Catalog" Visible="no">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Waveguide\MaterialSpecification\WaveguideMaterialSpecifications.catalog"/>
+   </Resource>
+
+   <Resource Name="WaveguideStandardsCatalog" Description="Waveguide Standards Catalog" Visible="no">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Waveguide\Standards\WaveguideStandards.catalog"/>
+   </Resource>
+
+   <Resource Name="WaveguideDesignRulesCatalog" Description="Waveguide Design Rules Catalog" Visible="no">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Waveguide\DesignRules\WaveguideDesignRules.catalog"/>
+   </Resource>
+
+   <Resource Name="WaveguidePartsCatalog" Description="Waveguide Parts Catalog" Visible="no">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Waveguide\WaveguideDesign\ComponentCatalogs\Parametric\WaveguideParts.catalog"/>
+   </Resource>
+
+   <Resource Name="WaveguideLinesCatalog" Description="Waveguide Lines Shared Catalog" Visible="no">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Waveguide\SampleData\WaveguideLines\CATPspWaveguideLine.catalog"
+          Access="RW"/>
+   </Resource>
+
+   <Resource Name="LineIDAttributeFilter" Description="List of attributes used to filter the Waveguide Line selection list" Visible="no">
+       <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Waveguide\SampleData\WaveguideLineAttributeFilter.txt"/>
+   </Resource>
+
+   <Resource Name="WaveguideReportDefinitions" Description="Waveguide Report Definitions Directory" Visible="no">
+       <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Waveguide\SampleData"/>
+   </Resource>
+
+   <Resource Name="ReportExpressions" Description="Report Expressions Directory" Visible="no">
+       <ID  Type="Path" Driver="File" Location="${Startup_Directory}\ReporterData"/>
+   </Resource>
+
+<!--  EQUIPMENT DESIGN APPLICATION  -->
+
+  <Application Name="CATEquipment" Description="Equipment Design Application" Visible = "yes">
+
+     <Resource Name="DisciplineSuperClasses" Description="List of Equipment classes for the active discipline">
+         <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Equipment\Waveguide\DesignRules\DisciplineSuperClasses-Waveguide.txt"/>
+     </Resource>
+
+     <Resource Name="EquipDesignRulesCatalog" Description="Equipment Design Rules Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Equipment\Waveguide\DesignRules\WaveguideEqtDesignRules.catalog"/>
+     </Resource>
+
+     <Resource Name="EquipPartsCatalog" Description="Equipment Parts Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Equipment\Waveguide\EquipmentArrangement\ComponentCatalogs\WaveguideEquipmentAndNozzle.catalog"/>
+     </Resource>
+
+     <Resource Name="EquipGraphicRepresentations" Description="Equipment Graphic Representations">
+         <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Equipment\Waveguide\EquipmentArrangement\ComponentCatalogs\WaveguideEqtGraphicRepresentations.txt"/>
+     </Resource>
+
+     <Resource Name="EquipConnectorAttributes" Description="Connector Attributes">
+         <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Equipment\Waveguide\EquipmentArrangement\ComponentCatalogs\WaveguideEqtConnectorAttributes.txt"/>
+     </Resource>
+
+  </Application>
+
+<!--  Waveguide DESIGN APPLICATION  -->
+
+  <Application Name="CATWaveguide" Description="Waveguide Design Application" Visible = "yes">
+
+     <Resource Name="WaveguideMaterialSpecCatalog" Visible="yes"> </Resource>
+
+     <Resource Name="WaveguideStandardsCatalog" Visible="yes"> </Resource>
+
+     <Resource Name="WaveguideDesignRulesCatalog" Visible="yes"> </Resource>
+
+     <Resource Name="WaveguidePartsCatalog" Visible="yes"> </Resource>
+
+     <Resource Name="WaveguideLinesCatalog" Visible="yes"> </Resource>
+
+<!--     <Resource Name="LineIDAttributeFilter" Visible="yes"> </Resource> -->
+
+     <Resource Name="WaveguideReportDefinitions" Visible="yes"> </Resource>
+
+     <Resource Name="ReportExpressions" Visible="yes"> </Resource>
+
+     <Resource Name="WaveguideGraphicRepresentations" Description="Waveguide Graphic Representations">
+         <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Waveguide\WaveguideDesign\ComponentCatalogs\GraphicRepresentations.txt"/>
+     </Resource>
+
+     <Resource Name="WaveguideConnectorAttributes" Description="Connector Attributes">
+         <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Waveguide\WaveguideDesign\ComponentCatalogs\ConnectorAttributes.txt"/>
+     </Resource>
+
+     <!-- Resolved Waveguide Parts Directory
+     <Resource Name="ResolvedWaveguideParts" Description="Resolved Waveguide Parts Directory">
+         <ID  Type="Path" Driver="File" Location="C:\CATTemp\WaveguideDesign"
+            Access="RW"/>
+     </Resource>  -->
+
+    <!-- ***************************************************************** -->
+    <!--  The following resource defines the option to create an       *** -->
+    <!--  external link between a flexible route and a selected object *** -->
+    <!--    Option=0  Do not create external link                      *** -->
+    <!--    Option=1  The default: Create external link.               *** -->
+    <!-- ***************************************************************** -->
+    <Resource Name="CreateExternalLink" Description="Option to create an external link between objects">
+	      <ID  Type="Misc" Driver="File" Location="1"/>
+    </Resource>
+
+  </Application>
+
+
+<!-- WAVEGUIDE DIAGRAM APPLICATION -->
+
+  <Application Name="CATWaveguideDiagram" Description="Waveguide Diagram Application" Visible = "yes">
+
+     <Resource Name="WaveguideDiagramCatalog" Description="Waveguide Diagram Component Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Waveguide\WaveguideDiagrams\ComponentCatalogs\Waveguide.catalog"/>
+     </Resource>
+
+     <Resource Name="WaveguideDiagramOffSheetsCatalog" Description="Waveguide Diagram OffSheets Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Waveguide\WaveguideDiagrams\ComponentCatalogs\Waveguide_OffSheets.catalog"/>
+     </Resource>
+
+     <Resource Name="AnnotationBreakCatalog" Description="Waveguide Diagram Annotation Break Symbols Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Waveguide\WaveguideDiagrams\ComponentCatalogs\Waveguide_AnnotationBreaks.catalog"/>
+     </Resource>
+
+     <Resource Name="AnnotationSymbolCatalog" Description="Waveguide Diagram Annotation Symbols Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Waveguide\WaveguideDiagrams\ComponentCatalogs\Waveguide_AnnotationSymbols.catalog"/>
+     </Resource>
+
+     <Resource Name="WaveguideAnnotationCatalog" Description="Annotation Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Waveguide\SampleData\WaveguideAnnotations.catalog"/>
+     </Resource>
+
+     <Resource Name="RulesChecksCatalog" Description="Knowledgeware Rules And Checks Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Waveguide\DesignRules\WaveguideDiagramRulesAndChecks.catalog"/>
+     </Resource>
+
+     <Resource Name="WaveguideGraphicNames" Description="Waveguide Graphic Names">
+         <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Waveguide\SampleData"/>
+     </Resource>
+
+     <Resource Name="WaveguideLinesCatalog" Visible="yes"> </Resource>
+
+<!--     <Resource Name="LineIDAttributeFilter" Visible="yes"> </Resource> -->
+
+     <Resource Name="WaveguideMaterialSpecCatalog" Visible="yes"> </Resource>
+
+     <Resource Name="WaveguideStandardsCatalog" Visible="yes"> </Resource>
+
+     <Resource Name="WaveguideDesignRulesCatalog" Visible="yes"> </Resource>
+
+     <Resource Name="WaveguidePartsCatalog" Visible="yes"> </Resource>
+
+     <Resource Name="WaveguideReportDefinitions" Visible="yes"> </Resource>
+
+     <Resource Name="ReportExpressions" Visible="yes"> </Resource>
+
+     <Resource Name="DisciplineSuperClasses" Description="List of Equipment classes for the active discipline">
+         <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Equipment\Waveguide\DesignRules\DisciplineSuperClasses-Waveguide.txt"/>
+     </Resource>
+
+     <Resource Name="EquipDesignRulesCatalog" Description="Equipment Design Rules Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Equipment\Waveguide\DesignRules\WaveguideEqtDesignRules.catalog"/>
+     </Resource>
+
+     <Resource Name="EquipPartsCatalog" Description="Equipment Parts Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Equipment\Waveguide\EquipmentArrangement\ComponentCatalogs\WaveguideEquipmentAndNozzle.catalog"/>
+     </Resource>
+
+  </Application>
+</Discipline>
+
+<!-- **************  Raceway DISCIPLINE RESOURCES  ************** -->
+
+<Discipline Name="Raceway" Description="Raceway Discipline" Parent="Sample_Project">
+
+   <Resource Name="RacewayLinesCatalog" Description="Raceway Lines Shared Catalog">
+      <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Raceway\SampleData\RacewayLines\CATRwyRacewayLine.catalog"
+          Access="RW"/>
+   </Resource>
+
+   <Resource Name="RacewayReportDefinitions" Description="Raceway Report Definitions Directory">
+       <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Raceway\SampleData"/>
+   </Resource>
+
+   <Resource Name="RacewayMaterialSpecCatalog" Description="Raceway Material Specifications Catalog">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Raceway\MaterialSpecification\RacewayMaterialSpecifications.catalog"/>
+   </Resource>
+
+   <Resource Name="RacewayStandardsCatalog" Description="Raceway Standards Catalog">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Raceway\Standards\RacewayStandards.catalog"/>
+   </Resource>
+
+   <Resource Name="RacewayDesignRulesCatalog" Description="Raceway Design Rules Catalog">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Raceway\DesignRules\RacewayDesignRules.catalog"/>
+   </Resource>
+
+   <Resource Name="RacewayPartsCatalog" Description="Raceway Parts Catalog">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Raceway\RacewayDesign\ComponentCatalogs\Parametric\RacewayParts.catalog"/>
+   </Resource>
+
+   <Resource Name="GrowthFactor" Description="Growth Factor">
+       <ID  Type="Misc" Driver="File" Location="0.2"/>
+   </Resource>
+
+<!--  Raceway DESIGN APPLICATION  -->
+
+  <Application Name="CATRaceway" Description="Raceway Design Application" Visible = "yes">
+
+     <Resource Name="RacewayGraphicRepresentations" Description="Raceway Graphic Representations">
+         <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Raceway\RacewayDesign\ComponentCatalogs\GraphicRepresentations.txt"/>
+     </Resource>
+
+     <Resource Name="RacewayConnectorAttributes" Description="Connector Attributes">
+         <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Raceway\RacewayDesign\ComponentCatalogs\ConnectorAttributes.txt"/>
+     </Resource>
+
+     <!-- Resolved Raceway Parts Directory
+     <Resource Name="ResolvedRacewayParts" Description="Resolved Raceway Parts Directory">
+         <ID  Type="Path" Driver="File" Location="C:\CATTemp\RacewayDesign"
+            Access="RW"/>
+     </Resource>  -->
+
+  </Application>
+</Discipline>
+
+<!-- **************  Conduit DISCIPLINE RESOURCES  ************** -->
+
+<Discipline Name="Conduit" Description="Conduit Discipline" Parent="Sample_Project">
+
+   <Resource Name="ConduitLinesCatalog" Description="Conduit Lines Shared Catalog">
+      <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Conduit\SampleData\ConduitLines\CATCndConduitLine.catalog"
+          Access="RW"/>
+   </Resource>
+
+   <Resource Name="LineIDAttributeFilter" Description="List of attributes used to filter the Conduit Line selection list" Visible="no">
+       <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Conduit\SampleData\ConduitLineAttributeFilter.txt"/>
+   </Resource>
+
+   <Resource Name="ConduitReportDefinitions" Description="Conduit Report Definitions Directory">
+       <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Conduit\SampleData"/>
+   </Resource>
+
+   <Resource Name="ConduitMaterialSpecCatalog" Description="Conduit Material Specifications Catalog">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Conduit\MaterialSpecification\ConduitMaterialSpecifications.catalog"/>
+   </Resource>
+
+   <Resource Name="ConduitStandardsCatalog" Description="Conduit Standards Catalog">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Conduit\Standards\ConduitStandards.catalog"/>
+   </Resource>
+
+   <Resource Name="ConduitDesignRulesCatalog" Description="Conduit Design Rules Catalog">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Conduit\DesignRules\ConduitDesignRules.catalog"/>
+   </Resource>
+
+   <Resource Name="ConduitPartsCatalog" Description="Conduit Parts Catalog">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Conduit\ConduitDesign\ComponentCatalogs\Parametric\ConduitParts.catalog"/>
+   </Resource>
+
+   <Resource Name="GrowthFactor" Description="Growth Factor">
+       <ID  Type="Misc" Driver="File" Location="0.2"/>
+   </Resource>
+
+<!--  Conduit DESIGN APPLICATION  -->
+
+  <Application Name="CATConduit" Description="Conduit Design Application" Visible = "yes">
+
+     <Resource Name="ConduitGraphicRepresentations" Description="Conduit Graphic Representations">
+         <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Conduit\ConduitDesign\ComponentCatalogs\GraphicRepresentations.txt"/>
+     </Resource>
+
+     <Resource Name="ConduitConnectorAttributes" Description="Connector Attributes">
+         <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Conduit\ConduitDesign\ComponentCatalogs\ConnectorAttributes.txt"/>
+     </Resource>
+
+     <!-- Resolved Conduit Parts Directory
+     <Resource Name="ResolvedConduitParts" Description="Resolved Conduit Parts Directory">
+         <ID  Type="Path" Driver="File" Location="C:\CATTemp\ConduitDesign"
+            Access="RW"/>
+     </Resource>  -->
+
+     <!-- ******************************************************************* -->
+     <!--  The following resource defines the option to create         ****** -->
+     <!--  bendables using a poly line.  The old way of creating       ****** -->
+     <!--  the bendable geometry was to always recreate the center line****** -->
+     <!--  composed of lines and arcs.  The recreation did not         ****** -->
+     <!--  allow the preservation of drafting dimensions.              ****** -->
+     <!--                                                              ****** -->
+     <!--  If this resource is not defined, bendables will be created  ****** -->
+     <!--  using lines and arcs for the center line.                   ****** -->
+     <!--    Location=1 Create bendables using a poly line             ****** -->
+     <!--    Location=0 Create bendables using lines and arcs          ****** -->
+     <!--                                                              ****** -->
+     <!-- ******************************************************************* -->
+     <Resource Name="BendablePolyLine" Description="Create bendables using a poly line center line">
+         <ID  Type="Misc" Driver="File" Location="0"/>
+     </Resource>
+
+    <!-- ***************************************************************** -->
+    <!--  The following resource defines the option to create an       *** -->
+    <!--  external link between a flexible route and a selected object *** -->
+    <!--    Option=0  Do not create external link                      *** -->
+    <!--    Option=1  The default: Create external link.               *** -->
+    <!-- ***************************************************************** -->
+    <Resource Name="CreateExternalLink" Description="Option to create an external link between objects">
+      <ID  Type="Misc" Driver="File" Location="1"/>
+    </Resource>
+    
+  </Application>
+</Discipline>
+
+
+
+<!-- **************  AEC MIGRATION DISCIPLINE RESOURCES  ************** -->
+
+<Discipline Name="CATAecV4V5Migration" Description="AEC V4 V5 Migration Discipline" Parent="Sample_Project">
+
+<!--  All  -->
+
+   <Resource Name="DiscreteValues" Description="Discrete Values Directory">
+       <ID  Type="Path" Driver="File" Location="${Startup_Directory}\MigrationDirectory\DiscreteValues"/>
+   </Resource>
+
+<!--  Piping  -->
+
+   <Resource Name="PipingSpecificationsCatalog" Description="Piping Specifications Catalog">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\MigrationDirectory\Piping\Specification\V4V5MigratedPipingSpecifications998.catalog"/>
+   </Resource>
+
+   <Resource Name="PipingInsulationSpecCatalog" Description="Piping Insulation Specifications Catalog">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Piping\InsulationSpecification\PipingInsulationSpecifications.catalog"/>
+   </Resource>
+
+   <Resource Name="PipingStandardsCatalog" Description="Piping Standards Catalog">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\MigrationDirectory\Piping\Standards\V4V5MigratedPipingStandards.catalog"/>
+   </Resource>
+
+   <Resource Name="PipingDesignRulesCatalog" Description="Piping Design Rules Catalog">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\MigrationDirectory\Piping\DesignRules\V4V5MigratedPipingDesignRules.catalog"/>
+   </Resource>
+
+   <Resource Name="PipingPartsCatalog" Description="Piping Parts Catalog">
+      <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\MigrationDirectory\Piping\PipingDesign\ComponentCatalogs\SampleCatalog998\V4V5MigratedPipingParts998.catalog"/>
+   </Resource>
+
+   <Resource Name="PipingLinesCatalog" Description="Piping Lines Shared Catalog">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\MigrationDirectory\Piping\SampleData\PipingLines\V4V5MigratedPipingLine.catalog"
+          Access="RW"/>
+   </Resource>
+
+   <Resource Name="PipingGraphicRepresentations" Description="Piping Graphic Representations">
+       <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Piping\PipingDesign\ComponentCatalogs\GraphicRepresentations.txt"/>
+   </Resource>
+
+   <Resource Name="PipingConnectorAttributes" Description="Connector Attributes">
+       <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Piping\PipingDesign\ComponentCatalogs\ConnectorAttributes.txt"/>
+   </Resource>
+
+<!--  Tubing  -->
+
+   <Resource Name="TubingSpecificationsCatalog" Description="Tubing Specifications Catalog">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\MigrationDirectory\Tubing\Specification\TestTubingSpecifications.catalog"/>
+   </Resource>
+
+   <Resource Name="TubingStandardsCatalog" Description="Tubing Standards Catalog">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\MigrationDirectory\Tubing\Standards\TestTubingStandards.catalog"/>
+   </Resource>
+
+   <Resource Name="TubingDesignRulesCatalog" Description="Tubing Design Rules Catalog">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\MigrationDirectory\Tubing\DesignRules\TestTubingDesignRules.catalog"/>
+   </Resource>
+
+   <Resource Name="TubingLinesCatalog" Description="Tubing Lines Share Catalog">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\MigrationDirectory\Tubing\SampleData\TubingLines\TestTubingLine.catalog"
+          Access="RW"/>
+   </Resource>
+
+   <Resource Name="TubingPartsCatalog" Description="Tubing Parts Catalog">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\MigrationDirectory\Tubing\TubingDesign\ComponentCatalogs\TestCatalog\TestTubingParts.catalog"/>
+   </Resource>
+
+   <Resource Name="TubingReportDefinitions" Description="Tubing Report Definitions Directory">
+       <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Tubing\SampleData"/>
+   </Resource>
+
+   <Resource Name="TubingGraphicRepresentations" Description="Tubing Graphic Representations">
+       <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Tubing\TubingDesign\ComponentCatalogs\GraphicRepresentations.txt"/>
+   </Resource>
+
+   <Resource Name="TubingConnectorAttributes" Description="Connector Attributes">
+       <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Tubing\TubingDesign\ComponentCatalogs\ConnectorAttributes.txt"/>
+   </Resource>
+
+   <Resource Name="TubingDimensions" Description="TubeDimensions.txt">
+       <ID  Type="Path" Driver="File" Location="${Startup_Directory}\MigrationDirectory\Tubing\Standards\TEST\TEST-TubeDimensions.txt"/>
+   </Resource>
+
+<!--  PID  -->
+
+   <Resource Name="InstrumentLinesCatalog" Description="Instrument Lines Shared Catalog">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Instrument\SampleData\InstrumentLines\CATPspICLoop.catalog"
+          Access="RW"/>
+   </Resource>
+
+   <Resource Name="PipingLinesCatalog" Description="Piping Lines Shared Catalog">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Piping\SampleData\PipingLines\CATPspPipingLine.catalog"
+          Access="RW"/>
+   </Resource>
+
+<!--  Equipment  -->
+
+   <Resource Name="EquipGraphicRepresentations" Description="Equipment Graphic Representations">
+       <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Equipment\General\EquipmentArrangement\ComponentCatalogs\GraphicRepresentations.txt"/>
+   </Resource>
+
+<!--  HVAC  -->
+
+   <Resource Name="HVACMaterialSpecCatalog" Description="HVAC Material Specifications Catalog">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\MigrationDirectory\HVAC\MaterialSpecification\V4V5MigratedHVACMaterialSpecifications.catalog"/>
+   </Resource>
+
+   <Resource Name="HVACInsulationSpecCatalog" Description="HVAC Insulation Specifications Catalog">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\MigrationDirectory\HVAC\InsulationSpecification\V4V5MigratedHVACInsulationSpecifications.catalog"/>
+   </Resource>
+
+   <Resource Name="HVACStandardsCatalog" Description="HVAC Standards Catalog">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\MigrationDirectory\HVAC\Standards\V4V5MigratedHVACStandards.catalog"/>
+   </Resource>
+
+   <Resource Name="HVACDesignRulesCatalog" Description="HVAC Design Rules Catalog">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\HVAC\DesignRules\HVACDesignRules.catalog"/>
+   </Resource>
+
+   <Resource Name="HVACPartsCatalog" Description="HVAC Parts Catalog">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\MigrationDirectory\HVAC\HvacDesign\ComponentCatalogs\V4V5Catalog\V4V5MigratedHVACParts.catalog"/>
+   </Resource>
+
+   <Resource Name="HVACLinesCatalog" Description="HVAC Lines Shared Catalog">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\HVAC\SampleData\HVACLines\CATPspHVACLine.catalog"
+          Access="RW"/>
+   </Resource>
+
+   <Resource Name="HVACReportDefinitions" Description="HVAC Report Definitions Directory">
+       <ID  Type="Path" Driver="File" Location="${Startup_Directory}\HVAC\SampleData"/>
+   </Resource>
+
+   <Resource Name="HVACGraphicRepresentations" Description="HVAC Graphic Representations">
+       <ID  Type="Path" Driver="File" Location="${Startup_Directory}\HVAC\HvacDesign\ComponentCatalogs\GraphicRepresentations.txt"/>
+   </Resource>
+
+   <Resource Name="HVACConnectorAttributes" Description="Connector Attributes">
+       <ID  Type="Path" Driver="File" Location="${Startup_Directory}\HVAC\HvacDesign\ComponentCatalogs\ConnectorAttributes.txt"/>
+   </Resource>
+
+<!--  Structures  -->
+ 
+  <!-- ************** Specification Catalog ************** -->
+  <Resource Name="StructureSpecificationsCatalog" Description="Structure Specifications Catalog" Visible="yes">
+    <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Structure\StructuralCatalogs\Materials\StructureMaterialSpecifications.catalog"/>
+  </Resource>
+
+  <!-- ************** Thickness list ************** -->
+    <Resource Name="StructureThicknessList" Description="Structure Thickness List" Visible="yes"> 
+    <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Structure\StructuralCatalogs\Materials\ThicknessDesignTable.txt"/>
+    </Resource>
+
+  <!-- ************** Material Catalog ************** -->
+  <Resource Name="StructureMaterialsCatalog" Description="Structure Materials Catalog" Visible="yes"> 
+    <ID Type="Catia" Driver="File" Location="${Startup_Directory}\Structure\StructuralCatalogs\Materials\StructureMaterials.CATMaterial" Access="R" /> 
+  </Resource>
+
+<!--  AEC V4 V5 MIGRATION APPLICATION  -->
+
+<Application Name="CATAecV4V5Migration" Description="V4 V5 AEC Migration Options" Visible = "yes">
+
+   <Resource Name="MigratePID" Description="Migrate Piping And Instrumentation Diagram Data (true/false)">
+       <ID  Type="Misc" Driver="File" Location="true"/>
+   </Resource>
+
+   <Resource Name="MigrateEquipment" Description="Migrate Equipment Data (true/false)">
+       <ID  Type="Misc" Driver="File" Location="true"/>
+   </Resource>
+
+   <Resource Name="MigratePiping" Description="Migrate Piping Data (true/false)">
+       <ID  Type="Misc" Driver="File" Location="true"/>
+   </Resource>
+
+   <Resource Name="MigrateTubing" Description="Migrate Tubing Data (true/false)">
+       <ID  Type="Misc" Driver="File" Location="true"/>
+   </Resource>
+
+   <Resource Name="MigrateTubingToPiping" Description="Migrate Tubing Data to Piping Data (true/false)">
+       <ID  Type="Misc" Driver="File" Location="false"/>
+   </Resource>
+
+   <Resource Name="MigrateHVAC" Description="Migrate HVAC Data (true/false)">
+       <ID  Type="Misc" Driver="File" Location="true"/>
+   </Resource>
+
+   <Resource Name="MigrateStructures" Description="Migrate Structures Data (true/false)">
+       <ID  Type="Misc" Driver="File" Location="true"/>
+   </Resource>
+
+   <Resource Name="MigratePIDWithMissingLines" Description="Migrate PID Sheet even if some Lines cannot be migrated (true/false)">
+       <ID  Type="Misc" Driver="File" Location="true"/>
+   </Resource>
+
+   <Resource Name="ImportPipingLine" Description="Import the V4 Pipeline Into V5 Piping Line Catalog (true/false)">
+       <ID  Type="Misc" Driver="File" Location="true"/>
+   </Resource>
+
+   <Resource Name="ImportICLoopLine" Description="Import the V4 ICLoopline Into V5 ICLoop Line Catalog (true/false)" >
+       <ID  Type="Misc" Driver="File" Location="true"/>
+   </Resource>
+
+   <Resource Name="ImportTubingLine" Description="Import the V4 Tubing Line Into V5 Tubing Line Catalog (true/false)">
+       <ID  Type="Misc" Driver="File" Location="true"/>
+   </Resource>
+
+   <Resource Name="ImportHVACLine" Description="Import the V4 HVAC Line Into V5 HVAC Line Catalog (true/false)">
+       <ID  Type="Misc" Driver="File" Location="true"/>
+   </Resource>
+
+   <Resource Name="CreatePipingRunWithoutParts" Description="If 'true', create Piping runs without parts (true/false)">
+       <ID  Type="Misc" Driver="File" Location="false"/>
+   </Resource>
+
+   <Resource Name="CreateTubingRunWithoutParts" Description="If 'true', create Tubing runs without parts (true/false)">
+       <ID  Type="Misc" Driver="File" Location="false"/>
+   </Resource>
+
+   <Resource Name="CreateHVACRunWithoutParts" Description="If 'true', create HVAC runs without parts (true/false)">
+       <ID  Type="Misc" Driver="File" Location="false"/>
+   </Resource>
+
+   <Resource Name="MigratedPIDSheetSize" Description="Define the sheet size for migrated PID Drawings (Letter/Legal/A0 ISO/A1 ISO/A2 ISO/A3 ISO/A4 ISO/A ANSI/B ANSI/C ANSI/D ANSI/E ANSI/F ANSI)">
+       <ID  Type="Misc" Driver="File" Location="A ANSI"/>
+   </Resource>
+
+   <Resource Name="MigratedPIDNoShowSheetFormat" Description="No show sheet format (true/false)">
+       <ID  Type="Misc" Driver="File" Location="false"/>
+   </Resource>
+
+   <Resource Name="DeletePartOnRun" Description="Delete all parts on a run when the run is deleted">
+       <ID  Type="Misc" Driver="File" Location="0"/>
+   </Resource>
+
+   <Resource Name="MigrationMappingTable" Description="File (csv) with Mappings for V4 Classes and Attributes to V5">
+       <ID  Type="Misc" Driver="File" Location="${Startup_Directory}\MigrationDirectory\Dictionary\MappingTable\V4ToV5ObjectMapping.csv"/>
+   </Resource>
+
+   <Resource Name="TubingMigrationMappingTable" Description="File (csv) with Mappings for V4 Tubing Detail Names to V5 Data">
+       <ID  Type="Misc" Driver="File" Location="${Startup_Directory}\MigrationDirectory\Dictionary\MappingTable\V4ToV5TubingMapping.csv"/>
+   </Resource>
+
+   <Resource Name="StructuresMigrationMappingTable" Description="File (csv) with Mappings for V4 Structure Names to V5">
+       <ID  Type="Misc" Driver="File" Location="${Startup_Directory}\MigrationDirectory\Dictionary\STRMappingTable\V4ToV5StructuresMapping.csv"/>
+   </Resource>
+
+   <Resource Name="StructuresEndCutMigrationMappingTable" Description="File (csv) with Mappings for V4 Structures EndCut Names to V5">
+       <ID  Type="Misc" Driver="File" Location="${Startup_Directory}\MigrationDirectory\Dictionary\STRMappingTable\EndCutMappingTable.csv"/>
+   </Resource>
+
+  </Application>
+
+<!--  PIPING DESIGN APPLICATION  -->
+
+  <Application Name="CATPiping" Description="Piping Design Application" Visible = "yes">
+
+  </Application>
+
+<!--  TUBING APPLICATION  -->
+
+  <Application Name="CATTubing" Description="Tubing Design Application" Visible = "yes">
+
+  </Application>
+
+<!--  PID APPLICATION  -->
+
+  <Application Name="CATPID" Description="PID Application" Visible = "yes">
+
+  </Application>
+
+<!--  EQUIPMENT APPLICATION  -->
+
+  <Application Name="CATEquipment" Description="Equipment Design Application" Visible = "yes">
+
+  </Application>
+
+<!--  HVAC APPLICATION  -->
+
+  <Application Name="CATHVAC" Description="HVAC Design Application" Visible = "yes">
+
+  </Application>
+
+<!--  INSTRUMENT APPLICATION  -->
+
+  <Application Name="CATInstrument" Description="Instrument Design Application" Visible = "yes">
+
+  </Application>
+
+<!--  MULTIDISCIPLINE APPLICATION  -->
+
+  <Application Name="CATMultiDiscipline" Description="MultiDiscipline Application" Visible = "yes">
+
+  </Application>
+
+<!--  STRUCTURE APPLICATION  -->
+
+  <Application Name="CATStructureDetailDesign" Description="Structure Detail Design Application" Visible = "yes">
+
+  </Application>
+
+</Discipline>
+
+
+<!-- **************  SPATIAL DISCIPLINE RESOURCES  ************** -->
+
+<Discipline Name="Spatial" Description="Space Reservation Discipline" Parent="Sample_Project">
+
+<!-- SSR DESIGN APPLICATION -->
+
+  <Application Name="CATSSR" Description="System Space Reservation Application" Visible = "yes">
+
+     <Resource Name="SystemSpaceReservationCatalog" Description="System Space Reservation Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Components_Directory}\spaceReservation\spaceReservation.catalog"/>
+     </Resource>
+
+  </Application>
+
+<!-- Plant Layout APPLICATION -->
+
+  <Application Name="Arrangement" Description="Plant Layout/System Routing Application" Visible = "yes">
+  </Application>
+
+</Discipline>
+
+
+<!-- **************  STRUCTURE DISCIPLINE RESOURCES  ************** -->
+
+<Discipline Name="Structure" Description="Structure Discipline" Parent="Sample_Project">
+
+  <!-- ************** Structure Computed Attributes ************** -->
+  <Resource Name="StructureComputedAttributes" Description="Structure Computed Attributes" Visible = "yes">
+	<ID  Type="Path" Driver="File" Location="${Startup_Directory}\Structure\ProjectParameters\StructureComputedAttributes.txt"/>
+  </Resource>
+	 
+  <!-- ************** Specification Catalog ************** -->
+  <Resource Name="StructureSpecificationsCatalog" Description="Structure Specifications Catalog" Visible="yes">
+    <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Structure\StructuralCatalogs\Materials\StructureMaterialSpecifications.catalog"/>
+  </Resource>
+  
+  <!--*****SFD\SDD\SR1\STF Slots\Endcuts (Ship Building Application) *****-->
+  <Resource Name="StructureDetailDesignCatalog" Description="Structure Detail Design Catalog" Visible="yes">
+     <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Structure\DetailingFeatures\StructureDetailingFeatures.catalog"/>
+  </Resource>
+
+  <!-- ************** SR1/SFD/SDD Standard Openings Catalog ************** -->
+  <Resource Name="StructureOpeningsCatalog" Description="Structure Openings Catalog" Visible="yes">
+    <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Structure\StructuralCatalogs\OPENINGS\StructureOpenings.catalog"/>
+  </Resource>
+
+  <!-- ************** Structure Standards ************** -->
+	<Resource Name="StructureStandards" Description="Possible Standards for structural objects" Visible="yes">
+    <ID  Type="Misc" Driver="File" Location="AISC"/>
+	</Resource>
+  
+  <!-- ***** Material Grade Preferred List mode - None, ActiveUnSpec, ActiveSpec  ***** -->
+  <Resource Name="MaterialManagementMode" Visible="yes"> 
+     <ID  Type="Misc" Driver="File" Location="ActiveUnSpec"/>
+  </Resource>
+    
+  <!-- ************** Material Catalog ************** -->
+  <Resource Name="StructureMaterialsCatalog" Description="Structure Materials Catalog" Visible="yes"> 
+    <ID Type="Catia" Driver="File" Location="${Startup_Directory}\Structure\StructuralCatalogs\Materials\StructureMaterials.CATMaterial" Access="R" /> 
+  </Resource>  
+	  
+  <!-- ************** Structure drawings symbols Catalog **************-->
+  <Resource Name="StructureDrawingSymbolsCatalog" Description="Structure Drawing Symbols Catalog"> 
+     <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Structure\StructuralCatalogs\DrawingSymbols\Structure2DSymbolsCatalog.catalog"/>
+  </Resource>        
+  
+  <!-- ************** ATS symbols ************** -->
+  <Resource Name="AnnotationCatalog" Description="3D Annotation Catalog">
+      <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Structure\StructuralCatalogs\DrawingSymbols\StructureAnnotationCatalog.catalog"/>
+  </Resource>
+
+  <!-- ************** CompAccess - Plate Generation Options ************** -->
+  <Resource Name="CompAccessPlateGenerationOptions" Description="Compartment Access Plate Generation Options" Visible="yes">
+     <ID  Type="Path" Driver="File" Location="${Startup_Directory}\CompartmentAccess\SampleData\PlateGenerationOptions.txt"/>
+  </Resource>
+
+<!--***** STRUCTURE PRELIMINARY LAYOUT APPLICATION(SPL) *****-->
+
+  <Application Name="CATStructurePreliminaryLayout" Description="Structure Preliminary Layout Application(SPL)" Visible = "yes">
+  <!-- Project Name RESOURCES ************** -->
+  <Resource Name="ProjectName" Description="the current project name"> 
+    <ID  Type="Misc" Driver="File" Location="DS Default"/>
+  </Resource>   
+
+  <!-- ************** Openings Catalog ************** -->
+  <Resource Name="SPLOpeningsCatalog" Description="Structure Openings Catalog, BigScale" Visible = "yes"> 
+    <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\StructurePreliminaryLayout\Catalogs\Openings\SPLBigScale\SPL_Openings_BigScale.catalog"/>
+  </Resource>  
+  
+  <!-- ************** Orientation Convention RESOURCES ************** -->
+  <Resource Name="OrientNamingConvFileName" Description="Structure Functional\Preliminary Design Orientation Naming Convention" Visible="yes"> 
+    <ID  Type="Misc" Driver="File" Location="CATStrOrientNamingUSAConv"/>
+  </Resource>
+  
+  <!-- ************** Project Bounding Box RESOURCES ************** -->
+    <Resource Name="ProjectEnvelope" Description="Location of bounding box data" Visible = "yes"> 
+      <ID  Type="Catia" Driver="File" Location="\reffiles\disciplines\CATSPLProjectEnvelope.xml"/>
+    </Resource>
+
+  </Application>
+
+<!--***** STRUCTURE FUNCTIONAL DESIGN APPLICATION (SFD) *****-->  
+
+  <Application Name="CATStrFunctionalDesign" Description="Structure Functional Design Application" Visible = "yes">
+    
+    <!--***** Structure Functional Design User Feat File *****-->
+    <Resource Name="StrFuncDesignUserDictionary" Description="Structure Functional Design User Dictionary">
+       <ID  Type="Misc" Driver="File" Location="CATStrFunctionalDesignSample.CATfct"/>
+    </Resource>
+
+    <!-- ************** ID SCHEMA RESOURCES ************** -->
+    <Resource Name="StrFunctionalDesignIDSchema" Description="Structure Functional Design ID Schema Directory">
+     <ID  Type="Path" Driver="File" Location="${Startup_Directory}\StrFunctionalDesign\DataDictionary"/>
+    </Resource>
+   
+    <!-- ************** Color SCHEMA RESOURCES ************** -->
+	  <Resource Name="StrFunctionalDesignColorSchema" Description="Structure Functional Design Color Schema Directory">
+	    <ID  Type="Path" Driver="File" Location="${Startup_Directory}\StrFunctionalDesign\DataDictionary"/>
+	  </Resource>         
+    
+    <!--***** Molded Conventions *****--> 
+    <Resource Name="MoldedConventions" Description="Contains positioning conventions for structural elements" Visible="yes">
+      <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Structure\ShipStructureMoldedConventions.xml"/>
+    </Resource> 
+    
+    <!-- ***** System Hull Model  ***** -->
+    <Resource Name="StructureHullModel" Description="The Hull model used for structure functional and detail design applications" Visible="yes">
+      <ID Type="Catia" Driver="File" Location="${Startup_Directory}\Structure\Hull1234.CATPart" Access="R" /> 
+    </Resource>
+
+    <!-- ***** System Hull Feature Name  ***** -->
+    <Resource Name="StructureHullFeatureName" Visible="yes"> 
+      <ID  Type="Misc" Driver="File" Location="Hull1234"/>
+    </Resource>       
+	  
+    <!-- ************** Project Bounding Box RESOURCES ************** -->
+    <Resource Name="ProjectEnvelope" Description="Location of bounding box data" Visible = "yes"> 
+      <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Structure\ProjectEnvelope.xml"/>
+    </Resource>
+    
+  <!-- ***** Structure Confusion Rule for Planning Breaks - MoldedConvention, MaterialOrientation, InverseMoldedConvention, InverseMaterialOrientation ***** -->
+    <Resource Name="StructureConfusionRule" Visible="yes"> 
+       <ID  Type="Misc" Driver="File" Location="MoldedConvention"/>
+    </Resource>
+
+  <!-- ************** Structure Detailing Feature Bitmap Path ************** -->
+	 <Resource Name="StructureDetailingFeatureBitmapPath" Description="Structure Detailing Feature Bitmap Path">
+		   <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Structure\DetailingFeatures\Bitmaps"/>
+	 </Resource>
+  
+  </Application>
+  
+  <!--***** STRUCTURE DETAIL DESIGN APPLICATION (SDD) *****-->
+  <Application Name="CATStrDetailDesign" Description="Structure Detail Design Application" Visible = "yes">
+  
+    <!--***** Structure Functional Design User Feat File *****-->
+    <Resource Name="StrFuncDesignUserDictionary" Description="Structure Functional Design User Dictionary">
+      <ID  Type="Misc" Driver="File" Location="CATStrFunctionalDesignSample.CATfct"/>
+    </Resource>
+
+    <!-- ************** ID SCHEMA RESOURCES ************** -->
+    <Resource Name="StrFunctionalDesignIDSchema" Description="Structure Functional Design ID Schema Directory">
+      <ID  Type="Path" Driver="File" Location="${Startup_Directory}\StrFunctionalDesign\DataDictionary"/>
+    </Resource>
+   
+    <!-- ************** Color SCHEMA RESOURCES ************** -->
+	  <Resource Name="StrFunctionalDesignColorSchema" Description="Structure Functional Design Color Schema Directory">
+	   <ID  Type="Path" Driver="File" Location="${Startup_Directory}\StrFunctionalDesign\DataDictionary"/>
+	  </Resource>          
+    
+    <!--***** Molded Conventions *****--> 
+    <Resource Name="MoldedConventions" Description="Contains positioning conventions for structural elements" Visible="yes">
+      <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Structure\ShipStructureMoldedConventions.xml"/>
+    </Resource> 
+    
+    <!-- ***** System Hull Model  ***** -->
+    <Resource Name="StructureHullModel" Description="The Hull model used for structure functional and detail design applications" Visible="yes">
+      <ID Type="Catia" Driver="File" Location="${Startup_Directory}\Structure\Hull1234.CATPart" Access="R" /> 
+    </Resource>
+
+    <!-- ***** System Hull Feature Name  ***** -->
+    <Resource Name="StructureHullFeatureName" Visible="yes"> 
+      <ID  Type="Misc" Driver="File" Location="Hull1234"/>
+    </Resource>      
+	  
+    <!-- ************** Project Bounding Box RESOURCES ************** -->
+    <Resource Name="ProjectEnvelope" Description="Location of bounding box data" Visible = "yes"> 
+      <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Structure\ProjectEnvelope.xml"/>
+    </Resource>
+  
+  <!-- ***** Planning Break Confusion Solver - Molded Convention (0), Material Orientation (1), Inverse of Molded Convention(2), Inverse of Material Orientation(3) ***** -->
+    <Resource Name="PlanningBreakConfusionSolver" Visible="yes"> 
+       <ID  Type="Misc" Driver="File" Location="0"/>
+    </Resource>
+
+  <!-- ************** Structure Detailing Feature Bitmap Path ************** -->
+	 <Resource Name="StructureDetailingFeatureBitmapPath" Description="Structure Detailing Feature Bitmap Path">
+		   <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Structure\DetailingFeatures\Bitmaps"/>
+	 </Resource>
+
+  </Application>
+
+  <!--***** STRUCTURE DESIGN APPLICATION (SR1) *****-->
+  <Application Name="CATStructureDesign" Description="Structure Design Application " Visible = "yes"> 
+
+  <!-- ************** USER DICTIONARY RESOURCES ************** -->
+  <Resource Name="CATStructureDesignUserDictionary" Description="Structure Design User Dictionary">
+      <ID  Type="Misc" Driver="File" Location="CATStructureDesignSample.CATfct"/>
+  </Resource>
+  
+  <!-- **************SR1 Thickness list ************** -->
+  <Resource Name="StructureThicknessList" Description="Structure Thickness List" Visible="yes"> 
+    <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Structure\StructuralCatalogs\Materials\ThicknessDesignTable.txt"/>
+  </Resource>
+    
+  </Application>
+ 
+ <!--***** Strcuture Frame Modeling APPLICATION (STF)*****-->
+ <Application Name="CATStrFrameModeling" Description="Structure Frame Modeling Application" Visible="yes">
+	<!-- ************** ID SCHEMA RESOURCES ************** -->
+	<Resource Name="StrFrameModelingIDSchema" Description="Structure Frame Modeling ID Schema Directory">
+		<ID Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\StrFrameModeling\DataDictionary" />
+	</Resource>
+	<!-- ************** Color SCHEMA RESOURCES ************** -->
+	<Resource Name="StrFrameModelingColorSchema" Description="Structure Frame Modeling Color Schema Directory">
+		<ID Type="Path" Driver="File" Location="\startup\EquipmentAndSystems\StrFrameModeling\DataDictionary" />
+	</Resource>
+	<!-- ************** USER DICTIONARY RESOURCES ************** -->
+	<Resource Name="StrFrameModelingUserDictionary" Description="Structure Frame Modeling User Dictionary">
+		<ID Type="Misc" Driver="File" Location="CATStrFrameModelingSample.CATfct" />
+	</Resource>	 
+  
+ </Application>
+ 
+ <!--***** EQUIPMENT SUPPORT STRUCTURES  APPLICATION (ESS)*****-->
+ <Application Name="CATESS" Description="Equipment Support Structures Application" Visible = "yes"> 
+ 
+  <!-- ************** Sections Catalog ************** -->
+	  <Resource Name="StructureSectionsCatalog" Description="Structure Sections Catalog"> 
+	      <ID  Type="Catia" Driver="File" Location="\startup\EquipmentAndSystems\Structure\StructuralCatalogs\AISC\AISC_BigScale.catalog"/>
+	  </Resource> 
+
+  <!-- **** Structure Resolved Sections Path  ***** -->
+    <Resource Name="StructureSectionsPath" Description="Structure Sections Path">
+        <ID Type="Path" Driver="File" Location="C:\CATTemp\ResolvedSections" Access="RW"/>
+    </Resource>
+ 
+ </Application>
+  
+</Discipline>
+
+
+<!-- **************  Electrical DISCIPLINE RESOURCES  ************** -->
+
+<Discipline Name="Electrical" Description="Electrical Discipline" Parent="Sample_Project">
+
+   <Resource Name="ElectricalCablesCatalog" Description="Electrical Cables Catalog">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Electrical\ElectricalDiagrams\ComponentCatalogs\Electrical_Cables.catalog"/>
+   </Resource>
+
+   <Resource Name="ElectricalReportDefinitions" Description="Electrical Report Definitions Directory" Visible="no">
+       <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Electrical\SampleData"/>
+   </Resource>
+
+   <Resource Name="ReportExpressions" Description="Report Expressions Directory" Visible="no">
+       <ID  Type="Path" Driver="File" Location="${Startup_Directory}\ReporterData"/>
+   </Resource>
+
+   <Resource Name="EquipDesignRulesCatalog" Description="Equipment Design Rules Catalog">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Equipment\Electrical\DesignRules\ElectricalEquipDesignRules.catalog"/>
+   </Resource>
+
+<!--  EQUIPMENT DESIGN APPLICATION  -->
+
+  <Application Name="CATEquipment" Description="Equipment Design Application" Visible = "yes">
+
+     <Resource Name="DisciplineSuperClasses" Description="List of Equipment classes for Electrical discipline">
+         <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Equipment\Electrical\DesignRules\DisciplineSuperClasses-Electrical.txt"/>
+     </Resource>
+
+     <Resource Name="EquipPartsCatalog" Description="Equipment Parts Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Equipment\Electrical\EquipmentArrangement\ComponentCatalogs\ElectricalEquipmentAndComponent.catalog"/>
+     </Resource>
+
+     <Resource Name="EquipGraphicRepresentations" Description="Equipment Graphic Representations">
+         <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Equipment\Electrical\EquipmentArrangement\ComponentCatalogs\ElectricalGraphicRepresentations.txt"/>
+     </Resource>
+
+     <Resource Name="EquipConnectorAttributes" Description="Connector Attributes">
+         <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Equipment\Electrical\EquipmentArrangement\ComponentCatalogs\ElectricalConnectorAttributes.txt"/>
+     </Resource>
+
+  </Application>
+
+<!-- ELECTRICAL DIAGRAM APPLICATION -->
+
+  <Application Name="CATElectricalDiagram" Description="Electrical Diagram Application" Visible = "yes">
+
+     <Resource Name="ElectricalDiagramCatalog" Description="Electrical Components Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Electrical\ElectricalDiagrams\ComponentCatalogs\Electrical_ANSI.catalog"/>
+     </Resource>
+
+     <Resource Name="ElectricalOnOffSheetCatalog" Description="Electrical OnOffSheet Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Electrical\ElectricalDiagrams\ComponentCatalogs\Electrical_ANSI_OffSheets.catalog"/>
+     </Resource>
+
+     <Resource Name="AnnotationBreakCatalog" Description="Electrical Diagram Annotation Break Symbols Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Electrical\ElectricalDiagrams\ComponentCatalogs\Electrical_AnnotationBreaks.catalog"/>
+     </Resource>
+
+     <Resource Name="AnnotationSymbolCatalog" Description="Electrical Diagram Annotation Symbols Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Electrical\ElectricalDiagrams\ComponentCatalogs\Electrical_AnnotationSymbols.catalog"/>
+     </Resource>
+
+     <Resource Name="ElectricalReportDefinitions" Visible="yes"> </Resource>
+
+     <Resource Name="ReportExpressions" Visible="yes"> </Resource>
+
+     <Resource Name="ElectricalAnnotationCatalog" Description="Electrical Annotation Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Electrical\SampleData\ElectricalAnnotations.catalog"/>
+     </Resource>
+
+     <Resource Name="RulesChecksCatalog" Description="Knowledgeware Rules And Checks Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Electrical\DesignRules\ElectricalDiagramRulesAndChecks.catalog"/>
+     </Resource>
+
+     <Resource Name="ElectricalGraphicNames" Description="Electrical Graphic Names">
+         <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Electrical\SampleData"/>
+     </Resource>
+
+     <Resource Name="DisciplineSuperClasses" Description="List of Equipment classes for Electrical discipline">
+         <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Equipment\Electrical\DesignRules\DisciplineSuperClasses-Electrical.txt"/>
+     </Resource>
+
+     <Resource Name="EquipPartsCatalog" Description="Equipment Parts Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Equipment\Electrical\EquipmentArrangement\ComponentCatalogs\ElectricalEquipmentAndComponent.catalog"/>
+     </Resource>
+
+  </Application>
+
+<!-- ELECTRICAL CABLE ROUTING APPLICATION -->
+
+  <Application Name="CATElectrical" Description="Electrical Cable Routing Application" Visible = "yes">
+
+     <Resource Name="ElectricalDesignRulesCatalog" Description="Electrical Design Rules Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Electrical\DesignRules\ElectricalDesignRules.catalog"/>
+     </Resource>
+
+     <Resource Name="SystemSpaceReservationCatalog" Description="System Space Reservation Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Components_Directory}\spaceReservation\spaceReservation.catalog"/>
+     </Resource>
+
+     <!-- ******************************************************************* -->
+     <!--  The following resource defines the wildcard value for the   ****** -->
+     <!--  attribute Cable Category on a cableway object like hanger,  ****** -->
+     <!--  Cable penetration.  When routing a cable and the rule       ****** -->
+     <!--  "Match Cable Category" is enabled, cables with any          ****** -->
+     <!--  Cable Category value can only be routed through hangers     ****** -->
+     <!--  with the same Cable Category value.  If this resource is    ****** -->
+     <!--  non-null and non-blank then it will define the wildcard     ****** -->
+     <!--  value on the hanger (cableway object).  This will allow a   ****** -->
+     <!--  cable with any Cable Category value to be routed through    ****** -->   
+     <!--  the hanger with the wildcard value.   If the value is ""    ****** -->
+     <!--  then no wildcard.                                           ****** -->
+     <!-- ******************************************************************* -->
+     <Resource Name="CableCategoryWildcard" Description="Cable Category wildcard value on cableway object">
+         <ID  Type="Misc" Driver="File" Location=""/>
+     </Resource>
+
+  </Application>
+</Discipline>
+
+
+<!-- **************  COMPARTMENT AND ACCESS DISCIPLINE RESOURCES  ************** -->
+
+<Discipline Name="CompartmentAccess" Description="Compartment Access Discipline" Parent="Sample_Project">
+
+<!--  Compartment And Access APPLICATION  -->
+
+  <Application Name="CATCompAccess" Description="Compartment Access Design Application" Visible = "yes">
+
+     <Resource Name="CompAccessPartsCatalog" Description="Compartment Access Parts Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\CompartmentAccess\CompartmentAccessDesign\ComponentCatalogs\CompartmentAccess.catalog"/>
+     </Resource>
+
+     <Resource Name="CompAccessDesignRulesCatalog" Description="Compartment Access Design Rules Catalog">
+         <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\CompartmentAccess\DesignRules\CompartmentAccessDesignRules.catalog"/>
+     </Resource>
+
+     <Resource Name="CompAccessGraphicRepresentations" Description="Compartment Access Graphic Representations">
+         <ID  Type="Path" Driver="File" Location="${Startup_Directory}\CompartmentAccess\CompartmentAccessDesign\ComponentCatalogs\GraphicRepresentations.txt"/>
+     </Resource>
+
+     <Resource Name="CompAccessReportDefinitions" Description="Compartment Access Report Definitions Directory">
+         <ID  Type="Path" Driver="File" Location="${Startup_Directory}\CompartmentAccess\SampleData"/>
+     </Resource>
+
+     <!-- Resolved Compartment Access Parts Directory
+     <Resource Name="ResolvedCompAccessParts" Description="Compartment Access Parts Directory">
+         <ID  Type="Path" Driver="File" Location="C:\CATTemp\CompartmentAccess"
+            Access="RW"/>
+     </Resource>  -->
+
+     <Resource Name="CompAccessPlacementDialogOptions" Description="Compartment Access Placement Dialog Options">
+         <ID  Type="Path" Driver="File" Location="${Startup_Directory}\CompartmentAccess\SampleData\PlacementDialogOptions.txt"/>
+     </Resource>
+
+  </Application>
+</Discipline>
+
+<!-- **************  Design Validation, 2D3DIntegrationStatusReport DISCIPLINE RESOURCES  ************** -->
+
+ <!--<Discipline Name="DesignValidation-2D3DIntegrationStatus" Description="Design Validation, 2D3DIntegrationStatusReport discipline" Parent="Sample_Project"> -->
+<!-- ******************************************************************* -->
+<!--  The following resource defines the resource for             ****** -->
+<!--  Design Validation command and 2D3DIntegrationStatusReport   ****** -->
+<!-- ******************************************************************* -->
+	<!-- Design Validation Report  -->
+	<!-- define the output file for the design validation report  -->
+	<Resource Name="DesignValidationReport" Description="Design Validation Report">
+		<ID  Type="Path" Driver="File" Location="C:\CATTemp\Validation\DesignValidation.txt"/>
+	</Resource> 
+
+	<!-- Design Validation Mandatory Attributes  -->
+	<!-- define the file which lists all mandatory attributes  -->
+	<Resource Name="DesignValidationMandatoryAttributes" Description="Design Validation Mandatory Attributes">
+		<ID  Type="Path" Driver="File" Location="${Startup_Directory}\MultiDiscipline\SampleData\DesignValidationMandatoryAttributes.txt"/>
+	</Resource> 
+
+	<!-- Design Validation Input Criteria -->
+	<!-- define the file which lists all attributes with values that the validation process must meet -->
+	<Resource Name="DesignValidationInputCriteria" Description="Design Validation Input Criteria">
+		<ID  Type="Path" Driver="File" Location="${Startup_Directory}\MultiDiscipline\SampleData\DesignValidationInputCriteria.txt"/>
+	</Resource>
+
+
+  <!-- for Tubing Discipline -->
+  <!-- Tubing Design Validation Mandatory Attributes  -->
+  <!-- define the file which lists all mandatory attributes  -->
+  <Resource Name="TubingDesignValidationMandatoryAttributes" Description="Tubing Design Validation Mandatory Attributes">
+    <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Tubing\SampleData\TubingDesignValidationMandatoryAttributes.txt"/>
+  </Resource>
+
+  <!-- Tubing Design Validation Input Criteria -->
+  <!-- define the file which lists all attributes with values that the validation process must meet -->
+  <Resource Name="TubingDesignValidationInputCriteria" Description="Tubing Design Validation Input Criteria">
+    <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Tubing\SampleData\TubingDesignValidationInputCriteria.txt"/>
+  </Resource>
+
+  <!-- Required Tubing Design Validation Checks -->
+  <!-- define the file which lists all checks that the validation process should check -->
+  <Resource Name="TubingRequiredDesignValidationChecks" Description="Required Tubing Design Validation Checks">
+    <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Tubing\SampleData\TubingRequiredDesignValidationChecks.txt"/>
+  </Resource>
+
+
+  <!-- for Piping Discipline -->
+  <!-- Piping Design Validation Mandatory Attributes  -->
+  <!-- define the file which lists all mandatory attributes  -->
+  <Resource Name="PipingDesignValidationMandatoryAttributes" Description="Piping Design Validation Mandatory Attributes">
+    <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Piping\SampleData\PipingDesignValidationMandatoryAttributes.txt"/>
+  </Resource>
+
+  <!-- Piping Design Validation Input Criteria -->
+  <!-- define the file which lists all attributes with values that the validation process must meet -->
+  <Resource Name="PipingDesignValidationInputCriteria" Description="Piping Design Validation Input Criteria">
+    <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Piping\SampleData\PipingDesignValidationInputCriteria.txt"/>
+  </Resource>
+
+  <!-- Required Piping Design Validation Checks -->
+  <!-- define the file which lists all checks that the validation process should check -->
+  <Resource Name="PipingRequiredDesignValidationChecks" Description="Required Piping Design Validation Checks">
+    <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Piping\SampleData\PipingRequiredDesignValidationChecks.txt"/>
+  </Resource>
+
+
+  <!-- for Equipment Discipline -->
+  <!-- Equipment Design Validation Mandatory Attributes  -->
+  <!-- define the file which lists all mandatory attributes  -->
+  <Resource Name="EquipmentDesignValidationMandatoryAttributes" Description="Equipment Design Validation Mandatory Attributes">
+    <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Equipment\SampleData\EquipmentDesignValidationMandatoryAttributes.txt"/>
+  </Resource>
+
+  <!-- Equipment Design Validation Input Criteria -->
+  <!-- define the file which lists all attributes with values that the validation process must meet -->
+  <Resource Name="EquipmentDesignValidationInputCriteria" Description="Equipment Design Validation Input Criteria">
+    <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Equipment\SampleData\EquipmentDesignValidationInputCriteria.txt"/>
+  </Resource>
+
+  <!-- Required Equipment Design Validation Checks -->
+  <!-- define the file which lists all checks that the validation process should check -->
+  <Resource Name="EquipmentRequiredDesignValidationChecks" Description="Required Equipment Design Validation Checks">
+    <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Equipment\SampleData\EquipmentRequiredDesignValidationChecks.txt"/>
+  </Resource>
+
+
+  <!-- for Waveguide Discipline -->
+  <!-- Waveguide Design Validation Mandatory Attributes  -->
+  <!-- define the file which lists all mandatory attributes  -->
+  <Resource Name="WaveguideDesignValidationMandatoryAttributes" Description="Waveguide Design Validation Mandatory Attributes">
+    <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Waveguide\SampleData\WaveguideDesignValidationMandatoryAttributes.txt"/>
+  </Resource>
+
+  <!-- Waveguide Design Validation Input Criteria -->
+  <!-- define the file which lists all attributes with values that the validation process must meet -->
+  <Resource Name="WaveguideDesignValidationInputCriteria" Description="Waveguide Design Validation Input Criteria">
+    <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Waveguide\SampleData\WaveguideDesignValidationInputCriteria.txt"/>
+  </Resource>
+
+  <!-- Required Waveguide Design Validation Checks -->
+  <!-- define the file which lists all checks that the validation process should check -->
+  <Resource Name="WaveguideRequiredDesignValidationChecks" Description="Required Waveguide Design Validation Checks">
+    <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Waveguide\SampleData\WaveguideRequiredDesignValidationChecks.txt"/>
+  </Resource>
+
+
+  <!-- for HVAC Discipline -->
+  <!-- HVAC Design Validation Mandatory Attributes  -->
+  <!-- define the file which lists all mandatory attributes  -->
+  <Resource Name="HVACDesignValidationMandatoryAttributes" Description="HVAC Design Validation Mandatory Attributes">
+    <ID  Type="Path" Driver="File" Location="${Startup_Directory}\HVAC\SampleData\HVACDesignValidationMandatoryAttributes.txt"/>
+  </Resource>
+
+  <!-- HVAC Design Validation Input Criteria -->
+  <!-- define the file which lists all attributes with values that the validation process must meet -->
+  <Resource Name="HVACDesignValidationInputCriteria" Description="HVAC Design Validation Input Criteria">
+    <ID  Type="Path" Driver="File" Location="${Startup_Directory}\HVAC\SampleData\HVACDesignValidationInputCriteria.txt"/>
+  </Resource>
+
+  <!-- Required HVAC Design Validation Checks -->
+  <!-- define the file which lists all checks that the validation process should check -->
+  <Resource Name="HVACRequiredDesignValidationChecks" Description="Required HVAC Design Validation Checks">
+    <ID  Type="Path" Driver="File" Location="${Startup_Directory}\HVAC\SampleData\HVACRequiredDesignValidationChecks.txt"/>
+  </Resource>
+
+
+
+  <!-- for Electrical Discipline -->
+  <!-- Electrical Design Validation Mandatory Attributes  -->
+  <!-- define the file which lists all mandatory attributes  -->
+  <Resource Name="ElectricalDesignValidationMandatoryAttributes" Description="Electrical Design Validation Mandatory Attributes">
+    <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Electrical\SampleData\ElectricalDesignValidationMandatoryAttributes.txt"/>
+  </Resource>
+
+  <!-- Electrical Design Validation Input Criteria -->
+  <!-- define the file which lists all attributes with values that the validation process must meet -->
+  <Resource Name="ElectricalDesignValidationInputCriteria" Description="Electrical Design Validation Input Criteria">
+    <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Electrical\SampleData\ElectricalDesignValidationInputCriteria.txt"/>
+  </Resource>
+
+  <!-- Required Electrical Design Validation Checks -->
+  <!-- define the file which lists all checks that the validation process should check -->
+  <Resource Name="ElectricalRequiredDesignValidationChecks" Description="Required Electrical Design Validation Checks">
+    <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Electrical\SampleData\ElectricalRequiredDesignValidationChecks.txt"/>
+  </Resource>
+
+
+  <!-- for Raceway Discipline -->
+  <!-- Raceway Design Validation Mandatory Attributes  -->
+  <!-- define the file which lists all mandatory attributes  -->
+  <Resource Name="RacewayDesignValidationMandatoryAttributes" Description="Raceway Design Validation Mandatory Attributes">
+    <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Raceway\SampleData\RacewayDesignValidationMandatoryAttributes.txt"/>
+  </Resource>
+
+  <!-- Raceway Design Validation Input Criteria -->
+  <!-- define the file which lists all attributes with values that the validation process must meet -->
+  <Resource Name="RacewayDesignValidationInputCriteria" Description="Raceway Design Validation Input Criteria">
+    <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Raceway\SampleData\RacewayDesignValidationInputCriteria.txt"/>
+  </Resource>
+
+  <!-- Required Raceway Design Validation Checks -->
+  <!-- define the file which lists all checks that the validation process should check -->
+  <Resource Name="RacewayRequiredDesignValidationChecks" Description="Required Raceway Design Validation Checks">
+    <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Raceway\SampleData\RacewayRequiredDesignValidationChecks.txt"/>
+  </Resource>
+
+
+  <!-- for Conduit Discipline -->
+  <!-- Conduit Design Validation Mandatory Attributes  -->
+  <!-- define the file which lists all mandatory attributes  -->
+  <Resource Name="ConduitDesignValidationMandatoryAttributes" Description="Conduit Design Validation Mandatory Attributes">
+    <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Conduit\SampleData\ConduitDesignValidationMandatoryAttributes.txt"/>
+  </Resource>
+
+  <!-- Conduit Design Validation Input Criteria -->
+  <!-- define the file which lists all attributes with values that the validation process must meet -->
+  <Resource Name="ConduitDesignValidationInputCriteria" Description="Conduit Design Validation Input Criteria">
+    <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Conduit\SampleData\ConduitDesignValidationInputCriteria.txt"/>
+  </Resource>
+
+  <!-- Required Conduit Design Validation Checks -->
+  <!-- define the file which lists all checks that the validation process should check -->
+  <Resource Name="ConduitRequiredDesignValidationChecks" Description="Required Conduit Design Validation Checks">
+    <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Conduit\SampleData\ConduitRequiredDesignValidationChecks.txt"/>
+  </Resource>
+
+
+  <!-- for Hanger Discipline -->
+  <!-- Hanger Design Validation Mandatory Attributes  -->
+  <!-- define the file which lists all mandatory attributes  -->
+  <Resource Name="HangerDesignValidationMandatoryAttributes" Description="Hanger Design Validation Mandatory Attributes">
+    <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Hanger\SampleData\HangerDesignValidationMandatoryAttributes.txt"/>
+  </Resource>
+
+  <!-- Hanger Design Validation Input Criteria -->
+  <!-- define the file which lists all attributes with values that the validation process must meet -->
+  <Resource Name="HangerDesignValidationInputCriteria" Description="Hanger Design Validation Input Criteria">
+    <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Hanger\SampleData\HangerDesignValidationInputCriteria.txt"/>
+  </Resource>
+
+  <!-- Required Hanger Design Validation Checks -->
+  <!-- define the file which lists all checks that the validation process should check -->
+  <Resource Name="HangerRequiredDesignValidationChecks" Description="Required Hanger Design Validation Checks">
+    <ID  Type="Path" Driver="File" Location="${Startup_Directory}\Hanger\SampleData\HangerRequiredDesignValidationChecks.txt"/>
+  </Resource>
+
+  
+  <!-- 2D3DIntegrationStatusReport  -->
+	<!-- define the output file for the Function Physical integration status report  -->
+	<Resource Name="2D3DIntegrationStatusReport" Description="Function Physical integration status report">
+		<ID  Type="Path" Driver="File" Location="C:\CATTemp\Integration\2D3DIntegrationStatusReport.txt"/>
+	</Resource> 
+	
+	<!-- Catalogs used for design validation and 2D3DIntegrationStatusReport-->
+	<Resource Name="PipingStandardsCatalog" Description="Piping Standards Catalog" >
+    <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Piping\Standards\PipingStandards.catalog"/>
+	</Resource>	
+	<Resource Name="PipingDesignRulesCatalog" Description="Piping Design Rules Catalog" >
+		<ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Piping\DesignRules\PipingDesignRules.catalog"/>
+	</Resource>
+	   <Resource Name="PipingSpecificationsCatalog" Description="Piping Specifications Catalog">
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Piping\Specification\PipingSpecifications.catalog"/>
+    </Resource>
+
+	<Resource Name="TubingStandardsCatalog" Description="Tubing Standards Catalog" >
+		<ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Tubing\Standards\TubingStandards.catalog"/>
+	</Resource>
+	<Resource Name="TubingDesignRulesCatalog" Description="Tubing Design Rules Catalog" >
+		<ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Tubing\DesignRules\TubingDesignRules.catalog"/>
+	</Resource>
+	<Resource Name="TubingSpecificationsCatalog" Description="Tubing Specifications Catalog" >
+       <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Tubing\Specification\TubingSpecifications.catalog"/>
+    </Resource>
+
+	<Resource Name="WaveguideMaterialSpecCatalog" Description="Waveguide Material Specifications Catalog" >
+		<ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Waveguide\MaterialSpecification\WaveguideMaterialSpecifications.catalog"/>
+	</Resource>
+	<Resource Name="WaveguideStandardsCatalog" Description="Waveguide Standards Catalog"  >
+		<ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Waveguide\Standards\WaveguideStandards.catalog"/>
+	</Resource>
+	<Resource Name="WaveguideDesignRulesCatalog" Description="Waveguide Design Rules Catalog" >
+		<ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Waveguide\DesignRules\WaveguideDesignRules.catalog"/>
+	</Resource>
+
+	<Resource Name="RacewayStandardsCatalog" Description="Raceway Standards Catalog">
+		<ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Raceway\Standards\RacewayStandards.catalog"/>
+	</Resource>
+
+	<Resource Name="ConduitStandardsCatalog" Description="Conduit Standards Catalog">
+		<ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Conduit\Standards\ConduitStandards.catalog"/>
+	</Resource>
+	
+	<Resource Name="EquipDesignRulesCatalog" Description="Equipment Design Rules Catalog">
+    <ID  Type="Catia" Driver="File" Location="${Startup_Directory}\Equipment\General\DesignRules\EquipmentDesignRules.catalog"/>
+    </Resource>
+
+	<Resource Name="HVACMaterialSpecCatalog" Description="HVAC Material Specifications Catalog" >
+		<ID  Type="Catia" Driver="File" Location="${Startup_Directory}\HVAC\MaterialSpecification\MaterialSpecifications.catalog"/>
+	</Resource>
+    <!-- ******************************************************************* -->
+  <!-- </Discipline> -->
+
+</Project>

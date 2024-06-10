@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!-- COPYRIGHT DASSAULT SYSTEMES 2002 -->
+<!-- 02:06:01 creation -->
+<!DOCTYPE ImagesList SYSTEM "ImageDefinition.dtd">
+<?xml-stylesheet type="text/xsl" href="ImageDefinition.xsl"?>
+
+<ImagesList Name="GPSSensorImages">
+
+<!-- *************************************************** -->
+<!-- ************** TRANSLATION : 120 ****************** -->
+<!-- *************************************************** -->
+
+<!-- //////// Norme du deplacement ///////// -->
+
+<Image Name="Sensor_Disp_Iso" Physical="TRANSLATION" Visu="AVERAGE-ISO" >
+  <Criterion Name="NORMALIZE" >
+    <Values>
+      <Position Name="NODE"/>
+      <MathType Name="VECTOR"/>
+    </Values>
+    <ProcessList><Process Name="SPMProcessNormalize"/></ProcessList>
+  </Criterion>
+    <Attributes>
+    <Display Mode="ALL"/>
+  </Attributes>
+</Image>
+
+<!-- //////// Composante du deplacement ///////// -->
+  
+<Image Name="Sensor_Disp" Physical="TRANSLATION" Visu="SYMBOL" >
+  <Criterion Name="VECTOR" >
+    <Values>
+      <Position Name="NODE"/>
+      <MathType Name="VECTOR"/>
+    </Values>
+  </Criterion>
+  <Attributes>
+    <Display Mode="ALL"/>
+  </Attributes>
+</Image>
+
+<!-- //////// Composante du deplacement en relatif ///////// -->
+  
+<Image Name="Relative_Sensor_Disp" Physical="TRANSLATION" Visu="SYMBOL" SubType="RELATIVE" >
+  <Criterion Name="VECTOR" >
+    <Values>
+      <Position Name="NODE"/>
+      <MathType Name="VECTOR"/>
+    </Values>
+  </Criterion>
+  <Attributes>
+    <Display Mode="ALL"/>
+  </Attributes>
+</Image>
+
+<!-- *************************************************** -->
+<!-- ************** ROTATION  ************************** -->
+<!-- *************************************************** -->
+
+<Image Name="Sensor_Rotation" Physical="ROTATION" Visu="SYMBOL" >
+  <Criterion Name="VECTOR" >
+    <Values>
+      <Position Name="NODE"/>
+      <MathType Name="VECTOR"/>
+    </Values>
+</Criterion>
+<Attributes>
+    <Display Mode="ALL"/>
+  </Attributes>
+</Image>
+
+
+<!-- *************************************************** -->
+<!-- ************** STRESS_VON_MISES : 142 ************* -->
+<!-- *************************************************** -->
+
+
+<!-- ////////  Mises  //////// -->
+
+<Image Name="Sensor_Stress_VonMises" Physical="STRESS_VON_MISES" Visu="SYMBOL" >
+  <Criterion Name="VON-MISES" >
+    <Values>
+      <Position Name="NODE"/>
+      <Position Name="CENTER"/>
+      <MathType Name="SCALAR"/>
+      <Filters>
+        <Smi Name="UPPER"/>
+      </Filters>
+    </Values>
+  </Criterion>
+  <Attributes>
+    <Display Mode="ALL"/>
+  </Attributes>
+</Image>
+
+
+<!-- *************************************************** -->
+<!-- ************** ERROR********* ********************* -->
+<!-- *************************************************** -->
+
+<Image Name="Sensor_EstimatedError" Physical="ESTIMATED_ERROR" Visu="SYMBOL" >
+  <Criterion Name="SCALAR" >
+    <Values>
+      <Position Name="CENTER"/>
+      <MathType Name="SCALAR"/>
+    </Values>
+  </Criterion>
+  <Attributes>
+    <Display Mode="ALL"/>
+  </Attributes>
+</Image>
+
+
+
+</ImagesList>

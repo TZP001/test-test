@@ -1,0 +1,218 @@
+//=====================================================================================
+//                                     CNEXT - CXRn
+//                          COPYRIGHT DASSAULT SYSTEMES 2000 
+//-------------------------------------------------------------------------------------
+// FILENAME    :    CATDrwOptManip
+// LOCATION    :    DraftingUI
+// AUTHOR      :    fgx
+// BUT         :    
+// DATE        :    30.10.2000
+//-------------------------------------------------------------------------------------
+// DESCRIPTION :    Tools/Option du Drafting
+//-------------------------------------------------------------------------------------
+// COMMENTS    :    
+//-------------------------------------------------------------------------------------
+// MODIFICATIONS     user  date        purpose
+//    HISTORY        ----  ----        -------
+//	01			lgk		17.12.02	Revision
+//=====================================================================================
+
+Title="View";
+
+
+frameGenElem.HeaderFrame.Global.Title="Geometry generation / Dress-up";
+frameGenElem.HeaderFrame.Global.LongHelp=
+"Geometry generation
+Defines which geometrical elements are generated.";
+frameGenElem.IconAndOptionsFrame.OptionsFrame._checkGenAxis.Title="Generate axis";
+frameGenElem.IconAndOptionsFrame.OptionsFrame._checkGenAxis.LongHelp="Generates axis lines";
+frameGenElem.IconAndOptionsFrame.OptionsFrame._checkGenCenter.Title="Generate center lines";
+frameGenElem.IconAndOptionsFrame.OptionsFrame._checkGenCenter.LongHelp="Generates center lines";
+frameGenElem.IconAndOptionsFrame.OptionsFrame._checkGenThread.Title="Generate threads";
+frameGenElem.IconAndOptionsFrame.OptionsFrame._checkGenThread.LongHelp="Generates threads";
+frameGenElem.IconAndOptionsFrame.OptionsFrame._checkGenHiddenLines.Title="Generate hidden lines";
+frameGenElem.IconAndOptionsFrame.OptionsFrame._checkGenHiddenLines.LongHelp="Generates hidden lines";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frameButtonGenFil._checkGenFil.Title="Generate fillet";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frameButtonGenFil._checkGenFil.LongHelp="Generates fillet";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frameButtonGenFil.pushGenFil.Title="Configure";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frameButtonGenFil.pushGenFil.LongHelp="Configures fillets projection";
+frameGenElem.IconAndOptionsFrame.OptionsFrame._checkGen3DColors.Title="Inherit 3D colors";
+frameGenElem.IconAndOptionsFrame.OptionsFrame._checkGen3DColors.LongHelp="Inherits 3D colors";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frmWireFrame.checkGenWireFrame.Title="Project 3D wireframe";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frmWireFrame.checkGenWireFrame.LongHelp="Projects 3D wireframe";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frmWireFrame.pushGenWireFrameMod.Title="Configure";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frmWireFrame.pushGenWireFrameMod.LongHelp="Configures wireframe projection";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.checkGenApplyUncut.Title="Apply 3D specifications";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.checkGenApplyUncut.LongHelp="Applies 3D specifications";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frameButtonLinetype.labelLinetype.Title="View linetype";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frameButtonLinetype.labelLinetype.LongHelp="View linetype";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frameButtonLinetype.linetypePushButton.Title="Configure";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frameButtonLinetype.linetypePushButton.LongHelp="Configures linetype and thickness";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frameProject3DPts.checkProject3DPts.Title="Project 3D points";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frameProject3DPts.checkProject3DPts.LongHelp="Projects 3D points";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frameProject3DPts.project3DPtsPushButton.Title="Configure";
+frameGenElem.IconAndOptionsFrame.OptionsFrame.frameProject3DPts.project3DPtsPushButton.LongHelp="Configures 3D points projection";
+
+genGeomMngt.HeaderFrame.Global.Title="Generated geometry";
+genGeomMngt.HeaderFrame.Global.LongHelp="Generated geometry";
+genGeomMngt.IconAndOptionsFrame.OptionsFrame.chkGMECreation.Title="Keep graphical dress-up manually set on geometry";
+genGeomMngt.IconAndOptionsFrame.OptionsFrame.chkGMECreation.LongHelp="Keep graphical dress-up manually set on geometry.";
+
+
+frameGenView.HeaderFrame.Global.Title="View generation";
+frameGenView.HeaderFrame.Global.LongHelp="Defines parameters used for generative view creation.";        
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmViewMod.lbl.Title="View generation mode";
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmViewMod.lbl.LongHelp="Defines how views will be generated";
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmViewMod.combViewMod.LongHelp="Defines how views will be generated";
+ExactView="Exact view";
+CGRView="CGR";
+PictureView="Raster";
+HRV="Approximate";
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmViewMod.pushRasterOptions.Title="Configure";
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmViewMod.pushRasterOptions.LongHelp="Configures raster options";
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmViewMod.frmPict.chkAutoLOD.Title="Automatic level of detail";
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmViewMod.frmPict.chkAutoLOD.LongHelp="DPI for visualization and print are
+automatically fitted.";
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmViewMod.frmPict.lbl1.Title="DPI for visualization";
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmViewMod.frmPict.lbl1.LongHelp="DPI for visualization";
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmViewMod.frmPict.lbl2.Title="DPI for print";
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmViewMod.frmPict.lbl2.LongHelp="DPI for print";
+frameGenView.IconAndOptionsFrame.OptionsFrame.chkExactPreview.Title="Exact preview for view generation";
+frameGenView.IconAndOptionsFrame.OptionsFrame.chkExactPreview.LongHelp="Lets you preview the views in Design Mode
+even if you are working in visualization mode.
+Leaving this option unselected uses the visualization
+data embedded in the 3D document for preview.";
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmGenBox.checkGenBox.Title="Only generate parts larger than";
+frameGenView.IconAndOptionsFrame.OptionsFrame.frmGenBox.checkGenBox.LongHelp="Only generates parts larger than the specified size.";
+frameGenView.IconAndOptionsFrame.OptionsFrame.chkOcclusionCulling.Title="Enable occlusion culling";
+frameGenView.IconAndOptionsFrame.OptionsFrame.chkOcclusionCulling.LongHelp="Activates or deactivates occlusion culling. 
+Occlusion culling improves display performance by avoiding redisplay of hidden elements,
+particularly useful when viewing highly compartmented scenes such as plants and buildings.";
+frameGenView.IconAndOptionsFrame.OptionsFrame.chkSelBodyInAss.Title="Select body in assembly";
+frameGenView.IconAndOptionsFrame.OptionsFrame.chkSelBodyInAss.LongHelp="Activates or deactivates selection of body in assembly.";
+
+frameGenView.IconAndOptionsFrame.OptionsFrame._frameViewStatus._labelViewStatus.Title="Approximate/Raster/CGR views update status";
+frameGenView.IconAndOptionsFrame.OptionsFrame._frameViewStatus._labelViewStatus.LongHelp="Defines the product information to be used to determine if a view needs to be updated";
+frameGenView.IconAndOptionsFrame.OptionsFrame._frameViewStatus._frameViewStatusRadio._frameViewStatusRadiolocked._radioViewUpdateStatusDataVisu.Title="Based on visualization data";
+frameGenView.IconAndOptionsFrame.OptionsFrame._frameViewStatus._frameViewStatusRadio._frameViewStatusRadiolocked._radioViewUpdateStatusDataVisu.LongHelp="Uses the parts visualization data timestamps (cgr data)";
+frameGenView.IconAndOptionsFrame.OptionsFrame._frameViewStatus._frameViewStatusRadio._frameViewStatusRadiolocked._radioViewUpdateStatusDataDesign.Title="Based on design data";
+frameGenView.IconAndOptionsFrame.OptionsFrame._frameViewStatus._frameViewStatusRadio._frameViewStatusRadiolocked._radioViewUpdateStatusDataDesign.LongHelp="Uses the parts design data timestamps";
+
+
+frameClipping.HeaderFrame.Global.Title="Clipping view";
+frameClipping.HeaderFrame.Global.LongHelp="Defines the parameters used in clipping views.";        
+frameClipping.IconAndOptionsFrame.OptionsFrame.chkDimClipNoShow.Title="Put in no show dimension on non-visible geometry";
+frameClipping.IconAndOptionsFrame.OptionsFrame.chkDimClipNoShow.LongHelp="Put in no show dimension on non-visible geometry and annotations associated in position.";
+
+frameView3D.HeaderFrame.Global.Title="View from 3D";
+frameView3D.HeaderFrame.Global.LongHelp="Defines the parameters used in views extracted from 3D.";        
+frameView3D.IconAndOptionsFrame.OptionsFrame.chkFTAAnnotLay.Title="Keep layout and dress-up of 2D extracted annotations";
+frameView3D.IconAndOptionsFrame.OptionsFrame.chkFTAAnnotLay.LongHelp="Keeps the layout and dress-up of 2D extracted annotations.";
+frameView3D.IconAndOptionsFrame.OptionsFrame.chkGeomOf2DLView.Title="Generate 2D geometry";
+frameView3D.IconAndOptionsFrame.OptionsFrame.chkGeomOf2DLView.LongHelp="Generates the 2D geometry from Layout views.";
+frameView3D.IconAndOptionsFrame.OptionsFrame.chkGenRedCross.Title="Generate red cross on annotation";
+frameView3D.IconAndOptionsFrame.OptionsFrame.chkGenRedCross.LongHelp="Annotations which are extracted from 3D are marked with red cross,
+if their geometry does not get extracted or
+if their geometry is hidden in the current view.";
+frameView3D.IconAndOptionsFrame.OptionsFrame.chkSyncUpdate.Title="Synchronize during update";
+frameView3D.IconAndOptionsFrame.OptionsFrame.chkSyncUpdate.LongHelp="Synchronize all the views and sheets in the drawing during update.";
+
+
+viewGenFillet.Title="Fillet Generation";
+viewGenFillet.frameButtonGenFil.HeaderFrame.Global.Title="Configure fillet generation";
+viewGenFillet.frameButtonGenFil.HeaderFrame.Global.LongHelp="Configure fillet generation
+Lets you configure fillet generation.";
+viewGenFillet.frameButtonGenFil.IconAndOptionsFrame.OptionsFrame.frameRadioGenFil.frameRadioGenFillocked.radioBoundaries.Title="Boundaries";
+viewGenFillet.frameButtonGenFil.IconAndOptionsFrame.OptionsFrame.frameRadioGenFil.frameRadioGenFillocked.radioBoundaries.LongHelp="Boundaries
+Defines whether \"fillet boundaries\" are to be displayed on views.";
+viewGenFillet.frameButtonGenFil.IconAndOptionsFrame.OptionsFrame.frameRadioGenFil.frameRadioGenFillocked.radioSymbo.Title="Symbolic";
+viewGenFillet.frameButtonGenFil.IconAndOptionsFrame.OptionsFrame.frameRadioGenFil.frameRadioGenFillocked.radioSymbo.LongHelp="Symbolic
+Defines whether \"symbolic fillets\" are to be displayed on views.";
+viewGenFillet.frameButtonGenFil.IconAndOptionsFrame.OptionsFrame.frameRadioGenFil.frameRadioGenFillocked.radioProjEd.Title="Projected original edges";
+viewGenFillet.frameButtonGenFil.IconAndOptionsFrame.OptionsFrame.frameRadioGenFil.frameRadioGenFillocked.radioProjEd.LongHelp="Projected original edges
+Defines whether \"projected original edges\" are to be displayed on views.";
+viewGenFillet.frameButtonGenFil.IconAndOptionsFrame.OptionsFrame.frameRadioGenFil.frameRadioGenFillocked.radioOrigEd.Title="Approximated original edges";
+viewGenFillet.frameButtonGenFil.IconAndOptionsFrame.OptionsFrame.frameRadioGenFil.frameRadioGenFillocked.radioOrigEd.LongHelp="Approximated original edges
+Defines whether \"original edges\" are to be displayed on views.";
+
+
+viewGenWireFrame.Title="3D Wireframe Projection Mode";
+viewGenWireFrame.frmWireFrameMod.HeaderFrame.Global.Title="Projected 3D wireframe";
+viewGenWireFrame.frmWireFrameMod.HeaderFrame.Global.LongHelp="Projected 3D wireframe\nIndicates whether projected 3D wireframe\ncan be hidden or is always visible.";
+viewGenWireFrame.frmWireFrameMod.IconAndOptionsFrame.OptionsFrame.radioFrmWireFrameMod.radioFrmWireFrameModlocked.radioHidden.Title="Can be hidden";
+viewGenWireFrame.frmWireFrameMod.IconAndOptionsFrame.OptionsFrame.radioFrmWireFrameMod.radioFrmWireFrameModlocked.radioHidden.LongHelp="Can be hidden\nIndicates that projected 3D wireframe can be hidden.";
+viewGenWireFrame.frmWireFrameMod.IconAndOptionsFrame.OptionsFrame.radioFrmWireFrameMod.radioFrmWireFrameModlocked.radioVisible.Title="Is always visible";
+viewGenWireFrame.frmWireFrameMod.IconAndOptionsFrame.OptionsFrame.radioFrmWireFrameMod.radioFrmWireFrameModlocked.radioVisible.LongHelp="Is always visible\nIndicates that projected 3D wireframe is always visible.";
+
+
+viewGen3DPoints.Title="3D Point Projection";
+viewGen3DPoints.frameButtonProject3DPts.HeaderFrame.Global.Title="Project 3D points";
+viewGen3DPoints.frameButtonProject3DPts.HeaderFrame.Global.LongHelp="Project 3D points
+Indicates whether projected 3D points display the symbol 
+inherited from the 3D or the selected symbol.";
+viewGen3DPoints.frameButtonProject3DPts.IconAndOptionsFrame.OptionsFrame.frameRadio3DSymbol.frameRadio3DSymbollocked.radioSymbolInherit.Title="3D symbol inheritance";
+viewGen3DPoints.frameButtonProject3DPts.IconAndOptionsFrame.OptionsFrame.frameRadio3DSymbol.frameRadio3DSymbollocked.radioSymbolInherit.LongHelp="3D symbol inheritance
+Displays the symbol inherited from the 3D.";
+viewGen3DPoints.frameButtonProject3DPts.IconAndOptionsFrame.OptionsFrame.frameRadio3DSymbol.frameRadio3DSymbollocked.radioSymbol.Title="Symbol";
+viewGen3DPoints.frameButtonProject3DPts.IconAndOptionsFrame.OptionsFrame.frameRadio3DSymbol.frameRadio3DSymbollocked.radioSymbol.LongHelp="Symbol
+Displays the selected symbol.";
+viewGen3DPoints.frameButtonProject3DPts.IconAndOptionsFrame.OptionsFrame.frameRadio3DSymbol.frameRadio3DSymbollocked.comboSymbol.Title="Symbol";
+viewGen3DPoints.frameButtonProject3DPts.IconAndOptionsFrame.OptionsFrame.frameRadio3DSymbol.frameRadio3DSymbollocked.comboSymbol.LongHelp="Symbol
+Displays the selected symbol.";
+
+
+viewLineType.Title="Linetype and thickness";
+viewLineType.frameButtonLinetype.HeaderFrame.Global.Title="Linetype and thickness";
+viewLineType.frameButtonLinetype.HeaderFrame.Global.LongHelp="Linetype and thickness";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.lblSection.Title="Section view";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.lblSection.LongHelp="Section view";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.lblDetail.Title="Detail view";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.lblDetail.LongHelp="Detail view";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.lblBroken.Title="Broken view";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.lblBroken.LongHelp="Broken view";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.lblBreakout.Title="Breakout view";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.lblBreakout.LongHelp="Breakout view";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.lblSkin.Title="Skin section view";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.lblSkin.LongHelp="Skin section view";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.comboSectionLinetype.LongHelp="Choose a linetype";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.comboDetailLinetype.LongHelp="Choose a linetype";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.comboBrokenLinetype.LongHelp="Choose a linetype";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.comboBreakoutLinetype.LongHelp="Choose a linetype";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.comboSkinLinetype.LongHelp="Choose a linetype";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.comboSectionThickness.LongHelp="Choose a thickness";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.comboDetailThickness.LongHelp="Choose a thickness";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.comboBrokenThickness.LongHelp="Choose a thickness";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.comboBreakoutThickness.LongHelp="Choose a thickness";
+viewLineType.frameButtonLinetype.IconAndOptionsFrame.OptionsFrame.comboSkinThickness.LongHelp="Choose a thickness";
+
+
+viewGenModApproximate.Title="Approximate mode";
+viewGenModApproximate.frmHRVOptions.HeaderFrame.Global.Title="Approximate mode option";
+viewGenModApproximate.frmHRVOptions.HeaderFrame.Global.LongHelp="Configures the option of the approximate mode";
+viewGenModApproximate.frmHRVOptions.IconAndOptionsFrame.OptionsFrame.lblHRVLOD.Title = "Level Of Detail :";
+viewGenModApproximate.frmHRVOptions.IconAndOptionsFrame.OptionsFrame.lblHRVLOD.LongHelp = "Level Of Detail :";
+XGraph = "LOD";
+YGraph = "Time";
+
+viewGenModRaster.Title="Raster Mode Options";
+viewGenModRaster.frmRasterOptions.HeaderFrame.Global.Title="Raster Mode Options";
+viewGenModRaster.frmRasterOptions.HeaderFrame.Global.LongHelp="Configures raster views options";
+viewGenModRaster.frmRasterOptions.IconAndOptionsFrame.OptionsFrame.lblRasterMode.Title="Mode";
+viewGenModRaster.frmRasterOptions.IconAndOptionsFrame.OptionsFrame.lblRasterMode.LongHelp="Mode";
+viewGenModRaster.frmRasterOptions.IconAndOptionsFrame.OptionsFrame.lblLOD.Title="Level of detail:";
+viewGenModRaster.frmRasterOptions.IconAndOptionsFrame.OptionsFrame.lblLOD.LongHelp="Level of detail:";
+viewGenModRaster.frmRasterOptions.IconAndOptionsFrame.OptionsFrame.lblLODVisu.Title="For visu";
+viewGenModRaster.viewGenModRaster.IconAndOptionsFrame.OptionsFrame.lblLODVisu.LongHelp="For visu";
+viewGenModRaster.frmRasterOptions.IconAndOptionsFrame.OptionsFrame.lblLODPrint.Title="For print";
+viewGenModRaster.frmRasterOptions.IconAndOptionsFrame.OptionsFrame.lblLODPrint.LongHelp="For print";
+
+HRD = "Dynamic hidden line removal";
+Shading = "Shading";
+ShadingWithEdges = "Shading with edges";
+ShadingNoLight = "Shading, no light source";
+ShadingWithEdgesNoLight = "Shading with edges, no light source";
+
+LowQualityMode       = "Low quality";
+NormalQualityMode    = "Normal quality";
+HighQualityMode      = "High quality";
+CustomizeMode        = "Customize";

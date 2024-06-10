@@ -1,0 +1,181 @@
+// Pour des infos pertinentes la signification des differentes messages :
+//
+//
+//    a- Title = Nom de la commande affiché
+//              REGLES: - Commencer par un verbe à l'infinitif
+//                      - Min/maj : chaque mot doit commencer par une majuscule.
+//                  
+//    b- Help = Help affiché an bas à gauche du Frame CATIA
+//              REGLES: - Phrase normale au niveau des min/maj.
+//
+//    c- ShortHelp = Bulle affiché sur icône.
+//              REGLES: - Phrase normale au niveau des min/maj.
+//
+//    d- LongHelp = Help affiché en selectionnant le Menu principal 'Help' + What's This ?
+//              REGLES: - Phrase normale au niveau des min/maj.
+//						- SOYEZ BAVARD !!!
+
+//========================================================
+// Name of Synchronisation Object
+//========================================================
+
+ManufacturingSynchronisation="Sincronizzazione";
+
+//========================================================
+// Name of Attributes of the Synchronisation Object
+//========================================================
+
+MfgSynchronisedActivity1="Attività n°1";
+MfgSynchronisedActivity1.LongHelp="Una della attività sincronizzate";
+MfgSynchronisedActivity1Label="Nome: ";
+
+MfgSynchronisedActivity2="Attività n°2";
+MfgSynchronisedActivity2.LongHelp="Una della attività sincronizzate";
+MfgSynchronisedActivity2Label="Nome: ";
+
+MfgPositionOfActivity1="Posizione";
+MfgPositionOfActivity1.LongHelp="Il valore che specifica il punto di inserimento della sincronizzazione durante l'attività sincronizzata n°1";
+
+MfgPositionOfActivity2="Posizione";
+MfgPositionOfActivity2.LongHelp="Il valore che specifica il punto di inserimento della sincronizzazione durante l'attività sincronizzata n°2";
+
+MfgMaster="Principale";
+MfgMaster.LongHelp="Selezionare la torretta che guiderà la velocità del mandrino.\nQuesta opzione è accessibile solo durante la sincronizzazione di:
+* Operazioni di tornitura,
+* Foratura con tornitura sull'asse del mandrino oppure
+* Istruzioni PP";
+
+NoMaster="Nessuno";
+
+//========================================================
+// Synchronisation Editor
+//========================================================
+
+SynchronisationEditor="Editor di sincronizzazione";
+_pLatheSynchroEditor="Selezionando una delle opzioni, è possibile inserire una sincronizzazione:";
+
+//========================================================================================
+// Name of the Default Object for Positions of the Synchronisation and its options
+//========================================================================================
+
+MfgStartOfActivity="Inizio attività";
+MfgStartOfActivity.LongHelp="\n* prima del primo punto del percorso utensile";
+MfgEndOfActivity="Fine attività";
+MfgEndOfActivity.LongHelp="\n* dopo l'ultimo punto del percorso utensile";
+
+ApproachTraject="Dopo la macro di avvicinamento";
+ApproachTraject.LongHelp="\n* tra l'ultimo punto della macro di avvicinamento e il primo punto del percorso utensile";
+RetractTraject="Prima della macro di ritrazione";
+RetractTraject.LongHelp="\n* tra l'ultimo punto del percorso utensile e il primo punto della macro di ritrazione";
+
+//=========================
+// Messages for Gantt Chart
+//=========================
+
+GanttChartTitle="Grafico Gantt di lavorazione: ";
+GanttChart.LongHelp="Attività:
+* Le operazioni non calcolate sono rappresentate da un piccolo triangolo al di sopra dell'ora di inizio.
+* Il colore delle operazioni può essere modificato nell'editor delle proprietà o nella barra degli strumenti delle proprietà grafiche.
+* Gli indici per le operazioni di copia e le modifiche del sistema di assi macchina non sono rappresentati.
+* Durate:
+  + La durata calcolata è utilizzata per le lavorazioni con percorso utensile e con comandi di copia.
+  + La durata specificata è utilizzata per i cambi utensile, le istruzioni PP e la rotazione macchina.
+    Può essere modificata nell'editor delle proprietà.
+
+Sincronizzazioni:
+* Nella rappresentazione della sincronizzazione, il master è indicato da un cerchio rosso.";
+
+Edit="Definizione";
+Delete="Elimina";
+TimeScale="Scala della durata: ";
+TimeScale.LongHelp="Impostare un valore maggiore per ridurre la scala della durata nel grafico Gantt di lavorazione.\nImpostare un valore inferiore per aumentarla.";
+Reframe.ShortHelp="Centra il grafico Gantt di lavorazione nel visualizzatore.";
+Reframe.LongHelp="Fare clic per centrare il grafico Gantt di lavorazione.";
+Analyse.ShortHelp="Aggiorna la diagnostica nel Gruppo di lavorazioni.";
+Analyse.LongHelp="Fare clic per aggiornare la diagnostica nel Gruppo di lavorazioni.";
+HideShowAnalyse.ShortHelp="Nasconde o visualizza la diagnostica nel Gruppo di lavorazioni.";
+HideShowAnalyse.LongHelp="Fare clic per nascondere o visualizzare la diagnostica nel Gruppo di lavorazioni.";
+Refesh.ShortHelp="Aggiorna le durate.";
+Refesh.LongHelp="Fare clic per aggiornare le durate e la diagnostica, se necessario.";
+Diagnostics="Diagnostica";
+Diagnostics.LongHelp="Questa sezione contiene informazioni diagnostiche.
+
+I messaggi di avvertenza sono preceduti da un punto esclamativo e
+avvertono l'utente di una situazione o di una condizione incompatibile nel Gruppo di lavorazioni.
+Esempi:
+* operazioni non calcolate
+* sincronizzazioni disattivate
+* operazioni incompatibili (attività di fresatura / tornitura o orarie / antiorarie).
+
+I messaggi critici sono preceduti da una croce di colore rosso e
+informano l'utente che si è verificato un problema grave che richiede un'intervento o una correzione
+per il calcolo della durata master/slave.
+Esempio:
+* una sincronizzazione incrociata con un'altra
+* percorso utensile slave senza definizione di uno master
+* diversi percorsi utensile master simultanei.";
+
+TurretsTitle="Torrette";
+UnusedTimeMsg="Tempo di inattività";
+SpindleName="Mandrino: ";
+
+// Symbols *** are replaced by the number of synchronisations
+SynchronisationMgt="Sincronizzazioni ( *** )";
+
+SwitchColor="Usa colore del mandrino";
+SwitchColor.LongHelp="Per impostazione predefinita, le operazioni vengono rappresentate con un colore.
+Questo comando consente di scegliere di rappresentare le operazioni con il colore del relativo mandrino
+(disponibile solo se sulla macchina sono disponibili diversi mandrini).
+Se nell'attività non sono presenti mandrini o se al mandrino non è assegnato nessun colore, viene utilizzato il colore dell'attività.";
+
+SwitchSpindleSpeedUnit="Attiva/Disattiva diagramma di unità della velocità del mandrino";
+SwitchSpindleSpeedUnit.LongHelp="Per impostazione predefinita, le operazioni vengono rappresentate con il loro colore.";
+LINEARSPINDLESPEED="Velocità di taglio";
+ANGULARSPINDLESPEED="Velocità di rotazione del mandrino";
+TotalTime="Durata totale: ";
+Close="Chiudi";
+
+SynchronisationAcess="Fare doppio clic per modificare o fare clic col tastino destro per accedere ai comandi.";
+
+// Symbols +++ and *** are replaced by name of operations
+OperationNotComputed="*** non calcolato";
+IncompatibleMillTurnOperations="*** e +++ hanno stato di rotazione incompatibili. Sincronizzare le operazioni.";
+IncompatibleSpindleWayOperations="*** e +++ hanno modalità di rotazione del mandrino incompatibili. Sincronizzarle o modificare le proprietà o la lavorazione.";
+NotMasterDefinedComputed="Diverse torrette operano insieme sullo stesso mandrino senza definizione di una elemento principale (master). Aggiungere una sincronizzazione e/o definire un elemento master.";
+SynchronisationDesactivated="La sincronizzazione tra *** e +++ è disattivata perché almeno *** è disattivato.";
+SynchronisationCrossing="La sincronizzazione *** incrocia la sincronizzazione +++. Modificarne o eliminarne una.";
+// ConcurrentSpindleSpeedNotTakenIntoAccount = "WARNING ! For now, calculated times take into account properties of operations, not the real spindle speed.";
+IncompatibleDefinitionOfMaster="Più di una torretta lavora simultaneamente su *** tra +++ e ---. Aggiungere una sincronizzazione e/o definire l'elemento master.";
+OperationsToCompute="Sincronizzazioni mancanti. Calcolare il percorso utensile di +++ (selezionare la modalità Calcolo forzato)";
+SlaveStartsBeforeMaster="È necessario definire un elemento principale (Master) su *** prima di +++. Aggiungere una sincronizzazione e/o definire un elemento master.";
+
+//================================
+// Short Help
+//================================
+
+StartingDate="Ora di inizio: ";
+Duration="Durata: ";
+CalculatedDurationMsg="Durata (calcolata): ";
+SpecifiedDurationMsg="Durata (specificata): ";
+SynchronizationDate="Ora sincronizzazione: ";
+
+//========================
+// CAA LongHelp
+//========================
+
+CAAParameterName="\n\nNome del parametro: ";
+
+//========================================================================
+// Invit Message of the command CATMfgCreateSynchronisationCom
+//========================================================================
+
+SelectFirstActivity="Selezionare la prima attività";
+SelectSecondActivity="Selezionare la seconda attività";
+
+//========================================================================
+// Invit Message of the command CATMfgGanttChartCom
+//========================================================================
+
+SelectPartOperation="Selezionare un gruppo di lavorazioni";
+CloseGanttViewer="Fare clic su OK per chiudere il grafico Gantt di lavorazione";
+

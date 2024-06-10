@@ -1,0 +1,154 @@
+//NLS-ENGLISH VERSION
+//=======================================================================
+// MODULE :  IgesDataExchange
+//=======================================================================
+
+
+// KVL 2002-06-04 : Creation de CATIgesExport.CATNls et refonte des anciens CATNls Iges.
+// DFB 2002-03-07 : Ajout de CircleReparam 
+// KVL 2002-04-15 : CATIgesCompositeCurve  
+// KVL 2002-05-30 : CATIgesInit : info sur le choix des options BSpline ou Standard à l'export 
+// KVL 2002-06-07 : CATIgesInit : info sur le choix de l'export des entités en NoShow et des options wireframe ou Surfacic
+// KVL 2002-06-19 : CATIgesVirtualBody et CATIgesElement : Info sur chaque élément crée (Type, Show, Layer, Name, Color)
+// KVL 2002-07-03 : CATIgesCurveOnParametricSurface : échec de création des PCurve.
+// OPC 2006-06-23 : Reecriture des messages niveau Customer pour meilleure compréhension
+
+// Numeros utilises : (export Iges : de [6001] a [6999]
+// [6001] a [6049] : CATIgesBSplineCurve
+// [6050] a [6099] : CATIgesCompositeCurve
+// [6100] a [6149] : CATIgesInit
+// [6150] a [6199] : CATIgesVirtualBody
+// [6200] a [6249] : CATIgesElement
+// [6250] a [6299] : CATIgesCurveOnParametricSurface
+// [6300] a [6349] : CATIgesTrimmedParametricSurface
+// [6350] a [6370] : CATSaveAsIGS
+// [6850] a [6860] : CATIgesInterface
+
+//----------------------------------------------
+//  Messages from CATIgesBSplineCurve
+//---------------------------------------------
+
+CATIgesBSplineCurve.Info.CircleReparam=
+"   <I> [6001] [T=/p2] [/p1] 导出的圆为再次参量化的 /p3";
+
+CATIgesBSplineCurve.Info.ParamInverse=
+"   <I> [6002] [T=/p2] [/p1] B 样条线参数是反转的 /p3";
+
+CATIgesBSplineCurve.Info.BSplineFermee=
+"   <I> [6003] [T=/p2] [/p1] B 样条线参数是闭合的 /p3";
+
+//-----------------------------------------------
+//  Messages from CATIgesCompositeCurve
+//-----------------------------------------------
+
+CATIgesCompositeCurve.Info.hierar=
+"   <I> [6050] [T=/p2] [#/p4] 所有依赖于该实体的实体将继承它的属性 /p3";
+ 
+ 
+
+//-----------------------------------------------
+//  Messages from CATIgesInit
+//-----------------------------------------------
+
+CATIgesInit.Info.optionBSpline=
+"   <I> [6100] 您已选中了“B 样条线”导出选项 /p3 \n"; 
+
+CATIgesInit.Info.optionStandard=
+"   <I> [6101] 您已选中了“标准”导出选项 /p3 \n";
+
+CATIgesInit.Info.optionNoShowRef=
+"   <I> [6102] 您已选择不导出“不显示”实体 /p3 \n"; 
+
+CATIgesInit.Info.optionNoShowAcc=
+"   <I> [6103] 您已选择了导出“不显示”实体 /p3 \n";
+
+CATIgesInit.Info.optionWireframe=
+"   <I> [6104] 您已选择了“线框”导出选项 /p3 \n";
+
+CATIgesInit.Info.optionSurfacic=
+"   <I> [6105] 您已选择了“表面”导出选项 /p3 \n";
+
+CATIgesInit.Info.optionMSBO=
+"   <I> [6106] 您已经选择了 MSBO 导出选项（用于实体、盒体和面）/p3 \n";
+
+
+//-----------------------------------------------
+//  Messages from CATIgesVirtualBody (messages utilises parfois dans CATIgesCldBody)
+//-----------------------------------------------
+
+CATIgesVirtualBody.Info.ProcessingBody=
+"\n***正在处理几何体";
+
+CATIgesVirtualBody.Info.ProcessingElement=
+"\n **正在处理元素 [T=/p2] [/p1]";
+
+CATIgesVirtualBody.Info.Name=
+"   <I> [6150] [T=/p2] [#/p1] V5 实体的名称是 /p3";
+
+CATIgesVirtualBody.Info.NoName=
+"   <I> [6151] [T=/p2] [#/p1] 未对该实体指定名称。";
+
+CATIgesVirtualBody.Info.NbElem=
+"   <I> [6152] 该几何体由 /p2 /p1 /p3 构成";
+
+CATIgesVirtualBody.Info.Wire=
+"   <I> [6153] [T=/p2] [#/p1] 线是闭合的";
+
+//-----------------------------------------------
+//  Messages from CATIgesElement
+//-----------------------------------------------
+
+CATIgesElement.Info.NoShow=
+"   <I> [6200] [T=/p2] [#/p1] 不显示实体";
+
+CATIgesElement.Info.Layer=
+"   <I> [6201] [T=/p2] [#/p1] 层为 /p3";
+
+CATIgesElement.Info.Color=
+"   <I> [6202] [T=/p2] [#/p1] 实体的颜色为 红=/p3 绿=/p4 蓝=/p5";
+
+CATIgesElement.Warning.IgsControlName=
+"   <W> [6203] 实体名称无效：不允许写访问 /p1 字符。已完成清除尝试。";
+
+//-----------------------------------------------
+//  Messages from CATIgesCurveOnParametricSurface
+//-----------------------------------------------
+CATIgesCurveOnParametricSurface.Warning.PCurveNotCreated=
+"   <W> [6250] [T=/p2] [#/p1] PCurve IGES 未创建 /p3";
+
+
+//-----------------------------------------------
+//  Messages from CATIgesTrimmedParametricSurface
+//-----------------------------------------------
+CATIgesTrimmedParametricSurface.Warning.PCurveNotExported=
+"   <W> [6300] [T=/p2] [#/p1] PCurve IGES 未导出 /p3";
+
+//-----------------------------------------------
+//  Messages from CATSaveAsIGS
+//-----------------------------------------------
+CATSaveAsIGS.TranscriptChild.NoChild=
+"   <W> [6350] 没有发现子级！ ";
+CATSaveAsIGS.Error.ConvertV4ToV5=
+"   <E> [6351] 未能从 V4 模型转换到 CATPart！ ";
+CATSaveAsIGS.Info.ConvertV4ToV5=
+"   <I> [6352] 名为 /p1 的V4 模型被转换";
+
+//--------------------------------------
+//  Messages from CATIgesInterface
+//--------------------------------------
+
+CATDXFileServices.Error.InvalidName = 
+"!! <E> [6859] 要保存的 IGES 文件名无效（错误 PathERR_1021）：
+文件名包含非 ASCII 字符或为空。
+请检查文件名是否包含无效字符。如有需要，请选择另一个名称，然后再次保存。";
+
+
+//------------------------------------------
+//  Messages for CATIReporter 
+//------------------------------------------
+
+PathERR_1021.Request="要保存的 IGES 文件的名称无效。" ;
+PathERR_1021.Diagnostic="文件名包含非 ASCII 字符或为空。" ;
+PathERR_1021.Advice="请检查文件名是否包含无效字符。如有需要，请选择另一个名称，然后再次保存。" ;
+
+

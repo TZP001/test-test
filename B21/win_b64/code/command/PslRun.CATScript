@@ -1,0 +1,357 @@
+'// COPYRIGHT DASSAULT SYSTEMES  1999
+'//============================================================================
+'//
+'// Language="VBSCRIPT"
+'// To extract the length of "Run" objects in CSO
+'//
+'//============================================================================
+'// Major CATIA interface used:
+'//
+'// interface         VB Name         Remarks
+'// -----------       ------------    --------------
+'// CATIADocument     Document        access the current document
+'// CATIAWorkbench    workbench       access the Manufacturing Systems Layout
+'//                                   workbench, compute run length and
+'//                                   get current user units
+'// CATIASelection    Selection       to get the object from CSO in the 
+'//                                   interactive section
+'// CATIAProduct      Product         to get the Product Ids ...
+'//
+'//============================================================================
+'//
+'// Audit Trail:
+'//----------------------------------------------------------------------------
+'//   Author     : Vic Szeto
+'//   Date       : 8/99
+'//   Chg id     :
+'//   Chg nature :
+'//----------------------------------------------------------------------------
+'//   Modified   :
+'//   Date       :
+'//   Chg id     :
+'//   Chg nature :
+'//============================================================================
+
+Option Explicit
+
+'******************************************************************************
+'  GLOBAL variable declarations section
+'******************************************************************************
+'// ---------- Debug Traces
+Const intG_TRACEON = 1
+Dim strMessage
+
+'// ---------- EXCEL application objects
+Dim objGEXCELapp        As AnyObject
+Dim objGEXCELwkBks      As AnyObject
+Dim objGEXCELwkBk       As AnyObject
+Dim objGEXCELwkShs      As AnyObject
+Dim objGEXCELSh         As AnyObject
+
+'// ---------- EXCEL Run Report Format
+Const strGReportTitlePartNumber   = "Run Name"
+Const strGReportTitleInstanceName = "Instance Name"
+Const strGReportTitleNomenclature = "User Type"
+Const strGReportTitleParentName   = "Parent Name"
+Const strGReportTitleParentNom    = "Parent Type"
+Const strGReportTitleLength       = "Length"
+Const strGReportTitleLengthUnit   = "Unit"
+
+Dim  intGReportCurrentRow        As integer
+Dim  intGReportCurrentColumn     As integer
+Dim  strGReportTemplate
+Dim  strGReportEXCELSheetName
+Dim  strGLengthUnit
+
+'// ---------- CATIAV5 application objects
+Dim objCATIAV5Document0 As Document
+Dim objCATIAV5ArrWorkbench0 As Workbench
+Dim objCATIAV5Selection As Selection
+
+'@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+'//                       User customizable sections                   
+'@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+'---------- Must not write over row 1,
+'---------- that's where the headers (titles) are in the
+'---------- template
+Const intGReportStartAfterRow = 1 
+Const intGReportStartAfterCol = 0
+
+'========== EXCEL template direction path
+
+strGReportTemplate = "C:\temp\PslRunTemplate.xls"
+
+'----------OUTPUT TEMP DIRECTORY
+Const strGOutputDirName = "C:\Temp"
+
+'---------- must name the sheet in the template accordingly
+strGReportEXCELSheetName = "Run Properties"
+
+'========================================================================
+Sub Copy_Files(strFileToCopy)
+'========================================================================
+
+ Dim strCATCommandPath           As String
+ Dim strNewFilePath              As String
+ Dim intSemiColonLocation        As Integer
+ Dim strDefaulLocationOfTemplate As String
+ Dim AppliFileSys                As FileSystem
+   
+   On Error Resume Next
+   strCATCommandPath = CATIA.SystemService.Environ("CATCommandPath")  
+   
+   intSemiColonLocation  = Instr(3, strCATCommandPath, ";")  
+          
+   Set AppliFileSys = CATIA.FileSystem
+   strDefaulLocationOfTemplate = ""
+   strNewFilePath              = strGOutputDirName + "\" + strFileToCopy
+   'CATIA.SystemService.Print strCATCommandPath
+
+   If (intSemiColonLocation > 0) Then    
+      Do While (intSemiColonLocation > 0)
+
+        intSemiColonLocation = intSemiColonLocation -1
+        strDefaulLocationOfTemplate = Left(strCATCommandPath, intSemiColonLocation) _
+                                    + "\" + strFileToCopy
+
+        If (AppliFileSys.FileExists(strDefaulLocationOfTemplate)) Then
+          Exit Do 
+        End If
+
+        Err.Clear
+        intSemiColonLocation =  intSemiColonLocation + 2
+        strCATCommandPath = Mid(strCATCommandPath, intSemiColonLocation)
+        intSemiColonLocation  = Instr(3, strCATCommandPath, ";")
+
+        'CATIA.SystemService.Print strCATCommandPath
+        'DbgTrace "intSemiColonLocation :" & intSemiColonLocation, 0
+
+      Loop     ' Exit outer loop immediately.
+   Else
+      strDefaulLocationOfTemplate = strCATCommandPath + "\" + strFileToCopy
+   End If
+  
+   AppliFileSys.CopyFile strDefaulLocationOfTemplate, strNewFilePath, true
+
+   If (Not(AppliFileSys.FileExists(strNewFilePath))) Then
+     Dim strMessage
+     strMessage  = "Error Copying Template File:" + strDefaulLocationOfTemplate + "to " + strGOutputDirName + Chr(13)
+     strMessage  = strMessage + Chr(13) + "Check the following...." + Chr(13)
+     strMessage  = strMessage + "(1)Template File has read-write capability" + Chr(13)
+     strMessage  = strMessage + "(2)Template File path is valid"
+     msgbox (strMessage)    
+     Exit Sub
+   End If
+
+End Sub '/////////////////////////////////////////////////////////// Copy_Files
+
+
+'------------------------------------------------------------------------------
+Sub AddUserStyleForNewRows ()
+'------------------------------------------------------------------------------
+
+  '---------- Excel ENUM values such as xlAutomatic for Selection.ColorIndex 
+  '---------- do not work
+  objGEXCELapp.Selection.Font.Size = 8
+  objGEXCELapp.Selection.Font.Bold = False
+
+End Sub '/////////////////////////////////////////////// AddUserStyleForNewRows
+
+
+'@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+'------------------------------------------------------------------------------
+Sub DbgTrace (iStrMsgString, iIntYesError)
+'------------------------------------------------------------------------------
+If (intG_TRACEON = 1) Then
+  CATIA.SystemService.Print iStrMsgString 
+  If (iIntYesError = 1) Then 
+	   CATIA.SystemService.Print "Err Number = " & Err.Number
+	End If
+End If
+
+End Sub '///////////////////////////////////////////////////////////// DbgTrace
+
+'------------------------------------------------------------------------------
+Sub StartEXCEL ()
+'------------------------------------------------------------------------------
+
+  Err.Clear
+  On Error Resume Next
+  Set objGEXCELapp = GetObject (,"EXCEL.Application")  
+  If Err.Number <> 0 Then   
+     Err.Clear
+     Set objGEXCELapp = CreateObject ("EXCEL.Application")
+  End If
+
+  Copy_Files ("PslRunTemplate.xls")
+
+  objGEXCELapp.Application.Visible = TRUE
+  Set objGEXCELwkBks = objGEXCELapp.Application.WorkBooks
+  Err.Clear
+  Set objGEXCELwkBk  = objGEXCELwkBks.Add (strGReportTemplate)
+
+  If Err.Number <> 0 Then
+     Dim strMessage
+     strMessage  = "Error Loading Template File:" + strGReportTemplate + Chr(13)
+     strMessage  = strMessage + Chr(13) + "Check the following...." + Chr(13)
+     strMessage  = strMessage + "(1)Template File has read-write capability" + Chr(13)
+     strMessage  = strMessage + "(2)Template File path is valid"
+	   msgbox (strMessage)
+     Err.Clear
+  End If
+
+  Set objGEXCELwkShs = objGEXCELwkBk.Worksheets
+  Set objGEXCELSh = objGEXCELwkShs (strGReportEXCELSheetName)
+  objGEXCELSh.Select
+
+End Sub '/////////////////////////////////////////////////////////// StartEXCEL
+
+'------------------------------------------------------------------------------
+Sub EndEXCEL ()
+'------------------------------------------------------------------------------
+  objGEXCELwkBk.Close
+  objGEXCELapp.Quit
+
+End Sub '///////////////////////////////////////////////////////////// EndEXCEL
+
+'------------------------------------------------------------------------------
+Sub StartCATIAV5 ()
+'------------------------------------------------------------------------------
+  Set objCATIAV5Document0 = CATIA.ActiveDocument
+  DbgTrace "V5: Active Document",1
+
+  '//---------- Get Arrworkbench from current document
+  Set objCATIAV5ArrWorkbench0 = objCATIAV5Document0.GetWorkbench("ArrWorkbench") 
+  DbgTrace "V5: GetWorkbench0",1
+
+  '//---------- Get current selection
+  Set objCATIAV5Selection = objCATIAV5Document0.Selection
+  DbgTrace "V5: Selection",1
+
+End Sub '///////////////////////////////////////////////////////// StartCATIAV5
+
+'------------------------------------------------------------------------------
+Sub InsertARowAt (iIntRow)
+'------------------------------------------------------------------------------
+  objGEXCELSh.Cells(iIntRow,1).EntireRow.Select
+  objGEXCELapp.Selection.Insert
+  objGEXCELSh.Cells(iIntRow,1).EntireRow.Select
+
+  AddUserStyleForNewRows
+
+End Sub '///////////////////////////////////////////////////////// InsertARowAt
+
+'------------------------------------------------------------------------------
+Sub WriteToEXCELRunSheet (iIntRow, iStrColumn, iStr)
+'------------------------------------------------------------------------------
+  On Error Resume Next
+
+  If (Len (iStr) > 0) Then
+    Dim intWhichColumn As integer
+    intWhichColumn = 0
+
+    Select Case iStrColumn
+       Case strGReportTitlePartNumber
+	          intWhichColumn = intGReportStartAfterCol + 1
+	     Case strGReportTitleInstanceName
+	   	      intWhichColumn = intGReportStartAfterCol + 2
+	     Case strGReportTitleNomenclature
+	          intWhichColumn = intGReportStartAfterCol + 3
+	     Case strGReportTitleParentName
+	          intWhichColumn = intGReportStartAfterCol + 4
+	     Case strGReportTitleParentNom 
+	          intWhichColumn = intGReportStartAfterCol + 5
+       Case strGReportTitleLength
+	          intWhichColumn = intGReportStartAfterCol + 6
+       Case strGReportTitleLengthUnit
+	          intWhichColumn = intGReportStartAfterCol + 7
+    End Select
+
+    If (intWhichColumn > intGReportStartAfterCol) Then
+       objGEXCELSh.Cells (iIntRow, intWhichColumn) = iStr
+       objGEXCELSh.Cells (iIntRow, intWhichColumn).Select
+    End If
+
+  End If
+
+End Sub '////////////////////////////////////////////////////// WriteToEXCELRunSheet
+
+'------------------------------------------------------------------------------------
+Sub DoOneRun (iobjCATIAV5Run)
+'------------------------------------------------------------------------------------
+  Dim objRunParent     As Products
+  Dim objRunParentSelf As Product
+  Dim strRunParentNom  
+
+  On Error Resume Next
+
+  WriteToEXCELRunSheet intGReportCurrentRow, strGReportTitlePartNumber, _
+                        iobjCATIAV5Run.PartNumber
+  WriteToEXCELRunSheet intGReportCurrentRow, strGReportTitleInstanceName, _
+                        iobjCATIAV5Run.Name 
+  WriteToEXCELRunSheet intGReportCurrentRow, strGReportTitleNomenclature, _
+                        iobjCATIAV5Run.Nomenclature
+
+  '---------- Get Parent
+  Set objRunParent = Nothing
+  Set objRunParent = iobjCATIAV5Run.Parent
+  Set objRunParentSelf = objRunParent.Parent
+
+  If ( Not (objRunParent Is Nothing) ) Then
+
+     DbgTrace "NB childern = " & objRunParent.Count,0
+     WriteToEXCELRunSheet intGReportCurrentRow, strGReportTitleParentName, _
+                        objRunParentSelf.Name 
+     WriteToEXCELRunSheet intGReportCurrentRow, strGReportTitleParentNom, _
+                        objRunParentSelf.Nomenclature
+  End If
+
+  WriteToEXCELRunSheet intGReportCurrentRow, strGReportTitleLength, _
+	                     objCATIAV5ArrWorkbench0.CalculateRunLength(iobjCATIAV5Run)
+  WriteToEXCELRunSheet intGReportCurrentRow, strGReportTitleLengthUnit, strGLengthUnit                     
+                       
+
+End Sub '////////////////////////////////////////////////////////// DoOneRun
+
+'====================================================================================
+Sub CATMain ()
+'====================================================================================
+
+  StartEXCEL
+
+  StartCATIAV5
+
+  Dim objCATIAV5Run As ArrRun
+  Dim intNBInSelection  As integer
+  intNBInSelection = 0
+  On Error Resume Next
+
+  Set objCATIAV5Run = objCATIAV5Selection.FindObject("CATIAProduct")
+  DbgTrace "FindObject", 1
+  if (Err.Number <> 0) Then Set objCATIAV5Run = Nothing
+
+  '//---------- Get length model unit
+	strGLengthUnit = objCATIAV5ArrWorkbench0.GetCurrentUnits ("LENGTH") 
+	DbgTrace "Model Length Units = " & strGLengthUnit,0
+	 
+  intGReportCurrentRow = intGReportStartAfterRow 
+
+  Do Until ( objCATIAV5Run Is Nothing )
+
+     intNBInSelection = intNBInSelection + 1
+
+     '//---------- Get Property of this run
+     intGReportCurrentRow = intGReportCurrentRow + 1
+     InsertARowAt (intGReportCurrentRow)
+     DoOneRun  objCATIAV5Run
+
+     Set objCATIAV5Run = objCATIAV5Selection.FindObject("CATIAProduct")
+     if (Err.Number <> 0) Then Set objCATIAV5Run = Nothing
+
+  Loop  '// End Do ...each FindObject
+  
+  DbgTrace "total number of Product in selection = " & intNBInSelection, 0 
+  objGEXCELSh.Select
+
+End Sub '/////////////////////////////////////////////////////////// CATMain

@@ -1,0 +1,177 @@
+//=====================================================================================
+//                                     CNEXT - CXR1
+//                          COPYRIGHT DASSAULT SYSTEMES 1999 
+//-------------------------------------------------------------------------------------
+// FILENAME    :    CATDrwOptGeo
+// LOCATION    :    DraftingUI
+// AUTHOR      :    fgx
+// BUT         :    
+// DATE        :    06.01.1999
+//-------------------------------------------------------------------------------------
+// DESCRIPTION :    Tools/Option du Drafting - Onglet Geometry
+//-------------------------------------------------------------------------------------
+// COMMENTS    :    
+//-------------------------------------------------------------------------------------
+// MODIFICATIONS     user  date        purpose
+//    HISTORY        ----  ----        -------
+//      00           fgx   06.01.1999  Creation 	
+//      01           fgx   08.01.1999  Passage sur CATDrwOptTitle et CATDrwOptIcon
+//      02           fgx   20.01.1999  Ajout des options de visu des cst
+//      03           fgx   20.01.1999  Deplacement des options de la grid de geo a gal
+//      04           fgx   20.01.1999  Ajout de CreateCenter
+//      05           fgx   22.02.1999  Ajout de CstCreation, retrait de CreateConstraint
+//      06           fgx   23.08.1999  Manipulation directe de la geometrie
+//      07           lgk   18.12.02    revision
+//=====================================================================================
+
+Title="Geometrie";
+
+frameCenter.HeaderFrame.Global.Title = "Geometrie";
+frameCenter.HeaderFrame.Global.LongHelp = "Ermöglicht das Erzeugen\nzusätzlicher Elemente in der Geometrie.";
+frameCenter.IconAndOptionsFrame.OptionsFrame.checkCenter.Title = "Kreis- und Ellipsenmittelpunkte erzeugen";
+frameCenter.IconAndOptionsFrame.OptionsFrame.checkCenter.LongHelp = "Erzeugt beim Erzeugen von Kreisen und Ellipsen \nKreis- und Ellipsenmittelpunkte.";
+frameCenter.IconAndOptionsFrame.OptionsFrame._checkDragWithEndPts.Title = "Ziehen einschließlich Elementendpunkte";
+frameCenter.IconAndOptionsFrame.OptionsFrame._checkDragWithEndPts.LongHelp = "Zieht Elemente einschließlich Endpunkte";
+frameCenter.IconAndOptionsFrame.OptionsFrame.chkEndPtsDuplGenGeom.Title = "Endpunkte beim Duplizieren generierter Geometrie erzeugen";
+frameCenter.IconAndOptionsFrame.OptionsFrame.chkEndPtsDuplGenGeom.LongHelp = "Erzeugt Endpunkte, wenn aus 3D-Daten generierte Geometrie dupliziert wird.";
+frameCenter.IconAndOptionsFrame.OptionsFrame.chkShowHV.Title = "Die Felder 'H' und 'V' in der Symbolleiste 'Tools' anzeigen";
+frameCenter.IconAndOptionsFrame.OptionsFrame.chkShowHV.LongHelp = "Zeigt die Felder 'H' und 'V' in der Symbolleiste 'Tools' an,\nwenn 2D-Geometrie erzeugt oder Elemente versetzt werden.";
+
+//drag elements
+frameCenter.IconAndOptionsFrame.OptionsFrame.checkGeomDrag.Title="Direkte Manipulation zulassen";
+frameCenter.IconAndOptionsFrame.OptionsFrame.checkGeomDrag.LongHelp="Ermöglicht das Bewegen von Geometrie mit Hilfe der Maus.";
+frameCenter.IconAndOptionsFrame.OptionsFrame.dragOptionPushButton.Title="Berechnungsmodus...";
+frameCenter.IconAndOptionsFrame.OptionsFrame.dragOptionPushButton.LongHelp = "Ermöglicht das Definieren des Berechnungsmodus zum Bewegen von Elementen.";
+
+frameCstCreation.HeaderFrame.Global.Title="Erzeugen von Bedingungen ";
+frameCstCreation.HeaderFrame.Global.LongHelp=
+"Erzeugt erkannte und komponentenspezifische Bedingungen.";
+frameCstCreation.IconAndOptionsFrame.OptionsFrame.checkCstCreation.Title="Erzeugt erkannte und komponentenspezifische Bedingungen ";
+frameCstCreation.IconAndOptionsFrame.OptionsFrame.checkCstCreation.LongHelp=
+"Erzeugt erkannte und komponentenspezifische Bedingungen.";
+frameCstCreation.IconAndOptionsFrame.OptionsFrame.framePushButton.smartPickPushButton.Title="Intelligente Auswahl...";
+frameCstCreation.IconAndOptionsFrame.OptionsFrame.framePushButton.smartPickPushButton.LongHelp="Erkennt logische Bedingungen dynamisch.";
+
+frameCstVisu.HeaderFrame.Global.Title="Anzeige der Bedingungen";
+frameCstVisu.HeaderFrame.Global.LongHelp=
+"Definiert die Optionen für die Anzeige von 2D-Bedingungen";
+frameCstVisu.IconAndOptionsFrame.OptionsFrame.LongHelp=
+"Definiert die Optionen für die Anzeige von 2D-Bedingungen";
+frameCstVisu.IconAndOptionsFrame.OptionsFrame.checkCstVisu.Title="Bedingungen anzeigen";
+frameCstVisu.IconAndOptionsFrame.OptionsFrame.checkCstVisu.LongHelp=
+"Visualisiert die folgenden Bedingungsarten.";
+frameCstVisu.IconAndOptionsFrame.OptionsFrame.labelCstRefSize.Title="Referenzgröße:";
+frameCstVisu.IconAndOptionsFrame.OptionsFrame.labelCstRefSize.LongHelp="Definiert die Größe, die als Referenz zum Anzeigen von Bedingungssymbolen
+verwendet wird. Ein Ändern der Referenzgröße wirkt sich auf die Darstellungsgröße aller Bedingungen aus.";
+frameCstVisu.IconAndOptionsFrame.OptionsFrame.editorCstRefSize.LongHelp="Definiert die Größe, die als Referenz zum Anzeigen von Bedingungssymbolen
+verwendet wird. Ein Ändern der Referenzgröße wirkt sich auf die Darstellungsgröße aller Bedingungen aus.";
+frameCstVisu.IconAndOptionsFrame.OptionsFrame.labelCstColor.Title="Farbe für Bedingungen: ";
+frameCstVisu.IconAndOptionsFrame.OptionsFrame.comboCstColor.LongHelp="Definiert die Farbe, die zur Darstellung von Bedingungssymbolen verwendet wird. Ein Ändern der Farbe wirkt sich auf die Farbdarstellung aller Bedingungen aus.";
+frameCstVisu.IconAndOptionsFrame.OptionsFrame.labelCstColor.LongHelp="Definiert die Farbe, die zur Darstellung von Bedingungssymbolen verwendet wird. Ein Ändern der Farbe wirkt sich auf die Farbdarstellung aller Bedingungen aus.";
+frameCstVisu.IconAndOptionsFrame.OptionsFrame.frameCTPushButton.cstTypesPushButton.Title="Bedingungstypen...";
+frameCstVisu.IconAndOptionsFrame.OptionsFrame.frameCTPushButton.cstTypesPushButton.LongHelp="Definiert die verschiedenen Typen\nder darzustellenden Bedingungen.";
+
+
+frameGeomManipDirect.HeaderFrame.Global.Title="Manipulatoren ";
+frameGeomManipDirect.HeaderFrame.Global.LongHelp="Legt fest, ob die Manipulatoren durch Anklicken aktiviert werden müssen, bevor die Geometrie verschoben werden kann.";
+
+frameGeomManipDirect.IconAndOptionsFrame.OptionsFrame.checkGeomManipDirect.Title="Direkte Manipulation zulassen";
+frameGeomManipDirect.IconAndOptionsFrame.OptionsFrame.checkGeomManipDirect.LongHelp="Direkte Manipulation zulassen
+Legt fest, ob die Manipulatoren durch Anklicken definiert werden müssen, bevor die Geometrie verschoben werden kann.";
+
+
+frameDiagColors.HeaderFrame.Global.Title = "Farben";
+frameDiagColors.HeaderFrame.Global.LongHelp = "Farben\nDie Elementfarben definieren.";
+frameDiagColors.IconAndOptionsFrame.OptionsFrame.checkVisualizationDiag.Title = "Diagnosedarstellung";
+frameDiagColors.IconAndOptionsFrame.OptionsFrame.checkVisualizationDiag.LongHelp = "Definiert die Visualisierung einer Diagnose \nfür Elemente, denen Bedingungen zugeordnet sind.";
+frameDiagColors.IconAndOptionsFrame.OptionsFrame.diagColorsPushButton.Title = "Farben...";
+frameDiagColors.IconAndOptionsFrame.OptionsFrame.diagColorsPushButton.LongHelp = "Definiert Diagnosefarben.";
+frameDiagColors.IconAndOptionsFrame.OptionsFrame.labelOtherColors.Title = "Andere Elementfarbe";
+frameDiagColors.IconAndOptionsFrame.OptionsFrame.labelOtherColors.LongHelp = "Definiert andere Elementfarben.";
+frameDiagColors.IconAndOptionsFrame.OptionsFrame.otherColorsPushButton.Title = "Farben...";
+frameDiagColors.IconAndOptionsFrame.OptionsFrame.otherColorsPushButton.LongHelp = "Definiert andere Elementfarben.";
+
+
+// NLS push button solving mode dans onglet geometry
+geoAllowGeomManip.Title="Ziehen von Elementen";
+geoAllowGeomManip.frameButtonDragElts.HeaderFrame.Global.Title = "Ziehen von Elementen";
+geoAllowGeomManip.frameButtonDragElts.HeaderFrame.Global.LongHelp = "Definiert, wie Elemente bewegt werden.";
+geoAllowGeomManip.frameButtonDragElts.IconAndOptionsFrame.OptionsFrame.checkDragWithEndPts.Title = "Ziehen einschließlich Elementendpunkte";
+geoAllowGeomManip.frameButtonDragElts.IconAndOptionsFrame.OptionsFrame.checkDragWithEndPts.LongHelp = "Zieht Elemente einschließlich ihrer Endpunkte.";
+geoAllowGeomManip.frameButtonDragElts.IconAndOptionsFrame.OptionsFrame.frameDragMode.Title = "Berechnungsmodus";//for moving elements";
+geoAllowGeomManip.frameButtonDragElts.IconAndOptionsFrame.OptionsFrame.frameDragMode.frameDragModelocked.radioDragModeStd.Title = "Standardmodus";
+geoAllowGeomManip.frameButtonDragElts.IconAndOptionsFrame.OptionsFrame.frameDragMode.frameDragModelocked.radioDragModeStd.LongHelp = "Verwendet beim Bewegen von Elementen den Standardmodus.";
+geoAllowGeomManip.frameButtonDragElts.IconAndOptionsFrame.OptionsFrame.frameDragMode.frameDragModelocked.radioDragModeMin.Title = "Minimalbewegung";
+geoAllowGeomManip.frameButtonDragElts.IconAndOptionsFrame.OptionsFrame.frameDragMode.frameDragModelocked.radioDragModeMin.LongHelp = "Führt eine Minimalbewegung aus.";
+geoAllowGeomManip.frameButtonDragElts.IconAndOptionsFrame.OptionsFrame.frameDragMode.frameDragModelocked.radioDragModeRel.Title = "Entspannung";
+geoAllowGeomManip.frameButtonDragElts.IconAndOptionsFrame.OptionsFrame.frameDragMode.frameDragModelocked.radioDragModeRel.LongHelp = "Verwendet Entspannung.";
+
+// Push Button SmartPick
+geoSmartPick.Title="Intelligente Auswahl";
+geoSmartPick.frameSmartPick.HeaderFrame.Global.Title="Intelligente Auswahl";
+geoSmartPick.frameSmartPick.HeaderFrame.Global.LongHelp=
+"Intelligente Auswahl
+Erkennt automatisch die Position der Elemente der 2D-Geometrie.";
+geoSmartPick.frameSmartPick.IconAndOptionsFrame.OptionsFrame.checkSmartPickCoincid.Title="Hilfslinien und -kreise";
+geoSmartPick.frameSmartPick.IconAndOptionsFrame.OptionsFrame.checkSmartPickCoincid.LongHelp=
+"Erkennt Hilfslinien- und -kreise.";
+geoSmartPick.frameSmartPick.IconAndOptionsFrame.OptionsFrame.checkSmartPickAlign.Title="Ausrichtung";
+geoSmartPick.frameSmartPick.IconAndOptionsFrame.OptionsFrame.checkSmartPickAlign.LongHelp=
+"Definiert, dass zwei Elemente zueinander ausgerichtet sind.";
+geoSmartPick.frameSmartPick.IconAndOptionsFrame.OptionsFrame.checkSmartPickParaPerpenTang.Title="Parallelität, Rechtwinkligkeit und Tangentenstetigkeit";
+geoSmartPick.frameSmartPick.IconAndOptionsFrame.OptionsFrame.checkSmartPickParaPerpenTang.LongHelp=
+"Definiert, dass zwei Elemente parallel, rechtwinklig oder tangential zueinander sind.";
+geoSmartPick.frameSmartPick.IconAndOptionsFrame.OptionsFrame.checkSmartPickHoriVerti.Title="Horizontalität und Vertikalität";
+geoSmartPick.frameSmartPick.IconAndOptionsFrame.OptionsFrame.checkSmartPickHoriVerti.LongHelp=
+"Definiert, dass zwei Elemente horizontal oder vertikal zueinander sind.";
+
+// Constraints types
+geoTypeCst.Title="Bedingungstypen";
+geoTypeCst.frameConstraintsTypes.HeaderFrame.Global.Title="Bedingungstypen";
+geoTypeCst.frameConstraintsTypes.HeaderFrame.Global.LongHelp="Definiert die verschiedenen Typen \nder darzustellenden Bedingungen.";
+geoTypeCst.frameConstraintsTypes.IconAndOptionsFrame.OptionsFrame.checkCstVisuHori.Title="Horizontal ";
+geoTypeCst.frameConstraintsTypes.IconAndOptionsFrame.OptionsFrame.checkCstVisuHori.LongHelp="Horizontal
+Zeigt Horizontalitätsbedingungen an.";
+geoTypeCst.frameConstraintsTypes.IconAndOptionsFrame.OptionsFrame.checkCstVisuVerti.Title="Vertikal";
+geoTypeCst.frameConstraintsTypes.IconAndOptionsFrame.OptionsFrame.checkCstVisuVerti.LongHelp="Vertikal
+Zeigt Vertikalitätsbedingungen an.";
+geoTypeCst.frameConstraintsTypes.IconAndOptionsFrame.OptionsFrame.checkCstVisuPara.Title="Parallelität ";
+geoTypeCst.frameConstraintsTypes.IconAndOptionsFrame.OptionsFrame.checkCstVisuPara.LongHelp="Parallelität
+Zeigt Parallelitätsbedingungen an.";
+geoTypeCst.frameConstraintsTypes.IconAndOptionsFrame.OptionsFrame.checkCstVisuPerpen.Title="Orthogonalität ";
+geoTypeCst.frameConstraintsTypes.IconAndOptionsFrame.OptionsFrame.checkCstVisuPerpen.LongHelp="Orthogonalität
+Zeigt rechtwinklige Bedingungen an.";
+geoTypeCst.frameConstraintsTypes.IconAndOptionsFrame.OptionsFrame.checkCstVisuConcen.Title="Konzentrizität ";
+geoTypeCst.frameConstraintsTypes.IconAndOptionsFrame.OptionsFrame.checkCstVisuConcen.LongHelp="Konzentrizität
+Zeigt Konzentrizitätsbedingungen an.";
+geoTypeCst.frameConstraintsTypes.IconAndOptionsFrame.OptionsFrame.checkCstVisuCoinci.Title="Kongruenz ";
+geoTypeCst.frameConstraintsTypes.IconAndOptionsFrame.OptionsFrame.checkCstVisuCoinci.LongHelp="Kongruenz
+Zeigt Kongruenzbedingungen an.";
+geoTypeCst.frameConstraintsTypes.IconAndOptionsFrame.OptionsFrame.checkCstVisuTangen.Title=" Tangentenstetigkeit ";
+geoTypeCst.frameConstraintsTypes.IconAndOptionsFrame.OptionsFrame.checkCstVisuTangen.LongHelp="Tangentenstetigkeit
+Zeigt Tangentenbedingungen an.";
+geoTypeCst.frameConstraintsTypes.IconAndOptionsFrame.OptionsFrame.checkCstVisuSym.Title="Symmetrie ";
+geoTypeCst.frameConstraintsTypes.IconAndOptionsFrame.OptionsFrame.checkCstVisuSym.LongHelp="Symmetrie
+Zeigt Symmetriebedingungen an.";
+
+// NLS de l'onglet Geometry pour le diagnostic des couleurs
+geoVisuDiagColor.Title="Diagnosefarben";
+geoVisuDiagColor.frameButtonDiagColors.HeaderFrame.Global.Title = "Diagnosefarben";
+geoVisuDiagColor.frameButtonDiagColors.HeaderFrame.Global.LongHelp = "Diagnosefarben\nDefiniert die Farben der Diagnoseprogramme.";
+geoVisuDiagColor.frameButtonDiagColors.IconAndOptionsFrame.OptionsFrame.labelOverConsElts.Title = "Überbestimmte Elemente";
+geoVisuDiagColor.frameButtonDiagColors.IconAndOptionsFrame.OptionsFrame.labelOverConsElts.LongHelp = "Überbestimmte Elemente\nDefiniert die Farbe, die für die in überbestimmten Modellen enthaltenen Elemente verwendet wird.";
+geoVisuDiagColor.frameButtonDiagColors.IconAndOptionsFrame.OptionsFrame.labelIsoConsElts.Title = "Iso-bestimmte Elemente";
+geoVisuDiagColor.frameButtonDiagColors.IconAndOptionsFrame.OptionsFrame.labelIsoConsElts.LongHelp = "Iso-bestimmte Elemente\nDefiniert die Farbe, die für die Iso-bestimmten Modelle enthaltenen Elemente verwendet wird.";
+geoVisuDiagColor.frameButtonDiagColors.IconAndOptionsFrame.OptionsFrame.labelInconsElts.Title = "Inkonsistente Elemente ";
+geoVisuDiagColor.frameButtonDiagColors.IconAndOptionsFrame.OptionsFrame.labelInconsElts.LongHelp = "Inkonsistente Elemente\nDefiniert die Farbe, die für die in inkonsistenten Modellen enthaltene Elemente verwendet wird.";
+geoVisuDiagColor.frameButtonDiagColors.IconAndOptionsFrame.OptionsFrame.labelNotChanElts.Title = "Ungeänderte Elemente ";
+geoVisuDiagColor.frameButtonDiagColors.IconAndOptionsFrame.OptionsFrame.labelNotChanElts.LongHelp = "Ungeänderte Elemente\nDefiniert die Farbe, die für ungeänderte Elemente verwendet wird.";
+
+// NLS de l'onglet Geometry pour Other Colors
+geoOtherColor.Title="Farben anderer Elemente";
+geoOtherColor.frameButtonOtherColors.HeaderFrame.Global.Title = "Farben";
+geoOtherColor.frameButtonOtherColors.HeaderFrame.Global.LongHelp = "Farben\nDefiniert die Farbe der Elemente.";
+geoOtherColor.frameButtonOtherColors.IconAndOptionsFrame.OptionsFrame.labelConstElts.Title = "Konstruktionselemente (für Zeichnungen vor V5R11) ";
+geoOtherColor.frameButtonOtherColors.IconAndOptionsFrame.OptionsFrame.labelConstElts.LongHelp = "Konstruktionselemente\nDefiniert die Farbe, die für Konstruktionselemente bei Zeichnungen vor V5R11 verwendet wird.";
+geoOtherColor.frameButtonOtherColors.IconAndOptionsFrame.OptionsFrame.labelSmartPick.Title = "Intelligente Auswahl ";
+geoOtherColor.frameButtonOtherColors.IconAndOptionsFrame.OptionsFrame.labelSmartPick.LongHelp = "Elemente der intelligenten Auswahl\nDefiniert die Farbe, die für die Elemente der intelligenten Auswahl verwendet wird.";

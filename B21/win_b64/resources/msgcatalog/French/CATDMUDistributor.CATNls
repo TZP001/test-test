@@ -1,0 +1,71 @@
+INFO_HELP="
+CATDMUDistributor copie des données DMU (CATProduct, données de cache associées et autres)
+   répertoriées dans une liste de l'emplacement actuel vers un emplacement distant ou calcule
+   une liste de fichiers à copier.\n
+Syntaxe :\n
+   Extraire les informations d'aide :
+      CATDMUDistributor -h\n
+   Copie des données DMU de l'emplacement actuel vers un emplacement distant :
+      CATDMUDistributor inputdir cachedir docdir [-s char]\n
+   Calcule une liste de fichiers à copier :
+      CATDMUDistributor inputdir cachedir docdir -list file [-s char]\n
+Exemples sous Windows :\n
+   CATDMUDistributor -h
+   CATDMUDistributor c:\input e:\cache e:\document\n
+Exemples sous Unix :\n
+   CATDMUDistributor -h
+   CATDMUDistributor /u/input /v/cache /v/document\n
+Arguments :\n
+   -h            : Aide.
+   inputdir      : Définir le répertoire contenant des fichiers répertoriant des documents.
+                   Ces fichiers contiennent au moins une ligne.
+                   Chaque ligne doit contenir l'identificateur d'un document.
+                   Pour les documents fichier, l'identificateur est le chemin du
+                   document (contenant éventuellement un DLName précédé de 'CATDLN://').
+                   Pour les documents VPM, l'identificateur est 'COID COMPID CAENV CATAB'.
+   cachedir      : Définir le répertoire de cache distant.
+   docdir        : Définir le répertoire distant qui contiendra tous
+                   les documents à l'exception des données de cache.
+                   Il peut s'agir d'un DLName précédé de 'CATDLN://'.
+   -list file    : Fichier de sortie contenant la liste des documents à copier.
+                   Chaque ligne contient le chemin d'accès aux données d'origine et
+                   aux données de copie séparées par un espace vide.
+   -s char       : Pour définir le caractère utilisé pour séparer le champ sur une ligne
+                   dans un fichier d'entrée ou de sortie.
+                   Par défaut, un caractère vide est utilisé.\n
+Diagnostic :\n
+   Les valeurs d'état de fermeture possibles sont les suivantes :\n
+      0   Traitement réussi.\n
+      1   Traitement impossible en raison d'un des motifs suivants :
+          - licence non disponible
+          - gestion de la mémoire cache désactivée
+          - arguments manquants
+          - paramètre incorrect
+          - paramètre manquant après une option
+          - répertoire d'entrée manquant
+          - répertoire de mémoire cache manquant
+          - répertoire de document manquant
+          - répertoire incorrect
+          - ouverture impossible d'un fichier de sortie
+          - écriture impossible dans un fichier de sortie
+      2   Erreur de traitement.\n
+      3   Traitement partiel.\n
+Corrections :\n
+   Code de retour = 1 :
+      Modifiez la ligne de commande ou l'environnement à l'aide des informations contenues dans
+      le fichier d'erreur standard.\n
+   Code de retour = 2 :
+      Prenez contact avec l'assistance technique locale.\n
+   Code de retour = 3 :
+      Corrigez les fichiers posant problème : leurs noms figurent dans le fichier d'erreur standard.
+      Une utilisation interactive des fichiers peut vous informer sur l'erreur.
+";
+ERR_PROCESSING="ERREUR: CATDMUDistributor n'a pas pu effectuer le traitement.";
+ERR_MISSING_INPUT_DIR="ERREUR: Le répertoire d'entrée doit être défini.";
+ERR_MISSING_CACHE_DIR="ERREUR: Le répertoire de cache doit être défini.";
+ERR_MISSING_DOCUMENT_DIR="ERREUR: Le répertoire de document doit être défini.";
+ERR_COPY="ERREUR: Les données de cache correspondantes au document suivant n'ont pu être copiées:";
+OK_COPY="OK: Les données de cache correspondantes au document suivant sont copiées:";
+NO_COPY="ERREUR: Il n'y a pas de données de cache correspondantes au document suivant:";
+START_BATCH="CATDMUDistributor démarre à :";
+STOP_BATCH="CATDMUDistributor se termine après une durée de :";

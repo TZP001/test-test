@@ -1,0 +1,150 @@
+// COPYRIGHT DASSAULT SYSTEMES 1998
+//===========================================================================
+//
+// CATRdgShootingPhotonsFrame
+//
+//===========================================================================
+
+//--------------------------------------
+// Gather frame
+//--------------------------------------
+gatherFrame.HeaderFrame.Global.Title = "Regroupement final";
+
+gatherFrame.IconAndOptionsFrame.OptionsFrame.gatherParametersFrame.gatherCheck.Title = "Actif";
+gatherFrame.IconAndOptionsFrame.OptionsFrame.gatherParametersFrame.gatherCheck.Help = "Active le regroupement final";
+gatherFrame.IconAndOptionsFrame.OptionsFrame.gatherParametersFrame.gatherCheck.ShortHelp = "Active le regroupement final";
+gatherFrame.IconAndOptionsFrame.OptionsFrame.gatherParametersFrame.gatherCheck.LongHelp =
+"Active ou désactive le regroupement final.
+Le regroupement final signifie qu'au niveau de chaque point ombré,
+l'hémisphère situé au-dessus est échantillonné par l'envoi de rayons
+dans les directions appropriées pour calculer
+l'illumination indirecte, outre l'illumination directe.";
+
+gatherFrame.IconAndOptionsFrame.OptionsFrame.gatherParametersFrame.gatherAccuracyLabel.Title = "Rayons: ";
+gatherFrame.IconAndOptionsFrame.OptionsFrame.gatherParametersFrame.gatherAccuracySpinner.Help = "Définit le nombre de rayons lancés";
+gatherFrame.IconAndOptionsFrame.OptionsFrame.gatherParametersFrame.gatherAccuracySpinner.ShortHelp = "Rayons lancés";
+gatherFrame.IconAndOptionsFrame.OptionsFrame.gatherParametersFrame.gatherAccuracySpinner.LongHelp =
+"Définit le nombre de rayons lancés depuis chaque 
+pixel pour calculer l'illumination indirecte. 
+Une valeur élevée augmente la précision mais diminue
+les performances. Si la valeur est trop faible de 
+petits artefacts lumineux ou sombres apparaissent.";
+
+gatherFrame.IconAndOptionsFrame.OptionsFrame.gatherParametersFrame.gatherMaxRadiusLabel.Title = "Distance maximum: ";
+gatherFrame.IconAndOptionsFrame.OptionsFrame.gatherParametersFrame.gatherMaxRadiusSpinner.Help = "Définit la distance maximum";
+gatherFrame.IconAndOptionsFrame.OptionsFrame.gatherParametersFrame.gatherMaxRadiusSpinner.ShortHelp = "Distance maximum pour l'interpolation";
+gatherFrame.IconAndOptionsFrame.OptionsFrame.gatherParametersFrame.gatherMaxRadiusSpinner.LongHelp =
+"Définit la distance maximale à laquelle un autre résultat d'étape de regroupement final
+peut être utilisé pour l'interpolation.
+Des valeurs moins élevées augmentent le nombre d'étapes de regroupement final
+et augmentent la précision aux dépens des
+performances. Si cette option prend la valeur 0, la distance est calculée
+à partir de l'étendue de la scène.";
+
+gatherFrame.IconAndOptionsFrame.OptionsFrame.gatherParametersFrame.gatherMinRadiusLabel.Title = "Distance minimum: ";
+gatherFrame.IconAndOptionsFrame.OptionsFrame.gatherParametersFrame.gatherMinRadiusSpinner.Help = "Définit le distance minimum";
+gatherFrame.IconAndOptionsFrame.OptionsFrame.gatherParametersFrame.gatherMinRadiusSpinner.ShortHelp = "Distance minimum pour l'interpolation";
+gatherFrame.IconAndOptionsFrame.OptionsFrame.gatherParametersFrame.gatherMinRadiusSpinner.LongHelp =
+"Indique qu'un résultat de regroupement doit être utilisé pour
+l'interpolation s'il se trouve à cette distance.
+Ce paramètre tend à avoir une influence moindre sur la qualité
+de rendu que la distance maximale. Si cette option prend la valeur 0,
+la distance utilisée est de 10 % du rayon maximal.";
+
+//--------------------------------------
+// Global frame
+//--------------------------------------
+globalFrame.HeaderFrame.Global.Title = "Illumination globale";
+
+globalFrame.IconAndOptionsFrame.OptionsFrame.globalParametersFrame.globalCheck.Title = "Actif";
+globalFrame.IconAndOptionsFrame.OptionsFrame.globalParametersFrame.globalCheck.Help = "Active l'illumination globale";
+globalFrame.IconAndOptionsFrame.OptionsFrame.globalParametersFrame.globalCheck.ShortHelp = "Active l'illumination globale";
+globalFrame.IconAndOptionsFrame.OptionsFrame.globalParametersFrame.globalCheck.LongHelp =
+"Active ou inactive l'illumination globale.
+L'illumination globale est la simulation de toutes les inter-réflexions lumineuses
+dans une scène (à l'exception des caustics).
+Ceci inclut les effets tels que les débordements de couleurs entre deux
+murs adjacents.
+Les effets d'illumination globale sont subtils et ajoutent du réalisme
+à une scène.
+Le calcul de l'illumination globale nécessite une table de photons
+générée lors d'une étape de pré-traitement lors de laquelle les photons
+sont émis à partir de sources lumineuses et tracés dans
+la scène à l'aide de la fonction de trace de photons.
+Lors de l'ombrage de la surface, la table de photons permet d'ajouter
+une illumination indirecte.";
+
+globalFrame.IconAndOptionsFrame.OptionsFrame.globalParametersFrame.globalAccuracyLabel.Title = "Photons : ";
+globalFrame.IconAndOptionsFrame.OptionsFrame.globalParametersFrame.globalAccuracySpinner.Help = "Définit le nombre de photons d'illumination globale utilisés";
+globalFrame.IconAndOptionsFrame.OptionsFrame.globalParametersFrame.globalAccuracySpinner.ShortHelp = "Photons d'illumination globale utilisés";
+globalFrame.IconAndOptionsFrame.OptionsFrame.globalParametersFrame.globalAccuracySpinner.LongHelp =
+"Définit le nombre maximum de photons utilisés pour calculer
+l'intensité locale de l'illumination globale.
+La valeur par défaut est 500. Des valeurs plus élevées comme 2000 rendent
+l'illumination globale plus douce.";
+
+globalFrame.IconAndOptionsFrame.OptionsFrame.globalParametersFrame.globalRadiusLabel.Title = "Distance maximum: ";
+globalFrame.IconAndOptionsFrame.OptionsFrame.globalParametersFrame.globalRadiusSpinner.Help = "Définit la distance maximum des photons";
+globalFrame.IconAndOptionsFrame.OptionsFrame.globalParametersFrame.globalRadiusSpinner.ShortHelp = "Distance maximum des photons";
+globalFrame.IconAndOptionsFrame.OptionsFrame.globalParametersFrame.globalRadiusSpinner.LongHelp =
+"Définit la distance maximale où on recherche des 
+photons dans la scène afin de calculer l'intensité
+locale d'illumination globale.
+Si la valeur est nulle, la distance est calculée à
+partir de l'étendue de la scène.";
+
+//--------------------------------------
+// Caustic frame
+//--------------------------------------
+causticFrame.HeaderFrame.Global.Title = "Caustics";
+
+causticFrame.IconAndOptionsFrame.OptionsFrame.causticParametersFrame.causticCheck.Title = "Actif";
+causticFrame.IconAndOptionsFrame.OptionsFrame.causticParametersFrame.causticCheck.Help = "Active les caustics";
+causticFrame.IconAndOptionsFrame.OptionsFrame.causticParametersFrame.causticCheck.ShortHelp = "Active les caustics";
+causticFrame.IconAndOptionsFrame.OptionsFrame.causticParametersFrame.causticCheck.LongHelp =
+"Active ou désactive les caustics.
+Les caustics sont des taches lumineuses créées lorsque la lumière
+d'une source éclaire une surface diffuse via
+une ou plusieurs réflexions ou transmissions.
+Exemples :
+- Les taches lumineuses créées eu fond d'une
+  piscine.
+- La lumière concentrée par un verre d'eau.
+Le calcul des caustics nécessite une table de photons
+générée lors d'une étape de pré-traitement au cours de laquelle les photons
+sont émis à partir de sources lumineuses et propagés dans la
+scène par lancer de photons.
+Lors de l'ombrage des surfaces, cette table est utilisée pour ajouter
+une illumination indirecte.";
+
+causticFrame.IconAndOptionsFrame.OptionsFrame.causticParametersFrame.causticAccuracyLabel.Title = "Photons: ";
+causticFrame.IconAndOptionsFrame.OptionsFrame.causticParametersFrame.causticAccuracySpinner.Help = "Définit le nombre de photons de caustics utilisés";
+causticFrame.IconAndOptionsFrame.OptionsFrame.causticParametersFrame.causticAccuracySpinner.ShortHelp = "Photons de caustics utilisés";
+causticFrame.IconAndOptionsFrame.OptionsFrame.causticParametersFrame.causticAccuracySpinner.LongHelp =
+"Définit le nombre maximal de photons utilisés pour calculer
+l'intensité locale de l'éclat des caustics.
+La valeur par défaut est 100. Des valeurs plus élevées comme 200 rendent les caustics
+moins bruités mais aussi plus flous et plus longs à calculer.";
+
+causticFrame.IconAndOptionsFrame.OptionsFrame.causticParametersFrame.causticRadiusLabel.Title = "Distance maximum: ";
+causticFrame.IconAndOptionsFrame.OptionsFrame.causticParametersFrame.causticRadiusSpinner.Help = "Définit la distance maximum des photons";
+causticFrame.IconAndOptionsFrame.OptionsFrame.causticParametersFrame.causticRadiusSpinner.ShortHelp = "Distance maximum des photons";
+causticFrame.IconAndOptionsFrame.OptionsFrame.causticParametersFrame.causticRadiusSpinner.LongHelp =
+"Définit la distance maximale où on recherche des 
+photons dans la scène afin de calculer l'intensité
+locale de l'éclat des caustics.
+Si la valeur est nulle, la distance est calculée à
+partir de l'étendue de la scène.";
+
+//--------------------------------------
+// Ambient frame
+//--------------------------------------
+ambientFrame.HeaderFrame.Global.Title = "Matériaux";
+
+ambientFrame.IconAndOptionsFrame.OptionsFrame.ambientParametersFrame.ambientCheck.Title = "Ne pas utiliser l'ambiant";
+ambientFrame.IconAndOptionsFrame.OptionsFrame.ambientParametersFrame.ambientCheck.Help = "Désactive l'utilisation de l'ambiant des matériaux";
+ambientFrame.IconAndOptionsFrame.OptionsFrame.ambientParametersFrame.ambientCheck.ShortHelp = "Désactive l'ambiant des matériaux";
+ambientFrame.IconAndOptionsFrame.OptionsFrame.ambientParametersFrame.ambientCheck.LongHelp =
+"Active ou désactive l'utilisation du paramètre ambiant des matériaux.
+Lorsqu'on utilise l'illumination indirecte, le paramètre ambiant
+des matériaux ne devrait pas être utilisé.";

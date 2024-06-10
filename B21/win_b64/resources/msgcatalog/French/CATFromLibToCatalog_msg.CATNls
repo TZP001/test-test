@@ -1,0 +1,316 @@
+//NLS-ENGLISH VERSION
+//=======================================================================
+// MODULE : CATIALibraryEditor
+//=======================================================================
+//
+// Main Messages
+// -------------
+Parameters.ErrorMessage="
+Paramètres non valides.  Syntaxe : CATFromLibToCatalog library_path  new_catalog_path
+";
+Parameters.Message="
+Création d'un catalogue de composants : /p1
+ à partir de la bibliothèque : /p2";
+Session.ErrorMessage="
+Problème lors de la création de la session CATIA
+";
+Licensing.ErrorMessage="
+Problème de licence : le produit V4I est requis mais non autorisé
+";
+AccessToLibraryOnNT.ErrorMessage="
+Impossible d'accéder à une bibliothèque sous ce système d'exploitation.  Utilisez le protocole http.
+";
+AccessToCatalogWithHttp.ErrorMessage="
+Impossible de créer un catalogue en utilisant le protocole http
+";
+ReportFileCreation.ErrorMessage="
+Impossible de créer le compte rendu
+";
+ConversionTable0.ErrorMessage="
+Aucune table de conversion de caractères n'a été trouvée à : /p1
+";
+ConversionTable1.ErrorMessage="
+La table de conversion de caractères située à : /p1
+comporte une erreur à la ligne /p2.
+";
+DocInSession.ErrorMessage="
+Le document : /p1
+est déjà en session. 
+Assurez-vous de sa fermeture avant de relancer le script.
+";
+DocCreation.ErrorMessage="
+Problème lors de la création du document : /p1
+ ";
+OverWrittenPart.Message="
+AVERTISSEMENT : la migration d'un objet de bibliothèque précédent conduit déjà à la création d'une pièce de même nom : /p1
+La pièce précédente risque d'être écrasée.
+";
+OverWrittenFamilyCatalog.Message="
+AVERTISSEMENT : Une autre famille conduit déjà à la création d'un catalogue de même nom : /p1
+Le catalogue précédent risque d'être écrasé.
+";
+//
+// CATCreateSupchapter messages
+// ----------------------------
+BeginningLisfamChapterTreatment.Message="CHAPITRE /p1 ";
+CatalogDocRoot.ErrorMessage="
+Erreur interne : Impossible d'obtenir le container root du catalogue
+  /p1
+";
+NewKeyword.Message="Création du mot-clé /p1
+";
+FamilyKeyword.Label="FAMILLE";
+NewFamilyDescription.Message="
+Création de la description associée à la famille de type DETAIL /p1
+";
+EvaluateFamilyKeyword.Message="Evaluation du mot-clé /p1 à /p2
+";
+FamilyDescriptionLink.Message="La description référence le chapitre /p1
+";
+RetrievedFamilyChapter.Message="Le chapitre correspondant à la famille /p a été retrouvé
+";
+NonDetailFamily.Message="
+La famille /p1 n'est pas de type DETAIL.  Pas de conversion de cette famille.
+";
+SpecificReasonCreatingChapter2.ErrorMessage="    - Cette bibliothèque V4 ne comporte pas de famille
+";
+//
+// CATMappingFamilyChapter messages
+// --------------------------------
+BeginningFamilyTreatment.Message="FAMILLE /p1";
+CreatingDiscreteKeyword.Message="Création (d'après le type DISCRET de bibliothèque)        du mot-clé : /p1
+";
+CreatingNumericKeyword.Message="Création (d'après le type NUMERIQUE de bibliothèque)      du mot-clé : /p1
+";
+CreatingAlphanumericKeyword.Message="Création (d'après le type ALPHANUMERIQUE de bibliothèque) du mot-clé : /p1
+";
+CreatingBooleanKeyword.Message="Création (d'après le type BOOLEEN de bibliothèque)        du mot-clé : /p1
+";
+ExistingKeyword.ErrorMessage="Le mot-clé /p1 existe déjà
+";
+Keyword.ErrorMessage="
+Erreur interne : Impossible de créer le nouveau mot-clé /p1
+";
+SkippingDetailDescription.Message="
+Une description correspondant au détail /p1 existe déjà. 
+La description ne va pas être recréée.
+"; 
+NewDetailDescription.Message="
+Création de la description numéro /p1 associée au détail SPACE /p2";
+EvaluationKeyword.Message="
+Evaluation du mot-clé /p1 à /p2";
+SkippingKeywordCreation.Message="Aucun mot-clé créé : tous semblent être déjà présents.
+";
+BooleanTrue.Label="VRAI";
+BooleanFalse.Label="FAUX";
+Unvalued.Label="UNVAL";
+FilteredNameDetail.Message="
+Nom du détail après filtrage = /p1";
+NonSpaceDetail.Message="
+/p1 n'est pas un détail SPACE : Conversion impossible et pas de description associée.
+";
+DetailConversion.Message="
+                                    ----------------
+Conversion en Pièce du détail SPACE /p1
+                                    ----------------
+";
+FinalPartName.Message="Nom de la Part associée au détail converti /p1 = /p2";
+PartNeedUpdate.Message="La conversion du détail /p1 doit être mise à jour
+";
+AlreadyExistingPart.Message="AVERTISSEMENT ! le nom de pièce
+  /p1
+existe déjà et va être écrasé.
+";
+LoadDetail.ErrorMessage="Problème durant le chargement du détail /p1.
+";
+PartialConversion.Message="
+*** Conversion partielle des éléments du détail
+";
+UpdatePart.ErrorMessage="Problème durant la mise à jour de la Part.
+";
+PersistentPart.ErrorMessage="
+*** Le document Part ne peut être sauvegardée ***
+    Raison possible : - le chemin d'accès au document contient des caractères interdits.
+";
+Title.Bilan.Message="  BILAN DE CONVERSION DE LA FAMILLE /p1
+";
+NbDetails.Bilan.Message="Nombre de détails présents dans la famille                        = /p1
+";
+NbNonSpace.Bilan.Message="- Nombre de détails non SPACE                                     = /p1
+";
+NbNotLoaded.Bilan.Message="- Nombre de détails qui n'ont pu être chargés                     = /p1
+";
+NbNotConverted.Bilan.Message="- Nombre de détails qui n'ont pu être convertis                   = /p1
+";
+NbPartNotUpdated.Bilan.Message="- Nombre de détails dont la Part n'a pu être mise à jour              = /p1
+";
+NbPartNotSaved.Bilan.Message="- Nombre de détails dont la Part n'a pu être sauvegardée          = /p1
+";
+ComplementaryResults.Bilan.Message="Résultats complémentaires :
+";
+NbFiltered.Bilan.Message="- Nombre d'objets dont le nom de la Part a dû être filtrée        = /p1
+";
+NbDuplicateNames.Bilan.Message="- Nombre de noms de nouvelles parts V5 redondants            = /p1
+";
+FinalResults.Bilan.Message="En résume :
+";
+NbDescriptions.Bilan.Message="- Nombre de descriptions créées dans le chapitre                   = /p1
+";
+Missingdetails.Bilan.Message="- Nombre de détails non présents dans le catalogue                = /p1
+";
+TreatedDetails.Bilan.Message="- Nombre d'objets traités                                         = /p1
+";
+//
+// General Batch Messages
+// ----------------------
+NewChapter.Message="
+
+
+Création du chapitre dans le document
+  /p1
+
+";
+NewChapter2.Message="
+
+
+Création du chapitre /p1
+
+";
+RetrievedChapter.Message="
+
+Chapitre /p1 retrouvé dans le document
+
+";
+ChapterDefinition.Message="
+DEFINITION DU CHAPITRE :
+";
+Chapter.ErrorMessage="
+Erreur interne : Impossible de créer le chapitre /p1
+";
+Description.ErrorMessage="
+Erreur interne : Impossible de créer la description numéro /p1
+";
+PersistentChapter.ErrorMessage="
+*** Le document associé au chapitre ne peut être sauvegardé ***
+    Raison possible : - le chemin d'accès au document contient des caractères interdits.
+";
+CreatingChapter.ErrorMessage="
+*** Pas de création du chapitre associé au point d'entrée de la bibliothèque ***
+";
+SpecificReasonCreatingChapter1.ErrorMessage="  Raison possible : - La bibliothèque V4 est corrompue
+";
+BatchAborted.Message="
+
+                         -------------
+                         Fin anormale des traitements
+                         -------------
+";
+BatchSuccessful.Message="
+
+                         ------------------------
+                         Fin normale des traitements
+                         ------------------------
+";
+//
+//
+//
+//
+//Conversion messages
+//-------------------
+PartExist0.Message="
+AVERTISSEMENT ! La pièce
+  /p1
+existe déjà et va être écrasée.
+";
+PartCCP.ErrorMessage="AVERTISSEMENT ! Problème dans une partie du document : /p1
+Cette partie ne sera pas sauvegardée.
+";
+AsSpec.Message="
+
+*************************************************************************
+           La conversion des détails SPACE se fera 'AS SPEC'
+*************************************************************************
+
+";
+AsResult.Message="
+*************************************************************************
+             La conversion des détails SPACE se fera 'AS RESULT'
+*************************************************************************
+
+";
+NOUpdateMode.Message="
+
+**********************************************************************
+              Les Parts ne seront pas mises à jour
+**********************************************************************
+
+";
+UpdateMode.Message="
+
+**********************************************************************
+              Les Parts seront mises à jour
+**********************************************************************
+
+";
+TestMode0.Message="
+**********************************************************************
+                L'EXISTENCE DES PARTS N'EST PAS TESTEE
+**********************************************************************
+
+";
+NOUpdateMode.Bilan.Message="- Les Parts ne sont pas mises à jour !!!
+";
+SimulationMode.Message="
+*************************************************************************
+                         MODE = SIMULATION
+*************************************************************************
+
+";
+MigrationMode.Message="
+*************************************************************************
+                         MODE = MIGRATION
+*************************************************************************
+
+";
+RattrapMode.Message="
+*************************************************************************
+                         MODE = RATTRAP
+*************************************************************************
+
+";
+
+//
+// CATConvertDRAWDetail messages
+// --------------------------------
+DrawDetailConversion.Message="
+                                    ----------------
+conversion drawing du détail DRAW /p1
+                                    ----------------
+";
+DrawExist0.Message="
+AVERTISSEMENT ! le détail en mode Draw
+  /p1
+existe déjà et va être perdu.
+";
+BlankFailed.ErrorMessage="****** La création du modèle vierge a échoué ! ******
+";
+TransferFailed.ErrorMessage="****** Le transfert vers un modèle vierge du détail de librairie /p1 a échoué ! ******
+";
+NumberDetails.Message="Nombre de détails dans /p1 : /p2
+";
+CreationV5.Message="La création du nouveau drawing V5 a réussi.
+";
+CreationV5.ErrorMessage="****** La création du nouveau drawing V5 a échoué ! ******
+";
+Converted.Message="La conversion du détail No /p1 dans /p2 a réussi.
+";
+Converted.ErrorMessage="******* La conversion du détail No /p1 dans /p2 a échoué ! *******
+";
+SaveAs.Message="La sauvegarde du drawing V4 /p1 vers le drawing V5 /p2 a réussi.
+";
+SaveAs.ErrorMessage="******* La sauvegarde du drawing V4 /p1 vers le drawing V5 /p2 a échoué ! ******
+";
+SearchOfFirstView.Message="La recherche de la première vue du drawing V5 /p1 a réussi.
+";
+SearchOfFirstView.ErrorMessage="****** La recherche de la première vue du drawing V5 /p1 a échoué ! ******
+";

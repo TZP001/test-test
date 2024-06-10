@@ -1,0 +1,161 @@
+BatchDescription.Title="Generate formats cgr, 3dmap, hcg, wrl, vps and NCGM from a CATIA file or MULTICAD files";
+
+START_BATCH="CATDMUUtility starts at";
+STOP_BATCH="CATDMUUtility stops after a duration of";
+ERR_PROCESSING="ERROR: CATDMUUtility2D failed to process.";
+ERR_TREATMENT="ERROR: The input document cannot be treated";
+OK_TREATMENT="OK: The input document was successfully treated";
+ALL_TREATMENT_OK="CATDMUUtility successfully ended.";
+
+ER_NONEINPUT="ERROR: No input file provided";
+WN_FANDLSWITCH="WARNING: -f cannot be used with -l. -f option is ignored";
+ER_FILEANDMP="ERROR: [3200] Invalid combination of -f [path] and -mp options. Use of -l option is mandatory with -mp ";
+ER_DATABASECONN="ERROR: [2000] the database cannot be connected ";
+ER_CORELISTEFILE="ERROR: [3100] Input list file is invalid or corrupted ";
+ER_NODB="ERROR: -db option is mandatory with -coid -compid -catenv -cattab options";
+
+ER_INVALIDSWITCH="ERROR: [3200] Invalid switch ";
+ER_WP_OUTPUT_FILE="ERROR: [6100] Ouput file already exists and write protected ";
+ER_INVALIDOUTPUT="ERROR: [3200] No output option provided ";
+ER_INVALIDINPUT="ERROR: [3200] Invalid combination of -f and -db options ";
+
+ER_INVALIDLISTEINPUT="ERROR: Invalid combination of -l and -f or -db options";
+ER_INVALIDFILEBASE="ERROR: Invalid combination of -f and -id options";
+ER_INVALIDDATABASE="ERROR: the -id or -l option must follow the -db option";
+ER_NOSETTINGSVALUE="ERROR: No cache settings defined in the environment";
+ER_INVALIDCACHEVALUE="ERROR: Invalid cache directory";
+ER_INVALIDBASENAME="ERROR: Invalid Data Base name";
+ER_NOSERVERNAME="ERROR: No server name";
+ER_FILEPROCESSING="ERROR: A problem occured while processing file : ";
+ER_DATAPROCESSING="ERROR: A problem occured while processing data : ";
+ER_LOGFILE="ERROR: CATDMUUtility cannot write in log file : ";
+ER_SPWD="ERROR: CATDMUUtility cannot decrypte password";
+ER_BBCONTACT="Unable to contact BackBone";
+ER_BBDECLARE="Unable to declare on the backbone bus";
+ER_BB_HANDLER="Unable to associate Handler to the backbone bus";
+ER_MAXSON="Number of parallel child processes is limited to 1, except on SGI";
+ER_MAXSONP1="Number of parallel child processes is limited to 1 with P1 license";
+ER_NOTFOUND=" This file could not be found or countain the wrong information for the active document";
+INFO_MAXSON="Number of parallel child processes launched = ";
+INFO_LOGFILE="CATDMUUtility Log File is : ";
+INFO_LICENCES_OK="Licence(s) found";
+INFO_LICENCES_KO="Licence(s) not found";
+INFO_SUCCESSFULL="CATDMUUtility successfully ended";
+INFO_SUCCESSFULL_MP=" successfully ended";
+INFO_CPULOOP_MP=" failed. Cause : CPULOOP. Process has been killed";
+INFO_CD_MP=" failed. Cause : COREDUMP";
+INFO_RC_MP=" failed. Cause : RC = ";
+INFO_INTERRUPT_MP=" interrupted by user";
+INFO_PARTIALLY="CATDMUUtility partially processed";
+INFO_HELP="USAGE: \n
+          CATDMUUtility  -f inputfile -cgr outputfile1 [-nolod]
+                         [-sag value] [-3dmap outputfile2] [-vox value2] [-apps [com|lnf|all]]
+                         [-box outputfile3] [-unit value3]\n
+          CATDMUUtility  -l inputlist.txt -db name -user username -pwd | -spwd password 
+                         -server servername -cgr -cache [-mp]\n 
+          CATDMUUtility  -l inputlist.txt -cgr -outputdir outputdir\n 
+               -f        : Input model or part file with appropriate
+                           file extensions.(containing eventually a DLName preceeded by 'CATDLN://')
+               -l        : Input list of model with -f, or database identifiers
+                           with -db option. It must contain one path of document per line (containing
+                           eventually a DLName preceeded by 'CATDLN://').
+               -db       : Input database type { VPM | ENOVIAV5 } for processing a list
+                           of Data Base identifiers. Cannot be used with -f option
+                           and without -l option
+                           Following options are available with -db :
+                              -user        : user name identifer for a Data Base connection. Only used with -db option
+                              -pwd         : password of the user for a Data Base connection. Only used with -db option
+                              -server      : logical name of the Data Base server (Defined in Settings).
+               -cgr      : Output file for cgr corresponding to the input file
+                           If no file name is mentioned, output file will be generated in input file directory
+                           Following options are available with -cgr :
+                              -sag         : Optional switch to generate cgr with a specified sag value
+                                             A float value is required.
+                              -keepsag     : Activate this switch to retessalate a cgr, keeping its sag value.
+                                             -force is mandatory with -keepsag
+                              -nolod       : Optional switch to generate CGR without Level Of Detail (LOD)
+                                             or the model in the DMU cache directory
+                              -targetlevel : Export cgr into specific level
+                                             A level is required (CXR17, CXR18, etc...)
+                                             -cache option cannot be used with -targetlevel option
+                           Do not use -sag option with -keepsag
+               -NavRep   : Output file for Navigation Representations corresponding to the input file.
+                           A path must be indicated after the option. If no output file name is mentioned,
+                           output file will be generated in input file directory 
+                           (NavReps cannot be generated into the cache). 
+                           It is possible to use CATProducts and CATParts both from file and database.           
+               -NCGM     : Output file for NCGM corresponding to the input file
+                           If no file name is mentioned, output file will be generated in input file directory
+               -3dmap    : Output file for 3dmap corresponding to the input file
+                           If no file name is mentioned, output file will be generated in input file directory
+               -wrl      : Output file for vrml corresponding to the input file
+                           If no file name is mentioned, output file will be generated in input file directory
+               -hcg      : Output file for hcg corresponding to the input file
+                           If no file name is mentioned, output file will be generated in input file directory
+               -vps      : Output file for vps corresponding to the input file
+                           If no file name is mentioned, output file will be generated in input file directory
+               -product  : Output file for CATIA assembly : CATProduct
+                           (MultiCAD Settings will be taken into account)
+               -part     : Output file for CATPart corresponding to the input file
+                           If no file name is mentioned, output file will be generated in input file directory
+               -jpg      : Output file for jpg corresponding to the input file
+                           If no file name is mentioned, output file will be generated in input file directory
+                           Limitations for jpg option :
+                              - Do not use -mp, -cache and -db options with -jpg
+                           Following options are available with -jpg :
+                              -xsize       : horizontal size of the picture.  Units : pixel
+                                             An integer value is required
+                              -ysize       : vertical size of the picture.    Units : pixel
+                                             An integer value is required
+                              -camera      : specify the camera (point of view) use to generate the jpg file
+                                             A camera name is required
+                              -viewmode    : select the view mode
+                                             A mode name is required
+                                                shading for display shading representation
+                                                shadingedges for display shading  with edges representation
+                                                wireframe for display wireframe representation
+                                                material for display material representation
+                              -bk          : Select the background color 
+                                             0 or 1 value is required
+                                                0 for default background background color selected in Tools+Options
+                                                1 for white background color
+               -box      : Switch to generate the bounding box corresponding to the input file
+                           If the input file is not a cgr, -cgr option is mandatory
+               -outputdir: To specify an output directory instead of use input directory creation
+                           when no paramater are specified for switch options
+               -cache    : Optional switch to generate CGR files for the parts
+                           or the model in the DMU cache directory
+                           Following options are available with -cache :
+                              -checksize   : activate this option to take cache size into account
+               -log      : Store all the error messages in a log file
+                           If no lof file is specified, CATDMUUtility creates one in the temporary directory
+               -vox      : Switch to generate 3map or vps with a specified voxel value
+                           Its use is mandatory after -3dmap or -vps option.A float value is required
+                           Following options are available with -vox :
+                              -vpssag      : Optional switch to generate vps with triangle accuracy
+               -force    : The output file rebuilded if the option is activated
+               -unit     : Optional switch to compute in the appropiate unit { mm, cm, m, inch, foot}
+                           Default value is input milimeter : mm
+               -apps     : Optional switch to extract Comment Page and/or Layer and Filters from V4 model files
+                           You can precise any or none of this options:
+                           com: for Comment Page
+                           lnf: for Layer and Filters
+                           all: for both
+               -coid     : Input coid identiificator of the VPM data to convert
+                           Must be used with -db, -compid, -catenv and -cattab options
+               -compid   : Input compid identiificator of the VPM data to convert
+                           Must be used with -db, -coid, -catenv and -cattab options
+               -catenv   : Input catenv identiificator of the VPM data to convert
+                           Must be used with -db, -coid, -compid and -cattab options
+               -cattab   : Input cattab identiificator of the VPM data to convert
+                           Must be used with -db, -coid, -compid and -catenv options
+               -mp       : CATDMUUtility batch will be launch in multiprocess mode
+                           Multiprocess parameters must be set in :
+                           Tools + Option + Digital MockUp + Multiprocess Settings.
+                           -l and -cache options are mandatory
+                           Following options are available with -mp :
+                              -process     : Set the number of child processes.
+                              -timeout     : Set the time out. After this time, child processes are killed.
+";
+
+

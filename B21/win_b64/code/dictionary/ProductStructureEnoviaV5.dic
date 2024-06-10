@@ -1,0 +1,109 @@
+CATIAProductStructure   CATIEnoviaV5LoadDoc			libCATPrdEnoviaV5Impl
+CATIAProductStructure   CATIEnoviaV5Adapter			libCATPrdEnoviaV5Impl
+CATIAProductStructure   CATIEnoviaV5LogAdapter	                libCATPrdEnoviaV5Impl
+
+ASMPRODUCT				CATIEnoviaV5Driver          libCATPrdEnoviaV5Impl
+ASMPRODUCT				CATIEnoviaV5Driver1         libCATPrdEnoviaV5Impl
+ASMPRODUCT				CATIPrdEnoviaV5MutualDriver         libCATPrdEnoviaV5Impl
+ASMPRODUCT				CATIPDMEnv                  libCATPrdEnoviaV5Impl
+ASMPRODUCT				CATIEnoviaV5Product         libCATPrdEnoviaV5Impl
+ASMPRODUCT				CATIEnoviaV5SaveOptions     libCATPrdEnoviaV5Impl
+
+ENOVIALocate			CATILocate					libCATPrdEnoviaV5Impl
+ENOPartLocate			CATILocate					libCATPrdEnoviaV5Impl
+
+CONNECTOR				CATIEnoviaV5Driver          libCATPrdEnoviaV5Impl
+CONNECTION				CATIEnoviaV5Driver          libCATPrdEnoviaV5Impl
+CONNECTION				CATIEnoviaV5Driver1         libCATPrdEnoviaV5Impl
+CONNECTION				CATIPrdEnoviaV5MutualDriver         libCATPrdEnoviaV5Impl
+ENOVIAIntEnv			CATIPDMAccess				libCATPrdEnoviaV5Impl
+
+PRDCTXINPUT				CATIEnoviaV5Driver		libCATPrdEnoviaV5MML
+PRDCTXINPUT       			CATIPDMMMLInfo          	libCATPrdEnoviaV5MML
+PRDCTXINPUT				CATIEnoviaV5DriverList		libCATPrdEnoviaV5MML
+PUBLISHING				CATIEnoviaV5Driver		libCATPrdEnoviaV5MML
+PUBLISHING				CATIEnoviaV5DriverList		libCATPrdEnoviaV5MML
+CATEnoviaMMLAdapter			CATIEnoviaV5Adapter		libCATPrdEnoviaV5MML
+CATEnoviaMMLAdapter			CATIEnoviaV5LogAdapter		libCATPrdEnoviaV5MML
+
+CATDocument				CATIEnoviaV5Driver		libCATPrdEnoviaV5Impl
+CATDocument				CATIEnoviaV5Driver1		libCATPrdEnoviaV5Impl CATENODriver1DocPreCond    
+CATDocument				CATIPrdEnoviaV5MutualDriver		libCATPrdEnoviaV5Impl CATENODriver1DocPreCond    
+CATDocument				CATIEV5Persistency		libCATPrdEnoviaV5Impl    
+CATDocument				CATIEnoviaV5SaveOptions		libCATPrdEnoviaV5Impl    
+CATDocument		 		CATIEnoviaV5DocRevision		libCATPrdEnoviaV5Impl
+CATDocument				CATIEnoviaV5DocLog		libCATPrdEnoviaV5Impl
+
+#ASMPRODUCT				CATIPDMObject				libCATPrdEnoviaV5Impl CATENOPreCond
+#CONNECTOR				CATIPDMObject				libCATPrdEnoviaV5Impl CATENOPreCond
+#CONNECTION				CATIPDMObject				libCATPrdEnoviaV5Impl CATENOPreCond
+
+ENODataObject			CATIPDMObject				libCATPrdEnoviaV5Impl CATENOPreCond
+#LDY 15.03.05 Supp PreCond ENODataObject			CATILinkableForPDM			libCATPrdEnoviaV5Impl CATENOLinkablePreCond
+ENODataObject			CATILinkableForPDM		libCATPrdEnoviaV5Impl  
+ENODataObject 	 		CATILinkableObject 	 	libCATPrdEnoviaV5Impl
+# ----- To manage on our own clean of corrupted PDM entities like Feature extensions ---
+ENODataObject   		CATISpecExtensionToClean      libCATClnPDM  
+
+catalog				CATIEnoviaV5Driver			libCATPrdEnoviaV5Impl
+catalog				CATICtlgEnoviaV5Driver		libCATPrdEnoviaV5Impl
+catalog				CATIEnoviaV5Driver1		libCATPrdEnoviaV5Impl
+catalog				CATIEnoviaV5SaveOptions		libCATPrdEnoviaV5Impl
+catalog 	 		CATIEnoviaV5DocLog 	 	libCATPrdEnoviaV5Impl
+catalog 			CATIEnoviaV5DocRevision 	libCATPrdEnoviaV5Impl
+
+ENOVIA5					CATICatalogDocsReconcileOperations		libCATPrdEnoviaV5Impl
+File					CATICatalogDocsReconcileOperations		libCATPrdEnoviaV5Impl
+
+
+CATIAAppCont			CATIEnoviaV5Adapter			libCATPrdEnoviaV5Impl   
+CATPSVpmSaveCmd			CATIProgressTask			libCATPrdEnoviaV5Command 
+
+#
+# ------ CatiaV5/EnoviaV5 Interoperability -Cnx Export/Import Adhesions--
+#                                 
+CONNECTION				CATIPDMStream				libCATPrdEnoviaV5Impl CATMecaCnxCstPreCond
+
+
+# MODIF PA DEB 31/01/2002  / !!!!!!!!!!!!!!! ADHESIONS A SUPPRIMER EN R9 !!!!!!!!!!!!!!!!!!!!!!!/ 
+Uns_MecaCnxCst			CATIPDMUnstream				libCATPrdEnoviaV5Impl
+#                          / !!!!!!!!!!!!!!! ADHESIONS A AJOUTER EN R9 !!!!!!!!!!!!!!!!!!!!!!!/ 
+Uns_CONNECTION          CATIPDMUnstream             libCATPrdEnoviaV5Impl
+# MODIF PA FIN   
+
+#
+# ------ CatiaV5/EnoviaV5 Interoperability - GCO Export/Import Adhesions -- EBN Juillet 02
+#                                 
+CATPCO				CATIEnoviaV5Driver          libCATPrdEnoviaV5Impl
+CATPCO				CATIEnoviaV5Driver1         libCATPrdEnoviaV5Impl //IR 587852
+CATPCO				CATIPrdEnoviaV5MutualDriver         libCATPrdEnoviaV5Impl
+
+#RDR 10 juil 2002
+#POSITIONING SPECIFIC ADAPTER
+V5CSAdapter					CATIEnoviaV5Adapter	libCATPSEnoviaV5CS
+EnoviaV5CSProvider				CATIEnoviaV5Provider    libCATPSEnoviaV5CS
+CONNECTION					CATIPDMLoggable         libCATPSEnoviaV5CS
+
+#
+
+
+# ---- TECHNICAL PACKAGES --------------------------------------------------------------
+CATData              CATIEnoviaV5Driver1           libCATPrdEnoviaV5Impl
+CATData              CATIEV5Persistency            libCATPrdEnoviaV5Impl
+#BBX-NNDE# CATData              CATIEnoviaV5DocLog            libCATPrdEnoviaV5Impl
+CATData			CATIPDMSemanticRelationDesc   libCATPrdEnoviaV5Impl
+CATData 		CATIEnoviaV5DocLog 	 	libCATPrdEnoviaV5Impl
+CATData 		CATIEnoviaV5DocRevision 	libCATPrdEnoviaV5Impl
+CATData 		CATIEnoviaV5Driver 		libCATPrdEnoviaV5Impl 	
+CATData			CATIEnoviaV5SaveOptions		libCATPrdEnoviaV5Impl
+CATData			CATIPDMPersistency		libCATPrdEnoviaV5Impl
+CATDataAdapter       CATIEnoviaV5Adapter           libCATPrdEnoviaV5Impl
+
+# nouvelle instance dans NOMAD
+ENOVIA5              CATIPDMNomadNaming	           libCATPrdEnoviaV5Impl
+
+#RID .. mkCheckArchi MDE errors
+CATUEReferenceNamingSupport	CATIPDMReferenceNamingInfo	libCATPrdEnoviaV5Impl
+#AES PoPSafeSave Interface
+
+CATSession  CATIPDMProdSpecChecker  libCATPrdEnoviaV5Impl

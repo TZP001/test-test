@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<st:repository xsi:schemaLocation="urn:com:dassault_systemes:settings settings.xsd" xmlns:st="urn:com:dassault_systemes:settings" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:com:dassault_systemes:settings">
+	<st:Description name="GeneralPCS" PrimaryTabpage="/General/PCS">
+		<st:role>Setting to manage performance, capacity and scalability tuning</st:role>
+		<st:RepositoryFile>GeneralPCS</st:RepositoryFile>
+		<st:version>1</st:version>
+		<st:compatibility>
+			<st:FullCompatibilityfromLevel>1</st:FullCompatibilityfromLevel>
+			<st:UpwardCompatibilityfromLevel>1</st:UpwardCompatibilityfromLevel>
+		</st:compatibility>
+	</st:Description>
+	<st:attributes>
+		<st:attribute Name="UndoMax">
+			<st:role>Maximum number of undoable global transactions per document</st:role>
+			<st:detailedRole>Maximum number of commands or editions in context which can be undone for each document.
+0 means that only local transactions of the current command or edition in context are undoable.</st:detailedRole>
+			<st:uint>
+				<st:min>0</st:min>
+				<st:max>99</st:max>
+				<st:step>1</st:step>
+				<st:default>
+					<st:value>10</st:value>
+				</st:default>
+			</st:uint>
+		</st:attribute>
+    
+    <st:attribute Name="CheckMultiEditorUndo">
+      <st:role>Check multi-editor Undo</st:role>
+      <st:detailedRole>
+        Activating this setting prevents any unpredictable behavior in the Undo/Redo process
+        if a document is open in several editors for modification purpose.
+      </st:detailedRole>
+      <st:uint>
+        <st:min>0</st:min>
+        <st:max>1</st:max>
+        <st:step>1</st:step>
+        <st:default>
+          <st:value>1</st:value>
+        </st:default>
+      </st:uint>
+    </st:attribute>
+    
+    <st:attribute Name="StackFullWarning">
+      <st:role>Activation flag for stack full warning</st:role>
+      <st:detailedRole>
+        Sets the behavior when the Undo/Redo stack becomes full.
+        0 means that no warning is displayed, 1 displays an easy warning, 2 displays a notify box requesting a user commitment.
+      </st:detailedRole>
+      <st:uint>
+        <st:min>0</st:min>
+        <st:max>2</st:max>
+        <st:step>1</st:step>
+        <st:default>
+          <st:value>0</st:value>
+        </st:default>
+      </st:uint>
+    </st:attribute>
+  </st:attributes>
+</st:repository>

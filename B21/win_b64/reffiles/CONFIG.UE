@@ -1,0 +1,46 @@
+<?xml version="1.0" ?>
+<Domain Name="CONFIG">
+	<UserExit	Name="CATICfgMngUEBsf"
+				Interface="CATICfgMngUEBsf"
+				Visibility="Public" 
+				Abstract="Entry point to retrieve BSF filters and/or domain names.
+						  This user exit is called in effectivity panels when retrieving the effectivities.">
+		<Methods		Name="GetBSFNames"
+						Abstract="Retrieves the list of available BSF filters.">
+		</Methods>
+		<Methods		Name="GetDomainList" 
+						Abstract="Retrieves the list of available domains.">
+		</Methods>
+		<AvailableFor	Name="CATVpmFactoryManager"
+						Abstract="The Factory Manager object">
+		</AvailableFor>
+	</UserExit>
+	<UserExit	Name="CATICfgUEBsf"
+				Interface="CATICfgUEBsf"
+				Visibility="Public" 
+				Abstract="Entry point to retrieve BSF filters.
+						  This user exit is called in filters before the filter command.">
+		<Methods		Name="GetBSFFilter"
+						Abstract="Retrieves the predefined filter.">
+		</Methods>
+		<AvailableFor	Name="ENOVIA_CFGABLE_OBJECT"
+						Abstract="Configuration Context/Space. Defines all configuration variables allowed (specs, milestones)">
+		</AvailableFor>
+	<UserExit	Name="CATIConfigurableObjectUE"
+				Interface="CATIConfigurableObjectUE"
+				Visibility="Public" 
+				Abstract="Entry point to check ability to modify an object.
+						  This user exit is called in effectivity operations computing/modifying effectivities.">
+		<Methods		Name="CheckAbilityToAttach"
+						Abstract="Ckecks specific rules when a modification is set on a filterable object.">
+		</Methods>
+		<Methods		Name="CheckCfgRules"
+						Abstract="Checks specific rules when valuating an effectivity.">
+		</Methods>
+		<Methods		Name="GetNoRelimitDomain"
+						Abstract="Retrieves the list of domains that should not be relimited during a cut, replace or move operation.">
+		</Methods>
+		<AvailableFor	Name="ENOVIA_CFGABLE_OBJECT"
+						Abstract="Configuration Context/Space. Defines all configuration variables allowed (specs, milestones)">
+		</AvailableFor>
+</Domain>

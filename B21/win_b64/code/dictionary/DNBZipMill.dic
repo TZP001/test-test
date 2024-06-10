@@ -1,0 +1,100 @@
+# COPYRIGHT Deneb and Dassault Systemes 1998
+#=============================================================================
+# DNBZipMill.dic 
+# Describes the Interfaces implemented by ZipMill document 
+#=============================================================================
+# Usage notes:
+# ZipMill interface implementation
+#=============================================================================
+# 30/7/98   Creation                                         Vydyanathan V.K
+# 25/10/99  Modified to add entry for                        vvk
+#           DNBIZipStreamData interface
+#           mkCheckArchi complaint
+# 19/11/99  Modified to add entry for interfaces             S.K.SAINI
+#           implemented for AnimZip
+# 19/11/99  Modified to add entry for derived interfaces     S.K.SAINI
+# 12/01/00  Removed the entry for LifeCycleObject.           S.K.SAINI
+# 28/08/2000 Tools->Options Enhancement                      Pradeep
+# 20/09/2000 Added DNBIZipJob2 interface                     Pradeep
+# 25/01/2001 Photo std tool enhancement                      Pradeep
+# 07/01/2002 R9 enhancements                                 Pradeep
+# 25/03/2003 Added DNBIZipVcAnimRemoveChip and 
+#				   DNBIZipAnimMeasure						 SJK
+# 05/09/2003 mkArchierror: Removed DNBIZipErrorAnimation	 AWW
+#=============================================================================
+
+
+#----------------------------------------------------------------------------
+dnbZipCont                DNBIZipInit                  libDNBZipModel
+dnbZipCont                DNBIZipFactory               libDNBZipModel
+#----------------------------------------------------------------------------
+dnbZipJob                 DNBIZipJob                   libDNBZipModel
+dnbZipJob                 DNBIZipJobDisplayAttributes  libDNBZipModel
+dnbZipJob                 DNBIZipRunnable              libDNBZipModel
+dnbZipJob                 DNBIZipJobAnalysis           libDNBZipModel
+#----------------------------------------------------------------------------
+dnbZipProgram             DNBIZipProgram               libDNBZipModel
+dnbZipProgram             DNBIZipReadData              libDNBZipModel
+dnbZipProgram             DNBIZipJobInfo               libDNBZipModel
+dnbZipProgram             DNBIZipStreamData            libDNBZipModel
+dnbZipProgram             DNBIZipPhotoStdTool          libDNBZipModel
+#----------------------------------------------------------------------------
+dnbZipPart                DNBIZipPart                  libDNBZipModel
+dnbZipPart                DNBIZipBbox                  libDNBZipModel
+dnbZipPart                DNBIZipAddViewRep            libDNBZipModel
+#----------------------------------------------------------------------------
+dnbZipError               DNBIZipMachiningError        libDNBZipModel
+#----------------------------------------------------------------------------
+dnbZipFault               DNBIZipCompare               libDNBZipModel
+#----------------------------------------------------------------------------
+dnbZipTool                DNBIZipParametricTool        libDNBZipModel
+#----------------------------------------------------------------------------
+
+# -----------------------------------------------------------------------
+DNBZipVcCont              DNBIZipInit                  libDNBZipVcModel
+DNBZipVcCont              DNBIZipFactory               libDNBZipVcModel
+DNBZipVcCont              CATIContainer                libDNBZipVcModel
+#----------------------------------------------------------------------------
+DNBZipVcJob               DNBIZipJob                   libDNBZipVcModel
+DNBZipVcJob               DNBIZipJob2                  libDNBZipVcModel
+DNBZipVcJob               DNBIZipJobDisplayAttributes  libDNBZipVcModel
+DNBZipVcJob               DNBIZipRunnable              libDNBZipVcModel
+DNBZipVcJob               DNBIZipRunnable2             libDNBZipVcModel
+DNBZipVcJob               DNBIZipAnimBatch             libDNBZipVcModel
+DNBZipVcJob               DNBIZipCollision             libDNBZipVcModel
+DNBZipVcJob               DNBIZipCompareSession        libDNBZipVcModel
+DNBZipVcJob               DNBIZipAnimPick              libDNBZipVcModel
+DNBZipVcJob				  DNBIZipVcAnimRemoveChip	   libDNBZipVcModel
+DNBZipVcJob				  DNBIZipAnimMeasure		   libDNBZipVcModel
+DNBZipVcJob				  DNBIZipCollision2			   libDNBZipVcModel 
+#----------------------------------------------------------------------------
+DNBZipVcProgram           DNBIZipProgram               libDNBZipVcModel
+DNBZipVcProgram           DNBIZipReadData              libDNBZipVcModel
+DNBZipVcProgram           DNBIZipStreamData            libDNBZipVcModel
+DNBZipVcProgram           DNBIZipStreamData2           libDNBZipVcModel
+DNBZipVcProgram           DNBIZipStreamData3           libDNBZipVcModel
+DNBZipVcProgram           DNBIZipJobInfo               libDNBZipVcModel
+DNBZipVcProgram			  DNBIZipRunSummaryInfo		   libDNBZipVcModel 
+DNBZipVcProgram			  DNBIZipStreamDataTurning	   libDNBZipVcModel 
+DNBZipVcProgram			  DNBIZipMcdData			   libDNBZipVcModel 
+#----------------------------------------------------------------------------
+DNBZipVcPart              DNBIZipPart                  libDNBZipVcModel
+DNBZipVcPart              DNBIZipReadData              libDNBZipVcModel
+DNBZipVcPart              DNBIZipSaveData              libDNBZipVcModel
+DNBZipVcPart              DNBIZipAddViewRep            libDNBZipVcModel
+#----------------------------------------------------------------------------
+DNBZipVcParametricTool    DNBIZipParametricTool        libDNBZipVcModel
+#----------------------------------------------------------------------------
+
+# -----------------------------------------------------------------------
+MachiningOperation        DNBIZipMachinistAlgo         libDNBZipVcModel
+MachiningOperation        DNBIZipMachinistAlgo2        libDNBZipVcModel
+APTImport                 DNBIZipMachinistAlgo         libDNBZipVcModel
+APTImport                 DNBIZipMachinistAlgo2        libDNBZipVcModel
+MfgCopyOrder              DNBIZipMachinistAlgo         libDNBZipVcModel
+MfgCopyOrder              DNBIZipMachinistAlgo2        libDNBZipVcModel
+# -----------------------------------------------------------------------
+
+// Start GPP
+ASMPRODUCT                DNBIZipSimulationProd        libDNBZipVcModel
+// End GPP

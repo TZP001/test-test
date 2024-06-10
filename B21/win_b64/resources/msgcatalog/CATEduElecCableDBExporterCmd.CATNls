@@ -1,0 +1,120 @@
+//=============================================================================
+//                                     CNEXT - CXR5
+//                          COPYRIGHT DASSAULT SYSTEMES 2004 
+//-----------------------------------------------------------------------------
+// FILENAME    :    CATEduElecCableDBExporterCmd.CATNls
+// FRAMEWORK   :    CATEduUI
+// AUTHOR      :    ehh
+// DATE        :    September 2004
+//------------------------------------------------------------------------------
+// DESCRIPTION :    Resources File for NLS purpose related to Interactive
+//                  Plant Ship Commands.
+//                  
+//------------------------------------------------------------------------------
+// COMMENTS    :
+//------------------------------------------------------------------------------
+//MODIFICATION     user  date      purpose
+//   HISTORY       ----  ----      -------
+//------------------------------------------------------------------------------
+
+
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+// DialogEngine state prompts 
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+CATEduElecCableDBExporterCmd.SelectWPToExportState.Message = "Select work packages to import into electrical cable database (from panel)";
+CATEduElecCableDBExporterCmd.DisplayImportResultsState.Message = "Select CLOSE or View report";
+CATEduElecCableDBExporterCmd.ViewReportState.Message = "Select CLOSE or Save As when finished viewing report";
+CATEduElecCableDBExporterCmd.SaveReportState.Message = "Select directory to save report to";
+
+NoDBConnectionText="You are disconnected from the database.  Please reconnect before using this command.";
+NoElecWPText="No electrical work packages were found.
+
+Please make sure that the PRC tree is expanded to show the relevant work packages.";
+CommandTitle="Electrical Cable Database Import"; 
+NoWpSelectedText="Please select one or more work packages to import";
+ImportingPOPWPsText="Some or all of the work packages that have been selected for import are part of a 'Product 
+On Product' (i.e., a nested PRC) situation.  Such work packages can only be imported  
+through direct access to their associated PRCs.  Please access the immediate parent 
+PRCs directly and re-import the corresponding work packages.";
+
+ImportResultsTitle = "Import Results Summary";
+ImportResultsText = "/P1 of /P2 work packages successfully imported.";
+
+ImportReportTitle = "Electrical Cable Database Import Report";
+ImportReportDate = "Date:  /P1";
+ImportReportTime = "Time:  /P1";
+ImportReportBodyPRCTitle = "PRC: /P1";
+ImportReportBodyWPTitle = "Work Packages Processed:";
+ImportReportSuccessfulWP = "'/P1' - IMPORT SUCCESSFUL";
+ImportReportFailedWP = "'/P1' - IMPORT FAILED";
+ImportReportObjectLevelError = "Processing error for object '/P1': /P2";
+ImportReportWPLevelError = "Work package processing error: /P1";
+ImportReportWPLevelWarning = "Work package processing warning: /P1";
+ImportReportInternalError = "Internal error: /P1";
+
+ProgressTaskUI.Title = "Importing work packages into database";
+//ProgressTaskUI.ObjectName = "Electrical Cable Database";
+//ProgressTaskUI.Comment = "Processing work packages";
+ProgressTaskUI.CommentRuntime = "Processing work package /P1 of /P2";
+
+EduExportERR_0001.Request = "Loading document";
+EduExportERR_0001.Diagnostic = "Document could not be loaded into the session";
+EduExportERR_0001.Advice = "Please notify data base adminstrator";
+EduExportERR_0002.Request = "Removing document";
+EduExportERR_0002.Diagnostic = "Document could not be removed from the session";
+EduExportERR_0002.Advice = "Please notify data base adminstrator";
+EduExportERR_0003.Request = "Putting work package data";
+EduExportERR_0003.Diagnostic = "Failed to create a work package record in the database";
+EduExportERR_0003.Advice = "Please notify data base adminstrator";
+EduExportERR_0004.Request = "Saving work package data";
+EduExportERR_0004.Diagnostic = "Failed to save data in the database.";
+EduExportERR_0004.Advice = "Please notify data base adminstrator";
+EduExportERR_0005.Request = "Saving work package data";
+EduExportERR_0005.Diagnostic = "Failed to save data in the database: /P1";
+EduExportERR_0005.Advice = "Please notify data base adminstrator";
+EduExportERR_0006.Request = "Ending put work package data";
+EduExportERR_0006.Diagnostic = "Failed to finish processing the work package record in the database";
+EduExportERR_0006.Advice = "Please notify data base adminstrator";
+EduExportERR_0007.Request = "Putting work package data or ending put work package data";
+EduExportERR_0007.Diagnostic = "Failed to create or finish processing the work package record in the database: /P1";
+EduExportERR_0007.Advice = "Please notify data base adminstrator";
+EduExportERR_0008.Request = "Importing a work package into the electrical cable database";
+EduExportERR_0008.Diagnostic = "This work package is a duplicate document revision in a group of unimported work packages and cannot be imported at the same time as them";
+EduExportERR_0008.Advice = "Pick only one of the document revision related work packages to be imported and then proceed like normal";
+EduExportERR_0009.Request = "Importing a work package into the electrical cable database";
+EduExportERR_0009.Diagnostic = "This workpackage is not configured and it's PRC is configured and cannot be imported under this circumstances";
+EduExportERR_0009.Advice = "Configure the workpackage in a configured PRC before importing and then process like normal";
+EduExportERR_0010.Request = "Importing a work package into the electrical cable database";
+EduExportERR_0010.Diagnostic = "This workpackage has overlapping effectivites within it's family";
+EduExportERR_0010.Advice = "Modify the workpackage effectivites to not overlap with other members of it's family";
+
+SecurityCheckPanelTitle = "Validate Security Access";
+SecurityCheckFailure = "You are not authorized to perform this operation.  Please contact your ENOVIA V5 VPM system administrator.  You 
+need to be granted authority for the following security process(es):
+
+  /P1";
+
+InvalidForImportPITitle = "Invalid for Import Part Instances";
+//InvalidForImportPIText1 = "The following part instances are considered invalid for import into the electrical cable database
+//because they contain two or more combinations of CATProduct and/or import XML documents
+//(there should only be one of these types of documents per part instance):
+//";
+InvalidForImportPIText1 = "The following part instances will not be processed because they contain two or 
+more CATProduct and/or import XML documents (there should only be one of  
+these types of documents per part instance):
+";
+
+InvalidForImportPIText2 = "
+     /P1";
+InvalidForImportPIText3 = "
+
+Click OK to continue, Cancel to exit this operation";
+
+MultipleDocRevisionPanelTitle = "Multiple Document Revisions";
+MultipleDocRevisionPanelText = "The following work packages displayed in your VPM Navigator specification tree are related by document revision:
+/P1
+
+* - denotes the last imported work package in a document revision family";
+InvalidToImportByDocRevisionPanelTitle = "Multiple Document Revisions";
+InvalidToImportByDocRevisionPanelText = "The following work packages are related by document revision and cannot be imported in the same operation:
+/P1";

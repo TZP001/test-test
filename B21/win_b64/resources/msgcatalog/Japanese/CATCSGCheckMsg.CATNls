@@ -1,0 +1,246 @@
+//Framework FromSolidV4toPart
+
+//---------------------------------------------------------------------------
+CatgeoError1=" 選択したCATIA V4 ｴﾚﾒﾝﾄ /P1 には不適切なﾃﾞｰﾀ構造があります ";
+CatgeoError2=" 選択した /P2 からのCATIA V4 ｴﾚﾒﾝﾄ /P1 には不適切なﾃﾞｰﾀ構造があります ";
+CatgeoError3=" Jele /P1 のCATIA V4 ｴﾚﾒﾝﾄには不適切なﾃﾞｰﾀ構造があります ";
+//---------------------------------------------------------------------------
+GeometryStatusNYI="/P1 操作は設定されていません";
+GeometryStatusUnsup="/P1 操作はｻﾎﾟｰﾄされません";
+GeometryStatusCPb="/P1 連続性の問題";
+GeometryStatusAsRt="/P1 ﾌﾟﾘﾐﾃｨﾌﾞは形状としてのみﾁｪｯｸされました";
+GeometryStatusError="V4以外のｿﾘｯﾄﾞ ｴﾚﾒﾝﾄ";
+GeometryStatusV3Isolated="分離されたﾓｯｸｱｯﾌﾟ ｿﾘｯﾄﾞ ｴﾚﾒﾝﾄ";
+GeometryStatusV3Isolated2="ﾋｽﾄﾘがありません｡CGRとして転送されました";
+GeometryStatusCSGReadingPb="CSGﾂﾘｰの読み取り中の問題";
+GeometryStatusV3NonIsolated="非分離のﾓｯｸｱｯﾌﾟ ｿﾘｯﾄﾞ ｴﾚﾒﾝﾄ";
+GeometryStatusV3NonIsolated2="結果としてCPの場合 --> cgrﾌｧｲﾙを作成";
+///---------------------------------------------------------------------------
+MigreV3IsolatedResult="分離されたﾓｯｸｱｯﾌﾟ ｿﾘｯﾄﾞ /P1 の形状として移行: ";
+MigreV3IsolatedSpec="分離されたﾓｯｸｱｯﾌﾟ ｿﾘｯﾄﾞ /P1 の仕様どおりに移行: ";
+MigreV3Isolated="分離されたﾓｯｸｱｯﾌﾟ ｿﾘｯﾄﾞ /P1 は貼り付けられていません ";
+MigreV3Result="ﾓｯｸｱｯﾌﾟ ｿﾘｯﾄﾞ /P1 の形状として移行: ";
+MigreV3Spec="ﾓｯｸｱｯﾌﾟ ｿﾘｯﾄﾞ /P1 の仕様どおりに移行: ";
+MigreV3="- 生成されたCGRﾌｧｲﾙはﾓﾃﾞﾙを格納したﾃﾞｨﾚｸﾄﾘに入ります";
+PbCreationCGR="- CGRﾌｧｲﾙ作成に失敗しました: ﾓﾃﾞﾙは読み取り専用のﾃﾞｨﾚｸﾄﾘにあります";
+NoCreationCGR=" - CGRﾌｧｲﾙは作成されませんでした";
+// JNV
+MigreV3NoCGRButResult1="- [ﾊﾟｰﾂ ﾎﾞﾃﾞｨｰとして]ﾎﾞﾀﾝがﾁｪｯｸされています";
+MigreV3NoCGRButResult2="cgrとしてではなく結果としてV3 ｿﾘｯﾄﾞ /P1 の移行が必要です";
+//BLI NLS Action
+MigreSolidTopologyPb=" 無効なまたはｲﾝﾌﾟﾘﾒﾝﾄされていない記述により変換に失敗しました｡ ";
+CreatedByTheFeature=" ﾌｨｰﾁｬｰによって作成 ";
+withJELE=" JELE使用 ";
+InternalError=" 内部ｴﾗｰ ";
+Brepfrom="Brep ";
+from=" から ";
+InvalidBrepGeometry=" 無効な形状";
+Context="ｺﾝﾃｷｽﾄ ";
+Localisation="ﾛｰｶﾘｾﾞｰｼｮﾝ ";
+//
+PbReadingCSG="ｿﾘｯﾄﾞ /P1 をCSGﾂﾘｰから読み取り中に問題: ";
+TransferMockUp="ﾓｯｸｱｯﾌﾟ ｿﾘｯﾄﾞ /P1 は貼り付けられていません: ";
+//
+CheckError="ﾁｪｯｸ ｴﾗｰ";
+//---------------------------------------------------------------------------
+SketchCRV="/P1: 無効なCRV";
+SketchCCV="/P1: CCVはｻﾎﾟｰﾄされていません";
+SketchError="不明のｽｹｯﾁです";
+//---------------------------------------------------------------------------
+SpecChkOpenContourError="ｵｰﾌﾟﾝ輪郭ｴﾗｰ";
+SpecChkParentError="親ｴﾗｰ";
+SpecChkOpenFaceError="ｵｰﾌﾟﾝ ﾌｪｰｽ ｴﾗｰ";
+SpecChkOpenSurfaceError="ｵｰﾌﾟﾝ ｻｰﾌｪｽ ｴﾗｰ";
+SpecChkTangencyDiscontError="接線不連続ｴﾗｰ";
+SpecChkInternalError="内部ｴﾗｰ";
+Impactedbyinvalidorunsup="/P1 はｻﾎﾟｰﾄ外のｴﾚﾒﾝﾄまたは無効なｴﾚﾒﾝﾄによるｲﾝﾊﾟｸﾄを受けます";
+Cannotbemigrated="/P1 は移行できません";
+OperationUnsup="/P1 操作はｻﾎﾟｰﾄされていません";
+OperationNYI="/P1 操作は設定されていません";
+Impossible="/P1 貼り付けられません";
+PrimitiveNYI="/P1 ﾌﾟﾘﾐﾃｨﾌﾞはまだ設定されていません";
+UnaryOpError="/P1: 無効なﾌﾟﾘﾐﾃｨﾌﾞ";
+TriTangent="3接ﾌｨﾚｯﾄはｻﾎﾟｰﾄされていません";
+MultiRuban="複数開始ﾌｨﾚｯﾄ";
+MultiBloc="異なる半径の複数ﾌﾞﾛｯｸ ﾌｨﾚｯﾄ";
+NoEdge="ｴｯｼﾞ定義がありません";
+NoRadius="半径の指定がありません";
+NoRollingEdgeFil="ﾌｨﾚｯﾄにﾛｰﾙ ｴｯｼﾞ定義がありません｡ ";
+NoRollingEdge="ﾛｰﾙ ｴｯｼﾞ ﾌｨﾚｯﾄはｻﾎﾟｰﾄされていません: ";
+VariableFil="徐変ﾌｨﾚｯﾄ: ";
+//
+MultiParting="複数ﾊﾟｰﾃｨﾝｸﾞ ";
+MultiNeutral="複数基準ｴﾚﾒﾝﾄ";
+MultiAngle="複数角度";
+ImplicitDir="暗黙的方向";
+NoFaces="ﾄﾞﾗﾌﾄするﾌｪｰｽがありません";
+KeepEdge="ｴｯｼﾞ保持のﾄﾞﾗﾌﾄ反射はｻﾎﾟｰﾄされていません ";
+KeepFace="ﾌｪｰｽ保持のﾄﾞﾗﾌﾄ反射はｻﾎﾟｰﾄされていません ";
+DraftNeutral="ﾊﾟｰﾃｨﾝｸﾞでの基準ｴﾚﾒﾝﾄつきのﾄﾞﾗﾌﾄはｻﾎﾟｰﾄされていません ";
+NoPropag="伝播なし";
+DraftBothSideAndMultiAngle="両ｻｲﾄﾞおよび角度が複数のﾄﾞﾗﾌﾄはｻﾎﾟｰﾄされていません ";
+DraftBothSideAndMultiNeutral="両ｻｲﾄﾞおよび基準ｴﾚﾒﾝﾄが複数のﾄﾞﾗﾌﾄはｻﾎﾟｰﾄされていません ";
+DraftBothSide="両ｻｲﾄﾞのﾄﾞﾗﾌﾄはｻﾎﾟｰﾄされていません ";
+DraftMultiNeutral="基準が複数のﾄﾞﾗﾌﾄはｻﾎﾟｰﾄされていません ";
+DraftMultiDir="抜き方向が複数のﾄﾞﾗﾌﾄはｻﾎﾟｰﾄされていません ";
+//
+AssembleError0="ｱｾﾝﾌﾞﾘｰ操作 ";
+AssembleError="ｱｾﾝﾌﾞﾘｰ操作はまだｻﾎﾟｰﾄされていません";
+//Chamfrein
+MultiConstraintBloc="不適切な拘束 ";
+ImpossibleMode="面取り作成中の不適切な選択 ";
+BadCreation="不適切な作成: ";
+//Transfor
+MultiConstraints="複数拘束 ";
+UnknownConstraint="不明の拘束 ";
+InnerTransformation="内部変換ﾏﾄﾘｯｸｽ ";
+ImpossiblePattern="ﾊﾟﾀｰﾝは平行移動や回転ではありません ";
+//Datum
+NotC2Close="1ｸﾛｰｽﾞのﾌｪｰｽはC2ではありません ";
+NotC2Face="ﾌｪｰｽはC2ではありません";
+NotC2Offset="1ｵﾌｾｯﾄのﾌｪｰｽはC2ではありません ";
+NotSmartSolid0="ｽﾏｰﾄ ｿﾘｯﾄﾞではありません ";
+NotSmartSolid="ｽﾏｰﾄ ｿﾘｯﾄﾞではありません ";
+NotC2Proj="1投影のﾌｪｰｽはC2ではありません ";
+NotC2Surface="ｻｰﾌｪｽはC2ではありません ";
+NotUpdatedSolid="ｿﾘｯﾄﾞEは更新されていません ";
+NotC2Volume="1ﾎﾞﾘｭｰﾑのﾌｪｰｽはC2ではありません ";
+BadMacroPrim="不適切なﾏｸﾛ ﾌﾟﾘﾐﾃｨﾌﾞです";
+NotC2Pyramid="1角錐のﾌｪｰｽはC2ではありません ";
+NotC2Sweep="1ｽｲｰﾌﾟのﾌｪｰｽはC2ではありません ";
+NotC2Import="1ｲﾝﾎﾟｰﾄのﾌｪｰｽはC2ではありません ";
+MultipleBodyDatum="複数のﾎﾞﾃﾞｨｰのあるﾃﾞｰﾀﾑ";
+InactivatedDatum="非活動化されたﾃﾞｰﾀﾑ --> ﾏｲｸﾞﾚｰｼｮﾝされません ";
+OKResultGeometry="形状ﾁｪｯｸはOKです";
+KOResultGeometry="形状ﾁｪｯｸはKOです";
+//---------------------------------------------------------------------------
+OperationStatusNYI="操作が設定されていません";
+OperationStatusAF="ﾌﾟﾘﾐﾃｨﾌﾞの代入に失敗しました";
+//---------------------------------------------------------------------------
+UnaryOpNYI="単項演算はまだ設定されていません:";
+BinaryOpNYI="2項演算はまだ設定されていません:";
+PrimNYI="ﾌﾟﾘﾐﾃｨﾌﾞはまだｻﾎﾟｰﾄされていません:";
+TypeNYI="/P1 ﾀｲﾌﾟ";
+OtherKONYI="演算(単項と2項)はまだ設定されていません ";
+//---------------------------------------------------------------------------
+//                        Messages integrant des donnees suplementaires
+//---------------------------------------------------------------------------
+TransferBRepGal1="CATIA V4 ｴﾚﾒﾝﾄ /P1 は貼り付けられていません";
+TransferBRepGal2="CATIA V4 ｴﾚﾒﾝﾄ /P2 は､ /P1 が貼り付けられていないため､部分的に貼り付けられました ";
+TransferBRepGal3="Jele /P1 のCATIA V4 ｴﾚﾒﾝﾄは貼り付けられていません";
+//
+TransferBRepPoint1="CATIA V4 点 /P1 は貼り付けられていません";
+TransferBRepPoint2="CATIA V4 点 /P2 は､ /P1 が貼り付けられていないため､部分的に貼り付けられました ";
+TransferBRepPoint3="Jele /P1 のCATIA V4 点は貼り付けられていません";
+//
+TransferBRepCurve1="CATIA V4 曲線 /P1 は貼り付けられていません";
+TransferBRepCurve2="CATIA V4 曲線 /P1 は､複数に分断され､部分的に貼り付けられました";
+TransferBRepCurve3="Jele /P1 のCATIA V4 曲線は貼り付けられていません";
+//
+TransferBRepLine1="CATIA V4 直線 /P1 は貼り付けられていません";
+TransferBRepLine2="CATIA V4 直線 /P2 は､ /P1 が貼り付けられていないため､部分的に貼り付けられました ";
+TransferBRepLine3="Jele /P1 のCATIA V4 直線は貼り付けられていません";
+//
+TransferBRepSurface1="CATIA V4 ｻｰﾌｪｽ /P1 は貼り付けられていません";
+TransferBRepSurface2="CATIA V4 ｻｰﾌｪｽ /P1 は､複数に分断され､部分的に貼り付けられました";
+TransferBRepSurface3="Jele /P1 のCATIA V4 ｻｰﾌｪｽは貼り付けられていません";
+//
+TransferBRepPlane1="CATIA V4 平面 /P1 は貼り付けられていません";
+TransferBRepPlane2="CATIA V4 平面 /P2 は､ /P1 が貼り付けられていないため､部分的に貼り付けられました ";
+TransferBRepPlane3="Jele /P1 のCATIA V4 平面は貼り付けられていません";
+//
+TransferBRepFace1="CATIA V4 ﾌｪｰｽ /P1 は貼り付けられていません";
+TransferBRepFace2="CATIA V4 ﾌｪｰｽ /P1 は､複数に分断され､部分的に貼り付けられました";
+TransferBRepFace3="Jele /P1 のCATIA V4 ﾌｪｰｽは貼り付けられていません";
+//
+TransferBRepSki1="CATIA V4 ｽｷﾝ /P1 は貼り付けられていません";
+TransferBRepSki2="CATIA V4 ｽｷﾝ /P2 は､ /P1 が貼り付けられていないため､部分的に貼り付けられました ";
+TransferBRepSki3="Jele /P1 のCATIA V4 ｽｷﾝは貼り付けられていません";
+//
+TransferBRepVol1="CATIA V4 ﾎﾞﾘｭｰﾑ /P1 は貼り付けられていません";
+TransferBRepVol2="CATIA V4 ﾎﾞﾘｭｰﾑ /P2 は､ /P1 が貼り付けられていないため､部分的に貼り付けられました ";
+TransferBRepVol3="Jele /P1 のCATIA V4 ﾎﾞﾘｭｰﾑは貼り付けられていません";
+//
+TransferBRepBRep1="CATIA V4 brep /P1 は貼り付けられていません";
+TransferBRepBRep2="CATIA V4 brep /P2 は､ /P1 が貼り付けられていないため､部分的に貼り付けられました ";
+TransferBRepBRep3="Jele /P1 のCATIA V4 brepは貼り付けられていません";
+//
+TransferBRepSol1="CATIA V4 ｿﾘｯﾄﾞE /P1 は貼り付けられていません";
+TransferBRepSol2="CATIA V4 ｿﾘｯﾄﾞE /P2 は､ /P1 が貼り付けられていないため､部分的に貼り付けられました ";
+TransferBRepSol3="Jele /P1 のCATIA V4 ｿﾘｯﾄﾞEは貼り付けられていません";
+TransferBRepSol4="CATIA V4 ｿﾘｯﾄﾞ E /P1 は部分的に貼り付けられました";
+// ---------------------------------
+TransferBRepNoHist1="CATIA V4 ｿﾘｯﾄﾞE /P1 は､仕様どおりに貼り付けることができません｡ﾋｽﾄﾘがありません";
+TransferBRepNoHist2="選択された /P2 からのCATIA V4 ｴﾚﾒﾝﾄE /P1 は､仕様どおりに貼り付けることができません｡ﾋｽﾄﾘがありません";
+TransferBRepNoHist3="Jele /P1 のCATIA V4 ｿﾘｯﾄﾞEは､仕様どおりに貼り付けることができません｡ﾋｽﾄﾘがありません";
+// ---------------------------------
+SolidUpdatedV4KO="ｿﾘｯﾄﾞ /P1 は貼り付けられません｡ CATIA V4 で更新されていません";
+// ---------------------------------
+SolidUpdatedKO="SOLID /P1 からのﾎﾞﾃﾞｨｰに更新ｴﾗｰがあります ";
+//
+//
+TransferNotSmartSol="CATIA V4 ｿﾘｯﾄﾞE /P1 はｽﾏｰﾄではないので貼り付けられていません";
+//
+TransferBRepDitto1="CATIA V4 ﾃﾞｨｯﾄ /P1 は貼り付けられていません";
+TransferBRepDitto2="CATIA V4 ﾃﾞｨｯﾄ /P2 は､ ﾃﾞｨﾃｰﾙ /P1 が貼り付けられていないため､部分的に貼り付けられました ";
+TransferBRepDitto3="Jele /P1 のCATIA V4 ﾃﾞｨｯﾄは貼り付けられていません";
+//
+TransferBRepDittoCARWL1="CATIA V4 ﾃﾞｨｯﾄ /P1 をﾘﾝｸの結果として貼り付けることはできません";
+TransferBRepDittoCARWL2="CATIA V4 ﾃﾞｨｯﾄ /P2 (ﾃﾞｨﾃｰﾙ /P1 から)をﾘﾝｸの結果として貼り付けることはできません";
+TransferBRepDittoCARWL3="Jele /P1 のCATIA V4 ﾃﾞｨｯﾄをﾘﾝｸの結果として貼り付けることはできません";
+//
+TransferBRepDetail1="CATIA V4 ﾃﾞｨﾃｰﾙ /P1 は貼り付けられていません";
+TransferBRepDetail2="CATIA V4 ﾃﾞｨﾃｰﾙ /P2 は､ ｻﾌﾞｴﾚﾒﾝﾄ /P1 が貼り付けられていないため､部分的に貼り付けられました ";
+TransferBRepDetail3="Jele /P1 のCATIA V4 ﾃﾞｨﾃｰﾙは貼り付けられていません";
+//
+TransferBRepDetailPartiel1="CATIA V4 ﾃﾞｨﾃｰﾙ /P1 は部分的に貼り付けられました";
+TransferBRepDetailPartiel2="CATIA V4 ﾃﾞｨﾃｰﾙ /P2 は､ ｻﾌﾞｴﾚﾒﾝﾄ /P1 が貼り付けられていないため､部分的に貼り付けられました ";
+TransferBRepDetailPartiel3="Jele /P1 のCATIA V4 ﾃﾞｨﾃｰﾙは部分的に貼り付けられました";
+//
+TransferCpAsResultWithLink0="- CATIA V4 のﾃﾞｨﾃｰﾙから貼り付けられたｴﾚﾒﾝﾄは､ﾃﾞｨｯﾄ用にCopyAsResultWithLinkする前に､ﾛｰｶﾙに更新する必要があります";
+TransferCpAsResultWithLink1="ﾃﾞｨﾃｰﾙ /P1 から貼り付けられたCATIA V4 ｴﾚﾒﾝﾄがﾛｰｶﾙ更新中にｴﾗｰになりました";
+TransferCpAsResultWithLink2="ﾃﾞｨﾃｰﾙ /P2 から貼り付けられたCATIA V4 ｴﾚﾒﾝﾄが /P1 が原因でﾛｰｶﾙ更新中にｴﾗｰになりました";
+TransferCpAsResultWithLink3="Jele /P1 のﾃﾞｨﾃｰﾙから貼り付けられたCATIA V4 ｴﾚﾒﾝﾄがﾛｰｶﾙ更新中にｴﾗｰになりました";
+//
+// ----------------------------------------------------------------------------------------
+TransferDetailMessageGal01="- この移行用ﾊﾞｯﾁを使用してください｡";
+TransferDetailMessageGal02="- このﾓﾃﾞﾙからCATPartへの移行は適切ではありません｡";
+//
+TransferDetailBodies1="CATIA V4ﾃﾞｨﾃｰﾙ /P1 に統合されていない複数のｴﾝﾃｨﾃｨが含まれています｡";
+TransferDetailBodies2="CATIA V4ﾃﾞｨﾃｰﾙ /P2 に統合されていない複数のｴﾝﾃｨﾃｨが含まれています: /P1...";
+TransferDetailBodies3="Jele /P1 のCATIA V4ﾃﾞｨﾃｰﾙに統合されていない複数のｴﾝﾃｨﾃｨが含まれています｡";
+//
+TransferDetailFederation01="- CATIAではこれを人手でｱｾﾝﾌﾞﾙする必要があります｡";
+TransferDetailFederation02="- これを強制する必要があります｡";
+TransferDetailFederation03="- 予期しない結果となる場合があるため､お勧めできません｡";
+//
+TransferDetailGeom1="CATIA V4ﾃﾞｨﾃｰﾙ /P1 には形状のみ含まれているためです｡移行はﾃﾞｨｯﾄなしで一度だけ行われます｡";
+TransferDetailGeom2="CATIA V4ﾃﾞｨﾃｰﾙ /P2 には形状のみ含まれているためです｡移行はﾃﾞｨｯﾄ /P1 ... なしで一度だけ行われます｡";
+TransferDetailGeom3="Jele /P1 のCATIA V4ﾃﾞｨﾃｰﾙには形状のみ含まれているからです｡移行はﾃﾞｨｯﾄなしで一度だけ行われます｡";
+//
+TransferDetailDittos1="CATIA V4ﾃﾞｨﾃｰﾙ /P1 にはﾃﾞｨｯﾄのみが含まれています｡";
+TransferDetailDittos2="CATIA V4ﾃﾞｨﾃｰﾙ /P2 にはﾃﾞｨｯﾄのみが含まれています: /P1...";
+TransferDetailDittos3="Jele /P1 のCATIA V4ﾃﾞｨﾃｰﾙにはﾃﾞｨｯﾄのみが含まれています｡";
+//
+//
+// ----------------------------------------------------------------------------------------
+//
+ConstraintGeometrical="形状ｴﾚﾒﾝﾄ";
+ConstraintScanOnCloud="ｸﾗｳﾄﾞ上のｽｷｬﾝ";
+//
+// ----------------------------------------------------------------------------------------
+//
+UpdateKOAndInactivate=" -V4からの移行中の更新ｴﾗｰを表す- ";
+// 
+// Messages speciaux pour enrichir le nommage des solides
+TreeWithErrorDuringPaste=" _with_error_during_paste";
+TreeWithErrorDuringCheck=" _with_error_during_check";
+TreeWithErrorDuringUpdate=" _with_error_during_update";
+//
+// ----------------------------------------------------------------------------------------
+//
+ApplyTransfoKO1="/P1 の移動中にｴﾗｰが発生しました";
+ApplyTransfoKO2="/P1 のため､ /P2 の移動中にｴﾗｰが発生しました ";
+ApplyTransfoKO3="/P1 の移動中にｴﾗｰが発生しました";
+//
+

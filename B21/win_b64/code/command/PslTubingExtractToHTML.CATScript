@@ -1,0 +1,756 @@
+'// COPYRIGHT DASSAULT SYSTEMES  1999
+'//============================================================================
+'//
+'// Language="VBSCRIPT"
+'// This CATScript allows the user to extract Tubing Data from BendableString
+'// objects created in the Systems Routing Product
+'// ----------------- ASSUMPTIONS----------------------------------------------
+'// This CATScript assumes that the user has selected BendableString objects
+'// from the CATIA Specification Viewer or the 3D Window.
+'// ------------------- WARNING------------------------------------------------
+'// It is advised that the user understand the VBScript and VBA concepts before
+'// attempting to modify the code to suit their needs. Microsoft Excel 97 
+'// provides excellent documentation on the use of VBScript and VBA.
+'// ------------------ HOW TO CUSTOMIZE----------------------------------------
+'// The tubic extraction logic described here in this CATScript is only meant
+'// as a template and is expected that the user will fine-tune this template
+'// to suit their specific needs.
+'//
+'// If you are not familiar with writing VBScripts, then we suggest that you
+'// execute this template macro once (before attempting to modify) so as to
+'// understand the logic involved. Please note that we have provided a Debug
+'// utility for your assistance.
+'//
+'// If you would like to simply change the titles of the columns, please 
+'// modify the contents of the string variables in the "User Customizable Section".
+'// Modify only the string variables that have the name "User". For example,
+'// you could modify strGReportLabelCurUnitUserLabel's contents to be 
+'// " Session Linear Unit: " instead of the default " Current Linear Unit: ".
+'//============================================================================
+'// Major CATIA interface used:
+'//
+'// interface                  VB Name          Remarks
+'// -----------               ------------      --------------
+'// CATIADocument             Document          access the current document
+'// CATIAWorkbench            workbench         access the Manufacturing Systems 
+'//                                             Layout workbench, 
+'//                                             calculate footprint,
+'//                                             get the current user units ...
+'// CATIASelection            Selection         to get the object from CSO in the 
+'//                                             interactive section
+'// CATIAArrBendableString    ArrBendableString to get the Tubing Object and its info 
+'//
+'//============================================================================
+'//
+'// Audit Trail:
+'//----------------------------------------------------------------------------
+'//   Author     : Sudhi Gulur (Dassault Systemes of America)
+'//   Date       : January 2000 
+'//   Chg id     :
+'//   Chg nature :
+'//----------------------------------------------------------------------------
+'//   Modified   :
+'//   Date       :
+'//   Chg id     :
+'//   Chg nature :
+'//============================================================================
+
+'Option Explicit
+
+'******************************************************************************
+'  GLOBAL variable declarations section
+'******************************************************************************
+'// ---------- Debug Traces
+Const intG_TRACEON = 1
+Dim strMessage
+
+Dim intNumOfColumns As Integer
+intNumOfColumns = 12
+Dim strDummyRow(12) As String
+Dim strOutputHTMLFile As String
+
+'// ---------- CATIAV5 application objects
+Dim objCATIAV5Document0 As Document
+Dim objCATIAV5ArrWorkbench0 As Workbench
+Dim objCATIAV5Selection As Selection
+Dim objCATIAV5FileSystem As FileSystem
+Dim objCATIAV5File       As File
+Dim objCATIAV5TextStream As TextStream
+Dim intGReportCurrentRow As Integer 
+Dim  strGInputPanelTitle As String
+Dim  strGInputPanelPrompt As String
+Dim  strGInputPanelPrompt2 As String
+
+Const intNT   = 0
+Const intUNIX = 1
+Dim  intOS                  As Integer
+Dim strDirectorySlashArray(2) As String
+strDirectorySlashArray(intNT) = "\"
+strDirectorySlashArray(intUNIX) = "/"
+
+'@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+'//                       User customizable sections                  
+'@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+strGInputPanelTitle = "Report Generation"
+strGInputPanelPrompt2 = "Define report output file"
+
+'//---------- EXCEL report format
+Const strGReportLabelCurUnit                = "Current Unit"
+Const strGReportLabelCurUnitUserLabel       = " Current Linear  Unit: "
+Const strGReportLabelCurAngUnitUserLabel    = " Current Angular Unit: "
+Const intGReportCurUnitCol                  = 1
+Const strGReportLabelCurUnitValue           = "Current Unit Value"
+
+Const strGReportLabelBendStrIndex           = "Element Name"
+Const strGReportLabelBendStrIndexUserLabel  = "Element Name"
+Const intGReportBendStrIndexCol             = 2
+Const strGReportLabelBendStrIndexValue      = "BendableString Index Value"
+
+Const strGReportLabelSegmentIndex           = "Node Index"
+Const strGReportLabelSegmentIndexUserLabel  = " Node Index. "
+Const intGReportSegmentIndexCol             = 3
+
+Const strGReportLabelXCoord                 = "X"
+Const strGReportLabelXCoordUserLabel        = " X "
+Const intGReportStartXCoordCol              = 4
+
+Const strGReportLabelYCoord                 = "Y"
+Const strGReportLabelYCoordUserLabel        = " Y "
+Const intGReportStartYCoordCol              = 5
+
+Const strGReportLabelZCoord                 = "Z"
+Const strGReportLabelZCoordUserLabel        = " Z "
+Const intGReportStartZCoordCol              = 6
+
+Const strGReportLabelSegmentLength          = "Segment Length"
+Const strGReportLabelSegmentLengthUserLabel = " Segment Length "
+Const intGReportSegmentLengthCol            = 7
+
+Const strGReportLabelTotalLength            = "Total Length"
+Const strGReportLabelTotalLengthUserLabel   = " Total Length "
+Const intGReportTotalLengthCol              = 8
+
+Const strGReportLabelBendRadius             = "Bend Radius"
+Const strGReportLabelBendRadiusUserLabel    = " Bend Radius "
+Const intGReportBendRadiusCol               = 9
+
+Const strGReportLabelBendAngle              = "Bend Angle"
+Const strGReportLabelBendAngleUserLabel     = " Bend Angle "
+Const intGReportBendAngleCol                = 10
+
+Const strGReportLabelRotation               = "Rotation Angle"
+Const strGReportLabelRotationUserLabel      = " Rotation Angle "
+Const intGReportRotationCol                 = 11
+
+Const strGReportLabelSlopeAngle             = "Slope Angle"
+Const strGReportLabelSlopeAngleUserLabel    = " Slope Angle "
+Const intGReportSlopeAngleCol               = 12
+
+'//Light yellow (please refer to Excel Color Table)
+Const intUserEXCELRowColor                  = 19 
+
+'// The default location where the output file is going to be written out
+'// is /tmp/TubingExtractionOuput.csv. If you wish to change that, then
+'// change the location under the Sub routine OpenFileSystem and 
+'// accordingly update the Main to display the right location in the MsgBox
+
+'@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+'******************************************************************************
+Sub DbgTrace (iStrMsgString, iIntYesError)
+'******************************************************************************
+If (intG_TRACEON = 1) Then
+  CATIA.SystemService.Print iStrMsgString 
+  If (iIntYesError = 1) Then 
+	   CATIA.SystemService.Print "Err Number = " & Err.Number
+	End If
+End If
+
+End Sub '///////////////////////////////////////////////////////////// DbgTrace
+
+
+'******************************************************************************
+Sub CheckOS()
+'******************************************************************************
+
+Dim strCATStartupPath As String
+strCATStartupPath = CATIA.SystemService.Environ("CATStartupPath") 
+Dim intSlashLocation As Integer
+intSlashLocation  = Instr(3, strCATStartupPath, strDirectorySlashArray(intUNIX))  
+       
+'---------- Search for a slash 
+If (intSlashLocation > 0) Then    
+  '// ----------- Unix Operating System
+  DbgTrace " ----------- Unix Operating System",0
+  intOS = intUNIX
+Else
+  '// ----------- NT Operating System
+  DbgTrace " ----------- NT Operating System",0
+  intOS = intNT
+End If
+
+End Sub '///////////////////////////////////////////////////////////// DbgTrace
+
+
+'------------------------------------------------------------------------------
+Sub GetReportFile ()
+'------------------------------------------------------------------------------
+  Dim strCATTempPath As String
+
+  Dim ApplIfileSys      As Object
+  Set ApplIfileSys = CATIA.FileSystem 
+
+  '// Find a temp directory to place the output file
+  strCATTempPath    = CATIA.SystemService.Environ("CATTemp") 
+  DbgTrace "CATTemp path = " & strCATTempPath ,0
+
+
+  CheckOS
+
+  strOutputHTMLFile = strCATTempPath + strDirectorySlashArray(intOS) +"OutputFile.html"
+
+    '---------- InputBox returns the string when user press the Enter/OK key
+	'---------- and returns null string when user press Cancel
+    strOutputHTMLFile = InputBox(strGInputPanelPrompt2, strGInputPanelTitle, strOutputHTMLFile)
+
+    If ( Len (strOutputHTMLFile) = 0) Then
+      intGCancel2 = 1
+    End If
+
+  '---------- No need to display error message, the above loop will not
+  '---------- be exited until a valid template is found or Cancel is selected
+  If ( intGCancel = 0 And AppliFileSys.FileExists(strOutputHTMLFile)) Then
+     Dim strMessage
+	 Dim nBtn
+
+     strMessage  = "Report File: " + strOutputHTMLFile + " exists, Overwrite?"
+	 ' Yes/No button = 4, vBQuestion 32
+     nBtn = MsgBox(strMessage,36,strGInputPanelTitle)
+	 If ( nBtn = 7 ) Then
+	   intGCancel2 = 1
+	 End If
+     Exit Sub
+  End If
+
+
+End Sub '/////////////////////////////////////////////// 
+
+
+
+'******************************************************************************
+Sub WriteColumnTitles()
+'******************************************************************************
+  '//==========================================================================
+  '// Write out the column headers
+  '//==========================================================================
+  Dim intLReportHeadingCurRow As Integer
+
+  intGReportCurrentRow = intGReportCurrentRow + 1
+  intLReportHeadingCurRow = intGReportCurrentRow
+
+
+  WriteToDummyExcelRow strGReportLabelBendStrIndex, _ 
+               strGReportLabelBendStrIndexUserLabel
+
+  WriteToDummyExcelRow strGReportLabelSegmentIndex, _
+               strGReportLabelSegmentIndexUserLabel
+
+  WriteToDummyExcelRow strGReportLabelXCoord, _
+               strGReportLabelXCoordUserLabel
+
+  WriteToDummyExcelRow strGReportLabelYCoord, _
+               strGReportLabelYCoordUserLabel
+
+  WriteToDummyExcelRow strGReportLabelZCoord, _
+               strGReportLabelZCoordUserLabel
+
+  WriteToDummyExcelRow strGReportLabelSegmentLength, _
+               strGReportLabelSegmentLengthUserLabel 
+
+  WriteToDummyExcelRow strGReportLabelTotalLength, _
+               strGReportLabelTotalLengthUserLabel
+
+  WriteToDummyExcelRow strGReportLabelBendRadius, _
+               strGReportLabelBendRadiusUserLabel
+
+  WriteToDummyExcelRow strGReportLabelBendAngle, _
+               strGReportLabelBendAngleUserLabel
+
+  WriteToDummyExcelRow strGReportLabelRotation, _
+               strGReportLabelRotationUserLabel
+
+  WriteToDummyExcelRow strGReportLabelSlopeAngle, _
+               strGReportLabelSlopeAngleUserLabel
+
+  intGReportCurrentRow = intGReportCurrentRow + 1
+  InsertARowAt intGReportCurrentRow
+
+  InsertABlankLine
+
+End Sub'/////////////////////////////////////////////////////////// WriteColumnTitles
+
+
+'******************************************************************************
+Sub InsertARowAt (iIntRow)
+'******************************************************************************
+
+  Dim strTextData As String
+
+  strTextData = "<TR>"
+  For i = 1 To intNumOfColumns
+    'strTextData = strTextData + "," + Cstr(strDummyRow(i))
+    if(Len(Cstr(strDummyRow(i))) > 0) then
+      strTextData = strTextData + "<TD font color=#800000><B>" + Cstr(strDummyRow(i)) + " </B></TD>"
+    else
+     strTextData = strTextData + "<TD> " + "&nbsp;" + " </TD>"
+    end if
+  Next
+  strTextData = strTextData + "</TR>"
+  'MsgBox strTextData
+
+  WriteDummyExcelRow strTextData
+
+  '// Reset all the DummyRow Data
+
+  For i = 1 To intNumOfColumns
+      strDummyRow(i) = ""
+  Next
+
+End Sub '////////////////////////////////////////////////////// InsertARowAt
+
+
+'******************************************************************************
+Sub StartCATIAV5 ()
+'******************************************************************************
+  Set objCATIAV5Document0 = CATIA.ActiveDocument
+  DbgTrace "V5: Active Document",1
+
+  '//---------- Get Arrworkbench from current document
+  Set objCATIAV5ArrWorkbench0 = objCATIAV5Document0.GetWorkbench("ArrWorkbench") 
+  DbgTrace "V5: GetWorkbench0",1
+
+  '//---------- Get current selection
+  Set objCATIAV5Selection = objCATIAV5Document0.Selection
+  DbgTrace "V5: Selection",1
+
+End Sub '///////////////////////////////////////////////////////// StartCATIAV5
+
+'******************************************************************************
+Sub WriteToDummyExcelRow (iLabel As String, iString As String)
+'******************************************************************************
+  Dim WhichColumn
+  WhichColumn = 0
+
+  Select Case iLabel
+      Case strGReportLabelSegmentIndex
+         WhichColumn = intGReportSegmentIndexCol
+      Case strGReportLabelXCoord
+         WhichColumn = intGReportStartXCoordCol
+      Case strGReportLabelYCoord
+         WhichColumn = intGReportStartYCoordCol
+      Case strGReportLabelZCoord
+         WhichColumn = intGReportStartZCoordCol
+      Case strGReportLabelSegmentLength
+         WhichColumn = intGReportSegmentLengthCol
+      Case strGReportLabelTotalLength
+         WhichColumn = intGReportTotalLengthCol
+      Case strGReportLabelBendRadius
+         WhichColumn = intGReportBendRadiusCol
+      Case strGReportLabelBendAngle
+         WhichColumn = intGReportBendAngleCol
+      Case strGReportLabelRotation
+         WhichColumn = intGReportRotationCol
+      Case strGReportLabelSlopeAngle
+         WhichColumn = intGReportSlopeAngleCol
+      Case strGReportLabelBendStrIndex
+         WhichColumn = intGReportBendStrIndexCol
+      Case strGReportLabelBendStrIndexValue
+        WhichColumn = intGReportBendStrIndexCol
+      Case strGReportLabelCurUnit
+         WhichColumn = intGReportCurUnitCol     
+      Case strGReportLabelCurUnitValue
+         WhichColumn = intGReportCurUnitCol + 1          
+  End Select
+
+  If (WhichColumn > 0) Then
+
+     strDummyRow(WhichColumn) = iString
+
+  End If
+
+End Sub '///////////////////////////////////////////////////////// WriteToDummyExcelRow
+
+'******************************************************************************
+Sub OpenFileSystem()
+'******************************************************************************
+
+   'Open iFilePath For Append Access Write As #1
+   'Open "/tmp/TubingExtractionOuput.csv" For Output Access Write As #1
+
+   Set objCATIAV5FileSystem = CATIA.FileSystem
+   'Set objCATIAV5File       = objCATIAV5FileSystem.CreateFile("/tmp/TubingExtractionOuput.csv", True) 
+   Set objCATIAV5File       = objCATIAV5FileSystem.CreateFile(strOutputHTMLFile, True) 
+
+   Set objCATIAV5TextStream = objCATIAV5File.OpenAsTextStream("ForWriting")
+
+End Sub '///////////////////////////////////////////////////////// OpenFileSystem
+
+'******************************************************************************
+Sub CloseFileSystem()
+'******************************************************************************
+
+    objCATIAV5TextStream.Close
+    ' Close #1
+
+End Sub '///////////////////////////////////////////////////////// CloseFileSystem
+
+
+'******************************************************************************
+Sub WriteDummyExcelRow(iString As String)
+'******************************************************************************
+
+   Dim strTextContents As String
+ 
+   strTextContents = iString + Chr(10)   
+
+   objCATIAV5TextStream.Write(strTextContents)
+   'Print #1, strTextContents
+
+End Sub '///////////////////////////////////////////////////////// WriteDummyExcelRow
+
+
+'******************************************************************************
+Sub InsertABlankLine()
+'******************************************************************************
+  Dim strTextData As String
+  strTextData = "<TR>"
+  For i = 1 To intNumOfColumns
+    'strTextData = strTextData + "," + Cstr(strDummyRow(i))
+    strTextData = strTextData + "<TD> " + "&nbsp;" + "</TD>"
+  Next
+  strTextData = strTextData + "</TR>"
+  WriteDummyExcelRow strTextData
+
+End Sub '///////////////////////////////////////////////////////// InsertABlankLine
+
+
+'******************************************************************************
+Sub ExtractTubingData(iObjBendableString)
+'//===========================================================================
+'// Check the Radius of the segment, to see if it is an arc segment. If it
+'// is, only then fetch the BendNodeXCoords, BendNodeXCoords, BendNodeXCoords.
+'// Otherwise, it is a straight segment.
+'//
+'//===========================================================================
+'******************************************************************************
+  Dim intNumOfSegments As integer
+  Dim dblStrXCoord       As Double
+  Dim dblStrYCoord       As Double
+  Dim dblStrZCoord       As Double
+  Dim dblEndXCoord       As Double
+  Dim dblEndYCoord       As Double
+  Dim dblEndZCoord       As Double
+  Dim dblBendNodeXCoord  As Double
+  Dim dblBendNodeYCoord  As Double
+  Dim dblBendNodeZCoord  As Double
+
+  Dim dblSegLength       As Double
+  Dim dblBendAngle       As Double
+  Dim dblBendRadius      As Double 
+  Dim dblRotationAngle   As Double
+  Dim dblSlopeAngle      As Double
+  Dim intK               As Integer
+  Dim PointIndex         As Integer
+  Dim PrevSegType        As Integer
+  Dim StrPointIndex      As String 
+  Dim dblSlopeAngleDiff  As double
+  Dim dblPrevSlopeAngle  As double 
+  Dim dblSegmentData(14) As double 
+  Dim dblLinearSegLen    As double
+  Dim dblArcLen          As double
+  On Error Resume Next
+
+  DbgTrace "ExtractTubingData", 0
+
+  intNumOfSegments        = iObjBendableString.GetNumOfSegments
+  DbgTrace "Number of Tubing Segments = " & intNumOfSegments, 0
+
+  PointIndex  = 0
+  dblGTotalLength   = 0.0
+  dblSlopeAngleDiff = 0.0
+  dblPrevSlopeAngle = 0.0
+
+  intGReportCurrentRow = intGReportCurrentRow +1
+  InsertARowAt intGReportCurrentRow
+
+  If (intNumOfSegments > 0) Then
+    
+     For intK=1 to intNumOfSegments
+       'MsgBox CStr(intK)
+       Err.Clear
+
+       iObjBendableString.GetSegmentData intK, dblSegmentData
+       Err.Clear
+
+       dblStrXCoord        = dblSegmentData(0)
+       dblStrYCoord        = dblSegmentData(1)
+       dblStrZCoord        = dblSegmentData(2)
+
+       dblEndXCoord        = dblSegmentData(3)
+       dblEndYCoord        = dblSegmentData(4)
+       dblEndZCoord        = dblSegmentData(5)
+
+       '//Valid only if Radius > 0
+       dblBendNodeXCoord   = dblSegmentData(6)
+       dblBendNodeYCoord   = dblSegmentData(7)
+       dblBendNodeZCoord   = dblSegmentData(8)
+
+       '//Valid only if Radius > 0
+       dblBendRadius       = dblSegmentData(9)
+       dblBendAngle        = dblSegmentData(10)
+
+       dblRotationAngle    = dblSegmentData(11)
+       dblSlopeAngle       = dblSegmentData(12)
+
+       dblLinearSegLen     = dblSegmentData(13)
+       '//Arc Len valid only if Radius > 0
+       dblArcLen           = dblSegmentData(14)
+
+       '//=====================================
+       '// Check if Linear Segment or Arc
+       '//=====================================
+
+       If (dblBendRadius > 0) Then
+         PointIndex = PointIndex +1
+         StrPointIndex = "# " & PointIndex & "."
+
+         WriteToDummyExcelRow  strGReportLabelSegmentIndex, _
+                     StrPointIndex
+         WriteToDummyExcelRow  strGReportLabelXCoord, _
+                     Cstr(dblBendNodeXCoord)
+         WriteToDummyExcelRow  strGReportLabelYCoord, _
+                     Cstr(dblBendNodeYCoord)
+         WriteToDummyExcelRow  strGReportLabelZCoord, _
+                     Cstr(dblBendNodeZCoord)
+         WriteToDummyExcelRow  strGReportLabelSegmentLength, _
+                     Cstr(dblArcLen)
+         WriteToDummyExcelRow  strGReportLabelBendRadius, _
+                     Cstr(dblBendRadius)
+         WriteToDummyExcelRow  strGReportLabelBendAngle, _
+                     Cstr(dblBendAngle)
+         WriteToDummyExcelRow strGReportLabelSlopeAngle, _
+                    Cstr(dblSlopeAngle)
+
+         dblGTotalLength = dblGTotalLength + dblArcLen
+       Else
+         '//===================================
+         '// Write Linear Segment Start Data
+         '//===================================
+         PointIndex = PointIndex +1
+         StrPointIndex = "# " & PointIndex & "."
+         WriteToDummyExcelRow strGReportLabelSegmentIndex, _
+                    StrPointIndex
+
+         WriteToDummyExcelRow strGReportLabelXCoord, _
+                    Cstr(dblStrXCoord)
+         WriteToDummyExcelRow strGReportLabelYCoord, _
+                    Cstr(dblStrYCoord)
+         WriteToDummyExcelRow strGReportLabelZCoord, _
+                    Cstr(dblStrZCoord)
+         WriteToDummyExcelRow strGReportLabelTotalLength, _
+                    Cstr(dblGTotalLength)
+         WriteToDummyExcelRow strGReportLabelSlopeAngle, _
+                    Cstr(dblSlopeAngle)
+
+
+         '//================================================
+         '// Write Segment Length and Rotation Data
+         '//================================================
+         intGReportCurrentRow = intGReportCurrentRow +1
+         InsertARowAt intGReportCurrentRow
+
+         WriteToDummyExcelRow    strGReportLabelSegmentLength, _
+                       Cstr(dblLinearSegLen)
+
+         If (dblRotationAngle > 0.0) Then
+            WriteToDummyExcelRow  strGReportLabelRotation, _
+                       Cstr(dblRotationAngle)
+         End If
+
+         '//============================
+         '// Write Segment End Data
+         '//============================
+         intGReportCurrentRow = intGReportCurrentRow +1
+         InsertARowAt intGReportCurrentRow
+
+         PointIndex = PointIndex +1
+         StrPointIndex = "# " & PointIndex & "."
+       
+         dblGTotalLength = dblGTotalLength + dblLinearSegLen
+
+         WriteToDummyExcelRow  strGReportLabelSegmentIndex, _
+                     StrPointIndex
+         WriteToDummyExcelRow  strGReportLabelXCoord, _
+                     Cstr(dblEndXCoord)
+         WriteToDummyExcelRow  strGReportLabelYCoord, _
+                     Cstr(dblEndYCoord)
+         WriteToDummyExcelRow  strGReportLabelZCoord, _
+                     Cstr(dblEndZCoord)
+         WriteToDummyExcelRow strGReportLabelTotalLength, _
+                     Cstr(dblGTotalLength)
+       End If
+
+       '//==============================================
+       '//
+       '//==============================================
+       intGReportCurrentRow = intGReportCurrentRow +1
+       InsertARowAt intGReportCurrentRow
+     Next '//For intK=2 to intNumOfSegments
+
+     '// Write out the final total length
+     If(dblGTotalLength > 0.0) Then
+     WriteToDummyExcelRow strGReportLabelTotalLength, _
+                 Cstr(dblGTotalLength)
+     End If
+
+  End if '//If (intNumOfSegments > 0) Then
+
+  intGReportCurrentRow = intGReportCurrentRow + 1
+  InsertARowAt intGReportCurrentRow
+End Sub '////////////////////////////////////////////////////////////// ExtractTubingData
+
+'******************************************************************************
+Sub CATMain()
+'******************************************************************************
+
+ '//================================================================================
+ '//Define the variables needed in the Main program
+ '//================================================================================
+  Dim intNBInSelection      As integer
+  Dim intSubProdIndex       As integer
+  Dim objSelection          As AnyObject 
+  Dim objSysLineProduct     As ArrSystemLineProduct 
+  Dim objBendableString     As ArrBendableString
+  Dim strCurrentLinearUnit  As String
+  Dim strCurrentAngularUnit As String
+  Dim strTextData           As String
+  Dim strMsg                As String
+
+ '//================================================================================
+ '// Execution Starts Here
+ '//================================================================================
+  intGReportCurrentRow = 12  '// Start on 10th Row after the image area
+
+  StartCATIAV5
+
+  GetReportFile
+
+  OpenFileSystem 
+
+  intNBInSelection     = 0
+  dblGTotalLength      = 0.0
+
+  On Error Resume Next
+
+  strCurrentLinearUnit= objCATIAV5ArrWorkbench0.GetCurrentUnits("LENGTH")
+  strCurrentAngularUnit = objCATIAV5ArrWorkbench0.GetCurrentUnits("ANGLE")
+
+  WriteDummyExcelRow "<H1> Tubing Extraction Report </H1>"
+  WriteDummyExcelRow "<HTML><TITLE>Tubing Extraction Report</TITLE><BODY><TABLE BORDER=1 bgcolor=#FFFF66 font color=#800000>"
+
+  '//===============================================================================
+  '// Write out the Linear and Angular units in which data is going to be reported.
+  '// Note that the units can be changed by selecting Tools->Options->General
+  '// and then choosing the Units Tab Page.
+  '//===============================================================================
+  WriteToDummyExcelRow  strGReportLabelCurUnit, _
+                strGReportLabelCurUnitUserLabel
+  WriteToDummyExcelRow  strGReportLabelCurUnitValue, _
+                strCurrentLinearUnit
+
+  intGReportCurrentRow = intGReportCurrentRow +1
+  InsertARowAt intGReportCurrentRow
+
+  WriteToDummyExcelRow  strGReportLabelCurUnit, _
+                strGReportLabelCurAngUnitUserLabel
+  WriteToDummyExcelRow  strGReportLabelCurUnitValue, _
+                strCurrentAngularUnit
+
+  intGReportCurrentRow = intGReportCurrentRow +1
+  InsertARowAt intGReportCurrentRow
+  WriteColumnTitles
+
+  intGReportCurrentRow = intGReportCurrentRow +1
+  InsertARowAt intGReportCurrentRow
+
+  '//===============================================================================
+  ' Find from the selection list, objects that conform to the CATIAArrSystemLineProduct
+  ' interface.
+  '//===============================================================================
+
+  Err.Clear
+
+  Set objSysLineProduct = objCATIAV5Selection.FindObject("CATIAArrSystemLineProduct")
+  DbgTrace "FindObject", 1
+
+  if (Err.Number <> 0) Then 
+    Set objSysLineProduct = Nothing
+  Else
+    Do Until ( objSysLineProduct Is Nothing )
+
+       Dim intNumOfSubProducts As integer
+       intNumOfSubProducts = objSysLineProduct.GetSubProductsCount("CATIAArrBendableString")
+       DbgTrace "Number of Sub Bendable Objects :" & intNumOfSubProducts , 1
+       
+       If (intNumOfSubProducts > 0) Then
+         For intSubProdIndex =1 to intNumOfSubProducts
+             Set objBendableString = objSysLineProduct.GetSubItem(intSubProdIndex)
+             If(objBendableString Is Nothing ) Then
+               DbgTrace "Cannot Find GetSubItem object", 1
+             Else
+               DbgTrace "FOUND GetSubItem object", 1
+               intNBInSelection = intNBInSelection + 1
+
+               intGReportCurrentRow = intGReportCurrentRow +1
+               InsertARowAt intGReportCurrentRow
+
+               WriteToDummyExcelRow strGReportLabelBendStrIndexValue, _ 
+                            objBendableString.InstanceName
+
+               '//======================================
+               '// Extract Tubing Data from the object
+               '//======================================
+               ExtractTubingData objBendableString
+               objBendableString = Nothing
+             End If       
+         Next '//For intSubProdIndex =1 to intNumOfSubProducts
+       End If
+       Set objSysLineProduct = objCATIAV5Selection.FindObject("CATIAArrSystemLineProduct")
+       if (Err.Number <> 0) Then 
+          Set objSysLineProduct = Nothing
+          Exit Do
+       End If
+
+       intGReportCurrentRow = intGReportCurrentRow +2
+       InsertARowAt (intGReportCurrentRow)
+
+    Loop  '// End Do ...each FindObject
+  End If
+
+  WriteDummyExcelRow "</TABLE></BODY></HTML>"
+
+  DbgTrace "total number of Product in selection = " & intNBInSelection, 0 
+  If(intNBInSelection > 0) Then
+    'strMsg = "Bendable String Data Extracted into: " + "/tmp/TubingExtractionOuput.csv"
+    strMsg = "Bendable String Data Extracted into: " + strOutputHTMLFile    
+    msgbox strMsg
+  Else
+    strMsg = "No bendable string objects found !!" + Chr(13)
+    strMsg =  strMsg + "Please select a logical line or distribution system containing a bendable string on a Run"
+    msgbox strMsg    
+  End If
+
+  CloseFileSystem
+
+End Sub '////////////////////////////////////////////////////////////// CATMain

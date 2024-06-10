@@ -1,0 +1,481 @@
+// =====================================================================
+//
+// Erreurs Framework 'PrismaticMachining'
+// =================================
+//
+// Deux manieres de formater vos messages : 
+//
+// a- Specifier en delimitant avec le caractere '\n' :
+//       Request      (ce que l'on tentait de faire)
+//       Diagnostic   (ce qui est arrive)
+//       Advice       (...ce qu'il pourrait faire si possible)
+//
+//     Exemple :
+//       ERR_3000 = "Initializing /p1 attribut in /p2.\nAttribut does not exist.\nContact your local support.";  
+//       
+//               NOTE : Le parametrage des messages se fait via SetNLSParameter
+//
+// ou bien
+//
+// b- Specifier vos messages avec la cle + les 3 facettes Request/Diagnostic/Advice
+//
+//     Exemple :
+//       ERR_3000.Request    "Initializing </p1> attribut in </p2>." 
+//       ERR_3000.Diagnostic "Attribut does not exist."
+//       ERR_3000.Advice     "Contact your local support."
+// 
+//               NOTE : Le parametrage de chaque facette se fait par :
+//                         Request    : SetNLSRequestParams
+//                         Diagnostic : SetNLSDiagnosticParams
+//                         Advice     : SetNLSAdviceParams
+//
+// =====================================================================
+
+//************************************************************
+// INFORMATION MESSAGES FOR AXIAL MACHINING OPERATIONS
+//************************************************************
+MSG_0050.Request    = "";
+MSG_0050.Diagnostic = "Associativité géométrique restaurée avec succès.";
+MSG_0050.Advice     = "";
+
+//************************************************************
+// ERRORS FOR AXIAL MACHINING OPERATIONS
+//************************************************************
+
+ERR_0050.Request    = "Calcul de la trajectoire";
+ERR_0050.Diagnostic = "/p1 doit avoir une valeur positive.";
+ERR_0050.Advice     = "Vérifiez les paramètres de stratégie.";
+
+ERR_0060.Request    = "Calcul de la trajectoire";
+ERR_0060.Diagnostic = "Direction non trouvée.";
+ERR_0060.Advice     = "Vérifiez la géométrie.";
+
+ERR_0070.Request    = "Calcul de la trajectoire";
+ERR_0070.Diagnostic = "Trou non trouvé.";
+ERR_0070.Advice     = "Vérifiez la géométrie.";
+
+ERR_0080.Request    = "Calcul de la trajectoire";
+ERR_0080.Diagnostic = "Rien à usiner.";
+ERR_0080.Advice     = "\nToutes les positions sont désactivées par l'utilisateur \nou ignorées en raison des Obstacles.";
+
+ERR_0081.Request    = "Calcul de la trajectoire";
+ERR_0081.Diagnostic = "Rien à usiner.";
+ERR_0081.Advice     = "\nL'outil n'est pas compatible avec la géométrie.";
+
+ERR_0099.Request    = "VDX VDX VDX VDX";
+ERR_0099.Diagnostic = "/p1 contre /p2.";
+ERR_0099.Advice     = "Contactez votre support local.";
+
+ERR_0100.Request    = "Calcul de la trajectoire";
+ERR_0100.Diagnostic = "Un des paramètres /p1 , /p2 et /p3 doit être défini.";
+ERR_0100.Advice     = "Contactez votre support local.";
+
+ERR_0150.Request    = "Calcul de la trajectoire";
+ERR_0150.Diagnostic = "Le diamètre d'usinage doit être plus large que celui de l'outil.";
+ERR_0150.Advice     = "Vérifiez la géométrie ou le diamètre de l'outil.";
+
+ERR_0151.Request    = "Calcul de la trajectoire";
+ERR_0151.Diagnostic = "Le pas doit être supérieur à zéro.";
+ERR_0151.Advice     = "Vérifiez la géométrie.";
+
+ERR_0152.Request    = "Calcul de la trajectoire";
+ERR_0152.Diagnostic = "Le diamètre de taraudage doit être plus large que celui de l'outil.";
+ERR_0152.Advice     = "Vérifiez la géométrie ou le diamètre de l'outil.";
+
+ERR_0155.Request    = "Calcul de la trajectoire";
+ERR_0155.Diagnostic = "Le rayon d'un trajet circulaire utilisé dans les macros \nest supérieur au rayon de la plus petite passe usinée.";
+ERR_0155.Advice     = "Il a donc été ramené à /p1 (rayon de la plus petite passe usinée) lors du calcul de trajectoire.";
+
+ERR_0160.Request    = "Calcul de la trajectoire";
+ERR_0160.Diagnostic = "Le pas de filetage de la géométrie et de l'outil sont différents.";
+ERR_0160.Advice     = "Vérifiez les paramètres de géométrie ou d'outil.";
+
+ERR_0161.Request    = "Calcul de la trajectoire";
+ERR_0161.Diagnostic = "Le sens de rotation de la géométrie et de l'outil sont différents.";
+ERR_0161.Advice     = "Vérifiez les paramètres de géométrie ou d'outil.";
+
+ERR_0162.Request    = "Calcul de la trajectoire";
+ERR_0162.Diagnostic = "Le pas de filetage et le sens de rotation sont différents entre la géométrie et l'outil.";
+ERR_0162.Advice     = "Vérifiez les paramètres de géométrie ou d'outil.";
+
+// sequential axial and groove operations:
+ERR_0163.Request    = "Calcul de la trajectoire";
+ERR_0163.Diagnostic = "Au niveau /p1, le diamètre du rainurage doit être supérieur à celui de l'outil.";
+ERR_0163.Advice     = "Vérifiez la géométrie locale ou le diamètre de l'outil.";
+
+ERR_0164.Request    = "Calcul de la trajectoire";
+ERR_0164.Diagnostic = "Le rayon de l'approche en déplacement circulaire est supérieur au rayon du cercle.";
+ERR_0164.Advice     = "Réduisez le rayon du cercle d'approche en déplacement /p1.";
+
+ERR_0165.Request    = "Calcul de la trajectoire";
+ERR_0165.Diagnostic = "Le rayon du retrait en déplacement circulaire est supérieur au rayon du cercle.";
+ERR_0165.Advice     = "Réduisez le rayon du cercle de retrait en déplacement /p1.";
+
+ERR_0166.Request    = "Calcul de la trajectoire";
+ERR_0166.Diagnostic = "Le rayon de l'approche en déplacement hélicoïdal est supérieur au rayon de l'hélice.";
+ERR_0166.Advice     = "Réduisez le rayon du cercle d'approche en déplacement /p1.";
+
+ERR_0167.Request    = "Calcul de la trajectoire";
+ERR_0167.Diagnostic = "Le rayon du retrait en déplacement hélicoïdal est supérieur au rayon de l'hélice.";
+ERR_0167.Advice     = "Réduisez le rayon du cercle de retrait en déplacement /p1.";
+
+ERR_0168.Request    = "Calcul de la trajectoire";
+ERR_0168.Diagnostic = "Le numéro du plan en déplacement /p1 ne fait pas référence à un plan existant";
+ERR_0168.Advice     = "Changez le numéro du plan en déplacement /p1 ou créez ce plan";
+
+
+ERR_0200.Request    = "Calcul de la trajectoire";
+ERR_0200.Diagnostic = "Combinaison invalide des paramètres de dégagement.";
+ERR_0200.Advice     = "Contactez votre support local.";
+
+ERR_0500.Request    = "Calcul de la trajectoire";
+ERR_0500.Diagnostic = "/p1 n'a pas d'outil associé.";
+ERR_0500.Advice     = "Assignez un outil à /p1.";
+
+// WARNING MESSAGES FOR TOOLPATH COMPUTATION
+// Messages Compensation Outil
+ERR_0510.Request    = "Calcul de la trajectoire";
+ERR_0510.Diagnostic = "Le correcteur outil utilisé n'existe plus.";
+ERR_0510.Advice     = "\nEditez l'activité et sélectionner un correcteur valide.";
+
+ERR_0520.Request    = "Calcul de la trajectoire";
+ERR_0520.Diagnostic = "L'outil est trop court pour l'usinage de l'opération d'alésage aux \n positions suivantes : /p1.";
+ERR_0520.Advice     = "\nVérifiez l'outil.";
+
+ERR_0600.Request    = "Calcul de l'extrémité à partir du diamètre";
+ERR_0600.Diagnostic = "Calcul impossible avec un rayon de coin non nul.";
+ERR_0600.Advice     = "Vérifiez l'outil.";
+
+ERR_0610.Request    = "Calcul de l'extrémité à partir du diamètre";
+ERR_0610.Diagnostic = "/p1 est plus grand que /p2";
+ERR_0610.Advice     = "Vérifiez les paramètres de stratégie.";
+
+ERR_0620.Request    = "Calcul de l'extrémité chanfreinée à partir du diamètre chanfreiné";
+ERR_0620.Diagnostic = "/p1 est plus grand que /p2";
+ERR_0620.Advice     = "Vérifiez la géométrie ou les paramètres outil.";
+
+ERR_0700.Request    = "Problème dans le calcul des coordonnées Z";
+ERR_0700.Diagnostic = "/p1 doit être plus petit que /p2";
+ERR_0700.Advice     = "Vérifiez les paramètres de stratégie.";
+
+ERR_0710.Request    = "Calcul de la trajectoire";
+ERR_0710.Diagnostic = "Un seul des paramètres /p1 et /p2 peut être défini, pas les deux.";
+ERR_0710.Advice     = "Contactez votre support local.";
+
+ERR_0720.Request    = "Calcul de la trajectoire";
+ERR_0720.Diagnostic = "Les paramètres /p1 et /p2 doivent être définis tous les deux ou non définis";
+ERR_0720.Advice     = "Contactez votre support local.";
+
+//************************************************************
+// Plage messages generiques ERR_1000 a ERR_1999
+//************************************************************
+//
+ERR_1000 = "Le diamètre de l'outil est plus important que le diamètre à usiner";
+ERR_1001 = "Le diamètre nominal de l'outil est plus petit que le diamètre chanfreiné à usiner";
+ERR_1002 = "La longueur de coupe de l'outil est plus petite que la profondeur à usiner";
+
+//************************************************************
+// Plage messages generiques ERR_2000 a ERR_2999
+//************************************************************
+//
+// Messages generaux
+//
+InfoTitle      = "Information Fabrication par CN";
+WarningTitle   = "Avertissement Fabrication par CN";
+ErrorTitle     = "Erreur Fabrication par CN";
+GeneralErrorTitle  = "Erreur";
+PanelTitle     = "Erreur Fabrication par CN";
+UpdateError    = "Erreur interne pendant la mise à jour";
+InternalError  = "Erreur dans le logiciel Fabrication par CN.\nL'erreur est: /p1";
+InitError      = "Erreur pendant l'initialisation";
+ErrorNotSpecified = "Erreur non spécifiée.\nContactez votre support local";
+
+ERR_2000 = "Erreur dans le logiciel Fabrication par CN.\n.Contactez votre support local.";
+ERR_2001 = "Erreur dans le logiciel Fabrication par CN.\nL'erreur est: /p1\nContactez votre support local.";
+
+ERR_2002 = "Lecture de données.\nErreur dans le logiciel Fabrication par CN : Accès à un 'handler NULL'.\nContactez votre support local.";
+ERR_2003 = "Demande d'un gestionnaire </p1> à partir de </p2>.\nErreur dans le logiciel Fabrication par CN : La demande a échoué.\nContactez votre support local.";
+ERR_2004 = "Lecture ou positionnement de l'attribut </p1> à partir de </p2>\nErreur dans le logiciel Fabrication par CN : L'attribut n'existe pas.\nContactez votre support local.";
+
+ERR_3000 = "Initialisation de l'attribut </p1> dans </p2>.\nL'attribut n'existe pas.\nContactez votre support local.";  
+ERR_3001 = "Initialisation de </p1>.\n</p1> n'est pas valide.\nContactez votre support local.";  
+ERR_3002 = "Initialisation de l'attribut </p1> dans </p2>.\nL'attribut n'existe pas.\nContactez votre support local.";  
+ERR_3003 = "Initialisation de </p1>.\n</p1> n'est pas valide.\nContactez votre support local.";  
+
+//
+// Messages CutCopyPaste
+//
+ERR_3100 = "Lors de la copie de l'opération, la géométrie n'a pas été conservée. \nDéfinissez la nouvelle géométrie à usiner.";
+
+
+//************************************************************
+// Plage ERR_3500 a 3999 : Messages Activites
+//************************************************************
+//
+// Messages ToolPath
+//
+ERR_3500.Request    = "Calcul du trajet outil."; 
+ERR_3500.Diagnostic = "Calcul du trajet outil impossible pour '/p1'.";
+ERR_3500.Advice     = "Tel ne devrait pas être le cas, contactez votre support local.";
+
+ERR_3501.Request    = "Erreur de calcul trajet outil."; 
+ERR_3501.Diagnostic = "Aucun point de référence n'est défini pour la Position évaluée No /p1.";
+ERR_3501.Advice     = "Pour toutes les Positions évaluées, un point de référence doit être défini.\nCe doit être un point sélectionné ou un point de référence précédent.";
+
+ERR_3502.Request    = "Erreur de calcul trajet outil."; 
+ERR_3502.Diagnostic = "La Position à évaluer No /p1 n'a pu être évaluée correctement.";
+ERR_3502.Advice     = "Modifiez les paramètres d'évaluation pour cette Position et re-essayez\nSinon contactez votre support local.";
+
+ERR_3503.Request    = "Erreur de calcul trajet outil."; 
+ERR_3503.Diagnostic = "La ou les surface(s) utilisée(s) en tant que Pièce doivent être planes.";
+ERR_3503.Advice     = "Sélectionnez une surface plane.";
+
+ERR_3504.Request    = "Erreur de calcul trajet outil."; 
+ERR_3504.Diagnostic = "La ou les surface(s) utilisée(s) en tant que Pièce doivent être normales à l'axe outil.";
+ERR_3504.Advice     = "Sélectionnez une(des) surface(s) adaptée(s) ou changer l'axe outil de l'opération.";
+
+ERR_3505.Request    = "Erreur de calcul trajet outil."; 
+ERR_3505.Diagnostic = "Problème survenu durant la lecture de la géométrie de la Pièce liée aux Positions évaluées.";
+ERR_3505.Advice     = "Modifiez les paramètres de positionnement et re-essayez.\nSinon contactez votre support local.";
+//
+//************************************************************
+// Plage ERR_4000 a 4499 : Messages Item (Geometrie, etc)     
+//************************************************************
+//
+ERR_4000 = "Face non adjacente. \n. La face sélectionnée doit être adjacente à celles déjà sélectionnées";
+ERR_4001 = "Positions initialisées à partir de la répétition de design";
+ERR_4002 = "Face non parallèle à l'axe outil. \nLa direction de réglage de la face doit être parallèle à l'axe outil /p1.";
+ERR_4003 = "Face non réglée. \nLa face sélectionnée doit être une face réglée.";
+ERR_4004 = "Contour non fermé. \nLe contour sélectionné doit être fermé.";
+ERR_4005 = "Le contour initialisé avec les /p1 courbes externes du fond";
+ERR_4006 = "Le contour initialisé avec les /p1 courbes externes du fond.\n1 îlot créé à partir du domaine interne.";
+ERR_4007 = "Le contour initialisé avec les /p1 courbes externes du fond.\n/p2 îlots créés à partir des domaines internes.";
+ERR_4008 = "Géométrie inaccessible. \nLa géométrie '/p1' a disparu.";
+ERR_4009 = "Composant du bureau d'études inaccessible. \nLe composant '/p1' a disparu.";
+
+ERR_4010.Request    = "Sélection non valide."; 
+ERR_4010.Diagnostic = "La surface sélectionnée doit être plane.";
+ERR_4010.Advice     = "Sélectionnez une surface plane.";
+
+ERR_4011.Request    = "Sélection non valide."; 
+ERR_4011.Diagnostic = "La ou les surface(s) utilisée(s) en tant que Pièce doivent être normales à l'axe outil.";
+ERR_4011.Advice     = "Sélectionnez une(des) surface(s) adaptée(s) ou changez l'axe outil de l'opération.";
+
+ERR_4012.Request    = "Sélection non valide."; 
+ERR_4012.Diagnostic = "Problème survenu durant la lecture de la géométrie de la Pièce.";
+ERR_4012.Advice     = "Modifiez les paramètres de positionnement et re-essayez.\nSinon contactez votre support local.";
+
+//************************************************************
+// Plage ERR_4500 a 4999 : Message Resources (Tool, Machine, etc)
+//************************************************************
+
+
+//************************************************************
+// Plage ERR_5000 a 5499 : Messages PPWord Table.
+//************************************************************
+
+ERR_5000 = "Lecture Table de mots PP. \nPas de nom de commande après *INSERT. \nErreur ligne /p1.";
+ERR_5001 = "Lecture Table de mots PP. \nMot clé * invalide. \nErreur ligne /p1.";
+ERR_5002 = "Lecture Table de mots PP. \nBloc de commande *START-*END incorrect. \n*START absent.";
+ERR_5003 = "Lecture Table de mots PP. \nBloc de commande *START-*END incorrect. \n*END absent";
+ERR_5004 = "Lecture Table de mots PP. \nUn nom de commande NC_ doit suivre *START_NC_COMMAND. \nErreur ligne /p1.";
+ERR_5005 = "Lecture Table de mots PP. \nUn nom de commande NC_ doit suivre *START_NC_INSTRUCTION. \nErreur ligne /p1.";
+ERR_5006 = "Lecture Table de mots PP. \nUn nom de paramètre NC_ doit suivre *START_LIST. \nErreur ligne /p1.";
+ERR_5007 = "Lecture Table de mots PP. \nUn nom de paramètre NC_ doit suivre *START_FORMAT. \nErreur ligne /p1.";
+ERR_5008 = "Lecture Table de mots PP. \nMot clé *START* inconnu. \nErreur ligne /p1.";
+ERR_5009 = "Lecture Table de mots PP. \nLa table de mots PP ne peut être ouverte.";
+ERR_5010 = "Lecture Table de mots PP. \nLa table de mots PP n est pas définie \nDéfinissez une table de mots PP sur la machine \n";
+ERR_5011 = "Lecture Table de mots PP. \nMachine non définie \nDéfinissez une machine et une table de mots PP sur la machine \n";
+
+
+//************************************************************
+// Plage ERR_5500 a 5999 : Messages Replay.
+//************************************************************
+
+ERR_REPLAY_0001 = "Animation trajet outil. \nLe programme est vide ou ne contient pas opération à animer";
+ERR_REPLAY_0002 = "Animation trajet outil. \nLa trajectoire outil associée au programme est vide";
+ERR_REPLAY_0003 = "Animation trajet outil. \nLa trajectoire outil associée à l'opération est vide";
+ERR_REPLAY_0004 = "Animation trajet outil. \nOpération non active dans le programme";
+
+
+//************************************************************
+// Plage ERR_6000 a 6499 : CATMfg
+//************************************************************
+
+//=======================================================================
+//=======================================================================
+//                        ======== BACTH ========                        
+//=======================================================================
+//=======================================================================
+
+//===================================================================
+//  0/ Generalite
+//===================================================================
+
+MSG_BATCH_00001 = "Batch, données d'entrée : /p \n";
+ERR_BATCH_00002 = "Nom du chemin d'entrée vide.\n";
+MSG_BATCH_00003 = "Fin du Batch.\n";
+MSG_BATCH_00004 = "Début du Batch.\n";
+ERR_BATCH_00005 = "Erreur à l'ouverture de la session de travail.\n";
+MSG_BATCH_00006 = "\n---------------------------------------\n\n";
+
+//===================================================================
+//  1/ Lecture du fichier ft05
+//===================================================================
+MSG_BATCH_10000 = "Lecture du fichier ft05 : Début.\n";
+ERR_BATCH_10001 = "Erreur lors de la lecture du fichier ft05.\n";
+MSG_BATCH_11000 = "Lecture du fichier ft05 : Fin.\n";
+
+//===================================================================
+//  2/ Verification des donnees du fichier ft05 
+//===================================================================
+MSG_BATCH_20000 = "Vérification des données du fichier ft05 : Début\n";
+ERR_BATCH_20001 = "Erreur détectée dans la vérification des données du fichier ft05.\n";
+ERR_BATCH_20100 = "Le mot clé /p obligatoire n'a pas été trouvé.\n";
+ERR_BATCH_20101 = "Un des deux mots clés *APT ou *CLF est obligatoire.\n";
+ERR_BATCH_20102 = "Les deux mots clés *APT et *CLF sont exclusifs.\n";
+ERR_BATCH_20200 = "Le mot clé /p n'a pas de valeur associée.\n";
+ERR_BATCH_20301 = "La valeur du rayon minimum associé au mot clé *CIR est incorrecte.\n";
+ERR_BATCH_20302 = "La valeur du rayon maximum associé au mot clé *CIR est incorrecte.\n";
+ERR_BATCH_20303 = "Il manque le rayon maximum pour le mot clé *CIR.\n";
+ERR_BATCH_20400 = "Impossible d'accéder au document (mots clés *REA et *MOD) contenant le programme à traiter.\n";
+ERR_BATCH_20500 = "Le fichier CN à créer (mot clé *WRI et *MEM) existe déjà et ne peut pas être remplacé (mot clé *REP).\n";
+ERR_BATCH_20600 = "Le fichier d'enregistrement du document(mot clé *FLW et *MDW) existe déjà et ne peut pas être remplacé (mot clé *MRP).\n";
+ERR_BATCH_20700 = "Le fichier ISO à créer (mot clé *PSO et *NSO) existe déjà et ne peut pas être remplacé (mot clé *RSO).\n";
+ERR_BATCH_20800 = "La valeur associée au mot clé /p ne fait pas partie des valeurs autorisées.\n";
+ERR_BATCH_20900 = "La valeur associée au mot clé /p est négative.\n";
+MSG_BATCH_21000 = "Vérification des données du fichier ft05 : Fin.\n";
+
+//===================================================================
+//  3/ Lecture du document a traiter 
+//===================================================================
+MSG_BATCH_30000 = "Lecture du document à traiter : Début\n";
+ERR_BATCH_30001 = "Erreur détectée dans la lecture du document à traiter.\n";
+MSG_BATCH_31000 = "Lecture du document à traiter : Fin.\n";
+
+//===================================================================
+//  4/ Verification du document a traiter 
+//===================================================================
+MSG_BATCH_40000 = "Vérification du document à traiter : Début\n";
+ERR_BATCH_40001 = "Erreur détectée dans la vérification du document à traiter.\n";
+ERR_BATCH_40100 = "Le programme (mot clé *PRG) n'a pas été trouvé dans le document.\n";
+MSG_BATCH_41000 = "Vérification du document à traiter : Fin.\n";
+
+//===================================================================
+//  5/ Initialisation de la machine
+//===================================================================
+MSG_BATCH_50000 = "Initialisation de la machine : Début\n";
+ERR_BATCH_50001 = "Erreur détectée dans l'initialisation de la machine.\n";
+MSG_BATCH_51000 = "Initialisation de la machine : Fin.\n";
+
+//===================================================================
+//  6/ Generation du fichier NC Code
+//===================================================================
+MSG_BATCH_60000 = "Génération du fichier Code CN : Début\n";
+ERR_BATCH_60001 = "Erreur détectée dans la génération du fichier Code CN.\n";
+MSG_BATCH_61000 = "Génération du fichier Code CN : Fin.\n";
+
+//===================================================================
+//  7/ Sauvegarde du document modifie
+//===================================================================
+MSG_BATCH_70000 = "Enregistrement du document modifié : Début\n";
+ERR_BATCH_70001 = "Erreur détectée dans l'enregistrement du document modifié.\n";
+MSG_BATCH_71000 = "Enregistrement du document modifié : Fin.\n";
+
+//===================================================================
+//  8/ Generation du fichier ISO Code
+//===================================================================
+MSG_BATCH_80000 = "Génération du fichier Code ISO : Début\n";
+ERR_BATCH_80001 = "Erreur détectée dans la génération du fichier Code ISO.\n";
+MSG_BATCH_81000 = "Génération du fichier Code ISO: Fin.\n";
+
+//===================================================================
+//  9/ Dump du contenu de la ft05 (Donnees dans le GeneratorData)
+//===================================================================
+MSG_BATCH_90000 = "Contenu du fichier FT05 : Début\n";
+MSG_BATCH_91100 = "Mot clé : /p \n";
+MSG_BATCH_91000 = "Contenu du fichier FT05 : Fin.\n";
+
+//=======================================================================
+//=======================================================================
+//                        ======== TOOLS ========                        
+//=======================================================================
+//=======================================================================
+
+ERR_TOOL_CORRECTOR_0001  = "Définition du numéro de registre.\nLe numéro de registre : /p existe déjà\nChoisissez un numéro de registre inexistant.";
+
+// La bonne description estr celle-ci mais la parametrisation ne marche pas.. 
+//ERR_TOOL_CORRECTOR_0001.Request    = "Defining register number.";
+//ERR_TOOL_CORRECTOR_0001.Diagnostic = "Register number: /p1 already exists.";
+//ERR_TOOL_CORRECTOR_0001.Advice     = "Choose an inexisting register number.";
+
+ERR_TOOL_CORRECTOR_0002  = "Définition de la valeur du diamètre\nLa valeur du diamètre devrait être >= /p1 et <= /p2\nChoisissez une valeur de diamètre valide.";
+// La bonne description estr celle-ci mais la parametrisation ne marche pas.. 
+//ERR_TOOL_CORRECTOR_0002.Request    = "Defining diameter value.";
+//ERR_TOOL_CORRECTOR_0002.Diagnostic = "Diameter value should be >= /p1 an <= /p2";
+//ERR_TOOL_CORRECTOR_0002.Advice     = "Choose a valid diameter value.";
+
+//=======================================================================
+//=======================================================================
+//                        ======== END TOOLS ========                        
+//=======================================================================
+//=======================================================================
+
+// 
+//************************************************************
+// Vieux format de message : a eviter maintenant et merci de les migrer (utiliser ERR_XXXX)
+//************************************************************
+//
+DesignNotFound = "Le produit fini ne peut être retrouvé";
+ResourceNotFound  = "La ressource ne peut être retrouvée";
+StrategyParameterNotFound = "Paramètre 'stratégie' \n /p1 non trouvé.\nErreur possible dans le fichier TXT /p2\nInfo: Liste des paramètres 'Stratégie' disponibles :\n/p3\n\nListe des paramètres 'Stratégie' disponibles dans le StartUp :/p4";
+StrategyParameterNameNotFound = "Nom du paramètre stratégie \n /p1 non trouvé.\nLe paramètre stratégie /p1 est un /p2.\nErreur possible dans le fichier TXT /p3\n\nInfo : Liste des paramètres stratégie disponibles :\n/p4\n\nListe des paramètres 'Stratégie' disponibles dans le StartUp :/p5";
+TxtFileFormatError = "Dans le fichier TXT : /p1 \nla ligne: /p2 \n n'a pas le format nécessaire : <nom> <valeur_x> <valeur_y>";
+TxtFileNotReadable= "Fichier TXT : /p1 trouvé, mais non lisible";
+IconNotAssigned= "Impossible de trouver une ou des icône(s) valide(s) pour /p1";
+WrongBitmapFileFormat= "Fichier BMP: /p1 a probablement un mauvais format\nIl a été possible d'ouvrir le fichier, mais pas de le lire";
+XYchangesNotAllowed= "X et Y ne devraient pas changer\nanciennes valeurs : X /p1 Y /p2\nnouvelles valeurs : X /p3 Y /p4";
+NoBitmapFilePath= "Pas de chemin associé au fichier BMP";
+BitmapNotReadable = "Fichier BMP : /p1 a été trouvé, mais n'est pas lisible";
+GetComponentLinksError= "Erreur dans GetComponentLinks";
+ToolPathComputationError = "Erreur dans le calcul de la trajectoire";
+ViewerNotGenerated = "Pas de viewer 2D généré dans /p1";
+WrongDriveElement = "Eléments de guidage invalides";
+ExactOneOfthe3ParametersHasToBeDefined = "Seulement un des paramètres /p1 , /p2 et /p3 doit être défini";
+Breakthrough_But_No_OperationLength = "Usinage débouchant mais pas de définition d'OperationLength";
+IllegalCombinationOfLiftParameters = "Combinaison invalide de paramètres relatifs à la gestion du dégagement";
+NotPossibleElseFound = "'Else' non possible trouvé";
+ToolPathNotCalculated = "Trajet outil non calculé";
+CuttingLengthNotFound = "Longueur de coupe non trouvée";
+DirectionNotFound = "Direction non trouvée";
+HoleNotFound = "Trou non trouvé";
+NoActivityFound = "Pas d'opération trouvée";
+NoIntersectionFound = "Pas d'intersection trouvée avec le diamètre d'outil /p1";
+NoToolAssociated = "Pas d'outil associé";
+IntersectionsOnArcsNotDupported = "Intersections entre arcs non supportées dans \nCATMfgToolPathGeneratorBase::CalculateTipFromDiameter";
+NoToolGeomFound = "Géométrie associée à l'outil non trouvée";
+OriginNotFound = "Origine non trouvée";
+NeededParameterNotFound = "Le paramètre nécessaire /p1 n'a pas été trouvé";
+OneOfTheFollowingParameterNotFound = "Paramètre /p1 ou /p2 non trouvé";
+OnlyBothParameterShouldBeDefined = "Les paramètres /p1 et /p2 devraient, soient être définis tous les deux, soit ne pas être définis";
+OnlyOneParameterMayBeDefined = "Seulement un des paramètres /p1 et /p2 doit être défini, mais pas les deux";
+Should_be_greater_than = "Problème dans le calcul de z :\nLe paramètre /p1 = /p2 devrait être plus grand que /p3";
+Should_be_smaller_than = "Problème dans le calcul de z :\nLe paramètre /p1 = /p2 devrait être plus petit que /p3";
+Parameter_greaterthan_Diameter = "Le paramètre /p1 est plus grand que le /p2 paramètre /p3";
+ParameterNotFound_ExistingParameters = "Paramètre \n /p1 non trouvé.\nListe de tous les paramètres autorisés :\n/p2";
+ToolParameterNoFound = "Paramètre outil /p1 non trouvé";
+WrongToolCuttingAngle = "Valeur incorrecte de l'angle de coupe outil /p1";
+WrongToolTipZCoordinateCalculated = "Pour le diamètre outil /p1 une valeur invalide du Z outil /p2 est calculée";
+WrongToolTipLengthCalculated = "Mauvaise valeur d'extrémité outil /p1 calculée";
+NoFeatureFound = "Composant associé non trouvé";
+InternalPocketingError = "Erreur interne dans l'usinage de poche";
+WrongDrivesElement = "Eléments de guidage invalides";
+WrongIslandsElement = "Ilots invalides";
+WrongPartElement = "Eléments à usiner invalides";
+NoToolPathFactoryFound = "Pas de 'Factory' pour la création du trajet outil";
+NoFeedrateParametersFound = "Pas de paramètres vitesse trouvés";
+ThisToolTypeHasNoToolTipLength = "Un outil de type /p1 n'a pas de paramètre 'Longueur extrémité outil'";
+Breakthrough_And_DepthDistance_Defined = "Usinage débouchant avec 'profondeur de coupe' définie ";
+
+
+

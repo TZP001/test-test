@@ -1,0 +1,84 @@
+ER_NOINPUTFILE="오류: -if 옵션 뒤에 입력 파일 이름이 따라 나와야 합니다. ";
+ER_NOLISTEFILE="오류: -l 옵션 뒤에 입력 파일 이름이 따라 나와야 합니다. ";
+ER_NODATABASEFILE="오류: -db 옵션 뒤에 데이터베이스 이름이 따라 나와야 합니다. ";
+ER_NODATABASEIDENT="오류: -id 옵션 뒤에 입력 데이터베이스 ID가 따라 나와야 합니다. ";
+ER_NONEINPUT="오류: 입력 파일이 제공되지 않았습니다. ";
+ER_INVALIDOUTPUT="오류: 출력 옵션이 제공되지 않았습니다. ";
+ER_INVALIDINPUT="오류: -if 및 -db 옵션의 조합이 유효하지 않습니다. ";
+ER_INVALIDLISTEINPUT="오류: -l 및 -if 또는 -db 옵션의 조합이 유효하지 않습니다. ";
+ER_INVALIDFILEBASE="오류: -if 및 -id 옵션의 조합이 유효하지 않습니다. ";
+ER_INVALIDDATABASE="오류: -id 또는 -l 옵션은 -db 옵션 뒤에 와야 합니다.";
+ER_FILEANDLIST="오류: -if [path] 및 -l [path] 옵션의 조합이 유효하지 않습니다. ";
+ER_INVALIDBASENAME="오류: 데이터베이스 이름이 유효하지 않습니다. ";
+ER_NOSERVERNAME="오류: 서버 이름 없음 ";
+ER_UNIXONLY="오류: VPM1 데이터베이스 이름만이 UNIX에서 사용 가능합니다. ";
+ER_SESSIONCREATE="오류: 세션을 작성할 수 없습니다. ";
+ER_NOLICENSE="*** Not Authorized 명령 *** 유효하지 않은 라이센스" ;
+ER_INVALIDPATH="오류: 파일의 경로가 유효하지 않습니다. ";
+ER_DATABASECONN="오류: 데이터베이스에 연결할 수 없습니다. ";
+ER_OPENLISTFILE="오류: 목록 파일을 열 수 없습니다. ";
+ER_NODATABASEID="오류: 데이터베이스 ID를 검색할 수 없습니다. ";
+ER_NOEXFILE="오류: 입력 파일이 존재하지 않습니다. ";
+ER_NOREADFILE="오류: 입력 파일에 관한 읽기 권한이 없습니다. ";
+ER_NOACCESSFILE="오류: 입력 파일을 액세스할 수 없습니다. ";
+ER_NOWRITE="오류: 출력 파일에 관한 쓰기 권한이 없습니다. ";
+ER_NOFILE="오류: 파일이 존재하지 않습니다. ";
+ER_NOTCORRECT="오류: 출력 파일 이름이 올바르지 않습니다. ";
+ER_NOCREATE="오류: 출력 파일을 작성할 수 없습니다. ";
+ER_NOOPEN="오류: 열기 실패 ";
+ER_NOREMOVE="오류: 제거 실패 "; 
+ER_FILEPROCESSING="오류: 파일 처리 중 문제점이 발생했습니다. ";
+ER_DATAPROCESSING="오류: 데이터 처리 중 문제점이 발생했습니다. ";
+ER_NOSAVINGFORMAT="오류: -mod 옵션 뒤에 저장 모드가 따라 나와야 합니다. ";
+ER_INVALIDSAVINGFORMAT="오류: 유효하지 않은 저장 모드";
+ER_INVALIDSWITCH="오류: 유효하지 않은 전환";
+ER_NOOUTPUTFILE="오류: -of 옵션 뒤에 출력 파일 이름이 따라 나와야 합니다. ";  
+
+WN_USERNOTUSED="경고: -db 옵션은 사용되지 않으며, -user 옵션이 무시됩니다. ";
+WN_PWDNOTUSED="경고: -db 옵션은 사용되지 않으며, -pwd 옵션이 무시됩니다. ";
+INFO_SUCCESSFULL="CATV5ToV4가 성공적으로 종료됨";
+INFO_PARTIALLY="CATV5ToV4가 부분적으로 처리됨";
+INFO_HELP="사용법: \n
+          CATV5ToV4   -if inputfile -of outputfile -mod savingmode -report \n
+               -if       : CATPart 또는 텍스트 파일이 될 수 있는
+			   입력 파일.
+			   텍스트 파일일 경우 다음 조건을 만족시켜야 합니다.
+			   1) .txt 확장자를 가져야 함
+			   2) CATParts 경로를 포함해야 함.
+ 			   예를 들어, .txt 파일이 Unix에서 사용될 경우
+			   다음과 유사한 경로를 포함해야 합니다.
+			   /tmp/FirstPart.CATPart
+		           /tmp/SecondPart.CATPart
+ 			   .txt 파일이 NT에서 사용될 경우
+			   다음과 유사한 경로를 포함해야 합니다.
+			   E:\tmp\FirstPart.CATPart
+		           E:\tmp\SecondPart.CATPart
+	       -il       : 입력 CATParts 경로 열거가 따라 나옵니다.
+	       -of	 : 적절한 파일 확장자를 갖는
+			   출력 모델 파일.
+	       -mod      : 적절한 형식의 저장 모드(ASSO / NO_ASSO)
+	       -report   : 보고서 디렉토리. 해당 옵션이 만족되지 않을 경우 보고서는 CATReport 아래에 저장됩니다.
+
+예제:
+CATV5ToV4 -if  /tmp/FirstPart.CATPart -of /tmp/Out -mod ASSO
+연관 모드의 /tmp/Out 디렉토리에 있는 FirstPart.model로 FirstPart.CATPart의
+이주를 허용합니다.
+
+CATV5ToV4 -if  /tmp/List.txt -of /tmp/Out
+/tmp/Out 디렉토리의 List.txt 내에 참조된 파트 이주를 허용합니다.
+List.txt는 다음과 유사합니다.
+/tmp/FirstPart.CATPart
+/tmp/SecondPart.CATPart
+
+CATV5ToV4 -il /tmp/FirstPart.CATPart /tmp/SecondPart.CATPart -of /tmp/Out
+-이전과 같음을 허용합니다. "
+		
+
+
+; 
+
+
+
+
+
+

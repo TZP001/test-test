@@ -1,0 +1,68 @@
+/*  
+Feuille de style pour l'affichage du report
+Auteur : Olivier Payen
+Modifs : wbu
+ */
+
+/* Police globale du report
+     Snap ITC
+ */  
+* {font-family: "Arial";}
+ 
+ 
+/* Definition des couleurs de status */
+.OKAreas{color:green;}
+.Ignored{color:orange;}
+.KOAreas{color:red;}
+/*div.ReviewHeader input.Ignored{background-color: green; color:white;border: 1px solid black;vertical-align:top;}
+div.ReviewHeader input.OKAreas{color:green;}
+div.ReviewHeader input.KOAreas{color:red;}*/
+div.ReviewHeader {
+	font-size: 1em;
+	color: blue;
+}
+div.Warning{color:red;margin-top: 10pt;font-weight: bold;}
+  
+
+/*  
+SI c'est groupement de zones, suivant le status on change la couleur du fond et du texte
+ */
+li.Group span.OKAreas {background-color: green; color:white;padding: 0.02in;border: 1px solid black;padding-right: 0.05in; vertical-align:top;}
+li.Group span.Ignored {background-color: orange; color:white;padding: 0.02in;border: 1px solid black;padding-right: 0.05in; vertical-align:top;}
+li.Group span.KOAreas {background-color: red; color:white;padding: 0.02in;border: 1px solid black;padding-right: 0.05in; vertical-align:top;}
+
+/*  
+Affichage des décorations dans les Area elements
+ */
+div.LargeView{background-color:white; border: 6px groove #004488;position: fixed;visibility: hidden; top:50px; left:50px; bottom : 50px; right: 50px; padding:5px;}
+li.Group {list-style-image: url('area.gif'); margin-left: 13pt; cursor: pointer; margin-top: 5pt; vertical-align:top;}
+li.Camera{list-style-image: url('I_DumpSnapShot.bmp'); margin-left: 17pt; cursor: pointer; margin-top: 5pt; vertical-align:top;}
+div.CameraBorder{cursor: pointer;}
+li.AnnotationSet{ list-style-image: url('I_TPSAnnotationSet.bmp'); margin-left: 17pt; cursor: pointer; margin-top: 9pt; vertical-align:top; }
+
+
+li.AnnotationElement{list-style-image: url('I_InsFeatureEvaluateTolGeomAct.bmp'); margin-left: 19pt; cursor: pointer; margin-top: 5pt; vertical-align:top;}
+
+/*  
+Gestion de l'entete des references de geonetry
+ */
+/*div.ReviewHeader {color:blue;}*/
+li.AnnotationSet span{font-weight: bold; margin-right: 65%;margin-bottom: 10pt;padding: 0.05in;}
+
+/*  
+Trait de l'arborescence 
+ */
+td.AreaBorder  {border-left: 0.5pt dotted darkgray;}
+li.CameraBorder  {border-left: 0.5pt dotted darkgray;}
+td.AnnotationBorder  {list-style-image: url('feuille.png');border-left: 0.5pt dotted darkgray;}
+
+/* 
+Alignement plus précis (pour eviter d'avoir des gros blancs sous IE...)  
+*/
+ul  {margin-top: -0.01in;margin-bottom: -0.01in;}
+
+/*
+Barre horizontale
+*/
+hr {margin-left: 25%; margin-right: 25%; margin-top: 10pt; margin-bottom: -2pt;}
+

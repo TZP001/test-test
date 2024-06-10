@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ParametersList>
+	<Parameter Name="queryName" Type="String" Alias="%CATPDMReconcileAutoRules:queryName%" Mandatory="Yes">
+		<DefaultValuesList>
+			<DefaultValue>%CATStiPDMCriterion:SmarTeam.Criterion.SilentGenericQuery%</DefaultValue>
+		</DefaultValuesList>
+		<CurrentValue>%CATStiPDMCriterion:SmarTeam.Criterion.SilentGenericQuery%</CurrentValue>
+	</Parameter>	
+	<Parameter Name="forceMapping" Type="Boolean" Alias="forceMapping" Shown="No" Mandatory="Yes">
+		<CurrentValue>No</CurrentValue>
+	</Parameter>
+	<Parameter Name="implicitRule" Type="Boolean" Alias="%CATPDMReconcileAutoRules:implicitRule%" Mandatory="Yes">
+		<DefaultValue>Yes</DefaultValue>
+	</Parameter>
+<RenderingForm>
+
+<MainFrame>
+	<Label ref="Parameter[@Name='queryName']/@Alias" Name="FrmElemLabel1"/>
+	<GC A="L" W="1" H="1" X="0" Y="0" Name="FrmElemLabel1"/>
+	
+	<DefaultFormSelect1 ref="Parameter[@Name='queryName']/CurrentValue" Name="DefaultFormSelect1"/>
+	<GC A="L" W="2" H="1" X="1" Y="0" Name="DefaultFormSelect1"/>
+	
+	<Label ref="Parameter[@Name='implicitRule']/@Alias" Name="FrmElemLabel2"/>
+	<GC A="L" W="1" H="1" X="1" Y="1" Name="FrmElemLabel2"/>
+	
+	<DefaultFormInput ref="Parameter[@Name='implicitRule']/CurrentValue" Name="FrmElemInput2"/>
+	<GC A="L" W="1" H="1" X="0" Y="1" Name="FrmElemInput2"/>
+	
+	<Label Name="FrmElemBlank"></Label>
+	<GC A="L" J="H" H="1" W="1" X="0" Y="2" Name="FrmElemBlank"/>
+	
+	<Label Name="FrmElemLongHelp">%CATPDMReconcileAutoRules:GlobalQuery.LongHelp%</Label>
+	<GC A="L" J="H" H="2" W="4" X="0" Y="3" Name="FrmElemLongHelp"/>
+	
+</MainFrame>
+</RenderingForm>
+
+</ParametersList>

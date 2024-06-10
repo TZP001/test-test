@@ -1,0 +1,65 @@
+START_BATCH="CATDMUUtility2D avviato alle:";
+STOP_BATCH="CATDMUUtility2D arrestato dopo una durata di: ";
+ERR_PROCESSING="ERRORE: Non è possibile elaborare CATDMUUtility2D.";
+ERR_TREATMENT="ERRORE: Impossibile gestire il documento di immissione ";
+OK_TREATMENT="OK: Il documento di immissione è stato gestito correttamente ";
+
+INFO_HELP="USO: \n
+Per visualizzare la guida:
+ CATDMUUtility2D -h
+Per esportare i dati di immissione:
+ CATDMUUtility2D -id inputId -cgm outputlocation
+                [-sheet sheetName]
+                [-db VPM|ENOVIAV5 -user user -spwd cryppwd -role role
+                 -server srv]
+
+Esempi di Windows:
+   CATDMUUtility2D -h
+   CATDMUUtility2D -id c:\u\input.model -cgm c:\tmp\model.cgm
+Esempi di Unix:
+   CATDMUUtility2D -h
+   CATDMUUtility2D -id /u/input2/model.model -cgm c:\tmp\model.cgm -sheet Sheet.1
+
+Argomenti:
+   -h                   : Guida
+   -id inputId          : Definisce il documento di immissione da gestire.
+                          Può essere:
+                          -	un percorso, come un DLName preceduto da 'CATDLN://').
+                          - un identificativo di database (VPM o LCA)
+                          Gestisce diversi tipi di documenti: model,
+                          CATDrawing, dxf, cdd, dwg
+   -db DatabaseType     : Il tipo di database:
+                          VPM per database VPM
+                          ENOVIAV5 per il database LCA
+   -user user    : Per definire l'utente di database.
+   -spwd cryppwd : Per definire la password dell'utente
+                   Viene decrittata prima dell'uso.
+   -role role    : Per definire il ruolo dell'utente del database.
+   -server srv   : Per definire il server del database.
+   -sheet sheetName  : Per esportare un foglio specifico dai dati di immissione
+
+   NB: i parametri user, spwd, role e server sono obbligatori se i documenti di immissione fanno riferimento a VPM o LCA.
+
+Diagnostica:
+  I valori di stato possibili sono:
+      0   Operazione completata.
+      1   1   Errore causato da uno dei seguenti motivi:
+          - licenza non disponibile
+          - argomenti mancanti
+          - parametro non valido
+          - parametro mancante dopo un'opzione
+          - file di immissione mancante
+          - impossibile trovare un file
+          - impossibile aprire un file di immissione
+          - tipo di documento non corretto
+      2   Errore di elaborazione.
+      3   Elaborazione parziale.
+
+Risoluzione dei problemi:
+   Stato = 1:
+      Modificare la riga comandi o l'ambiente mediante le informazioni contenute nel
+      file di errori standard.
+   Stato = 2:
+      Rivolgersi al servizio di assistenza locale.
+   Stato = 3:
+      Correggere i file che causano l'errore. L'uso interattivo dei file può fornire informazioni sul problema.";

@@ -1,0 +1,825 @@
+-- Mimic File Modifications:
+--
+--    09/21/95 - MRT - Revised the ADD_TO_QUEUE() calls to no longer
+--                     use Negative tolerance values.  Negative
+--                     Collision tolerances No Longer Supported,
+--                     beginning with Deneb Product Version 2.4.1.
+--
+--    03/04/97 - MRT - 1) Change G_COLLISION_CHECK state from S_SUPER to S_ON
+--                        for Auto Collision compatibility (VNC 4_0)
+--                     2) Removed all calls to ADD_TO_QUEUE, REMOVE_CROSS_CHECK
+--                        and CLEAR_COLLISION_QUEUE to avoid conflicts with
+--                        the new Auto Collision feature in VNC 4_0.
+--    03/12/97 - MRT - 1) Revised COLLISION() procedure to now use the
+--                        WHAT_HIT_WHAT() Mimic built-in function.
+--    07/14/97 - MRT - 1) Removed '%\n' as a BEGIN_PROG_EXEC_STR
+--                        so the NC program file mods on PC version
+--                        will run on the PC.
+--
+--    01/2001  - PDU - 1) Cincinati T30 post-processeur compatibility
+--                     2) Tool offset file management (CATIA-VNC bridge)
+--                     3) Drilling cycle
+
+
+VAR
+  Next_tool_no, col_line_num            : INTEGER
+  Tmp_value, Ref_pos, Increment         : REAL
+  current_animated_block                : INTEGER
+  leng_table                            : ARRAY[16] OF REAL
+  cur_tool_name                         : STRING
+
+  --pd??? Tool offset -> length compensation
+  --pd??? Array created from the ProgName.OFS file (created by CATIA)
+  Tool_offset                           : ARRAY[65] OF REAL
+
+CONST
+  D_OFF                 0
+  D_ON                  1
+  ZERO_TOL              0.001
+  X_AXS                 1
+  Y_AXS                 2
+  Z_AXS                 3
+  B_AXS                 5
+  DELAY_TIME            3.0
+
+
+STATE
+  g_Mist_coolant
+  g_Flood_coolant
+  g_Pulse_coolant
+  g_Spin_mist_coolant
+  g_Spin_flood_coolant
+  g_Spin_pulse_coolant
+  g_Canned_cycles,   MODAL: s_G80, s_G81
+
+REGISTER
+
+  --pd??? Previous tool position values
+  --pd??? Usefull for circular motion (absolute I,J.K in the program)
+  R_OLD_AXIS1,    UNIT_MULTIPLIER = TO_MM, MODAL  --pd???
+  R_OLD_AXIS2,    UNIT_MULTIPLIER = TO_MM, MODAL  --pd???
+  R_OLD_AXIS3,    UNIT_MULTIPLIER = TO_MM, MODAL  --pd???
+
+  R_AXIS1,    UNIT_MULTIPLIER = TO_MM, MODAL
+  R_AXIS2,    UNIT_MULTIPLIER = TO_MM, MODAL
+  R_AXIS3,    UNIT_MULTIPLIER = TO_MM, MODAL
+  R_AXIS5,    UNIT_MULTIPLIER = TO_DEG, MODAL
+
+  R_FEEDRATE,  DEFAULT_VALUE = 100.0,UNIT_MULTIPLIER = TO_MM_PER_SEC,   MODAL
+  R_RAPIDRATE, DEFAULT_VALUE = 100.0,UNIT_MULTIPLIER =TO_MM_PER_SEC, MODAL
+  R_ROTRATE,   DEFAULT_VALUE = 2.0, UNIT_MULTIPLIER = TO_DEG_PER_SEC, MODAL
+
+  R_MAX_CHORD_DEV, DEFAULT_VALUE = .1
+
+  R_TO_MM,        DEFAULT_VALUE = 1.0,          MODAL
+  R_TO_DEG,       DEFAULT_VALUE = 1.0,          MODAL  
+  R_TO_MM_PER_SEC,  DEFAULT_VALUE = 0.016667,   MODAL 
+  R_TO_DEG_PER_SEC, DEFAULT_VALUE = 0.016667,   MODAL 
+  R_TO_SEC,       DEFAULT_VALUE = 1.0,          MODAL
+
+  r_Gage_height,  UNIT_MULTIPLIER = TO_MM,      MODAL 
+  R_DRILLING_SAFTY,    UNIT_MULTIPLIER = TO_MM, MODAL  --pd???
+
+OFFSET
+  o_ORIGIN_OFS
+  o_CUTTER_LENGTH
+  o_INITIAL
+    
+CONTROL_CHARS 
+  TYPE_II_START_CHARS: '('        
+  TYPE_II_END_CHARS: ')'         
+  IGNORE_CHARS: '\r\t %^'    
+  END_OF_BLOCK_CHAR: '\n'
+  EOL_COMMENT_CHARS: '/'
+  IGNORE_BLOCK_END_CHAR: '\\'
+  BEGIN_PROG_EXEC_STR: ''
+
+FORWARD
+  Is_b_code_negative    : ROUTINE : BOOLEAN
+
+CODE_DEFINITION
+  X, EXECUTE
+    BEGIN 
+      SET_REGISTER( R_OLD_AXIS1, REGISTER_VALUE(R_AXIS1) ) --pd???
+      SET_REGISTER( R_AXIS1, CODE_VALUE( 'X' ) ) 
+    END
+
+  Y, EXECUTE
+    BEGIN
+      SET_REGISTER( R_OLD_AXIS2, REGISTER_VALUE(R_AXIS2) ) --pd???
+      SET_REGISTER( R_AXIS2, CODE_VALUE( 'Y' ) ) 
+   END
+
+  Z, EXECUTE
+    BEGIN
+      SET_REGISTER( R_OLD_AXIS3, REGISTER_VALUE(R_AXIS3) ) --pd???
+      SET_REGISTER( R_AXIS3, CODE_VALUE( 'Z' ) )
+    END
+
+  A, EXECUTE
+    BEGIN
+    END
+
+  B, EXECUTE
+    BEGIN
+      Tmp_value = CODE_VALUE( 'B' )
+
+      IF( IS_STATE_SET( G_POSITION, S_ABSOLUTE ) ) THEN
+
+        -- First compute a postive increment between 0 and 359.9999
+        Ref_pos = REF_POSITION( B_AXS )
+
+        WHILE( Ref_pos < 0 ) DO
+          Ref_pos = Ref_pos + 360
+        ENDWHILE
+
+        Increment = ABS( CODE_VALUE( 'B' ) ) - Ref_pos
+
+        IF( Increment < 0.0 ) THEN
+          Increment = 360.0 + Increment
+        ENDIF
+
+        IF( Increment >= 360 ) THEN
+          Increment = Increment - 360
+        ENDIF
+
+        IF( Is_b_code_negative() AND Increment <> 0  ) THEN
+          Tmp_value = REF_POSITION( B_AXS ) - 360 + Increment
+        ELSE
+          Tmp_value = REF_POSITION( B_AXS )  + Increment
+        ENDIF
+
+      ENDIF
+
+      SET_REGISTER( R_AXIS5, Tmp_value )
+    END
+
+  I, EXECUTE
+    BEGIN
+--      SET_REGISTER( R_X_DISTANCE, -CODE_VALUE( 'I' ) ) 
+      SET_REGISTER( R_X_DISTANCE, CODE_VALUE( 'I' ) - REGISTER_VALUE(R_OLD_AXIS1)) --pd???
+    END
+
+  J, EXECUTE
+    BEGIN
+--      SET_REGISTER( R_Y_DISTANCE, -CODE_VALUE( 'J' ) ) 
+      SET_REGISTER( R_Y_DISTANCE, CODE_VALUE( 'J' ) - REGISTER_VALUE(R_OLD_AXIS2)) --pd???
+    END
+
+  K, EXECUTE
+    BEGIN
+--      SET_REGISTER( R_Z_DISTANCE, -CODE_VALUE( 'K' ) )
+      SET_REGISTER( R_Z_DISTANCE, CODE_VALUE( 'K' ) - REGISTER_VALUE(R_OLD_AXIS3))--pd???
+    END
+
+  L, EXECUTE 
+    BEGIN
+      SET_REGISTER( R_LENGTH, CODE_VALUE( 'L' ) )
+    END
+
+  H, EXECUTE
+    BEGIN
+    END
+
+  F, EXECUTE 
+    BEGIN
+      IF( IS_CODE_ON_BLOCK( 'G', 04 ) ) THEN
+        SET_REGISTER( R_ELAPSED_TIME, CODE_VALUE( 'F' ) )
+      ELSE
+          SET_REGISTER( R_FEEDRATE, CODE_VALUE( 'F' ) )
+      ENDIF
+    END
+
+  S, EXECUTE
+    BEGIN
+      SET_REGISTER( R_SPINRATE, CODE_VALUE( 'S' ) )
+    END
+
+  T, EXECUTE 
+    BEGIN
+      Next_tool_no = CODE_VALUE( 'T' )
+      SET_DOUT( 1, Next_tool_no ) 
+    END
+
+  R, EXECUTE
+    BEGIN
+      IF( NOT IS_STATE_SET( g_Canned_cycles, s_G80 ) ) THEN
+        SET_REGISTER( r_Gage_height, CODE_VALUE( 'R' ) )
+      ELSE
+        SET_REGISTER( R_RADIUS, CODE_VALUE( 'R' ) )
+      ENDIF
+    END
+
+  --pd??? Clearence in G81 cycle
+  W, EXECUTE
+    BEGIN
+      IF( NOT IS_STATE_SET( g_Canned_cycles, s_G80 ) ) THEN
+        SET_REGISTER( R_DRILLING_SAFTY, CODE_VALUE( 'W' ) )
+      ENDIF
+    END
+
+
+  N, EXECUTE
+    BEGIN
+      SET_REGISTER( R_BLOCK_NUMBER, CODE_VALUE( 'N' ) )
+    END
+
+  O, EXECUTE
+    BEGIN
+      SET_REGISTER( R_BLOCK_NUMBER, CODE_VALUE( 'O' ) )
+    END
+
+  D, EXECUTE
+    BEGIN
+      SET_REGISTER( R_CUTTER_RADIUS_COMP, CODE_VALUE( 'D' ) ) 
+    END
+
+  G00, EXECUTE
+    BEGIN
+      rapid_mode()
+
+      IF( cur_tool_name <> "" ) THEN
+      ENDIF
+    END
+
+  G01, EXECUTE
+    BEGIN
+      feed_mode()
+
+--      CLI( "SET VIEW TO 'cutting' IN 15" )
+    END
+
+  G02, EXECUTE
+    BEGIN
+      SET_STATE( G_MOTION_TYPE, S_CW )
+      SET_STATE( G_SLEW, S_OFF )
+      SET_STATE( G_STOCK_UPDATE, S_ON )
+    END
+
+  G03, EXECUTE
+    BEGIN
+      SET_STATE( G_MOTION_TYPE, S_CCW )
+      SET_STATE( G_SLEW, S_OFF )
+      SET_STATE( G_STOCK_UPDATE, S_ON )
+    END
+
+  G04, EXECUTE 
+    BEGIN
+        DWELL()
+    END
+
+  G17, EXECUTE
+    BEGIN
+      SET_STATE( G_PLANE, S_X_Y )
+    END
+
+  G18,EXECUTE
+    BEGIN
+       SET_STATE( G_PLANE, S_X_Z )
+    END
+
+  G19,EXECUTE
+    BEGIN
+       SET_STATE( G_PLANE, S_Y_Z )
+    END
+
+  G40, EXECUTE 
+    BEGIN
+      SET_STATE( G_CUTTER_COMP, S_OFF )
+    END
+
+  G41, EXECUTE
+    BEGIN
+      SET_STATE( G_CUTTER_COMP, S_LEFT )
+    END
+
+  G42, EXECUTE
+    BEGIN
+      SET_STATE( G_CUTTER_COMP, S_RIGHT )
+    END
+
+  G70, EXECUTE --Inch mode 
+    BEGIN
+      SET_REGISTER( R_TO_MM, 25.4 )      
+      SET_REGISTER( R_TO_MM_PER_SEC, 25.4/60.0 ) 
+    END
+
+  G71, EXECUTE --Metric mode 
+    BEGIN
+      SET_REGISTER( R_TO_MM, 1.0 )       
+      SET_REGISTER( R_TO_MM_PER_SEC, 1.0/60.0 ) 
+    END
+
+  G80, EXECUTE
+    BEGIN
+      SET_STATE( g_Canned_cycles, s_G80 )
+    END
+
+  G81, EXECUTE
+    BEGIN
+      SET_STATE( g_Canned_cycles, s_G81 )
+    END
+
+  G90, EXECUTE 
+    BEGIN
+      SET_STATE( G_POSITION, S_ABSOLUTE )
+    END
+
+  G91, EXECUTE 
+    BEGIN
+      SET_STATE( G_POSITION, S_RELATIVE )
+    END
+
+  G92, EXECUTE 
+    BEGIN
+      SET_OFFSET( o_ORIGIN_OFS ) 
+      ENABLE_OFFSET( o_ORIGIN_OFS ) 
+    END
+
+  G94, EXECUTE 
+    BEGIN
+      SET_STATE( G_FEED_MODE, S_DIST_PER_TIME )
+    END
+
+  G95, EXECUTE 
+    BEGIN
+      SET_STATE( G_FEED_MODE, S_DIST_PER_SPIN_REV )
+    END
+
+  M00, EXECUTE
+    BEGIN
+      CYCLE_STOP()
+    END
+
+  M01, EXECUTE 
+    BEGIN
+      IF( IS_STATE_SET( G_OPT_STOP, S_ON ) ) THEN
+        CYCLE_STOP()
+      ENDIF
+    END
+
+  M02, EXECUTE
+    BEGIN
+      SET_STATE( G_STOCK_UPDATE, S_OFF )
+      SET_STATE( G_COLLISION_CHECK, S_OFF )
+      SET_DOUT( 1, D_OFF )
+      SET_DOUT( 2, D_OFF )
+      -- CYCLE_STOP()
+    END
+
+  M03, EXECUTE
+    BEGIN
+      SET_STATE( G_SPINDLE_MODE, S_CW )
+    END
+
+  M04, EXECUTE
+    BEGIN
+      SET_STATE( G_SPINDLE_MODE, S_CCW )
+    END
+
+
+  M05, EXECUTE
+    BEGIN
+      SET_STATE( G_SPINDLE_MODE, S_STOPPED )
+
+      SET_STATE( g_Mist_coolant, S_OFF )
+      SET_STATE( g_Flood_coolant, S_OFF )
+      SET_STATE( g_Spin_mist_coolant, S_OFF )
+      SET_STATE( g_Spin_flood_coolant, S_OFF )
+      SET_STATE( g_Spin_pulse_coolant, S_OFF )
+    END
+
+  M06, EXECUTE
+    BEGIN
+      Load_tool( )
+    END
+
+  M07, EXECUTE
+    BEGIN
+      SET_STATE( g_Mist_coolant, S_ON )
+    END
+
+  M08, EXECUTE
+    BEGIN
+      SET_STATE( g_Flood_coolant, S_ON )
+    END
+
+  M09, EXECUTE
+    BEGIN
+      SET_STATE( g_Mist_coolant, S_OFF )
+      SET_STATE( g_Flood_coolant, S_OFF )
+      SET_STATE( g_Spin_mist_coolant, S_OFF )
+      SET_STATE( g_Spin_flood_coolant, S_OFF )
+      SET_STATE( g_Spin_pulse_coolant, S_OFF )
+    END
+
+  M13, EXECUTE
+    BEGIN
+      SET_STATE( G_SPINDLE_MODE, S_CW )
+      SET_STATE( g_Flood_coolant, S_ON )
+    END
+
+  M14, EXECUTE
+    BEGIN
+      SET_STATE( G_SPINDLE_MODE, S_CCW )
+      SET_STATE( g_Flood_coolant, S_ON )
+    END
+
+  M17, EXECUTE
+    BEGIN
+      SET_STATE( G_SPINDLE_MODE, S_CW )
+      SET_STATE( g_Mist_coolant, S_ON )
+    END
+
+  M18, EXECUTE
+    BEGIN
+      SET_STATE( G_SPINDLE_MODE, S_CCW )
+      SET_STATE( g_Mist_coolant, S_ON )
+    END
+
+  M20, EXECUTE
+    BEGIN 
+      SET_STATE( G_SPINDLE_MODE, S_CW )
+      SET_STATE( g_Spin_flood_coolant, S_ON )
+    END
+
+  M21, EXECUTE
+    BEGIN 
+      SET_STATE( G_SPINDLE_MODE, S_CCW )
+      SET_STATE( g_Spin_flood_coolant, S_ON )
+    END
+
+  M22, EXECUTE
+    BEGIN 
+      SET_STATE( G_SPINDLE_MODE, S_CW )
+      SET_STATE( g_Spin_mist_coolant, S_ON )
+    END
+
+  M23, EXECUTE
+    BEGIN 
+      SET_STATE( G_SPINDLE_MODE, S_CCW )
+      SET_STATE( g_Spin_mist_coolant, S_ON )
+    END
+
+  M24, EXECUTE
+    BEGIN 
+      SET_STATE( G_SPINDLE_MODE, S_CW )
+      SET_STATE( g_Spin_pulse_coolant, S_ON )
+    END
+
+  M25, EXECUTE
+    BEGIN 
+      SET_STATE( G_SPINDLE_MODE, S_CCW )
+      SET_STATE( g_Spin_pulse_coolant, S_ON )
+    END
+
+  M27, EXECUTE
+    BEGIN 
+      SET_STATE( g_Flood_coolant, S_ON )
+    END
+
+  M28, EXECUTE
+    BEGIN 
+      SET_STATE( g_Mist_coolant, S_ON )
+    END
+
+  M29, EXECUTE
+    BEGIN 
+      SET_STATE( g_Pulse_coolant, S_ON )
+    END
+
+  M30, EXECUTE
+    BEGIN
+      SET_STATE( G_STOCK_UPDATE, S_OFF )
+      SET_STATE( G_COLLISION_CHECK, S_OFF )
+      SET_DOUT( 1, 0 )
+      -- CYCLE_STOP()
+    END
+
+  M33
+
+  M34
+
+  M41
+
+
+---------------------- BEGIN APPLICATION ESCAPE PROCEDURES ---------------------
+---------------------- BEGIN APPLICATION ESCAPE PROCEDURES ---------------------
+---------------------- BEGIN APPLICATION ESCAPE PROCEDURES ---------------------
+
+ 
+PROCEDURE INITIALIZE_CYCLE( )
+
+BEGIN
+  leng_table[1] = 0.135
+  leng_table[12] = 3.5
+  leng_table[2] = 0.0
+  leng_table[3] = 0.0
+  cur_tool_name = ""
+  col_line_num  = LINE_NUMBER()
+
+  --pd??? Absolute coordinates by default
+  SET_STATE( G_POSITION, S_ABSOLUTE )
+
+  --pd??? Default : metric mode
+  SET_REGISTER( R_TO_MM, 1.0 )       
+  SET_REGISTER( R_TO_MM_PER_SEC, 1.0/60.0 ) 
+
+  SET_STATE( G_LEAST_SQUARE_NORM, S_ON )
+  SET_STATE( G_CONVEX_HULL_SWEEP, S_ON )
+  SET_STATE( G_CUTTING_MODE, S_MILLING )
+  SET_STATE( G_MOTION_TYPE, S_FEED ) 
+  SET_STATE( G_SLEW, S_OFF ) 
+  SET_STATE( G_CUTTING_MODE, S_MILLING ) 
+  SET_STATE( G_EXACT_STOP, S_OFF ) 
+
+--  CHANGE_AN_OFFSET( o_INITIAL, 1, 0.0)
+--  CHANGE_AN_OFFSET( o_INITIAL, 2, -15.75 * 25.4)
+--  CHANGE_AN_OFFSET( o_INITIAL, 3, -43 * 25.4)
+
+  CHANGE_AN_OFFSET( o_INITIAL, 1, 0.0)       --pd???
+  CHANGE_AN_OFFSET( o_INITIAL, 2, -40.6947)  --pd???
+  CHANGE_AN_OFFSET( o_INITIAL, 3, -1219.2)   --pd???
+
+  ENABLE_OFFSET( o_INITIAL )
+
+  OPEN WINDOW 'Collision Stats' @ .8,-1 : 3 AS 1
+
+  CLI( "TRACE DELETE_ALL" )
+
+  Load_ToolOffset() --pd???
+
+  Next_tool_no          = 0
+
+  SET_WORKPIECE( "WP" )
+
+  SET_STATE( G_COLLISION_CHECK, S_ON )
+
+END INITIALIZE_CYCLE
+-------------------------------------------------------------------------------
+
+PROCEDURE FINALIZE_CYCLE()
+
+BEGIN
+  --WRITE( "Finalizing program", CR )
+END FINALIZE_CYCLE
+-------------------------------------------------------------------------------
+
+PROCEDURE EOB()
+  -------------------------------------------------------------------------
+  -- This Procedure is called after all code processing for the block is --
+  -- complete, but prior to the block's animation.                       --
+  -------------------------------------------------------------------------
+BEGIN
+  IF( IS_STATE_SET( g_Canned_cycles, s_G81 ) ) THEN
+    cs_drill()
+  ELSE
+    STD_MOTION()
+  ENDIF
+END EOB
+-------------------------------------------------------------------------------
+
+PROCEDURE TYPE_II( in_str : STRING )
+
+BEGIN
+  SWITCH( LEFTSTR( in_str, 3 ) )
+    CASE 'MSG':
+      --WRITE( "Operator msg: ", RIGHTSTR( in_str, LEN( in_str ) - 4 ), CR )
+  ENDSWITCH
+END TYPE_II
+-------------------------------------------------------------------------------
+
+PROCEDURE COLLISION()
+
+VAR
+  whw_str       : STRING
+  cur_line_num  : INTEGER
+  c_stat        : INTEGER
+
+BEGIN
+  cur_line_num = LINE_NUMBER()
+
+  IF( col_line_num <> cur_line_num ) THEN
+    whw_str = WHAT_HIT_WHAT()
+    IF( NOT(( whw_str == "No Collision" ) OR (whw_str == "" )) ) THEN
+      WRITE( @1,  whw_str, " at Line <", cur_line_num, ">", CR)
+      col_line_num = cur_line_num
+    ELSE
+      WRITE( @1, "Collision occured at line <", cur_line_num, ">", CR )
+      col_line_num = cur_line_num
+    ENDIF
+  ENDIF
+
+END
+-------------------------------------------------------------------------------
+
+PROCEDURE PREPROCESS_BLOCK()
+
+BEGIN
+
+END PREPROCESS_BLOCK
+-------------------------------------------------------------------------------
+
+---------------------------- BEGIN LOCAL PROCEDURES ---------------------------
+---------------------------- BEGIN LOCAL PROCEDURES ---------------------------
+---------------------------- BEGIN LOCAL PROCEDURES ---------------------------
+
+
+PROCEDURE Load_ToolOffset() --pd??? Creation
+
+VAR
+  ProgName, OffsetFile : STRING
+  PosPoint : INTEGER
+  ToolNb : INTEGER
+  OffValue : REAL
+  INDX : INTEGER
+
+BEGIN
+
+
+  FOR INDX=0 TO 64 DO
+    Tool_offset[INDX] = -1
+  ENDFOR
+
+  ProgName = NC_PROGRAM_NAME()
+  PosPoint = index_ci(ProgName,'.CNC')-1
+  OffsetFile = LEFTSTR(ProgName,PosPoint) + '.OFS'
+
+  WRITE ('Opening Offset file : ')
+  WRITE (OffsetFile,CR)
+
+  IF (FILE_EXISTS(OffsetFile)) THEN
+    WRITE (' -------------------------------',CR)
+    WRITE( 'Reading Tool offsets file : ' + OffsetFile , CR )
+    WRITE (' ',CR)
+    OPEN FILE OffsetFile FOR INPUT AS 3
+    WHILE( READ(#3,ToolNb,OffValue) > 0 ) DO
+      Tool_offset[ToolNb] = OffValue
+    ENDWHILE
+    CLOSE #3
+  ELSE
+    WRITE (' -------------------------------',CR)
+    WRITE ('Warning, no tool offset file found for the program : ')
+    WRITE (ProgName , CR)
+    WRITE (' -------------------------------',CR)
+    WRITE (' ',CR)
+  ENDIF
+
+END Load_ToolOffset
+
+-------------------------------------------------------------------------------
+
+PROCEDURE Load_tool()
+
+VAR
+  last_tool_name , new_tool_name :STRING
+
+BEGIN
+
+  SET_DOUT( 2, D_ON )
+  WAIT_FOR_DIN( 2, D_ON )
+  SET_DOUT( 2, D_OFF )
+
+  SET_REGISTER( R_TOOL_NO, Next_tool_no )
+ 
+  new_tool_name = STR( "T%g", Next_tool_no)
+  cur_tool_name = new_tool_name
+
+  SET_TOOL( new_tool_name )
+  SET_UTOOL( 0,0,TOOL_LENGTH( new_tool_name ),0,0,0 )
+
+  WRITE (' -------------------------------',CR)
+
+  WRITE ('Calling Tool : ')
+  WRITE (new_tool_name,CR)
+
+  --pd??? Modification to take into account the tool offset
+
+  IF(Tool_offset[Next_tool_no] <> -1) THEN
+    WRITE ('Tool offset : ')
+    WRITE (Tool_offset[Next_tool_no],CR)
+    CHANGE_AN_OFFSET( o_CUTTER_LENGTH, 3, Tool_offset[Next_tool_no])
+    ENABLE_OFFSET( o_CUTTER_LENGTH )
+  ELSE
+    WRITE ('WARNING : No tool offset for tool ')
+    WRITE (new_tool_name,CR)
+  ENDIF
+
+  WRITE (' -------------------------------',CR)
+
+END Load_tool
+
+-------------------------------------------------------------------------------
+
+PROCEDURE cs_mill() --G79
+
+BEGIN
+END
+-------------------------------------------------------------------------------
+
+PROCEDURE cs_cancel() --G80
+
+BEGIN
+  SAVE_STATE( G_MOTION_TYPE )
+  SAVE_STATE( G_STOCK_UPDATE )
+
+  SET_STATE( G_MOTION_TYPE, S_RAPID )
+  SET_STATE( G_STOCK_UPDATE, S_OFF )
+
+  POS_AXIS_SIMUL( X_AXS, REGISTER_VALUE( R_AXIS1 ) )
+  POS_AXIS_NOSIMUL( Y_AXS, REGISTER_VALUE(R_AXIS2 ) )
+
+  POS_AXIS_NOSIMUL( Z_AXS, REGISTER_VALUE(r_Gage_height ) )
+
+  RESTORE_STATE( G_STOCK_UPDATE )
+  RESTORE_STATE( G_MOTION_TYPE )
+END
+-------------------------------------------------------------------------------
+
+PROCEDURE cs_drill() --G81
+
+BEGIN
+
+  --pd???
+  --pd??? Re-ecriture du cycle
+ 
+  SAVE_STATE( G_MOTION_TYPE )
+  SAVE_STATE( G_SLEW )
+  SAVE_STATE( G_STOCK_UPDATE )
+
+  rapid_mode()
+
+  POS_AXIS_NOSIMUL( X_AXS, REGISTER_VALUE(R_AXIS1 ) )
+  POS_AXIS_NOSIMUL( Y_AXS, REGISTER_VALUE(R_AXIS2 ) )
+  POS_AXIS_SIMUL  ( Z_AXS, REGISTER_VALUE(r_Gage_height) + REGISTER_VALUE(R_DRILLING_SAFTY))
+
+  feed_mode()
+
+  POS_AXIS_SIMUL( Z_AXS, REGISTER_VALUE(r_Gage_height) - REGISTER_VALUE(R_AXIS3))
+
+  rapid_out_cycle()
+
+  POS_AXIS_SIMUL( Z_AXS, REGISTER_VALUE(r_Gage_height) + REGISTER_VALUE(R_DRILLING_SAFTY))
+
+  RESTORE_STATE( G_MOTION_TYPE )
+  RESTORE_STATE( G_SLEW )
+  RESTORE_STATE( G_STOCK_UPDATE )
+
+END
+-----------------------------------------------------------------------------
+
+PROCEDURE rapid_mode()
+
+BEGIN
+  SET_STATE( G_MOTION_TYPE, S_RAPID )
+  SET_STATE( G_SLEW, S_ON )
+  SET_STATE( G_STOCK_UPDATE, S_OFF )
+END rapid_mode
+-----------------------------------------------------------------------------
+
+PROCEDURE rapid_out_cycle()
+
+BEGIN
+  SET_STATE( G_MOTION_TYPE, S_RAPID )
+  SET_STATE( G_SLEW, S_ON )
+  SET_STATE( G_STOCK_UPDATE, S_ON )
+END rapid_out_cycle
+-----------------------------------------------------------------------------
+
+PROCEDURE feed_mode()
+
+BEGIN
+  SET_STATE( G_MOTION_TYPE, S_FEED )
+  SET_STATE( G_SLEW, S_OFF )
+  SET_STATE( G_STOCK_UPDATE, S_ON )
+END feed_mode
+-----------------------------------------------------------------------------
+
+ROUTINE Is_b_code_negative() : BOOLEAN
+
+  -- This routine is required to check for all occurances of a minus
+  -- sign immediatly after the B code.  The CNC parser will return a
+  -- value of 0 for -0.
+
+VAR
+  blk_string : STRING
+  ii         : INTEGER
+
+BEGIN
+
+  blk_string = TOUPPER( BLOCK_STRING() )
+
+  FOR ii = 1 to LEN( blk_string ) DO
+    IF( SUBSTR( blk_string, ii, 1 ) == 'B' ) THEN
+      IF( SUBSTR( blk_string, ii+1, 1) == '-' ) THEN
+        RETURN( TRUE )
+      ELSE
+        RETURN( FALSE )
+      ENDIF
+    ENDIF
+  ENDFOR
+
+  -- Control should never pass to this statement block
+  RETURN( FALSE )
+END Is_b_code_negative
+

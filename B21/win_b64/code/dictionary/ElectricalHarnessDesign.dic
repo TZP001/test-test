@@ -1,0 +1,82 @@
+# COPYRIGHT DASSAULT SYSTEMES 2000
+#===================================================================================
+# Electrical Harness Design Dictionnary.
+#------------------------------------------------------------------------------------
+#
+
+#---------------|
+# Workshop Ehi  |
+#---------------|
+
+CATApplicationFrame		CATIEhiWorkshopConfigurationFactory		libCATEhiWorkshop
+CATApplicationFrame	    CATIEhiWorkshopPartConfigurationFactory	libCATEhiWorkshopPart
+
+CATEhiWorkshop			CATIWorkbench	                        libCATEhiWorkshop
+CATEhiWorkshopPart		CATIWorkbench	                        libCATEhiWorkshopPart
+
+CATEhiWorkshopPart      CATIPrtWksConfiguration					libCATEhiWorkshopPart
+CATEhiWorkshop			CATIPRDWorkshopConfiguration	        libCATEhiWorkshop
+
+CATEhiWorkshop_init     CATIWorkbenchInitialization             libCATEhiTransition
+CATEhiWorkshop_init		CATICommandSet                          libCATEhiWorkshop
+
+CATEhiWorkshop_trans     CATIWorkbenchInitialization			libCATEhiTransition
+CATEhiWorkshop_trans     CATIWorkbenchTransition				libCATEhiTransition
+
+CATEhiWorkshopPart_init CATIWorkbenchInitialization             libCATEhiTransition
+
+CATEhiWorkshopPart_trans     CATIWorkbenchInitialization		libCATEhiTransition
+CATEhiWorkshopPart_trans     CATIWorkbenchTransition			libCATEhiTransition
+
+
+#-----------------
+#workshop P1 EL1 
+#-----------------
+
+#CATElecWorkbenchP1_init     CATIWorkbenchInitialization             libCATEhiTransition
+#CATElecWorkbenchPrtP1_init  CATIWorkbenchInitialization             libCATEhiTransition
+
+
+
+
+#-----------------------------------|
+# Setting dans Tools->Option (V5R6) |
+#-----------------------------------|
+
+CATEhiGeneralSettings     CATIUserSettings                libEhiSettings
+CATUserSettingsManager    CATIEhiGeneralSettingsFactory   libEhiSettings
+
+# ----------------------------------------------------------------------------------
+
+#-----------------------------------|
+# EHR: MkCheckArchi 06/03/2002      |
+#-----------------------------------|
+CATEditorManager   CATIEhiGeneralSettingsFactory  libEhiSettings
+CATEditorManager2  CATIEhiGeneralSettingsFactory  libEhiSettings 
+
+#----------------------------------------------------------------------|
+# SCU: adhesion des ElecBundleSegmentC (Branches) au double-click      |
+#----------------------------------------------------------------------|
+ElecBundleSegmentC   CATIEdit  libCATElectricalHarnessDesign   CATElecEHIP1P2Cond
+ElecInternalProtection	CATIEdit  libCATElectricalHarnessDesign
+EhiSweep	                  CATIEdit  libCATElectricalHarnessDesign
+
+#---------------------------------------|
+# LVT: Accès aux services d'echange des |
+# donnees de Space Reservation          |
+#---------------------------------------|
+CATSpaceReservationExchange  CATIVBExtension                   libCATEleSpaceReservationExchange
+CATSpaceReservationExchange  CATICreateInstance                libCATEleSpaceReservationExchange
+CATSpaceReservationExchange  CATIAEleSpaceReservationExchange  libCATEleSpaceReservationExchange
+CATEleSRImportTask           CATIProgressTask                  libCATEleSpaceReservationExchange
+
+#----------------------------------------------------------------------|
+# SCU: adhésion du branchable au menu contextuel
+#----------------------------------------------------------------------|
+ElecBranchableC      CATIContextualMenu  libCATElectricalHarnessDesign
+
+ElecCurve                                CATIEdit    libCATElectricalHarnessDesign
+EhiBundleSegmentRib                     CATIEdit    libCATElectricalHarnessDesign
+EhiBundleSegmentLoft                    CATIEdit    libCATElectricalHarnessDesign
+
+

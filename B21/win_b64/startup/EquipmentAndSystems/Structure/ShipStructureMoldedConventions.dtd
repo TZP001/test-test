@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="windows-1252"?>
+
+<!ELEMENT ShipStructureMoldedConventions (SuperPlateClass+,StiffenerOnFreeEdgeClass+,Plane+)>
+
+  <!ELEMENT SuperPlateClass (StiffenerClass+)>  
+  <!ELEMENT StiffenerClass (AnchorPoint+)>
+  <!ELEMENT StiffenerOnFreeEdgeClass (AnchorPoint+)>
+  <!ELEMENT Plane EMPTY>
+  <!ELEMENT AnchorPoint  EMPTY>
+
+
+  <!ATTLIST ShipStructureMoldedConventions
+     Version         CDATA   #REQUIRED   
+  >
+  
+  
+  <!ATTLIST SuperPlateClass
+     Name            CDATA     #REQUIRED
+     ThicknessOrient (HP|HM|LP|LM|LI|LO|TP|TM|TI|TO|OtherI|OtherO|NR|IV) #REQUIRED
+     Orient2D_U   (XP|XM|YP|YM|ZP|ZM|NA) #REQUIRED
+     Orient2D_V   (XP|XM|YP|YM|ZP|ZM|NA) #REQUIRED
+  >
+
+  <!ATTLIST AnchorPoint
+     Name            CDATA     #REQUIRED
+  >
+  
+  <!ATTLIST StiffenerClass
+     Name            CDATA     #REQUIRED
+     PlateSideOrient (HP|HM|LP|LM|LI|LO|TP|TM|TI|TO|OtherI|OtherO|NR|IV) #REQUIRED
+     SectionOrient   (HP|HM|LP|LM|LI|LO|TP|TM|TI|TO|OtherI|OtherO|NR|IV) #REQUIRED
+     DefaultAnchorPoint     (catStrBottomLeft|catStrBottomCenter|catStrBottomRight|catStrCenterLeft|
+                      catStrCenterCenter|catStrCenterRight|catStrTopLeft|catStrTopCenter|
+                      catStrTopRight|catStrGravity|catStrWebSideLeft|catStrWebSideRight|catStrWebCenter|
+                      catStrWebCenterLeft|catStrWebCenterRight) #REQUIRED
+  >
+
+  <!ATTLIST StiffenerOnFreeEdgeClass
+     Name            CDATA     #REQUIRED    
+     DefaultAnchorPoint     (catStrBottomLeft|catStrBottomCenter|catStrBottomRight|catStrCenterLeft|
+                      catStrCenterCenter|catStrCenterRight|catStrTopLeft|catStrTopCenter|
+                      catStrTopRight|catStrGravity|catStrWebSideLeft|catStrWebSideRight|catStrWebCenter|
+                      catStrWebCenterLeft|catStrWebCenterRight) #REQUIRED
+  >
+  
+  <!ATTLIST Plane
+	 Name            CDATA     #REQUIRED
+	 Orient2D_U   (XP|XM|YP|YM|ZP|ZM|NA) #REQUIRED
+     Orient2D_V   (XP|XM|YP|YM|ZP|ZM|NA) #REQUIRED
+  >

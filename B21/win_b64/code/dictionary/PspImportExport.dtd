@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XML Spy v3.5 NT (http://www.xmlspy.com) by Tim Kavanagh (DASSAULT SYSTEMES) -->
+<!ENTITY % magnitude_list "(Angle | Angular_Acceleration | Angular_feed_rate | Angular_spindle_speed | Angular_stiffness | Area | Density | Electric_intensity | Electric_power | Electric_resistance | Energy | Force | Frequency | Inertia | Inertia_Moment | Length | Linear_Acceleration | Linear_feed_rate | Linear_mass | Linear_spindle_speed | Linear_stiffness | Mass | Massic_flow | Moment | Pressure | Speed | Strain_Energy | Surfacic_mass | Surfacic_spindle_speed | Temperature | Time | Voltage | Volume | Volumetric_flow | Volumic_force | UserUnit)">
+<!ELEMENT DesignDocument (ObjectSection, RelationshipSection?, Units?)>
+<!ELEMENT ObjectSection (Object+)>
+<!ELEMENT RelationshipSection (Relationship+)>
+<!ELEMENT Object (TechnicalProperty*, GeometricalProperty*, GraphicalProperty?, CatalogInformation*)>
+<!ATTLIST Object
+	UniqueID ID #IMPLIED
+	Class CDATA #IMPLIED
+	InstanceName CDATA #IMPLIED
+	PartNumber CDATA #IMPLIED
+	OwnerID IDREF #IMPLIED
+>
+<!ELEMENT Relationship EMPTY>
+<!ATTLIST Relationship
+	UniqueID ID #REQUIRED
+	Type (group | connection | has_connectors | instance_of ) #REQUIRED
+	ParentID IDREF #IMPLIED
+	ListOfParticipantIDs IDREFS #IMPLIED
+	ListOfConnectorIDs IDREFS #IMPLIED
+	ListOfGeomPropIDs IDREFS #IMPLIED
+	ReferenceID IDREF #IMPLIED
+>
+<!ELEMENT TechnicalProperty EMPTY>
+<!ATTLIST TechnicalProperty
+	Magnitude %magnitude_list; #IMPLIED
+	Name CDATA #REQUIRED
+	Value CDATA #REQUIRED
+	Characteristics CDATA #IMPLIED
+>
+<!ELEMENT GeometricalProperty (DataBlock*, Point*, Vector*, Coordinate_System?)>
+<!ATTLIST GeometricalProperty
+	UniqueID ID #IMPLIED
+	Name (Symbol_Orientation_Matrix | Route_Definition_Points | Connector_Location) #REQUIRED
+>
+<!ELEMENT Coordinate_System (Vector+, Point)>
+<!ATTLIST Coordinate_System
+	Type (2d | 3d) #REQUIRED
+>
+<!ELEMENT Point EMPTY>
+<!ATTLIST Point
+	Type (2d | 3d) #REQUIRED
+	Name CDATA #IMPLIED
+	X CDATA #REQUIRED
+	Y CDATA #REQUIRED
+	Z CDATA #IMPLIED
+>
+<!ELEMENT Vector EMPTY>
+<!ATTLIST Vector
+	Type (2d | 3d) #REQUIRED
+	Name CDATA #IMPLIED
+	DX CDATA #REQUIRED
+	DY CDATA #REQUIRED
+	DZ CDATA #IMPLIED
+>
+<!ELEMENT DataBlock EMPTY>
+<!ATTLIST DataBlock
+	DataType (doublePrecision | integer) #REQUIRED
+	Name CDATA #IMPLIED
+	Size CDATA #REQUIRED
+	List CDATA #REQUIRED
+>
+<!ELEMENT GraphicalProperty EMPTY>
+<!ATTLIST GraphicalProperty
+	Show (on | off) #IMPLIED
+	LineStyle CDATA #IMPLIED
+	LineThickness CDATA #IMPLIED
+	Color CDATA #IMPLIED
+>
+<!ELEMENT CatalogInformation EMPTY>
+<!ATTLIST CatalogInformation
+	DirectoryPath CDATA #IMPLIED
+	EntryName CDATA #IMPLIED
+>
+<!ELEMENT Units (%magnitude_list;)+>
+<!ELEMENT Angle EMPTY>
+<!ATTLIST Angle
+	Unit (deg | rad | grad | DegMinSec) #REQUIRED
+>
+<!ELEMENT Angular_Acceleration EMPTY>
+<!ATTLIST Angular_Acceleration
+	Unit (rad_s2) #REQUIRED
+>
+<!ELEMENT Angular_feed_rate EMPTY>
+<!ATTLIST Angular_feed_rate
+	Unit (mm_turn | in_turn) #REQUIRED
+>
+<!ELEMENT Angular_spindle_speed EMPTY>
+<!ATTLIST Angular_spindle_speed
+	Unit (turn_mn | rad_s) #REQUIRED
+>
+<!ELEMENT Angular_stiffness EMPTY>
+<!ATTLIST Angular_stiffness
+	Unit (Nxm_rad | Nxmm_mrd | lbfxin_r) #REQUIRED
+>
+<!ELEMENT Area EMPTY>
+<!ATTLIST Area
+	Unit (m2 | mm2 | cm2 | in2 | ft2) #REQUIRED
+>
+<!ELEMENT Density EMPTY>
+<!ATTLIST Density
+	Unit (kg_m3 | lb_ft3 | lb_in3) #REQUIRED
+>
+<!ELEMENT Electric_intensity EMPTY>
+<!ATTLIST Electric_intensity
+	Unit (A | kA | mA) #REQUIRED
+>
+<!ELEMENT Electric_power EMPTY>
+<!ATTLIST Electric_power
+	Unit (W | kW | CV | HP) #REQUIRED
+>
+<!ELEMENT Electric_resistance EMPTY>
+<!ATTLIST Electric_resistance
+	Unit (Ohm | kOhm | mOhm) #REQUIRED
+>
+<!ELEMENT Energy EMPTY>
+<!ATTLIST Energy
+	Unit (J | Wxh | Btu | ftlbf) #REQUIRED
+>
+<!ELEMENT Force EMPTY>
+<!ATTLIST Force
+	Unit (N | lbf) #REQUIRED
+>
+<!ELEMENT Frequency EMPTY>
+<!ATTLIST Frequency
+	Unit (Hz | kHz) #REQUIRED
+>
+<!ELEMENT Inertia EMPTY>
+<!ATTLIST Inertia
+	Unit (m4 | mm4 | cm4 | in4 | ft4) #REQUIRED
+>
+<!ELEMENT Inertia_Moment EMPTY>
+<!ATTLIST Inertia_Moment
+	Unit (gmm2 | kgm2 | lb_in2) #REQUIRED
+>
+<!ELEMENT Length EMPTY>
+<!ATTLIST Length
+	Unit (mm | m | cm | km | in | ft) #REQUIRED
+>
+<!ELEMENT Linear_Acceleration EMPTY>
+<!ATTLIST Linear_Acceleration
+	Unit (m_s2 | ft_s2 | in_s2) #REQUIRED
+>
+<!ELEMENT Linear_feed_rate EMPTY>
+<!ATTLIST Linear_feed_rate
+	Unit (mm_mn | in_mn) #REQUIRED
+>
+<!ELEMENT Linear_mass EMPTY>
+<!ATTLIST Linear_mass
+	Unit (kg_m | lb_ft | lb_in) #REQUIRED
+>
+<!ELEMENT Linear_spindle_speed EMPTY>
+<!ATTLIST Linear_spindle_speed
+	Unit (m_mn | ft_mn) #REQUIRED
+>
+<!ELEMENT Linear_stiffness EMPTY>
+<!ATTLIST Linear_stiffness
+	Unit (N_m | N_mm | lbf_ft | lbf_in) #REQUIRED
+>
+<!ELEMENT Mass EMPTY>
+<!ATTLIST Mass
+	Unit (kg | g | mg | T | lb | oz) #REQUIRED
+>
+<!ELEMENT Massic_flow EMPTY>
+<!ATTLIST Massic_flow
+	Unit (kg_s | lb_h | kg_h | lb_min) #REQUIRED
+>
+<!ELEMENT Moment EMPTY>
+<!ATTLIST Moment
+	Unit (Nxm | lbfxin | Nxmm) #REQUIRED
+>
+<!ELEMENT Pressure EMPTY>
+<!ATTLIST Pressure
+	Unit (N_m2 | Pa | psi) #REQUIRED
+>
+<!ELEMENT Speed EMPTY>
+<!ATTLIST Speed
+	Unit (m_s | ft_s | mph | km_h | fpm | ft_h) #REQUIRED
+>
+<!ELEMENT Strain_Energy EMPTY>
+<!ATTLIST Strain_Energy
+	Unit (Nxm | lbfxin | Nxmm) #REQUIRED
+>
+<!ELEMENT Surfacic_mass EMPTY>
+<!ATTLIST Surfacic_mass
+	Unit (kg_m2 | lb_in2) #REQUIRED
+>
+<!ELEMENT Surfacic_spindle_speed EMPTY>
+<!ATTLIST Surfacic_spindle_speed
+	Unit (mm2_mn | in2_mn) #REQUIRED
+>
+<!ELEMENT Temperature EMPTY>
+<!ATTLIST Temperature
+	Unit (Kdeg | Cdeg | Fdeg) #REQUIRED
+>
+<!ELEMENT Time EMPTY>
+<!ATTLIST Time
+	Unit (s | ms | h | mn) #REQUIRED
+>
+<!ELEMENT Voltage EMPTY>
+<!ATTLIST Voltage
+	Unit (V | kV | mV) #REQUIRED
+>
+<!ELEMENT Volume EMPTY>
+<!ATTLIST Volume
+	Unit (m3 | mm3 | cm3 | in3 | ft3 | L) #REQUIRED
+>
+<!ELEMENT Volumetric_flow EMPTY>
+<!ATTLIST Volumetric_flow
+	Unit (m3_s | m3_h | ft3_h | gal_min | brl_h | brl_day | cfm | L_s) #REQUIRED
+>
+<!ELEMENT Volumic_force EMPTY>
+<!ATTLIST Volumic_force
+	Unit (N_m3 | lbf_in3) #REQUIRED
+>
+<!ELEMENT UserUnit EMPTY>
+<!ATTLIST UserUnit
+	Magnitude CDATA #REQUIRED
+	Unit CDATA #REQUIRED
+>

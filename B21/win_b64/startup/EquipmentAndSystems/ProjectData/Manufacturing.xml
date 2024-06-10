@@ -1,0 +1,99 @@
+<!DOCTYPE Project SYSTEM "Project.dtd">
+
+<Project Name="Sample_Project">
+
+<!-- **************  PROJECT RESOURCES  ************** -->
+
+<!--  ID SCHEMA RESOURCES  -->
+<Resource Name="EquipmentIDSchema" Description="Resource ID Schema Directory">
+   <ID  Type="Path" Driver="File" Location="..\..\EquipmentAndSystems\Equipment\DataDictionary"/>
+</Resource>
+
+<!--  USER DICTIONARY RESOURCES  -->
+<Resource Name="EquipmentUserDictionary" Description="Resource User Dictionary">
+   <ID  Type="Misc" Driver="File" Location="CATEquipmentSample.CATfct"/>
+</Resource>
+
+<!-- ********************************************************************************* -->
+<!--  The following resource gives an options to Break or Not Break             ****** -->
+<!--  RUN when placing round parts with different cntr orientations             ****** -->
+<!--  Location=1 Break Run for Round Parts with diff. Cntr. Orientation         ****** -->
+<!--  Location=0 Don't break run for Round Parts having diff. Cntr. Orientation ****** -->
+<Resource Name="BreakRunOnRoundPartWithUnmatchUpDirections" Description="Break run for round parts when there is unmatching up directions">
+  <ID  Type="Misc" Driver="File" Location="0"/>
+</Resource>
+
+<!-- ******************************************************************* -->
+<!--  The following resource defines the option to create         ****** -->
+<!--  publication based cross document connections.               ****** -->
+<!--    Location=1 Create publication based connections           ****** -->
+<!--    Location=0 Create non-publication based connections       ****** -->
+<!--                                                              ****** -->
+<!--  For ENOVIA-LCA environment, always set Location=1 to create ****** -->
+<!--  publication based connections.                              ****** -->
+<!--  By default, if the document originates from ENOVIA-LCA,     ****** -->
+<!--  publication based cross document connections will be        ****** -->
+<!--  created.                                                    ****** -->
+<!--                                                              ****** -->
+<!--  If this resource is not defined, non-publication based      ****** -->
+<!--  cross document connections are created.                     ****** -->
+<!-- ******************************************************************* -->
+<Resource Name="PublicationBasedConnections" Description="Create publication based cross document connections">
+   <ID  Type="Misc" Driver="File" Location="0"/>
+</Resource>
+
+<!-- **************  MANUFACTURING DISCIPLINE RESOURCES  ************** -->
+<Discipline Name="Inspection" Description="Inspection Discipline" Parent="Sample_Project">
+
+<!--  Resource Arrangement APPLICATION  -->
+  <Application Name="CATEquipment" Description="Equipment Design Application" Visible = "yes">
+      <Resource Name="EquipDesignRulesCatalog" Description="Equipment Design Rules Catalog">
+           <ID  Type="Catia" Driver="File" Location="..\..\EquipmentAndSystems\Equipment\Manufacturing\DesignRules\ResourceDesignRules.catalog"/>
+      </Resource>
+
+      <Resource Name="EquipPartsCatalog" Description="Equipment Resource Catalog">
+           <ID  Type="Catia" Driver="File" Location="..\..\EquipmentAndSystems\Equipment\Manufacturing\EquipmentArrangement\ComponentCatalogs\ResourceParts.catalog"/>
+      </Resource>
+
+      <Resource Name="Graphic2DSymbolsCatalog" Description="Catalog containing 2D Symbols for drawing customization">
+           <ID  Type="Catia" Driver="File" Location="..\..\EquipmentAndSystems\Equipment\General\EquipmentArrangement\DrawingCatalogs\Equipment2DSymbols-Customization.catalog"/>
+      </Resource>
+
+      <Resource Name="EquipGraphicRepresentations" Description="Equipment Graphic Representations">
+           <ID  Type="Path" Driver="File" Location="..\..\EquipmentAndSystems\Equipment\Manufacturing\EquipmentArrangement\ComponentCatalogs\ResourceGraphicRepresentations.txt"/>
+      </Resource>
+
+      <Resource Name="DisciplineSuperClasses" Description="List of Resource classes for the active discipline">
+           <ID  Type="Path" Driver="File" Location="..\..\EquipmentAndSystems\Equipment\Manufacturing\DesignRules\DisciplineSuperClasses-Manufacturing.txt"/>
+      </Resource>
+
+      <Resource Name="EquipConnectorAttributes" Description="Connector Attributes">
+           <ID  Type="Path" Driver="File" Location="..\..\EquipmentAndSystems\Equipment\Manufacturing\EquipmentArrangement\ComponentCatalogs\ResourceConnectorAttributes.txt"/>
+      </Resource>
+
+      <Resource Name="EquipReportDefinitions" Description="Resource Report Definitions Directory">
+           <ID  Type="Path" Driver="File" Location="..\..\EquipmentAndSystems\Equipment\Manufacturing\SampleData"/>
+      </Resource>
+
+      <Resource Name="DiscreteValues" Description="Discrete Values Directory">
+           <ID  Type="Path" Driver="File" Location="..\..\EquipmentAndSystems\DiscreteValues"/>
+      </Resource>
+
+      <Resource Name="GraphicRepresentations" Description="Design Graphic Representations">
+           <ID  Type="Path" Driver="File" Location="..\..\EquipmentAndSystems\MultiDiscipline\SampleData\GraphicRepresentations.txt"/>
+      </Resource>
+
+      <Resource Name="EquipmentComputedAttributes" Description="Equipment list of computed attribute names">
+           <ID  Type="Path" Driver="File" Location="..\..\EquipmentAndSystems\MultiDiscipline\SampleData\EquipmentComputedAttributes.txt"/>
+      </Resource>
+
+    <!-- *************** Option=1 Function Driven only                    *************** -->
+    <!-- *************** Option=2 Functionless, SchematicDriven = 0       *************** -->
+    <!-- *************** Option=3 Function Driven or Functionless.        *************** -->
+      <Resource Name="FunctionDriven" Description="Function driven equipment part placement">
+           <ID  Type="Misc" Driver="File" Location="2"/>
+      </Resource>
+  </Application>
+</Discipline>
+
+</Project>

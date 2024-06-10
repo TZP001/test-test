@@ -1,0 +1,179 @@
+//=====================================================================================
+//                                     CNEXT - CXRn
+//                          COPYRIGHT DASSAULT SYSTEMES 1998 
+//-------------------------------------------------------------------------------------
+// FILENAME    :    CATDrwQuickDimCmd
+// LOCATION    :    DraftingIntCommands
+// AUTHOR      :    jmt
+// BUT         :    Commande de creation de cote
+// DATE        :    ??.10.1998
+//-------------------------------------------------------------------------------------
+// DESCRIPTION :    
+//-------------------------------------------------------------------------------------
+// COMMENTS    :    
+//-------------------------------------------------------------------------------------
+// MODIFICATIONS     user  date        purpose
+//    HISTORY        ----  ----        -------
+//      01           fgx   04.10.2000  Rearchitecturation CXR6
+//=====================================================================================
+
+//******************************************************************************
+// Command
+//******************************************************************************
+CATDrwQuickDimCmd.UndoTitle="치수 작성";
+
+//******************************************************************************
+// Agents
+//******************************************************************************
+CATDrwQuickDimCmd._agentSet.UndoTitle = "선택";
+
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+// Interactive Dimension Cmd : SwitchAgent related to Orientation purpose ...
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+CATDrwQuickDimCmd.OrientBarRessource.Bar.Title="방향";
+
+//******************************************************************************
+// Reference Element Button - V5R3 Only
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource.RefElem.Title = "레퍼런스 요소";
+CATDrwQuickDimCmd.OrientBarRessource.RefElem.ShortHelp="레퍼런스 요소";
+CATDrwQuickDimCmd.OrientBarRessource.RefElem.Help=
+"치수선 방향은 선택된 요소에 따라 달라짐";
+CATDrwQuickDimCmd.OrientBarRessource.RefElem.LongHelp=
+"요소 레퍼런스
+치수선 방향은 선택된 요소에 따라 달라집니다.";
+
+//******************************************************************************
+// Reference View Button - V5R3 Only
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource.RefVue.Title = "뷰 레퍼런스";
+CATDrwQuickDimCmd.OrientBarRessource.RefVue.ShortHelp="뷰 레퍼런스";
+CATDrwQuickDimCmd.OrientBarRessource.RefVue.Help=
+"치수선 방향은 뷰 방향으로 링크되어 있습니다.";
+CATDrwQuickDimCmd.OrientBarRessource.RefVue.LongHelp=
+"뷰 레퍼런스
+치수선 방향은 뷰 방향으로 링크되어 있습니다. ";
+
+//******************************************************************************
+// Projected dimension Button
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource._RefElem.Title = "투영된 치수";
+CATDrwQuickDimCmd.OrientBarRessource._RefElem.ShortHelp="투영된 치수";
+CATDrwQuickDimCmd.OrientBarRessource._RefElem.Help=
+"치수선 방향은 마우스 위치에 따라 달라짐";
+CATDrwQuickDimCmd.OrientBarRessource._RefElem.LongHelp=
+"투영된 치수
+치수선 방향은 마우스 위치에 따라 달라집니다. ";
+
+//******************************************************************************
+// Force dimension on element Button
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource._RefAuto.Title = "요소에 치수 강제 실행";
+CATDrwQuickDimCmd.OrientBarRessource._RefAuto.ShortHelp="요소에 치수 강제 실행";
+CATDrwQuickDimCmd.OrientBarRessource._RefAuto.Help=
+"치수선이 치수 요소에 평행하도록 강제 실행합니다.";
+CATDrwQuickDimCmd.OrientBarRessource._RefAuto.LongHelp=
+"요소에서 치수 강제 실행
+치수선이 치수 요소에 평행하도록 강제 실행합니다.";
+
+//******************************************************************************
+// Force horizontal dimension Button
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource._RefHoriz.Title = "뷰에서 수평 치수 강제 실행";
+CATDrwQuickDimCmd.OrientBarRessource._RefHoriz.ShortHelp="뷰에서 수평 치수 강제 실행";
+CATDrwQuickDimCmd.OrientBarRessource._RefHoriz.Help=
+"뷰에서 수평이 되도록 치수선 강제 실행";
+CATDrwQuickDimCmd.OrientBarRessource._RefHoriz.LongHelp=
+"뷰에서 수평 치수 강제 실행
+뷰에서 수평이 되도록 치수선을 강제 실행합니다. ";
+
+//******************************************************************************
+// Force vertical dimension Button
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource._RefVert.Title = "뷰에서 수직 치수 강제 실행";
+CATDrwQuickDimCmd.OrientBarRessource._RefVert.ShortHelp="뷰에서 수직 치수 강제 실행";
+CATDrwQuickDimCmd.OrientBarRessource._RefVert.Help=
+"뷰에서 수직이 되도록 치수선 강제 실행";
+CATDrwQuickDimCmd.OrientBarRessource._RefVert.LongHelp=
+"뷰에서 수직 치수 강제 실행
+뷰에서 수직이 되도록 치수선을 강제 실행합니다. ";
+
+//******************************************************************************
+// Force user defined dimension Button
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource._RefUser.Title = "한 방향을 따라 치수 강제 실행";
+CATDrwQuickDimCmd.OrientBarRessource._RefUser.ShortHelp="한 방향을 따라 치수 강제 실행";
+CATDrwQuickDimCmd.OrientBarRessource._RefUser.Help=
+"한 방향을 따르도록 치수선 강제 실행";
+CATDrwQuickDimCmd.OrientBarRessource._RefUser.LongHelp=
+"한 방향을 따라 치수 강제 실행
+한 방향을 따르도록 치수선을 강제 실행합니다. ";
+
+//******************************************************************************
+// True length dimension Button
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource.VraiGrandeur.Title = "참 길이 치수";
+CATDrwQuickDimCmd.OrientBarRessource.VraiGrandeur.ShortHelp="참 길이 치수";
+CATDrwQuickDimCmd.OrientBarRessource.VraiGrandeur.Help=
+"참 길이 치수 모드로 치수 작성";
+CATDrwQuickDimCmd.OrientBarRessource.VraiGrandeur.LongHelp=
+"참 길이 치수
+참 길이 치수 모드로 치수를 작성합니다. ";
+
+//******************************************************************************
+// Force dimension along direction Button
+//******************************************************************************
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionParallel.Title = "한 방향을 따른 치수";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionParallel.ShortHelp="한 방향을 따른 치수";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionParallel.Help=
+"한 방향을 따라 치수선 설정";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionParallel.LongHelp=
+"한 방향을 따른 치수
+한 방향을 따라 치수선을 설정합니다. ";
+
+//******************************************************************************
+// Force dimension perpendicular to direction Button
+//******************************************************************************
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionPerpendicular.Title = "한 방향에 수직인 치수";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionPerpendicular.ShortHelp="한 방향에 수직인 치수";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionPerpendicular.Help=
+"한 방향에 수직이 되도록 치수선 설정";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionPerpendicular.LongHelp=
+"한 방향에 수직인 치수
+한 방향에 수직이 되도록 치수선을 설정합니다.";
+
+//******************************************************************************
+// Force dimension along a fixed angle in view Button
+//******************************************************************************
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionAngle.Title = "뷰에서 한 고정 각도를 따른 치수";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionAngle.ShortHelp="뷰에서 한 고정 각도를 따른 치수";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionAngle.Help=
+"뷰에서 한 고정 각도로 치수선 설정";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionAngle.LongHelp=
+"뷰에서 고정 각도를 따른 치수
+뷰에서 한 고정 각도로 치수선을 설정합니다. ";
+
+//******************************************************************************
+// Intersection detection switch
+//******************************************************************************
+CATDrwQuickDimCmd.IntersectionAgentResource.Check.Title="교차점 검출";
+CATDrwQuickDimCmd.IntersectionAgentResource.Check.ShortHelp="교차점 검출";
+CATDrwQuickDimCmd.IntersectionAgentResource.Check.Help=
+"치수 중에 교차점 검출";
+CATDrwQuickDimCmd.IntersectionAgentResource.Check.LongHelp=
+"교차점 검출
+치수 중에 교차점을 검출합니다. ";
+
+//******************************************************************************
+// Angle
+//******************************************************************************
+CATDrwQuickDimCmd.Angle.Dimension.EnglobingFrame.IntermediateFrame.Label.Title = "각도: ";
+CATDrwQuickDimCmd.Angle.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp = "방향에서 각도 입력";
+
+//******************************************************************************
+// Driving Dim Value
+//******************************************************************************
+CATDrwQuickDimCmd.Value.Dimension.EnglobingFrame.IntermediateFrame.Label.Title = "값: ";
+CATDrwQuickDimCmd.Value.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp = "드라이빙 치수의 값 입력";
+

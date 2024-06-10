@@ -1,0 +1,403 @@
+'// COPYRIGHT DASSAULT SYSTEMES  1999
+'//============================================================================
+'//
+'// Language="VBSCRIPT"
+'// To extract the parameters from Product object in current selection
+'// The format is defined by the user through an EXCEL template\
+'// 
+'// Notes:
+'// ---------------
+'// The EXCEL template should contain a sheet (whose name can be customized
+'// by the user in the indicated section below) that contains the definition
+'// of the format as follow
+'// Format Page:
+'//                                 Column
+'//           1          2        3        4
+'//      1  PartNumber Param1   Instance  Param4 ..... (where Param is the name
+'//                              name                   of the CKE parameter)
+'//
+'// Row  2    1          1        7        7
+'//
+'//      3    1          2        5        6
+'//
+'// In this example:
+'// ----------------
+'// PartNumber starts at cell (1,1). Param1 starts in cell (1,2) 
+'// Instance name starts at cell (7,5) and Param4 starts in cell(7,6)
+'// Basically we have 2 blocks of data (2 tables). And they are not
+'// contiguous. Generated result in the specified format is reported in
+'// a seperate sheet, whose name can be specified by the user
+'// 
+'// Supported headers:
+'// ------------------
+'//
+'// Part Name
+'// Instance Name
+'// User Type 
+'//
+'// Any headers other than the above 3, are assumed to be the user defined
+'// CKE parameters.
+'//
+'//============================================================================
+'// Major CATIA interface used:
+'//
+'// interface         VB Name         Remarks
+'// -----------       ------------    --------------
+'// CATIADocument     Document        access the current document
+'// CATIAWorkbench    workbench       access the Manufacturing Systems Layout
+'//                                   workbench
+'// CATIASelection    Selection       to get the object from current selection
+'//                                   in the interactive section
+'// CATIAProduct      Product         to get the Product Ids and the associated
+'//                                   parameters list
+'// CATIAParameters   Parameters      a list of parameters associated with a
+'//                                   Product object
+'// CATIAParameter    Parameter       to get the value of a parameter
+'//
+'//============================================================================
+'//
+'// Audit Trail:
+'//----------------------------------------------------------------------------
+'//   Author     : Vic Szeto
+'//   Date       : 8/99
+'//   Chg id     :
+'//   Chg nature :
+'//----------------------------------------------------------------------------
+'//   Modified   :
+'//   Date       :
+'//   Chg id     :
+'//   Chg nature :
+'//============================================================================
+
+Option Explicit
+
+'******************************************************************************
+'  GLOBAL variable declarations section
+'******************************************************************************
+'// ---------- Debug Traces
+Const intG_TRACEON = 1
+Dim strMessage
+
+'// ---------- EXCEL application objects
+Dim objGEXCELapp        As AnyObject
+Dim objGEXCELwkBks      As AnyObject
+Dim objGEXCELwkBk       As AnyObject
+Dim objGEXCELwkShs      As AnyObject
+Dim objGEXCELOutputSh   As AnyObject
+Dim objGEXCELFormatSh   As AnyObject
+
+'// ---------- objGEXCEL Part List Report Format
+Const strGReportTitlePartNumber   = "Part Name"
+Const strGReportTitleInstanceName = "Instance Name"
+Const strGReportTitleNomenclature = "User Type"
+
+Dim  intGReportCurrentRow        As integer
+Dim  intGReportCurrentColumn     As integer
+Dim  intGActualNBHdr             As integer
+
+Dim  strGReportTemplate
+Dim  strGReportEXCELOutputSh  
+Dim  strGReportEXCELFormatSh 
+
+'// ---------- CATIAV5 application objects
+Dim objCATIAV5Document0 As Document
+Dim objCATIAV5ArrWorkbench0 As Workbench
+Dim objCATIAV5Selection As Selection
+
+'@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+'//                       User customizable variables                   
+'@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+'========== The number of parameters to report and their names 
+'========== Make an array big enough to hold all of them
+Dim strArrayGHdrName (50)
+Dim intArrayGHdrPos (2,50)
+
+'========== EXCEL template direction path
+
+strGReportTemplate = "C:\temp\PSLParamListWithUsrHdrTemplate.xls"
+'----------OUTPUT TEMP DIRECTORY
+Const strGOutputDirName = "C:\Temp"
+
+'---------- must name the sheet in the template accordingly
+strGReportEXCELOutputSh = "Parameters List"
+strGReportEXCELFormatSh = "Format"
+
+
+'========================================================================
+Sub Copy_Files(strFileToCopy)
+'========================================================================
+
+ Dim strCATCommandPath           As String
+ Dim strNewFilePath              As String
+ Dim intSemiColonLocation        As Integer
+ Dim strDefaulLocationOfTemplate As String
+ Dim AppliFileSys                As FileSystem
+   
+   On Error Resume Next
+   strCATCommandPath = CATIA.SystemService.Environ("CATCommandPath")  
+   
+   intSemiColonLocation  = Instr(3, strCATCommandPath, ";")  
+          
+   Set AppliFileSys = CATIA.FileSystem
+   strDefaulLocationOfTemplate = ""
+   strNewFilePath              = strGOutputDirName + "\" + strFileToCopy
+   'CATIA.SystemService.Print strCATCommandPath
+
+   If (intSemiColonLocation > 0) Then    
+      Do While (intSemiColonLocation > 0)
+
+        intSemiColonLocation = intSemiColonLocation -1
+        strDefaulLocationOfTemplate = Left(strCATCommandPath, intSemiColonLocation) _
+                                    + "\" + strFileToCopy
+
+        If (AppliFileSys.FileExists(strDefaulLocationOfTemplate)) Then
+          Exit Do 
+        End If
+
+        Err.Clear
+        intSemiColonLocation =  intSemiColonLocation + 2
+        strCATCommandPath = Mid(strCATCommandPath, intSemiColonLocation)
+        intSemiColonLocation  = Instr(3, strCATCommandPath, ";")
+
+        'CATIA.SystemService.Print strCATCommandPath
+        'DbgTrace "intSemiColonLocation :" & intSemiColonLocation, 0
+
+      Loop     ' Exit outer loop immediately.
+   Else
+      strDefaulLocationOfTemplate = strCATCommandPath + "\" + strFileToCopy
+   End If
+  
+   AppliFileSys.CopyFile strDefaulLocationOfTemplate, strNewFilePath, true
+
+   If (Not(AppliFileSys.FileExists(strNewFilePath))) Then
+     Dim strMessage
+     strMessage  = "Error Copying Template File:" + strDefaulLocationOfTemplate + "to " + strGOutputDirName + Chr(13)
+     strMessage  = strMessage + Chr(13) + "Check the following...." + Chr(13)
+     strMessage  = strMessage + "(1)Template File has read-write capability" + Chr(13)
+     strMessage  = strMessage + "(2)Template File path is valid"
+     msgbox (strMessage)    
+     Exit Sub
+   End If
+
+End Sub '/////////////////////////////////////////////////////////// Copy_Files
+
+
+'------------------------------------------------------------------------------
+Sub GetFormat()
+'------------------------------------------------------------------------------
+ 
+  Dim objEXCELUsedRange As Object 
+	Dim intNBUsedColumn   As Integer
+	Dim intNBUsedRow      As Integer
+	Dim strCell           
+
+	objGEXCELFormatSh.Select  
+  Set objEXCELUsedRange = objGEXCELFormatSh.UsedRange
+  intNBUsedColumn = objEXCELUsedRange.Columns.Count
+  intNBUsedRow = objEXCELUsedRange.Rows.Count
+
+	'---------- Only look at the first 3 rows
+	intGActualNBHdr = 0
+	Dim intJRow
+	Dim intKCol  
+  For intKCol = 1 to intNBUsedColumn
+	    strCell = objGEXCELFormatSh.Cells (1,intKCol)
+			If (Len (StrCell) > 0) Then
+			   intGActualNBHdr = intGActualNBHdr + 1
+				 strArrayGHdrName (intGActualNBHdr) = strCell
+				 intArrayGHdrPos (1,intGActualNBHdr) = objGEXCELFormatSh.Cells (2,intKCol)
+				 intArrayGHdrPos (2,intGActualNBHdr) = objGEXCELFormatSh.Cells (3,intKCol)
+			End If 
+  Next  'For intKCol
+
+  '---------- Check format
+  For intKCol = 1 to intNBUsedColumn
+	    DbgTrace "Header Name " &  " " & intKCol & " = " _
+			         & strArrayGHdrName (intKCol),0
+	    DbgTrace "Position = " & intArrayGHdrPos(1,intKCol) & " " _
+			         & intArrayGHdrPos(2,intKCol),0
+  Next  'For intKCol
+
+End Sub '//////////////////////////////////////////////////////////// GetFormat
+
+
+'@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+'------------------------------------------------------------------------------
+Sub DbgTrace (iStrMsgString, iIntYesError)
+'------------------------------------------------------------------------------
+If (intG_TRACEON = 1) Then
+  CATIA.SystemService.Print iStrMsgString 
+  If (iIntYesError = 1) Then 
+	   CATIA.SystemService.Print "Err Number = " & Err.Number
+	End If
+End If
+
+End Sub '///////////////////////////////////////////////////////////// DbgTrace
+
+'------------------------------------------------------------------------------
+Sub StartEXCEL ()
+'------------------------------------------------------------------------------
+
+  Err.Clear
+  On Error Resume Next
+  Set objGEXCELapp = GetObject (,"EXCEL.Application")  
+  If Err.Number <> 0 Then   
+     Err.Clear
+     Set objGEXCELapp = CreateObject ("EXCEL.Application")
+  End If
+
+  Copy_Files ("PSLParamListWithUsrHdrTemplate.xls")
+
+  objGEXCELapp.Application.Visible = TRUE
+  Set objGEXCELwkBks = objGEXCELapp.Application.WorkBooks
+
+  Err.Clear
+  Set objGEXCELwkBk  = objGEXCELwkBks.Add (strGReportTemplate)
+
+  If Err.Number <> 0 Then
+     Dim strMessage
+     strMessage  = "Error Loading Template File:" + strGReportTemplate + Chr(13)
+     strMessage  = strMessage + Chr(13) + "Check the following...." + Chr(13)
+     strMessage  = strMessage + "(1)Template File has read-write capability" + Chr(13)
+     strMessage  = strMessage + "(2)Template File path is valid"
+	   msgbox (strMessage)
+     Err.Clear
+  End If
+
+  Set objGEXCELwkShs = objGEXCELwkBk.Worksheets
+  Set objGEXCELFormatSh = objGEXCELwkShs (strGReportEXCELFormatSh)
+	Set objGEXCELOutputSh = objGEXCELwkShs (strGReportEXCELOutputSh)
+
+End Sub '/////////////////////////////////////////////////////////// StartEXCEL
+
+'------------------------------------------------------------------------------
+Sub EndEXCEL ()
+'------------------------------------------------------------------------------
+  objGEXCELwkBk.Close
+  objGEXCELapp.Quit
+
+End Sub '///////////////////////////////////////////////////////////// EndEXCEL
+
+'------------------------------------------------------------------------------
+Sub StartCATIAV5 ()
+'------------------------------------------------------------------------------
+  Set objCATIAV5Document0 = CATIA.ActiveDocument
+  DbgTrace "V5: Active Document",1
+
+  '//---------- Get Arrworkbench from current document
+  Set objCATIAV5ArrWorkbench0 = objCATIAV5Document0.GetWorkbench("ArrWorkbench") 
+  DbgTrace "V5: GetWorkbench0",1
+
+  '//---------- Get current selection
+  Set objCATIAV5Selection = objCATIAV5Document0.Selection
+  DbgTrace "V5: Selection",1
+
+End Sub '///////////////////////////////////////////////////////// StartCATIAV5
+
+'------------------------------------------------------------------------------
+Sub WriteToEXCEL (iIntRow, iIntColumn, iStr)
+'------------------------------------------------------------------------------
+  If (Len (iStr) > 0) Then
+     objGEXCELOutputSh.Cells (iIntRow, iIntColumn) = iStr
+     objGEXCELOutputSh.Cells (iIntRow, iIntColumn).Select
+  End If
+
+End Sub '/////////////////////////////////////////////// WriteToEXCELOutputList
+
+'------------------------------------------------------------------------------
+Sub DoOneProductParam (iobjCATIAV5Product)
+'------------------------------------------------------------------------------
+
+  Dim objCATIAV5Parameters As Parameters
+  Dim objCATIAV5Param      As Parameter
+  Dim intNBParameters      As integer
+  Dim intK       As integer
+	Dim intRowK    As integer
+	Dim intColumnK As integer
+	Dim strHeaderName 
+	Dim strHeaderValue
+
+  Set objCATIAV5Parameters = iobjCATIAV5Product.Parameters
+  DbgTrace "V5: Parameters",1
+
+  intNBParameters = objCATIAV5Parameters.Count
+  DbgTrace "V5: NB of Parameters = " & intNBParameters,1
+
+	For intK = 1 To intGActualNBHdr
+
+     On Error Resume Next
+
+     DbgTrace "intK = " & intK,0
+	   strHeaderName = strArrayGHdrName (intK)
+     DbgTrace "strHeaderName = " & strHeaderName,0
+
+		 If (StrComp (strHeaderName, strGReportTitlePartNumber) = 0) Then
+		    strHeaderValue =iobjCATIAV5Product.PartNumber
+		 ElseIf (StrComp (strHeaderName, strGReportTitleInstanceName ) = 0) Then
+		 	  strHeaderValue =iobjCATIAV5Product.Name
+		 ElseIf (StrComp (strHeaderName, strGReportTitleNomenclature ) = 0) Then
+		 	  strHeaderValue =iobjCATIAV5Product.Nomenclature
+		 ElseIf (intNBParameters > 0) Then
+        Set objCATIAV5Param = objCATIAV5Parameters.GetItem (strArrayGHdrName (intK))
+        If (Not (objCATIAV5Param Is Nothing) ) Then
+				   strHeaderValue = objCATIAV5Param.ValueAsString
+				End If
+		 End If
+
+     If (Len (strHeaderValue) > 0 ) Then
+		   intRowK = intArrayGHdrPos (1,intK) +  intGReportCurrentRow
+			 intColumnK = intArrayGHdrPos (2, intK)
+       DbgTrace "Value = " & strHeaderValue,0
+			 DbgTrace "At " & intRowK & " " & intColumnK,0
+       WriteToEXCEL intRowK, intColumnK, strHeaderValue                              
+     End If
+
+	Next  'For intK
+	intGReportCurrentRow = intGReportCurrentRow + 1
+
+End Sub '////////////////////////////////////////////////////////// DoOneProductParam
+
+'====================================================================================
+Sub CATMain ()
+'====================================================================================
+
+StartEXCEL
+
+StartCATIAV5
+
+GetFormat
+
+If (intGActualNBHdr <= 0) Then
+   MsgBox "Number of header defined in the template is 0. Please check you template."
+   Exit Sub
+Else
+   DbgTrace "Number of header in format = " & intGActualNBHdr,0
+End If
+
+objGEXCELOutputSh.Select
+
+Dim objCATIAV5Product As Product
+Dim intNBInSelection  As integer
+intNBInSelection = 0
+On Error Resume Next
+
+Set objCATIAV5Product = objCATIAV5Selection.FindObject("CATIAProduct")
+DbgTrace "FindObject", 1
+'if (Err.Number <> 0) Then Set objCATIAV5Product = Nothing
+
+intGReportCurrentRow = 0
+
+Do Until ( objCATIAV5Product Is Nothing )
+
+   intNBInSelection = intNBInSelection + 1
+   DoOneProductParam  objCATIAV5Product
+
+   Set objCATIAV5Product = objCATIAV5Selection.FindObject("CATIAProduct")
+   if (Err.Number <> 0) Then Set objCATIAV5Product = Nothing
+ 
+Loop  '// End Do ...each FindObject
+
+DbgTrace "total number of Product in selection = " & intNBInSelection, 0 
+
+End Sub '/////////////////////////////////////////////////////////// CATMain

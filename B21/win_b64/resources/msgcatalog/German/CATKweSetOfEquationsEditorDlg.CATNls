@@ -1,0 +1,103 @@
+// COPYRIGHT DASSAULT SYSTEMES 2000
+//===================================================================
+//
+// Catalog for CATKweSetOfEquationsEditorDlg class
+//
+//===================================================================
+//
+// Usage notes:
+//
+//===================================================================
+//
+//  Mar 2000  Creation:           Dmitri Ouchakov, LEDAS Ltd. (vtn1)
+//  Jul 2000  Modification (adding SetInputsButton, etc.)
+//                                Dmitri Ouchakov, LEDAS Ltd. (vtn1)
+//  Sep 2000  Correction of mistakes: D. Ouchakov, LEDAS Ltd. (vtn1)
+//  Feb 2002  Add TabOptions            W.Sidorov, LEDAS Ltd. (vtn3)
+//  Nov 2002  Add ParsePushButton and SwitchPushButton
+//                                   A.Leshchenko, LEDAS Ltd. (anz)
+//  Jun 2003
+//===================================================================
+Active.Title = "Gleichungsseteditor: /P1 Aktiv";
+Inactive.Title = "Gleichungsseteditor: /P1 Inaktiv";
+
+text_editor.Help = "Das Gleichungsset eingeben";
+text_editor.LongHelp = "Gleichungsseteditor\n",
+                       "Mit einem Gleichungsset können Parameter für die Bindung von Bedingungen erzeugt werden.\n\n",
+                       "Folgende Syntax ist zu verwenden:\n",
+                       "PartBody\Pad.1\FirstLimit\Length * Real.5 == PartBody\Pad.1\SecondLimit\Length\n",
+                       "und\n",
+                       "PartBody\Pad.1\FirstLimit\Length * Real.5 + PartBody\Pad.1\SecondLimit\Length == 12mm\n\n",
+                       "Geben Sie entweder manuell die Namen der Parameter ein, verwenden Sie das unten bereitgestellte Wörterverzeichnis oder\n",
+                       "wählen Sie die den einzelnen Parametern zugeordneten 3D-Bedingungen aus.\n",
+                       "Um die 3D-Bedingungen anzuzeigen, wählen Sie eine Komponente in der Geometrie oder im Strukturbaum aus.\n";
+
+
+InputsLabel.Title = "Konstante Parameter";
+OutputsLabel.Title = "Unbekannte Parameter";
+
+SetInputsButton.Title="Eingaben festlegen";
+SetInputsButton.Help="Legt die Eingabeparameter für das Gleichungsset fest";
+SetInputsButton.ShortHelp="Legt die Eingabeparameter fest";
+SetInputsButton.LongHelp="Legt die Eingabeparameter für das Gleichungsset fest.\nEin bestimmter Dialog ermöglicht die Einteilung der Parameter in zwei Gruppen: Eingabeparameter (Konstanten) und Ausgabeparameter (Variablen)";
+
+ButtonFrame.MoveToInputsPushButton.ShortHelp = "Verschieben zur Eingabe.";
+ButtonFrame.MoveToInputsPushButton.Help = "Verschiebt die ausgewählten Parameter in die Eingabeparameter (konstant)";
+ButtonFrame.MoveToInputsPushButton.LongHelp = "Verschiebt die ausgewählten Parameter in die Eingabeparameter. Die Eingabeparameter werden als konstant angesehen, wenn das Gleichungsset aufgelöst ist.";
+ButtonFrame.MoveToOutputsPushButton.ShortHelp = "Verschieben zur Ausgabe.";
+ButtonFrame.MoveToOutputsPushButton.Help = "Verschiebt die ausgewählten Parameter in die Ausgabeparameter (unbekannt).";
+ButtonFrame.MoveToOutputsPushButton.LongHelp = "Verschiebt die ausgewählten Parameter in die Ausgabeparameter. Die Ausgabeparameter werden als unbekannt angesehen, wenn das Gleichungsset aufgelöst ist.";
+ButtonFrame.ParsePushButton.ShortHelp = "Syntaxanalyse.";
+ButtonFrame.ParsePushButton.Help = "Führt eine Syntaxanalyse für den Hauptteil des Gleichungssets durch.";
+ButtonFrame.ParsePushButton.LongHelp = "Führt eine Syntaxanalyse für den Hauptteil des Gleichungssets durch.\nIdentifiziert Variablen und legt diese als unbekannte Parameter fest.";
+ButtonFrame.SwitchPushButton.ShortHelp = "Umschalten Eingabe<->Ausgabe.";
+ButtonFrame.SwitchPushButton.Help = "Schaltet zwischen den Eingabe- und Ausgabeparametern um.";
+ButtonFrame.SwitchPushButton.LongHelp = "Schaltet zwischen den Eingabe- und Ausgabeparametern um.\nJeder Eingabeparameter wird zu einem Ausgabeparameter und umgekehrt.";
+
+
+InputsSelectorList.Help = "Liste der Eingabeparameter (Konstanten).";
+InputsSelectorList.LongHelp = "Diese Liste enthält die ausgewählten Eingabeparameter für das Gleichungsset\nDie Werte der Ausgabeparameter sind konstant, \nwenn das Gleichungsset aufgelöst wird.";
+InputsSelectorList.ColumnTitle1 = "Name";
+InputsSelectorList.ColumnTitle2 = "Wert";
+
+OutputsSelectorList.Help = "Liste der Ausgabeparameter (unbekannt).";
+OutputsSelectorList.LongHelp = "Diese Liste enthält die gewählten Ausgabeparameter.\nDie Werte der Ausgabeparameter werden geändert,\nwenn das Gleichungsset aufgelöst ist.";
+OutputsSelectorList.ColumnTitle1 = "Name";
+OutputsSelectorList.ColumnTitle2 = "Wert";
+
+TabOptions.EpsBaseText.Title = "Genauigkeit ";
+TabOptions.EpsBaseValue.Help = "Die Berechnungsgenauigkeit des Bereichs [1e-10, 0.1] eingeben";
+TabOptions.EpsBaseValue.ShortHelp="Berechnungsgenauigkeit eingeben";
+TabOptions.EpsBaseValue.LongHelp = "Genauigkeit des Gleichungssets.\n",
+                       "Die Auswirkungen des Parameters auf die Genauigkeit einer Lösung.\n",
+                       "Die möglichen Parameterwerte müssen im Bereich [1e-10, 0.1] liegen.";
+
+TabOptions.GaussText.Title = "Für lineare Gleichungen die Gaußsche Methode verwenden";
+TabOptions.GaussValue.Title = "";
+
+TabOptions.StopText.Title = "Dialogfenster 'Stopp' anzeigen";
+TabOptions.StopValue.Title = "";
+TabOptions.TimeText.Title = "Maximale Berechnungszeit (in Sek.)";
+TabOptions.TimeValue.Help = "Eine maximale Berechnungszeit eingeben";
+TabOptions.TimeValue.ShortHelp="Eine maximale Berechnungszeit eingeben";
+TabOptions.TimeValue.LongHelp = "Maximale Berechnungszeit.\n",
+                       "Der Parameter wird zur Begrenzung der Berechnungszeit verwendet.\n",
+                       "Wenn das Gleichungsset länger aktiv ist als die angegebene Zeit,\n",
+                       "werden die Berechnungen gestoppt.\n",
+                       "Entspricht der Parameter dem Wert 0, liegt keine zeitliche Begrenzung für die Berechnung vor";
+
+TabOptions.SetDefault.Title = "Standardeinstellungen wiederherstellen";
+TabOptions.Empty1.Title = "    ";
+ParseWarning = "Beim ersten Anklicken der Schaltfläche 'Anwenden' wird keine Auflösung vorgenommen.";
+ParseWarning.Title = "Erste Anwendung - Warnung";
+
+TabOptions.ErrorsText.Title = "Erweiterte Fehlerbeschreibung generieren";
+TabOptions.ErrorsValue.Title = "";
+
+TabOptions.SolverOptionsFrame.Title = "Algorithmus";
+TabOptions.StopOptionsFrame.Title   = "Beendigungskriterien";
+
+Solve.Title = "Auflösen";
+Solve.Help  = "Lösungen suchen";
+Solve.LongHelp = "Berechnungen des Modells ausführen.";
+

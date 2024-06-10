@@ -1,0 +1,1951 @@
+// =====================================================================
+//
+// Erreurs Framework 'Manufacturing'
+// =================================
+//
+// Deux manieres de formater vos messages : 
+//
+// a- Specifier en delimitant avec le caractere '\n' :
+//       Request      (ce que l'on tentait de faire)
+//       Diagnostic   (ce qui est arrive)
+//       Advice       (...ce qu'il pourrait faire si possible)
+//
+//     Exemple :
+//       ERR_3000 = "Initializing '/p1' attribute in '/p2'.\nAttribute does not exist.\nContact your local support.";  
+//       
+//               NOTE : Le parametrage des messages se fait via SetNLSParameter
+//
+// ou bien
+//
+// b- Specifier vos messages avec la cle + les 3 facettes Request/Diagnostic/Advice
+//
+//     Exemple :
+//       ERR_3000.Request    "Initializing '/p1' attribute in '/p2'." 
+//       ERR_3000.Diagnostic "Attribute does not exist."
+//       ERR_3000.Advice     "\nContact your local support."
+// 
+//               NOTE : Le parametrage de chaque facette se fait par :
+//                         Request    : SetNLSRequestParams
+//                         Diagnostic : SetNLSDiagnosticParams
+//                         Advice     : SetNLSAdviceParams
+//
+// =====================================================================
+
+
+//************************************************************
+// Plage reservee ERR_0000 a ERR_1999 
+//************************************************************
+ERR_1000="Zum Optimieren der Leistung können die folgenden NC-Optionen eingestellt werden:\n
+Registerkarte 'Allgemein':
+	'Aktivitätenstatus automatisch aktualisieren' inaktivieren
+	Alle Markierungsfelder in 'Farbe und Hervorhebung' aktivieren
+	'Smart NC-Modus - Aktivieren' inaktivieren\n
+Registerkarte 'Ressourcen':
+	'Automatische Abfrage nach Änderung' inaktivieren\n
+Registerkarte 'Operation':
+	'Geometrieverknüpfungen beim Kopieren duplizieren' inaktivieren
+
+Registerkarte 'Ausgabe':
+	'Werkzeugbahn in einer externen Datei speichern' festlegen (für Flächenbearbeitungsprodukte)
+	'Kontaktpunkte in Werkzeugbahn speichern' inaktivieren
+	'Werkzeugausgabepunkt' auf 'Werkzeugspitze' einstellen
+
+Registerkarte 'Foto/Video':
+	'Simulation bei Programmebene' festlegen
+	'Kollisionen ignorieren' festlegen
+	'Fehlerfenster' auf 'Kein' einstellen
+	'Alle Informationen am Aufnahmepunkt berechnen' inaktivieren
+	'Werkzeug und Darstellung mit Facetten' auf 'Standard' einstellen
+	Fotoauflösung auf 0 einstellen
+	'Interpolationswinkel der Werkzeugachse' auf 10 Grad einstellen
+	'Optimierte Wiedergabe für Videos' auswählen
+
+Weitere Empfehlungen:
+	'Automatische Sicherung' in 'Allgemein > Allgemein' inaktivieren
+	'Stapelgröße' für Widerrufen in 'Allgemein > Leistung' auf 1 einstellen
+	'Import - Automatischer Modus für die Optimierung der C2-Stetigkeit' in 'Kompatibilität > IGES' auf 0,01 einstellen
+	'Automatische Teilebegrenzung' für Flächenbearbeitungsoperationen inaktivieren.
+	Für Operationen mit umfangreichen Werkzeugbahnen (mehr als 100.000 Punkte)
+	sollte 'Speichern der Werkzeugbahn' in der Registerkarte 'Ausgabe' auf 'Werkzeugbahn in
+	einer externen Datei speichern' eingestellt werden, um die Speicherbelegung zu verringern.";
+//
+//************************************************************
+// Plage messages generiques ERR_2000 a ERR_2999
+//************************************************************
+//
+
+ERR_2000.Diagnostic="Eine Störung ist aufgetreten.";
+ERR_2000.Advice="Erneut versuchen. Besteht das Problem weiterhin, die Anwenderunterstützung benachrichtigen.";
+
+ERR_2001="Eine Störung ist aufgetreten. \nFehler: /p1\nErneut versuchen. Besteht das Problem weiterhin, die Anwenderunterstützung benachrichtigen.";
+
+ERR_2002="Kritischer Fehler: Nullkennung. \nDie Anwenderunterstützung benachrichtigen.";
+ERR_2003="Kritischer Fehler: Kennung '/p1' nicht von '/p2' unterstützt.\nDie Anwenderunterstützung benachrichtigen.";
+ERR_2004="Kritischer Fehler: Attribut '/p1' für '/p2' wird gelesen oder festgelegt. Attribut existiert nicht. \nDie Anwenderunterstützung benachrichtigen.";
+
+ERR_2005="Werkzeugkatalog oder Tabelle nicht gefunden.\nAngegebener Pfad: \p1 enthält weder Werkzeugkatalog noch Tabelle.\nBitte die Umgebung überprüfen.";
+
+ERR_2006.Diagnostic="Eine Störung ist aufgetreten.\nFehler: /p1.";
+ERR_2006.Advice="Erneut versuchen. Besteht das Problem weiterhin, die Anwenderunterstützung benachrichtigen.";
+
+ERR_2017.Diagnostic="Es ist kein Muster ausgewählt, oder im ausgewählten Muster ist kein Punkt vorhanden.";
+ERR_2017.Advice="Zuerst das Muster auswählen oder das ausgewählte Muster überprüfen.";
+
+ERR_3000="Attribut '/p1' nicht von '/p2' unterstützt.\nDie Anwenderunterstützung benachrichtigen.";
+ERR_3001="'/p1' ist nicht gültig.\nDie Anwenderunterstützung benachrichtigen.";
+ERR_3002="Attribut '/p1' ist für '/p2' nicht vorhanden.\nDie Anwenderunterstützung benachrichtigen.";
+ERR_3003="'/p1' wird gelesen.\nObjekt ist ungültig.\nDie Anwenderunterstützung benachrichtigen.";
+
+ERR_3004="Unerwartete Festlegung von Umgebungsvariablen.\nSicherstellen, dass diese Umgebungsvariablen nicht festgelegt sind:\nMFG_R10_WINDOW\nMFG_R8GA_EXPAND_GRAPH\nMFG_ODT_OLD_PPINST_PANEL";
+
+ERR_3005.Request="Keine anzuzeigende Komponentenansicht";
+ERR_3005.Diagnostic="Es können keine Komponentenansicht und keine Komponente angezeigt werden";
+ERR_3005.Advice="Dies liegt wahrscheinlich daran, dass keine Fertigungskomponentenansicht vorhanden ist. \nDie Daten und das Szenario prüfen, das zu diesen Daten führt";
+
+//************************************************************
+// Plage ERR_3010 a ERR_3099 : Activites
+//************************************************************
+//
+ERR_3010.Diagnostic="Befehl fehlgeschlagen.";
+ERR_3010.Advice="Erneut versuchen. Besteht das Problem weiterhin, die Anwenderunterstützung benachrichtigen.";
+
+//
+ERR_3011.Request="Bild erfolgreich gesichert.";
+ERR_3011.Diagnostic="Die Bilddatei /p1 \nwurde bei Aktivität /p2 erfolgreich gesichert.";
+
+//
+// Gestion ToolAxis
+//
+ERR_3050.Request="Lesen von Werkzeugachse auf /p1.";
+ERR_3050.Diagnostic="Werkzeugachse kann nicht gelesen werden.";
+ERR_3050.Advice="\nPrüfen, ob die Werkzeugachse korrekt definiert ist.";
+//
+// Messages CutCopyPaste
+//
+ERR_3100.Request="Befehl zum Ausschneiden, Kopieren oder Einfügen ausgeführt.";
+ERR_3100.Diagnostic="Befehl ist fehlgeschlagen.";
+ERR_3100.Advice="Erneut versuchen. Besteht das Problem weiterhin, die Anwenderunterstützung benachrichtigen.";
+
+ERR_3101.Request="Versuch, '/p1' nach '/p2' einzufügen.";
+ERR_3101.Diagnostic="Falsche Einfügposition.";
+ERR_3101.Advice="\nGeeignete Einfügebene für '/p1' auswählen.";
+
+ERR_3102.Request="Versuch, '/p1' auf '/p2' einzufügen.";
+ERR_3102.Diagnostic="'/p1' unterstützt nicht den Typ '/p2'.";
+ERR_3102.Advice="\nSicherstellen, dass '/p1' und '/p2' kompatibel sind.";
+
+ERR_3103.Diagnostic="Diese Operation ist nicht zulässig.";
+
+ERR_3104.Diagnostic="'/p1' ist Bestandteil eines anderen Dokuments. Es kann nicht in das aktuelle Dokument eingefügt werden.";
+
+ERR_3105.Request="Es wird versucht, eine Kopiertransformation, eine Anweisung COPY oder TRACUT nach '/p1' zu erzeugen.";
+ERR_3105.Diagnostic="Die Aktivität '/p1' ist nicht sortiert.";
+ERR_3105.Advice="\nEs muss eine sortierte Aktivität ausgewählt werden, um eine Kopiertransformation, eine Anweisung COPY oder TRACUT erzeugen zu können";
+
+ERR_3106.Diagnostic="/p1 nicht verwendete Indizes wurden für '/p2' erfolgreich gelöscht.";
+//
+ERR_3107.Diagnostic="Für '/p1' wurde kein Index festgestellt, der nicht verwendet wird.";
+
+ERR_3108.Request="Versuch, '/p1' nach '/p2' einzufügen.";
+ERR_3108.Diagnostic="Die Produkte, die den Aufspannungen '/p1' und '/p2' zugeordnet sind, sind nicht identisch.";
+ERR_3108.Advice="\nIn den zwei Aufspannungen das gleiche Produkt verwenden.";
+
+ERR_3109.Request="Versuchen, nach '/p1' eine Einfügung vorzunehmen.";
+ERR_3109.Diagnostic="Mehrere kopierte Objekte verweisen auf Objekte in '/p1'";
+ERR_3109.Advice="\nVersuchen, die zu kopierende Datenmenge zu ändern. Falls dies nicht möglich sein sollte, weitere Informationen hierzu von der Anwenderunterstützung anfordern.";
+
+ERR_3110.Request="Versuchen, in '/p1' eine Einfügung vorzunehmen.";
+ERR_3110.Diagnostic="Der aufnehmenden Aufspannung wurde kein Produkt zugeordnet.\nIn der PPRHub-Umgebung kann in diesem Fall keine Kopie mit Geometrieverknüpfungsduplizierung erfolgen.";
+ERR_3110.Advice="\nBevor Aktivitäten in der Aufspannung kopiert werden können, muss ein Produkt zugeordnet werden.";
+
+ERR_3111.Request="Versuchen, '/p1' einzufügen.";
+ERR_3111.Diagnostic="In der PPRHub-Umgebung ist es nicht möglich, eine Aufspannung mit Geometrieverknüpfungsduplizierung zu kopieren,\nwenn dieser Aufspannung eine NC-Konfigurationsassemblierung zugeordnet wurde.";
+ERR_3111.Advice="\nEs muss eine neue Aufspannung erzeugt und das Produkt im neuen Prozess zugeordnet werden.\nAnschließend ist es möglich, alle Programme zu kopieren.";
+//
+// Messages Gestion Workbench
+//
+ERR_3200.Request="'/p1' wurde ausgewählt.";
+ERR_3200.Diagnostic="'/p1' kann nicht geändert werden, da es Bestandteil eines anderen Dokuments ist.";
+ERR_3200.Advice="\nWenn '/p1' geändert werden soll, das entsprechende Dokument durch seine Auswahl im Fenstermenü aktivieren.";
+
+//
+// Messages Compensation
+//
+ERR_3250.Request="Korrektor mit ID /p1 existiert nicht mehr.";
+ERR_3250.Diagnostic="Für diese Operation wurde ein neuer Korrektor ausgewählt.";
+ERR_3250.Advice="\nPrüfen, ob der ausgewählte Korrektor der gewünschte ist.";
+
+ERR_3251.Diagnostic="Bei Verwendung der Korrektoren für die Werkzeugkorrektur ist eine Störung aufgetreten.";
+ERR_3251.Advice="\nDie Korrektoren (Korrekturschalter) der Werkzeuge sowie den für diese Operation ausgewählten Korrektor prüfen.";
+
+// Lathe
+ERR_3252.Request="Der Schneidplattenhalter wurde geändert.";
+ERR_3252.Diagnostic="Der Korrekturtyp '/p1' wurde standardmäßig ausgewählt.\nPrüfen, ob dies der gewünschte Typ ist.";
+ERR_3252.Advice="\nAndere Korrekturtypen, die für diesen Schneidplattenhalter definiert sind: /p1";
+
+ERR_3253.Request="Die aktuelle Werkzeugkorrektur ist im Schneidplattenhalter '/p1' nicht definiert.";
+ERR_3253.Diagnostic="Der Korrekturtyp '/p1' wurde standardmäßig ausgewählt.";
+
+//
+// Messages for Process Table
+//
+ERR_3280.Request="Die letzte Aufspannung wird gelöscht.";
+ERR_3280.Diagnostic="Die einzige bestehende Aufspannung kann nicht gelöscht werden.";
+ERR_3280.Advice="\nVor dem Löschen der ausgewählten Aufspannung eine neue erzeugen.";
+
+//====================================
+// Messages Gestion Machining Process (3300 - 3499)
+//====================================
+
+ERR_3300.Diagnostic="Bearbeitungsprozess enthält Operationen, die nicht die gleiche Geometrie bearbeiten können.";
+ERR_3300.Advice="\nSicherstellen, dass alle Operationen des Bearbeitungsprozesses die gleiche Geometrie bearbeiten  können.";
+
+ERR_3301.Request="'/p1' wurde ausgewählt.";
+ERR_3301.Diagnostic="'/p1' ist mit Operationen des Bearbeitungsprozesses nicht kompatibel.";
+ERR_3301.Advice="\nSicherstellen, dass '/p1' mit den Operationen des Bearbeitungsprozesses kompatibel sind.";
+
+ERR_3302.Diagnostic="Ungültige Geometrieauswahl.";
+ERR_3302.Advice="\nGeometrie auswählen, die mit den Operationen des Bearbeitungsprozesses kompatibel ist.";
+
+ERR_3303.Request="'/p1' wurde ausgewählt.";
+ERR_3303.Diagnostic="Die Operationen des Bearbeitungsprozesses können auf dieser Ebene nicht eingefügt werden.";
+ERR_3303.Advice="\nEin Programm oder eine Operation in einem Programm auswählen.";
+
+ERR_3304.Request="Bearbeitungsprozess '/p1' wird angewendet.";
+ERR_3304.Diagnostic="Ein kritischer Fehler ist aufgetreten.";
+ERR_3304.Advice="\nErneut versuchen. Besteht das Problem weiterhin, die Anwenderunterstützung benachrichtigen.\n/p1";
+
+ERR_3305.Request="Bearbeitungsprozess '/p1' wird angewendet.";
+ERR_3305.Diagnostic="/p1 Operationen wurden erfolgreich erzeugt.";
+
+ERR_3307.Request="Initialisierung der Werkzeugumgebung fehlgeschlagen.";
+ERR_3307.Diagnostic="Werkzeuganforderungen werden nicht für Operationen verarbeitet.";
+ERR_3307.Advice="\nPrüfen, ob die manuelle Werkzeugauswahl ordnungsgemäß funktioniert. Ansonsten die Anwenderunterstützung benachrichtigen.";
+
+ERR_3308.Diagnostic="Der Bearbeitungsprozess '/p1' ist leer.";
+ERR_3308.Advice="\nOperationen vor Anwenden des Prozesses definieren.\nDer Bearbeitungsprozess ist in Dokument '/p1' definiert.";
+
+ERR_3309.Request="Bearbeitungsprozess '/p1' wird angewendet.";
+ERR_3309.Diagnostic="/p1 von /p2 Operationen wurden nur teilweise initialisiert.";
+ERR_3309.Advice="\nDie Gültigkeit der folgenden Operationen prüfen:\n/p1\n Vollständige Protokollinformationen:\n/p2";
+
+ERR_3310.Request="Bei Operation '/p1' wird Geometrie initialisiert.";
+ERR_3310.Diagnostic="Initialisierung der Geometrie fehlgeschlagen.";
+ERR_3310.Advice="Prüfen, ob die Geometrie mit der Operation kompatibel ist.\n/p1";
+
+ERR_3311.Request="Werkzeuganforderung für '/p1' verarbeiten.";
+ERR_3311.Diagnostic="Werkzeuganforderung fehlgeschlagen.";
+ERR_3311.Advice="Die Gültigkeit durch manuelles Auswählen eines Werkzeugs prüfen.\n/p1";
+
+ERR_3312.Request="Operation '/p1' wird initialisiert.";
+ERR_3312.Diagnostic="Operationsinitialisierung fehlgeschlagen.";
+ERR_3312.Advice="\nVersuchen, eine ähnliche Operation manuell zu erzeugen. Gegebenenfalls die Anwenderunterstützung benachrichtigen.";
+
+ERR_3313.Request="Vorrangige Operationen werden auf '/p1' initialisiert.";
+ERR_3313.Diagnostic="Initialisierung vorrangiger Operationen fehlgeschlagen.";
+ERR_3313.Advice="\nVersuchen, diese manuell zu erzeugen.";
+
+ERR_3314.Request="Formel auf '/p1' wird initialisiert.";
+ERR_3314.Diagnostic="Formelinitialisierung fehlgeschlagen.";
+ERR_3314.Advice="Formel auf '/p1' im Bearbeitungsprozess '/p2' zum Prüfen bearbeiten.\n/p3";
+
+ERR_3315.Request="Eine neue Arbeitsvorgabe auswählen.";
+ERR_3315.Diagnostic="Der anzuwendende Bearbeitungsprozess kann nicht als neue Arbeitsvorgabe verwendet werden.";
+ERR_3315.Advice="Die neue Eingabe in einem anderen Dokument auswählen.";
+
+ERR_3316.Request="Werkzeuganforderung für '/p1' wird verarbeitet.";
+ERR_3316.Diagnostic="Kein passendes Werkzeug in den folgenden Repositorys gefunden:\n/p1";
+ERR_3316.Advice="Prüfen, ob die Werkzeuganforderung für die zu bearbeitende Geometrie korrekt ist.";
+
+ERR_3317.Request="Bearbeitungsprozess '/p1' wird angewendet.";
+ERR_3317.Diagnostic="Ein Bearbeitungsprozess muss in einem 'CATProcess'-Dokument angewendet werden";
+ERR_3317.Advice="Einen CATProcess über den Befehl 'Start' + 'Herstellung' erzeugen, bevor ein Bearbeitungsprozess angewendet wird.";
+
+ERR_3318.Request="Geometrie für Makros der Operation '/p1' wird initialisiert.";
+ERR_3318.Diagnostic="Geometrische Zuordnung zu den Makrobewegungen fehlgeschlagen.";
+ERR_3318.Advice="Prüfen, ob die Geometrie mit den Makrobewegungen kompatibel ist.\n/p1";
+
+ERR_3319.Request="Die CAA-Schnittstellenmethoden CATIMfgMacroMotionsGeomMapping werden aufgerufen";
+ERR_3319.Diagnostic="Eine der Methoden hat einen fehlgeschlagenen Status zurückgegeben,\noder die Größe der zurückgegebenen Liste ist nicht mit der Größe der eingegebenen Liste identisch ";
+ERR_3319.Advice="Die Implementierung prüfen und die Größe der zurückgegebenen Liste erneut prüfen";
+
+ERR_3320.Request="Zum Makro für eine Bewegungszuordnung einer Ebene wechseln";
+ERR_3320.Diagnostic="Ein Element kann nicht als Ebene für eine solche Makrobewegung verwendet werden";
+ERR_3320.Advice="Sicherstellen, dass das Element verfügbar ist ";
+
+ERR_3321.Request="Auswahl der Einfügeebene";
+ERR_3321.Diagnostic="Das ausgewählte Objekt kann bei Anweisungen COPY/TRACUT nicht als Einfügeebene verwendet werden";
+ERR_3321.Advice="Ein Fertigungsprogramm oder eine dieser Aktivitäten muss ausgewählt werden";
+
+ERR_3322.Request="Durch die Markierung von '/p1' wird anhand des Bearbeitungsprozesses '/p2' geprüft";
+ERR_3322.Diagnostic="Die Ausführung der Prüfungen ist fehlgeschlagen";
+ERR_3322.Advice="Die Prüfungen des Bearbeitungsprozesses '/p2' anhand der Komponentenattribute '/p1' steuern.\n/p3";
+
+ERR_3323.Request="Auswahl der Einfügeebene";
+ERR_3323.Diagnostic="Die Standardeinfügeebene für Bearbeitungsprozesse kann nicht ausgewählt werden";
+ERR_3323.Advice="Ein Fertigungsprogramm oder eine dieser Aktivitäten muss ausgewählt werden";
+
+ERR_3324.Request="Repository '/p1' der Werkzeugbaugruppe wird geprüft.";
+ERR_3324.Diagnostic="Prüfung des Repositorys der Werkzeugbaugruppe fehlgeschlagen.";
+ERR_3324.Advice="Sicherstellen, dass das Repository der Werkzeugbaugruppe '/p1' vorhanden ist. Dazu eine Werkzeugbaugruppe manuell auswählen, wenn\n nicht definitiv ausgeschlossen werden kann, dass es sich dabei um einen Werkzeugkatalog handelt.\nEs ist auch der Pfad unter 'Tools' - 'Optionen' - 'Fertigungsressource' zu prüfen ";
+
+ERR_3325.Request="Werkzeugrepository '/p1' wird geprüft.";
+ERR_3325.Diagnostic="Prüfung des Werkzeugrepositorys fehlgeschlagen.";
+ERR_3325.Advice="Das Vorhandensein des Werkzeugrepositorys '/p1' durch manuelles Auswählen eines Werkzeugs sicherstellen. Gegebenenfalls die Anwenderunterstützung benachrichtigen.";
+
+ERR_3326.Request="Eine neue Operation des Typs '/p1' wird in '/p2' eingefügt.";
+ERR_3326.Diagnostic="Einfügevorgang fehlgeschlagen.";
+ERR_3326.Advice="Der Einfügevorgang ist fehlgeschlagen, weil die Referenzaktivität nicht im Bearbeitungsprozess enthalten ist oder er ist aus folgendem Grund fehlgeschlagen:\n/p1";
+
+ERR_3351.Request="Die bearbeitete Formel kann nicht geprüft werden";
+ERR_3351.Diagnostic="Ein oder mehrere Zeichen führen zu einer falschen Syntax";
+ERR_3351.Advice="\nVersuchen, nur Zeichen hinzuzufügen oder den Anfang oder das Ende der Formel zu löschen.";
+
+ERR_3352="Es können nicht zwei aufeinander folgende Operatoren hinzugefügt werden";
+ERR_3353="Nach einer schließenden Klammer ')' oder einem Operanden kann kein Operator hinzugefügt werden";
+ERR_3354="Nach einem Operanden kann keine Funktion hinzugefügt werden";
+ERR_3355="Eine neue schließende Klammer ')' kann nur eingegeben werden, wenn zuvor eine öffnende Klammer '(' eingegeben wurde";
+ERR_3356="Es können keine zwei aufeinander folgende Operanden hinzugefügt werden";
+ERR_3357="Nach einem Operator oder einer runden Klammer kann keine Einheit hinzugefügt werden";
+
+ERR_3358.Request="'/p1' kann nicht zur Formel hinzugefügt werden.";
+ERR_3358.Diagnostic="Der Formelkontext lässt das Hinzufügen nicht zu";
+ERR_3358.Advice="\nBesteht das Problem weiterhin, die Formel erneut definieren.";
+
+ERR_3359.Request="Konvertieren von '/p1' in Ihre Sprache nicht möglich";
+ERR_3359.Diagnostic="Bei der Verarbeitung ist ein Konvertierungsfehler aufgetreten";
+ERR_3359.Advice="\nVersuchen, die Formel erneut zu definieren.\nBesteht das Problem weiterhin, die Anwenderunterstützung benachrichtigen.";
+
+ERR_3360="Es besteht keine Möglichkeit zur Änderung des Felds für die Formeldefinition";
+
+ERR_3361.Request=" Formel '/p1' wird aufgelöst";
+ERR_3361.Diagnostic="Der Parameter '/p1' kann in dieser Formel nicht verwendet werden";
+ERR_3361.Advice="\nDiese Formel im Bearbeitungsprozess erneut definieren, um sicherzustellen, dass sie berechnet werden kann";
+
+ERR_3362.Request=" Parameter '/p1' im Ausdruck wird aufgelöst";
+ERR_3362.Diagnostic="Der Parameter '/p1' ist kein Parameter für Bearbeitungskomponenten";
+ERR_3362.Advice="\nIn diesem Kontext wurde dieser Parameter nicht unter den Bearbeitungskomponenten gefunden\nSicherstellen, dass dieser verwendbar ist (Wird er im Operationseditor angezeigt?)";
+
+ERR_3364.Request=" Parameter '/p1' im Ausdruck wird aufgelöst";
+ERR_3364.Diagnostic="Der Aktivität '/p1' ist keine Konstruktionskomponente oder bearbeitbare Bereichskomponente zugeordnet";
+ERR_3364.Advice="\nEine Komponente beim Anwenden eines Bearbeitungsprozesses auswählen \noder keine Attribute für Bearbeitungskomponenten in Ausdrücken verwenden";
+
+ERR_3366.Request=" Parameter '/p1' im Ausdruck wird aufgelöst";
+ERR_3366.Diagnostic="Der Parameter '/p1' der Konstruktionskomponente kann nicht verwendet werden";
+ERR_3366.Advice="\nIn der entsprechenden Umgebung sicherstellen, dass der Parameter verwendet werden kann";
+
+ERR_3367.Request=" Parameter '/p1' im Ausdruck wird aufgelöst";
+ERR_3367.Diagnostic="Der Parameter der Konstruktions- oder Fertigungskomponente kann nicht verwendet werden.";
+ERR_3367.Advice="\nDies ist eine Einschränkung bei dieser Software \n Die CATIMfgExtendedParameter-Oberfläche muss für diesen Komponententyp implementiert sein";
+
+ERR_3368.Request=" Parameter '/p1' im Ausdruck wird aufgelöst";
+ERR_3368.Diagnostic="Der Bearbeitungsoperation '/p1' ist keine Bearbeitungskomponente zugeordnet";
+ERR_3368.Advice="\nIn Formeln keine Attribute für Bearbeitungskomponenten verwenden, wenn keine Bearbeitungskomponente definiert ist";
+
+ERR_3369.Request=" Parameter '/p1' im Ausdruck wird aufgelöst";
+ERR_3369.Diagnostic="Es ist keine Bearbeitungsoperation definiert oder berechnet";
+ERR_3369.Advice="\nIn diesem Kontext können keine Aktivitäts- (Operation-) oder Werkzeug-Attribute verwendet werden";
+
+ERR_3370.Request=" Parameter '/p1' im Ausdruck wird aufgelöst";
+ERR_3370.Diagnostic="Der Parameter '/p1' ist kein Operationsparameter";
+ERR_3370.Advice="\nDie Verwendbarkeit der Operation durch Bearbeiten prüfen";
+
+ERR_3371.Request=" Parameter '/p1' im Ausdruck wird aufgelöst";
+ERR_3371.Diagnostic="Der Parameter '/p1' ist kein Werkzeugparameter";
+ERR_3371.Advice="\nSicherstellen, dass es sich bei diesem Parameter um einen Werkzeugparameter handelt";
+
+ERR_3372.Request=" Parameter '/p1' im Ausdruck wird aufgelöst";
+ERR_3372.Diagnostic="Attribute aus dem Paket '/p1' können nicht verwendet werden";
+ERR_3372.Advice="\nDieses Paket nicht verwenden";
+
+ERR_3373.Request=" Parameter '/p1' im Ausdruck wird aufgelöst";
+ERR_3373.Diagnostic="Auf die gewünschte Ressource (entweder ein Werkzeug aus einer Operation oder die Maschine der aktuellen Aufspannung) \nkann aus der Aktivität '/p1' nicht zugegriffen werden";
+ERR_3373.Advice="\nPrüfen, warum keine Ressource gefunden wurde.\nWenn keine Werkzeugabfrage definiert oder der Aufspannung keine Maschine zugeordnet ist, \ndürfen in Ausdrücken (Formeln, Werkzeuganforderungen, Prüfungen, Regeln) keine Ressourcenattribute verwendet werden";
+
+ERR_3374.Request=" Formel '/p1' wird aufgelöst";
+ERR_3374.Diagnostic="Das Attribut '/p1' ist kein Aktivitäts- oder Ressourcenattribut '/p2', oder es kann nicht verwendet werden";
+ERR_3374.Advice="\nSicherstellen, dass diesem Attribut eine Formel hinzugefügt werden kann.";
+
+ERR_3375.Request=" Formel '/p1' wird aufgelöst";
+ERR_3375.Diagnostic="Die Formel des Körpers '/p1' kann auf dem Attribut '/p2' der Einheit '/p3' nicht erzeugt werden";
+ERR_3375.Advice="\nSicherstellen, dass für das Attribut '/p1' eine solche Formel möglich ist";
+
+ERR_3376.Request=" Formel '/p1' wird aufgelöst";
+ERR_3376.Diagnostic="Die dem Attribut '/p2' zugeordnete Formel '/p1' kann nicht ausgewertet werden";
+ERR_3376.Advice="\nDie Einheit '/p1' bearbeiten, um weitere Informationen zu erhalten";
+
+ERR_3377.Request=" Initialisierung der Formelauflösung für Werkzeugvoraussetzung";
+ERR_3377.Diagnostic="Laden des Knowledgeware-Pakets '/p1' nicht möglich";
+ERR_3377.Advice="\nSicherstellen, dass dieses Paket in diesem Kontext verwendet werden kann.\nWenn das Problem weiterhin besteht, die Anwenderunterstützung benachrichtigen.";
+
+ERR_3378.Request=" Formel '/p1' wird für die Werkzeugvoraussetzung aufgelöst";
+ERR_3378.Diagnostic="'/p1' ist kein bekannter Werkzeugtyp oder hat keine zugeordnete Beschreibung 'p2'";
+ERR_3378.Advice="\nPrüfen, ob '/p1' ein gültiger Name für einen Werkzeugtyp ist.";
+
+ERR_3379.Request=" Formel '/p1' wird für die Werkzeugvoraussetzung aufgelöst";
+ERR_3379.Diagnostic="Der Formelkörper '/p1' und seine Kennung '/p2' bewirken, dass die Formel für die Aktivität '/p3' nicht ausgewertet werden kann";
+ERR_3379.Advice="\nPrüfen, ob die verschiedenen Parameter entsprechend ihrer Einheiten, Gültigkeit etc. verwendet werden können.";
+
+ERR_3380.Request=" Ausdruck '/p1' wird aufgelöst";
+ERR_3380.Diagnostic="Dieser Ausdruck kann für die Aktivität '/p1' nicht ausgeführt werden";
+ERR_3380.Advice="\nPrüfen, ob ein solcher Ausdruck verwendet werden kann";
+
+ERR_3381.Request=" Ausdruck '/p1' wird aufgelöst";
+ERR_3381.Diagnostic="Der Ausdruck des Körpers '/p1' betreffend der Aktivität '/p2' kann nicht erzeugt werden";
+ERR_3381.Advice="\nSicherstellen, dass ein solcher Ausdruck in diesem Kontext erzeugt werden kann";
+
+ERR_3382.Request=" Ausdruck '/p1' wird aufgelöst";
+ERR_3382.Diagnostic="Der Ausdruck des Körpers '/p1' kann nicht ausgewertet werden";
+ERR_3382.Advice="\nSicherstellen, dass die Syntax dieses Ausdrucks korrekt ist.";
+
+ERR_3383.Request=" Zuordnung der Konstruktionskomponente '/p1'";
+ERR_3383.Diagnostic="Beim Aufrufen der folgenden Methoden ist ein Fehler aufgetreten: '/p1'";
+ERR_3383.Advice="\nDie Implementierung der '/p1' CAA-Schnittstelle prüfen.";
+
+ERR_3384.Request=" Zuordnung der Benutzerkomponente '/p1' zu axialen Operationen";
+ERR_3384.Diagnostic=" Die Benutzerkomponenteneingabe '/p1' kann nicht als Gewindedrehpunkt verwendet werden";
+ERR_3384.Advice="\nDen Namen prüfen, der dem Bohrungspunkt im Bearbeitungsprozess unter dem Eintrag 'Formel bearbeiten' oder\n in der Standardzuordnungsdatei CATMfgUdfForMappingToMfg.CATNls zugeordnet ist";
+
+ERR_3385.Request=" Zuordnung der Benutzerkomponente '/p1' zu axialen Operationen";
+ERR_3385.Diagnostic=" Die Benutzerkomponenteneingabe '/p1' wird nicht als Gewindedrehpunkt gefunden";
+ERR_3385.Advice="\nDen Namen prüfen, der dem Bohrungspunkt im Bearbeitungsprozess unter dem Eintrag 'Formel bearbeiten' oder\n in der Standardzuordnungsdatei CATMfgUdfForMappingToMfg.CATNls zugeordnet ist";
+
+ERR_3386.Request=" Zuordnung der Benutzerkomponente '/p1' zu axialen Operationen";
+ERR_3386.Diagnostic=" Die Benutzerkomponenteneingabe '/p1' kann nicht als Drehachse verwendet werden";
+ERR_3386.Advice="\nDen Namen prüfen, der der Drehachse im Bearbeitungsprozess unter dem Eintrag 'Formel bearbeiten' oder\n in der Standardzuordnungsdatei CATMfgUdfForMappingToMfg.CATNls zugeordnet ist";
+
+ERR_3387.Request=" Zuordnung der Benutzerkomponente '/p1' zu axialen Operationen";
+ERR_3387.Diagnostic=" Die Benutzerkomponenteneingabe '/p1' wird nicht als Drehachse gefunden";
+ERR_3387.Advice="\nDen Namen prüfen, der der Drehachse im Bearbeitungsprozess unter dem Eintrag 'Formel bearbeiten' oder\n in der Standardzuordnungsdatei CATMfgUdfForMappingToMfg.CATNls zugeordnet ist";
+
+ERR_3388.Request=" Zuordnung der Benutzerkomponente '/p1' zu axialen Daten";
+ERR_3388.Diagnostic=" Die Komponente '/p1' kann keinem Bohrmuster und keiner Bohroperation zugeordnet werden";
+ERR_3388.Advice="\n In einer Benutzerumgebung muss die CATIMfgDesignHoleParameters-Oberfläche implementiert sein";
+
+ERR_3389.Request=" Formel '/p1' wird aufgelöst";
+ERR_3389.Diagnostic="Die dem Attribut '/p2' zugeordnete Formel des Körpers '/p1' kann nicht ausgewertet werden";
+ERR_3389.Advice="\nPrüfen, ob verfügbare Daten verwendet werden können.\nMögliche Werte sind: '/p1'";
+
+ERR_3390.Request=" Bearbeitung des Parameterwerts";
+ERR_3390.Diagnostic=" Die Fortführung des Werts ist nicht möglich, da die in Bearbeitung befindlichen Parameter und der Referenzparameter nicht die gleiche Einheit aufweisen.";
+ERR_3390.Advice=" \nDie Einheiten der Parameter vor der Bearbeitung vereinheitlichen";
+
+ERR_3391.Request=" Abrufen des Parameterwerts aus Referenzaktivität";
+ERR_3391.Diagnostic="Der Parameter wurde für die Referenzaktivität nicht festgelegt";
+ERR_3391.Advice="\nWert für den Parameter der Referenzaktivität festlegen";
+
+ERR_3392.Request=" Bearbeitung des Übergangsvorschubs";
+ERR_3392.Diagnostic="Der Übergangsvorschubtyp '/p1' ist für die Aktivität '/p2' nicht gültig";
+ERR_3392.Advice="\nEine andere Referenzaktivität auswählen oder einen Vorschubtyp aus dem Kombinationsfeld auswählen";
+
+//************************************************************
+// Plage ERR_3500 a 3999 : Messages Activites
+//************************************************************
+//
+// Messages generiques ToolPath
+//
+ERR_3500.Request="Werkzeugbahn wird berechnet.";
+ERR_3500.Diagnostic="Berechnung der Werkzeugbahn nicht verfügbar für '/p1'.";
+ERR_3500.Advice="\nSicherstellen, dass die Operation vollständig ist.";
+
+ERR_3501.Diagnostic="'/p1' verfügt über ein aktives Makro, in dem ein lokaler Vorschub definiert ist.\nDie zugehörige Werkzeugbahn muss neu berechnet werden.";
+
+//
+// Messages generiques Lecture sur Ressource 
+//
+ERR_3530.Request="Lesen von Maschine auf '/p1'.";
+ERR_3530.Diagnostic="Maschine ist nicht definiert.";
+ERR_3530.Advice="\nEine Maschine auf '/p1' definieren.";
+
+ERR_3531.Request="Lesen kinematischer Information auf '/p1'.";
+ERR_3531.Diagnostic="Keine kinematische Information gefunden auf '/p1'.";
+ERR_3531.Advice="\nPrüfen, ob Maschine auf '/p1' korrekt definiert ist.";
+
+ERR_3532.Request="Lesen von Information auf '/p1'.";
+ERR_3532.Diagnostic="Information '/p1' ist nicht verfügbar.";
+ERR_3532.Advice="\nPrüfen, ob '/p1' auf '/p2' korrekt definiert ist.";
+
+//
+// Messages Generation de Rotation Machine 
+//
+ERR_3533.Diagnostic="Position '/p1' nicht erreichbar.";
+ERR_3533.Advice="\nDie in '/p2' definierte Rotationsachse auf '/p1' ändern, oder die Werkzeugachse von '/p3' ändern.";
+//
+ERR_3534.Diagnostic="Keine durchführbare Drehung auf '/p1' definiert.";
+ERR_3534.Advice="\nDie Maschine auf '/p1' ändern.";
+//
+ERR_3535.Diagnostic="/p1 Drehungen ohne Definition einer Maschine erzeugt.";
+ERR_3535.Advice="\nEine Maschine auf '/p1' definieren, um gültige Drehungen zu erzeugen.";
+//
+ERR_3536.Diagnostic="/p1 Drehungen wurden erfolgreich erzeugt.";
+//
+ERR_3537.Diagnostic="Befehl erfolgreich abgeschlossen. Es wurde keine Drehung erzeugt.";
+//
+ERR_3538.Diagnostic="'/p1' ist nicht vollständig.";
+ERR_3538.Advice="\nDie Definition vervollständigen oder '/p1' vor dem Generieren von Maschinendrehungen inaktivieren.";
+//
+ERR_3539.Diagnostic="/p1 von /p2 Drehungen erfolgreich gelöscht.";
+//
+ERR_3540.Diagnostic="Befehl erfolgreich abgeschlossen. Es liegt keine automatische Drehung zum Löschen vor.";
+//
+ERR_3541.Diagnostic="Drehungen können erst nach der Definition einer Maschine erzeugt werden.";
+ERR_3541.Advice="Vor Ausführung dieses Befehls eine Maschine auf '/p1' definieren.";
+//
+ERR_3542.Diagnostic="Funktionalität für auf '/p2' definierte Maschine '/p1' nicht verfügbar.";
+//
+ERR_3543.Diagnostic="Die Umsetzung dieser Drehung beträgt null.";
+ERR_3543.Advice="Diese Drehung ändern oder entfernen.";
+//
+ERR_3544.Diagnostic="Die Spindelausrichtung darf nicht parallel zur Rotationsachse der Maschine liegen.";
+ERR_3544.Advice="Die in '/p2' definierte Rotationsachse oder Spindelausrichtung auf '/p1' ändern.";
+//
+ERR_3545.Diagnostic="Werkzeugachse '/p1' liegt parallel zur Rotationsachse der Maschine.";
+ERR_3545.Advice="Die in '/p2' definierte Rotationsachse auf '/p1' oder die Werkzeugachse von '/p3' ändern.";
+//
+ERR_3546.Diagnostic="Der Rotationsursprung darf nicht parallel zur Rotationsachse der Maschine liegen.";
+ERR_3546.Advice="Die in '/p2' definierte Rotationsachse oder den Rotationsursprung auf '/p1' ändern.";
+//
+ERR_3547.Diagnostic="Werkzeugachse '/p1' liegt parallel zur Rotationsachse der Maschine, und die Werkzeugbahn von '/p2' ist nicht berechnet.";
+ERR_3547.Advice="Die in '/p2' definierte Rotationsachse auf '/p1' oder die Werkzeugachse von '/p3' ändern,
+oder die Werkzeugbahn von '/p4' berechnen.";
+//
+ERR_3548.Diagnostic="Rotationen können nicht mit dem in /p1 definierten Maschinentyp erzeugt werden.";
+ERR_3548.Advice="Den Befehl zum Generieren der Übergangsbahnen verwenden.";
+
+ERR_3549.Request="Berechnung der Werkzeugbahn für die Maschinendrehung.";
+ERR_3549.Diagnostic="Der letzte Punkt/die letzte Achse der Werkzeugbahn der vorherigen Operation ist für die Maschine nicht erreichbar.";
+ERR_3549.Advice="\nPrüfen, warum diese Position nicht erreichbar ist.";
+
+ERR_3799.Request="Berechnung der Werkzeugbahn für die Maschinendrehung.";
+ERR_3799.Diagnostic="Der Bearbeitungspunkt liegt außerhalb der Begrenzungen oder kann von der Maschine erreicht werden. Berechnung der Werkzeugbahn fehlgeschlagen.";
+ERR_3799.Advice="\nPrüfen, ob der Bearbeitungspunkt erreichbar ist oder innerhalb der Begrenzungen liegt.";
+
+ERR_3800.Request="Werkzeugbahn auf '/p1' wird gelesen.";
+ERR_3800.Diagnostic="Die Werkzeugbahn von '/p1' ist nicht berechnet.";
+ERR_3800.Advice="\n'/p1' berechnen, bevor die Werkzeugbahn der Maschinendrehung berechnet wird.";
+
+ERR_PRJ_ROTAXIS01="Diese Drehachse ist nicht verfügbar.";
+ERR_PRJ_ROTAXIS02="Keine Drehachse verfügbar";
+
+//
+// Messages Generation de Tool Change 
+//
+ERR_3550.Diagnostic="Befehl erfolgreich abgeschlossen. Es wurde kein Werkzeugwechsel erzeugt.";
+//
+ERR_3551.Diagnostic="/p1 Werkzeugwechsel wurden erfolgreich erzeugt.";
+//
+ERR_3552.Diagnostic="/p1 von /p2 Werkzeugwechseln erfolgreich gelöscht.";
+//
+ERR_3553.Diagnostic="Befehl erfolgreich abgeschlossen. Es liegen keine automatischen Werkzeugwechsel zum Löschen vor.";
+//
+//
+// Messages Gestion contexte creation activite 
+//
+ERR_3560.Diagnostic="Für die Aufspannung ist keine Maschine ausgewählt.\nIn diesem Fall ist die Spindelachse 'Z+' und die Radialachse 'X+', bezogen auf das Bearbeitungsachsensystem, das für die Aufspannung definiert ist.\n
+Diese beiden Achsen definieren die Drehbearbeitungsebene. Die auszuwählende Geometrie muss auf dieser Ebene liegen.";
+ERR_3560.Advice="\nZum Angeben anderer Achsen eine Drehmaschine definieren. Im Fall einer Fräsmaschine die lokalen Drehbearbeitungsebenen definieren.";
+//
+ERR_3561.Diagnostic="Die axialen und radialen Achsen für die Spindelebene für Teile sind nicht korrekt definiert.";
+ERR_3561.Advice="\nDie Definition der axialen und radialen Kennungen für die Maschine prüfen";
+
+ERR_3562.Diagnostic="Die axialen und radialen Achsen für die Revolverebene sind nicht korrekt definiert.";
+ERR_3562.Advice="\nDie Definition der axialen und radialen Kennungen für die Maschine prüfen";
+
+// Messages pour AutoSequence
+// --------------------------
+ERR_3600.Request="Die automatische Sortierung nach geometrischen Kriterien wie z. B. \"Nach Abstand sortieren\" oder \"Nach Tischwinkel sortieren\" ausführen.";
+ERR_3600.Diagnostic="Bearbeitungsoperation /p1 ist nicht auf dem neuesten Stand.";
+ERR_3600.Advice="Für die automatische Sortierung nach geometrischen Kriterien sind eine Aktualisierung sowie berechnete Bearbeitungsoperationen erforderlich. Daher sicherstellen, dass alle ausgewählten Operationen auf dem neuesten Stand und berechnet sind.";
+
+ERR_3601.Request="Die automatische Sortierung nach geometrischen Kriterien wie z. B. \"Nach Abstand sortieren\" oder \"Nach Tischwinkel sortieren\" ausführen.";
+ERR_3601.Diagnostic="Bearbeitungsoperation /p1 ist nicht berechnet.";
+ERR_3601.Advice="Für die automatische Sortierung nach geometrischen Kriterien sind berechnete Bearbeitungsoperationen erforderlich. Daher sicherstellen, dass alle ausgewählten Operationen berechnet sind.";
+
+ERR_3602.Request="Im Programm ist ein Einfügepunkt definiert. Daher darf kein zu sortierendes Programm ausgewählt werden.";
+ERR_3603.Request="Im Programm ist ein Einfügepunkt definiert. Daher müssen sich alle ausgewählten Bearbeitungsoperationen im selben Programm befinden.";
+ERR_3604.Request="Der Einfügepunkt ist ein Programm. Dieses Programm muss alle Bearbeitungsoperationen enthalten, die sortiert werden sollen.";
+ERR_3605.Request="Im Programm ist ein Einfügepunkt definiert. Dieser Punkt darf nicht eine der ausgewählten Bearbeitungsoperationen sein.";
+ERR_3606.Request="Im Programm ist ein Einfügepunkt definiert. Dieser Punkt muss sich im selben Programm befinden wie die ausgewählten Bearbeitungsoperationen.";
+
+// Messages Generation de Auto Complete
+// --------------------------
+ERR_3700.Request="Werkzeugbahn auf '/p1' wird gelesen.";
+ERR_3700.Diagnostic="Die Werkzeugbahn von '/p1' ist nicht berechnet.";
+ERR_3700.Advice="\nAlle Operationen des Programms vor der Generierung der Übergangsbahnen berechnen.";
+
+ERR_3701.Request="Die Übergangsbahn von '/p1' nach '/p2' wird berechnet.";
+ERR_3701.Diagnostic="Der letzte Punkt/die letzte Achse der Werkzeugbahn von '/p1' kann von der Maschine nicht erreicht werden.";
+ERR_3701.Advice="\nPrüfen, warum diese Position nicht erreichbar ist.";
+
+ERR_3702.Request="Die Übergangsbahn von '/p1' nach '/p2' wird berechnet.";
+ERR_3702.Diagnostic="Der erste Punkt/die erste Achse der Werkzeugbahn von '/p1' kann von der Maschine nicht erreicht werden.";
+ERR_3702.Advice="\nPrüfen, warum diese Position nicht erreichbar ist.";
+
+ERR_3703.Request="Werkzeugbahn auf '/p1' wird gelesen.";
+ERR_3703.Diagnostic="'/p1' ist nicht aktualisiert und nicht gesperrt. Die Werkzeugbahn ist nicht betriebssicher.";
+ERR_3703.Advice="\nDie Operation sperren oder ihre Werkzeugbahn erneut berechnen.";
+
+ERR_3704="Auswahl von Umhüllungsrahmenebenen ist ungültig.\nDie Ebenen auf Orthogonalität und Parallelität prüfen.";
+//************************************************************
+// Plage ERR_4000 a 4499 : Messages Item (Geometrie, etc)     
+//************************************************************
+//
+ERR_4000="Keine angrenzende Teilfläche. \nDie ausgewählte Teilfläche muss an die zuvor ausgewählten Teilflächen angrenzen.";
+ERR_4001="Positionen werden über das Konstruktionsmuster initialisiert";
+ERR_4002="Teilfläche nicht parallel zur Werkzeugachse. \nDie maßgebende Richtung der ausgewählten Teilfläche muss parallel zur Werkzeugachse /p1 liegen.";
+ERR_4003="Keine gesteuerte Teilfläche. \nDie ausgewählte Teilfläche muss eine gesteuerte Teilfläche sein.";
+ERR_4004="Kontur nicht geschlossen. \nDie ausgewählte Kontur muss geschlossen sein.";
+ERR_4005="Kontur wird mit den externen Kurven /p1 vom Ende initialisiert";
+ERR_4006="Kontur wird mit den externen Kurven /p1 vom Ende initialisiert.\n1 Insel wird aus dem internen Bereich erzeugt.";
+ERR_4007="Kontur wird mit den externen Kurven /p1 vom Ende initialisiert\n/p2-Inseln aus den internen Bereichen erzeugt.";
+ERR_4008="Geometrie für '/p1' wurde nicht gefunden. Sie wurde möglicherweise gelöscht.\n Die ausgewählte Geometrie erneut prüfen.";
+ERR_4009="Zugriff auf Design-Komponente nicht möglich. \nKomponente '/p1' wurde möglicherweise gelöscht";
+ERR_4010="Blickwinkel ist parallel zur Startrichtung. \nRichtungen auswählen, die nicht parallel sind";
+ERR_4011="Ausgewähltes Element ist bereits als Begrenzung /p1 definiert. \nBitte ein anderes Element auswählen";
+ERR_4012="Die ausgewählte Geometrie '/p1' wird nicht unterstützt. \nEine andere Geometrie auswählen.";
+ERR_4013="Ungültige Position für das Muster. \nPosition '/p1' ist das Muster selbst";
+ERR_4014.Diagnostic="Das ausgewählte Element ist ein nicht verbindungsfähiges Element.";
+ERR_4014.Advice="\nAnderes Element verwenden oder verbindungsfähiges Objekt mit Operator NAHE ableiten.";
+
+ERR_4015.Request="Einen Punkt auf eine Teilefläche projizieren.";
+ERR_4015.Diagnostic="Mindestens ein Punkt kann nicht auf die \nangegebenen Teileflächen projiziert werden.";
+ERR_4015.Advice="\nDen Punkt oder die Teileflächen ändern.";
+
+ERR_4016.Request="Umordnung des Bands fehlgeschlagen.\nVorherige Reihenfolge wurde nicht geändert.";
+ERR_4016.Diagnostic="Beim Prüfen der Reihenfolge der internen Daten ist ein Fehler aufgetreten.";
+ERR_4016.Advice="\nDie Eingabedaten ändern und erneut versuchen. Besteht das Problem weiterhin, die Anwenderunterstützung benachrichtigen.";
+
+ERR_4017.Request="Umordnung des Bands fehlgeschlagen.\nVorherige Reihenfolge wurde nicht geändert.";
+ERR_4017.Diagnostic="Beim Prüfen der Reihenfolge der internen Daten wurde ein ungültiger Reihenfolgemodus festgestellt.";
+ERR_4017.Advice="\nDie Eingabedaten ändern und erneut versuchen. Besteht das Problem weiterhin, die Anwenderunterstützung benachrichtigen.";
+
+ERR_4018.Request="Umordnung des Bands fehlgeschlagen.\nVorherige Reihenfolge wurde nicht geändert.";
+ERR_4018.Diagnostic="Ungültige Breite für die Reihenfolge.";
+ERR_4018.Advice="\nEinen positiven Wert eingeben.";
+
+ERR_4019.Request="Umordnung des Bands fehlgeschlagen.\nVorherige Reihenfolge wurde nicht geändert.";
+ERR_4019.Diagnostic="Kein Ursprungspunkt für die Festlegung der Reihenfolge von Richtungen.";
+ERR_4019.Advice="\nEinen Punkt als den Ursprungspunkt für die Festlegung der Reihenfolge von Richtungen auswählen/angeben.";
+
+ERR_4020.Request="Fortführung fehlgeschlagen.";
+ERR_4020.Diagnostic="Die zwei zuletzt ausgewählten Kanten gehören nicht zum gleichen Körper.";
+ERR_4020.Advice="\nKanten auswählen, die zum gleichen Körper gehören.";
+
+ERR_4021.Request="Komponenten können nicht über Plandrehen gesucht werden.";
+ERR_4021.Diagnostic="Eine oder mehrere Komponenten gehören nicht geöffneten Referenzdokumenten an.";
+ERR_4021.Advice="\nVersuchen, die Dokumente zu öffnen, auf die das aktuelle Dokument verweist.
+\nBearbeiten\Verknüpfungen... im Menü des Hauptfensters auswählen.";
+
+ERR_4022.Request="Die Referenzkomponente ist nicht ausgewählt.";
+ERR_4022.Diagnostic="Beim Definieren einer Komponentenanfrage muss die Referenzkomponente ausgewählt werden.";
+ERR_4022.Advice="\nAuf den Befehl zum Auswählen der Referenzkomponente klicken.
+\nDie Referenzkomponente auswählen.";
+
+ERR_4023.Request="Feststellen der Kontur ist fehlgeschlagen.";
+ERR_4023.Diagnostic="Die festgestellte Kontur ist nicht vielfältig.";
+ERR_4023.Advice="Mit der manuellen Auswahl fortfahren.";
+
+ERR_4024.Request="Ungültige Konturverbindung.";
+ERR_4024.Diagnostic="Die zu verbindende Kontur ist geschlossen.";
+ERR_4024.Advice="Eine andere Kontur auswählen.";
+
+ERR_4025.Request="Ergebnis kann nicht berechnet werden.";
+ERR_4025.Diagnostic="Das Ergebnis der Fertigungsstraße kann nicht berechnet werden.";
+ERR_4025.Advice="\nDie Extrapolation ist unter Umständen nicht möglich. Den Verknüpfungsmodus ändern";
+
+ERR_4026.Request="Verdeckte Körper wurden berücksichtigt.";
+ERR_4026.Diagnostic="Bei der Berechnung der Werkzeugbahn wurden mehrere verdeckte Körper berücksichtigt.";
+ERR_4026.Advice="\nDiese entfernen, sofern möglich.";
+
+ERR_4027.Request="Element kann nicht ausgewählt werden.";
+ERR_4027.Diagnostic="Es wurde bereits ein Element als Begrenzung ausgewählt. Es können keine weiteren Elemente hinzugefügt werden";
+ERR_4027.Advice="\nDas Element entfernen, sofern möglich";
+
+ERR_4028.Request="Ungültige Auswahl.";
+ERR_4028.Diagnostic="Punkt kann der Begrenzung nicht hinzugefügt werden.";
+ERR_4028.Advice="\nEin anderes Element auswählen";
+
+ERR_4029.Request="Die ausgewählten Stufennummern sind nicht kompatibel.";
+ERR_4029.Diagnostic="Stufennummer 'Von' muss kleiner oder gleich Stufennummer 'Bis' sein.";
+ERR_4030.Request="Die ausgewählten Stufennummern sind nicht kompatibel.";
+ERR_4030.Diagnostic="Einfügeposition muss sich vor Stufennummer 'Von' oder nach Stufennummer 'Bis' befinden.";
+
+ERR_4031.Request="Keine zu löschende Bearbeitungskomponente.";
+ERR_4031.Diagnostic="Für den/die angeforderten Typ(en) wurde keine nicht verwendete Bearbeitungskomponente gefunden.";
+
+ERR_4032.Request="Konturverbindung fehlgeschlagen.";
+ERR_4032.Diagnostic="Konturen können nicht automatisch verbunden werden";
+ERR_4032.Advice="Konturen manuell auswählen";
+
+ERR_4033.Request="Ausgewählte Komponente kann zu einer fehlerhaften Berechnung der Tiefe führen.";
+ERR_4033.Diagnostic="Das ausgewählte Muster weist bei einer einzelnen Einheit mit Muster mehrere Komponenten auf, beispielsweise Bohrung und Fase.";
+ERR_4033.Advice="Ein Muster von Einheiten auswählen, die jeweils nur eine einzelne Komponente enthalten, beispielsweise Profilsenkbohrung";
+
+ERR_4034.Request="Die ausgewählte Kante ist nicht stetig.";
+ERR_4034.Diagnostic="Die ausgewählte Kante ist nicht mit der/den vorhandenen Kante(n) in dem Begrenzungselement verbunden. Daher wird die Kante nicht als Begrenzungselement hinzugefügt. ";
+ERR_4034.Advice="\nVerbundene Kante zu den bereits ausgewählten Kanten auswählen.";
+
+//***************************************************************
+// Plage ERR_4500 a 4999 : Message Resources (Tool, Machine, etc)
+//***************************************************************
+ERR_4500.Request="Ungültige Fertigungspfade.";
+ERR_4500.Diagnostic="Im Werkzeugkatalog und in den Pfaden der PP-Tabellen wurden keine Dateien gefunden.";
+ERR_4500.Advice="\nDie Pfadangaben prüfen. \nSie müssen die Ordner 'Manufacturing\PPTables' und 'Manufacturing\Tools' enthalten.";
+
+ERR_4501.Request="Werkzeugnummer existiert bereits.";
+ERR_4501.Diagnostic="Die Werkzeugnummer /p1 existiert bereits.\r\nAusgabedatei enthält gegebenenfalls unvorhersehbare Ergebnisse.";
+ERR_4501.Advice="\nDie Werkzeugnummer prüfen.";
+
+ERR_4502.Diagnostic="/p1 Werkzeug erfolgreich aus dem Katalog importiert.";
+
+ERR_4503.Diagnostic="/p1 Werkzeuge erfolgreich aus dem Katalog importiert.";
+
+ERR_4504.Diagnostic="Kein kompatibles Werkzeug für die ausgewählten Operationen gefunden.\nMindestens eine Operation unterstützt Werkzeuge, die von den anderen Operationen nicht unterstützt werden";
+ERR_4504.Advice="\nOperationen auswählen, die die gleichen Werkzeugtypen unterstützen.";
+
+ERR_4505.Diagnostic="Werkzeugabbild wurde erfolgreich generiert: /p1";
+
+ERR_4506.Request="Wert nicht berechtigt.";
+ERR_4506.Diagnostic="Der Wert /p1 ist für das Attribut /p2 nicht berechtigt.\nDer Wert wird auf /p3 gesetzt";
+ERR_4506.Advice="\nEinen korrekten Wert angeben.";
+
+ERR_4507.Request="Nicht korrekter Werkzeugaustauschkatalog.";
+ERR_4507.Diagnostic="Der Katalog /p1 kann nicht für den Werkzeugaustausch verwendet werden \nDer Kapitelname /p2 ist nicht vorhanden.";
+ERR_4507.Advice="\nEinen korrekten Katalog auswählen.";
+
+ERR_4508.Request="Kein Werkzeug gefunden.";
+ERR_4508.Diagnostic="Im ausgewählten Katalog wurde kein Werkzeug gefunden, das mit den vorhandenen Werkzeugnamen übereinstimmt.";
+ERR_4508.Advice="\nEinen anderen Katalog auswählen.";
+
+ERR_4509.Request="Werkzeuge wurden teilweise gefunden.";
+ERR_4509.Diagnostic="Im ausgewählten Katalog wurden nur /p1 Werkzeuge gefunden, die mit den vorhandenen Werkzeugnamen übereinstimmen.";
+
+ERR_4510.Diagnostic="/p1 Werkzeugbaugruppe wurde erfolgreich aus dem Katalog importiert.";
+ERR_4511.Diagnostic="/p1 Werkzeugbaugruppen wurden erfolgreich aus dem Katalog importiert.";
+
+ERR_4601.Request="Korrektornummer existiert bereits.";
+ERR_4601.Diagnostic="Die Registernummer /p1 existiert bereits.";
+ERR_4601.Advice="\nEine eindeutige Registernummer eingeben.";
+
+ERR_4602.Request="Ungültiger Wert für Werkzeugdurchmesser.";
+ERR_4602.Diagnostic="Der Werkzeugdurchmesser für diesen Korrektorpunkt muss zwischen /p1 und /p2 definiert werden.";
+ERR_4602.Advice="\nEinen gültigen Werkzeugdurchmesser eingeben.";
+
+ERR_4603.Request="Verbindung mit der Datenbank fehlgeschlagen.";
+ERR_4603.Diagnostic="\nSQL-Fehler /p1";
+ERR_4603.Advice="\nDie Datenbankverbindungsdatei /p1\nprüfen und/oder prüfen, ob die Datenbankservices gestartet sind";
+
+ERR_4604.Request="Auswahlreihenfolge für Datenbank fehlgeschlagen.";
+ERR_4604.Diagnostic="\nSQL-Reihenfolge: \n/p1\nOracle-Fehler ist: \n/p2";
+ERR_4604.Advice="\nDie Verbindung mit der Datenbank oder deren Inhalt prüfen";
+
+ERR_4605.Request="Problem bei der Konsistenz von Werkzeugen.";
+ERR_4605.Diagnostic="\nDie folgende Bedingung wird nicht berücksichtigt: '/p1' .";
+ERR_4605.Advice="\nDie Werkzeugparameter bearbeiten und überprüfen";
+
+ERR_4610.Request="Bei Operation '/p1' kann kein Makro erzeugt werden.";
+ERR_4610.Diagnostic="\n'/p1' ist ein ungültiger Makrotyp für diese Operation. ";
+ERR_4610.Advice="\nEine andere Makrofamilie auswählen";
+
+ERR_4611.Request="Bei Operation '/p1' kann kein Makro erzeugt werden.";
+ERR_4611.Diagnostic="\n'/p1' ist ein ungültiger Makrobewegungstyp in diesem Kontext. ";
+ERR_4611.Advice="\nEin anderes Makro auswählen";
+
+ERR_4612.Request="Bei Operation '/p1' kann kein Makro erzeugt werden.";
+ERR_4612.Diagnostic="\nIn diesem Kontext sind alle Makrobewegungen ungültig. ";
+ERR_4612.Advice="\nEin anderes Makro auswählen";
+
+ERR_4613.Request="Makro kann nicht erzeugt werden.";
+ERR_4613.Diagnostic="\nKeine aktuelle Bearbeitungsoperation. ";
+ERR_4613.Advice="\nEine Bearbeitungsoperation auswählen";
+
+ERR_4614.Request="Bei Operation '/p1' kann kein Makro erzeugt werden.";
+ERR_4614.Diagnostic="\n'/p1'";
+ERR_4614.Advice="\nEin anderes Makro auswählen";
+
+ERR_4615.Request="Makro kann nicht gespeichert werden.";
+ERR_4615.Diagnostic="\nMakro '/p1' kann nicht in Katalog gespeichert werden. ";
+ERR_4615.Advice="\nZugriffsberechtigungen prüfen";
+
+ERR_4616.Request="Ungültiger Makrotypenwert bei Makrokomponente '/p1'.";
+ERR_4616.Diagnostic="\nDer Makrotyp '/p1' ist unbekannt. ";
+ERR_4616.Advice="\nDen Wert des Schlüsselworttyps auf die Makrokomponente, die Auswertung des NLS-Typs auf die Datei MacroCatalogResourcesNLS oder die Kompatibilität zwischen NLS des Katalogs und NLS auf der aktuellen Site prüfen";
+
+ERR_4617.Request="Falsche Katalogdatei.";
+ERR_4617.Diagnostic="\nAuf die Datei '/p1' besteht nur Lesezugriff.";
+ERR_4617.Advice="\nZugriffsberechtigungen prüfen";
+
+ERR_4618.Request="Datenbank ist nicht mit Werkzeugliste kompatibel.";
+ERR_4618.Advice="\nDie Anwenderunterstützung benachrichtigen, damit der Datenbankinhalt aktualisiert wird.";
+
+// Machine
+// -------
+ERR_4650.Diagnostic="Position und/oder Ausrichtung des Werkzeugs sind von der Maschine nicht erreichbar.\n
+Eine andere Position auswählen, und/oder die Ausrichtung ändern.";
+
+ERR_4651.Diagnostic="Position und/oder Ausrichtung liegen außerhalb der Maschinenbegrenzungen.\n
+Eine andere Position auswählen, und/oder die Ausrichtung ändern.";
+
+ERR_4652.Request="Ungültiges Produkt.";
+ERR_4652.Diagnostic="Das ausgewählte Produkt hat keine Eigenschaften einer NC-Maschine.";
+ERR_4652.Advice="Diese Eigenschaften mit dem Erstellungsprogramm für Werkzeugmaschinen definieren.";
+
+ERR_4653.Request="Ungültige Auswahl.";
+ERR_4653.Diagnostic="Die Option 'Korrektur des 3D-Kontakts für alle Operationen festlegen, die diesen Modus unterstützen' darf nicht aktiviert sein, wenn ein 3D-Korrekturmodus ausgewählt wird.";
+ERR_4653.Advice="Weitere Informationen sind im Programmverzeichnis zu finden.";
+
+ERR_4654.Diagnostic="Keine Werkzeuge im Werkzeugmaschinensatz";
+
+ERR_4655.Diagnostic="Der Maschinenname ist obligatorisch, wenn ein Werkzeugmaschinensatz aktiviert ist";
+
+//************************************************************
+// Plage ERR_4700 a 4750 : Messages Visualisation (Assembly, Tool, plaquette, etc...)
+//************************************************************
+
+ERR_4700.Request="Darstellung von '/p1' fehlgeschlagen.";
+ERR_4700.Advice="\nWerkzeug- oder Bearbeitungsparameter prüfen.";
+
+ERR_4701.Request="DXF-Darstellung fehlgeschlagen. Stattdessen die Standarddarstellung verwenden";
+ERR_4701.Diagnostic="Erstellen der 3D-Darstellung von DXF-Datei '/p1' nicht möglich.";
+ERR_4701.Advice="\nDXF-Profil prüfen.";
+
+ERR_4702.Request="Fehler beim Anzeigen des IPM-Volumens.";
+ERR_4702.Diagnostic="IPM-Volumen kann nicht angezeigt werden.";
+ERR_4702.Advice="\nPrüfen, ob die geometrische Definition der Bearbeitungsrichtung korrekt \nund dass ein Werkzeug definiert ist (sofern ein Werkzeug erforderlich ist)";
+
+ERR_4703.Request="Darstellung der Ressourcen fehlgeschlagen.";
+ERR_4703.Diagnostic="Die 3D-Darstellung für /p1 kann nicht erstellt werden.";
+ERR_4703.Advice="\nDie Geometrie dieser Ressource überprüfen.\n Sie ist möglicherweise die Ursache dafür, dass die Simulation nicht ausgeführt werden kann.\n/p1";
+
+ERR_4704.Request="Darstellung von '/p1' fehlgeschlagen.";
+ERR_4704.Advice="\nFür das Drehwerkzeug die Definition der Axial- und Radialachsen überprüfen:\n
+a- 'Keine Maschine ausgewählt': Standardmäßig sind die Z+-, X+-Achsen der Referenz-Bearbeitungsachse auf Aufspannungsebene definiert.
+b- 'Horizontale Drehmaschine' oder 'Vertikale Drehmaschine': Definiert auf der Registerkarte 'Spindel'.
+c- 'Drehmaschine mit mehreren Schlitten': Definiert auf der Registerkarte 'Drehkreuz'.
+d- 'Andere Maschine': Die Z+-, X+-Achsen werden bei der Drehoperation lokal definiert.";
+
+ERR_4705.Request="Fehler beim Anzeigen des IPM-Volumens.";
+ERR_4705.Diagnostic="Das IPM-Volumen kann nicht angezeigt werden, da die Werkzeugachse nicht senkrecht zu den Kurven liegt.";
+ERR_4705.Advice="\nPrüfen, ob die geometrische Definition der Kurvenfräsoperation korrekt ist \n und ob ihre Werkzeugachse senkrecht zu den Kurven liegt.";
+
+ERR_4706.Request="Zeichnungsextraktion für diese Aktivität nicht möglich, da kein abrufbarer Status für ein prozessinternes Modell vorhanden ist.";
+
+//====================================================================================================
+// MultiTurret MultiSpindle at operation level
+//====================================================================================================
+ERR_TURRET_RADIAL_AXIS_SPINDLE_COLINEAR.Request="Die radiale Achse des Drehwerkzeugs von '/p1' und die Spindelachse sind parallel.";
+ERR_TURRET_RADIAL_AXIS_SPINDLE_COLINEAR.Diagnostic="Die radiale Achse des Drehwerkzeugs von '/p1' ist parallel zur Spindelachse des Teileachsensystems.";
+ERR_TURRET_RADIAL_AXIS_SPINDLE_COLINEAR.Advice="\nDas Achsensystem des Drehwerkzeugs ändern.";
+
+//************************************************************
+// Plage ERR_4800 a 4810 : Messages de doublon de noms
+// LAR pour OLC IR 378769
+//************************************************************
+
+ERR_4800.Request="Werkzeugname existiert bereits";
+ERR_4800.Diagnostic="\nEr wird automatisch in /p1 geändert.";
+
+ERR_4801.Request="Name für die Werkzeugbaugruppe existiert bereits";
+ERR_4801.Diagnostic="\nSie wird automatisch in /p1 geändert.";
+
+ERR_4802.Request="Werkzeugschneidplatte existiert bereits";
+ERR_4802.Diagnostic="\nSie wird automatisch in /p1 geändert.";
+
+ERR_4803.Request="Es besteht bereits eine Werkzeugbaugruppe mit dem Namen /p1,\nsie ist mit dieser Operation jedoch nicht kompatibel.";
+ERR_4803.Advice="\nEinen anderen Namen für diese Werkzeugbaugruppe auswählen.";
+
+ERR_4804.Request="Es besteht bereits eine Schneidplatte mit dem Namen /p1,\nsie ist mit dieser Operation jedoch nicht kompatibel.";
+ERR_4804.Advice="\nEinen anderen Namen für diese Schneidplatte auswählen.";
+
+ERR_4805.Request="Es besteht bereits ein Werkzeug mit dem Namen /p1,\nes ist mit dieser Operation jedoch nicht kompatibel.";
+ERR_4805.Advice="\nEinen anderen Namen für dieses Werkzeug auswählen.";
+
+ERR_4806.Request="Es besteht bereits eine Werkzeugbaugruppe mit dem Namen /p1.";
+ERR_4806.Advice="\nEinen anderen Namen für diese Werkzeugbaugruppe auswählen.";
+
+//************************************************************
+// Plage ERR_5000 a 5499 : Messages PPWord Table.
+//************************************************************
+
+ERR_5000="Worttabelle wird gelesen. \nKein Befehlsname nach *INSERT. \nFehler in Zeile /p1.";
+ERR_5001="Worttabelle wird gelesen. \nUngültiges Schlüsselwort*. \nFehler in Zeile /p1.";
+ERR_5002="Worttabelle wird gelesen. \nFalscher Befehlsblock *START-*END. \n*START fehlt.";
+ERR_5003="Worttabelle wird gelesen. \nFalscher Befehlsblock *START-*END. \n*END fehlt.";
+ERR_5004="Worttabelle wird gelesen. \nBefehlsname NC_ muss auf *START_NC_COMMAND folgen. \nFehler in Zeile /p1.";
+ERR_5005="Worttabelle wird gelesen. \nBefehlsname NC_ muss auf *START_NC_INSTRUCTION folgen. \nFehler in Zeile /p1.";
+ERR_5006="Worttabelle wird gelesen. \nParametername MFG_ muss auf *START_LIST folgen. \nFehler in Zeile /p1.";
+ERR_5007="Worttabelle wird gelesen. \nParametername MFG_ muss auf *START_FORMAT folgen. \nFehler in Zeile /p1.";
+ERR_5008="Worttabelle wird gelesen. \nUnbekanntes Schlüsselwort *START. \nFehler in Zeile /p1.";
+ERR_5009="Worttabelle wird gelesen. \nÖffnen der Worttabelle nicht möglich";
+ERR_5010="Worttabelle wird gelesen. \nWorttabelle ist nicht definiert. \nEine Worttabelle auf der Maschine definieren \n";
+ERR_5011="Worttabelle wird gelesen. \nMaschine nicht definiert. \nEine Maschine und eine Worttabelle auf dieser Maschine definieren \n";
+
+ERR_5013.Request="Syntax '/p1' wird ausgewählt.";
+ERR_5013.Diagnostic="/p1 Parameter wurden gefunden und von der Syntax entfernt.";
+ERR_5013.Advice="Die resultierenden Anweisungen im Feld 'Aktuelle Auswahl' durch Eingabe von Worten oder von Werten vervollständigen.";
+
+ERR_5014.Request="Aus aktueller Syntax, /p1  .";
+ERR_5014.Diagnostic="Die folgenden Worte sind nicht in der PP-Tabelle enthalten: /p1 .";
+ERR_5014.Advice="Vor Verwendung Prüfen.";
+
+ERR_5015.Request="PP-Worttabelle wird gelesen.";
+ERR_5015.Diagnostic="PP-Worttabelle nicht gefunden.";
+ERR_5015.Advice="Den Pfad der PP-Tabellen sowie den Namen der auf der Maschine definierten PP-Tabelle überprüfen.";
+
+//************************************************************
+// Plage ERR_5500 a 5540 : Messages Replay.
+//************************************************************
+
+ERR_5501="Werkzeugbahn wird wiedergegeben. \nProgramm ist leer oder enthält keine wiederholbare Operation.";
+ERR_5502="Werkzeugbahn wird wiedergegeben. \nFür das aktuelle Programm gibt es nichts zu wiederholen.";
+ERR_5503="Werkzeugbahn wird wiedergegeben. \nFür die aktuelle Operation gibt es nichts zu wiederholen.";
+ERR_5504="Werkzeugbahn wird wiedergegeben. \nOperation ist im Programm nicht aktiv.";
+ERR_5505="Werkzeugbahn wird wiedergegeben. \nDem aktuellen Objekt ist keine Werkzeugbahn zugeordnet.";
+ERR_5506="Werkzeugbahn wird wiedergegeben. \nEs kann keine Werkzeugposition angezeigt werden.";
+ERR_5507="Werkzeugbahn wird wiedergegeben. \nOperation ist nicht vollständig. \nParameter, Geometrie oder Werkzeug prüfen.";
+ERR_5508="Packen der Werkzeugbahn. \nPacken der Werkzeugbahn erfolgreich. \nExterne Datei ist /p1.";
+ERR_5509="Entpacken der Werkzeugbahn. \nEntpacken der Werkzeugbahn erfolgreich.";
+ERR_5510="Packen der Werkzeugbahn. \nKeine Werkzeugbahn bei Operation gefunden.";
+ERR_5511="Entpacken der Werkzeugbahn. \nKeine Werkzeugbahn bei Operation gefunden.";
+ERR_5512="Operation ist nicht vollständig. \nZuvor berechnete Werkzeugbahn wird wiedergegeben.";
+ERR_5513="NC-Datei nicht gefunden. \nNC-Datei /p1 wurde möglicherweise gelöscht oder verschoben.";
+ERR_5514="Berechnung der Werkzeugbahn. \nBerechnung unterbrochen.";
+
+ERR_5515.Request="Ungültiger Fertigungspfad.";
+ERR_5515.Diagnostic="Pfad /p1 ist nicht vorhanden, oder es liegt kein Schreibzugriff dafür vor.";
+ERR_5515.Advice="Ein vorhandenes Verzeichnis auswählen, für das eine Schreibberechtigung vorliegt.";
+
+ERR_5516="Die externe Datei für die Werkzeugbahnkoordinaten konnte nicht gefunden werden.  Die externe Datei /p1  wurde möglicherweise gelöscht oder verschoben. Versuchen, sie wiederzufinden, oder die Werkzeugbahn erneut berechnen.
+Außerdem sollten externe Dateien mit dem Befehl 'Datei +Senden an...' korrekt aus dem aktuellen Dokument kopiert werden.";
+ERR_5517="Speicherzuordnung fehlgeschlagen.";
+ERR_5518="Werkzeugbahn wird entfernt. \nKeine Operation ausgewählt";
+ERR_5519="Werkzeugbahn wird entfernt. \nAusgewähltes Programm ist leer";
+ERR_5520="Werkzeugbahn wird entfernt.
+Beim Löschen der Werkzeugbahn für Operation /p1 ist ein Fehler aufgetreten.
+Erneut versuchen und gegebenenfalls die Anwenderunterstützung benachrichtigen.";
+ERR_5521="Werkzeugbahn wird entfernt. \nEnde des Befehls";
+
+ERR_5522="Werkzeugbahn wird berechnet. \nKeine Operation ausgewählt";
+ERR_5523="Werkzeugbahn wird berechnet. \nEnde des Befehls. \nKeine Berechnung durchgeführt.";
+ERR_5524="Werkzeugbahn wird berechnet. \nEnde des Befehls. \nEine Berechnung durchgeführt.";
+ERR_5525="Werkzeugbahn wird berechnet. \nEnde des Befehls. \n/p1 Berechnungen durchgeführt.";
+ERR_5526="Werkzeugbahn wird berechnet.
+Bei der Berechnung einer Werkzeugbahn für Operation /p1 ist ein Fehler aufgetreten.
+Erneut versuchen und gegebenenfalls die Anwenderunterstützung benachrichtigen.";
+ERR_5527="Werkzeugbahn wird berechnet.
+Keine Standardmethode zur Berechnung der Werkzeugbahn verfügbar.";
+ERR_5528="Werkzeugbahn wird wiedergegeben.
+Ungültige Auswahl.
+Es kann/können ein Programm oder ein oder mehrere Operationen ausgewählt werden";
+
+ERR_5529="Werkzeugbahn wird berechnet. \nOperation /p1 ist nicht vollständig. \nParameter, Geometrie oder Werkzeug prüfen.";
+
+ERR_5530.Request="Den Kopier- und Umwandlungsmechanismus berechnen";
+ERR_5530.Diagnostic="Die Referenz-Bearbeitungsoperation ist nicht berechnet.";
+ERR_5530.Advice="Vor dem Berechnen des Kopier- und Umwandlungsmechanismus muss die Bearbeitungsoperation berechnet werden, die als Referenz dienen soll.";
+
+ERR_5531.Request="Den Kopier- und Umwandlungsmechanismus berechnen";
+ERR_5531.Diagnostic="Es ist keine Berechnung möglich.";
+ERR_5531.Advice="Versuchen, eine Berechnung der Referenz-Bearbeitungsoperation zu erzwingen.";
+
+
+ERR_5532.Request="Ungültige Dateierweiterung.";
+ERR_5532.Diagnostic="die Dateierweiterung /p1 enthält mindestens ein unzulässiges Zeichen '.'.";
+ERR_5532.Advice="Eine gültige Dateierweiterung definieren.";
+
+ERR_5533="Werkzeugbahn wird berechnet. \nWarnhinweise für /p1 generiert. /p2 Berechnungen ausgeführt. \nZum Ermitteln der Details der Warnung die Operation /p1 erneut berechnen.";
+
+ERR_5534="Werkzeugbahn der Operation COPY wird wiederholt.
+Diese Operation ist mit Operationen verknüpft, die sich in einem Block TRACUT befinden.
+Die Änderung des Modus TRACUT wird berücksichtigt, wenn der Befehl 'Wiederholen' beendet und anschließend erneut ausgeführt wird.";
+
+ERR_5535="Werkzeugbahn wiederholen.
+Die Werkzeugbahn kann nicht richtig angezeigt werden, weil mindestens ein Punkt der Werkzeugbahn eine unendliche Koordinate hat. Erneut versuchen, die Werkzeugbahn zu berechnen.";
+
+ERR_5536.Request="Werkzeugbahn berechnen";
+ERR_5536.Diagnostic="Zwei aufeinanderfolgende Positionen haben entgegengesetzte Werkzeugachsen im Verbindungsmakro.\nIn diesem Fall kann die Interpolation der Werkzeugachsen nicht aufgelöst werden.";
+ERR_5536.Advice="Diese Situation dadurch vermeiden, dass im Verbindungsmakro eine Werkzeugachsenbewegung hinzugefügt wird.";
+
+ERR_5537="Werkzeugbahn wiederholen.
+Benutzerdarstellung für die Ressource '/p1' wurde nicht gefunden. Die Bahn für die Benutzerdarstellung ist '/p2'.
+Die Verbindung zwischen der Ressource und der Benutzerdarstellung wiederherstellen oder die Benutzerdarstellung entfernen.";
+
+
+ERR_5538="Werkzeugbahn wird wiedergegeben. \nOperation ist nicht synchronisiert. \nGeometrie oder Formeln prüfen.";
+ERR_5539="Werkzeugbahn wird berechnet. \nOperation /p1 ist nicht synchronisiert. \nGeometrie oder Formeln prüfen.";
+
+ERR_5540="Die Option TRACUT kann im Videosimulationsmodus nicht geändert werden.
+Die Änderung des Modus TRACUT wird berücksichtigt, wenn der Befehl 'Videosimulation' beendet und anschließend erneut ausgeführt wird.";
+
+
+//****************************************************
+// Plage ERR_5541 a 5560 : Licensing compute tool path and paste through documents
+//****************************************************
+ERR_5541.Request="Verarbeitung von '/p1'.";
+ERR_5541.Diagnostic="Lizenzproblem.";
+ERR_5541.Advice="Eine Lizenz für PMG, SMG, AMG, LMG, MPM oder MLM ist erforderlich.";
+
+ERR_5542.Request="Verarbeitung von '/p1'.";
+ERR_5542.Diagnostic="Lizenzproblem.";
+ERR_5542.Advice="Eine Lizenz für PMG, SMG, AMG oder MPM ist erforderlich.";
+
+ERR_5543.Request="Verarbeitung von '/p1'.";
+ERR_5543.Diagnostic="Lizenzproblem.";
+ERR_5543.Advice="Eine Lizenz für PMG, AMG, LMG, MPM oder MLM ist erforderlich.";
+
+ERR_5544.Request="Verarbeitung von '/p1'.";
+ERR_5544.Diagnostic="Lizenzproblem.";
+ERR_5544.Advice="Eine Lizenz für PMG, SMG, AMG, LMG, MPM oder MLM ist erforderlich.";
+
+ERR_5545.Request="Verarbeitung von '/p1'.";
+ERR_5545.Diagnostic="Lizenzproblem.";
+ERR_5545.Advice="Eine Lizenz für PMG, AMG oder MPM ist erforderlich.";
+
+ERR_5546.Request="Verarbeitung von '/p1'.";
+ERR_5546.Diagnostic="Lizenzproblem.";
+ERR_5546.Advice="Eine Lizenz für SMG oder AMG ist erforderlich.";
+
+ERR_5547.Request="Verarbeitung von '/p1'.";
+ERR_5547.Diagnostic="Lizenzproblem.";
+ERR_5547.Advice="Eine Lizenz für MMG oder AMG ist erforderlich.";
+
+ERR_5548.Request="Verarbeitung von '/p1'.";
+ERR_5548.Diagnostic="Lizenzproblem.";
+ERR_5548.Advice="Eine Lizenz für MMG, AMG oder SMG ist erforderlich.";
+
+ERR_5549.Request="Verarbeitung von '/p1'.";
+ERR_5549.Diagnostic="Lizenzproblem.";
+ERR_5549.Advice="Eine Lizenz für AMG ist erforderlich.";
+
+ERR_5550.Request="Verarbeitung von '/p1'.";
+ERR_5550.Diagnostic="Lizenzproblem.";
+ERR_5550.Advice="Eine Lizenz für LMG oder MLM ist erforderlich.";
+
+ERR_5551.Request="Verarbeitung von '/p1'.";
+ERR_5551.Diagnostic="Lizenzproblem.";
+ERR_5551.Advice="Eine Lizenz für MPG ist erforderlich.";
+
+ERR_5552.Request="Verarbeitung von '/p1'.";
+ERR_5552.Diagnostic="Lizenzproblem.";
+ERR_5552.Advice="Eine Lizenz für LMG P2 oder MLM ist erforderlich.";
+
+
+//************************************************************
+// Plage ERR_5560 a 5700 : Messages Replay.
+//************************************************************
+ERR_5560.Request="Werkzeugbahn berechnen";
+ERR_5560.Diagnostic="Problem beim Erzeugen des Verbindungsmakros.\nIn diesem Fall können die Kollisionen nicht gelöst werden.";
+ERR_5560.Advice="Das Verbindungsmakro oder Eingabe- und Ausgangsabstand ändern, um diese Situation zu vermeiden.";
+
+
+//************************************************************
+// Plage ERR_5700 a 5750 : Messages Intermediate Stock.
+//************************************************************
+ERR_5701.Request="Berechnung des temporären Rohteils.";
+ERR_5701.Diagnostic="Problem bei der Berechnung des Eingaberohteils von /p1.\nDie Werkzeugbahnberechnung für /p2 ist fehlgeschlagen.";
+ERR_5701.Advice="Diese Operation ändern.";
+
+ERR_5702.Request="Berechnung des temporären Rohteils.";
+ERR_5702.Diagnostic="Problem bei der Berechnung des Ausgaberohteils von /p1.\nDie Werkzeugbahnberechnung für /p2 ist fehlgeschlagen.";
+ERR_5702.Advice="Diese Operation ändern.";
+
+ERR_5703.Request="Berechnung des temporären Rohteils.";
+ERR_5703.Diagnostic="Problem bei der Berechnung des Eingaberohteils von /p1.\nDie Aktualisierung des Rohteils nach der Operation /p2 ist fehlgeschlagen.";
+ERR_5703.Advice="Diese Operation ändern.";
+
+ERR_5704.Request="Berechnung des temporären Rohteils.";
+ERR_5704.Diagnostic="Problem bei der Berechnung des Ausgaberohteils von /p1.\nDie Aktualisierung des Rohteils nach der Operation /p2 ist fehlgeschlagen.";
+ERR_5704.Advice="Diese Operation ändern.";
+
+ERR_5705.Request="Berechnung des temporären Rohteils.";
+ERR_5705.Diagnostic="Problem bei der Berechnung des Eingaberohteils von /p1.\nDie Operation /p2 ist unvollständig.";
+ERR_5705.Advice="Diese Operation ändern.";
+
+ERR_5706.Request="Berechnung des temporären Rohteils.";
+ERR_5706.Diagnostic="Problem bei der Berechnung des Ausgaberohteils von /p1.\nDie Operation /p2 ist unvollständig.";
+ERR_5706.Advice="Diese Operation ändern.";
+
+ERR_TP_COMPUTE="Einige Bearbeitungsoperationen wurden möglicherweise aufgrund von Fehlern bei der Berechnung der Werkzeugbahn deaktiviert.";
+
+
+//**********************************************************************
+// Plage ERR_PRJ_MCDBased : NC code based simulation (ISO/MCD)
+//**********************************************************************
+ERR_PRJ_MCDBased="Werkzeugbahn wiederholen. \nDie Programmsimulation ist im NC-Code-Modus.";
+
+ERR_PRJ_MCDBased01.Request="Simulation mit NC-Code.\n";
+ERR_PRJ_MCDBased01.Diagnostic="Controller-Emulator nicht definiert.\n";
+ERR_PRJ_MCDBased01.Advice="Um eine Simulation basierend auf einer NC-Code-Datei zu starten, müssen die folgenden Schritte ausgeführt werden:
+\t - Postprozessor-Anbieter in 'Tools > Optionen > Bearbeitung > Ausgabe' auswählen
+\t - Produkt als NC-Maschine auswählen
+\t - Postprozessor und geeigneten Controller-Emulator auf dieser Maschine definieren
+\t - ISO als NC-Datentyp auf dieser Maschine auswählen.";
+
+ERR_PRJ_MCDBased02.Request="Simulation mit NC-Code.\n";
+ERR_PRJ_MCDBased02.Diagnostic="Falsche NC-Maschine.\n";
+ERR_PRJ_MCDBased02.Advice="Um eine Simulation basierend auf einer NC-Code-Datei zu starten, müssen die folgenden Schritte ausgeführt werden:
+\t - Postprozessor-Anbieter in 'Tools > Optionen > Bearbeitung > Ausgabe' auswählen
+\t - Produkt als NC-Maschine auswählen
+\t - Postprozessor und geeigneten Controller-Emulator auf dieser Maschine definieren
+\t - ISO als NC-Datentyp auf dieser Maschine auswählen.";
+
+ERR_PRJ_MCDBased03.Request="Simulation mit NC-Code.\n";
+ERR_PRJ_MCDBased03.Diagnostic="Falsch definierter NC-Datentyp auf der Maschine.\n";
+ERR_PRJ_MCDBased03.Advice="Um eine Simulation basierend auf einer NC-Code-Datei zu starten, müssen die folgenden Schritte ausgeführt werden:
+\t - Postprozessor-Anbieter in 'Tools > Optionen > Bearbeitung > Ausgabe' auswählen
+\t - Produkt als NC-Maschine auswählen
+\t - Postprozessor und geeigneten Controller-Emulator auf dieser Maschine definieren
+\t - ISO als NC-Datentyp auf dieser Maschine auswählen.";
+
+//**********************************************************************
+
+//************************************************************
+// Plage ERR_5750 a 5999 : Messages APT Import / CopyOrder.
+//************************************************************
+
+ERR_5750="APT-Datei wird importiert. \nAPT-Datei kann nicht importiert werden, da sie Profil-NC-Ausgaben enthält.";
+ERR_5751="APT-Datei wird importiert. \nAPT-Datei kann nicht importiert werden, da sie NC-Angaben zum Werkzeugmittelpunkt enthält.";
+ERR_5752="APT-Datei wird importiert. \nAPT-Datei kann nicht importiert werden, da sie PQR-Daten enthält.";
+ERR_5753="APT-Datei wird importiert. \nAPT-Datei kann nicht importiert werden, da sie NURBS-Daten enthält.";
+ERR_5754="APT-Datei wird importiert. \nAPT-Datei kann nicht importiert werden, da sie Kontaktdaten enthält.";
+ERR_5755="APT-Datei wird importiert. \nAPT-Datei kann nicht importiert werden, da sie ROTHED-Anweisungen enthält.";
+ERR_5756="APT-Datei wird importiert. \nAPT-Datei kann nicht importiert werden, da sie ROTABL-Anweisungen enthält.\nSie ist mit der Maschine, die der Aufspannung zugeordnet ist, nicht kompatibel.";
+
+ERR_5760.Request="Den Kopier- und Umwandlungsmechanismus berechnen.";
+ERR_5760.Diagnostic="Berechnung fehlgeschlagen.";
+ERR_5760.Advice="Alle ausgewählten Bearbeitungsoperationen\nmüssen auf dem neuesten Stand und berechnet\noder gesperrt sein.";
+
+ERR_5761.Request="Referenz-Bearbeitungsoperation hinzufügen.";
+ERR_5761.Diagnostic="Hinzufügen dieser Bearbeitungsoperation ist nicht möglich.";
+ERR_5761.Advice="Versuchen, eine Berechnung der Referenz-Bearbeitungsoperation zu erzwingen.";
+
+ERR_5762.Request="Referenz-Bearbeitungsoperation hinzufügen.";
+ERR_5762.Diagnostic="Hinzufügen dieser Bearbeitungsoperation ist nicht möglich.";
+ERR_5762.Advice="Alle ausgewählten Bearbeitungsoperationen\nmüssen die gleiche Einrichtung aufweisen";
+
+ERR_5763.Request="Den Kopier- und Umwandlungsmechanismus berechnen.";
+ERR_5763.Diagnostic="Berechnung fehlgeschlagen.";
+ERR_5763.Advice="Alle ausgewählten Bearbeitungsoperationen\nmüssen die gleiche Einrichtung aufweisen";
+
+ERR_5764.Request="Den Kopier- und Umwandlungsmechanismus berechnen.";
+ERR_5764.Diagnostic="Berechnung fehlgeschlagen.";
+ERR_5764.Advice="Versuchen, eine Berechnung der Referenz-Bearbeitungsoperationen zu erzwingen.";
+
+ERR_5765.Request="Den Kopier- und Umwandlungsmechanismus berechnen.";
+ERR_5765.Diagnostic="Transformationsberechnung fehlgeschlagen.";
+ERR_5765.Advice="Transformationsdefinition prüfen,\n mehrdeutige geometrische Elemente prüfen";
+
+ERR_5770.Request="Den Kopier- und Umwandlungsmechanismus berechnen.";
+ERR_5770.Diagnostic="Berechnung fehlgeschlagen.";
+ERR_5770.Advice="Für die Berechnung ist nicht ausreichend Speicher vorhanden.\nMit einer geringeren Anzahl Kopien versuchen.";
+
+ERR_5771.Request="COPY-Operator berechnen.";
+ERR_5771.Diagnostic="Berechnung fehlgeschlagen.";
+ERR_5771.Advice="Versuchen, vor der erneuten Ausführung des COPY-Operators zwischen den Indexen alle Aktivitäten zu berechnen (einschließlich Werkzeugwechsel).\n";
+
+// Messages Clfile
+ERR_5900.Request="Fehler beim Öffnen der CL-Datei";
+ERR_5900.Diagnostic="Die CL-Datei kann nicht geöffnet werden.";
+ERR_5900.Advice="Den ausgewählten Clfile-Pfad/die ausgewählte CL-Datei prüfen";
+
+ERR_5901.Request="Fehler beim Öffnen der APT-Datei";
+ERR_5901.Diagnostic="Die APT-Ausgabedatei kann nicht geöffnet werden.";
+ERR_5901.Advice="Den ausgewählten Pfad und das Lese-/Schreibattribut prüfen.";
+
+ERR_5902.Request="Fehler beim Lesen der Datensatznummer: ";
+ERR_5902.Diagnostic="Der clfile-Datensatz kann nicht gelesen werden.";
+ERR_5902.Advice="Den ausgewählten Clfile-Pfad/die ausgewählte CL-Datei prüfen";
+
+ERR_5903.Request="Problem beim Schließen der CL-Datei";
+ERR_5903.Diagnostic="Die CL-Datei kann nicht geschlossen werden.";
+ERR_5903.Advice="Den ausgewählten Clfile-Pfad/die ausgewählte CL-Datei prüfen";
+
+ERR_5904.Request="Wort in Großbuchstaben für Code nicht in PP-Tabelle gefunden";
+ERR_5904.Diagnostic="Das Wort in Großbuchstaben, das dem Code entspricht, der im Clfile-Datensatz gespeichert ist, kann in der PP-Worttabelle nicht gefunden werden.";
+ERR_5904.Advice="Den Code prüfen und ihn zusammen mit dem zugeordneten Wort in Großbuchstaben der PP-Worttabelle hinzufügen.";
+
+ERR_5905.Request="Wort in Kleinbuchstaben für Code nicht in PP-Tabelle gefunden";
+ERR_5905.Diagnostic="Das Wort in Kleinbuchstaben, das dem Code entspricht, der im Clfile-Datensatz gespeichert ist, kann in der PP-Worttabelle nicht gefunden werden.";
+ERR_5905.Advice="Den Code prüfen und ihn zusammen mit dem zugeordneten Wort in Kleinbuchstaben der PP-Worttabelle hinzufügen.";
+
+ERR_5906.Request="Ungültige Kreisdefinition für 3000er Klassendatensatz";
+ERR_5906.Diagnostic="Der 3000er Klassendatensatz ist in der CL-Datei nicht korrekt definiert.";
+ERR_5906.Advice="Die Definition der CL-Datei prüfen.";
+
+ERR_5907.Request="Ungültige Definition für 5000er Klassendatensatz: keine Werkzeugposition definiert";
+ERR_5907.Diagnostic="Der 5000er Klassendatensatz ist in der CL-Datei nicht korrekt definiert.";
+ERR_5907.Advice="Die Definition der CL-Datei prüfen.";
+
+ERR_5908.Request="Ungültige Toleranzdefinition (INTOL)";
+ERR_5908.Diagnostic="Der 6000er Klassendatensatz ist in der CL-Datei nicht korrekt definiert.";
+ERR_5908.Advice="Die Definition der CL-Datei prüfen.";
+
+ERR_5909.Request="Ungültige Toleranzdefinition (OUTTOL)";
+ERR_5909.Diagnostic="Der 6000er Klassendatensatz ist in der CL-Datei nicht korrekt definiert.";
+ERR_5909.Advice="Die Definition der CL-Datei prüfen.";
+
+ERR_5910.Request="Ungültige CUTTER-Definition";
+ERR_5910.Diagnostic="Der 6000er Klassendatensatz ist in der CL-Datei nicht korrekt definiert.";
+ERR_5910.Advice="Die Definition der CL-Datei prüfen.";
+
+ERR_5911.Request="Ungültige Definition der Werkzeugachse";
+ERR_5911.Diagnostic="Der 9000er Klassendatensatz ist in der CL-Datei nicht korrekt definiert.";
+ERR_5911.Advice="Die Definition der CL-Datei prüfen.";
+
+ERR_5912.Request="Ungültige MULTAX-Definition";
+ERR_5912.Diagnostic="Der 9000er Klassendatensatz ist in der CL-Datei nicht korrekt definiert.";
+ERR_5912.Advice="Die Definition der CL-Datei prüfen.";
+
+ERR_5913.Request="Ungültige Kreisdefinition für 15000er Klassendatensatz";
+ERR_5913.Diagnostic="Der 15000er Klassendatensatz ist in der CL-Datei nicht korrekt definiert.";
+ERR_5913.Advice="Die Definition der CL-Datei prüfen.";
+
+ERR_5914.Request="Unbekannte Datensatzklasse";
+ERR_5914.Diagnostic=" ";
+ERR_5914.Advice=" ";
+
+ERR_5915.Request="Problem mit Wort in Großbuchstaben";
+ERR_5915.Diagnostic=" ";
+ERR_5915.Advice=" ";
+
+ERR_5920.Request="Datensatz";
+ERR_5920.Diagnostic=" ";
+ERR_5920.Advice=" ";
+
+ERR_5921.Request="Clfile-Klasse";
+ERR_5921.Diagnostic=" ";
+ERR_5921.Advice=" ";
+
+ERR_5922.Request="Code";
+ERR_5922.Diagnostic=" ";
+ERR_5922.Advice=" ";
+
+ERR_5923.Request="APT-Quelldatei kann dem Programm nicht zugeordnet werden.";
+ERR_5923.Diagnostic="Nummer der Anweisung 'OPERATION NUMBER' in APT-Datei stimmt nicht mit Entitäten im Programm überein";
+ERR_5923.Advice="Die dem Programm entsprechende APT-Datei verwenden.";
+
+
+ERR_5924="Die Korrektor-ID /p1 wird von mindestens einer Aktivität verwenden.\nWird sie geändert, werden auch die damit verbundenen Aktivitäten mit der neuen Korrektor-ID /p2 aktualisiert.";
+//************************************************************
+// Plage ERR_6000 a 6499 : CATMfg
+//************************************************************
+
+//************************************************************
+// Plage ERR_6500 a 6600 : V5-VNC integration
+//************************************************************
+
+ERR_6500="Makro-Ausgabe an VNC. \nFehler beim Lesen der Makro-Datei. \nFehlende Datei: /p1.";
+
+//                          ======== Setup VNCMachine ========                                       
+TOOL_POSITION_UNREACHABLE.Request="Position ist nicht erreichbar";
+TOOL_POSITION_UNREACHABLE.Advice="Die Teilekonfiguration prüfen.";
+
+TOOL_POSITION_REACHABLE.Request="Position ist erreichbar";
+
+CHECK_REACHABILTY_KO_NO_MFG_MACHINE.Request="Erreichbarkeit wird geprüft.";
+CHECK_REACHABILTY_KO_NO_MFG_MACHINE.Diagnostic="Unzureichende Ressourcen.";
+CHECK_REACHABILTY_KO_NO_MFG_MACHINE.Advice="Bei der Aufspannung muss eine Maschine definiert,\neine VNC-Maschine zugeordnet und das Teil positioniert werden.";
+
+CHECK_REACHABILTY_KO_NO_VNC_MACHINE.Request="Erreichbarkeit wird geprüft.";
+CHECK_REACHABILTY_KO_NO_VNC_MACHINE.Diagnostic="Keine zugeordnete VNC-Maschine.";
+CHECK_REACHABILTY_KO_NO_VNC_MACHINE.Advice="Eine VNC-Maschine der Maschine zuordnen, auf die die
+\nAufspannung verweist, und das Teil positionieren.";
+
+
+//=======================================================================
+//=======================================================================
+//                        ======== BACTH ========                        
+//=======================================================================
+//=======================================================================
+
+//===================================================================
+//  0/ Generalite
+//===================================================================
+
+MSG_BATCH_00001="Stapelverarbeitung, Eingabedaten: /p \n";
+ERR_BATCH_00002="Pfadname ist leer.\n";
+MSG_BATCH_00003="Ende der Stapelverarbeitung.\n";
+MSG_BATCH_00004="Beginn der Stapelverarbeitung.\n";
+ERR_BATCH_00005="Fehler beim Öffnen einer Arbeitssitzung.\n";
+MSG_BATCH_00007="Ungültiges Schlüsselwort: *CGR (P2-Funktionalität).\n";
+MSG_BATCH_00006="\n---------------------------------------\n\n";
+MSG_BATCH_00008="Generierung interaktiver NC-Ausgabe erfolgreich beendet.\n Weitere Informationen hierzu sind in der Protokolldatei enthalten.\n";
+MSG_BATCH_00008_1="Generierung interaktiver NC-Ausgabe mit /p1 Fehlern und /p2 Warnungen beendet.\n Weitere Informationen hierzu sind in der Protokolldatei enthalten.\n";
+MSG_BATCH_00008_2="Generierung interaktiver NC-Ausgabe mit /p1 Fehlern und /p2 Warnungen bei der APT-Generierung \n sowie /p3 Fehlern und /p4 Warnungen bei der NC-Codegenerierung beendet. Weitere Informationen hierzu sind in der Protokolldatei enthalten.\n";
+ERR_BATCH_00009="Eine Störung ist aufgetreten. \n Die Ausgabedateien wurden möglicherweise nicht generiert.\n Weitere Informationen hierzu sind in der Protokolldatei enthalten.\n";
+ERR_BATCH_00010="Lizenzproblem. Eine Lizenz für PMG, SMG, AMG, LMG, MPM oder MLM ist erforderlich";
+ERR_BATCH_00011="Einige Zeilen wurden beim Import übersprungen. Weitere Informationen enthält 'AptImportLog'.";
+
+Warning="Warnung:";
+Error="Fehler:";
+
+//===================================================================
+//  1/ Lecture du fichier ft05
+//===================================================================
+MSG_BATCH_10000="Lesen der Datei ft05: Start.\n";
+ERR_BATCH_10001="Fehler beim Lesen der Datei ft05.\n";
+MSG_BATCH_11000="Lesen der Datei ft05: Ende.\n";
+
+//===================================================================
+//  2/ Verification des donnees du fichier ft05 
+//===================================================================
+MSG_BATCH_20000="Prüfen von Daten der Datei ft05: Start.\n";
+ERR_BATCH_20001="Fehler beim Prüfen der Daten von Datei ft05.\n";
+ERR_BATCH_20100="Verbindliches Schlüsselwort /p nicht gefunden.\n";
+ERR_BATCH_20101="Schlüsselwort *APT oder *CLF wurde nicht angegeben.\n";
+ERR_BATCH_20102="Schlüsselwörter *APT und *CLF sind exklusiv.\n";
+ERR_BATCH_20200="Kein Wert gefunden für Schlüsselwort /p.\n";
+ERR_BATCH_20301="Min. Radiuswert für Schlüsselwort *CIR ist nicht korrekt.\n";
+ERR_BATCH_20302="Max. Radiuswert für Schlüsselwort *CIR ist nicht korrekt.\n";
+ERR_BATCH_20303="Max. Radius für Schlüsselwort *CIR fehlt.\n";
+ERR_BATCH_20400="Zugriff auf Programmdokument (Schlüsselwörter *REA und *MOD) nicht möglich.\n";
+ERR_BATCH_20500="Zu erzeugende NC-Datei (Schlüsselwörter *WRI und *MEM) ist bereits vorhanden und kann nicht überschrieben werden (Schlüsselwort *REP).\n";
+ERR_BATCH_20600="Zu erzeugende Dokumentdatei (Schlüsselwörter *FLW und *MDW) existiert bereits und kann nicht überschrieben werden (Schlüsselwort *MRP).\n";
+ERR_BATCH_20700="Zu erzeugende ISO-Datei (Schlüsselwörter *PSO und *NSO) ist bereits vorhanden und kann nicht überschrieben werden (Schlüsselwort *RSO).\n";
+ERR_BATCH_20800="Wert für Schlüsselwort /p liegt nicht im Bereich der korrekten Werte.\n";
+ERR_BATCH_20900="Wert für Schlüsselwort /p ist negativ.\n";
+MSG_BATCH_21000="Prüfen von Daten der Datei ft05: Ende.\n";
+ERR_BATCH_21100="Keine PPPAR-Datei im ISO-Modus definiert.\n";
+ERR_BATCH_21200="*FOM 2 oder *TOM 2 gilt nur für APT- oder NC-Code.\n";
+
+//===================================================================
+//  3/ Lecture du document a traiter 
+//===================================================================
+MSG_BATCH_30000="Lesen des Dokuments: Start.\n";
+ERR_BATCH_30001="Fehler beim Lesen des Dokuments.\n";
+MSG_BATCH_31000="Lesen des Dokuments: Ende.\n";
+ERR_BATCH_30002="Fehler beim Schließen des Dokuments.\n";
+ERR_BATCH_30003="Fehler: /p Programme im Prozess haben denselben Namen wie das Programm, das in der Datei ft05 angegeben ist.\n";
+ERR_BATCH_30004="Fehler: Zwei ausgewählte Programme haben denselben Namen.\n";
+
+//===================================================================
+//  4/ Verification du document a traiter 
+//===================================================================
+MSG_BATCH_40000="Prüfen des Dokuments: Start.\n";
+ERR_BATCH_40001="Fehler beim Prüfen des Dokuments.\n";
+ERR_BATCH_40100="Programm (Schlüsselwort *PRG) nicht gefunden.\n";
+MSG_BATCH_41000="Prüfen des Dokuments: Ende.\n";
+
+//===================================================================
+//  5/ Initialisation de la machine
+//===================================================================
+MSG_BATCH_50000="Maschineninitialisierung: Start.\n";
+ERR_BATCH_50001="Fehler beim Initialisieren der Maschine.\n";
+ERR_BATCH_50002="Warnung: Maschine: Mindest- oder Höchstradius für Interpolation nicht korrekt: /p1 \n";
+ERR_BATCH_50003="Warnung: Maschine: PP-Worttabelle an der angegebenen Position nicht gefunden \n";
+MSG_BATCH_51000="Maschineninitialisierung: Ende.\n";
+
+//===================================================================
+//  6/ Generation du fichier NC Code (Ajout \n devant Start NC code et INIT pour lisibilit-
+//===================================================================
+MSG_BATCH_60000="\nNC-Codedatei wird generiert: Start.\n";
+ERR_BATCH_60001="Fehler beim Generieren der NC-Codedatei.\n";
+MSG_BATCH_61000="Generieren der NC-Codedatei: Ende.\n";
+
+MSG_BATCH_61010="Warnung: Aktivität /p1 ist nicht vollständig.\n";
+MSG_BATCH_61011="Warnung: Aktivität /p1 ist nicht aktiv.\n";
+MSG_BATCH_61012="Warnung: Aktivität /p1 ist nicht aktuell.\n";
+MSG_BATCH_61013="Information: Aktivität /p1 wurde aktualisiert.\n";
+MSG_BATCH_61014="Information: Anweisung /p1 nicht gefunden.\n";
+MSG_BATCH_61015="Fehler: Berechnung der Werkzeugbahn fehlgeschlagen für /p1.\n";
+MSG_BATCH_61016="Fehler: Keine SPITZE vor AUSGABEPROFIL.\n";
+MSG_BATCH_61017="Fehler: Keine SPITZE am Ende des AUSGABEPROFILS.\n";
+
+MSG_BATCH_61018="\nInformation: ** Aktivität /p1 : INIT. ** \n";
+MSG_BATCH_61019="Information: ** Aktivität /p1: END. ** \n";
+MSG_BATCH_61020="Information: ** Bearbeitungs- und Gesamtzeit: /p1 . ** \n";
+
+MSG_BATCH_61021="Fehler: PPCommand ist leer.\n";
+MSG_BATCH_61022="Information: Aktivität /p1.\n";
+ERR_BATCH_61023="Fehler: Nicht genügend Speicherplatz vorhanden.\n";
+
+MSG_BATCH_61024="Informationen: Berechnung von /p1 erzwingen.\n";
+MSG_BATCH_61025="Warnung: Aktivität /p1 ist gesperrt.\n";
+
+ERR_BATCH_61026="Fehler: Axiale Übergangs-Werkzeugbahn ist falsch.\n";
+MSG_BATCH_61027="Warnung: Werkzeugbahn der Aktivität /p1 ist gesperrt.\n";
+MSG_BATCH_61028="Warnung: Aktivität /p1 ist nicht synchron.\n";
+MSG_BATCH_61030="Aktivität /p1 ist während der Berechnung der Werkzeugbahn im Stapelmodus deaktiviert.\n";
+
+//  Generation du fichier clfile
+ERR_BATCH_62001="Warnung: Anweisung nicht in CL-Datei definiert:\n                 /p1\n";
+MSG_BATCH_62002="                 Wort in Großbuchstaben nicht in PP-Tabelle gefunden: /p1\n";
+MSG_BATCH_62003="                 Wort in Kleinbuchstaben nicht in PP-Tabelle gefunden: /p1\n";
+ERR_BATCH_62004="Fehler: beim Schreiben des Datensatzes in die CL-Datei - Aktuelle Anweisung:\n               /p1\n";
+
+ERR_BATCH_62010="Fehler: /p1 \nexistiert bereits, aber die Option zum Ersetzen ist nicht markiert.\n";
+ERR_BATCH_62011="Fehler: Der Zugriff auf \n/p1\nwird verweigert. \n";
+ERR_BATCH_62012="Fehler: /p1 \nist nicht vorhanden.\n";
+
+ERR_BATCH_62013="Fehler: Ungültige Kreisdefinition /p1.\n";
+
+
+//===================================================================
+//  7/ Sauvegarde du document modifie
+//===================================================================
+MSG_BATCH_70000="Sichern des Dokuments: Start.\n";
+ERR_BATCH_70001="Fehler beim Sichern des Dokuments.\n";
+MSG_BATCH_71000="Sichern des Dokuments: Ende.\n";
+
+//===================================================================
+//  8/ Generation du fichier ISO Code
+//===================================================================
+MSG_BATCH_80000="Generieren der ISO-Datei: Start.\n";
+ERR_BATCH_80001="Fehler beim Generieren der ISO-Datei.\n";
+MSG_BATCH_81000="Generieren der ISO-Datei: Ende.\n";
+
+//===================================================================
+//  9/ Dump du contenu de la ft05 (Donnees dans le GeneratorData)
+//===================================================================
+MSG_BATCH_90000="FT05-Datei: Start.\n";
+MSG_BATCH_91100="Schlüsselwort:  /p \n";
+MSG_BATCH_91000="FT05-Datei: Ende.\n";
+
+//=======================================================================
+//=======================================================================
+//                        ======== TOOLS ========                        
+//=======================================================================
+//=======================================================================
+
+ERR_TOOL_CORRECTOR_0001="Registernummer wird definiert.\nRegisternummer: /p ist bereits vorhanden.\nEine nicht vorhandene Registernummer wählen.";
+
+// La bonne description estr celle-ci mais la parametrisation ne marche pas.. 
+//ERR_TOOL_CORRECTOR_0001.Request    = "Defining register number.";
+//ERR_TOOL_CORRECTOR_0001.Diagnostic = "Register number: /p1 already exists.";
+//ERR_TOOL_CORRECTOR_0001.Advice     = "\nChoose an inexisting register number.";
+
+ERR_TOOL_CORRECTOR_0002="Durchmesserwert wird definiert.\nDurchmesserwert muss >= /p1 und <= /p2 sein\nEinen gültigen Durchmesserwert wählen.";
+// La bonne description estr celle-ci mais la parametrisation ne marche pas.. 
+//ERR_TOOL_CORRECTOR_0002.Request    = "Defining diameter value.";
+//ERR_TOOL_CORRECTOR_0002.Diagnostic = "Diameter value should be >= /p1 an <= /p2";
+//ERR_TOOL_CORRECTOR_0002.Advice     = "\nChoose a valid diameter value.";
+
+//=======================================================================
+//=======================================================================
+//                        ======== END TOOLS ========                        
+//=======================================================================
+//=======================================================================
+
+
+//                        ======== SIMULATION ========                        
+PHOTO_VIDEO.Request="Öffnen eines neuen Simulationsfensters";
+PHOTO_VIDEO.Diagnostic="Ein Simulationsfenster existiert bereits";
+PHOTO_VIDEO.Advice="\nDas alte Simulationsfenster schließen und erneut versuchen";
+
+//                                        
+PHOTO_VIDEO_CHECK_CLOSURE.Request="Bestand für die Simulation wird definiert";
+PHOTO_VIDEO_CHECK_CLOSURE.Diagnostic="Die ausgewählte Geometrie ist nicht geschlossen\nDas Simulationsergebnis ist nicht verfügbar";
+PHOTO_VIDEO_CHECK_CLOSURE.Advice="\nKeine Flächenelemente auswählen";
+
+
+//                                        
+PHOTO_VIDEO_DEFAULT_TOLERANCE.Request="Bearbeitungstoleranz von /p1 beträgt /p2 mm";
+PHOTO_VIDEO_DEFAULT_TOLERANCE.Diagnostic="Aktuelle Version des Befehls 'Analyse' liefert möglicherweise ungenaue Ergebnisse bei Bearbeitungstoleranzwerten von unter 0,01 mm.";
+PHOTO_VIDEO_DEFAULT_TOLERANCE.Advice="\nDie Anwenderunterstützung benachrichtigen.";
+
+
+//                                        
+VIDEO_NO_FIXED_TOOL_AXIS.Request="/p1 wird nicht simuliert";
+VIDEO_NO_FIXED_TOOL_AXIS.Diagnostic="Werkzeugachse ist nicht konstant";
+VIDEO_NO_FIXED_TOOL_AXIS.Advice="Im Fotomodus muss die Werkzeugachse konstant sein.\nDer Videomodus kann verwendet werden.";
+
+//                                        
+VIDEO_TOOL_AXIS_NOT_Z.Request="/p1 wird nicht simuliert";
+VIDEO_TOOL_AXIS_NOT_Z.Diagnostic="Werkzeugachse ist nicht parallel zur Werkzeugachse der aktuellen Operation";
+VIDEO_TOOL_AXIS_NOT_Z.Advice="Im Fotomodus muss die Werkzeugachse konstant und \nparallel zur Werkzeugachse der aktuellen Operation sein.\nDer Videomodus kann verwendet werden.";
+
+//                                        
+VIDEO_BYPLANE.Request="Die Modi 'Ebene für Ebene', 'Vorschub für Vorschub', 'Syntax für Syntax' und 'Schnitt für Schnitt' stehen für Videos nicht zur Verfügung.";
+VIDEO_BYPLANE.Diagnostic="Es stehen nur die Modi 'Fortlaufend' und 'Punkt für Punkt' zur Verfügung";
+VIDEO_BYPLANE.Advice="'Fortlaufend' oder 'Punkt für Punkt' auswählen.";
+
+//
+VIDEO_RESULT_FILE_NOT_FOUND.Request="'Video des zuletzt gespeicherten Ergebnisses' in /p1 ist nicht möglich. Ein vollständiges Video wird wiedergegeben.";
+VIDEO_RESULT_FILE_NOT_FOUND.Diagnostic="Die Datei /p2 mit dem Videoergebnis, das /p1 zugeordnet ist, kann nicht gefunden werden.";
+VIDEO_RESULT_FILE_NOT_FOUND.Advice="Folgendes ist möglich:\n -Befehl 'Video des zuletzt gespeicherten Ergebnisses' auf /p1 anwenden und das Videoergebnis zuordnen.\n - Oder die Datei wiederherstellen.\n - Oder den Befehl 'Videoergebnis entfernen' im Kontextmenü von /p1 verwenden.";
+
+DELETE_VIDEO_RESULT_NoOperation="Videoergebnis wird entfernt. \nKeine Operation ausgewählt";
+DELETE_VIDEO_RESULT_ProgramEmpty="Videoergebnis wird entfernt. \nDas ausgewählte Programm ist leer";
+DELETE_VIDEO_RESULT_Error="Videoergebnis wird entfernt. Beim Löschen des Videoergebnisses für Operation /p1 ist ein Fehler aufgetreten. Erneut versuchen und gegebenenfalls
+die Anwenderunterstützung benachrichtigen";
+DELETE_VIDEO_RESULT_Success="Videoergebnis wird entfernt. \nVideoergebnis erfolgreich entfernt";
+
+//                                        
+PHOTO_VIDEO_INCORRECT_TOOL.Request="Das Profil von /p1 ist nicht gültig.";
+PHOTO_VIDEO_INCORRECT_TOOL.Diagnostic="Die Bearbeitungsoperationen, die /p1 verwenden, können nicht simuliert werden.";
+PHOTO_VIDEO_INCORRECT_TOOL.Advice="Wenn /p1 eine Benutzerdarstellung ist, ist die Gültigkeit ihres Profils gemäß den in der Benutzerdokumentation aufgeführten Empfehlungen zu prüfen.
+Wenn /p1 ein NC-Ressourcenwerkzeug bzw. eine NC-Ressourcenbaugruppe ist, sind seine bzw. ihre Parameter zu prüfen.
+Wenn das Problem weiterhin bestehen sollte, ist die Anwenderunterstützung zu benachrichtigen.";
+
+TIME_BASED_VIDEO_INCORRECT_TOOL.Request="Das Profil von /p1 ist nicht gültig.";
+TIME_BASED_VIDEO_INCORRECT_TOOL.Diagnostic="Die Aktivität /p2, die /p1 verwendet, kann nicht simuliert werden.";
+TIME_BASED_VIDEO_INCORRECT_TOOL.Advice="Wenn /p1 eine Benutzerdarstellung ist, ist die Gültigkeit ihres Profils gemäß den in der Benutzerdokumentation aufgeführten Empfehlungen zu prüfen.
+Wenn /p1 ein NC-Ressourcenwerkzeug bzw. eine NC-Ressourcenbaugruppe ist, sind seine bzw. ihre Parameter zu prüfen.
+Wenn das Problem weiterhin bestehen sollte, ist die Anwenderunterstützung zu benachrichtigen.";
+
+//                                        
+PHOTO_INCORRECT_TOOL.Request="/p1 ist für die Fotosimulation nicht geeignet.";
+PHOTO_INCORRECT_TOOL.Diagnostic="Die Materialentfernung wird nicht korrekt simuliert.";
+PHOTO_INCORRECT_TOOL.Advice="Der Videomodus kann verwendet werden.";
+
+PHOTO_INCORRECT_TOOL_CORE_DIAMETER.Request="/p1 ist für Fotomodus nicht geeignet.";
+PHOTO_INCORRECT_TOOL_CORE_DIAMETER.Diagnostic="Der nicht schneidende Durchmesser (Dnc) wird nicht berücksichtigt.\nDaher wird die Materialentfernung nicht korrekt simuliert.";
+PHOTO_INCORRECT_TOOL_CORE_DIAMETER.Advice="Der Videomodus kann für diese Art von Schneidwerkzeug verwendet werden.";
+
+DELETE_IPM_RESULT_NoOperation="Berechnete Rohteildaten werden bereinigt. \nKeine Operation ausgewählt";
+DELETE_IPM_RESULT_ProgramEmpty="Berechnete Rohteildaten werden bereinigt. \nAusgewähltes Programm ist leer";
+DELETE_IPM_RESULT_Success="Bereinigung der berechneten Rohteildaten war erfolgreich.";
+DELETE_IPM_RESULT_Error="Bereinigung der berechneten Rohteildaten ist fehlgeschlagen.";
+
+UPDATE_IPM_STATUS_RESULT_NoOperation="Status des berechneten Rohteils aktualisieren.\nKeine Operation ausgewählt";
+UPDATE_IPM_STATUS_RESULT_ProgramEmpty="Status des berechneten Rohteils aktualisieren.\nAusgewähltes Programm ist leer";
+UPDATE_IPM_STATUS_RESULT_Error="Status des berechneten Rohteils aktualisieren.
+Bei der Aktualisierung des Status des berechneten Rohteils ist bei Operation /p1 ein Fehler aufgetreten.
+Erneut versuchen und gegebenenfalls die Anwenderunterstützung benachrichtigen";
+UPDATE_IPM_STATUS_RESULT_Success="Aktualisierung des Status des berechneten Rohteils erfolgreich";
+
+VIDEO_RESULT_FILE_SAVE_INTERNAL_ERROR_1.Request="Interner Fehler beim Sichern der Videoergebnisdatei";
+VIDEO_RESULT_FILE_SAVE_INTERNAL_ERROR_1.Diagnostic="\nBeim Sichern der Videoergebnisdatei ist ein interner Fehler aufgetreten.";
+VIDEO_RESULT_FILE_SAVE_INTERNAL_ERROR_1.Advice="\nDie Anwenderunterstützung benachrichtigen.";
+
+VIDEO_RESULT_FILE_SAVE_INTERNAL_ERROR_2.Request="Interner Fehler beim Sichern der Videoergebnisdatei";
+VIDEO_RESULT_FILE_SAVE_INTERNAL_ERROR_2.Diagnostic="\nBeim Entfernen einer zuvor gesicherten Videoergebnisdatei ist ein interner Fehler aufgetreten.";
+VIDEO_RESULT_FILE_SAVE_INTERNAL_ERROR_2.Advice="\nDie Anwenderunterstützung benachrichtigen.";
+
+VIDEO_RESULT_FILE_SAVE_WRONG_PATH.Request="Fehler beim Sichern der Videoergebnisdatei";
+VIDEO_RESULT_FILE_SAVE_WRONG_PATH.Diagnostic="\nDer in den Einstellungen für die Sicherung von Videoergebnissen definierte Pfad ist nicht korrekt.";
+VIDEO_RESULT_FILE_SAVE_WRONG_PATH.Advice="\nDen für die Sicherung von Videoergebnissen verwendeten Pfad prüfen.";
+
+VIDEO_RESULT_FILE_SAVE_NO_WRITE_ACCESS.Request="Fehler beim Sichern des Videoergebnisses";
+VIDEO_RESULT_FILE_SAVE_NO_WRITE_ACCESS.Diagnostic="\nDie Schreibberechtigungen lassen kein Sichern der Videoergebnisdatei zu.";
+VIDEO_RESULT_FILE_SAVE_NO_WRITE_ACCESS.Advice="\nDie Lese-/Schreibberechtigungen für den Pfad prüfen, der zum Sichern der Videoergebnisse verwendet wird.";
+
+VIDEO_RESULT_FILE_SAVE_OK.Request="Videoergebnisdatei gesichert.";
+
+//====================================================================================================
+// erreurs compute actual stock for lathe
+//====================================================================================================
+
+ACTUAL_STOCK_NoTurnContext.Diagnostic="Keine der vorhergehenden Operationen befindet sich in einem Drehmaschinenkontext.\n Daher muss das Eingaberohteil nicht neu berechnet werden.";
+
+ACTUAL_STOCK_NoLatheMachine.Diagnostic="Für die Berechnung des Rohteils im Drehkontext ist eine Drehmaschine erforderlich.";
+ACTUAL_STOCK_NoLatheMachine.Advice="\nEine Drehmaschine auf Aufspannungsebene auswählen.";
+
+ACTUAL_STOCK_NoSimulationStock.Diagnostic="Für die Berechnung des Rohteils im Drehkontext ist eine Definition des ursprünglichen Rohteils erforderlich.";
+ACTUAL_STOCK_NoSimulationStock.Advice="\nDas Rohteil auf Aufspannungsebene definieren.";
+
+ACTUAL_STOCK_NoIPM_output.Diagnostic="Die aktuelle Berechnung bringt kein Ergebnis. Das entfernte Material, das aus der vorhergehenden Operation im Drehkontext resultiert, kann nicht berechnet werden.";
+ACTUAL_STOCK_NoIPM_output.Advice="\nPrüfen, ob die vorhergehenden Operationen vollständig sind und berechnet werden können. \nGegebenenfalls die ungültigen Operationen vervollständigen oder inaktivieren.";
+
+ACTUAL_STOCK_NO_PRODUCT.Diagnostic="Die Berechnung des Rohteils der Drehoperation hat kein Ergebnis, da eine der Aufspannungen mit keinem CATProduct verknüpft ist.";
+ACTUAL_STOCK_NO_PRODUCT.Advice="\nDas Ergebnis der Berechnung des Rohteils der Drehoperation wird in einem neuen Teil erzeugt, \n das zu dem CATProduct hinzugefügt werden muss, das mit der Aufspannung verknüpft ist. \n Prüfen, ob alle Aufspannungen mit einem CATProduct verknüpft sind.";
+
+ACTUAL_STOCK_RESULT_Error="Bei der Berechnung des Eingaberohteils im Drehkontext ist eine Störung aufgetreten.
+Erneut versuchen und gegebenenfalls die Anwenderunterstützung benachrichtigen.";
+
+ACTUAL_STOCK_RESULT_Success="Berechnung des Eingaberohteils im Drehkontext ist erfolgreich.
+\nEs wurde ein Skizzenprofil erzeugt.
+Als Eingaberohteil der aktuellen Operation kann die gesamte resultierende Skizze oder ein Teil davon ausgewählt werden.";
+
+ACTUAL_STOCK_MISSING_PRIMITIVE.Diagnostic="Berechnung des Drehrohteils. \nDas entfernte Material für folgende Operationen \n/p1 \n kann nicht berechnet werden.";
+ACTUAL_STOCK_MISSING_PRIMITIVE.Advice="\nPrüfen, ob die vorhergehenden Operationen vollständig sind und berechnet werden können. \nGegebenenfalls die ungültigen Operationen vervollständigen oder inaktivieren.";
+
+//====================================================================================================
+// erreurs Time based replay
+//====================================================================================================
+
+TBR_Title="Zeitbasierte Wiedergabe";
+TBR_NOTHING_TO_REPLAY="Es gibt keine zu simulierende Aktivität.\nEine Aufspannung, ein Programm oder eine Aktivität auswählen.";
+TBR_MACHINING_PROCESS="Der Bearbeitungsprozess kann nicht simuliert werden.\nEine Aufspannung, ein Programm oder eine Aktivität auswählen.";
+TBR_LMT_MACHINE="Für die zeitbasierte Wiedergabe ist eine Drehmaschine mit mehreren Revolvern erforderlich.\nFür die Aufspannung eine Drehmaschine mit mehreren Revolvern definieren.";
+TBR_NOTHING_VIDEO_TO_REPLAY="Simulation nicht möglich.\nEine Aufspannung auswählen.";
+// 
+//************************************************************
+// Vieux format de message : a eviter maintenant et merci de les migrer (utiliser ERR_XXXX)
+//************************************************************
+//
+//
+// Messages generaux
+//
+InfoTitle="Herstellungsinformationen";
+WarningTitle="Herstellungswarnung";
+ErrorTitle="Herstellungsfehler";
+GeneralErrorTitle="Fehler";
+PanelTitle="Herstellungsfehler";
+UpdateError="Interner Fehler bei Aktualisierung";
+InternalError="Herstellungssoftwarefehler.\nFehler ist: /p1";
+InitError="Fehler bei Initialisierung";
+ErrorNotSpecified="Fehler nicht angegeben.\nDie Anwenderunterstützung benachrichtigen";
+DesignNotFound="Das Konstruktionsprodukt kann nicht abgerufen werden";
+ResourceNotFound="Die Ressource kann nicht abgerufen werden";
+StrategyParameterNotFound="Strategieparameter \n /p1 nicht gefunden.\nMöglicher Fehler in TXT-Datei /p2\nInfo: Liste aller zurzeit verfügbaren Strategieparameter:\n/p3\n\nListe aller verfügbaren Strategieparameter in Start:/p4";
+StrategyParameterNameNotFound="Name von Strategieparameter \n /p1 nicht gefunden.\nDer Strategieparameter /p1 ist ein /p2.\nMöglicher Fehler in TXT-Datei /p3\n\nInfo: Liste aller zurzeit verfügbaren Strategieparameter:\n/p4\n\nListe aller verfügbaren Strategieparameter in Start:/p5";
+TxtFileFormatError="In TXT-Datei /p1 \nhat die Zeile /p2 \n nicht das erforderliche Format: <name> <xwert> <ywert>";
+TxtFileNotReadable="TXT-Datei /p1 gefunden, aber nicht lesbar";
+IconNotAssigned="Keine gültigen Symboldateien für /p1 gefunden";
+WrongBitmapFileFormat="BMP-Datei: /p1 hat wahrscheinlich ein falsches Bitmap-Dateiformat\nDie Datei konnte geöffnet und gelesen, aber nicht verstanden werden";
+XYchangesNotAllowed="X und Y dürfen sich nicht ändern\nalte Werte: X /p1 Y /p2\nneue Werte: X /p3 Y /p4";
+NoBitmapFilePath="Kein Dateipfad für Bitmap vorhanden";
+BitmapNotReadable="BMP-Datei /p1 gefunden, aber nicht lesbar";
+GetComponentLinksError="Fehler in GetComponentLinks";
+ToolPathComputationError="Fehler in Werkzeugbahnberechnung";
+ViewerNotGenerated="in /p1 wurde keine 2D-Anzeigefunktion generiert";
+WrongDriveElement="Falsche Randelemente";
+ExactOneOfthe3ParametersHasToBeDefined="Genau einer der Parameter /p1, /p2 und /p3 muss definiert werden";
+Breakthrough_But_No_OperationLength="Durchbruch, aber keine Länge der Operation (OperationLength) definiert";
+CalculatingLiftAngleNotYesImplemented="Berechnung des Hebewinkels (LiftAngle) noch nicht implementiert";
+IllegalCombinationOfLiftParameters="Ungültige Kombination von Lift-Parametern";
+NotPossibleElseFound="Anderer nicht möglicher Parameter gefunden";
+ToolPathNotCalculated="Werkzeugbahn nicht berechnet";
+CuttingLengthNotFound="Fräslänge nicht gefunden";
+DirectionNotFound="Richtung nicht gefunden";
+HoleNotFound="Loch nicht gefunden";
+NoActivityFound="Aktivität nicht gefunden";
+NoIntersectionFound="Kein Schnittpunkt bei Werkzeugdurchmesser /p1 gefunden";
+NoToolAssociated="Kein Werkzeug zugeordnet";
+IntersectionsOnArcsNotDupported="Verschneidungen auf Bogen werden nicht unterstützt in \nCATMfgToolPathGeneratorBase::CalculateTipFromDiameter";
+NoToolGeomFound="Werkzeuggeometrie nicht gefunden";
+OriginNotFound="Ursprung nicht gefunden";
+NeededParameterNotFound="Erforderlicher Parameter /p1 nicht gefunden";
+OneOfTheFollowingParameterNotFound="Parameter /p1 oder /p2 nicht gefunden";
+OnlyBothParameterShouldBeDefined="Die Parameter /p1 und /p2 müssen zusammen definiert werden, oder sie dürfen überhaupt nicht definiert werden";
+OnlyOneParameterMayBeDefined="Nur einer der Parameter /p1 und /p2 kann definiert werden, nicht beide";
+Should_be_greater_than="Problem bei der Berechnung von Z-Koordinaten:\nDer Parameter /p1 = /p2 muss größer sein als /p3";
+Should_be_smaller_than="Problem bei der Berechnung von Z-Koordinaten:\nDer Parameter /p1 = /p2 muss kleiner sein als /p3";
+Parameter_greaterthan_Diameter="Der Parameter /p1 ist größer als der /p2 Parameter /p3";
+ParameterNotFound_ExistingParameters="Parameter \n /p1 nicht gefunden.\nListe aller verfügbaren Parameter:\n/p2";
+ToolParameterNoFound="Werkzeugparameter /p1 nicht gefunden";
+WrongToolCuttingAngle="Falscher Fräswinkel des Werkzeugs /p1";
+WrongToolTipZCoordinateCalculated="Für Werkzeugdurchmesser /p1 wurde eine falsche Z-Koordinate der Werkzeugspitze /p2 berechnet";
+WrongToolTipLengthCalculated="Falsche Werkzeugspitzenlänge /p1 berechnet";
+NoFeatureFound="Zugehörige Komponente nicht gefunden";
+InternalPocketingError="Interner Taschenfräsfehler";
+WrongDrivesElement="Falsche Randelemente";
+WrongIslandsElement="Falsche Inselelemente";
+WrongPartElement="Falsche Teileelemente";
+GeometryNotAccessible="Zugriff auf Geometrie nicht möglich. Möglicherweise wurde die Geometrie gelöscht";
+NoToolPathFactoryFound="Keine Werkzeugbahn-Factory gefunden";
+NoFeedrateParametersFound="Keine Vorschubparameter gefunden";
+ThisToolTypeHasNoToolTipLength="Ein Werkzeug des Typs /p1 hat keine Werkzeugspitzenlänge";
+Breakthrough_And_DepthDistance_Defined="Durchbruch und Tiefenabstand definiert";
+OXOZColinearDirections="OX und OZ sind kollinear.";
+PossibleCause="Mögliche Ursachen:";
+
+//=======================================================================
+//=======================================================================
+//                        ======== 2D RA 2D MA ========            
+//                         Plage ERR_7000 a 7100 
+//=======================================================================
+//=======================================================================
+ERR_7000.Request="Nachbearbeitungsbereich wird berechnet.";
+ERR_7000.Diagnostic="Berechnung fehlgeschlagen.";
+ERR_7000.Advice="Die Parameter prüfen.";
+
+ERR_7001.Request="Nachbearbeitungsbereich wird berechnet.";
+ERR_7001.Diagnostic="Kein Nachbearbeitungsbereich gefunden.";
+
+ERR_7002="Nachbearbeitungsbereich wird berechnet. \nUngültige geometrische Konfiguration.";
+
+ERR_7003.Request="Aus einer Konturfräsoperation laden.";
+ERR_7003.Diagnostic="Operation weist mehr als ein Führungselement auf.";
+ERR_7003.Advice="Das gewünschte Führungselement auswählen.";
+
+ERR_7004.Request="Aus einer Bearbeitungsoperation laden.";
+ERR_7004.Diagnostic="Ladevorgang fehlgeschlagen.";
+ERR_7004.Advice="Nachbearbeitungsparameter manuell festlegen.";
+
+ERR_7005.Request="Aus einer Konturfräsoperation laden.";
+ERR_7005.Diagnostic="Laden nicht möglich: Operationsmodus muss 'Zwischen zwei Ebenen' lauten.";
+ERR_7005.Advice="Nachbearbeitungsparameter manuell festlegen.";
+
+ERR_7006.Request="Aus einer Konturfräsoperation laden.";
+ERR_7006.Diagnostic="Laden nicht möglich: Werkzeugposition auf Führungselement.";
+ERR_7006.Advice="Nachbearbeitungsparameter manuell festlegen.";
+
+ERR_7007.Request="Nachbearbeitungsbereich wird berechnet.";
+ERR_7007.Diagnostic="Berechnung nicht möglich: offene Begrenzung nur mit geschlossener Kontur und innerer Ausrichtung zulässig.";
+ERR_7007.Advice="Die Parameter prüfen.";
+
+ERR_7008.Request="Nachbearbeitungsbereich wird berechnet.";
+ERR_7008.Diagnostic="Berechnung nicht möglich: Inseln nur mit geschlossener Kontur zulässig.";
+ERR_7008.Advice="Die Parameter prüfen.";
+
+ERR_7009.Request="Nachbearbeitungsbereich wird berechnet.";
+ERR_7009.Diagnostic="Berechnung nicht möglich: Unstetigkeit bei der Kontur festgestellt.";
+ERR_7009.Advice="Unstetigkeit ausfüllen.";
+
+ERR_7010.Request="Operationserzeugung mit 2.5-Achsbearbeitungsbereich.";
+ERR_7010.Diagnostic="Aktueller Bearbeitungsbereich ist mit der Operation nicht kompatibel.";
+ERR_7010.Advice="Bearbeitungsbereich nicht zugeordnet, neue Komponente erzeugt";
+
+ERR_7011.Request="Nachbearbeitungsbereich wird berechnet.";
+ERR_7011.Diagnostic="Berechnung nicht möglich: Mehr als eine Kontur festgestellt.";
+ERR_7011.Advice="Berechnung nur bei einzelner Kontur möglich";
+
+ERR_7012.Request="Kontur wird abgeleitet.";
+ERR_7012.Diagnostic="Ableitung nicht möglich: offener Teilflächenverband festgestellt \nKontur kann an der zwischen Teilflächen befindlichen Zusammenführung nicht bestimmt werden  ";
+ERR_7012.Advice="Eine andere Kontur auswählen oder einen anderen Auswahlmodus verwenden (Kante...) ";
+
+ERR_7013.Request="Kontur wird abgeleitet.";
+ERR_7013.Diagnostic="Ableitung nicht möglich: Kontur kann nicht bestimmt werden";
+ERR_7013.Advice="Eine andere Kontur auswählen oder einen anderen Auswahlmodus verwenden (Kante...) ";
+
+ERR_7014.Request="Erzeugung des Arbeitsgangs mit zugeordneter Komponente.";
+ERR_7014.Diagnostic="Die aktuelle Komponente ist nicht mit dem Arbeitsgang kompatibel.";
+ERR_7014.Advice="Komponente ist nicht zugeordnet";
+
+//BFA: 4Xpocketing : Incorrect plane selections 
+ERR_7015.Request="Ausgewählte obere Achse unterscheidet sich von der ausgewählten unteren Achse.";
+ERR_7015.Diagnostic="Berechnung des Abstands zwischen der oberen und der unteren Achse ist fehlgeschlagen.";
+ERR_7015.Advice="Die letzte Auswahl wurde entfernt. Eine neue Auswahl vornehmen";
+
+ERR_7016.Request="Die ausgewählte Fläche ist weder zylindrisch noch kegelförmig.";
+ERR_7016.Diagnostic="Die ausgewählte Fläche ist mit der Operation nicht kompatibel.";
+ERR_7016.Advice="Die letzte Auswahl wurde entfernt. Eine neue Auswahl vornehmen";
+//************************************************************
+// Plage ERR_8001 a ERR_8029 : Manufacturing Gantt
+//************************************************************
+//
+// Incorrect Selection
+//
+ERR_8001.Request="Das ausgewählte Objekt gehört nicht zu einer Aufspannung.";
+ERR_8001.Advice="\nEine Aufspannung oder eine Aktivität auswählen, die zu einer Aufspannung gehört.";
+//
+// Machine has a single turret
+//
+ERR_8002.Request="Diese Funktionalität ist bei einer Maschine mit einem Revolver nicht verfügbar.";
+ERR_8002.Advice="Revolver zur Maschine hinzufügen, jedem Programm einen Revolver zuweisen und Operationen im geeigneten Programm definieren.";
+//
+// Machine is not a Multi-turret one
+//
+ERR_8003.Request="Diese Funktionalität ist nur bei einer Maschine mit mehreren Revolver verfügbar.";
+ERR_8003.Advice="\nDie Maschine wechseln, jedem Programm einen Revolver zuweisen und Operationen in das jeweils geeignete Programm verschieben.";
+//
+// There a concurrent turret on a spindle, without set of master
+//
+ERR_8004.Request="Mehrere Revolver werden gleichzeitig für dieselbe Spindel verwendet, ohne dass ein Master-Revolver definiert ist.";
+ERR_8004.Diagnostic="Zeitberechnungen und Bearbeitungscode können fehlerhaft sein.";
+ERR_8004.Advice="\nZuordnung von Spindel oder Revolver ändern oder\n eine Synchronisierung erzeugen, indem zu Beginn der Aufspannung ein Master-Revolver ausgewählt wird.";
+//
+// Desactivating a synchronised activity
+//
+ERR_8005.Request="Eine synchronisierte Aktivität wird inaktiviert.";
+ERR_8005.Diagnostic="Berechnungen für Gantt-Diagramme oder NC-Code erfolgen so, als gäbe es keine Synchronisierung.";
+//
+
+// Desactivating a synchronised activity
+//
+ERR_8006.Request="Eine synchronisierte Aktivität wird inaktiviert.";
+ERR_8006.Diagnostic="Alle Synchronisationen, an denen die Aktivität beteiligt ist, werden gelöscht. ";
+
+//************************************************************
+// Plage ERR_8030 a ERR_8069 : Synchronisation
+//************************************************************
+//
+// Activities from different part operations
+//
+ERR_8030.Request="Zu synchronisierende Aktivitäten müssen sich in derselben Teileoperation befinden.";
+ERR_8030.Diagnostic="Die Synchronisierung wurde nicht erzeugt.";
+ERR_8030.Advice="\nAktivitäten aus derselben Teileoperation auswählen.";
+//
+// Activities using same turret
+//
+ERR_8031.Request="Die zu synchronisierenden Aktivitäten müssen unterschiedliche Revolver verwenden.";
+ERR_8031.Diagnostic="Die ausgewählten Aktivitäten verwenden denselben Revolver oder gehören zum selben Programm, das keinem Revolver zugeordnet ist.";
+ERR_8031.Advice="\nSicherstellen, dass die Aktivitäten, die synchronisiert werden sollen, unterschiedliche Revolver verwenden.";
+//
+//Single Turret on Setup
+ERR_80311.Request="Beim Start ist entweder nur ein Revolver vorhanden oder keiner.";
+ERR_80311.Diagnostic="Wenn weniger als zwei Revolver vorliegen, beeinträchtigt dies die Erzeugung der Synchronisierung. ";
+ERR_80311.Advice="\nSicherstellen, dass mehr als nur ein Revolver vorliegt.";
+//
+//Message for removing balancing
+ERR_80312.Request="Die Werkzeugparameter wurden für eine ausgeglichene Aktivität geändert.";
+ERR_80312.Diagnostic="Die Werkzeugparameter sind nicht mehr kompatibel. ";
+ERR_80312.Advice="\nDer Ausgleich würde entfernt.";
+//Position of cut&pasting for balanced activity is incompatible
+ERR_80313.Request="Die zum Ausschneiden und Einfügen für die ausgeglichene Aktivität ausgewählte Position ist nicht kompatibel.";
+ERR_80313.Diagnostic="Der Ausgleich wird entfernt. ";
+ERR_80313.Advice="\nDie Aktivität wird gelöscht.";
+//
+// One of the activity works at turning spindle when the other not and their start are synchronized
+//
+ERR_8032.Request="Eine der synchronisierten Aktivitäten erfolgt bei rotierender Spindel, die andere nicht.";
+ERR_8032.Diagnostic="Die Synchronisierung erfolgt, bevor die Revolver bereit sind. Dadurch sind das Teil, die Werkzeuge oder die Maschine gefährdet.";
+ERR_8032.Advice="\nDie Position der Synchronisierung für eine der Operationen ändern oder den Operationen unterschiedliche Spindeln zuordnen.";
+//
+// Existing synchronisations unable the creation of this particular synchronisation
+//
+ERR_8033.Request="Kanäle sind bereits derart synchronisiert, dass diese Synchronisierung nicht erzeugt werden kann.";
+ERR_8033.Advice="Andere Synchronisierungen abbrechen, damit diese Synchronisierung erzeugt werden kann.";
+//
+// Activities are already synchronised
+//
+ERR_8035.Request="Die Synchronisierung wurde nicht erzeugt.";
+ERR_8035.Diagnostic="Die ausgewählten Aktivitäten waren bereits synchronisiert.";
+ERR_8035.Advice="\nDas Gantt-Diagramm verwenden, um vorhandene Synchronisierungen zu prüfen und um zwei andere Aktivitäten auszuwählen.";
+//
+// Associativity of synchronisation
+//
+ERR_8036.Request="Synchronisierung /p1 /p2 ist nicht möglich.";
+ERR_8036.Diagnostic="Makro wurde möglicherweise abgebrochen oder inaktiviert.";
+ERR_8036.Advice="\nWenn die Spezifikation geändert wurde, die Synchronisierung bearbeiten, um sie zu aktualisieren.\nMomentan verhält sie sich so, als wäre die Synchronisierung bei /p1 festgelegt worden";
+//
+// No need to Synchronize First Activities at start
+//
+ERR_8037.Request="Die Synchronisierung wurde nicht erzeugt.";
+ERR_8037.Diagnostic="Start-Start-Synchronisation für die ersten Aktivitäten des Programms kann nicht hergestellt werden.";
+ERR_8037.Advice="\nDas Gantt-Diagramm verwenden, um vorhandene Synchronisierungen zu prüfen und um zwei andere Aktivitäten auszuwählen.";
+//************************************************************
+// ReverseMachiningConditions
+//************************************************************
+MSG_ReverseMachiningConditions="Die Bedingungen für /p1 ausgewählte Elemente werden umgekehrt: \n \t /p2 Operationen wurden behandelt.\n \t /p3 Operationen wurden aktualisiert.";
+
+//************************************************************
+// ReverseMacros
+//************************************************************
+MSG_ReverseMacros="Makros für die /p1 ausgewählten Elemente werden umgekehrt:\n \t /p2 Operationen wurden behandelt. \n \t /p3 Operationen wurden aktualisiert.";
+//
+// Transition Elements Errors
+//
+ERR_9000.Request="Ungültige ausgewählte Ebene.";
+ERR_9000.Diagnostic="Die ausgewählte Ebene gehört nicht zur Definition des eingerichteten Umhüllungsrahmens.";
+ERR_9000.Advice="\nEine andere Ebene auswählen oder den Umhüllungsrahmen neu definieren.";
+
+//**********
+//
+// Init of Turret Machining Axis System
+//
+CheckMachiningAxisSystemTurret_USEPAS.Request="Achsensystem des Drehwerkzeugs kann nicht initialisiert werden.";
+CheckMachiningAxisSystemTurret_USEXDIR.Request="Achsensystem des Drehwerkzeugs kann nicht initialisiert werden.";
+CheckMachiningAxisSystemTurret_USEXDIRUSEZDIR.Request="Achsensystem des Drehwerkzeugs kann nicht initialisiert werden.";
+CheckMachiningAxisSystemTurret_USEZDIR.Request="Achsensystem des Drehwerkzeugs kann nicht initialisiert werden.";
+CheckMachiningAxisSystemTurret_USEPAS.Diagnostic="Definition des Achsensystems des Drehwerkzeugs wird vom Achsensystem des ausgewählten Teils bedingt.";
+CheckMachiningAxisSystemTurret_USEXDIR.Diagnostic="X-Richtung wird von der ausgewählten Geometrie bedingt.";
+CheckMachiningAxisSystemTurret_USEXDIRUSEZDIR.Diagnostic="X- und Z-Richtungen werden von der ausgewählten Geometrie bedingt.";
+CheckMachiningAxisSystemTurret_USEZDIR.Diagnostic="Z-Richtung wird von der ausgewählten Geometrie bedingt.";
+CheckMachiningAxisSystemTurret_USEPAS.Advice="Zum Initialisieren des Achsensystems des Drehwerkzeugs die aktuelle Geometrieauswahl entfernen.";
+CheckMachiningAxisSystemTurret_USEXDIR.Advice="Um die Initialisierung des Achsensystems des Drehwerkzeugs zu ermöglichen, für die Richtung im Editor 'Richtung X' den Modus 'Manuell' angeben";
+CheckMachiningAxisSystemTurret_USEXDIRUSEZDIR.Advice="Um die Initialisierung des Achsensystems des Drehwerkzeugs zu ermöglichen, für die Richtungen in den Editoren 'Richtung X' und 'Richtung Z' den Modus 'Manuell' angeben.";
+CheckMachiningAxisSystemTurret_USEZDIR.Advice="Um die Initialisierung des Achsensystems des Drehwerkzeugs zu ermöglichen, für die Richtung im Editor 'Richtung Z' den Modus 'Manuell' angeben";
+
+CheckMachiningAxisSystemTurret_TURRET_ORIGIN_ALONG_MAIN_SPINDLE_AXIAL_AXIS.Diagnostic="Zum Neigen der Revolverebene (axiale und radiale Achsen des Achsensystems des Drehwerkzeugs) darf sich der Revolverursprung nicht auf der axialen Achse der Hauptspindel befinden.";
+CheckMachiningAxisSystemTurret_TURRET_ORIGIN_ALONG_MAIN_SPINDLE_AXIAL_AXIS.Advice="Eine radiale Verschiebung des Ursprungs des Revolvers definieren, dann die Winkelneigung anwenden.";
+
+//
+
+//**********
+//CO-Axial Holes
+
+HOLE_SELECTED_FROM_PATTERNS.Request="Bohrungen auswählen \ndie nicht Teil des Musters sind.";
+HOLE_SELECTED_FROM_PATTERNS.Diagnostic="Ausgewählte Bohrung sollte nicht \nTeil des Musters sein.";
+HOLE_SELECTED_FROM_PATTERNS.Advice="Eine andere Bohrung auswählen, die nicht zum Muster gehört.";
+
+//**********
+
+//**********
+//Machine Instruction
+MachineInstruction_NoResource.Diagnostic="Der Bearbeitungsoperation ist keine Maschine zugeordnet.";
+MachineInstruction_NoResource.Advice="Zum Erzeugen einer Maschineninstruktionsaktivität der Bearbeitungsoperation eine Maschine zuordnen.";
+
+
+MachineInstruction_NoLicense.Diagnostic="Lizenzproblem.";
+MachineInstruction_NoLicense.Advice="Eine Lizenz für MPS ist erforderlich.";
+//**********
+
+//OAD Head Change
+HeadChange_NoResource.Diagnostic="Der Bearbeitungsoperation ist keine Maschine zugeordnet.";
+HeadChange_NoResource.Advice="Zum Erzeugen einer Kopfwechselaktivität der Teileoperation eine Maschine mit mindestens einem Kopf zuweisen.";
+
+HeadChange_ResourceWithNoHead.Diagnostic="Die der Teileoperation zugewiesene Maschine verfügt über keinen Kopf.";
+HeadChange_ResourceWithNoHead.Advice="Zum Erzeugen einer Kopfwechselaktivität der Teileoperation eine Maschine mit mindestens einem Kopf zuweisen.";
+
+//**********
+// UDF - Environment Error
+ERR_10000.Request="Funktionalität noch nicht implementiert";
+ERR_10000.Diagnostic="Release 17 auswählen \n Diese Funktionalität ist in Release 17 implementiert. ";
+ERR_10000.Advice="Diese Funktionalität ist ab Release 16 Service Pack 5 implementiert.";
+//**********
+
+//**********
+// Path size too long
+ERR_1729.Diagnostic="Der absolute Pfad ist zu lang.";
+ERR_1729.Advice="Die Anzahl Zeichen im Pfadnamen reduzieren.";
+//**********
+
+//**********
+//MaxTurnEnvelope
+SHAFT_CREATION_ERROR.Diagnostic="Skizze muss manuell bereinigt werden,\n um die Welle erzeugen zu können";
+SHAFT_CREATION_ERROR1.Diagnostic="Ausgewähltes Zielteil ist nicht gültig.\n Gültiges Zielteil auswählen";
+SHAFT_CREATION_ERROR2.Diagnostic="Ausgewähltes Drehteil ist nicht gültig.\n Gültiges Drehteil auswählen";
+SHAFT_CREATION_ERROR3.Diagnostic="Ausgewählte Drehachse ist nicht gültig.\n Gültige Drehachse auswählen";
+SHAFT_CREATION_ERROR4.Diagnostic="Ausgewählte Drehachse ist nicht korrekt.\n Eine Drehachse auswählen, die parallel zur Arbeitsebene der Drehmaschine liegt";
+
+//**********
+
+//**********
+// Check Axis system during video
+AXIS_CHECKORTHOGONALITY_VIDEO.Diagnostic="Die Spindelachse und die radiale Achse des Revolvers sind nicht rechtwinklig";
+AXIS_CHECKORTHOGONALITY_VIDEO.Advice="\nDie Orthogonalität dieser Achsen prüfen";
+
+//**********
+
+//**********
+// Check Axis system of Mill-Turn Turrets
+MILLTURN_TURRET_AXIS_OFFSET.Diagnostic="Der Revolver '/p1' und die Hauptspindel '/p2' sind nicht einwandfrei ausgerichtet.";
+MILLTURN_TURRET_AXIS_OFFSET.Advice="\n Die Punkte der Werkzeugbahn können unerreichbar sein.";
+
+MILLTURN_TURRET_AXIS_ERROR.Diagnostic="Der Ursprung des Revolvers '/p1' kann nicht auf der Axialachse der Hauptspindel liegen.";
+MILLTURN_TURRET_AXIS_ERROR.Advice="\n Der Benutzer muss die Revolverachsen u. U. erneut ordnungsgemäß definieren.";
+//**********
+
+//**********
+// Automatic reconcilation for mill-turn
+MILLTURN_RECONCILATION_WARNING.Diagnostic="Es wird ein automatischer Abgleich von Revolver mit dem Bearbeitungsprogramm sowie von Spindel mit der Bearbeitungsoperation \n auf Basis der Zuweisungen der Drehmaschine mit mehreren Schlitten durchgeführt.";
+MILLTURN_RECONCILATION_WARNING.Advice="\n Prüfen ob, die gewünschte Zuordnung von
+Revolver\Spindel zu Programm\Operation entsteht.";
+//**********
+//**********
+
+// Automatic reconcilation for mill-turn
+MILLTURN_RECONCILATION_TURRET_TYPE_WARNING.Diagnostic="Es wird ein automatischer Abgleich von Revolver mit dem Bearbeitungsprogramm sowie von Spindel mit der Bearbeitungsoperation \n auf Basis der Zuweisungen von Revolvertyp und Drehmaschine mit mehreren Schlitten durchgeführt.";
+MILLTURN_RECONCILATION_TURRET_TYPE_WARNING.Advice="\n Prüfen ob, die gewünschte Zuordnung von
+Revolver\Spindel zu Programm\Operation entsteht.";
+
+//**********
+// MAD 07/04/2008: Part or Product replacement
+WNG_ProductReplacement_001.Diagnostic="Die Änderung von Produkt oder Teil der aktuellen Aufspannung wirkt sich auch auf andere Aufspannungen aus. \n Vorgang fortsetzen?";
+//**********
+
+//************************************************************
+//On Turret Change & MachineInstruction using the turret
+//************************************************************
+ERR_8990.Request="Einige Maschineninstruktionsaktivitäten im aktuellen Fertigungsprogramm sind nicht auf dem aktuellen Stand.";
+ERR_8990.Diagnostic="Die betreffenden Aktivitäten verwenden den alten Revolver.";
+ERR_8990.Advice="Maschineninstruktionsaktivitäten aktualisieren.";
+//************************************************************
+
+
+//************************************************************
+//On Channing Axis system of Main Spindle
+//************************************************************
+ERR_8425.Request="Das in der Aufspannung definierte Referenz-Bearbeitungsachsensystem ist der Hauptspindel zugeordnet.";
+ERR_8425.Diagnostic="Referenz-Bearbeitungsachsensystem der Aufspannung ändern, um das Achsensystem der Hauptspindel zu ändern.";
+//************************************************************
+
+//************************************************************
+//On deletion of a balanced activity
+//************************************************************
+BalancedActDeleteTitle="Warnung löschen";
+DeleteBalancedActWarningMessage="Es wird eine Ausgleichsschruppoperation gelöscht. Fortfahren?";
+//************************************************************
+
+
+//************************************************************
+//QPB   On Pattern Direction Update
+//************************************************************
+PatternDirectionUpdate.Diagnostic="Die Werkzeugachse nach der Musteraktualisierung ist gegensätzlich zur bereits festgelegten Werkzeugachse für die folgenden Bearbeitungsoperationen:- /p1 ";
+PatternDirectionUpdate.Advice="Die Werkzeugachse für diese Operationen überprüfen. Die Richtung des Geometriefensters der Operation kann umgekehrt werden.";
+//************************************************************
+
+

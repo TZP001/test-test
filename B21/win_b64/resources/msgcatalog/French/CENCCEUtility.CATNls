@@ -1,0 +1,128 @@
+// =====================================================================
+// CCE utility NLS-File Number range x12000..x12999
+//
+// $Revision: 1.8 $
+// $Date: 2010/03/26 11:05:17CET $
+//
+// Syntax:
+//   <ModuleId>_<MsgId>.<Key> = "Text";
+//   where 
+//     ModuleId: Text   - for classification (internally not used yet)
+//     MsgId   : Number - Messagenumber (first digit is severity)
+//     Key     : Text   - "iSev" -> Severity
+//                        "sMsg" -> Short Message Text (not used yet)
+//                        "lMsg" -> Long Message Text
+//
+// Limitations:
+//    # max. nb. of parameters supported: /P1 .. /P25
+//    # max. nb. of lMsg-lines: 10
+//    # Key iSev has to be before lMsg 
+//
+// =====================================================================
+
+// ------------------------------------------------------------------
+// Information messages
+// ------------------------------------------------------------------
+
+// MacroInterpreter message for severity 1
+CCE_EM112000.iSev="1";
+CCE_EM112000.sMsg="Information interne";
+CCE_EM112000.lMsg="/P1";
+
+// ------------------------------------------------------------------
+// Warning messages
+// ------------------------------------------------------------------
+
+// MacroInterpreter message for severity 3
+CCE_EM312000.iSev="3";
+CCE_EM312000.sMsg="Avertissement interne";
+CCE_EM312000.lMsg="/P1";
+
+// MacroInterpreter message for function CCE_SetConfig()
+CCE_EM312001.iSev="3";
+CCE_EM312001.sMsg="Erreur dans la fonction d'interpréteur de macro";
+CCE_EM312001.lMsg="Commande : /P1
+Séquence : /P2
+Numéro de ligne : /P3
+Avertissement : paramètre de configuration '/P4' introuvable.";
+
+// ------------------------------------------------------------------
+// Error messages
+// ------------------------------------------------------------------
+
+// MacroInterpreter message for severity 4
+CCE_EM412000.iSev="4";
+CCE_EM412000.sMsg="Erreur interne";
+CCE_EM412000.lMsg="/P1";
+
+// MacroInterpreter message for function CCE_GetConfig()
+CCE_EM412001.iSev="4";
+CCE_EM412001.sMsg="Erreur dans la fonction d'interpréteur de macro";
+CCE_EM412001.lMsg="Commande : /P1
+Séquence : /P2
+Numéro de ligne : /P3
+Erreur : paramètre de configuration '/P4' introuvable.";
+
+// MacroInterpreter message for function CCE_GetConfig()
+CCE_EM412002.iSev="4";
+CCE_EM412002.sMsg="Erreur dans la fonction d'interpréteur de macro";
+CCE_EM412002.lMsg="Commande : /P1
+Séquence : /P2
+Numéro de ligne : /P3
+Erreur : paramètre de configuration vide non admis pour '/P4'.";
+
+// MacroInterpreter message for function CCE_GetRtData()
+CCE_EM412010.iSev="4";
+CCE_EM412010.sMsg="Erreur dans la fonction d'interpréteur de macro";
+CCE_EM412010.lMsg="Commande : /P1
+Séquence : /P2
+Numéro de ligne : /P3
+Erreur : paramètre de données d'exécution de l'Id '/P4' introuvable.";
+
+// MacroInterpreter message for function CCE_GetParam()/CCE_SetParam()
+CCE_EM412020.iSev="4";
+CCE_EM412020.sMsg="Erreur dans la fonction d'interpréteur de macro";
+CCE_EM412020.lMsg="Commande : /P1
+Séquence : /P2
+Numéro de ligne : /P3
+Erreur : paramètre d'Id '/P4' introuvable.";
+
+// MacroInterpreter message for function CCE_SetParam()
+CCE_EM412021.iSev="4";
+CCE_EM412021.sMsg="Erreur dans la fonction d'interpréteur de macro";
+CCE_EM412021.lMsg="Commande : /P1
+Séquence : /P2
+Numéro de ligne : /P3
+Erreur : la variable d'Id de paramètre '/P4' doit être de type NUMBER.";
+
+// MacroInterpreter message for function CCE_SetParam()
+CCE_EM412022.iSev="4";
+CCE_EM412022.sMsg="Erreur dans la fonction d'interpréteur de macro";
+CCE_EM412022.lMsg="Commande : /P1
+Séquence : /P2
+Numéro de ligne : /P3
+Erreur : la variable d'Id de paramètre '/P4' doit être de type STRING.";
+
+// MacroInterpreter message for severity 5
+CCE_EM512000.iSev="5";
+CCE_EM512000.sMsg="Erreur interne";
+CCE_EM512000.lMsg="/P1
+Arrêt...";
+
+CCE_EM512001.iSev="5";
+CCE_EM512001.sMsg="Erreur d'interpréteur de macro";
+CCE_EM512001.lMsg="Erreur liée à l'application - Aucune entrée principale pour le programme de NC définie.";
+
+CCE_EM512002.iSev="5";
+CCE_EM512002.sMsg="Erreur de définitions de mappage RX";
+CCE_EM512002.lMsg="Application de version maximum : /P1./P2./P3./P4
+Erreur de table de paramétrage RX : la version de définition de mappage d'entrée dépasse la version maximale.";
+
+CCE_EM512003.iSev="5";
+CCE_EM512003.sMsg="Erreur de prémappage RXParser";
+CCE_EM512003.lMsg="Erreur d'application - Erreur non récupérable (rc=/P1) de prémappage ISO. Abandon...";
+
+// =====================================================================
+// End of CCE utility NLS-File
+// =====================================================================
+//

@@ -1,0 +1,851 @@
+'// COPYRIGHT DASSAULT SYSTEMES  2000
+'//============================================================================
+'// CATSchAttrValueWYSIWYG.CATScript
+'//
+'// Language="VBSCRIPT"
+'// To report values of attributes specIfied by end user. The format is 
+'// read from the user provided template.
+'// CATIA provides the following sample excel templates :
+'//
+'// EquipmentFunctionReportSample.xls        - Equipment list
+'// PipingDiagramPartReportSample.xls        - Piping part list
+'// PipingFromToReportSample.xls             - Piping line from-to list
+'// PipingPartsListReportSample.xls          - Piping Parts List
+'// PipingPipeCutLengthReportSample.xls      - Piping Cut Length Report
+'// InstrumentDiagramPartReportSample.xls    - Instrumentation list
+'// HVACFromToReportSample.xls               - HVAC from-to list
+'// HVACDiagramPartReportSample.xls          - HVAC Part list
+'// 
+'//
+'//============================================================================
+'// Major CATIA interface used:
+'//
+'// interface           VB Name         Remarks
+'// -----------       ------------    --------------
+'// CATIADocument       Document        access the current document
+'// CATIAPspWorkbench   PspWorkbench    access the PSP workbench 
+'// CATIASelection      Selection       to get the object from current selection
+'//                                     in the interactive section
+'// CATIAProduct        Product         to get the Product attributes and methods
+'// CATIAPspAttribute   PspAttribute    to get the PlantShip object attribute
+'//                                     values
+'// CATIAPspLogicalLine PspLogicalLine  To get from to relation ship
+'//                                     values
+'//
+'//============================================================================
+'// object type         IDL-supported attributes
+'// ------------        -------------------------
+'//                     
+'// Psp   objects       ID (Product Structure attribute)
+'// Piping,Equipment 
+'// Function objects
+'// (component,route..) Instance Name (Product Structure attribute)
+'//                     Class (Feature attribute)
+'//                     Version (Product Structure attribute)
+'//                     Description (Product Structure attribute)
+'//                     Part Number (Product Structure attribute)
+'//                     Part Name (Product Structure attribute)
+'//                     Line ID
+'//                     Piping Line ID
+'//                     Loop ID
+'//                     Equipment Line ID
+'//                     All user defined attributes.
+'//
+'// Logical line        From/To
+'//                     F/T Major
+'//                     F/T Minor
+'//                     Member
+'//                     All attributes supported by Schematic objects except
+'//                     LineID, Piping Line ID, Loop ID and Equipment Line ID
+'//
+'//============================================================================           
+'//
+'// Audit Trail:
+'//----------------------------------------------------------------------------
+'//   Author     : Vic Szeto
+'//   Date       : 12/00
+'//   Chg id     :
+'//   Chg nature :
+'//----------------------------------------------------------------------------
+'//   ModIfied   : Julia Levitan
+'//   Date       : 4/01
+'//   Chg id     :
+'//   Chg nature : Multiple documents 
+'//----------------------------------------------------------------------------
+'//   ModIfied   : gnn
+'//   Date       : 10/01
+'//   Chg id     :
+'//   Chg nature : Added Tubing and HVAC templates
+'//----------------------------------------------------------------------------
+'//   ModIfied   : agq
+'//   Date       : 12/2005
+'//   Chg id     :
+'//   Chg nature : Using new IDL interface methodology
+
+'//============================================================================
+
+Option Explicit
+
+'******************************************************************************
+'  GLOBAL variable declarations section
+'******************************************************************************
+'// ---------- Debug Traces
+Const intG_TRACEON = 0
+Dim strMessage
+
+'// ---------- EXCEL application objects
+Dim objGEXCELapp        As Object
+Dim objGEXCELwkBks      As Object
+Dim objGEXCELwkBk       As Object
+Dim objGEXCELwkShs      As Object
+Dim objGEXCELOutputSh   As Object
+Dim objGEXCELCurrentSh   As Object
+
+Dim  intGReportCurrentRow        As Integer
+Dim  intGReportCurrentColumn     As Integer
+Dim  intGNbSheet                 As Integer
+Dim  intGCancel                  As Integer
+
+Dim  strGDefaultTemplate         As String
+Dim  strGReportTemplate          As String
+Dim  strGReportTemplatePath      As String
+Dim  strGInputPanelTitle         As String
+Dim  strGInputPanelPrompt        As String
+
+'// ---------- CATIAV5 application objects
+Dim objCATIAV5DocCollection As Documents
+Dim objCATIAV5Document() As Document
+Dim objCATIAV5Selection() As Selection
+
+
+Dim intNbDocuments   As Integer
+
+'@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+'//                       User customizable variables                   
+'@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+'EXCEL Sheet cell used range (take the maximum If multiple sheets)
+Const intGDataStartAtRow = 1
+Const intGDataStartAtColumn = 1
+Const intGDataEndAtRow = 20
+Const intGDataEndAtColumn = 20
+
+'========== The number of parameters to report and their names 
+'========== Make an array big enough to hold all of them
+'========== 50 headers per sheet for a maximnu of 10 sheets
+'========== Notice unlike Visual Basic, VBScript always starts an array from
+'========== 0, and there is no option to change that.
+Const intGMaxSheet = 10
+Dim intGArrayNBHdr(10) As Integer
+Dim strArrayGHdrName(50,10) As String
+Dim intArrayGHdrPos(2,50,10) As Integer
+
+'========== one integer per sheet
+Dim intGProcessThisSheet(10) As Integer
+'========== user can customize the number of sheet be processed by modifying
+'========== the section is StartEXCEL
+
+'========== one Integer per sheet
+Dim  intGNextObjectOffset (10) As Integer
+
+'========== EXCEL template direction path 
+'========== it serves as an input and a output file
+'=======================================================
+' CHOOSE ONE OF THE TEMPLATES SHOWN HERE
+'=======================================================
+ strGDefaultTemplate = "EquipmentAndSystems\Piping\SampleData\PipingPartsListReportSample.xls"
+'strGDefaultTemplate = "EquipmentAndSystems\Piping\SampleData\PipingFromToReportSample.xls"
+'strGDefaultTemplate = "EquipmentAndSystems\Piping\SampleData\PipingDiagramPartReportSample.xls"
+'strGDefaultTemplate = "EquipmentAndSystems\Piping\SampleData\PipingPartsListReportSample.xls"
+'strGDefaultTemplate = "EquipmentAndSystems\Piping\SampleData\PipingPipeCutLengthReportSample.xls"
+'strGDefaultTemplate = "EquipmentAndSystems\Piping\SampleData\PipingSpecificationStatusReportSample.xls"
+'strGDefaultTemplate = "EquipmentAndSystems\Tubing\SampleData\TubingPartsListReportSample.xls"
+'strGDefaultTemplate = "EquipmentAndSystems\Tubing\SampleData\TubingTubeCutLengthReportSample.xls"
+'strGDefaultTemplate = "EquipmentAndSystems\Tubing\SampleData\TubingSpecificationStatusReportSample.xls"
+'strGDefaultTemplate = "EquipmentAndSystems\HVAC\SampleData\HVACPartsListReportSample.xls"
+'strGDefaultTemplate = "EquipmentAndSystems\HVAC\SampleData\HVACCutLengthReportSample.xls"
+'strGDefaultTemplate = "EquipmentAndSystems\HVAC\SampleData\HVACSpecificationStatusReportSample.xls"
+'strGDefaultTemplate = "EquipmentAndSystems\Equipment\SampleData\EquipmentFunctionReportSample.xls"
+'strGDefaultTemplate = "EquipmentAndSystems\Instrument\SampleData\InstrumentDiagramPartReportSample.xls"
+'strGDefaultTemplate = "EquipmentAndSystems\HVAC\SampleData\HVACFromToReportSample.xls"
+'strGDefaultTemplate = "EquipmentAndSystems\HVAC\SampleData\HVACDiagramPartReportSample.xls"
+'======================================================
+
+strGReportTemplatePath = "c:\temp\"
+strGInputPanelTitle = "Report Generation"
+strGInputPanelPrompt = "Define report template EXCEL file"
+
+'------------------------------------------------------------------------------
+Sub StartEXCEL ()
+'------------------------------------------------------------------------------
+  Err.Clear
+  On Error Resume Next
+  Set objGEXCELapp = GetObject (,"EXCEL.Application")  
+  If Err.Number <> 0 Then   
+     Err.Clear
+     Set objGEXCELapp = CreateObject ("EXCEL.Application")
+  End If
+  
+  GetTemplatePath
+
+  If (intGCancel = 0) Then
+    objGEXCELapp.Application.Visible = TRUE
+    Set objGEXCELwkBks = objGEXCELapp.Application.WorkBooks
+
+    Err.Clear
+    Set objGEXCELwkBk  = objGEXCELwkBks.Add (strGReportTemplate)
+
+    If Err.Number <> 0 Then
+       Dim strMessage
+       strMessage  = "Error Loading Template File:" + strGReportTemplate + Chr(13)
+       strMessage  = strMessage + Chr(13) + "Check the following...." + Chr(13)
+       strMessage  = strMessage + "(1)Template File has read-write capability" + Chr(13)
+       strMessage  = strMessage + "(2)Template File path is valid"
+	     msgbox (strMessage)
+       Err.Clear
+    End If
+
+    Set objGEXCELwkShs = objGEXCELwkBk.Worksheets
+    intGNbSheet = objGEXCELwkShs.Count
+ 
+    '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    ' Here is where the user can specify whether a particular sheet is to 
+    ' be processed or not. The order of the sheets corresponds to tab order on
+    ' the template. Set the integer in the array (intGProcessThisSheet)
+    ' accordingly,
+    ' =0  do not process
+    ' =1  process
+	'========== Notice unlike Visual Basic, VBScript always starts an array from
+    '========== 0, and there is no option to change that.
+    '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    Dim intSh As Integer
+	DbgTrace "*** intGNbSheet = " & intGNbSheet,1
+    For intSh = 0 To intGNbSheet-1	  
+      intGProcessThisSheet(intSh) = 1
+    Next 
+  End If
+
+End Sub '/////////////////////////////////////////////////////////// StartEXCEL
+
+
+
+'@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+'------------------------------------------------------------------------------
+Sub GetFormat (iIntS)
+'------------------------------------------------------------------------------
+  Dim objEXCELUsedRange As Object 
+  Dim intNBUsedColumn   As Integer
+  Dim intNBUsedRow      As Integer
+  Dim strCell           As String     
+
+  objGEXCELCurrentSh.Select  
+   
+  '-------- Problem with using UsedRange. For example, If data starts at
+  '-------- cells (5,3) and ends at cells (6,4), the UsedRange.Rows.Count = 2
+  '-------- (not 6, from 1 to 6) and UsedRange.Column.Count = 2
+  '-------- (not 4, from 1 to 4). In order words, empty cells before the
+  '-------- populated cells are not included.
+  'Set objEXCELUsedRange = objGEXCELCurrentSh.UsedRange
+  'intNBUsedColumn = objEXCELUsedRange.Columns.Count
+  'intNBUsedRow = objEXCELUsedRange.Rows.Count
+  'DbgTrace "intNBUsedColumn = " & intNBUsedColumn,0
+  'DbgTrace "intNBUsedRow = " & intNBUsedRow,0
+
+  intGArrayNBHdr(iIntS) = 0
+
+  Dim intJRow As Integer
+  Dim intKCol As Integer
+  Dim intCurrentPos As Integer
+
+  For intJRow = intGDataStartAtRow to intGDataEndAtRow
+    For intKCol = intGDataStartAtColumn to intGDataEndAtColumn
+        strCell = objGEXCELCurrentSh.Cells (intJRow,intKCol)
+	    If (Len (strCell) > 0) Then
+		   intCurrentPos = intGArrayNBHdr(iIntS)
+	       intGArrayNBHdr(iIntS) = intGArrayNBHdr(iIntS) + 1
+		   strArrayGHdrName(intCurrentPos,iIntS) = strCell
+	       intArrayGHdrPos(0,intCurrentPos,iIntS) = intJRow+1
+	       intArrayGHdrPos(1,intCurrentPos,iIntS) = intKCol
+	    End If 
+	Next 'For intKCol
+  Next  'For intJRow
+
+End Sub '//////////////////////////////////////////////////////////// GetFormat
+
+'------------------------------------------------------------------------------
+Sub GetTemplatePath ()
+'------------------------------------------------------------------------------
+  Dim strCATStartupPath As String
+  Dim ApplIfileSys      As Object
+  Dim strDefaultLocation As String
+  Dim intSemiColonLocation As Integer
+
+  strCATStartupPath = CATIA.SystemService.Environ("CATStartupPath") 
+  Set ApplIfileSys = CATIA.FileSystem 
+
+  DbgTrace "Path for template = " & strCATStartupPath ,0
+
+  intSemiColonLocation  = Instr(3, strCATStartupPath, ";")  
+       
+  '---------- Search for template in the CNext run time environment 
+  strDefaultLocation = strGReportTemplate
+  If (intSemiColonLocation > 0) Then    
+    Do While (intSemiColonLocation > 0)
+       intSemiColonLocation = intSemiColonLocation -1
+       strDefaultLocation = Left(strCATStartupPath, intSemiColonLocation) _
+         + "\" + strGDefaultTemplate
+	   DbgTrace "Try location " & strDefaultLocation ,0
+       If (ApplIfileSys.FileExists(strDefaultLocation)) Then
+		  DbgTrace "Found in : " & strDefaultLocation,0
+		  strGReportTemplate = strDefaultLocation
+          Exit Do 
+       End If
+
+       Err.Clear
+       intSemiColonLocation =  intSemiColonLocation + 2
+       strCATStartupPath = Mid(strCATStartupPath, intSemiColonLocation)
+       intSemiColonLocation  = Instr(3, strCATStartupPath, ";")
+    Loop     ' Exit outer loop immediately.
+  '---------- when there is no path concatenation, there is no ";" 
+  Else
+    If (Len (strCATStartupPath) > 0) Then
+       strGReportTemplate = strCATStartupPath + "\" + strGDefaultTemplate
+    End If
+  End If   
+
+  '============================================================================
+  '-do not need to copy the template, it can be used as read only, and after
+  'the user is satisfied with the content, the template can be filed using
+  'save as in Excel.
+  'AppliFileSys.CopyFile strDefaultLocation, strGReportTemplate, true
+  '============================================================================
+  '---------- Confirm by the user
+  '---------- loop until found
+  Dim Found 
+  Found = 0
+  Do While (Found = 0)
+    '---------- InputBox returns the string when user press the Enter/OK key
+	'---------- and returns null string when user press Cancel
+    strGReportTemplate = InputBox(strGInputPanelPrompt, _
+    strGInputPanelTitle, strGReportTemplate)
+    If ( Len (strGReportTemplate) = 0) Then
+      intGCancel = 1
+      Exit Do
+    End If
+    If (ApplIfileSys.FileExists(strGReportTemplate)) Then Found = 1
+  Loop
+
+  '---------- No need to display error message, the above loop will not
+  '---------- be exited until a valid template if found or Canel is selected
+  'If (Not(AppliFileSys.FileExists(strGReportTemplate))) Then
+     'Dim strMessage
+     'strMessage  = "Error Template File:" + strGReportTemplate + "not found"
+     'msgbox (strMessage)    
+     'Exit Sub
+  'End If
+
+
+End Sub '/////////////////////////////////////////////// GetPath
+
+'------------------------------------------------------------------------------
+Sub DbgTrace (iStrMsgString, iIntYesError)
+'------------------------------------------------------------------------------
+If (intG_TRACEON = 1) Then
+  CATIA.SystemService.Print iStrMsgString 
+  If (iIntYesError = 1) Then 
+    CATIA.SystemService.Print "Err Number = " & Err.Number
+  End If
+End If
+
+End Sub '///////////////////////////////////////////////////////////// DbgTrace
+
+
+
+'------------------------------------------------------------------------------
+Sub EndEXCEL ()
+'------------------------------------------------------------------------------
+  objGEXCELwkBk.Close
+  objGEXCELapp.Quit
+
+End Sub '///////////////////////////////////////////////////////////// EndEXCEL
+
+
+'------------------------------------------------------------------------------
+Sub AutofitColumnEXCEL (iIntFromColumn, iIntToColumn)
+'------------------------------------------------------------------------------
+ Dim intC As Integer
+ For intC = iIntFromColumn To iIntToColumn
+   objGEXCELOutputSh.Columns(intC).EntireColumn.Autofit
+ Next
+
+End Sub '//////////////////////////////////////////////////////// AutofitColumnEXCEL
+
+
+'------------------------------------------------------------------------------
+Sub StartCATIAV5 ()
+'------------------------------------------------------------------------------
+  'Set objCATIAV5Document0 = CATIA.ActiveDocument
+  'DbgTrace "V5: Active Document",1
+
+  '//---------- Get Arrworkbench from current document
+  'Set objCATIAV5ArrWorkbench0 = objCATIAV5Document0.GetWorkbench("SchWorkbench") 
+  'DbgTrace "V5: GetWorkbench0",1
+
+  '//---------- Get current selection
+  'Set objCATIAV5Selection0 = objCATIAV5Document0.Selection
+  'DbgTrace "V5: Selection",1
+
+  Dim intD        As Integer
+  Dim intDocCount As Integer
+  Dim objCATIAV5CurDocument As Document                                   
+
+  Set objCATIAV5DocCollection = CATIA.Documents
+  intDocCount = objCATIAV5DocCollection.Count
+
+  ReDim objCATIAV5Document(intDocCount-1) 
+  ReDim objCATIAV5Selection(intDocCount-1) 
+
+  '//--- Get Product Structure Documents and Selections in those Documents
+  intNbDocuments = 0
+
+  For intD = 0 To intDocCount-1      
+    
+    Set objCATIAV5CurDocument = objCATIAV5DocCollection.Item(intD+1)
+    If ( InStrRev(objCATIAV5CurDocument.FullName, ".CATProduct") ) Then
+      Set objCATIAV5Document(intNbDocuments) = objCATIAV5CurDocument
+      DbgTrace "V5: Document",1
+
+      '//------ Get selection
+      Err.Clear
+      Set objCATIAV5Selection(intNbDocuments) = objCATIAV5Document(intNbDocuments).Selection
+      If (Err.Number <> 0) Then
+        Set objCATIAV5Selection(intNbDocuments) = Nothing	    
+      End If
+      DbgTrace "V5: Selection",1
+
+      intNbDocuments = intNbDocuments + 1
+    End If
+
+  Next
+
+  DbgTrace "Overall number of documents = " & intDocCount, 0 
+  DbgTrace "Number of ProductStructure documents = " & intNbDocuments, 0 
+
+End Sub '///////////////////////////////////////////////////////// StartCATIAV5
+
+'------------------------------------------------------------------------------
+Sub WriteToEXCEL (iIntRow, iIntColumn, iStr)
+'------------------------------------------------------------------------------
+  If (Len (iStr) > 0) Then
+     objGEXCELOutputSh.Cells (iIntRow, iIntColumn) = iStr
+     objGEXCELOutputSh.Cells (iIntRow, iIntColumn).Select
+  End If
+
+End Sub '/////////////////////////////////////////////// WriteToEXCELOutputList
+
+'------------------------------------------------------------------------------
+'------------------------------------------------------------------------------
+Sub ProcessOneCSOValidMember ( iInputPrd    As Product, _                               
+                               iInputObject As PspAttribute, _
+                               objPspWorkbenchArg As PspWorkbench )
+
+'------------------------------------------------------------------------------
+
+  Dim intK       As Integer
+  Dim intRowK    As Integer
+  Dim intNbRowAdded As Integer
+  Dim intColumnK As Integer
+  Dim strHeaderName As String
+  Dim strHeaderValue As String
+  Dim strUnits As String
+
+  '----- max size of output array must be <=20
+  Dim strHdrValueArray(20) As String
+
+  '----- From-To table
+  '----- max size of output array must be <=20
+  '----- Do not write into these arrays, they are output
+  '----- setting intFTSize to something for example, will cause
+  '----- problem with the subroutines using these variables
+  Dim strFTLabelArray(20) As String
+  Dim strFTMajorArray(20) As String
+  Dim strFTMinorArray(20) As String
+  Dim intFTSize As Integer
+  Dim intHasTable 
+
+  Dim intMaxSize As Integer
+  Dim intOutputArraySize As Integer
+  Dim intHasMultiValue
+  Dim intHasAddedRowForMultiValue
+ 
+  Dim intAutofitFrom As Integer
+  Dim intAutofitTo As Integer
+
+  Dim intS As Integer
+  Dim intAttrAccessCode As Integer 
+  Dim intLenStrAttr As Integer
+  Dim intAlreadyHasUnit As Integer
+
+  intHasTable = 0
+  intHasAddedRowForMultiValue = 0
+  For intS = 0 To intGNbSheet-1
+
+     If (intGProcessThisSheet(intS) > 0) Then
+
+       Set objGEXCELCurrentSh = objGEXCELwkShs (intS+1)
+       Set objGEXCELOutputSh = objGEXCELCurrentSh
+       objGEXCELCurrentSh.Select 
+
+	   '-------- only do GetFormat once 
+       If ( intGNextObjectOffset(intS) = 0) Then GetFormat (intS)
+
+       intNbRowAdded = 0
+	   DbgTrace "At intS = " & intS, 0
+     
+	   intAutofitFrom = 0
+	   intAutofitTo = 0
+
+	   Dim eAttrDataType           As  CatPspIDLAttrDataType
+
+
+       For intK = 0 To intGArrayNBHdr(intS)-1
+
+          On Error Resume Next 
+
+          strHeaderName = strArrayGHdrName (intK,intS) 
+		  strHeaderValue = "No Value"
+
+          '-------- reinitialize the array, clears all values
+		  intHasMultiValue = 0
+
+          '-------- Get type of the attribute
+		  eAttrDataType = iInputObject.GetType  (strHeaderName)
+
+          intLenStrAttr = 0
+
+		  DbgTrace "strHeaderName = " & strHeaderName,0
+		  'DbgTrace "valid ? = " & intAttrAccessCode,0 
+          
+		  Dim objAttrParam            As  Parameter
+
+		  '------------------------------------------------------
+		  '  Getting Attriute values.
+		  '------------------------------------------------------
+
+          If( Err.Number = 0 ) Then
+			  If ( (eAttrDataType = catPspIDLInteger ) Or _            
+				   (eAttrDataType = catPspIDLDouble ) Or _            
+				   (eAttrDataType = catPspIDLString ) Or _ 
+				 	(eAttrDataType = catPspIDLBoolean ) ) Then         			
+
+				Set objAttrParam = iInputObject.GetParameter (strHeaderName)          
+
+				If ( Not( objAttrParam Is Nothing) ) Then
+				  '-------------------------------------------
+				  ' Getting attribute value as a string
+				  strHeaderValue = objAttrParam.ValueAsString                        
+				  intLenStrAttr = Len (strHeaderValue)
+
+				End If  ' Not( objAttrParam Is Nothing)
+				  
+			  End If  ' attribute data type to integer, string or double
+
+			  If ( (eAttrDataType = catPspIDLMultiString ) ) Then         
+				Dim objLStrVals      As  PspListOfBSTRs
+				Dim  iIdx            As  Integer
+				Dim  strAttrVal      As  String
+				'-------------------------------------------
+			    ' Getting Multistring attribute values	
+
+				Set objLStrVals = iInputObject.GetMultiStringAttributeValues _
+				                                        (strHeaderName)          
+				If ( Not(objLStrVals Is Nothing ) ) Then         
+				  intHasMultiValue = 1
+				  intMaxSize = bjLStrVals.Count 
+				  intOutputArraySize = intMaxSize
+				  ReDim strHdrValueArray(intMaxSize -1) 
+
+				  For intIdx = 1 To intMaxSize     
+					strAttrVal = objLStrAttrNamesArg.Item (intIdx)
+					strHdrValueArray(intIdx-1) = strAttrVal
+			  		 
+				  Next ' End of For loop index=  intIdx
+              
+				End If   			  
+
+			  End If ' end of If (eAttrDataType = catPspIDLMultiString )
+		  Else 
+			Err.Clear
+		  End IF 
+
+		  '--------------------------------------------------------------------
+		  '  Regular single-value attributes or multi-value attributes
+		  '--------------------------------------------------------------------
+          
+
+ 	      intRowK = intArrayGHdrPos(0,intK,intS) +  intGNextObjectOffset(intS)
+	      intColumnK = intArrayGHdrPos (1,intK,intS)
+          
+          '----------- if there are values to be reported
+          If ( intLenStrAttr > 0 Or intHasMultiValue > 0) Then
+            
+            If (intAutofitFrom = 0) Then intAutofitFrom = intColumnK
+		    intAutofitTo = intColumnK
+
+            
+			If ((eAttrDataType <> catPspIDLMultiString )) Then '--- single value attribute
+			
+		       '---------- don't want to reset this to 1 when intK-1 has set it to
+		       '---------- to > 1
+		       If (intNbRowAdded = 0) Then intNbRowAdded = 1
+			   WriteToEXCEL intRowK, intColumnK, strHeaderValue 
+			Else
+			   If (intOutputArraySize > 0) Then
+			      Dim intVal As Integer
+				  For intVal = 0 To intOutputArraySize-1
+                     WriteToEXCEL intRowK, intColumnK, strHdrValueArray(intVal)
+				     intRowK = intRowK + 1
+					 '---------------------------------------------------------
+					 '  We use a flag intHasAddedRowForMultiValue to indicate whether 
+					 '  number of rows have been added on prior multi-value
+					 '  column. We only do it once for each object. 
+					 '  If the current number of entries is greater than
+					 '  that of the prior column where the intNbRowAdded is
+					 '  set, we need to update this number with the greater
+					 '  one. This is done right after the For-loop.
+					 '---------------------------------------------------------
+					 If (intHasAddedRowForMultiValue = 0) Then
+				       '-------------------------------------------------------
+					   ' for the first row, we need to check whether a row
+					   ' has already been added by the prior single value 
+					   ' column
+				       '-------------------------------------------------------
+					   If (intVal = 0 And intNbRowAdded = 0) Then
+					     intNbRowAdded = intNbRowAdded + 1
+					   ElseIf (intVal > 0) Then
+					     intNbRowAdded = intNbRowAdded + 1
+					   End If
+					 End If
+				  Next 'For intVal
+				  If (intHasAddedRowForMultiValue  = 0) Then
+				     intHasAddedRowForMultiValue = 1 
+				  Else
+				     If (intOutputArraySize > intNbRowAdded) Then
+					    intNbRowAdded = intOutputArraySize
+					 End If
+				  End If
+				  
+			   End If
+            End If
+ 		  '--------------------------------------------------------------------
+		  '  From-To table - on logical line object only
+		  '--------------------------------------------------------------------		        
+          ElseIf (Not (iInputPrd Is Nothing) ) Then
+		     DbgTrace "----  FromTo Table",1
+
+		     Dim objCATIAV5LogLine As Object
+             Dim intWhichColumn As Integer
+		     ' ---- Get PspLogicalLine
+			 Set objCATIAV5LogLine = objPspWorkbenchArg.GetInterface( _
+                            "CATIAPspLogicalLine", iInputPrd )
+
+             
+             DbgTrace "GetTechnologicalObject PspLogicalLine ",1
+
+			 intWhichColumn = 0
+			 If (Not (objCATIAV5LogLine Is Nothing)) Then
+                If (StrComp (strHeaderName, "From/To") = 0) Then
+                   intWhichColumn = 1
+				ElseIf (StrComp (strHeaderName, "F/T Major") = 0) Then
+                   intWhichColumn = 2
+				ElseIf (StrComp (strHeaderName, "F/T Minor") = 0) Then
+				   intWhichColumn = 3
+				End If 
+			 End If
+
+             DbgTrace "Which column " & intWhichColumn,1
+ 
+			 If (intWhichColumn > 0) Then
+                If (intHasTable = 0) Then
+				   Err.Clear
+				   Dim intMaxTableSize As Integer
+				   intMaxTableSize = objCATIAV5LogLine.GetFromToInfoArrayMaxSize
+				   DbgTrace "GetFromToInfoArrayMaxSize " & intMaxTableSize,1
+
+				   If (intMaxTableSize <= 20) Then
+ 			          objCATIAV5LogLine.GetFromToInformation strFTLabelArray,  _
+				        strFTMajorArray, strFTMinorArray, intFTSize
+                      If (intFTSize > 0) Then intHasTable = 1
+					  '---- debug
+                      DbgTrace "intFTSize = " & intFTSize,1
+					  DbgTrace "GetFromToInformation ",1
+				   End If
+				End If 
+
+				If (intHasTable > 0) Then
+                  If (intAutofitFrom = 0) Then intAutofitFrom = intColumnK
+		          intAutofitTo = intColumnK
+
+			      Dim intV As Integer
+				  Dim intOK As Integer
+				  For intV = 0 To intFTSize-1
+                     intOK = 0
+				     If (intWhichColumn = 1) Then
+                        WriteToEXCEL intRowK, intColumnK, _
+						  strFTLabelArray(intV) 
+						intOK = 1
+					 ElseIf (intWhichColumn = 2) Then
+                        WriteToEXCEL intRowK, intColumnK, _
+						  strFTMajorArray(intV) 
+                        intOK = 1
+					 ElseIf (intWhichColumn = 3) Then
+                        WriteToEXCEL intRowK, intColumnK, _
+						  strFTMinorArray(intV) 
+                        intOK = 1
+					 End If					   
+					 If (intOK = 1) Then
+				       intRowK = intRowK + 1
+					   If (intHasAddedRowForMultiValue = 0) Then
+					     '-----------------------------------------------------
+					     ' for the first row, we need to check whether a row
+					     ' has already been added by the prior single value 
+					     ' column
+						 '-----------------------------------------------------
+					     If (intV = 0 And intNbRowAdded = 0) Then
+					       intNbRowAdded = intNbRowAdded + 1
+					     ElseIf (intV > 0) Then
+					       intNbRowAdded = intNbRowAdded + 1
+					     End If
+
+					   End If
+					 End If
+				  Next 'For intV
+
+				  If (intHasAddedRowForMultiValue = 0) Then
+				     intHasAddedRowForMultiValue = 1 
+				  Else
+				     If (intFTSize > intNbRowAdded) Then
+					    intNbRowAdded = intFTSize
+					 End If
+				  End If				  
+				  				   
+				End If 'intHasTable		
+			 End If
+		  '--------------------------------------------------------------------
+		  '  Other possibilities...
+		  '--------------------------------------------------------------------		  
+          End If '-- If (intLenStrAttr > 0)
+
+       Next  'For intK
+
+       if (intNbRowAdded > 0) Then AutofitColumnEXCEL intAutofitFrom, intAutofitTo
+
+       intGNextObjectOffset(intS) = intGNextObjectOffset(intS) + intNbRowAdded
+	   DbgTrace "intNbRowAdded = " & intNbRowAdded,0
+
+	 End If 'if this sheet is to be processed
+
+  Next 'For intS
+
+End Sub '////////////////////////////////////////////////////////// ProcessOneCSOValidMember
+
+'====================================================================================
+Sub CATMain ()
+'====================================================================================
+  Dim objCATIAV5CurDocument As Document                                   
+
+  intGCancel = 0
+
+  StartCATIAV5
+
+  StartEXCEL '---------- might set intGCanel to 1 if the user hit the Cancel button
+
+  If (intGCancel = 0) Then
+
+    Dim objCATIAV5Product As Object
+    Dim objCATIAV5PspAttribute  As Object
+    Dim intNBInSelection  As Integer
+    Dim intD As Integer
+
+    intNBInSelection = 0
+
+    '---------- Initialize offset one per sheets
+    Dim intI As Integer
+    For intI = 0 to intGMaxSheet-1
+     intGNextObjectOffset(intI) = 0
+    Next 'For intI
+
+    Dim objPrdRoot        As Product
+    Dim objPspWorkbench   As PspWorkbench
+
+    For intD = 0 to intNbDocuments-1
+
+      On Error Resume Next
+      ' Getting the document to process 
+      Set objCATIAV5CurDocument = objCATIAV5Document(intD)
+
+
+      ' Find the top node of the Distribute System object tree - .  
+
+      If ( Not ( objCATIAV5CurDocument Is Nothing ) ) Then
+        Set objPrdRoot = objCATIAV5CurDocument.Product 
+        If ( Not ( objPrdRoot Is Nothing ) ) Then
+          Set objPspWorkbench = objPrdRoot.GetTechnologicalObject _
+                                               ("PspWorkbench")
+        End If
+      End If
+
+
+      If (Not (objCATIAV5Selection(intD) Is Nothing)) Then
+
+        Err.Clear
+        Set objCATIAV5Product = _
+                 objCATIAV5Selection(intD).FindObject("CATIAProduct")
+        DbgTrace "FindObject", 1
+        If (Err.Number <> 0) Then Set objCATIAV5Product = Nothing
+
+        Do Until ( objCATIAV5Product Is Nothing )
+
+          DbgTrace "Doing one Product ",0
+          intNBInSelection = intNBInSelection + 1
+
+          Set objCATIAV5PspAttribute = objPspWorkbench.GetInterface( _
+                            "CATIAPspAttribute", objCATIAV5Product )
+                                            
+
+          DbgTrace "GetTechnologicalObject ",1
+
+          '---------- Get Psp interfaces for attribute, If successful
+          '---------- query all relevant attribute values.
+          If (Not (objCATIAV5PspAttribute Is Nothing)) Then 
+            '--------- initialize the From-To table for each object
+            ProcessOneCSOValidMember objCATIAV5Product, _
+                                     objCATIAV5PspAttribute, _
+                                     objPspWorkbench
+                                       
+          End If
+
+          Err.Clear
+          '---------- Try next member in the selection set
+          Set objCATIAV5Product = objCATIAV5Selection(intD).FindObject( _
+                                                     "CATIAProduct")
+
+          If (Err.Number <> 0) Then
+            Set objCATIAV5Product = Nothing	    
+          End If
+          Set objCATIAV5PspAttribute = Nothing
+
+        Loop  '// End Do ...each FindObject
+
+      End If
+
+    Next ' intD
+
+    DbgTrace "total number of Products in selections = " & intNBInSelection, 0 
+
+    objGEXCELwkShs (1).Select
+
+  End If '---------- If not cancelled
+
+End Sub '/////////////////////////////////////////////////////////// CATMain

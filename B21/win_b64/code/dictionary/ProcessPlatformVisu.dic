@@ -1,0 +1,382 @@
+Activity		CATINavigateObjectSeq		libProcessModelerVisu
+Activity		CATINavigateObjectHie		libProcessModelerVisu
+Activity		CATINavigateObjectDer		libProcessModelerVisu
+Activity		CATINavigateObjectPrf		libProcessModelerVisu
+Activity                CATIModelEvents			libProcessModelerVisu 
+PhysicalActivity	CATIUIActivate			libProcessModelerVisu	IsUIActivable
+PhysicalActivity	CATInPlaceSite			libProcessModelerVisu	IsUIActivable
+PhysicalActivity	CATICSOFilter			libProcessModelerVisu	IsUIActivable
+PhysicalActivity	CATI2DGeoVisu			libProcessModelerVisu
+
+LogicalActivity		         CATI2DGeoVisu			libProcessModelerVisu
+DynamicActivity         CATIModelEvents               libProcessModelerVisu
+
+CATProcess			    CATIEditor				  libProcessModelerVisu
+CATProcess			    CATIDocumentEdit		libProcessModelerVisu
+CATProcess			    CATInPlaceSite			libProcessModelerVisu
+CATProcess			    CATISPPExportUtil		libProcessModelerVisu
+
+act				CATIEditor			libProcessModelerVisu
+act				CATIDocumentEdit		libProcessModelerVisu
+act				CATInPlaceSite			libProcessModelerVisu
+
+ControlFlow			CATINavigateObjectSeq		libProcessModelerVisu
+ControlFlowSeq_node		CATINavigModify			libProcessModelerVisu
+
+ProductFlow			CATINavigateObjectPrf		libProcessModelerVisu
+ProductFlowPrf_node		CATINavigModify			libProcessModelerVisu
+
+
+Hie_node			CATINavigModify			libProcessModelerVisu		
+Der_node			CATINavigModify			libProcessModelerVisu
+Seq_node			CATINavigModify			libProcessModelerVisu
+Prf_node			CATINavigModify			libProcessModelerVisu
+#CAT_1_1_node			CATINavigModify			libProcessModelerVisu
+		
+# ======================
+# PROPERTIES TABULATION
+# ======================
+CATEditorManager		      CATISPPBasicEditorFactory		      libProcessModelerVisu
+CATEditorManager		      CATISPPSpecificEditorFactory		  libProcessModelerVisu
+CATEditorManager		      CATISPPItemSpecEditorFactory		  libProcessModelerVisu
+CATEditorManager		      CATISPPRessSpecEditorFactory		  libProcessModelerVisu
+CATEditorManager		      CATISPPDynamicEditorFactory		    libProcessModelerVisu
+CATEditorManager		      CATISPPPrecedenceEditorFactory	  libProcessModelerVisu
+CATEditorManager		      CATISPPSwitchEditorFactory		    libSP0VVSwitch
+CATEditorManager		      CATISPPAuthChildrenEditorFactory  libProcessModelerVisu
+CATEditorManager		      CATISPPOutputEditorFactory  libProcessModelerVisu
+
+CATSPPBasicEditor		      CATIEditProperties		                  libProcessModelerVisu
+CATSPPSpecificEditor		  CATIEditProperties		                  libProcessModelerVisu
+CATSPPDynamicEditor	      CATIEditProperties		                  libProcessModelerVisu
+CATSPPItemSpecEditor		  CATIEditProperties		                  libProcessModelerVisu
+CATSPPRessSpecEditor		  CATIEditProperties		                  libProcessModelerVisu
+CATSPPSwitchEditor		    CATIEditProperties		                  libSP0VVSwitch
+CATSPPAuthChildrenEditor  CATIEditProperties		                  libProcessModelerVisu
+CATSPPPrecedenceEditor    CATIEditProperties		                  libProcessModelerVisu
+CATSPPOutputEditor    CATIEditProperties		                  libProcessModelerVisu
+
+CATSPPUserSettingsEditor	  CATIUserSettings		                  libProcessModelerVisu
+CATSPPFilterSettingsEditor	CATIUserSettings		                  libProcessModelerVisu	
+CATSPPValidSettingsEditor	  CATIUserSettings		                  libProcessModelerVisu	
+
+
+CATUserSettingsManager      CATISPPUserSettingsEditorFactory	    libProcessModelerVisu
+CATUserSettingsManager      CATISPPFilterSettingsEditorFactory		libProcessModelerVisu
+CATUserSettingsManager      CATISPPValidSettingsEditorFactory		  libProcessModelerVisu
+
+
+
+
+PhysicalActivity 		CATISPPGenerateProcessCmd		libProcessModelerVisu
+
+Condition			CATINavigateObject		libProcessModelerVisu
+Condition			CATIEdit      			libProcessModelerVisu
+
+AndCondition_node		CATINavigModify			libProcessModelerVisu
+OrCondition_node		CATINavigModify			libProcessModelerVisu
+BasicCondition_node		CATINavigModify			libProcessModelerVisu
+
+# ======================
+# WORKSHOP ET WORKBENCH 
+# ======================
+WSPROC                  CATIWorkshop			          libProcessModelerVisu
+# SMW added; Dec 13, 2005; IR 0515117
+WSPROC_trans            CATIWorkbenchTransition			  libProcessModelerVisu
+
+WSLIB                 	CATIWorkshop               	libProcessModelerVisu
+CATApplicationFrame     CATIWSLIBWorkshopFactory   	libProcessModelerVisu
+CATApplicationFrame     CATIWSPROCWorkshopFactory	  libProcessModelerVisu
+LibraryWorkbench		    CATIWSLIBConfiguration      libProcessModelerVisu
+LibraryWorkbench		    CATIWorkbench               libProcessModelerVisu
+
+WSPROC_selection        CATIFilteredSelection       libProcessModelerVisu
+
+
+# ===================
+# ASMPRODUCT
+# ===================
+ASMPRODUCT			CATINavigateObjectHie		libProcessModelerVisu
+
+# ===================
+# Weld Point V4 
+# ===================
+CAT_1_1				CATINavigateObjectHie		libProcessModelerVisu
+
+# ===================
+# --- GraphEditor
+# ===================
+Activity				CATIGENode				libSP0VVGEV
+Activity	            DNBIPertVisu			libSP0VVGEV
+Activity	            DNBIPertPosition	  	libSP0VVGEV
+ControlIO				CATIGEConnector			libSP0VVGEV
+ControlFlow				CATIGEArc				libSP0VVGEV
+ControlFlow	            DNBIPertVisu			libSP0VVGEV
+
+
+# ===================
+# Global Navigator
+# ===================
+Activity                  CATINavigateObjectModify      libProcessModelerVisu
+ControlFlow               CATINavigateObjectModify      libProcessModelerVisu
+
+
+# ===================
+# PPR Viewer
+# ===================
+Activity                    CATINavigateObjectPPR		    libSP0VVPPR
+CATPPRNavObject				      CATINavigateObjectPPR		    libSP0VVPPR
+CATActivityPPRNav			      CATINavigateObjectPPR		    libSP0VVPPR
+CATProductPPRNav			      CATINavigateObjectPPR		    libSP0VVPPR
+CATProcessListPPR			      CATINavigateObjectPPR		    libSP0VVPPR
+CATProductListPPR			      CATINavigateObjectPPR		    libSP0VVPPR
+CATResourceListPPR			    CATINavigateObjectPPR		    libSP0VVPPR
+CATCameraContainer			    CATINavigateObjectPPR		    libSP0VVPPR
+CATCompoundCont			        CATINavigateObjectPPR	      libSP0VVPPR
+ASMPRODUCT                  CATINavigateObjectPPR		    libSP0VVPPR
+
+CATPPRNavObject				      CATINavigateObject			libSP0VVPPR
+CATPPRNavObject					  CATIEdit						libSP0VVPPR
+CATPPRNavObject					  CATIContextualMenu		    libSP0VVPPR
+
+CATProcessListPPR			      CATINavigateObject		      libSP0VVPPR
+CATProductListPPR			      CATINavigateObject		      libSP0VVPPR
+CATResourceListPPR			    CATINavigateObject		      libSP0VVPPR
+
+
+#PPR_node					          CATINavigModify				      libSP0VVPPR
+CATPPRNavObjectPPR_node		  CATINavigModify				      libSP0VVPPR
+CATProcessListPPRPPR_node	  CATINavigModify				      libSP0VVPPR
+CATProductListPPRPPR_node	  CATINavigModify				      libSP0VVPPR
+CATResourceListPPRPPR_node	CATINavigModify				      libSP0VVPPR
+CATCompoundContPPR_node		  CATINavigModify		          libSP0VVPPR
+ActivityPPR_node			      CATINavigModify				      libSP0VVPPR
+ASMProductPPR_node			    CATINavigModify				      libSP0VVPPR
+
+CATProductListPPR			      CATIContextualMenu		      libSP0VVPPR
+CATResourceListPPR		      CATIContextualMenu		      libSP0VVPPR
+ASMPRODUCTItem              CATIContextualMenu		      libSP0VVPPR
+ASMPRODUCTResource          CATIContextualMenu		      libSP0VVPPR
+
+
+
+#For PPR
+CATProcess			    CATIPrdDocRoot			libSP0VVPPR
+
+
+Activity       		CATISPPResult			    libProcessValidation
+
+ASMPRODUCTSETUP				CATIProductInSession				libProcessValidation
+ASMPRODUCTSETUP				CATIProductContext					libProcessValidation
+ASMPRODUCTSETUP				CATIReferenceDocument				libProcessValidation
+ASMPRODUCTSETUP				CATIPrdFilter					    libProcessValidation
+ASMPRODUCTSETUP				CATIPrdActivation				    libProcessValidation
+ASMPRODUCTSETUP				CATIProduct					        libProcessValidation
+ASMPRODUCTSETUP				CATIProperty 					    libProcessValidation
+#ASMPRODUCTSETUP			CATIUuid					        libProcessValidation
+
+ActivityPrf_node            CATINavigModify						libProcessModelerVisu
+ActivitySeq_node            CATINavigModify						libProcessModelerVisu
+
+
+# -----Positions--------
+SPPPositionContainer		CATINavigateObject					libProcessModelerVisu
+SPPPositionContainer		CATINavigateObjectPPR				libProcessModelerVisu
+
+
+
+# THE CAA2 WIZARDS HAS INSERTED CODE AT THE BOTTOM OF THIS FILE
+# YOU MAY HAVE TO RELOCATE THIS SOURCE IF COMPILATION FAILS
+# DO NOT EDIT :: THE CAA2 WIZARDS WILL ADD CODE HERE
+
+
+PPRNavPositions	CATINavigatePPRProvider	libProcessModelerVisu
+
+
+
+# ajout JNI 3/4/2002 suite note ABI
+ASMPRODUCTPPR_node                    CATINavigModify                       libSP0VVPPR
+Activity_node                         CATINavigModify                       libSP0VVPPR
+CATApplicativeDataPPRPPR_node         CATINavigElement                      libSP0VVPPR
+CATApplicativeDataPPRPPR_node         CATINavigModify                       libSP0VVPPR
+CATApplicativeDataPPR_node            CATINavigElement                      libSP0VVPPR
+CATApplicativeDataPPR_node            CATINavigModify                       libSP0VVPPR
+CATCameraContainer                    CATINavigModify                       libSP0VVPPR
+#CATCompoundCont                       CATINavigateObjectModify              libSP0VVPPR
+CATCompoundContPPR_node               CATINavigElement                      libSP0VVPPR
+CATCompoundListPPR                    CATINavigateObjectModify              libSP0VVPPR
+CATCompoundListPPR                    CATINavigateObjectPPR                 libSP0VVPPR
+CATEProcessTransition                 CATIWorkbenchInitialization           libProcessModelerVisu
+CATEProcessTransition                 CATIWorkbenchTransition               libProcessModelerVisu
+CATEditorManager                      CATIPcsGenericEditorFactory           libProcessModelerVisu
+CATEditorManager2                     CATISPPFilterSettingsEditorFactory    libProcessModelerVisu
+CATEditorManager2                     CATISPPUserSettingsEditorFactory      libProcessModelerVisu
+CATEditorManager2                     CATISPPValidSettingsEditorFactory     libProcessModelerVisu
+CATINavigateObjectDer_ActTypeOutOfLib CATINavigateObjectDer                 libProcessModelerVisu
+CATPPRNavObject                       CATINavigateObjectModify              libSP0VVPPR
+CATPPRNavObjectPPR_node               CATINavigElement                      libSP0VVPPR
+CATPcsGenericEditor                   CATIEditProperties                    libProcessModelerVisu
+CATPcsPositionsFolder                 CATINavigateObjectModify              libProcessModelerVisu
+CATPcsPositionsFolder                 CATINavigateObjectPPR                 libProcessModelerVisu
+CATPositionProvider                   CATINavigatePPRProvider               libProcessModelerVisu
+CATProcessListPPR                     CATINavigateObjectModify              libSP0VVPPR
+CATProcessListPPRPPR_node             CATINavigElement                      libSP0VVPPR
+CATProcessListPPR_node                CATINavigElement                      libSP0VVPPR
+CATProcessListPPR_node                CATINavigModify                       libSP0VVPPR
+CATProductListPPR                     CATICutAndPastable                    libSP0VVPPR
+CATProductListPPR                     CATINavigateObjectModify              libSP0VVPPR
+CATProductListPPR                     CATIObjectToContainer                 libSP0VVPPR
+CATProductListPPRPPR_node             CATINavigElement                      libSP0VVPPR
+CATProductListPPR_node                CATINavigElement                      libSP0VVPPR
+CATProductListPPR_node                CATINavigModify                       libSP0VVPPR
+CATResourceListPPR                    CATICutAndPastable                    libSP0VVPPR
+CATResourceListPPR                    CATINavigateObjectModify              libSP0VVPPR
+CATResourceListPPR                    CATIObjectToContainer                 libSP0VVPPR
+CATResourceListPPRPPR_node            CATINavigElement                      libSP0VVPPR
+CATResourceListPPR_node               CATINavigElement                      libSP0VVPPR
+CATResourceListPPR_node               CATINavigModify                       libSP0VVPPR
+CATSPPNavigFolderAttribute            CATINavigateObjectHie                 libProcessModelerVisu
+CATSPPNavigFolderAttribute            CATINavigateObjectModify              libProcessModelerVisu
+CATSPPNavigFolderAttributeHie_node    CATINavigModify                       libProcessModelerVisu
+CATSPPNavigFolderCondition            CATINavigateObjectHie                 libProcessModelerVisu
+CATSPPNavigFolderCondition            CATINavigateObjectModify              libProcessModelerVisu
+CATSPPNavigFolderConditionHie_node    CATINavigModify                       libProcessModelerVisu
+CATSPPNavigFolderConnector            CATINavigateObjectHie                 libProcessModelerVisu
+CATSPPNavigFolderConnector            CATINavigateObjectModify              libProcessModelerVisu
+CATSPPNavigFolderConnectorHie_node    CATINavigModify                       libProcessModelerVisu
+CATSPPNavigFolderFPPItem              CATINavigateObjectHie                 libProcessModelerVisu
+CATSPPNavigFolderFPPItem              CATINavigateObjectModify              libProcessModelerVisu
+CATSPPNavigFolderFPPItemHie_node      CATINavigModify                       libProcessModelerVisu
+CATSPPNavigFolderItem                 CATINavigateObjectHie                 libProcessModelerVisu
+CATSPPNavigFolderItem                 CATINavigateObjectModify              libProcessModelerVisu
+CATSPPNavigFolderItemHie_node         CATINavigModify                       libProcessModelerVisu
+CATSPPNavigFolderResource             CATINavigateObjectHie                 libProcessModelerVisu
+CATSPPNavigFolderResource             CATINavigateObjectModify              libProcessModelerVisu
+CATSPPNavigFolderResourceHie_node     CATINavigModify                       libProcessModelerVisu
+CATSPPNavigFolderSPPPosition          CATINavigateObjectHie                 libProcessModelerVisu
+CATSPPNavigFolderSPPPosition          CATINavigateObjectModify              libProcessModelerVisu
+CATSPPNavigObjVirtualAttr             CATINavigateObjectHie                 libProcessModelerVisu
+CATSPPNavigObjVirtualAttrHie_node     CATINavigModify                       libProcessModelerVisu
+CATSPPVirtualActivityType             CATINavigateObjectDer                 libProcessModelerVisu
+CATSPPVirtualItem                     CATINavigateObjectHie                 libProcessModelerVisu
+ControlFlow                           CATICmdAvailabilityMng                libProcessModelerVisu
+DenebProcess                          CATInPlaceSite                        libProcessModelerVisu
+DynamicActivity                       CATIRootProperties                    libProcessModelerVisu
+DynamicActivity                       CATISPPGanttObject                    libProcessModelerVisu
+DynamicActivity                       CATISPPGanttVisu                      libProcessModelerVisu
+DynamicActivity                       DNBIGanttObject                       libProcessModelerVisu
+DynamicActivity                       DNBIGanttVisu                         libProcessModelerVisu
+Feeder                                CATINavigateObjectHie                 libProcessModelerVisu
+LogicalActivity                       CATICmdAvailabilityMng                libProcessModelerVisu
+LogicalActivity                       CATINavigateObjectPPR                 libSP0VVPPR
+LogicalActivity                       CATIRootProperties                    libProcessModelerVisu
+PhysicalActivity                      CATICmdAvailabilityMng                libProcessModelerVisu
+PhysicalActivity                      CATINavigateObjectPPR                 libSP0VVPPR
+PhysicalActivity                      CATIRootProperties                    libProcessModelerVisu
+PhysicalActivity                      CATISelectMoveSelector                libSP0VVISP
+Process_DEFAULT_Operator              CATISPPOperator                       libProcessValidation
+Process_Dissociation_Operator         CATISPPOperator                       libProcessValidation
+Process_Union_Operator                CATISPPOperator                       libProcessValidation
+ProductIO                             CATIEdit                              libProcessModelerVisu
+ProductIO                             CATINavigateObjectHie                 libProcessModelerVisu
+ProductInput                          CATINavigateObjectHie                 libProcessModelerVisu
+ProductOutput                         CATINavigateObjectHie                 libProcessModelerVisu
+SPPPosition                           CATINavigateObjectHie                 libProcessModelerVisu
+SPPPosition                           CATINavigateObjectPPR                 libProcessModelerVisu
+SPPPositionsContainer                 CATINavigateObjectPPR                 libProcessModelerVisu
+
+# JFL march 11, 2002 : for class CATSPPSearchHack
+PhysicalActivity                      CATISearch                            libSP0VVPPR
+
+# GDU november 6 2002 :moved from ProcessPlatformBase for packaging issues 
+# now done in a dedicated FW ProcessModelerDocument
+#Process				CATIDocAlias			libProcessModelerVisu
+#ProcessLibrary		CATIDocAlias			libProcessModelerVisu
+
+# CFO december 2 2002 for class CATPcsPPRNavObjectExt
+CATPPRNavObject_node		CATINavigElement		libSP0VVPPR
+
+CATPcsNavRootProcess			CATINavigatePPRProvider		libSP0VVPPR
+CATPcsNavAttributeProvider		CATINavigatePPRProvider		libProcessModelerVisu
+CATPcsNavConnectorProvider		CATINavigatePPRProvider		libProcessModelerVisu
+CATPcsNavItemProvider			CATINavigatePPRProvider		libProcessModelerVisu
+CATPcsNavResourceProvider		CATINavigatePPRProvider		libProcessModelerVisu
+
+
+#PcsType_ASMPRODUCT		CATINavigateItem		libProcessModelerVisu
+
+Activity_node					CATINavigElement		libSP0VVPPR
+ActivityPPR_node				CATINavigElement		libSP0VVPPR
+
+
+#type OrgProcess
+OrgProcess	CATIUIActivate				libProcessModelerVisu	IsUIActivable
+OrgProcess	CATICSOFilter				libProcessModelerVisu	IsUIActivable
+OrgProcess	CATInPlaceSite				libProcessModelerVisu	IsUIActivable
+OrgProcess  CATINavigateObjectHie		libProcessModelerVisu
+OrgProcess  CATINavigateObjectPPR		libSP0VVPPR
+OrgProcess  CATINavigateObjectDer		libProcessModelerVisu
+OrgProcess  CATINavigateObject			libSP0VVPPR
+OrgProcess  CATINavigateObjectModify	libProcessModelerVisu
+OrgProcess_node CATINavigModify			libSP0VVPPR
+OrgProcess	CATIRootProperties			libProcessModelerVisu
+OrgProcess  CATIModelEvents             libProcessModelerVisu
+
+
+#OrgProcess	CATI2DGeoVisu			libProcessModelerVisu
+#OrgProcess                      CATICmdAvailabilityMng                libProcessModelerVisu
+#OrgProcess                      CATINavigateObjectPPR                 libSP0VVPPR
+#OrgProcess                      CATISelectMoveSelector                libSP0VVISP
+#OrgProcess                      CATISearch                            libSP0VVPPR
+
+# >>> JFL 03:09:03 >>>
+# Addition per mkCheckArchi diagnosis, verfied.
+ASMPRODUCTSETUP				CATIPrd3DVisuRepresentations	libProcessValidation
+ASMPRODUCTSETUP				CATIProductRep					libProcessValidation 
+Activity					CATINavigateObject				libSP0VVPPR
+
+Activity					CATIPCSRelations				libSP0VVUTIL
+DynamicActivity				CATIPCSRelations				libSP0VVUTIL
+
+
+CATApplicationFrame			CATILibraryWorkbenchFactory		libProcessModelerVisu
+CATPCSNavigateAdaptor		CATIContextualMenu				libSP0VVUTIL
+CATPCSNavigateAdaptor		CATINavigateObjectHie			libSP0VVUTIL
+CATPCSNavigateAdaptor		CATINavigateObjectModify		libSP0VVUTIL
+CATPPRNavObject				CATINavigElement				libSP0VVPPR
+# Duplicate entry - KDR Sept 11, 2003
+# CATPPRNavObjectPPR_node		CATINavigElement				libSP0VVPPR
+CATPcsPositionsFolder		CATINavigateObject				libProcessModelerVisu
+LogicalActivity				CATINavigateObject				libSP0VVPPR
+PhysicalActivity			CATINavigateObject				libSP0VVPPR
+PhysicalActivity			DNBIPertVisuController			libSP0VVGEV
+SPPPosition					CATINavigateObject				libProcessModelerVisu
+SPPPositionsContainer		CATINavigateObject				libProcessModelerVisu
+# I do not like this one, but it happens to be true.
+ControlFlow					CATI2DGeoVisu					libSP0VVGEV
+# <<< JFL 03:09:03 <<<
+
+SPPPosition_node  CATINavigModify    libSP0VVUTIL
+SPPPositionPPR_node  CATINavigModify    libSP0VVUTIL
+
+###############
+#To export the CATProcess to cgr.
+CATProcess_cgr					CATIExportTypeManager			libSP0VVISP		#IsEnableSaveAsCGR
+###############
+
+CATPPRNavObject         CATIPcsExportObject         libSP0VVPPR
+CATProductListPPR       CATIPcsExportObject         libSP0VVPPR
+CATResourceListPPR      CATIPcsExportObject         libSP0VVPPR
+CATPcsCtxProvider       CATICtxMenuProvider         libSP0VVPPR
+
+CATBehaviorNodeAdpater		CATIUIActivate				libProcessModelerVisu
+CATBehaviorNodeAdpater		CATInPlaceSite				libProcessModelerVisu
+CATBehaviorNodeAdapter		CATINavigateObjectHie		libProcessModelerVisu
+CATBehaviorNodeAdapter		CATINavigateObjectModify	libProcessModelerVisu
+
+CATBehaviorNodeAdapterHIE_node		CATINavigModify				libProcessModelerVisu
+CATBehaviorNodeAdapter_node			CATINavigModify				libProcessModelerVisu
+CATBehaviorNodeAdapterPPR_node		CATINavigModify				libProcessModelerVisu
+
+# Support of workbench specific contextual menu on PhysicalActivity
+# PhysicalActivity		CATIContextualSubMenu			libProcessModelerVisu

@@ -1,0 +1,241 @@
+'====================================================================================
+' COPYRIGHT DASSAULT SYSTEMES  2000
+'====================================================================================
+'
+' CATArrExtractArrFeatAsCATNLS.CATScript
+'
+' THIS SCRIPT CAN BE EXECUTED ONLY ON NT
+'
+'====================================================================================
+' Language="VBSCRIPT"
+'
+'
+' Description:
+' This CATScript is designed to extract the ArrNomenclature hierarchy in the current
+' CATArrangementNomenclature.feat file in the run-time directory of CATIA V5. The
+' extracted hierarchy is then written to a text file (CATArrNomenclatureFeat.CATNls)
+' that needs to be then copied over to the CATIA V5 run-time directory under the ....
+' <xxxxxxx_a>\resources\msgcatalog
+' where xxxxxxx can be intel_a, aix_a, solaris_a, irix_a, hpux_a
+'
+' PLEASE NOTE THAT THE DEFAULT FILE (CATArrNomenclatureFeat.CATNls) is written to C:\temp
+' 
+'
+'====================================================================================
+' Audit Trail:
+'--------------------------------------------------------------------
+'   Author     : Sudhi Gulur
+'   Date       : June 2000
+'   Chg id     :
+'   Chg nature :
+'--------------------------------------------------------------------
+'   Modified   :
+'   Date       : 
+'   Chg id     :
+'   Chg nature : 
+'====================================================================================
+
+Option Explicit
+
+'// ---------- Debug Traces
+Const intG_TRACEON = 1
+Dim strMessage
+
+'// VBScript Objects
+Dim FileSysObj, FileObj
+
+'// Do not change these variable names
+Dim intGArrSubTypeCount
+Dim strGArrSuperClassIntName
+
+'------------------------------------------------------------------------------------
+Sub DbgTrace (iStrMsgString, iIntYesError)
+'------------------------------------------------------------------------------------
+If (intG_TRACEON = 1) Then
+  CATIA.SystemService.Print iStrMsgString 
+  If (iIntYesError = 1) Then CATIA.SystemService.Print "Err Number = " & Err.Number
+End If
+
+End Sub '/////////////////////////////////////////////////////////// DbgTrace
+
+
+Sub RecursivelyProcessAllSubTypes(iobjArrSubtypes)
+
+Dim strIconName
+Dim strIntSysClassName
+Dim strNLSInstanceName
+Dim strSuperTypeName
+Dim intNBOfNom
+Dim intTstSubCount
+
+intNBOfNom = 0
+strIconName = ""
+strIntSysClassName = ""
+strNLSInstanceName = ""
+strSuperTypeName = ""
+
+On Error Resume Next
+
+intNBOfNom = iobjArrSubtypes.Count
+
+'strMessage = "Processing Parent: " & strGArrSuperClassIntName
+'strMessage = strMessage +  " SubCount: "  & intNBOfNom    
+'DbgTrace strMessage, 1      
+               
+Err.Clear
+If (intNBOfNom > 0) Then
+   Dim intJ   
+   For intJ=1 to intNBOfNom  
+     Dim objJArrNom As ArrNomenclature
+     Set objJArrNom = iobjArrSubtypes.Item(intJ) 
+     If (Not(objJArrNom Is Nothing)) Then
+       Err.Clear
+       strNLSInstanceName = objJArrNom.NLSInstanceName
+       If (Err.Num = 0) Then        
+         intGArrSubTypeCount = intGArrSubTypeCount + 1
+         Dim strSubCountIndex 
+         strSubCountIndex = "" & intGArrSubTypeCount
+         Dim strSubTypeName
+         strSubTypeName = strGArrSuperClassIntName + ".UserNomenclature" + strSubCountIndex _
+                          + "=" + Chr(34) + strNLSInstanceName + Chr(34)+ Chr(59)
+         'DbgTrace strSubTypeName, 1
+         FileObj.WriteLine(strSubTypeName )
+         
+         Dim objArrSubTypes As ArrNomenclatures
+         Set objArrSubTypes = objJArrNom.SubTypes
+
+         If (Err.Num = 0) Then 
+           If (Not(objArrSubTypes Is Nothing)) Then
+
+           intTstSubCount = 0
+           intTstSubCount = objArrSubTypes.Count
+           strMessage = strNLSInstanceName +  " Has SubCount: "  & intTstSubCount 
+           'DbgTrace strMessage, 1
+
+            RecursivelyProcessAllSubTypes objArrSubTypes
+           End If
+         End If
+         Err.Clear
+         objArrSubTypes = Nothing        
+       End If
+     End If
+     objJArrNom = Nothing
+   Next 'For intJ=1 to intNBOfNom
+End If
+
+End Sub '///////////////////////////////////////////////////////////RecursivelyProcessAllSubTypes
+
+'------------------------------------------------------------------------------------
+Sub Recursive_Browse (iobjArrNomen)
+'------------------------------------------------------------------------------------
+Dim objArrSubTypes As ArrNomenclatures
+Dim strIconName
+Dim strIntSysClassName
+Dim strNLSInstanceName
+Dim strSuperTypeName
+Dim strSubObjectCount
+Dim intNBOfNom
+
+'// --------- Initialize output information
+intNBOfNom = 0
+strIconName = ""
+strIntSysClassName = ""
+strNLSInstanceName = ""
+strSuperTypeName = ""
+strGArrSuperClassIntName = ""
+
+
+On Error Resume Next
+
+
+strIntSysClassName = iobjArrNomen.IntSysClassName 
+If (Err.Num = 0) Then
+  strNLSInstanceName = iobjArrNomen.NLSInstanceName 
+  If  (Err.Num = 0) Then
+   Dim strSuperClassName
+   strSuperClassName = strIntSysClassName + ".Title=" + Chr(34) + strNLSInstanceName + Chr(34)+ Chr(59)
+   FileObj.WriteLine(strSuperClassName)
+  End If
+End If
+
+strGArrSuperClassIntName = strIntSysClassName
+
+Set objArrSubTypes = iobjArrNomen.SubTypes
+intNBOfNom = objArrSubtypes.Count  
+If (intNBOfNom > 0) Then
+   intGArrSubTypeCount = 0
+   RecursivelyProcessAllSubTypes objArrSubTypes
+   Dim strObjectCount
+   strObjectCount = "" & intGArrSubTypeCount
+   strSubObjectCount = strIntSysClassName + ".UserNomenclatureCount=" + Chr(34)
+   strSubObjectCount = strSubObjectCount + strObjectCount + Chr(34) + Chr(59)
+   'DbgTrace strSubObjectCount, 1
+   FileObj.WriteLine(strSubObjectCount)
+End If
+
+
+End Sub '/////////////////////////////////////////////////////////// Recursive_Browse
+
+'====================================================================================
+Sub CATMain ()
+'====================================================================================
+
+Dim objDocument0 As Object
+
+Set objDocument0 = CATIA.ActiveDocument
+DbgTrace "ActiveDocument",1
+
+Dim objArrWorkbench1 As Workbench
+Set objArrWorkbench1 = objDocument0.GetWorkbench  ( "ArrWorkbench" ) 
+DbgTrace "GetWorkbench",1
+
+Dim objArrNomTree1 As ArrNomenclatureTree
+Set objArrNomTree1 = objArrWorkbench1.ArrNomenclatureTree
+DbgTrace "get_ArrNomenclatureTree",1
+
+Dim objArrNomTopNode As ArrNomenclatures
+Set objArrNomTopNode = objArrNomTree1.BaseNomenclatures
+DbgTrace "get_BaseNomenclatures",1
+
+Dim intNBOfNom 
+intNBOfNom = objArrNomTopNode.Count
+strMessage = "Count = " & intNBOfNom
+DbgTrace strMessage,1
+
+'//
+'//
+'//    Recursively Loop Through each nomenclature
+'//
+
+Set FileSysObj = CreateObject("Scripting.FileSystemObject")
+Set FileObj = FileSysObj.CreateTextFile("c:\temp\CATArrNomenclatureFeat.CATNls", True)
+
+Dim intK
+Dim objKArrNom As ArrNomenclature
+Dim strIntSysClassName
+Dim strNLSInstanceName
+Dim strIconName
+
+For intK=1 to intNBOfNom
+
+   On Error Resume Next
+
+   'DbgTrace "****************************************************",0
+   'strMessage = "Member = " & intK
+   'DbgTrace strMessage,0
+   
+   strIntSysClassName = ""
+   strNLSInstanceName = ""
+   strIconName = ""
+
+   Set objKArrNom = objArrNomTopNode.Item(intK)
+
+   Recursive_Browse objKArrNom
+
+Next '//K to NBOfNom
+
+FileObj.Close
+
+msgbox("c:\temp\CATArrNomenclatureFeat.CATNls File Created")
+
+End Sub '/////////////////////////////////////////////////////////// CATMain

@@ -1,0 +1,820 @@
+// COPYRIGHT DASSAULT SYSTEMES 2005-2010
+
+// --- Resources for ENOVIA Reconciliator batch infrastructure.
+// --- * Error messages : ERR_, WRN_ or INF_ + identifier, /p1, /p2.. for parameters.
+
+// --------------------------------------
+// --- End of batch execution messages.
+// --------------------------------------
+
+ReconciliatorProcessStatus="\n协调程序进程成功运行";
+ReconciliatorProcessStatusFailedInput="\n协调程序进程失败：无效输入";
+ReconciliatorProcessStatusFailed="\n协调程序进程失败";
+
+// ----------------------------------------------
+// --- To enable to display rule & storage mode.
+// ----------------------------------------------
+
+ReconciliationRule.Overwrite="覆盖";
+ReconciliationRule.New="新建";
+ReconciliationRule.NewFrom="新建自";
+ReconciliationRule.Reload="重载";
+ReconciliationRule.Publication="呈示式发布";
+ReconciliationRule.Structure="呈示式结构";
+ReconciliationRule.KeepAsExternal="保留为外部";
+ReconciliationRule.NewVersion="新建版本";
+ReconciliationRule.NewRevision="新建版次";
+ReconciliationRule.Delegate="委托";
+ReconciliationRule.OverwriteByDelta="采用增量覆盖";
+ReconciliationRule.NewVersionByDelta="采用增量新建版本";
+
+// --------------------------------------
+// --- Batch command description.
+// --------------------------------------
+
+Help_AdditionalHelpCmd="  /p1 -help\n";
+Help_AdditionalFile="    -file              要加载并协调的 CATIA 文件的名称，\n                    可能会有多个 file 语句。";
+Help_AdditionalStructure="    -structure         可以使用该选项将一个完整文档从呈示式发布模式切换到\n                    呈示式结构模式（此模式用来保存 CATProduct）。";
+Help_AdditionalReload="    -reload            可以使用该选项设置重载规则，\n                    而无需通过指定名称来覆盖对象。可能会有多个 reload 语句。";
+Help_AdditionalKeepExternal="    -keepExternal      可以使用该选项，为未加载的文档设置\n                    “保持为外部参考”的规则。可能会有多个 keepExternal 语句。";
+Help_AdditionalForceKeepExternal="    -forceKeepExternal 可以使用该选项在无法查询到文档时\n对断开链接强制使用“保留为外部”规则。";
+Help_AdditionalPublication="    -publication       可以使用该选项在主 CATProduct 文档使用呈示式结构模式时\n设置一个呈示式发布的子 CATProduct 文档，\n                    （只有在使用 -structure 参数时才能启用该选项）。";
+Help_AdditionalSimul="    -simul             使用该选项时无需在 VPDM 中执行“保存”或“应用”操作";
+Help_AdditionalSimulExecute="                       . Execute 表示已经应用了协调程序，但还未保存该协调程序";
+Help_AdditionalSimulRule="                       . Rule    表示已经设置了映射和规则，\n                            但未应用协调程序，也未保存该协调程序";
+Help_AdditionalSimulNoRule="                       . NoRule  表示仅创建了协调会话。";
+Help_AdditionalCheckDoc="    -checkDoc          提供在协调会话中要验证的文档的数目。";
+Help_AdditionalStatistics="    -statistics        显示执行操作的统计信息。";
+Help_AdditionalXml="    -xml               XML 文件形式的流量协调会话。";
+Help_AdditionalHelp="    -help              描述命令语法";
+Help_AdditionalQuery="    -queryName         搜索条件的名称\n                  （默认情况下为简单查询）";
+Help_AdditionalConnect="    -connect           提供连接字符串，描述如何建立与\n                   VPDM 档案库的连接";
+Help_AdditionalRole="    -role           用于 ENOVIA 连接的角色";
+Help_AdditionalUser="    -user           用于 ENOVIA 连接的用户（默认情况下为当前用户）";
+Help_AdditionalPwd="    -pwd               用于数据库连接的用户密码（默认情况下为空白）";
+Help_AdditionalPwd_spwd="    -spwd          数据库连接的安全用户密码";
+Help_AdditionalInXML="    -inxml             可以使用该选项指定一个输入 EpeXML 文件，\n                  以便从上一个协调会话重新启动批处理。\n                  如果 XML 文件未指定所有对象的映射，此选项应与 -completeWithDefaultMapping 一起使用。";
+Help_AdditionalEpeXML="    -epexml            可以使用该选项生成一个将与 -inxml 一同使用的 EpeXML 文件。";
+Help_AdditionalOutputFile="    -outputFileList    可以使用该选项来定义\n包含待协调文件的输出文件的路径。";
+Help_NoDraftingUpdate="    -noDraftingUpdate  可以使用该选项在保存 CATDrawing 前禁止系统对其进行更新。\n                    如果装配工程图的储存模式为呈示式结构模式，强烈建议不要使用该选项。\n";
+
+Help_AdditionalGlobalRule="    -GR                使用该选项可以指定要运行的全局集。\n                  -GR 后的第一个标记为全局集的名称。\n                  该标记后还可以添加其他标记，格式为“InputName=value”。 \n                  例如，-GR Query“queryName=My Query”。 \n                  如果没有设置对所有对象进行映射操作，该选项应该与  -completeWithDefaultMapping 同时使用。";
+Help_NoPartUpdate="    -noPartUpdate      可以使用该选项在保存 CATPart 和 CATProduct 前禁止系统对其进行更新。";
+Help_UnlockDraftingViews="    -unlockViews       使用该选项可以对工程制图视图进行解锁以便更新工程图。\n                    强烈建议使用该选项，否则被锁定的工程制图的视图尺寸很可能会变为孤立尺寸。\n";
+
+Help_AdditionalNewRevisionOnDoc="    -newRevision       使用该选项可以为被映射文件设置新建版次规则。\n                       可能会有多个 -newRevision 语句。";
+Help_AdditionalNewFromOnDoc="    -newFrom          使用该选项可以为被映射文件设置新建自规则。\n                       可能会有多个 -newFrom 语句。";
+Help_AdditionalNewVersionOnDoc="    -newVersion with DocName             \n                    使用该选项可以为被映射文档设置新建版本规则。\n                    可能会有多个 newVersion 语句。";
+Help_AdditionalNewVersionOnPart="    -newVersion with PartName     \n                    可以使用该选项为零件设置新建版本规则。\n                    可能会有多个 newVersion 语句。";
+Help_AdditionalForceNewVersion="    -forceNewVersion       可以使用该选项为会话中的所有映射文档设置新建版本规则。";
+
+Help_AdditionalExpandCapture="    -pvs FilterCaptureName                                   \n                    定义用于过滤装配结构的过滤捕获 (PVS) 的名称。该选项不能与其他产品结构过滤选项同时使用。";
+Help_AdditionalconfigHandler="    -configHandler CfgHandlerName                           \n                    在可用的配置处理程序中定义一个用于产品结构扩展的配置处理程序。\n                    CfgHandlerName 表示存储在 ENOVIA 中的配置处理程序标识。\n                    仅授权此关键字出现一次或不出现。";
+Help_AdditionalzoneClearance="    -zoneClearance ClearanceInMillimeters                   \n                    定义通过区域过滤产品结构时要使用的间隙。\n                    ClearanceInMillimeters 表示要用于产品结构过滤的值（以毫米为单位）。\n                    仅授权此关键字出现一次或不出现。默认值为 0mm。";
+Help_AdditionalzoneMode="    -zoneMode FilteringMode                                 \n                    可以使用该选项定义区域标准的求值方式，如 FullyIn、FullyOut、PartlyIn 和 PartlyOut。\n                    FilteringMode 表示 ENOVIA 中配置处理程序的标识。\n                    仅授权此关键字出现一次或不出现。默认值为 PartlyIn。";
+Help_AdditionalzoneFilter="    -zoneFilter ZoneName                                    \n                    使用该选项可以在产品结构扩展时，向用于区域过滤的区域列表添加一个区域。\n                    zoneName 表示存储在 ENOVIA 中的区域标识。\n                    仅授权此关键字不出现或出现若干次。";
+Help_AdditionalattributeFilter="    -attributeFilter Alias Operator Value         \n                    使用该选项可以在产品结构扩展时添加要用作属性过滤的属性谓词。\n                    Alias 表示 ENOVIA 中零件实例属性的外部标识。\n                    Operator 表示要在谓词定义中使用的运算符。\n                    Value 表示要在属性谓词定义中使用的属性值。\n                    仅授权此关键字不出现或出现若干次。";
+
+Help_AdditionalAllByDeltaOnPart="    -allByDeltaMode	  使用该选项可以为呈示式而非覆盖的结构中所有映射的零件或产品设置用增量覆盖的规则。\n";
+Help_AdditionalOverwriteByDeltaOnPart="    -overwriteByDelta PartName\n                    使用该选项可以为呈示式结构中的零件或产品设置通过增量覆盖规则。\n                    可使用数个 -overwriteByDelta 语句。";
+Help_AdditionalNewVersionByDeltaOnPart="    -newVersionByDelta PartName\n                    使用该选项可以为呈示式结构中零件或产品设置增量新建版本规则。\n                    可用多个 -newVersionByDelta 语句。\n";
+
+// --------------------------------------
+// --- Execution messages.
+// --------------------------------------
+
+Msg_StartReconcile="\n\n\n -----> 启动协调程序导入程序";
+Msg_CommandEcho="\n         命令:";
+Msg_OneFile="\n\n ====   一个 CATIA 文件：/p1";
+Msg_MultiFiles="\n\n ====   /p1 CATIA 文件：";
+Msg_ObjectToReconcile="\n  。待协调的对象（/p1 顶层对象）";
+Msg_NoCriterion=" ====   未定义条件名称";
+Msg_Criterion=" ====   条件名称：/p1";
+Msg_Connection=" ====   连接字符串：/p1";
+Msg_Role=" ====   角色：/p1";
+Msg_User=" ====   用户：/p1";
+Msg_Host=" ====   服务器机器：/p1";
+Msg_XmlNamingRule=" ====   正在命名转换文件：/p1";
+Msg_OneDocument=" ====   必须在协调会话中找到一个文档";
+Msg_Documents=" ====   必须在协调会话中找到 /p1 个文档";
+Msg_Structure=" ====   所有 CATProduct 文档都将为呈示式结构模式";
+Msg_Publication=" ====   所有文档都将为呈示式发布模式";
+Msg_ForceKeepExternal=" ====   系统将按照“保留为外部”的规则协调所有断开链接（未加载的文档）。";
+Msg_ForceByDelta=" ====   呈示式结构中所有映射的零件将在增量模式中协调（覆盖或增量新建版本）。";
+Msg_Statistics=" ====   显示执行统计信息";
+Msg_ReloadList=" ====   我们将尝试为以下一组对象设置 RELOAD 协调规则：";
+Msg_PublicationList=" ====   除以下将以呈示式发布模式保存的 CATProduct 之外：";
+Msg_Drafting=" ====   已激活工程制图验证 (/p1)";
+Msg_ProductStructure=" ====   已激活产品结构验证";
+Msg_ProductClassDefined=" ====   已授权使用产品级别 /p1 进行产品根级别创建。";
+Msg_CheckPublication=" ====   已激活发布验证";
+Msg_CheckLinks=" ====   已激活链接验证";
+Msg_BeforeSave=" ====   已激活保存前验证 (/p1)";
+Msg_AfterSave=" ====   已激活保存前验证 (/p1)";
+Msg_BeforeDrafting=" ====   已激活保存前验证工程制图 (/p1)";
+Msg_KeepExternal=" ====   我们将尝试为下一组代理文档设置“保留为外部参考”的协调规则：";
+Msg_NewRevision=" ====   我们将尝试为下一组文档设置“新建版次”的协调规则：";
+Msg_NewVersion=" ====   我们将尝试为下一组对象设置“新建版本”的协调规则：";
+Msg_NewFrom=" ====   我们将尝试为下一组对象设置“新建自”的协调规则：";
+Msg_OverwriteByDelta=" ====   我们将尝试为下列零件列表设置“增量覆盖”的协调规则：";
+Msg_NewVersionByDelta=" ====   我们将尝试为下列零件列表设置“增量新建版本”的协调规则：";
+Msg_ForceNewVersion=" ====   所有成功映射了的文档（呈示式发布模式）都将使用“新建版本”规则进行协调。";
+Msg_GlobalSetMapping=" ====   正在使用全局集 /p1 进行映射";
+Msg_NoDraftingUpdate=" ====   CATDrawing 保存前无法进行更新\n ====   （以呈示式结构模式保存的装配工程图不能使用该选项）。";
+Msg_ImportInAssembly=" ====   子装配的导入位于根装配节点 /p1 下。";
+Msg_LinkDrawingToPart="    在 Workpackage 情况下，CATDrawing 和 CATAnalysis 将链接至零件。";
+Msg_NoPartUpdate=" ====   CATPart 和 CATProduct 保存前无法进行更新。\n";
+Msg_NoUpdateOfLockedView=" ====   被锁定视图无法进行更新。\n ====   （因此对视图进行协调后，视图中的某些尺寸可能会变为孤立尺寸）。\n";
+Msg_UpdateOfLockedView=" ====   将对锁定视图进行解锁以便更新工程图。\n";
+Msg_Lock_ReleaseAtSave=" ====   保存后会发放协调期间的锁定获取应用。";
+Msg_Lock_NotToAcquire=" ====   不会获取锁定。这可能会导致使用所选规则无法协调的情况。";
+Msg_Lock_Default=" ====   若可能，会自动获取锁定（默认模式）。";
+Msg_FilteredByAnExpandCapture=" ====   将使用过滤捕获 /p1 过滤产品结构。\n";
+Msg_FilteredByAConfigHandler=" ====   将使用配置处理程序 /p1 过滤产品结构。\n";
+Msg_FilteredByCondition=" ====   将过滤产品结构。\n";
+Msg_ProductClassDefined=" ====   产品类(PC) /p1 被定义为在该 PC （若 PC 不存在，则会自动创建）下启用产品根类创建。\n";
+Msg_SimulationMode=" ====   已选择模拟模式：";
+Msg_SimulRule="\n  。定义协调规则后进程停止，因此无法应用任何协调规则，也不能在 VPDM 档案库中执行任何保存操作。";
+Msg_SimulExecute="\n  。已经应用了协调规则，但系统不会在 VPDM 档案库内执行任何保存操作。";
+Msg_SimulOpen="\n  。定义协调规则前进程停止。";
+Msg_XmlOutput=" ====   在 /p1 中生成 XML 报告";
+Msg_XmlEpeOutput=" ====   在 /p1 中生成 XML 以用于停止/重新启动";
+Msg_XmlInput=" ====   从 /p1 中导入 XML";
+Msg_FilesOutput=" ====   将在输出文件 /p1 中写入协调文档列表";
+Msg_FileDeletion=" ====   在协调结束时删除已协调的文件";
+Msg_ConnectionOk="\n  。VPDM 成功建立连接";
+Msg_NoConnection="\n  。处于模拟模式，未定义 VPDM 连接";
+Msg_LoadDocument="\n  。已加载 CATIA 文档 /p1";
+Msg_LockedDocument="\n  。已在会话中锁定 CATIA 文档 /p1";
+Msg_StrRecScn="\n\n    。开始协调进程";
+Msg_StrRecScnLicenseOK="\n    。 确定许可证检查";
+Msg_ChkDocNum="\n  。检查协调会话中的文档数目\n";
+Msg_StrRecRules="\n  。开始为每个对象（顶层对象）设置协调规则";
+Msg_CheckView="\n  。检查 /p1 视图中的节点数目（必须为 /p2 个）\n";
+
+Msg_ComputeRecRule="\n  。计算协调规则\n";
+Msg_ComputeRecRule_Failed="\n错误：计算协调规则失败\n";
+Msg_ComputeRecRule_OK="\n  。计算协调规则成功\n";
+
+Msg_LoadXML="\n  。计算输入 XML 文件 /p1 中的会话规则\n";
+Msg_LoadXML_Suite="\n  。计算输入 XML 中的会话规则：继续\n";
+Msg_LoadXML_Failed="\n错误：计算输入 XML 中的会话规则失败";
+Msg_LoadXML_FailedFor="      . 计算输入 XML 中的会话规则时因 /p1 而失败\n";
+Msg_LoadXML_MappedDoc="      . 映射到 /p1 /p2 的文档 /p3\n";
+Msg_LoadXML_MappedPart="      . 映射到 /p1 /p2 的零件 /p3\n";
+Msg_LoadXML_OK="\n  。计算输入 XML 中的会话规则成功\n";
+
+Msg_UsingGlobalSet="\n  。使用全局集机制计算协调规则\n";
+Msg_UsingGlobalSet_Failed="\n错误：使用全局集机制计算协调规则失败\n";
+Msg_UsingGlobalSet_OK="\n  。使用全局集机制计算协调规则成功\n";
+
+Msg_NoProdStructCompare="\n  。无法进行产品结构比较";
+Msg_PublicationCompFailed="\n  。无法进行发布比较";
+Msg_DisplayComparison="\n  。比较后转储模型\n";
+Msg_ExecComparison="\n  。计算比较";
+Msg_GenerateXml="\n  。生成文件 /p1 的 XML 报告";
+Msg_ApplyRecRule="\n  。应用协调规则";
+Msg_ApplyOk="\n  。成功运行协调操作。";
+Msg_AllRecRulesNotSet="\n  。无法应用协调规则\n（所有协调规则均未设置）";
+Msg_AllRecRulesNotSet2="\n    。未设置关于对象 /p1 的规则\n";
+Msg_PrintStatistic="\n      （统计信息：CPU 时间：/p1 秒/耗用时间：/p2 秒）\n";
+Msg_ActivateActionOK="\n    。将在工作指令 -/p1- 下执行保存操作\n";
+Msg_ActivateActionFailed="\n    。未能将 /p1 设置为当前保存工作指令\n";
+Msg_NoAction="\n    。没有保存时使用的工作指令\n";
+Msg_ApplyComparisonValid="\n  。启动产品呈示式结构验证";
+Msg_ApplyPublicationValid="\n  。启动产品呈示式发布验证";
+Msg_ObjectStatistic="\n\n * 统计信息：协调会话中的对象数目";
+Msg_DocStatistic="    . 文档数目：/p1";
+Msg_ProxyDocStatistic="    . 无法访问的文档的数目：/p1";
+Msg_PartStatistic="    . 零件数目：/p1";
+Msg_InstanceStatistic="    . 实例数目：/p1";
+Msg_NoDocFound="                找不到用于 /p1 的文档";
+Msg_SetRulePubExpReload="              + 对 /p1 文档 /p2 设置规则：从 VPDM 重新加载呈示式发布";
+Msg_SetRulePubExpNew="              + 对文档 /p1 设置规则：将呈示式发布作为新文档";
+Msg_OneDocFound="                找到一个文档。";
+Msg_AutoDocFound="                找到多个文档，但仅有一个有效。";
+Msg_SetRulePubExpOverWrt="              + 对 /p1 文档 /p2 设置规则：在 VPDM 中覆盖呈示式发布。";
+Msg_SetRulePubExpRevision="              + 对 /p1 文档 /p2 设置规则：在 VPDM 中将呈示式发布作为新版次。";
+Msg_SetRulePubExpVersion="              + 对 /p1 文档 /p2 设置规则：在 VPDM 中将呈示式发布作为新版本。";
+Msg_SetRulePubExpNewFrom="              + 对 /p1 文档 /p2 设置规则：在 VPDM 中将呈示式发布作为新发布。";
+Msg_GeneralPubSetRule="              + 对 /p1 文档 /p2 设置选定规则。";
+Msg_QueryOnTypeDocument="文档";
+Msg_QueryOnTypePart="零件";
+Msg_QueryOnTypeProxyDocument="未加载的文档";
+Msg_NoPartFound="                未找到零件";
+Msg_SetRuleStrucNew="              + 对此产品设置协调规则：将呈示式结构作为新结构";
+Msg_OnePartFound="                找到一个零件";
+Msg_AutoPartFound="                找到了多个零件，但只有一个有效。";
+
+Msg_SetRuleStrucOverWrite="              + 对 ASM_Product 设置规则：在 VPDM 中覆盖呈示式结构";
+Msg_SetRuleStrucNewVersion="              + 对 ASM_Product 设置规则：在 VPDM 中将呈示式结构作为新版本";
+Msg_SetRuleStrucOverByDelta="              + 对 ASM_Product 设置规则：在 VPDM 中增量覆盖呈示式结构";
+Msg_SetRuleStrucNewVerByDelta="              + 对 ASM_Product 设置规则：在 VPDM 中将呈示式结构作为增量新建版本";
+Msg_StructReload="              + 对 ASM_Product 设置规则：在 VPDM 中重新加载呈示式结构";
+Msg_GeneralStructRule="              + 对此 ASM_Product 设置选定规则 ";
+
+Msg_SetRuleProxyPubKeepExt="              + 对代理文档设置规则：使用呈示式发布模式并保留为外部链接";
+Msg_SetRuleProxyReloadExt="              + 对代理文档设置规则：从 VPDM 重新加载呈示式发布";
+Msg_PrepareDrawingRecFailed="           ===> 准备工程图协调失败 ";
+Msg_Document="            /p1： 类型为 /p2 的文档 /p3\n            （CATIA 名称：</p4>/</p5>）";
+Msg_ProxyDocument="            /p1： 类型为 /p2 的代理文档 /p3\n            （CATIA 名称：</p4>/</p5>）";
+Msg_NumberOfDocuments="找到                                 /p1 个文档：";
+Msg_NumberOfObjects="找到                                 /p1 个对象：";
+Msg_NumberOfWrongName="                              找到 /p1";
+Msg_NoRuleOnDocument="              + 未在文档 /p1 上设置协调规则";
+Msg_NoRuleOnProxyDocument="              + 未在文档代理 /p1 上设置协调规则";
+Msg_NoRuleOnProduct="              + 未在产品 /p1 上设置协调规则";
+Msg_ImpRuleOnModel="              + 无法在模型文档 /p1 上设置规则";
+Msg_PartInDoc="            . /p1 零件：/p2";
+Msg_PartDelegatetoDocument="              + 将根据文档规则计算此产品的规则";
+Msg_CATProductContent="            呈示式结构模式下的 CATProduct 包含 /p1 产品";
+Msg_CATProductPublication="            呈示式发布模式下的 CATProduct 包含 /p1 产品";
+Msg_RunCriterionWithParams="              + 使用以下 /p1 /p2 参数运行 /p3 条件：";
+Msg_RunCriterionNoParam="              + 运行 /p1 条件，未定义 /p2 /p3 参数：";
+Msg_PrintRootInstance="      > 根实例：/p1";
+Msg_PrintInstance="> 实例：/p1 比较：/p2";
+Msg_PrepareDrawingForSave="              + 准备 /p1 进行保存";
+Msg_UpdateDrawing="              + 更新 /p1";
+Msg_UpdateSheet="                . 图纸 /p1";
+Msg_NoUpdateLockedView="                  * 视图 /p1 被锁定，无法更新。";
+Msg_UpdateView="                  * 将更新视图 /p1";
+Msg_UnlockedAndUpdateView="                  * 将解锁并更新视图 /p1";
+Msg_lockedViewFailed=" 警告：更新后无法锁定视图 /p1。";
+Msg_NoUpdateDrawing="              + 已阻止对 /p1 工程图的更新";
+Msg_NoUpdatePart="              + 已阻止对装配和几何图形的更新。";
+Msg_SaveDocument="              + 保存 /p1";
+Msg_CheckAfterSave="              + 保存后检查 /p1";
+Msg_UpdateWarningFailed=" 警告：视图更新失败（原因：/p1)。";
+Msg_UpdateWarningDrawing=" 警告：部分尺寸已隔离";
+Msg_UpdateAssembly="    . 更新装配结构";
+Msg_UpdateDocumentAssembly="    . 更新 CATPart 和 CATProduct 文档";
+Msg_UpdateFailed=" 警告：更新失败（原因：/p1）";
+Msg_SavePSDoc="    . 以呈示式发布模式保存文档 CATPart/CATProduct/CATIA V4 模型";
+Msg_SaveOtherDoc="    . 保存其他文档 (CATDrawing, ...)";
+Msg_NotSaved="            /p1：尚未保存类型为 /p2 的文档 /p3";
+Msg_SavedOk="      /p1：已成功保存类型为 /p3 的文档 /p2\n";
+Msg_SaveAssemblyStructure="\n  。保存装配结构";
+Msg_ProductNotSaved="      未保存产品 /p1 (/p2)\n";
+Msg_ProductSavedOk="      成功保存产品 /p1 (/p2)\n";
+Msg_Rollback="\n  。保存出错后回滚事务";
+Msg_Commit="\n  。提交事务";
+Msg_AssSavedFailed="\n  。/p1 装配结构提交事务失败";
+Msg_AssSavedOk="\n  。/p1 装配结构提交事务成功";
+Msg_DocSavedFailed="\n  。其他文档提交事务失败";
+Msg_DocSavedOk="\n  。其他文档提交事务成功";
+Msg_StartCheckPS="\n  。开始比较装配结构\n";
+Msg_StartCheckPublication="\n  。开始比较文档发布\n";
+Msg_VPDMSessionClose="\n  。等待 VPM 会话关闭";
+Msg_CATIASessionClose="\n  。正在关闭批处理实用程序会话";
+Msg_PVRAlreadyExist="\n  。产品视图结果 </p1> 已存在于 Enovia 中。请提供其他名称。";
+Msg_OptionalSavedFailed="\n    . 可选保存操作失败";
+
+// --------------------------------------
+// --- Execution messages in CATPDMReconcileImmBatchBaseAppli.
+// --------------------------------------
+
+Msg_StartApplication="正在启动批处理应用程序：";
+Msg_BatchFinished="== 批处理运行结束，结果为 /p1";
+Msg_BatchProviderOk="批处理 ===> GetProvider 运行成功";
+Msg_BatchToPESConnTry="批处理 ===> 将尝试连接到 PES：";
+Msg_BatchToPESConnOk="批处理 ===> 连接成功 ";
+Msg_BatchInitOk="批处理初始化成功 => 运行...";
+Msg_EndApplication="批处理应用程序结束，结果 = /p1";
+
+// ---------------------------------------------------------
+// --- Error messages in CATPDMReconcileImmBatchBaseAppli.
+// ---------------------------------------------------------
+
+ERR_BatchProviderFailed="批处理失败 ===> GetProvider 失败";
+ERR_BatchProviderFailed.Generic="批处理失败 ===> GetProvider 失败";
+
+
+ERR_BatchProviderNULL="批处理失败 ===> 提供程序为空";
+ERR_BatchProviderNULL.Generic="批处理失败 ===> 提供程序为空";
+
+ERR_BatchToPESConnFailed1="批处理失败 ===> 连接失败";
+ERR_BatchToPESConnFailed1.Generic="批处理失败 ===> 连接失败";
+
+ERR_BatchToPESConnFailed2="批处理失败 ===> Connect != S_OK";
+ERR_BatchToPESConnFailed2.Generic="批处理失败 ===> Connect != S_OK";
+
+ERR_BatchProviderConnFailed="批处理失败 ===> IsConnected != S_OK";
+ERR_BatchProviderConnFailed.Generic="批处理失败 ===> IsConnected != S_OK";
+
+ERR_BatchInitFailed="== 批处理初始化失败";
+ERR_BatchInitFailed.Generic="== 批处理初始化失败";
+
+ERR_UserExitPwdFailed="== 获取用户出口密码失败 ";
+ERR_UserExitPwdFailed.Generic="== 错误：获取用户出口密码失败 ";
+
+// ---------------------------------------------------
+// --- Execution messages in CATPDMEV5BatchServices.
+// ---------------------------------------------------
+
+Msg_StartSaveInEnovia="批处理：将保存在 ENOVIA 中：";
+Msg_SaveToVPDMOk="批处理：保存成功 (hr = /p1)";
+Msg_StartCommitInDB="批处理：准备提交装配到数据库...";
+Msg_CommitInVPMOk="批处理：提交成功 (hr = /p1)";
+Msg_SaveWarningReg="批处理：保存或提交操作已完成，但登记了 /p1 个警告：";
+
+ERR_SaveToVPDMFailed="批处理：保存失败 hr = /p1";
+ERR_SaveToVPDMFailed.Generic="批处理：保存失败 ";
+ERR_SaveToVPDMFailed.Detail="hr = /p1";
+
+ERR_CommitInVPMFailed="批处理：提交失败 hr = /p1";
+ERR_CommitInVPMFailed.Generic="批处理：提交失败 ";
+ERR_CommitInVPMFailed.Detail="hr = /p1";
+
+ERR_OpenOutputFileFailed="批处理：无法打开文件 /p1。选项 -outputFileList 失败。";
+ERR_OpenOutputFileFailed.Generic="批处理：无法打开指定的文件。选项 -outputFileList 失败。";
+ERR_OpenOutputFileFailed.Detail="文件名：/p1";
+ERR_DrawingPreparation=" 错误：准备工程图协调失败。";
+
+// ----------------------------------------------------
+// --- Other Error messages in CATPDMEV5BatchServices.
+// ----------------------------------------------------
+
+ERR_ConnToVPDMFailed="连接 ENOVIA V5 VPM 失败 ===> IsConnected 检查失败";
+ERR_ConnToVPDMFailed.Generic="连接 ENOVIA V5 VPM 失败 ===> IsConnected 检查失败";
+
+// ------------------------------------------------
+// --- Execution messages in CATScmBatchEngineEV5.
+// ------------------------------------------------
+
+Msg_StartInportProgram="\n\n\n -----> 启动协调程序导入程序";
+
+Help_AdditionalQueryEV5="    -queryName      搜索条件的名称
+                        （默认情况下为“Query by object Id”）";
+
+Help_AdditionalActionEV5="    -action          保存时所使用的工作指令 ID";
+
+Help_AdditionalCommandLineV5="    -server         服务器名称
+    -role           用于 ENOVIA 连接的角色
+    -user           用于 ENOVIA 连接的用户（默认情况下为当前用户）
+    -pwd            数据库连接的用户密码（默认值为空）";
+
+Help_AdditionalCommandLine_lockMgt="    -lockMgt 选项    启用协调程序管理锁定获取。 
+                       该选项可以设置为 Acquire（默认模式）、ReleaseAtSave 或 NoAcquisition。
+                       . Acquire        若未分配至其他用户，则自动获取文档、零件或实例中的锁定。 
+                       . ReleaseAtSave  若未分配至其他用户，则在文档、零件或实例中的锁定保存后
+                                        自动获取和发布。
+                       . NotToAcquire   继承自动锁定获取。这可能会导致因为锁定丢失而协调
+                                        失败的情况。";
+Help_AdditionalProductClassEV5="    -pc             用于 PRC 创建的产品类名称。若未找到产品类，则会创建。";
+
+Help_AdditionalCommandLineV5_spwd="    -spwd          数据库连接的安全用户密码。";
+
+Help_ImportInAssembly="    -importInAssembly  可以定义要用于导入子装配的产品名称。";
+
+Help_linkToPart="    -linkToPart        可以将 CATDrawing 作为呈示式发布模式的展示附加到零件版本。";
+
+// --------------------------------------------
+// --- Error messages in CATScmBatchEngineEV5.
+// --------------------------------------------
+
+// --------------------------------------------
+// ---  messages in CATPDMReconcileEV5BatchExe.
+// --------------------------------------------
+
+ERR_RecScnFailed="错误：无法安装协调会话";
+ERR_RecScnFailed.Generic="错误：无法安装协调会话";
+
+ERR_ReconciliatorOperationFailed="错误：协调操作失败";
+ERR_ReconciliatorOperationFailed.Generic="错误：协调操作失败";
+
+// -----------------------------------------
+// --- Messages in CATPDMExtractEV5BatchExe.
+// -----------------------------------------
+
+Msg_StartExtractProgram="\n\n\n -----> 启动 Supplier Extraction 程序\n";
+Msg_QueryFailed="错误：查询失败：/p1 ";
+Msg_IncorrectSize="错误：查询到错误结果尺寸：/p1 ";
+Msg_PRCExpFailed="错误：扩展产品失败：/p1";
+Msg_LoadOfAssemblyFailed="错误：加载装配失败：/p1";
+Msg_AdditionalDocuments="\n使用其他文档 /p1 = < /p2 >\n";
+Msg_QueryFailedBadResult="错误：查询失败，得到的错误结果计数：/p1 ";
+Msg_LoadDoc_Failed="错误：加载文档 /p1 失败：/p2 ";
+Msg_PreDRWRecFailed="错误：===> 准备工程图协调失败（RC=0x /p1）\n";
+Msg_WrnFileAlreadyExist="警告：文件 /p1 已存在\n";
+Msg_WrnFileDeleted="警告：      文件 /p1 将删除\n";
+Msg_FailedDelete="警告：      未能删除文件 /p1 \n";
+Msg_ExtDone="========= 已提取到：/p1";
+Msg_ResultIs="========= 结果为 < /p1 > /p2";
+
+// --- * Message to be sent when open an assembly branch has failed.
+
+WRN_RecVpmAssemblyBranchLoadingFailed="提取部分完成，无法加载一个装配分支 /p1\n";
+WRN_RecVpmAssemblyBranchLoadingFailed.Generic="提取部分完成，至少无法加载一个装配分支：\n";
+WRN_RecVpmAssemblyBranchLoadingFailed.Detail="/p1";
+
+// ---------------------------------------------
+// --- Manage Naming rule generation messages.
+// ---------------------------------------------
+
+WRN_Msg_FileRenameFailed=" 警告：提取之前无法重命名文档 /p1。\n          将在不重命名的情况下提取文档。";
+WRN_InvalidAccessXmlNamingFile=" 错误：无法打开与 -namingRules 密码同时提供的 XML 命名规则文件 /p1。";
+
+// -----------------------------------------
+// --- Messages for VPM V4 Mapping details
+// -----------------------------------------
+
+Msg_MappingDisplayTitle=" -----------------------  映射详情  ----------------------- ";
+Msg_PartNumberMapping="      . 信息：对于零件编号                  = </p1>\n";
+Msg_PartVersionMapping="      . 信息：对于零件版本                 = </p1>\n";
+Msg_PartDefinitionMapping="      . 信息：对于零件定义                 = </p1>\n";
+Msg_PartNomenclatureMapping="      . 信息：对于零件术语                 = </p1>\n";
+Msg_PartDescriptionMapping="      . 信息：对于零件描述                 = </p1>\n";
+Msg_DocumentNameMapping="      . 信息：文档类型名称               = </p1>\n";
+Msg_DocumentTypeForMasterMapping="      . 信息：主控文档的文档类型值   = </p1>\n";
+Msg_ShapeTypeNameMapping="      . 信息：文档名称               = </p1>\n";
+WRN_NoMappingDefined="警告：尚未定义 CATIA/VPM V4 映射。\n";
+
+
+// -----------------------------------------
+// --- Messages in CATPDMExtractEV4BatchExe.
+// -----------------------------------------
+
+Msg_RecVpm1ExtractPartVersion="使用\n     env=</p1>\n     table=</p2>\n     search string=</p3>\n     version=</p4>\n提取零件";
+Msg_RecVpm1ExtractKeptPart="要扩展的零件为：/p1\n";
+Msg_RecVpm1ExtractDocRevision="使用\n     env=</p1>\n     table=</p2>\n     search string=</p3>\n     type=</p4>\n     revision=</p5>\n提取文档";
+Msg_RecVpm1ExtractKeptDocument=". 要加载的文档为：/p1\n";
+Msg_SeveralDocumentsFound=". 已找到条件 </p1> 的文档。\n";
+Msg_DocumentNameFound=". 因为与条件不等同，文档不能命名为 /p1。\n";
+
+ERR_RecVpm1ExtractPartVersionErrorInMapping="映射属性 /p1 时出错。映射时找不到属性，将忽略版本过滤\n";
+ERR_RecVpm1ExtractDocRevisionErrorInMapping="映射属性 /p1 时出错。映射时找不到属性，将忽略版次过滤\n";
+ERR_RecVpm1ExpandFailed="错误：扩展零件 /p1 失败。";
+
+WRN_NoPartFound="警告：未找到条件 </p1> 的零件\n";
+WRN_NoDocumentFound="警告：未找到条件 </p1> 的文档\n";
+
+// --------------------------------------
+// --- Global set messages.
+// --------------------------------------
+
+Msg_GlobalExecutionStart="\n  。开始执行 /p1：";
+Msg_GlobalExecutionOk="    ===> 成功执行 /p1";
+
+ERR_GlobalSetNotUsable=" 错误：/p1 在当前会话中不可用或未授权。";
+ERR_GlobalSetNotUsable.Generic=" 错误：指定工作指令在当前会话中不可用或未授权。";
+ERR_GlobalSetNotUsable.Detail="/p1";
+
+ERR_GlobalExecutionKo=" 错误：/p1 执行失败。";
+ERR_GlobalExecutionKo.Generic=" 错误：执行全局规则失败。";
+ERR_GlobalExecutionKo.Detail=" 全局规则 = /p1";
+
+ERR_SearchNodeFilterNotUsable=" 错误：/p1 在当前会话中不可用或未授权。";
+ERR_SearchNodeFilterNotUsable.Generic=" 错误：指定工作指令在当前会话中不可用或未授权。";
+ERR_SearchNodeFilterNotUsable.Detail=" /p1";
+
+ERR_InvalidGRParameter=" 错误：输入的参数 </p1> （值为 </p2>）无效。";
+ERR_InvalidGRParameter.Generic=" 错误：带有 -GR 选项的输入参数错误。";
+ERR_InvalidGRParameter.Detail=" </p1> * </p2>";
+
+Msg_UsingGlobalSet2=" 使用命令行中的全局集设置映射和规则。";
+Msg_UsingGlobalSet2_Failed=" 无法运行全局集列表。";
+Msg_UsingGlobalSet2_OK=" 成功运行全局集列表。";
+
+// --------------------------------------
+// --- Check messages.
+// --------------------------------------
+
+Msg_DrawingSheetScanHeader="        --> 扫描图纸列表 (/p1)";
+Msg_DrawingSheetScanView="            . 图纸 /p1（/p2 个视图）";
+Msg_DrawingViewHeader="              * 名为 /p1 的视图（/p1 个尺寸）";
+Msg_DrawingUpdateDimError="                >>> 名为 /p1 的尺寸发生更新错误";
+Msg_DrawingUpdateBadStatus="                >>> 名为 /p1 的尺寸的更新状态错误";
+Msg_DrawingUpdateDimOk="           >>> 尺寸更新成功完成";
+Msg_DrawingUpdateStats="           >>>  更新失败的尺寸的数目           = /p1\n          >>>  更新状态错误的尺寸的数目 = /p1";
+
+// --------------------------------------
+// --- Error messages.
+// --------------------------------------
+
+ERR_PvsMutuallyExclusiveWithOtherCfgOptions=" 错误：-pvs 选项不能和其他过滤选项同时使用。\n执行失败。";
+
+ERR_RecReconcileNotAuthorized=" 错误：批处理实用程序 /p1 未授权。\n请检查您的许可证设置。";
+ERR_RecReconcileNotAuthorized.Generic=" 错误：批处理实用程序未授权。";
+ERR_RecReconcileNotAuthorized.Detail="/p1";
+ERR_RecReconcileNotAuthorized.Suggestion="请检查您的许可证设置。";
+
+ERR_InvalidCheckDoc=" 错误：选项 -checkDoc 值无效/p1\n        系统不执行检查操作";
+ERR_InvalidCheckDoc.Generic=" 错误：选项 -checkDoc 值无效\n        系统不执行检查操作";
+ERR_InvalidCheckDoc.Detail="/p1";
+
+ERR_UnKwnCmdParam=" 错误：未知命令参数 /p1";
+ERR_UnKwnCmdParam.Generic=" 错误：未知命令参数 ";
+ERR_UnKwnCmdParam.Detail=" /p1 ";
+
+ERR_BatchInputFileNotDef=" 错误：未定义批处理协调程序的输入文件";
+ERR_BatchInputFileNotDef.Generic=" 错误：未定义批处理协调程序的输入文件";
+
+ERR_NoConnectionVPDM=" 错误：无法建立 VPDM 连接";
+ERR_NoConnectionVPDM.Generic=" 错误：无法建立 VPDM 连接";
+
+ERR_OpenCATIADoc=" 错误：无法打开 CATIA 文档 /p1";
+ERR_OpenCATIADoc.Generic=" 错误：无法打开指定 CATIA 文档 ";
+ERR_OpenCATIADoc.Detail=" /p1";
+
+ERR_LockDocFailed=" 错误：无法锁定文档 /p1";
+ERR_LockDocFailed.Generic=" 错误：无法锁定指定文档 ";
+ERR_LockDocFailed.Detail=" /p1";
+
+ERR_ScnInstantiate=" 错误：无法实例化协调会话";
+ERR_ScnInstantiate.Generic=" 错误：无法实例化协调会话";
+
+ERR_ScnInstantiateLicenseKO=" 错误：无法实例化协调会话：检查许可证失败";
+ERR_ScnInstantiateLicenseKO.Generic=" 错误：无法实例化协调会话：检查许可证失败";
+
+ERR_AccessLstDoc=" 错误：无法访问要协调的文档列表";
+ERR_AccessLstDoc.Generic=" 错误：无法访问要协调的文档列表";
+
+ERR_SetEnvObj=" 错误：无法设置此对象保存环境";
+ERR_SetEnvObj.Generic=" 错误：无法设置此对象保存环境";
+
+ERR_RecExeFailed=" 错误：执行协调失败";
+ERR_RecExeFailed.Generic=" 错误：执行协调失败";
+
+ERR_RecLstInvalid=" 错误：待协调文档的错误列表无效";
+ERR_RecLstInvalid.Generic=" 错误：待协调文档的错误列表无效";
+
+ERR_NoObjOrNoScnDef=" 错误：对文档设置规则时未定义任何对象或协调会话";
+ERR_NoObjOrNoScnDef.Generic=" 错误：对文档设置规则时未定义任何对象或协调会话";
+
+ERR_NoObjOrNoScnDefPart=" 错误：对 ASM 产品设置规则时未定义任何对象或协调会话";
+ERR_NoObjOrNoScnDefPart.Generic=" 错误：对 ASM 产品设置规则时未定义任何对象或协调会话";
+
+ERR_NoAccessLstCrt=" 错误：无法访问 /p1 /p2 条件列表";
+ERR_NoAccessLstCrt.Generic=" 错误：无法访问指定对象的条件列表";
+ERR_NoAccessLstCrt.Detail="对象名称：/p1 和 /p2";
+
+ERR_NotValidCATDrawingDoc=" 错误：/p1 不是有效 CATDrawing 文档。";
+ERR_NotValidCATDrawingDoc.Generic=" 错误：不是有效 CATDrawing 文档。";
+ERR_NotValidCATDrawingDoc.Detail="/p1";
+
+ERR_MemoryAllocation=" 错误：内存分配问题";
+ERR_MemoryAllocation.Generic=" 错误：内存分配问题";
+
+ERR_SetName=" 错误：无法设置名称 /p1";
+ERR_SetName.Generic=" 错误：无法设置对象名称";
+ERR_SetName.Detail="/p1";
+
+ERR_InvalidNbrDocument=" 错误：预计有 /p1 个文档，但只找到 /p2 个文档";
+ERR_InvalidNbrDocument.Generic=" 错误：预计文档数目与所找到文档数目不匹配";
+ERR_InvalidNbrDocument.Detail=" 预计文档数目：/p1 个，已找到文档数目：/p2 个";
+
+ERR_ExecuteFailed=" 错误：执行协调失败。";
+ERR_ExecuteFailed.Generic=" 错误：执行协调失败。";
+
+ERR_NoRecSession=" 错误：对文档设置规则时未定义任何协调会话。";
+ERR_NoRecSession.Generic=" 错误：对文档设置规则时未定义任何协调会话。";
+
+ERR_NoSaveEnvironment=" 错误：无法获取此对象的保存环境。";
+ERR_NoSaveEnvironment.Generic=" 错误：无法获取此对象的保存环境。";
+
+ERR_NoListOfDocuments=" 错误：无法访问待协调文档的列表。";
+ERR_NoListOfDocuments.Generic=" 错误：无法访问待协调文档的列表。";
+
+ERR_NoAccessToOneDocument=" 错误：无法访问 CATIA 文档。";
+ERR_NoAccessToOneDocument.Generic=" 错误：无法访问 CATIA 文档。";
+
+ERR_NoAccessCatiaProduct=" 错误：无法访问 CATIA 产品";
+ERR_NoAccessCatiaProduct.Generic=" 错误：无法访问 CATIA 产品";
+
+ERR_DrawingPreparation=" 错误：要进行协调的工程图准备失败";
+ERR_DrawingPreparation.Generic=" 错误：要进行协调的工程图准备失败";
+
+ERR_NotADocument=" 错误：待协调文档的错误列表无效 (*)";
+ERR_NotADocument.Generic=" 错误：待协调文档的错误列表无效 (*)";
+
+ERR_PubNewError=" 错误：无法将此对象的呈示式发布作为新发布";
+ERR_PubNewError.Generic=" 错误：无法将此对象的呈示式发布作为新发布";
+
+ERR_NoChildOnProduct=" 错误：无法找到此 CATProduct 的产品子级";
+ERR_NoChildOnProduct.Generic=" 错误：无法找到此 CATProduct 的产品子级";
+
+ERR_PubNewNotAuthorizedMdl=" 错误：未授权将 CATIA V4 模型的呈示式发布作为新发布";
+ERR_PubNewNotAuthorizedMdl.Generic=" 错误：未授权将 CATIA V4 模型的呈示式发布作为新发布";
+ERR_PubNewNotAuthorized=" 错误：未授权将呈示式发布作为新发布";
+ERR_PubNewNotAuthorized.Generic=" 错误：未授权将呈示式发布作为新发布";
+ERR_PubNewError=" 错误：无法将此对象的呈示式发布设置为新发布";
+ERR_PubNewError.Generic=" 错误：无法将此对象的呈示式发布设置为新发布";
+
+ERR_PubOverwNotAuthorized=" 错误：未授权在 VPDM 中覆盖呈示式发布";
+ERR_PubOverwNotAuthorized.Generic=" 错误：未授权在 VPDM 中覆盖呈示式发布";
+Msg_PubOverwNotAuthorized=" 警告：未授权在 VPDM 中覆盖呈示式发布，将尝试重新加载";
+ERR_PubOverwError=" 错误：无法将此对象的呈示式发布设置为在 VPDM 中覆盖";
+ERR_PubOverwError.Generic=" 错误：无法将此对象的呈示式发布设置为在 VPDM 中覆盖";
+
+ERR_PubReloadNotAuthorized=" 错误：未授权从 VPDM 重新加载呈示式发布";
+ERR_PubReloadNotAuthorized.Generic=" 错误：未授权从 VPDM 重新加载呈示式发布";
+ERR_PubReloadErrorMdl=" 错误：对于此 CATIA V4 模型，未授权从 VPDM 重新加载呈示式发布";
+ERR_PubReloadErrorMdl.Generic=" 错误：对于此 CATIA V4 模型，未授权从 VPDM 重新加载呈示式发布";
+ERR_PubReloadError=" 错误：无法将呈示式发布设置为从 VPDM 重新加载";
+ERR_PubReloadError.Generic=" 错误：无法将呈示式发布设置为从 VPDM 重新加载";
+
+ERR_PubNewVerNotAuthorized=" 错误：未授权从 VPDM 将呈示式发布作为新版本";
+ERR_PubNewVerNotAuthorized.Generic=" 错误：未授权从 VPDM 将呈示式发布作为新版本";
+ERR_PubNewVerError=" 错误：无法将此对象的呈示式发布设置为新版本";
+ERR_PubNewVerError.Generic=" 错误：无法将此对象的呈示式发布设置为新版本";
+
+ERR_PubNewRevNotAuthorized=" 错误：未授权从 VPDM 将呈示式发布作为新版次";
+ERR_PubNewRevNotAuthorized.Generic=" 错误：未授权从 VPDM 将呈示式发布作为新版次";
+ERR_PubNewRevError=" 错误：无法将此对象的呈示式发布设置为从 VPDM 新建版次";
+ERR_PubNewRevError.Generic=" 错误：无法将此对象的呈示式发布设置为从 VPDM 新建版次";
+
+ERR_PubNewFromNotAuthorized=" 错误：未授权将呈示式发布作为新建自 VPDM";
+ERR_PubNewFromNotAuthorized.Generic=" 错误：未授权将呈示式发布作为新建自 VPDM";
+ERR_PubNewFromError=" 错误：无法将规则设置为新建自，未授权 VPDM";
+ERR_PubNewFromError.Generic=" 错误：无法将规则设置为新建自，未授权 VPDM";
+
+ERR_ProxyPubNewNotAuthorized=" 错误：对于代理文档，未授权将呈示式发布作为新发布，也没有强制设置“保留为外部”选项。";
+ERR_ProxyPubNewNotAuthorized.Generic=" 错误：对于代理文档，未授权将呈示式发布作为新发布，也没有强制设置“保留为外部”选项。";
+
+ERR_PubKeepNotAuthorized=" 错误：未授权将呈示式发布保留为外部参考";
+ERR_PubKeepNotAuthorized.Generic=" 错误：未授权将呈示式发布保留为外部参考";
+ERR_PubKeepError=" 错误：无法将规则设置为呈示式发布并保留为外部参考";
+ERR_PubKeepError.Generic=" 错误：无法将规则设置为呈示式发布并保留为外部参考";
+
+ERR_SetPDMInformation=" 错误：无法在此对象上设置 PDM 信息";
+ERR_SetPDMInformation.Generic=" 错误：无法在此对象上设置 PDM 信息";
+
+ERR_StructNewNotAuthorized=" 错误：未授权将此产品的呈示式结构作为新结构";
+ERR_StructNewNotAuthorized.Generic=" 错误：未授权将此产品的呈示式结构作为新结构";
+ERR_StructNewdError=" 错误：无法将此产品的呈示式结构设置为新结构";
+ERR_StructNewdError.Generic=" 错误：无法将此产品的呈示式结构设置为新结构";
+
+ERR_StructOverNotAuthorized=" 错误：未授权对此产品在 VPDM 中覆盖呈示式结构";
+ERR_StructOverNotAuthorized.Generic=" 错误：未授权对此产品在 VPDM 中覆盖呈示式结构";
+ERR_StructOverError=" 错误：无法将此产品的呈示式结构设置为覆盖";
+ERR_StructOverError.Generic=" 错误：无法将此产品的呈示式结构设置为覆盖";
+
+ERR_StructNewVerNotAuthorized=" 错误：未授权对此产品在 VPDM 中将呈示式结构作为新版本";
+ERR_StructNewVerNotAuthorized.Generic=" 错误：未授权对此产品在 VPDM 中将呈示式结构作为新版本";
+ERR_StructNewVerError=" 错误：无法将此产品的呈示式结构设置为新版本";
+ERR_StructNewVerError.Generic=" 错误：无法将此产品的呈示式结构设置为新版本";
+
+ERR_StructOverByDeltaNotAuthorized=" 错误：此产品未授权在 VPDM 中增量覆盖呈示式结构";
+ERR_StructOverByDeltaNotAuthorized.Generic=" 错误：此产品未授权在 VPDM 中增量覆盖呈示式结构";
+ERR_StructOverByDeltaError=" 错误：无法将此产品上的呈示式结构设置为增量覆盖";
+ERR_StructOverByDeltaError.Generic=" 错误：无法将此产品上的呈示式结构设置为增量覆盖";
+
+ERR_StructReloadNotAuthorized=" 错误：此产品未授权从 VPDM 重新加载呈示式发布";
+ERR_StructReloadNotAuthorized.Generic=" 错误：此产品未授权从 VPDM 重新加载呈示式发布";
+ERR_StructReloadError=" 错误：无法将此产品的呈示式结构设置为从 VPDM 重新加载";
+ERR_StructReloadError.Generic=" 错误：无法将此产品的呈示式结构设置为从 VPDM 重新加载";
+
+ERR_StructNewVerByDeltaNotAuthorized=" 错误：未授权将此产品的呈示式结构作为在 VPDM 中增量新建版本";
+ERR_StructNewVerByDeltaNotAuthorized.Generic=" 错误：未授权将此产品的呈示式结构作为在 VPDM 中增量新建版本";
+ERR_StructNewVerByDeltaError=" 错误：无法将此产品的呈示式结构设置为增量新建版本";
+ERR_StructNewVerByDeltaError.Generic=" 错误：无法将此产品的呈示式结构设置为增量新建版本";
+
+ERR_GeneralRuleNotAuthorized=" 错误：未对此对象授权选定的规则";
+ERR_GeneralRuleNotAuthorized.Generic=" 错误：未对此对象授权选定的规则";
+ERR_GeneralRuleError=" 错误：无法为此对象设置选定规则";
+ERR_GeneralRuleError.Generic=" 错误：无法为此对象设置选定规则";
+
+ERR_AccessChildProduct=" 错误：无法找到 CATProduct 的产品子级";
+ERR_AccessChildProduct.Generic=" 错误：无法找到 CATProduct 的产品子级";
+
+WRN_RuleRequestedButNotUsed=" 警告：已使用 /p3 选项为 /p2 请求 /p1 规则，但已强制使用 /p4 规则。";
+WRN_RuleRequestedButNotUsed.Generic=" 警告：已使用输入选项请求一个规则，但已强制使用另一个规则：";
+WRN_RuleRequestedButNotUsed.Detail=" 。/p4 为对象 /p2 替换 /p1（忽略选项 /p3）。";
+
+WRN_RuleRequestedButNotValid=" 警告：已使用 /p3 选项为 /p2 请求 /p1 规则，而非此上下文中的有效规则。";
+WRN_RuleRequestedButNotValid.Generic=" 警告：已使用输入选项请求一个规则，而非此上下文中的有效规则：";
+WRN_RuleRequestedButNotValid.Detail=" 。为对象 /p2 请求的 /p1 规则（忽略选项 /p3）。";
+
+WRN_RuleButNotValid=" 警告：已为 /p2 选项请求 /p1 规则，而非此上下文中的有效规则。";
+WRN_RuleButNotValid.Generic=" 警告：已请求一个规则，而非此上下文中的有效规则：";
+WRN_RuleButNotValid.Detail=" 。已为忽略的 /p2 对象请求无效的 /p1 规则。";
+
+ERR_PubKeepNotAuthorized=" 错误：未授权将呈示式发布保留为外部参考";
+ERR_PubKeepNotAuthorized.Generic=" 错误：未授权将呈示式发布保留为外部参考";
+
+ERR_PubKeepError=" 错误：无法将规则设置为呈示式发布并保留为外部参考";
+ERR_PubKeepError.Generic=" 错误：无法将规则设置为呈示式发布并保留为外部参考";
+
+ERR_ProxyPubNewNotAuthorized=" 错误：对于代理文档，未授权将呈示式发布作为新发布，也没有强制设置“保留为外部”选项。";
+ERR_ProxyPubNewNotAuthorized.Generic=" 错误：对于代理文档，未授权将呈示式发布作为新发布，也没有强制设置“保留为外部”选项。";
+
+ERR_CriterionNotApplicable=" 错误：无法将 /p1 设置为 /p2 /p3 的当前条件";
+ERR_CriterionNotApplicable.Generic=" 错误：无法将指定条件设置为对象的当前条件";
+ERR_CriterionNotApplicable.Detail="条件名称：/p1，对象名称：/p2 和 /p3";
+
+ERR_CriterionParameter=" 错误：无法计算 /p1 /p2 上的 /p3 的默认条件参数";
+ERR_CriterionParameter.Generic=" 错误：无法计算指定对象类型的默认条件参数";
+ERR_CriterionParameter.Detail="类型名称：/p1，对象名称：/p2 和 /p3";
+
+ERR_CriterionNotFound=" 错误：/p1 /p2 没有 /p3 条件可用";
+ERR_CriterionNotFound.Generic=" 错误：对象没有指定条件可用";
+ERR_CriterionNotFound.Detail="条件名称：/p1，对象名称：/p2 和 /p3";
+
+ERR_CriterionNotFoundList=" 可用条件列表：";
+ERR_CriterionNotFoundList.Generic=" 可用条件列表：";
+
+ERR_CriterionError=" 错误：无法运行条件 /p1";
+ERR_CriterionError.Generic=" 错误：无法运行指定条件。";
+ERR_CriterionError.Detail=" /p1";
+
+ERR_NoAccessToDrawing=" 错误：无法访问 /p1 的工程图环境";
+ERR_NoAccessToDrawing.Generic=" 错误：无法访问指定对象的工程图环境";
+ERR_NoAccessToDrawing.Detail="/p1";
+
+ERR_NoAccessToComparison=" 错误：无法访问结构比较";
+ERR_NoAccessToComparison.Generic=" 错误：无法访问结构比较";
+
+ERR_InstanceNotIdentical="> 实例错误：/p1 比较：/p2";
+ERR_InstanceNotIdentical.Generic="> 实例比较出错";
+ERR_InstanceNotIdentical.Detail="实例名称：/p1 和 /p2";
+
+ERR_InvalidProductSaved=" 错误：协调后产品结构比较不正确。";
+ERR_InvalidProductSaved.Generic=" 错误：协调后产品结构比较不正确。";
+
+ERR_ReconcileFailed=" 错误：协调操作失败";
+ERR_ReconcileFailed.Generic=" 错误：协调操作失败";
+
+ERR_CreateCATIAEnv=" 错误：无法安装 CATIA 环境";
+ERR_CreateCATIAEnv.Generic=" 错误：无法安装 CATIA 环境";
+
+ERR_InvalidCheckView=" 错误：选项 -checkView 值无效/p1\n        系统不执行检查操作";
+ERR_InvalidCheckView.Generic=" 错误：选项 -checkView 值无效\n        系统不执行检查操作";
+ERR_InvalidCheckView.Detail="/p1";
+
+ERR_InvalidNodesInView=" 错误：仅找到 /p1 个节点";
+ERR_InvalidNodesInView.Generic=" 错误：仅找到有限个数的节点";
+ERR_InvalidNodesInView.Detail="/p1";
+ERR_InvalidPublicationSaved=" 错误：协调检测到的错误后再对发布进行比较。";
+
+ERR_InvalidLockOption=" 错误：选项 -lockMgt 的值 /p1 无效";
+ERR_InvalidLockOption.Generic=" 错误：选项 -lockMgt 的值  无效 ";
+ERR_InvalidLockOption.Detail="/p1";
+
+
+// -------> Check messages for import as sub-assembly.
+
+ERR_ImportInAssemblyAlwaysInStructureExposed=" 错误：-importInAssembly 选项需要 -structure 选项。\n执行失败。";
+ERR_NoAbleToInsertInAssembly=" 错误：无法实例化 -importInAssembly 选项后装配节点 /p1 下的子装配。";
+ERR_LinkReplacementFailed=" 错误：无法在 /p3 的上下文中用 /p2 替换文档 /p1。";
+
+// -------> Error & warning messages due to Reconcile session creation.
+
+Msg_ReconcileCreationProlog=" 创建协调会话时已检测到一些错误或警告：\n";
+ERR_ReconcileCreationError="   错误：/p1。\n           将停止程序。";
+ERR_ReconcileCreationWarning="   警告：/p1。";
+
+// --------------------------------------
+// --- PVR Synchronization.
+// --------------------------------------
+
+// -------> Check messages.
+
+Msg_StartSyncProgram="\n\n\n -----> 启动“产品视图结果”批处理实用程序\n";
+Msg_PVRDocument="要加载的产品视图结果文档为 /p1";
+Msg_PVRSavedOk="已保存产品视图结果文档 /p1。";
+Msg_ImpactedByPVRSavedOk="已保存文档 /p1。";
+Msg_NoSaveInSimulationMode="批处理文件在模拟模式中运行，系统不会保存产品视图结果。";
+Msg_ImpactedByToUpdateManually="对产品视图结果文档进行修改时可能会影响文档 /p1，\n 可能需要手动更新该文档";
+Msg_PartToQuery="使用 /p1 条件搜索零件版本。";
+Msg_PrcToQuery="使用 /p1 条件搜索产品根级别。";
+Msg_PvsToQuery="使用 /p1 条件搜索过滤捕获。";
+Msg_EasyQueryStart="\n  == 使用简易查询搜索 /p1 对象：";
+Msg_EasyQueryParm="  ==   /p1 /p2 /p3";
+Msg_EasyQueryResult="  ==   找到 /p1 个对象\n";
+Msg_CreatePvs="针对过滤捕获 /p1 的条件。";
+Msg_PvrNotSynchronized="产品视图结果 CATProduct 与装配结构不同步。";
+Msg_NoSynchronizationRequested="选择了“不与产品视图结果同步”这一选项。";
+Msg_NestedPvrAtEachLevel="所有新装配节点将作为新产品视图结果 CATProduct 来创建（将使用 /p1 对其进行命名）。";
+Msg_NestedPvrForReusable="所有新的、可重复使用的装配节点将作为新产品视图结果 CATProduct 来创建（将使用 /p1 对其进行命名）。";
+Msg_PvrSynchroAttrFailed="无法在 </p1> 上将属性 </p2> 的设为 </p3> 值。";
+
+
+// -------> Error messages.
+
+ERR_SynchronizationNotAuthorized="未授权“产品视图结果同步”功能。";
+ERR_SynchronizationAllocate="无法创建产品视图结果同步环境。";
+ERR_PVRNotSaved="错误：保存产品视图结果文档 /p1 时，保存失败。";
+ERR_ImpactedByPVRNotSaved="错误：保存文档 /p1 时，保存失败。";
+ERR_NoPVRNameDefined="错误：创建或同步产品视图结果 (PVR) 时，PVR 名称为强制参数。";
+ERR_NoRootDefineForCreation="错误：创建产品视图结果时，需要强制定义要使用的装配结构（-prc 或 -pv 输入）。";
+ERR_NoFromDefineForCreation="错误：对产品视图结果执行“新建自”操作时，需要强制定义现有产品视图结果的访问路径。";
+ERR_MissingPrcForPvsCreation="错误：需要创建过滤捕获 PRC 定义时（-prc 选项）创建产品视图结果。";
+ERR_NoImportFileDefined="错误：没有提供待导出的 CATProduct 文件时，选择 -import 选项。";
+ERR_NoImportFileNotAccessible="错误：无法打开文件 /p1。选项 /p2 失败。";
+ERR_SynchroExclusiveOption="错误：选项 /p1 和其他选项不能同时使用。";
+ERR_UnkownPvrCreationMode="错误：未授权在 -mode 选项中定义产品视图创建模式 /p1 。必须为“一个”、“所有”或“可重复使用”。";
+ERR_OptionNotYetAvailable="错误：该版本尚未提供选项 /p1。";
+ERR_OnlyOneOccurence="错误：不能多次使用选项 /p1。";
+ERR_OptionsMutuallyExclusive="错误：/p1 和 /p2 是相互排斥的选项。";
+ERR_InvalidInputFileOrFileEmpty="错误：带有选项 /p1 的文件 /p2 无法以只读模式访问或者为空。\n";
+
+ERR_InvalidCheckDoc=" 错误：选项 -checkDoc 值无效/p1\n        系统不执行检查操作";
+ERR_InvalidCheckDoc.Generic=" 错误：选项 -checkDoc 值无效\n        系统不执行检查操作";
+ERR_InvalidCheckDoc.Detail="/p1";
+
+ERR_DUMPDOCFailed=" 错误：无法转储文本文件 </p1> 中的产品结构\n";
+ERR_DUMPDOCFailed.Generic=" 错误：无法转储文本文件中的产品结构";
+ERR_DUMPDOCFailed.Detail=" 文件 </p1>";
+
+WRN_NoSynchronizatioOnlyForCreate="警告：选项 -noSynchro 只对 PVR 有效，将忽略创建。";
+WRN_Ignored_PRC_input="警告：在此上下文中忽略了 PRC（-prc 选项）。";

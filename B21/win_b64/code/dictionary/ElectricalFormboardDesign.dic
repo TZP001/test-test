@@ -1,0 +1,89 @@
+# COPYRIGHT DASSAULT SYSTEMES 2002
+#======================================================================
+# Dictionary ElectricalFormboardDesign.dic
+#  associated with framework ElectricalFormboardDesign
+#======================================================================
+#
+#  January 2002  Creation:                        G. LEREY
+#======================================================================
+
+# --------------------------------------------------------------------------
+# ElectricalFormboardDesign Product workbench
+# --------------------------------------------------------------------------
+
+CATApplicationFrame         CATIEgfPrdWorkbenchConfigurationFactory   libCATEgfPrdWorkbench
+CATEgfPrdWorkbench          CATIWorkbench                             libCATEgfPrdWorkbench
+CATEgfPrdWorkbench          CATIPRDWorkshopConfiguration              libCATEgfPrdWorkbench
+
+CATEgfPrdWorkbench_init     CATIWorkbenchInitialization               libCATEgfTransition
+CATEgfPrdWorkbench_init     CATICommandSet                            libCATEgfPrdWorkbench
+
+#-----------------------------------|
+# Setting dans Tools->Option (V5R6) |
+#-----------------------------------|
+
+CATEgfGeneralSettings        CATIUserSettings                 libCATEgfSettings
+CATUserSettingsManager       CATIEgfGeneralSettingsFactory    libCATEgfSettings
+CATEditorManager             CATIEgfGeneralSettingsFactory    libCATEgfSettings
+CATEditorManager2            CATIEgfGeneralSettingsFactory    libCATEgfSettings
+
+#--------------------------  CATIElecFormboard ---------------------------------
+#                            ----------------
+ElecFmbdE                     CATIElecFormboard         libCATElectricalFormboardDesign
+ElecFmbdBundleSegmentE        CATIElecFormboard         libCATElectricalFormboardDesign
+
+ElecFormboardParameters       CATIEdit                  libCATElectricalFormboardDesign
+ElecFormboardParameters       CATICatalogEnable         libCATElectricalFormboardDesign
+ElecFormboardParameters       CATIElecFmbdParameter     libCATElecFlattening
+ElecFormboardParameters       CATINavigateObject        libCATElectricalFormboardDesign
+ElecFormboardParameters_node  CATINavigModify           libCATElectricalFormboardDesign
+
+#---- R11
+CATEgfSynchronizeAlgo         CATIProgressTask          libCATElectricalFormboardDesign
+
+#---- R12
+EgfExtractAddin               CATIEgfExtractAddin       libCATElectricalFormboardDesign
+
+# --- R13
+ASMPRODUCT                    CATIEhfEnvironment           libCATElecFlattening  
+ElecFormboardParameters       CATIEhfFlatteningParameters  libCATElecFlattening
+
+#---- R12SP6, le 01/03/2003, aloow to see the Flattening link in Edit / Link
+# ATTENTION: from VR16SP5, this implementation is put in ElectricalModeler.
+#CATElecBehaviourCont          CATIExternalLinks         libCATElectricalFormboardDesign
+
+#CATElecExternalLinkExt        CATIExternalLink          libCATElectricalFormboardDesign
+#CATElecExternalLinkExt        CATIExternalLinkValuate   libCATElectricalFormboardDesign
+
+#----AZL 09-07-2004 --For Dlete Fmbd Parameter
+ElecFormboardParameters	      LifeCycleObject       		libCATElectricalFormboardDesign
+ElecFormboardParameters		    CATICSOFilter						  libCATElectricalFormboardDesign
+
+# --- R17
+ASMPRODUCT                    CATIEhfFlattenManager     libCATElectricalFormboardDesign
+ASMPRODUCT                    CATIEhfDuplicationHarness libCATElectricalFormboardDesign
+
+# --- AKL --- R17SP4/R18 ---
+# --- LengthTolerance ---
+ElecLengthTolerance           CATIEhfLengthTolerance    libCATElectricalFormboardDesign
+ElecLengthTolerance           CATIEleLengthTolerance    libCATElectricalFormboardDesign
+ElecLengthTolerance           CATINavigateObject        libCATElectricalFormboardDesign
+ElecLengthTolerance_node      CATINavigModify           libCATElectricalFormboardDesign
+ElecLengthTolerance           CATI3DGeoVisu             libCATElectricalFormboardDesign
+ElecLengthTolerance           CATIRedrawEvent           libCATElectricalFormboardDesign
+ElecLengthTolerance           CATIAlias                 libCATElectricalFormboardDesign
+ElecLengthTolerance           CATIPathAccess            libCATElectricalFormboardDesign
+
+ElecBranchableC               CATIEhfManageLengthTolerance    libCATElectricalFormboardDesign    EgfBranchManageLengthTolerancePreCond
+ElecBranchableC               CATIEleManageLengthTolerance    libCATElectricalFormboardDesign    EgfBranchManageLengthTolerancePreCond
+
+# --- R18
+ElecBundleSegmentE        CATIEhfBundleSegmentLink  libCATElectricalFormboardDesign
+ElecBundleSegmentC        CATIEhfBundleSegmentLink  libCATElectricalFormboardDesign
+
+# --- SynchronizeExposedAPI ---
+ASMPRODUCT                    CATIEhfSynchronizeManager libCATElectricalFormboardDesign
+
+
+
+

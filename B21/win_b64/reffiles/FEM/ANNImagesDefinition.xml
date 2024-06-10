@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- COPYRIGHT DASSAULT SYSTEMES 2002 -->
+<!-- 02:06:01 creation -->
+<!DOCTYPE ImagesList SYSTEM "ImageDefinition.dtd">
+<?xml-stylesheet type="text/xsl" href="ImageDefinition.xsl"?>
+
+<ImagesList Name="ANN Images">
+
+<!-- ************** ELEMENTS : 9 ****************** -->
+
+<Image Name="Mesh" Physical="ELEMENTS" Visu="MESH" >
+  <Criterion Name="MESH" >
+    <Values>
+      <Position Name="ELEMENT"/>
+      <MathType Name="SCALAR"/>
+    </Values>
+  </Criterion>
+</Image>
+
+<Image Name="Mesh_Deformed" Physical="ELEMENTS" Visu="MESH" >
+  <Criterion Name="DEFORMED-MESH" >
+    <Values>
+      <Position Name="ELEMENT"/>
+      <MathType Name="SCALAR"/>
+    </Values>
+  </Criterion>
+  <Attributes><Display Deformed="YES"/></Attributes>
+</Image>
+
+<!-- ************** TRANSLATION : 127 ****************** -->
+
+<Image Name="Disp_Iso" Physical="TRANSLATION" Visu="AVERAGE-ISO" >
+  <Criterion Name="NORMALIZE" >
+    <Values>
+      <Position Name="NODE"/>
+      <MathType Name="VECTOR"/>
+    </Values>
+    <ProcessList><Process Name="SPMProcessNormalize"/></ProcessList>
+  </Criterion>
+  <Attributes><Display Deformed="YES"/></Attributes>
+</Image>
+
+<!-- ************** STRESS_VON_MISES : 149 ****************** -->
+
+<Image Name="StressVonMises_Iso_Smooth" Physical="STRESS_VON_MISES" Visu="AVERAGE-ISO" >
+  <Criterion Name="SCALAR" >
+    <Values>
+      <Position Name="NODE"/>
+      <MathType Name="SCALAR"/>
+      <Filters>
+        <Smi Name="UPPER"/>
+      </Filters>
+    </Values>
+  </Criterion>
+  <Attributes>
+    <Display Deformed="YES" />
+    <ColorMap Smooth="YES" />
+  </Attributes>
+</Image>
+
+</ImagesList>

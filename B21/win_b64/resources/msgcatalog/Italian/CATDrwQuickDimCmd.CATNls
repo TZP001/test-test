@@ -1,0 +1,179 @@
+//=====================================================================================
+//                                     CNEXT - CXRn
+//                          COPYRIGHT DASSAULT SYSTEMES 1998 
+//-------------------------------------------------------------------------------------
+// FILENAME    :    CATDrwQuickDimCmd
+// LOCATION    :    DraftingIntCommands
+// AUTHOR      :    jmt
+// BUT         :    Commande de creation de cote
+// DATE        :    ??.10.1998
+//-------------------------------------------------------------------------------------
+// DESCRIPTION :    
+//-------------------------------------------------------------------------------------
+// COMMENTS    :    
+//-------------------------------------------------------------------------------------
+// MODIFICATIONS     user  date        purpose
+//    HISTORY        ----  ----        -------
+//      01           fgx   04.10.2000  Rearchitecturation CXR6
+//=====================================================================================
+
+//******************************************************************************
+// Command
+//******************************************************************************
+CATDrwQuickDimCmd.UndoTitle="Creazione di quote";
+
+//******************************************************************************
+// Agents
+//******************************************************************************
+CATDrwQuickDimCmd._agentSet.UndoTitle = "Selezione";
+
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+// Interactive Dimension Cmd : SwitchAgent related to Orientation purpose ...
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+CATDrwQuickDimCmd.OrientBarRessource.Bar.Title="Orientamento";
+
+//******************************************************************************
+// Reference Element Button - V5R3 Only
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource.RefElem.Title = "Elemento di riferimento";
+CATDrwQuickDimCmd.OrientBarRessource.RefElem.ShortHelp="Elemento di riferimento";
+CATDrwQuickDimCmd.OrientBarRessource.RefElem.Help=
+"L'orientamento della linea di quota dipende dall'elemento selezionato";
+CATDrwQuickDimCmd.OrientBarRessource.RefElem.LongHelp=
+"Elemento di riferimento
+L'orientamento della linea di quota dipende dall'elemento selezionato";
+
+//******************************************************************************
+// Reference View Button - V5R3 Only
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource.RefVue.Title = "Riferimento per la vista";
+CATDrwQuickDimCmd.OrientBarRessource.RefVue.ShortHelp="Riferimento per la vista";
+CATDrwQuickDimCmd.OrientBarRessource.RefVue.Help=
+"L'orientamento della linea della quota è collegato alle direzioni di vista";
+CATDrwQuickDimCmd.OrientBarRessource.RefVue.LongHelp=
+"Riferimento per la vista
+L'orientamento della linea della quota è collegato alle direzioni di vista";
+
+//******************************************************************************
+// Projected dimension Button
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource._RefElem.Title = "Quota proiettata";
+CATDrwQuickDimCmd.OrientBarRessource._RefElem.ShortHelp="Quota proiettata";
+CATDrwQuickDimCmd.OrientBarRessource._RefElem.Help=
+"L'orientamento della linea di quota dipende dalla posizione del mouse";
+CATDrwQuickDimCmd.OrientBarRessource._RefElem.LongHelp=
+"Quota proiettata
+L'orientamento della linea di quota dipende dalla posizione del mouse.";
+
+//******************************************************************************
+// Force dimension on element Button
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource._RefAuto.Title = "Forza la quota sull'elemento";
+CATDrwQuickDimCmd.OrientBarRessource._RefAuto.ShortHelp="Forza la quota sull'elemento";
+CATDrwQuickDimCmd.OrientBarRessource._RefAuto.Help=
+"Forza la linea di quota in modo che sia parallela all'elemento quotato";
+CATDrwQuickDimCmd.OrientBarRessource._RefAuto.LongHelp=
+"Forza la quota sull'elemento
+Forza la linea di quota in modo che sia parallela all'elemento quotato.";
+
+//******************************************************************************
+// Force horizontal dimension Button
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource._RefHoriz.Title = "Forza la quota orizzontale nella vista";
+CATDrwQuickDimCmd.OrientBarRessource._RefHoriz.ShortHelp="Forza la quota orizzontale nella vista";
+CATDrwQuickDimCmd.OrientBarRessource._RefHoriz.Help=
+"Forza la linea di quota in modo che sia orizzontale nella vista";
+CATDrwQuickDimCmd.OrientBarRessource._RefHoriz.LongHelp=
+"Forza la quota orizzontale nella vista
+Forza la linea di quota in modo che sia orizzontale nella vista.";
+
+//******************************************************************************
+// Force vertical dimension Button
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource._RefVert.Title = "Forza la quota verticale nella vista";
+CATDrwQuickDimCmd.OrientBarRessource._RefVert.ShortHelp="Forza la quota verticale nella vista";
+CATDrwQuickDimCmd.OrientBarRessource._RefVert.Help=
+"Forza la linea di quota in modo che sia verticale nella vista";
+CATDrwQuickDimCmd.OrientBarRessource._RefVert.LongHelp=
+"Forza la quota verticale nella vista
+Forza la linea di quota in modo che sia verticale nella vista.";
+
+//******************************************************************************
+// Force user defined dimension Button
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource._RefUser.Title = "Forza la quota lungo una direzione";
+CATDrwQuickDimCmd.OrientBarRessource._RefUser.ShortHelp="Forza la quota lungo una direzione";
+CATDrwQuickDimCmd.OrientBarRessource._RefUser.Help=
+"Forza la linea di quota lungo una direzione";
+CATDrwQuickDimCmd.OrientBarRessource._RefUser.LongHelp=
+"Forza la quota lungo una direzione
+Forza la linea di quota lungo una direzione.";
+
+//******************************************************************************
+// True length dimension Button
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource.VraiGrandeur.Title = "Quota lunghezza effettiva";
+CATDrwQuickDimCmd.OrientBarRessource.VraiGrandeur.ShortHelp="Quota lunghezza effettiva";
+CATDrwQuickDimCmd.OrientBarRessource.VraiGrandeur.Help=
+"Crea una quota in modalità Quota lunghezza effettiva";
+CATDrwQuickDimCmd.OrientBarRessource.VraiGrandeur.LongHelp=
+"Quota lunghezza effettiva
+Crea una quota in modalità Quota lunghezza effettiva.";
+
+//******************************************************************************
+// Force dimension along direction Button
+//******************************************************************************
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionParallel.Title = "Quota lungo una direzione";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionParallel.ShortHelp="Quota lungo una direzione";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionParallel.Help=
+"Imposta la linea di quota lungo una direzione";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionParallel.LongHelp=
+"Quota lungo una direzione
+Imposta la linea di quota lungo una direzione.";
+
+//******************************************************************************
+// Force dimension perpendicular to direction Button
+//******************************************************************************
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionPerpendicular.Title = "Quota perpendicolare ad una direzione";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionPerpendicular.ShortHelp="Quota perpendicolare ad una direzione";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionPerpendicular.Help=
+"Imposta la linea di quota perpendicolare ad una direzione";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionPerpendicular.LongHelp=
+"Quota perpendicolare ad una direzione
+Imposta la linea di quota perpendicolare ad una direzione.";
+
+//******************************************************************************
+// Force dimension along a fixed angle in view Button
+//******************************************************************************
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionAngle.Title = "Quota lungo un angolo fisso nella vista";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionAngle.ShortHelp="Quota lungo un angolo fisso nella vista";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionAngle.Help=
+"Imposta la linea di quota lungo un angolo fisso nella vista";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionAngle.LongHelp=
+"Quota lungo un angolo fisso nella vista
+Imposta la linea di quota lungo un angolo fisso nella vista.";
+
+//******************************************************************************
+// Intersection detection switch
+//******************************************************************************
+CATDrwQuickDimCmd.IntersectionAgentResource.Check.Title="Rilevazione del punto di intersezione";
+CATDrwQuickDimCmd.IntersectionAgentResource.Check.ShortHelp="Rilevazione del punto di intersezione";
+CATDrwQuickDimCmd.IntersectionAgentResource.Check.Help=
+"Rileva i punti di intersezione durante la quotatura";
+CATDrwQuickDimCmd.IntersectionAgentResource.Check.LongHelp=
+"Rilevazione del punto di intersezione
+Rileva i punti di intersezione durante la quotatura.";
+
+//******************************************************************************
+// Angle
+//******************************************************************************
+CATDrwQuickDimCmd.Angle.Dimension.EnglobingFrame.IntermediateFrame.Label.Title = "Angolo: ";
+CATDrwQuickDimCmd.Angle.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp = "Inserire l'angolo dalla direzione";
+
+//******************************************************************************
+// Driving Dim Value
+//******************************************************************************
+CATDrwQuickDimCmd.Value.Dimension.EnglobingFrame.IntermediateFrame.Label.Title = "Valore: ";
+CATDrwQuickDimCmd.Value.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp = "Immettere il valore della quota guida";
+

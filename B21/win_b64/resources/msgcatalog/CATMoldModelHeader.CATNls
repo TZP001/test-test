@@ -1,0 +1,1129 @@
+//---------------------------------------------------
+// Ressource File for CATMoldModelHeader Class
+// En_US
+//  30/03/2000 : fdm; Suppression de PlateSketchHeader
+//  26/05/2000 : cqo; "GateHeader" est decompose en "GateCreationHeader" et
+//					  "GateEditionHeader"
+//  05/07/2000 : jcb; Ajout commande delete et AnglePin
+//  19/07/2000 : jcb; Ajout commande split
+//  06/09/2000 : jcb ; ajout split user component
+//  14/09/2000 : fdm; Add MoldSpaceMeasureBetweenHeader et MoldSpaceMeasureEdgeHeader
+//  24/10/2000 : jcb; ajout split Ejector et EjectorPin
+//  25/10/2000 : mlh; "CoolantChannelHeader" est decompose en "CoolantChannelCreationHeader" et
+//					  "CoolantChannelEditionHeader"
+//  26/10/2000 : lch; Ajout composants V5R6
+//  08/11/2000 ; fdm; Ajout EditComponent
+//  17/11/2000 : jcb; Ajout split CorePin, EjectorSleeve, Insert, SpruePuller
+//  20/11/2000 : jcb; SplitInsertHeader est decompose en SplitInsertNoSurfHeader,
+//                    SplitInsertCavitySurfHeader et SplitInsertCoreSurfHeader
+//  21/11/2000 ; fdm; Evolution EditComponent
+//  28/11/2000 ; lch; Remplace Pillar par Support Pillar
+//  18/01/2001 ; lch; Remplace "Creates a new mold plates" par "Creates a new mold"
+//  15/03/2001 ; lch; Ajout O-Ring
+//  29/05/2001 ; lch; Ajout DrillComponent command
+//  27/09/2001 ; fdm; CodeReview: menage
+//  03/10/2001 ; lch; Ajout Slider
+//  08/10/2001 ; lch; Ajout Retainer
+//  10/10/2001 ; lch; Ajout Plug
+//  22/05/2002 ; lch; Ajout Spring
+//  16/07/2002 ; lch; Ajout MoldEdition
+//  28/10/2002 ; lch; Ajout ExplodeHoles command
+//  18/11/2002 ; bga; Ajout "Add New Instance" dans le menu contextuel du composant.
+//  19/11/2002 ; bga; Ajout d'1 header par composant pour se brancher directement sur la commande d'edition
+//  13/12/2002 : fdm; R11: FinalGenerationHoles
+//  08/04/2003 ; bga; R12: Ajout Baffle
+//  03/12/2003 ; lch; R14: Ajout "Copy Reference" dans le menu contextuel du composant.
+//  08/12/2003 ; juw; R14: Ajout de "list by list" dans Drill component.
+//  15/01/2004 ; lch; R14: Ajout "Replace Component" dans le menu contextuel du composant.
+//  14/03/2005 ; lch; R16: Ajout "Activate/Deactivate Tooling Component" dans le menu contextuel du composant.
+//  22/03/2005 : fdm; R16; BMWAddRemove
+//  02/12/2005 : fdm; R17; RI-0516895
+//  23/12/2005 : fdm; R16; BMWAddRemove comment
+//  04/01/2006 : mlh; Ajout commande SynchronizeSplit
+//  02/12/2005 : ffj; R17; Isolate Component
+//  30/01/2006 : ffj; R17; Replace Reference instead of Replace Component
+//  18/08/2006 : lch; R18; ajout Replace Plate
+//  01/12/2006 : fdm; R18: add CATMldGenerateFinalHolesPadHeaderHdr
+//  22/01/2007 : fdm; R18: Correction LongHelp
+//  26/12/2007 : lch; R19; ajout Quick Delete Component
+//  17/01/2008 : mlh; R19: Ajout commande WizardSplit
+//  12/11/2008 : fdm; R19: Add CATMldPreInitCompSketchHeaderHdr
+//  09/02/2009 : ysn; R19: Add CATMldUITechResHeaderHdr
+//  28/10/2009 : mlh; R19: Add ToolViewer command
+//  02/11/2009 : lch; R20: Add Tooling Bill of Material command
+//  08/02/2010 : lch; R20SP2: Add Split Untrimmed ejectors command
+//  16/12/2010 : lch; R21: Modify messages for Split Untrimmed ejectors and Tooling Bill of Material commands
+//---------------------------------------------------------------------------------------------------
+
+// =================================================
+// Palette MoldBase + Plate
+// =================================================
+// == Plates == 
+CATMoldModelHeader.MoldEdition.Title="Edit Mold";
+CATMoldModelHeader.PlatesHeader.Title="Mold Plates...";
+CATMoldModelHeader.PlatesHeader.Help="Creates a new mold.";
+CATMoldModelHeader.PlatesHeader.LongHelp="Mold\nCreates a new mold.";
+CATMoldModelHeader.PlatesHeader.ShortHelp="Create a new mold";
+// == Plate == 
+CATMoldModelHeader.PlateHeader.Title="New Mold Plate...";
+CATMoldModelHeader.PlateHeader.Help="Creates a new mold plate.";
+CATMoldModelHeader.PlateHeader.LongHelp="Mold\nCreates a new mold plate.";
+CATMoldModelHeader.PlateHeader.ShortHelp="Add Mold Plate";
+// == Insert == 
+CATMoldModelHeader.InsertHeader.Title="New Insert...";
+CATMoldModelHeader.InsertHeader.Help="Creates a new Insert.";
+CATMoldModelHeader.InsertHeader.LongHelp="Mold\nCreates a new Insert.";
+CATMoldModelHeader.InsertHeader.ShortHelp="Add Insert";
+CATMoldModelHeader.InsertEditHeader.Title="Edit Insert component";
+CATMoldModelHeader.InsertEditHeader.Help="Edits an existing Insert component";
+CATMoldModelHeader.InsertEditHeader.LongHelp="Mold\nEdits an existing Insert component.";
+CATMoldModelHeader.InsertEditHeader.ShortHelp="Edit Insert component";
+CATMoldModelHeader.InsertEditGroupHeader.Title="Edit Insert group";
+CATMoldModelHeader.InsertEditGroupHeader.Help="Edits an existing Insert group";
+CATMoldModelHeader.InsertEditGroupHeader.LongHelp="Mold\nEdits an existing Insert group.";
+CATMoldModelHeader.InsertEditGroupHeader.ShortHelp="Edit Insert group";
+CATMoldModelHeader.CATMldInsertNewInstanceHeaderHdr.Title="Add New Instance";
+CATMoldModelHeader.CATMldInsertNewInstanceHeaderHdr.Help="Adds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldInsertNewInstanceHeaderHdr.LongHelp="Mold\nAdds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldInsertNewInstanceHeaderHdr.ShortHelp="Adds a new instance component";
+CATMoldModelHeader.CATMldInsertRecopyHeaderHdr.Title="Isolate component";
+CATMoldModelHeader.CATMldInsertRecopyHeaderHdr.Help="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldInsertRecopyHeaderHdr.LongHelp="Mold\nIsolate a component instance by creation of its distinct new reference.";
+CATMoldModelHeader.CATMldInsertRecopyHeaderHdr.ShortHelp="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldInsertReplaceHeaderHdr.Title="Replace Reference";
+CATMoldModelHeader.CATMldInsertReplaceHeaderHdr.Help="Replaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldInsertReplaceHeaderHdr.LongHelp="Mold\nReplaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldInsertReplaceHeaderHdr.ShortHelp="Replaces catalog reference of component";
+// == Slider == 
+CATMoldModelHeader.SliderHeader.Title="New Slider...";
+CATMoldModelHeader.SliderHeader.Help="Creates a new Slider.";
+CATMoldModelHeader.SliderHeader.LongHelp="Mold\nCreates a new Slider.";
+CATMoldModelHeader.SliderHeader.ShortHelp="Add Slider";
+CATMoldModelHeader.SliderEditHeader.Title="Edit Slider component";
+CATMoldModelHeader.SliderEditHeader.Help="Edits an existing Slider component";
+CATMoldModelHeader.SliderEditHeader.LongHelp="Mold\nEdits an existing Slider component.";
+CATMoldModelHeader.SliderEditHeader.ShortHelp="Edit Slider component";
+CATMoldModelHeader.SliderEditGroupHeader.Title="Edit Slider group";
+CATMoldModelHeader.SliderEditGroupHeader.Help="Edits an existing Slider group";
+CATMoldModelHeader.SliderEditGroupHeader.LongHelp="Mold\nEdits an existing Slider group.";
+CATMoldModelHeader.SliderEditGroupHeader.ShortHelp="Edit Slider group";
+CATMoldModelHeader.CATMldSliderNewInstanceHeaderHdr.Title="Add New Instance";
+CATMoldModelHeader.CATMldSliderNewInstanceHeaderHdr.Help="Adds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldSliderNewInstanceHeaderHdr.LongHelp="Mold\nAdds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldSliderNewInstanceHeaderHdr.ShortHelp="Adds a new instance component";
+CATMoldModelHeader.CATMldSliderRecopyHeaderHdr.Title="Isolate Component";
+CATMoldModelHeader.CATMldSliderRecopyHeaderHdr.Help="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldSliderRecopyHeaderHdr.LongHelp="Mold\nIsolate a component instance by creation of its distinct new reference.";
+CATMoldModelHeader.CATMldSliderRecopyHeaderHdr.ShortHelp="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldSliderReplaceHeaderHdr.Title="Replace Reference";
+CATMoldModelHeader.CATMldSliderReplaceHeaderHdr.Help="Replaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldSliderReplaceHeaderHdr.LongHelp="Mold\nReplaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldSliderReplaceHeaderHdr.ShortHelp="Replaces catalog reference of component";
+// == Retainer == 
+CATMoldModelHeader.RetainerHeader.Title="New Retainers...";
+CATMoldModelHeader.RetainerHeader.Help="Creates new Retainers.";
+CATMoldModelHeader.RetainerHeader.LongHelp="Mold\nCreates new Retainers.";
+CATMoldModelHeader.RetainerHeader.ShortHelp="Add Retainers";
+CATMoldModelHeader.RetainerEditHeader.Title="Edit Retainers component";
+CATMoldModelHeader.RetainerEditHeader.Help="Edits an existing Retainers component";
+CATMoldModelHeader.RetainerEditHeader.LongHelp="Mold\nEdits an existing Retainers component.";
+CATMoldModelHeader.RetainerEditHeader.ShortHelp="Edit Retainers component";
+CATMoldModelHeader.RetainerEditGroupHeader.Title="Edit Retainers group";
+CATMoldModelHeader.RetainerEditGroupHeader.Help="Edits an existing Retainers group";
+CATMoldModelHeader.RetainerEditGroupHeader.LongHelp="Mold\nEdits an existing Retainers group.";
+CATMoldModelHeader.RetainerEditGroupHeader.ShortHelp="Edit Retainers group";
+CATMoldModelHeader.CATMldRetainerNewInstanceHeaderHdr.Title="Add New Instance";
+CATMoldModelHeader.CATMldRetainerNewInstanceHeaderHdr.Help="Adds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldRetainerNewInstanceHeaderHdr.LongHelp="Mold\nAdds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldRetainerNewInstanceHeaderHdr.ShortHelp="Adds a new instance component";
+CATMoldModelHeader.CATMldRetainerRecopyHeaderHdr.Title="Isolate Component";
+CATMoldModelHeader.CATMldRetainerRecopyHeaderHdr.Help="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldRetainerRecopyHeaderHdr.LongHelp="Mold\nIsolate a component instance by creation of its distinct new reference.";
+CATMoldModelHeader.CATMldRetainerRecopyHeaderHdr.ShortHelp="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldRetainerReplaceHeaderHdr.Title="Replace Reference";
+CATMoldModelHeader.CATMldRetainerReplaceHeaderHdr.Help="Replaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldRetainerReplaceHeaderHdr.LongHelp="Mold\nReplaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldRetainerReplaceHeaderHdr.ShortHelp="Replaces catalog reference of component";
+
+// =================================================
+// Palette Locating
+// =================================================
+// == LocatingRing == 
+CATMoldModelHeader.LocatingRingHeader.Title="Locating Ring...";
+CATMoldModelHeader.LocatingRingHeader.Help="Adds a Locating Ring";
+CATMoldModelHeader.LocatingRingHeader.LongHelp="Mold\nAdds a new Locating Ring.";
+CATMoldModelHeader.LocatingRingHeader.ShortHelp="Add Locating Ring";
+CATMoldModelHeader.LocatingRingEditHeader.Title="Edit Locating Ring component";
+CATMoldModelHeader.LocatingRingEditHeader.Help="Edits an existing Locating Ring component";
+CATMoldModelHeader.LocatingRingEditHeader.LongHelp="Mold\nEdits an existing Locating Ring component.";
+CATMoldModelHeader.LocatingRingEditHeader.ShortHelp="Edit Locating Ring component";
+CATMoldModelHeader.LocatingRingEditGroupHeader.Title="Edit Locating Ring group";
+CATMoldModelHeader.LocatingRingEditGroupHeader.Help="Edits an existing Locating Ring group";
+CATMoldModelHeader.LocatingRingEditGroupHeader.LongHelp="Mold\nEdits an existing Locating Ring group.";
+CATMoldModelHeader.LocatingRingEditGroupHeader.ShortHelp="Edit Locating Ring group";
+CATMoldModelHeader.CATMldLocatingRingNewInstanceHeaderHdr.Title="Add New Instance";
+CATMoldModelHeader.CATMldLocatingRingNewInstanceHeaderHdr.Help="Adds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldLocatingRingNewInstanceHeaderHdr.LongHelp="Mold\nAdds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldLocatingRingNewInstanceHeaderHdr.ShortHelp="Adds a new instance component";
+CATMoldModelHeader.CATMldLocatingRingRecopyHeaderHdr.Title="Isolate Component";
+CATMoldModelHeader.CATMldLocatingRingRecopyHeaderHdr.Help="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldLocatingRingRecopyHeaderHdr.LongHelp="Mold\nIsolate a component instance by creation of its distinct new reference.";
+CATMoldModelHeader.CATMldLocatingRingRecopyHeaderHdr.ShortHelp="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldLocatingRingReplaceHeaderHdr.Title="Replace Reference";
+CATMoldModelHeader.CATMldLocatingRingReplaceHeaderHdr.Help="Replaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldLocatingRingReplaceHeaderHdr.LongHelp="Mold\nReplaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldLocatingRingReplaceHeaderHdr.ShortHelp="Replaces catalog reference of component";
+// == Sleeve == 
+CATMoldModelHeader.SleeveHeader.Title="Sleeve...";
+CATMoldModelHeader.SleeveHeader.Help="Adds a Sleeve";
+CATMoldModelHeader.SleeveHeader.LongHelp="Mold\nAdds a new Sleeve.";
+CATMoldModelHeader.SleeveHeader.ShortHelp="Add Sleeve";
+CATMoldModelHeader.SleeveEditHeader.Title="Edit Sleeve component";
+CATMoldModelHeader.SleeveEditHeader.Help="Edits an existing Sleeve component";
+CATMoldModelHeader.SleeveEditHeader.LongHelp="Mold\nEdits an existing Sleeve component.";
+CATMoldModelHeader.SleeveEditHeader.ShortHelp="Edit Sleeve component";
+CATMoldModelHeader.SleeveEditGroupHeader.Title="Edit Sleeve group";
+CATMoldModelHeader.SleeveEditGroupHeader.Help="Edits an existing Sleeve group";
+CATMoldModelHeader.SleeveEditGroupHeader.LongHelp="Mold\nEdits an existing Sleeve group.";
+CATMoldModelHeader.SleeveEditGroupHeader.ShortHelp="Edit Sleeve group";
+CATMoldModelHeader.CATMldSleeveNewInstanceHeaderHdr.Title="Add New Instance";
+CATMoldModelHeader.CATMldSleeveNewInstanceHeaderHdr.Help="Adds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldSleeveNewInstanceHeaderHdr.LongHelp="Mold\nAdds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldSleeveNewInstanceHeaderHdr.ShortHelp="Adds a new instance component";
+CATMoldModelHeader.CATMldSleeveRecopyHeaderHdr.Title="Isolate Component";
+CATMoldModelHeader.CATMldSleeveRecopyHeaderHdr.Help="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldSleeveRecopyHeaderHdr.LongHelp="Mold\nIsolate a component instance by creation of its distinct new reference.";
+CATMoldModelHeader.CATMldSleeveRecopyHeaderHdr.ShortHelp="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldSleeveReplaceHeaderHdr.Title="Replace Reference";
+CATMoldModelHeader.CATMldSleeveReplaceHeaderHdr.Help="Replaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldSleeveReplaceHeaderHdr.LongHelp="Mold\nReplaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldSleeveReplaceHeaderHdr.ShortHelp="Replaces catalog reference of component";
+// == Interlock == 
+CATMoldModelHeader.InterlockHeader.Title="Interlock...";
+CATMoldModelHeader.InterlockHeader.Help="Adds an Interlock";
+CATMoldModelHeader.InterlockHeader.LongHelp="Mold\nAdds a new Interlock.";
+CATMoldModelHeader.InterlockHeader.ShortHelp="Add Interlock";
+CATMoldModelHeader.InterlockEditHeader.Title="Edit Interlock component";
+CATMoldModelHeader.InterlockEditHeader.Help="Edits an existing Interlock component";
+CATMoldModelHeader.InterlockEditHeader.LongHelp="Mold\nEdits an existing Interlock component.";
+CATMoldModelHeader.InterlockEditHeader.ShortHelp="Edit Interlock component";
+CATMoldModelHeader.InterlockEditGroupHeader.Title="Edit Interlock group";
+CATMoldModelHeader.InterlockEditGroupHeader.Help="Edits an existing Interlock group";
+CATMoldModelHeader.InterlockEditGroupHeader.LongHelp="Mold\nEdits an existing Interlock group.";
+CATMoldModelHeader.InterlockEditGroupHeader.ShortHelp="Edit Interlock group";
+CATMoldModelHeader.CATMldInterlockNewInstanceHeaderHdr.Title="Add New Instance";
+CATMoldModelHeader.CATMldInterlockNewInstanceHeaderHdr.Help="Adds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldInterlockNewInstanceHeaderHdr.LongHelp="Mold\nAdds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldInterlockNewInstanceHeaderHdr.ShortHelp="Adds a new instance component";
+CATMoldModelHeader.CATMldInterlockRecopyHeaderHdr.Title="Isolate Component";
+CATMoldModelHeader.CATMldInterlockRecopyHeaderHdr.Help="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldInterlockRecopyHeaderHdr.LongHelp="Mold\nIsolate a component instance by creation of its distinct new reference.";
+CATMoldModelHeader.CATMldInterlockRecopyHeaderHdr.ShortHelp="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldInterlockReplaceHeaderHdr.Title="Replace Reference";
+CATMoldModelHeader.CATMldInterlockReplaceHeaderHdr.Help="Replaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldInterlockReplaceHeaderHdr.LongHelp="Mold\nReplaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldInterlockReplaceHeaderHdr.ShortHelp="Replaces catalog reference of component";
+// == Spacer ==
+CATMoldModelHeader.SpacerHeader.Title="Spacer...";
+CATMoldModelHeader.SpacerHeader.Help="Adds a Spacer";
+CATMoldModelHeader.SpacerHeader.LongHelp="Mold\nAdds a new Spacer.";
+CATMoldModelHeader.SpacerHeader.ShortHelp="Add Spacer";
+CATMoldModelHeader.SpacerEditHeader.Title="Edit Spacer component";
+CATMoldModelHeader.SpacerEditHeader.Help="Edits an existing Spacer component";
+CATMoldModelHeader.SpacerEditHeader.LongHelp="Mold\nEdits an existing Spacer component.";
+CATMoldModelHeader.SpacerEditHeader.ShortHelp="Edit Spacer component";
+CATMoldModelHeader.SpacerEditGroupHeader.Title="Edit Spacer group";
+CATMoldModelHeader.SpacerEditGroupHeader.Help="Edits an existing Spacer group";
+CATMoldModelHeader.SpacerEditGroupHeader.LongHelp="Mold\nEdits an existing Spacer group.";
+CATMoldModelHeader.SpacerEditGroupHeader.ShortHelp="Edit Spacer group";
+CATMoldModelHeader.CATMldSpacerNewInstanceHeaderHdr.Title="Add New Instance";
+CATMoldModelHeader.CATMldSpacerNewInstanceHeaderHdr.Help="Adds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldSpacerNewInstanceHeaderHdr.LongHelp="Mold\nAdds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldSpacerNewInstanceHeaderHdr.ShortHelp="Adds a new instance component";
+CATMoldModelHeader.CATMldSpacerRecopyHeaderHdr.Title="Isolate Component";
+CATMoldModelHeader.CATMldSpacerRecopyHeaderHdr.Help="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldSpacerRecopyHeaderHdr.LongHelp="Mold\nIsolate a component instance by creation of its distinct new reference.";
+CATMoldModelHeader.CATMldSpacerRecopyHeaderHdr.ShortHelp="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldSpacerReplaceHeaderHdr.Title="Replace Reference";
+CATMoldModelHeader.CATMldSpacerReplaceHeaderHdr.Help="Replaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldSpacerReplaceHeaderHdr.LongHelp="Mold\nReplaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldSpacerReplaceHeaderHdr.ShortHelp="Replaces catalog reference of component";
+// == DowelPin == 
+CATMoldModelHeader.DowelPinHeader.Title="Dowel Pin...";
+CATMoldModelHeader.DowelPinHeader.Help="Adds a Dowel Pin";
+CATMoldModelHeader.DowelPinHeader.LongHelp="Mold\nAdds a new Dowel Pin.";
+CATMoldModelHeader.DowelPinHeader.ShortHelp="Add Dowel Pin";
+CATMoldModelHeader.DowelPinEditHeader.Title="Edit Dowel Pin component";
+CATMoldModelHeader.DowelPinEditHeader.Help="Edits an existing Dowel Pin component";
+CATMoldModelHeader.DowelPinEditHeader.LongHelp="Mold\nEdits an existing Dowel Pin component.";
+CATMoldModelHeader.DowelPinEditHeader.ShortHelp="Edit Dowel Pin component";
+CATMoldModelHeader.DowelPinEditGroupHeader.Title="Edit Dowel Pin group";
+CATMoldModelHeader.DowelPinEditGroupHeader.Help="Edits an existing Dowel Pin group";
+CATMoldModelHeader.DowelPinEditGroupHeader.LongHelp="Mold\nEdits an existing Dowel Pin group.";
+CATMoldModelHeader.DowelPinEditGroupHeader.ShortHelp="Edit Dowel Pin group";
+CATMoldModelHeader.CATMldDowelPinNewInstanceHeaderHdr.Title="Add New Instance";
+CATMoldModelHeader.CATMldDowelPinNewInstanceHeaderHdr.Help="Adds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldDowelPinNewInstanceHeaderHdr.LongHelp="Mold\nAdds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldDowelPinNewInstanceHeaderHdr.ShortHelp="Adds a new instance component";
+CATMoldModelHeader.CATMldDowelPinRecopyHeaderHdr.Title="Isolate Component";
+CATMoldModelHeader.CATMldDowelPinRecopyHeaderHdr.Help="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldDowelPinRecopyHeaderHdr.LongHelp="Mold\nIsolate a component instance by creation of its distinct new reference.";
+CATMoldModelHeader.CATMldDowelPinRecopyHeaderHdr.ShortHelp="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldDowelPinReplaceHeaderHdr.Title="Replace Reference";
+CATMoldModelHeader.CATMldDowelPinReplaceHeaderHdr.Help="Replaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldDowelPinReplaceHeaderHdr.LongHelp="Mold\nReplaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldDowelPinReplaceHeaderHdr.ShortHelp="Replaces catalog reference of component";
+
+// =================================================
+// Palette Screws
+// =================================================
+// == CapScrew == 
+CATMoldModelHeader.CapScrewHeader.Title="CapScrew...";
+CATMoldModelHeader.CapScrewHeader.Help="Adds a CapScrew";
+CATMoldModelHeader.CapScrewHeader.LongHelp="Mold\nAdds a new CapScrew.";
+CATMoldModelHeader.CapScrewHeader.ShortHelp="Add CapScrew";
+CATMoldModelHeader.CapScrewEditHeader.Title="Edit CapScrew component";
+CATMoldModelHeader.CapScrewEditHeader.Help="Edits an existing CapScrew component";
+CATMoldModelHeader.CapScrewEditHeader.LongHelp="Mold\nEdits an existing CapScrew component.";
+CATMoldModelHeader.CapScrewEditHeader.ShortHelp="Edit CapScrew component";
+CATMoldModelHeader.CapScrewEditGroupHeader.Title="Edit CapScrew group";
+CATMoldModelHeader.CapScrewEditGroupHeader.Help="Edits an existing CapScrew group";
+CATMoldModelHeader.CapScrewEditGroupHeader.LongHelp="Mold\nEdits an existing CapScrew group.";
+CATMoldModelHeader.CapScrewEditGroupHeader.ShortHelp="Edit CapScrew group";
+CATMoldModelHeader.CATMldCapScrewNewInstanceHeaderHdr.Title="Add New Instance";
+CATMoldModelHeader.CATMldCapScrewNewInstanceHeaderHdr.Help="Adds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldCapScrewNewInstanceHeaderHdr.LongHelp="Mold\nAdds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldCapScrewNewInstanceHeaderHdr.ShortHelp="Adds a new instance component";
+CATMoldModelHeader.CATMldCapScrewRecopyHeaderHdr.Title="Isolate Component";
+CATMoldModelHeader.CATMldCapScrewRecopyHeaderHdr.Help="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldCapScrewRecopyHeaderHdr.LongHelp="Mold\nIsolate a component instance by creation of its distinct new reference.";
+CATMoldModelHeader.CATMldCapScrewRecopyHeaderHdr.ShortHelp="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldCapScrewReplaceHeaderHdr.Title="Replace Reference";
+CATMoldModelHeader.CATMldCapScrewReplaceHeaderHdr.Help="Replaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldCapScrewReplaceHeaderHdr.LongHelp="Mold\nReplaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldCapScrewReplaceHeaderHdr.ShortHelp="Replaces catalog reference of component";
+// == CountersunkScrew == 
+CATMoldModelHeader.CountersunkScrewHeader.Title="CountersunkScrew...";
+CATMoldModelHeader.CountersunkScrewHeader.Help="Adds a CountersunkScrew";
+CATMoldModelHeader.CountersunkScrewHeader.LongHelp="Mold\nAdds a new CountersunkScrew.";
+CATMoldModelHeader.CountersunkScrewHeader.ShortHelp="Add CountersunkScrew";
+CATMoldModelHeader.CountersunkScrewEditHeader.Title="Edit CountersunkScrew component";
+CATMoldModelHeader.CountersunkScrewEditHeader.Help="Edits an existing CountersunkScrew component";
+CATMoldModelHeader.CountersunkScrewEditHeader.LongHelp="Mold\nEdits an existing CountersunkScrew component.";
+CATMoldModelHeader.CountersunkScrewEditHeader.ShortHelp="Edit CountersunkScrew component";
+CATMoldModelHeader.CountersunkScrewEditGroupHeader.Title="Edit CountersunkScrew group";
+CATMoldModelHeader.CountersunkScrewEditGroupHeader.Help="Edits an existing CountersunkScrew group";
+CATMoldModelHeader.CountersunkScrewEditGroupHeader.LongHelp="Mold\nEdits an existing CountersunkScrew group.";
+CATMoldModelHeader.CountersunkScrewEditGroupHeader.ShortHelp="Edit CountersunkScrew group";
+CATMoldModelHeader.CATMldCountersunkScrewNewInstanceHeaderHdr.Title="Add New Instance";
+CATMoldModelHeader.CATMldCountersunkScrewNewInstanceHeaderHdr.Help="Adds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldCountersunkScrewNewInstanceHeaderHdr.LongHelp="Mold\nAdds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldCountersunkScrewNewInstanceHeaderHdr.ShortHelp="Adds a new instance component";
+CATMoldModelHeader.CATMldCountersunkScrewRecopyHeaderHdr.Title="Isolate Component";
+CATMoldModelHeader.CATMldCountersunkScrewRecopyHeaderHdr.Help="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldCountersunkScrewRecopyHeaderHdr.LongHelp="Mold\nIsolate a component instance by creation of its distinct new reference.";
+CATMoldModelHeader.CATMldCountersunkScrewRecopyHeaderHdr.ShortHelp="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldCountersunkScrewReplaceHeaderHdr.Title="Replace Reference";
+CATMoldModelHeader.CATMldCountersunkScrewReplaceHeaderHdr.Help="Replaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldCountersunkScrewReplaceHeaderHdr.LongHelp="Mold\nReplaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldCountersunkScrewReplaceHeaderHdr.ShortHelp="Replaces catalog reference of component";
+// == LockingScrew == 
+CATMoldModelHeader.LockingScrewHeader.Title="LockingScrew...";
+CATMoldModelHeader.LockingScrewHeader.Help="Adds a LockingScrew";
+CATMoldModelHeader.LockingScrewHeader.LongHelp="Mold\nAdds a new LockingScrew.";
+CATMoldModelHeader.LockingScrewHeader.ShortHelp="Add LockingScrew";
+CATMoldModelHeader.LockingScrewEditHeader.Title="Edit LockingScrew component";
+CATMoldModelHeader.LockingScrewEditHeader.Help="Edits an existing LockingScrew component";
+CATMoldModelHeader.LockingScrewEditHeader.LongHelp="Mold\nEdits an existing LockingScrew component.";
+CATMoldModelHeader.LockingScrewEditHeader.ShortHelp="Edit LockingScrew component";
+CATMoldModelHeader.LockingScrewEditGroupHeader.Title="Edit LockingScrew group";
+CATMoldModelHeader.LockingScrewEditGroupHeader.Help="Edits an existing LockingScrew group";
+CATMoldModelHeader.LockingScrewEditGroupHeader.LongHelp="Mold\nEdits an existing LockingScrew group.";
+CATMoldModelHeader.LockingScrewEditGroupHeader.ShortHelp="Edit LockingScrew group";
+CATMoldModelHeader.CATMldLockingScrewNewInstanceHeaderHdr.Title="Add New Instance";
+CATMoldModelHeader.CATMldLockingScrewNewInstanceHeaderHdr.Help="Adds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldLockingScrewNewInstanceHeaderHdr.LongHelp="Mold\nAdds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldLockingScrewNewInstanceHeaderHdr.ShortHelp="Adds a new instance component";
+CATMoldModelHeader.CATMldLockingScrewRecopyHeaderHdr.Title="Isolate Component";
+CATMoldModelHeader.CATMldLockingScrewRecopyHeaderHdr.Help="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldLockingScrewRecopyHeaderHdr.LongHelp="Mold\nIsolate a component instance by creation of its distinct new reference.";
+CATMoldModelHeader.CATMldLockingScrewRecopyHeaderHdr.ShortHelp="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldLockingScrewReplaceHeaderHdr.Title="Replace Reference";
+CATMoldModelHeader.CATMldLockingScrewReplaceHeaderHdr.Help="Replaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldLockingScrewReplaceHeaderHdr.LongHelp="Mold\nReplaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldLockingScrewReplaceHeaderHdr.ShortHelp="Replaces catalog reference of component";
+// == BindingScrew == 
+CATMoldModelHeader.BindingScrewHeader.Title="BindingScrew...";
+CATMoldModelHeader.BindingScrewHeader.Help="Adds a BindingScrew";
+CATMoldModelHeader.BindingScrewHeader.LongHelp="Mold\nAdds a new BindingScrew.";
+CATMoldModelHeader.BindingScrewHeader.ShortHelp="Add BindingScrew";
+CATMoldModelHeader.BindingScrewEditHeader.Title="Edit BindingScrew component";
+CATMoldModelHeader.BindingScrewEditHeader.Help="Edits an existing BindingScrew component";
+CATMoldModelHeader.BindingScrewEditHeader.LongHelp="Mold\nEdits an existing BindingScrew component.";
+CATMoldModelHeader.BindingScrewEditHeader.ShortHelp="Edit BindingScrew component";
+CATMoldModelHeader.BindingScrewEditGroupHeader.Title="Edit BindingScrew group";
+CATMoldModelHeader.BindingScrewEditGroupHeader.Help="Edits an existing BindingScrew group";
+CATMoldModelHeader.BindingScrewEditGroupHeader.LongHelp="Mold\nEdits an existing BindingScrew group.";
+CATMoldModelHeader.BindingScrewEditGroupHeader.ShortHelp="Edit BindingScrew group";
+CATMoldModelHeader.CATMldBindingScrewNewInstanceHeaderHdr.Title="Add New Instance";
+CATMoldModelHeader.CATMldBindingScrewNewInstanceHeaderHdr.Help="Adds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldBindingScrewNewInstanceHeaderHdr.LongHelp="Mold\nAdds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldBindingScrewNewInstanceHeaderHdr.ShortHelp="Adds a new instance component";
+CATMoldModelHeader.CATMldBindingScrewRecopyHeaderHdr.Title="Isolate Component";
+CATMoldModelHeader.CATMldBindingScrewRecopyHeaderHdr.Help="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldBindingScrewRecopyHeaderHdr.LongHelp="Mold\nIsolate a component instance by creation of its distinct new reference.";
+CATMoldModelHeader.CATMldBindingScrewRecopyHeaderHdr.ShortHelp="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldBindingScrewReplaceHeaderHdr.Title="Replace Reference";
+CATMoldModelHeader.CATMldBindingScrewReplaceHeaderHdr.Help="Replaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldBindingScrewReplaceHeaderHdr.LongHelp="Mold\nReplaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldBindingScrewReplaceHeaderHdr.ShortHelp="Replaces catalog reference of component";
+// == RoundScrew == 
+CATMoldModelHeader.RoundScrewHeader.Title="RoundScrew...";
+CATMoldModelHeader.RoundScrewHeader.Help="Adds a RoundScrew";
+CATMoldModelHeader.RoundScrewHeader.LongHelp="Mold\nAdds a new RoundScrew.";
+CATMoldModelHeader.RoundScrewHeader.ShortHelp="Add RoundScrew";
+CATMoldModelHeader.RoundScrewEditHeader.Title="Edit RoundScrew component";
+CATMoldModelHeader.RoundScrewEditHeader.Help="Edits an existing RoundScrew component";
+CATMoldModelHeader.RoundScrewEditHeader.LongHelp="Mold\nEdits an existing RoundScrew component.";
+CATMoldModelHeader.RoundScrewEditHeader.ShortHelp="Edit RoundScrew component";
+CATMoldModelHeader.RoundScrewEditGroupHeader.Title="Edit RoundScrew group";
+CATMoldModelHeader.RoundScrewEditGroupHeader.Help="Edits an existing RoundScrew group";
+CATMoldModelHeader.RoundScrewEditGroupHeader.LongHelp="Mold\nEdits an existing RoundScrew group.";
+CATMoldModelHeader.RoundScrewEditGroupHeader.ShortHelp="Edit RoundScrew group";
+CATMoldModelHeader.CATMldRoundScrewNewInstanceHeaderHdr.Title="Add New Instance";
+CATMoldModelHeader.CATMldRoundScrewNewInstanceHeaderHdr.Help="Adds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldRoundScrewNewInstanceHeaderHdr.LongHelp="Mold\nAdds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldRoundScrewNewInstanceHeaderHdr.ShortHelp="Adds a new instance component";
+CATMoldModelHeader.CATMldRoundScrewRecopyHeaderHdr.Title="Isolate Component";
+CATMoldModelHeader.CATMldRoundScrewRecopyHeaderHdr.Help="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldRoundScrewRecopyHeaderHdr.LongHelp="Mold\nIsolate a component instance by creation of its distinct new reference.";
+CATMoldModelHeader.CATMldRoundScrewRecopyHeaderHdr.ShortHelp="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldRoundScrewReplaceHeaderHdr.Title="Replace Reference";
+CATMoldModelHeader.CATMldRoundScrewReplaceHeaderHdr.Help="Replaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldRoundScrewReplaceHeaderHdr.LongHelp="Mold\nReplaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldRoundScrewReplaceHeaderHdr.ShortHelp="Replaces catalog reference of component";
+
+// =================================================
+// Palette Ejector
+// =================================================
+// == Ejector == 
+CATMoldModelHeader.EjectorHeader.Title="Ejector...";
+CATMoldModelHeader.EjectorHeader.Help="Adds an Ejector";
+CATMoldModelHeader.EjectorHeader.LongHelp="Mold\nAdds a new Ejector.";
+CATMoldModelHeader.EjectorHeader.ShortHelp="Add Ejector";
+CATMoldModelHeader.EjectorEditHeader.Title="Edit Ejector component";
+CATMoldModelHeader.EjectorEditHeader.Help="Edits an existing Ejector component";
+CATMoldModelHeader.EjectorEditHeader.LongHelp="Mold\nEdits an existing Ejector component.";
+CATMoldModelHeader.EjectorEditHeader.ShortHelp="Edit Ejector component";
+CATMoldModelHeader.EjectorEditGroupHeader.Title="Edit Ejector group";
+CATMoldModelHeader.EjectorEditGroupHeader.Help="Edits an existing Ejector group";
+CATMoldModelHeader.EjectorEditGroupHeader.LongHelp="Mold\nEdits an existing Ejector group.";
+CATMoldModelHeader.EjectorEditGroupHeader.ShortHelp="Edit Ejector group";
+CATMoldModelHeader.CATMldEjectorNewInstanceHeaderHdr.Title="Add New Instance";
+CATMoldModelHeader.CATMldEjectorNewInstanceHeaderHdr.Help="Adds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldEjectorNewInstanceHeaderHdr.LongHelp="Mold\nAdds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldEjectorNewInstanceHeaderHdr.ShortHelp="Adds a new instance component";
+CATMoldModelHeader.CATMldEjectorRecopyHeaderHdr.Title="Isolate Component";
+CATMoldModelHeader.CATMldEjectorRecopyHeaderHdr.Help="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldEjectorRecopyHeaderHdr.LongHelp="Mold\nIsolate a component instance by creation of its distinct new reference.";
+CATMoldModelHeader.CATMldEjectorRecopyHeaderHdr.ShortHelp="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldEjectorReplaceHeaderHdr.Title="Replace Reference";
+CATMoldModelHeader.CATMldEjectorReplaceHeaderHdr.Help="Replaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldEjectorReplaceHeaderHdr.LongHelp="Mold\nReplaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldEjectorReplaceHeaderHdr.ShortHelp="Replaces catalog reference of component";
+// == EjectorPin == 
+CATMoldModelHeader.EjectorPinHeader.Title="EjectorPin...";
+CATMoldModelHeader.EjectorPinHeader.Help="Adds an EjectorPin";
+CATMoldModelHeader.EjectorPinHeader.LongHelp="Mold\nAdds a new EjectorPin.";
+CATMoldModelHeader.EjectorPinHeader.ShortHelp="Add EjectorPin";
+CATMoldModelHeader.EjectorPinEditHeader.Title="Edit EjectorPin component";
+CATMoldModelHeader.EjectorPinEditHeader.Help="Edits an existing EjectorPin component";
+CATMoldModelHeader.EjectorPinEditHeader.LongHelp="Mold\nEdits an existing EjectorPin component.";
+CATMoldModelHeader.EjectorPinEditHeader.ShortHelp="Edit EjectorPin component";
+CATMoldModelHeader.EjectorPinEditGroupHeader.Title="Edit EjectorPin group";
+CATMoldModelHeader.EjectorPinEditGroupHeader.Help="Edits an existing EjectorPin group";
+CATMoldModelHeader.EjectorPinEditGroupHeader.LongHelp="Mold\nEdits an existing EjectorPin group.";
+CATMoldModelHeader.EjectorPinEditGroupHeader.ShortHelp="Edit EjectorPin group";
+CATMoldModelHeader.CATMldEjectorPinNewInstanceHeaderHdr.Title="Add New Instance";
+CATMoldModelHeader.CATMldEjectorPinNewInstanceHeaderHdr.Help="Adds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldEjectorPinNewInstanceHeaderHdr.LongHelp="Mold\nAdds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldEjectorPinNewInstanceHeaderHdr.ShortHelp="Adds a new instance component";
+CATMoldModelHeader.CATMldEjectorPinRecopyHeaderHdr.Title="Isolate Component";
+CATMoldModelHeader.CATMldEjectorPinRecopyHeaderHdr.Help="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldEjectorPinRecopyHeaderHdr.LongHelp="Mold\nIsolate a component instance by creation of its distinct new reference.";
+CATMoldModelHeader.CATMldEjectorPinRecopyHeaderHdr.ShortHelp="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldEjectorPinReplaceHeaderHdr.Title="Replace Reference";
+CATMoldModelHeader.CATMldEjectorPinReplaceHeaderHdr.Help="Replaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldEjectorPinReplaceHeaderHdr.LongHelp="Mold\nReplaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldEjectorPinReplaceHeaderHdr.ShortHelp="Replaces catalog reference of component";
+// == EjectorSleeve == 
+CATMoldModelHeader.EjectorSleeveHeader.Title="EjectorSleeve...";
+CATMoldModelHeader.EjectorSleeveHeader.Help="Adds an EjectorSleeve";
+CATMoldModelHeader.EjectorSleeveHeader.LongHelp="Mold\nAdds a new EjectorSleeve.";
+CATMoldModelHeader.EjectorSleeveHeader.ShortHelp="Add EjectorSleeve";
+CATMoldModelHeader.EjectorSleeveEditHeader.Title="Edit EjectorSleeve component";
+CATMoldModelHeader.EjectorSleeveEditHeader.Help="Edits an existing EjectorSleeve component";
+CATMoldModelHeader.EjectorSleeveEditHeader.LongHelp="Mold\nEdits an existing EjectorSleeve component.";
+CATMoldModelHeader.EjectorSleeveEditHeader.ShortHelp="Edit EjectorSleeve component";
+CATMoldModelHeader.EjectorSleeveEditGroupHeader.Title="Edit EjectorSleeve group";
+CATMoldModelHeader.EjectorSleeveEditGroupHeader.Help="Edits an existing EjectorSleeve group";
+CATMoldModelHeader.EjectorSleeveEditGroupHeader.LongHelp="Mold\nEdits an existing EjectorSleeve group.";
+CATMoldModelHeader.EjectorSleeveEditGroupHeader.ShortHelp="Edit EjectorSleeve group";
+CATMoldModelHeader.CATMldEjectorSleeveNewInstanceHeaderHdr.Title="Add New Instance";
+CATMoldModelHeader.CATMldEjectorSleeveNewInstanceHeaderHdr.Help="Adds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldEjectorSleeveNewInstanceHeaderHdr.LongHelp="Mold\nAdds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldEjectorSleeveNewInstanceHeaderHdr.ShortHelp="Adds a new instance component";
+CATMoldModelHeader.CATMldEjectorSleeveRecopyHeaderHdr.Title="Isolate Component";
+CATMoldModelHeader.CATMldEjectorSleeveRecopyHeaderHdr.Help="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldEjectorSleeveRecopyHeaderHdr.LongHelp="Mold\nIsolate a component instance by creation of its distinct new reference.";
+CATMoldModelHeader.CATMldEjectorSleeveRecopyHeaderHdr.ShortHelp="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldEjectorSleeveReplaceHeaderHdr.Title="Replace Reference";
+CATMoldModelHeader.CATMldEjectorSleeveReplaceHeaderHdr.Help="Replaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldEjectorSleeveReplaceHeaderHdr.LongHelp="Mold\nReplaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldEjectorSleeveReplaceHeaderHdr.ShortHelp="Replaces catalog reference of component";
+// == EjectorFlat == 
+CATMoldModelHeader.EjectorFlatHeader.Title="FlatEjector...";
+CATMoldModelHeader.EjectorFlatHeader.Help="Adds a FlatEjector";
+CATMoldModelHeader.EjectorFlatHeader.LongHelp="Mold\nAdds a new FlatEjector.";
+CATMoldModelHeader.EjectorFlatHeader.ShortHelp="Add FlatEjector";
+CATMoldModelHeader.EjectorFlatEditHeader.Title="Edit FlatEjector component";
+CATMoldModelHeader.EjectorFlatEditHeader.Help="Edits an existing FlatEjector component";
+CATMoldModelHeader.EjectorFlatEditHeader.LongHelp="Mold\nEdits an existing FlatEjector component.";
+CATMoldModelHeader.EjectorFlatEditHeader.ShortHelp="Edit FlatEjector component";
+CATMoldModelHeader.EjectorFlatEditGroupHeader.Title="Edit FlatEjector group";
+CATMoldModelHeader.EjectorFlatEditGroupHeader.Help="Edits an existing FlatEjector group";
+CATMoldModelHeader.EjectorFlatEditGroupHeader.LongHelp="Mold\nEdits an existing FlatEjector group.";
+CATMoldModelHeader.EjectorFlatEditGroupHeader.ShortHelp="Edit FlatEjector group";
+CATMoldModelHeader.CATMldEjectorFlatNewInstanceHeaderHdr.Title="Add New Instance";
+CATMoldModelHeader.CATMldEjectorFlatNewInstanceHeaderHdr.Help="Adds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldEjectorFlatNewInstanceHeaderHdr.LongHelp="Mold\nAdds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldEjectorFlatNewInstanceHeaderHdr.ShortHelp="Adds a new instance component";
+CATMoldModelHeader.CATMldEjectorFlatRecopyHeaderHdr.Title="Isolate Component";
+CATMoldModelHeader.CATMldEjectorFlatRecopyHeaderHdr.Help="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldEjectorFlatRecopyHeaderHdr.LongHelp="Mold\nIsolate a component instance by creation of its distinct new reference.";
+CATMoldModelHeader.CATMldEjectorFlatRecopyHeaderHdr.ShortHelp="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldEjectorFlatReplaceHeaderHdr.Title="Replace Reference";
+CATMoldModelHeader.CATMldEjectorFlatReplaceHeaderHdr.Help="Replaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldEjectorFlatReplaceHeaderHdr.LongHelp="Mold\nReplaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldEjectorFlatReplaceHeaderHdr.ShortHelp="Replaces catalog reference of component";
+// == SlideBlock == 
+CATMoldModelHeader.SlideBlockHeader.Title="SlideBlock...";
+CATMoldModelHeader.SlideBlockHeader.Help="Adds a SlideBlock";
+CATMoldModelHeader.SlideBlockHeader.LongHelp="Mold\nAdds a new SlideBlock.";
+CATMoldModelHeader.SlideBlockHeader.ShortHelp="Add SlideBlock";
+CATMoldModelHeader.SlideBlockEditHeader.Title="Edit SlideBlock component";
+CATMoldModelHeader.SlideBlockEditHeader.Help="Edits an existing SlideBlock component";
+CATMoldModelHeader.SlideBlockEditHeader.LongHelp="Mold\nEdits an existing SlideBlock component.";
+CATMoldModelHeader.SlideBlockEditHeader.ShortHelp="Edit SlideBlock component";
+CATMoldModelHeader.SlideBlockEditGroupHeader.Title="Edit SlideBlock group";
+CATMoldModelHeader.SlideBlockEditGroupHeader.Help="Edits an existing SlideBlock group";
+CATMoldModelHeader.SlideBlockEditGroupHeader.LongHelp="Mold\nEdits an existing SlideBlock group.";
+CATMoldModelHeader.SlideBlockEditGroupHeader.ShortHelp="Edit SlideBlock group";
+CATMoldModelHeader.CATMldSlideBlockNewInstanceHeaderHdr.Title="Add New Instance";
+CATMoldModelHeader.CATMldSlideBlockNewInstanceHeaderHdr.Help="Adds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldSlideBlockNewInstanceHeaderHdr.LongHelp="Mold\nAdds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldSlideBlockNewInstanceHeaderHdr.ShortHelp="Adds a new instance component";
+CATMoldModelHeader.CATMldSlideBlockRecopyHeaderHdr.Title="Isolate Component";
+CATMoldModelHeader.CATMldSlideBlockRecopyHeaderHdr.Help="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldSlideBlockRecopyHeaderHdr.LongHelp="Mold\nIsolate a component instance by creation of its distinct new reference.";
+CATMoldModelHeader.CATMldSlideBlockRecopyHeaderHdr.ShortHelp="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldSlideBlockReplaceHeaderHdr.Title="Replace Reference";
+CATMoldModelHeader.CATMldSlideBlockReplaceHeaderHdr.Help="Replaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldSlideBlockReplaceHeaderHdr.LongHelp="Mold\nReplaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldSlideBlockReplaceHeaderHdr.ShortHelp="Replaces catalog reference of component";
+// == KnockOut == 
+CATMoldModelHeader.KnockOutHeader.Title="KnockOut...";
+CATMoldModelHeader.KnockOutHeader.Help="Adds a KnockOut";
+CATMoldModelHeader.KnockOutHeader.LongHelp="Mold\nAdds a new KnockOut.";
+CATMoldModelHeader.KnockOutHeader.ShortHelp="Add KnockOut";
+CATMoldModelHeader.KnockOutEditHeader.Title="Edit KnockOut component";
+CATMoldModelHeader.KnockOutEditHeader.Help="Edits an existing KnockOut component";
+CATMoldModelHeader.KnockOutEditHeader.LongHelp="Mold\nEdits an existing KnockOut component.";
+CATMoldModelHeader.KnockOutEditHeader.ShortHelp="Edit KnockOut component";
+CATMoldModelHeader.KnockOutEditGroupHeader.Title="Edit KnockOut group";
+CATMoldModelHeader.KnockOutEditGroupHeader.Help="Edits an existing KnockOut group";
+CATMoldModelHeader.KnockOutEditGroupHeader.LongHelp="Mold\nEdits an existing KnockOut group.";
+CATMoldModelHeader.KnockOutEditGroupHeader.ShortHelp="Edit KnockOut group";
+CATMoldModelHeader.CATMldKnockOutNewInstanceHeaderHdr.Title="Add New Instance";
+CATMoldModelHeader.CATMldKnockOutNewInstanceHeaderHdr.Help="Adds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldKnockOutNewInstanceHeaderHdr.LongHelp="Mold\nAdds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldKnockOutNewInstanceHeaderHdr.ShortHelp="Adds a new instance component";
+CATMoldModelHeader.CATMldKnockOutRecopyHeaderHdr.Title="Isolate Component";
+CATMoldModelHeader.CATMldKnockOutRecopyHeaderHdr.Help="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldKnockOutRecopyHeaderHdr.LongHelp="Mold\nIsolate a component instance by creation of its distinct new reference.";
+CATMoldModelHeader.CATMldKnockOutRecopyHeaderHdr.ShortHelp="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldKnockOutReplaceHeaderHdr.Title="Replace Reference";
+CATMoldModelHeader.CATMldKnockOutReplaceHeaderHdr.Help="Replaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldKnockOutReplaceHeaderHdr.LongHelp="Mold\nReplaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldKnockOutReplaceHeaderHdr.ShortHelp="Replaces catalog reference of component";
+// == CorePin == 
+CATMoldModelHeader.CorePinHeader.Title="CorePin...";
+CATMoldModelHeader.CorePinHeader.Help="Adds a CorePin";
+CATMoldModelHeader.CorePinHeader.LongHelp="Mold\nAdds a new CorePin.";
+CATMoldModelHeader.CorePinHeader.ShortHelp="Add CorePin";
+CATMoldModelHeader.CorePinEditHeader.Title="Edit CorePin component";
+CATMoldModelHeader.CorePinEditHeader.Help="Edits an existing CorePin component";
+CATMoldModelHeader.CorePinEditHeader.LongHelp="Mold\nEdits an existing CorePin component.";
+CATMoldModelHeader.CorePinEditHeader.ShortHelp="Edit CorePin component";
+CATMoldModelHeader.CorePinEditGroupHeader.Title="Edit CorePin group";
+CATMoldModelHeader.CorePinEditGroupHeader.Help="Edits an existing CorePin group";
+CATMoldModelHeader.CorePinEditGroupHeader.LongHelp="Mold\nEdits an existing CorePin group.";
+CATMoldModelHeader.CorePinEditGroupHeader.ShortHelp="Edit CorePin group";
+CATMoldModelHeader.CATMldCorePinNewInstanceHeaderHdr.Title="Add New Instance";
+CATMoldModelHeader.CATMldCorePinNewInstanceHeaderHdr.Help="Adds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldCorePinNewInstanceHeaderHdr.LongHelp="Mold\nAdds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldCorePinNewInstanceHeaderHdr.ShortHelp="Adds a new instance component";
+CATMoldModelHeader.CATMldCorePinRecopyHeaderHdr.Title="Isolate Component";
+CATMoldModelHeader.CATMldCorePinRecopyHeaderHdr.Help="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldCorePinRecopyHeaderHdr.LongHelp="Mold\nIsolate a component instance by creation of its distinct new reference.";
+CATMoldModelHeader.CATMldCorePinRecopyHeaderHdr.ShortHelp="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldCorePinReplaceHeaderHdr.Title="Replace Reference";
+CATMoldModelHeader.CATMldCorePinReplaceHeaderHdr.Help="Replaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldCorePinReplaceHeaderHdr.LongHelp="Mold\nReplaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldCorePinReplaceHeaderHdr.ShortHelp="Replaces catalog reference of component";
+// == AnglePin == 
+CATMoldModelHeader.AnglePinHeader.Title="AnglePin...";
+CATMoldModelHeader.AnglePinHeader.Help="Adds an AnglePin";
+CATMoldModelHeader.AnglePinHeader.LongHelp="Mold\nAdds a new AnglePin.";
+CATMoldModelHeader.AnglePinHeader.ShortHelp="Add AnglePin";
+CATMoldModelHeader.AnglePinEditHeader.Title="Edit AnglePin component";
+CATMoldModelHeader.AnglePinEditHeader.Help="Edits an existing AnglePin component";
+CATMoldModelHeader.AnglePinEditHeader.LongHelp="Mold\nEdits an existing AnglePin component.";
+CATMoldModelHeader.AnglePinEditHeader.ShortHelp="Edit AnglePin component";
+CATMoldModelHeader.AnglePinEditGroupHeader.Title="Edit AnglePin group";
+CATMoldModelHeader.AnglePinEditGroupHeader.Help="Edits an existing AnglePin group";
+CATMoldModelHeader.AnglePinEditGroupHeader.LongHelp="Mold\nEdits an existing AnglePin group.";
+CATMoldModelHeader.AnglePinEditGroupHeader.ShortHelp="Edit AnglePin group";
+CATMoldModelHeader.CATMldAnglePinNewInstanceHeaderHdr.Title="Add New Instance";
+CATMoldModelHeader.CATMldAnglePinNewInstanceHeaderHdr.Help="Adds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldAnglePinNewInstanceHeaderHdr.LongHelp="Mold\nAdds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldAnglePinNewInstanceHeaderHdr.ShortHelp="Adds a new instance component";
+CATMoldModelHeader.CATMldAnglePinRecopyHeaderHdr.Title="Isolate Component";
+CATMoldModelHeader.CATMldAnglePinRecopyHeaderHdr.Help="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldAnglePinRecopyHeaderHdr.LongHelp="Mold\nIsolate a component instance by creation of its distinct new reference.";
+CATMoldModelHeader.CATMldAnglePinRecopyHeaderHdr.ShortHelp="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldAnglePinReplaceHeaderHdr.Title="Replace Reference";
+CATMoldModelHeader.CATMldAnglePinReplaceHeaderHdr.Help="Replaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldAnglePinReplaceHeaderHdr.LongHelp="Mold\nReplaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldAnglePinReplaceHeaderHdr.ShortHelp="Replaces catalog reference of component";
+// == StopPin == 
+CATMoldModelHeader.StopPinHeader.Title="StopPin...";
+CATMoldModelHeader.StopPinHeader.Help="Adds a StopPin";
+CATMoldModelHeader.StopPinHeader.LongHelp="Mold\nAdds a new StopPin.";
+CATMoldModelHeader.StopPinHeader.ShortHelp="Add StopPin";
+CATMoldModelHeader.StopPinEditHeader.Title="Edit StopPin component";
+CATMoldModelHeader.StopPinEditHeader.Help="Edits an existing StopPin component";
+CATMoldModelHeader.StopPinEditHeader.LongHelp="Mold\nEdits an existing StopPin component.";
+CATMoldModelHeader.StopPinEditHeader.ShortHelp="Edit StopPin component";
+CATMoldModelHeader.StopPinEditGroupHeader.Title="Edit StopPin group";
+CATMoldModelHeader.StopPinEditGroupHeader.Help="Edits an existing StopPin group";
+CATMoldModelHeader.StopPinEditGroupHeader.LongHelp="Mold\nEdits an existing StopPin group.";
+CATMoldModelHeader.StopPinEditGroupHeader.ShortHelp="Edit StopPin group";
+CATMoldModelHeader.CATMldStopPinNewInstanceHeaderHdr.Title="Add New Instance";
+CATMoldModelHeader.CATMldStopPinNewInstanceHeaderHdr.Help="Adds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldStopPinNewInstanceHeaderHdr.LongHelp="Mold\nAdds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldStopPinNewInstanceHeaderHdr.ShortHelp="Adds a new instance component";
+CATMoldModelHeader.CATMldStopPinRecopyHeaderHdr.Title="Isolate Component";
+CATMoldModelHeader.CATMldStopPinRecopyHeaderHdr.Help="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldStopPinRecopyHeaderHdr.LongHelp="Mold\nIsolate a component instance by creation of its distinct new reference.";
+CATMoldModelHeader.CATMldStopPinRecopyHeaderHdr.ShortHelp="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldStopPinReplaceHeaderHdr.Title="Replace Reference";
+CATMoldModelHeader.CATMldStopPinReplaceHeaderHdr.Help="Replaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldStopPinReplaceHeaderHdr.LongHelp="Mold\nReplaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldStopPinReplaceHeaderHdr.ShortHelp="Replaces catalog reference of component";
+
+// =================================================
+// Palette Injector
+// =================================================
+// == Pillar == 
+CATMoldModelHeader.SupportPillarHeader.Title="Support Pillar...";
+CATMoldModelHeader.SupportPillarHeader.Help="Adds a Support Pillar";
+CATMoldModelHeader.SupportPillarHeader.LongHelp="Mold\nAdds a new Support Pillar.";
+CATMoldModelHeader.SupportPillarHeader.ShortHelp="Add Support Pillar";
+CATMoldModelHeader.SupportPillarEditHeader.Title="Edit Support Pillar component";
+CATMoldModelHeader.SupportPillarEditHeader.Help="Edits an existing Support Pillar component";
+CATMoldModelHeader.SupportPillarEditHeader.LongHelp="Mold\nEdits an existing Support Pillar component.";
+CATMoldModelHeader.SupportPillarEditHeader.ShortHelp="Edit Support Pillar component";
+CATMoldModelHeader.SupportPillarEditGroupHeader.Title="Edit Support Pillar group";
+CATMoldModelHeader.SupportPillarEditGroupHeader.Help="Edits an existing Support Pillar group";
+CATMoldModelHeader.SupportPillarEditGroupHeader.LongHelp="Mold\nEdits an existing Support Pillar group.";
+CATMoldModelHeader.SupportPillarEditGroupHeader.ShortHelp="Edit Support Pillar group";
+CATMoldModelHeader.CATMldSupportPillarNewInstanceHeaderHdr.Title="Add New Instance";
+CATMoldModelHeader.CATMldSupportPillarNewInstanceHeaderHdr.Help="Adds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldSupportPillarNewInstanceHeaderHdr.LongHelp="Mold\nAdds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldSupportPillarNewInstanceHeaderHdr.ShortHelp="Adds a new instance component";
+CATMoldModelHeader.CATMldSupportPillarRecopyHeaderHdr.Title="Isolate Component";
+CATMoldModelHeader.CATMldSupportPillarRecopyHeaderHdr.Help="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldSupportPillarRecopyHeaderHdr.LongHelp="Mold\nIsolate a component instance by creation of its distinct new reference.";
+CATMoldModelHeader.CATMldSupportPillarRecopyHeaderHdr.ShortHelp="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldSupportPillarReplaceHeaderHdr.Title="Replace Reference";
+CATMoldModelHeader.CATMldSupportPillarReplaceHeaderHdr.Help="Replaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldSupportPillarReplaceHeaderHdr.LongHelp="Mold\nReplaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldSupportPillarReplaceHeaderHdr.ShortHelp="Replaces catalog reference of component";
+// == SprueBushing == 
+CATMoldModelHeader.SprueBushingHeader.Title="SprueBushing...";
+CATMoldModelHeader.SprueBushingHeader.Help="Adds a SprueBushing";
+CATMoldModelHeader.SprueBushingHeader.LongHelp="Mold\nAdds a new SprueBushing.";
+CATMoldModelHeader.SprueBushingHeader.ShortHelp="Add SprueBushing";
+CATMoldModelHeader.SprueBushingEditHeader.Title="Edit SprueBushing component";
+CATMoldModelHeader.SprueBushingEditHeader.Help="Edits an existing SprueBushing component";
+CATMoldModelHeader.SprueBushingEditHeader.LongHelp="Mold\nEdits an existing SprueBushing component.";
+CATMoldModelHeader.SprueBushingEditHeader.ShortHelp="Edit SprueBushing component";
+CATMoldModelHeader.SprueBushingEditGroupHeader.Title="Edit SprueBushing group";
+CATMoldModelHeader.SprueBushingEditGroupHeader.Help="Edits an existing SprueBushing group";
+CATMoldModelHeader.SprueBushingEditGroupHeader.LongHelp="Mold\nEdits an existing SprueBushing group.";
+CATMoldModelHeader.SprueBushingEditGroupHeader.ShortHelp="Edit SprueBushing group";
+CATMoldModelHeader.CATMldSprueBushingNewInstanceHeaderHdr.Title="Add New Instance";
+CATMoldModelHeader.CATMldSprueBushingNewInstanceHeaderHdr.Help="Adds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldSprueBushingNewInstanceHeaderHdr.LongHelp="Mold\nAdds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldSprueBushingNewInstanceHeaderHdr.ShortHelp="Adds a new instance component";
+CATMoldModelHeader.CATMldSprueBushingRecopyHeaderHdr.Title="Isolate Component";
+CATMoldModelHeader.CATMldSprueBushingRecopyHeaderHdr.Help="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldSprueBushingRecopyHeaderHdr.LongHelp="Mold\nIsolate a component instance by creation of its distinct new reference.";
+CATMoldModelHeader.CATMldSprueBushingRecopyHeaderHdr.ShortHelp="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldSprueBushingReplaceHeaderHdr.Title="Replace Reference";
+CATMoldModelHeader.CATMldSprueBushingReplaceHeaderHdr.Help="Replaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldSprueBushingReplaceHeaderHdr.LongHelp="Mold\nReplaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldSprueBushingReplaceHeaderHdr.ShortHelp="Replaces catalog reference of component";
+// == SpruePuller == 
+CATMoldModelHeader.SpruePullerHeader.Title="SpruePuller...";
+CATMoldModelHeader.SpruePullerHeader.Help="Adds a SpruePuller";
+CATMoldModelHeader.SpruePullerHeader.LongHelp="Mold\nAdds a new SpruePuller.";
+CATMoldModelHeader.SpruePullerHeader.ShortHelp="Add SpruePuller";
+CATMoldModelHeader.SpruePullerEditHeader.Title="Edit SpruePuller component";
+CATMoldModelHeader.SpruePullerEditHeader.Help="Edits an existing SpruePuller component";
+CATMoldModelHeader.SpruePullerEditHeader.LongHelp="Mold\nEdits an existing SpruePuller component.";
+CATMoldModelHeader.SpruePullerEditHeader.ShortHelp="Edit SpruePuller component";
+CATMoldModelHeader.SpruePullerEditGroupHeader.Title="Edit SpruePuller group";
+CATMoldModelHeader.SpruePullerEditGroupHeader.Help="Edits an existing SpruePuller group";
+CATMoldModelHeader.SpruePullerEditGroupHeader.LongHelp="Mold\nEdits an existing SpruePuller group.";
+CATMoldModelHeader.SpruePullerEditGroupHeader.ShortHelp="Edit SpruePuller group";
+CATMoldModelHeader.CATMldSpruePullerNewInstanceHeaderHdr.Title="Add New Instance";
+CATMoldModelHeader.CATMldSpruePullerNewInstanceHeaderHdr.Help="Adds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldSpruePullerNewInstanceHeaderHdr.LongHelp="Mold\nAdds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldSpruePullerNewInstanceHeaderHdr.ShortHelp="Adds a new instance component";
+CATMoldModelHeader.CATMldSpruePullerRecopyHeaderHdr.Title="Isolate Component";
+CATMoldModelHeader.CATMldSpruePullerRecopyHeaderHdr.Help="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldSpruePullerRecopyHeaderHdr.LongHelp="Mold\nIsolate a component instance by creation of its distinct new reference.";
+CATMoldModelHeader.CATMldSpruePullerRecopyHeaderHdr.ShortHelp="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldSpruePullerReplaceHeaderHdr.Title="Replace Reference";
+CATMoldModelHeader.CATMldSpruePullerReplaceHeaderHdr.Help="Replaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldSpruePullerReplaceHeaderHdr.LongHelp="Mold\nReplaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldSpruePullerReplaceHeaderHdr.ShortHelp="Replaces catalog reference of component";
+// == O-Ring == 
+CATMoldModelHeader.CATMldORingHeaderHdr.Title="O-Ring...";
+CATMoldModelHeader.CATMldORingHeaderHdr.Help="Adds an O-Ring";
+CATMoldModelHeader.CATMldORingHeaderHdr.LongHelp="Mold\nAdds a new O-Ring.";
+CATMoldModelHeader.CATMldORingHeaderHdr.ShortHelp="Add O-Ring";
+CATMoldModelHeader.CATMldORingEditHeaderHdr.Title="Edit O-Ring component";
+CATMoldModelHeader.CATMldORingEditHeaderHdr.Help="Edits an existing O-Ring component";
+CATMoldModelHeader.CATMldORingEditHeaderHdr.LongHelp="Mold\nEdits an existing O-Ring component.";
+CATMoldModelHeader.CATMldORingEditHeaderHdr.ShortHelp="Edit O-Ring component";
+CATMoldModelHeader.CATMldORingNewInstanceHeaderHdr.Title="Add New Instance";
+CATMoldModelHeader.CATMldORingNewInstanceHeaderHdr.Help="Adds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldORingNewInstanceHeaderHdr.LongHelp="Mold\nAdds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldORingNewInstanceHeaderHdr.ShortHelp="Adds a new instance component";
+CATMoldModelHeader.CATMldORingRecopyHeaderHdr.Title="Isolate Component";
+CATMoldModelHeader.CATMldORingRecopyHeaderHdr.Help="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldORingRecopyHeaderHdr.LongHelp="Mold\nIsolate a component instance by creation of its distinct new reference.";
+CATMoldModelHeader.CATMldORingRecopyHeaderHdr.ShortHelp="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldORingReplaceHeaderHdr.Title="Replace Reference";
+CATMoldModelHeader.CATMldORingReplaceHeaderHdr.Help="Replaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldORingReplaceHeaderHdr.LongHelp="Mold\nReplaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldORingReplaceHeaderHdr.ShortHelp="Replaces catalog reference of component";
+// == Plug == 
+CATMoldModelHeader.CATMldPlugHeader.Title="Plug...";
+CATMoldModelHeader.CATMldPlugHeader.Help="Adds a Plug";
+CATMoldModelHeader.CATMldPlugHeader.LongHelp="Mold\nAdds a new Plug.";
+CATMoldModelHeader.CATMldPlugHeader.ShortHelp="Add Plug";
+CATMoldModelHeader.CATMldPlugEditHeader.Title="Edit Plug component";
+CATMoldModelHeader.CATMldPlugEditHeader.Help="Edits an existing Plug component";
+CATMoldModelHeader.CATMldPlugEditHeader.LongHelp="Mold\nEdits an existing Plug component.";
+CATMoldModelHeader.CATMldPlugEditHeader.ShortHelp="Edit Plug component";
+CATMoldModelHeader.CATMldPlugNewInstanceHeaderHdr.Title="Add New Instance";
+CATMoldModelHeader.CATMldPlugNewInstanceHeaderHdr.Help="Adds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldPlugNewInstanceHeaderHdr.LongHelp="Mold\nAdds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldPlugNewInstanceHeaderHdr.ShortHelp="Adds a new instance component";
+CATMoldModelHeader.CATMldPlugRecopyHeaderHdr.Title="Isolate Component";
+CATMoldModelHeader.CATMldPlugRecopyHeaderHdr.Help="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldPlugRecopyHeaderHdr.LongHelp="Mold\nIsolate a component instance by creation of its distinct new reference.";
+CATMoldModelHeader.CATMldPlugRecopyHeaderHdr.ShortHelp="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldPlugReplaceHeaderHdr.Title="Replace Reference";
+CATMoldModelHeader.CATMldPlugReplaceHeaderHdr.Help="Replaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldPlugReplaceHeaderHdr.LongHelp="Mold\nReplaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldPlugReplaceHeaderHdr.ShortHelp="Replaces catalog reference of component";
+// == Baffle == 
+CATMoldModelHeader.CATMldBaffleHeader.Title="Baffle...";
+CATMoldModelHeader.CATMldBaffleHeader.Help="Adds a Baffle";
+CATMoldModelHeader.CATMldBaffleHeader.LongHelp="Mold\nAdds a new Baffle.";
+CATMoldModelHeader.CATMldBaffleHeader.ShortHelp="Add Baffle";
+CATMoldModelHeader.CATMldBaffleEditHeader.Title="Edit Baffle component";
+CATMoldModelHeader.CATMldBaffleEditHeader.Help="Edits an existing Baffle component";
+CATMoldModelHeader.CATMldBaffleEditHeader.LongHelp="Mold\nEdits an existing Baffle component.";
+CATMoldModelHeader.CATMldBaffleEditHeader.ShortHelp="Edit Baffle component";
+CATMoldModelHeader.CATMldBaffleNewInstanceHeaderHdr.Title="Add New Instance";
+CATMoldModelHeader.CATMldBaffleNewInstanceHeaderHdr.Help="Adds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldBaffleNewInstanceHeaderHdr.LongHelp="Mold\nAdds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldBaffleNewInstanceHeaderHdr.ShortHelp="Adds a new instance component";
+CATMoldModelHeader.CATMldBaffleRecopyHeaderHdr.Title="Isolate Component";
+CATMoldModelHeader.CATMldBaffleRecopyHeaderHdr.Help="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldBaffleRecopyHeaderHdr.LongHelp="Mold\nIsolate a component instance by creation of its distinct new reference.";
+CATMoldModelHeader.CATMldBaffleRecopyHeaderHdr.ShortHelp="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldBaffleReplaceHeaderHdr.Title="Replace Reference";
+CATMoldModelHeader.CATMldBaffleReplaceHeaderHdr.Help="Replaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldBaffleReplaceHeaderHdr.LongHelp="Mold\nReplaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldBaffleReplaceHeaderHdr.ShortHelp="Replaces catalog reference of component";
+// == Gate == 
+CATMoldModelHeader.GateEditionHeader.Title="Edit Gate...";
+CATMoldModelHeader.GateEditionHeader.Help="Edits a Gate";
+CATMoldModelHeader.GateEditionHeader.LongHelp="Mold\nEdits an existing Gate.";
+CATMoldModelHeader.GateEditionHeader.ShortHelp="Edit Gate";
+CATMoldModelHeader.GateCreationHeader.Title="Gate...";
+CATMoldModelHeader.GateCreationHeader.Help="Adds a Gate";
+CATMoldModelHeader.GateCreationHeader.LongHelp="Mold\nAdds a new Gate.";
+CATMoldModelHeader.GateCreationHeader.ShortHelp="Add Gate";
+// == Runner == 
+CATMoldModelHeader.RunnerHeader.Title="Runner...";
+CATMoldModelHeader.RunnerHeader.Help="Adds a Runner";
+CATMoldModelHeader.RunnerHeader.LongHelp="Mold\nAdds a new Runner.";
+CATMoldModelHeader.RunnerHeader.ShortHelp="Add Runner";
+// == CoolantChannel == 
+CATMoldModelHeader.CoolantChannelEditionHeader.Title="Edit Coolant Channel...";
+CATMoldModelHeader.CoolantChannelEditionHeader.Help="Edits a Coolant Channel";
+CATMoldModelHeader.CoolantChannelEditionHeader.LongHelp="Mold\nEdits an existing Coolant Channel.";
+CATMoldModelHeader.CoolantChannelEditionHeader.ShortHelp="Edit Coolant Channel";
+CATMoldModelHeader.CoolantChannelCreationHeader.Title="Coolant Channel...";
+CATMoldModelHeader.CoolantChannelCreationHeader.Help="Adds a Coolant Channel";
+CATMoldModelHeader.CoolantChannelCreationHeader.LongHelp="Mold\nAdds a new Coolant Channel.";
+CATMoldModelHeader.CoolantChannelCreationHeader.ShortHelp="Add Coolant Channel";
+
+// =================================================
+// Palette Guiding
+// =================================================
+// == LeaderPin == 
+CATMoldModelHeader.LeaderPinHeader.Title="LeaderPin...";
+CATMoldModelHeader.LeaderPinHeader.Help="Adds a LeaderPin";
+CATMoldModelHeader.LeaderPinHeader.LongHelp="Mold\nAdds a new LeaderPin.";
+CATMoldModelHeader.LeaderPinHeader.ShortHelp="Add LeaderPin";
+CATMoldModelHeader.LeaderPinEditHeader.Title="Edit LeaderPin component";
+CATMoldModelHeader.LeaderPinEditHeader.Help="Edits an existing LeaderPin component";
+CATMoldModelHeader.LeaderPinEditHeader.LongHelp="Mold\nEdits an existing LeaderPin component.";
+CATMoldModelHeader.LeaderPinEditHeader.ShortHelp="Edit LeaderPin component";
+CATMoldModelHeader.LeaderPinEditGroupHeader.Title="Edit LeaderPin group";
+CATMoldModelHeader.LeaderPinEditGroupHeader.Help="Edits an existing LeaderPin group";
+CATMoldModelHeader.LeaderPinEditGroupHeader.LongHelp="Mold\nEdits an existing LeaderPin group.";
+CATMoldModelHeader.LeaderPinEditGroupHeader.ShortHelp="Edit LeaderPin group";
+CATMoldModelHeader.CATMldLeaderPinNewInstanceHeaderHdr.Title="Add New Instance";
+CATMoldModelHeader.CATMldLeaderPinNewInstanceHeaderHdr.Help="Adds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldLeaderPinNewInstanceHeaderHdr.LongHelp="Mold\nAdds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldLeaderPinNewInstanceHeaderHdr.ShortHelp="Adds a new instance component";
+CATMoldModelHeader.CATMldLeaderPinRecopyHeaderHdr.Title="Isolate Component";
+CATMoldModelHeader.CATMldLeaderPinRecopyHeaderHdr.Help="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldLeaderPinRecopyHeaderHdr.LongHelp="Mold\nIsolate a component instance by creation of its distinct new reference.";
+CATMoldModelHeader.CATMldLeaderPinRecopyHeaderHdr.ShortHelp="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldLeaderPinReplaceHeaderHdr.Title="Replace Reference";
+CATMoldModelHeader.CATMldLeaderPinReplaceHeaderHdr.Help="Replaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldLeaderPinReplaceHeaderHdr.LongHelp="Mold\nReplaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldLeaderPinReplaceHeaderHdr.ShortHelp="Replaces catalog reference of component";
+// == Bushing == 
+CATMoldModelHeader.BushingHeader.Title="Bushing...";
+CATMoldModelHeader.BushingHeader.Help="Adds a Bushing";
+CATMoldModelHeader.BushingHeader.LongHelp="Mold\nAdds a new Bushing.";
+CATMoldModelHeader.BushingHeader.ShortHelp="Add Bushing";
+CATMoldModelHeader.BushingEditHeader.Title="Edit Bushing component";
+CATMoldModelHeader.BushingEditHeader.Help="Edits an existing Bushing component";
+CATMoldModelHeader.BushingEditHeader.LongHelp="Mold\nEdits an existing Bushing component.";
+CATMoldModelHeader.BushingEditHeader.ShortHelp="Edit Bushing component";
+CATMoldModelHeader.BushingEditGroupHeader.Title="Edit Bushing group";
+CATMoldModelHeader.BushingEditGroupHeader.Help="Edits an existing Bushing group";
+CATMoldModelHeader.BushingEditGroupHeader.LongHelp="Mold\nEdits an existing Bushing group.";
+CATMoldModelHeader.BushingEditGroupHeader.ShortHelp="Edit Bushing group";
+CATMoldModelHeader.CATMldBushingNewInstanceHeaderHdr.Title="Add New Instance";
+CATMoldModelHeader.CATMldBushingNewInstanceHeaderHdr.Help="Adds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldBushingNewInstanceHeaderHdr.LongHelp="Mold\nAdds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldBushingNewInstanceHeaderHdr.ShortHelp="Adds a new instance component";
+CATMoldModelHeader.CATMldBushingRecopyHeaderHdr.Title="Isolate Component";
+CATMoldModelHeader.CATMldBushingRecopyHeaderHdr.Help="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldBushingRecopyHeaderHdr.LongHelp="Mold\nIsolate a component instance by creation of its distinct new reference.";
+CATMoldModelHeader.CATMldBushingRecopyHeaderHdr.ShortHelp="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldBushingReplaceHeaderHdr.Title="Replace Reference";
+CATMoldModelHeader.CATMldBushingReplaceHeaderHdr.Help="Replaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldBushingReplaceHeaderHdr.LongHelp="Mold\nReplaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldBushingReplaceHeaderHdr.ShortHelp="Replaces catalog reference of component";
+// == GuidePin == 
+CATMoldModelHeader.GuidePinHeader.Title="GuidePin...";
+CATMoldModelHeader.GuidePinHeader.Help="Adds a GuidePin";
+CATMoldModelHeader.GuidePinHeader.LongHelp="Mold\nAdds a new GuidePin.";
+CATMoldModelHeader.GuidePinHeader.ShortHelp="Add GuidePin";
+CATMoldModelHeader.GuidePinEditHeader.Title="Edit GuidePin component";
+CATMoldModelHeader.GuidePinEditHeader.Help="Edits an existing GuidePin component";
+CATMoldModelHeader.GuidePinEditHeader.LongHelp="Mold\nEdits an existing GuidePin component.";
+CATMoldModelHeader.GuidePinEditHeader.ShortHelp="Edit GuidePin component";
+CATMoldModelHeader.GuidePinEditGroupHeader.Title="Edit GuidePin group";
+CATMoldModelHeader.GuidePinEditGroupHeader.Help="Edits an existing GuidePin group";
+CATMoldModelHeader.GuidePinEditGroupHeader.LongHelp="Mold\nEdits an existing GuidePin group.";
+CATMoldModelHeader.GuidePinEditGroupHeader.ShortHelp="Edit GuidePin group";
+CATMoldModelHeader.CATMldGuidePinNewInstanceHeaderHdr.Title="Add New Instance";
+CATMoldModelHeader.CATMldGuidePinNewInstanceHeaderHdr.Help="Adds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldGuidePinNewInstanceHeaderHdr.LongHelp="Mold\nAdds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldGuidePinNewInstanceHeaderHdr.ShortHelp="Adds a new instance component";
+CATMoldModelHeader.CATMldGuidePinRecopyHeaderHdr.Title="Isolate Component";
+CATMoldModelHeader.CATMldGuidePinRecopyHeaderHdr.Help="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldGuidePinRecopyHeaderHdr.LongHelp="Mold\nIsolate a component instance by creation of its distinct new reference.";
+CATMoldModelHeader.CATMldGuidePinRecopyHeaderHdr.ShortHelp="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldGuidePinReplaceHeaderHdr.Title="Replace Reference";
+CATMoldModelHeader.CATMldGuidePinReplaceHeaderHdr.Help="Replaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldGuidePinReplaceHeaderHdr.LongHelp="Mold\nReplaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldGuidePinReplaceHeaderHdr.ShortHelp="Replaces catalog reference of component";
+
+
+// =================================================
+// Palette User
+// =================================================
+// == UserComponent == 
+CATMoldModelHeader.UserComponentHeader.Title="User Component...";
+CATMoldModelHeader.UserComponentHeader.Help="Adds a User Component";
+CATMoldModelHeader.UserComponentHeader.LongHelp="Mold\nAdds a new User Component.";
+CATMoldModelHeader.UserComponentHeader.ShortHelp="Add User Component";
+CATMoldModelHeader.UserComponentEditHeader.Title="Edit User component";
+CATMoldModelHeader.UserComponentEditHeader.Help="Edits an existing User component";
+CATMoldModelHeader.UserComponentEditHeader.LongHelp="Mold\nEdits an existing User component.";
+CATMoldModelHeader.UserComponentEditHeader.ShortHelp="Edit User component";
+CATMoldModelHeader.UserComponentEditGroupHeader.Title="Edit User group";
+CATMoldModelHeader.UserComponentEditGroupHeader.Help="Edits an existing User group";
+CATMoldModelHeader.UserComponentEditGroupHeader.LongHelp="Mold\nEdits an existing User group.";
+CATMoldModelHeader.UserComponentEditGroupHeader.ShortHelp="Edit User group";
+CATMoldModelHeader.CATMldUserComponentNewInstanceHeaderHdr.Title="Add New Instance";
+CATMoldModelHeader.CATMldUserComponentNewInstanceHeaderHdr.Help="Adds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldUserComponentNewInstanceHeaderHdr.LongHelp="Mold\nAdds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldUserComponentNewInstanceHeaderHdr.ShortHelp="Adds a new instance component";
+CATMoldModelHeader.CATMldUserComponentRecopyHeaderHdr.Title="Isolate Component";
+CATMoldModelHeader.CATMldUserComponentRecopyHeaderHdr.Help="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldUserComponentRecopyHeaderHdr.LongHelp="Mold\nIsolate a component instance by creation of its distinct new reference.";
+CATMoldModelHeader.CATMldUserComponentRecopyHeaderHdr.ShortHelp="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldUserComponentReplaceHeaderHdr.Title="Replace Reference";
+CATMoldModelHeader.CATMldUserComponentReplaceHeaderHdr.Help="Replaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldUserComponentReplaceHeaderHdr.LongHelp="Mold\nReplaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldUserComponentReplaceHeaderHdr.ShortHelp="Replaces catalog reference of component";
+// == EyeBolt == 
+CATMoldModelHeader.EyeBoltHeader.Title="EyeBolt...";
+CATMoldModelHeader.EyeBoltHeader.Help="Adds an EyeBolt";
+CATMoldModelHeader.EyeBoltHeader.LongHelp="Mold\nAdds a new EyeBolt.";
+CATMoldModelHeader.EyeBoltHeader.ShortHelp="Add EyeBolt";
+CATMoldModelHeader.EyeBoltEditHeader.Title="Edit EyeBolt component";
+CATMoldModelHeader.EyeBoltEditHeader.Help="Edits an existing EyeBolt component";
+CATMoldModelHeader.EyeBoltEditHeader.LongHelp="Mold\nEdits an existing EyeBolt component.";
+CATMoldModelHeader.EyeBoltEditHeader.ShortHelp="Edit EyeBolt component";
+CATMoldModelHeader.EyeBoltEditGroupHeader.Title="Edit EyeBolt group";
+CATMoldModelHeader.EyeBoltEditGroupHeader.Help="Edits an existing EyeBolt group";
+CATMoldModelHeader.EyeBoltEditGroupHeader.LongHelp="Mold\nEdits an existing EyeBolt group.";
+CATMoldModelHeader.EyeBoltEditGroupHeader.ShortHelp="Edit EyeBolt group";
+CATMoldModelHeader.CATMldEyeBoltNewInstanceHeaderHdr.Title="Add New Instance";
+CATMoldModelHeader.CATMldEyeBoltNewInstanceHeaderHdr.Help="Adds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldEyeBoltNewInstanceHeaderHdr.LongHelp="Mold\nAdds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldEyeBoltNewInstanceHeaderHdr.ShortHelp="Adds a new instance component";
+CATMoldModelHeader.CATMldEyeBoltRecopyHeaderHdr.Title="Isolate Component";
+CATMoldModelHeader.CATMldEyeBoltRecopyHeaderHdr.Help="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldEyeBoltRecopyHeaderHdr.LongHelp="Mold\nIsolate a component instance by creation of its distinct new reference.";
+CATMoldModelHeader.CATMldEyeBoltRecopyHeaderHdr.ShortHelp="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldEyeBoltReplaceHeaderHdr.Title="Replace Reference";
+CATMoldModelHeader.CATMldEyeBoltReplaceHeaderHdr.Help="Replaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldEyeBoltReplaceHeaderHdr.LongHelp="Mold\nReplaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldEyeBoltReplaceHeaderHdr.ShortHelp="Replaces catalog reference of component";
+// == Spring == 
+CATMoldModelHeader.SpringHeader.Title="Spring...";
+CATMoldModelHeader.SpringHeader.Help="Adds a Spring.";
+CATMoldModelHeader.SpringHeader.LongHelp="Plate\nAdds a new Spring.";
+CATMoldModelHeader.SpringHeader.ShortHelp="Add Spring";
+CATMoldModelHeader.SpringEditHeader.Title="Edit Spring component";
+CATMoldModelHeader.SpringEditHeader.Help="Edits an existing Spring component";
+CATMoldModelHeader.SpringEditHeader.LongHelp="Mold\nEdits an existing Spring component.";
+CATMoldModelHeader.SpringEditHeader.ShortHelp="Edit Spring component";
+CATMoldModelHeader.SpringEditGroupHeader.Title="Edit Spring group";
+CATMoldModelHeader.SpringEditGroupHeader.Help="Edits an existing Spring group";
+CATMoldModelHeader.SpringEditGroupHeader.LongHelp="Mold\nEdits an existing Spring group.";
+CATMoldModelHeader.SpringEditGroupHeader.ShortHelp="Edit Spring group";
+CATMoldModelHeader.CATMldSpringNewInstanceHeaderHdr.Title="Add New Instance";
+CATMoldModelHeader.CATMldSpringNewInstanceHeaderHdr.Help="Adds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldSpringNewInstanceHeaderHdr.LongHelp="Mold\nAdds a new instance component in a group of existing instances.";
+CATMoldModelHeader.CATMldSpringNewInstanceHeaderHdr.ShortHelp="Adds a new instance component";
+CATMoldModelHeader.CATMldSpringRecopyHeaderHdr.Title="Isolate Component";
+CATMoldModelHeader.CATMldSpringRecopyHeaderHdr.Help="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldSpringRecopyHeaderHdr.LongHelp="Mold\nIsolate a component instance by creation of its distinct new reference.";
+CATMoldModelHeader.CATMldSpringRecopyHeaderHdr.ShortHelp="Isolates the reference of  a component instance";
+CATMoldModelHeader.CATMldSpringReplaceHeaderHdr.Title="Replace Reference";
+CATMoldModelHeader.CATMldSpringReplaceHeaderHdr.Help="Replaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldSpringReplaceHeaderHdr.LongHelp="Mold\nReplaces catalog reference of component in a group of existing instances.";
+CATMoldModelHeader.CATMldSpringReplaceHeaderHdr.ShortHelp="Replaces catalog reference of component";
+
+
+
+// == GeneratingHoles == 
+CATMoldModelHeader.CATMldGeneratingHolesPadHeaderHdr.Title="Generate Final Holes & Pads";
+CATMoldModelHeader.CATMldGeneratingHolesPadHeaderHdr.Help="Generate Final Holes & Pads";
+CATMoldModelHeader.CATMldGeneratingHolesPadHeaderHdr.LongHelp="Mold\nGenerate Final Holes & Pads.";
+CATMoldModelHeader.CATMldGeneratingHolesPadHeaderHdr.ShortHelp="Generate Final Holes & Pads";
+CATMoldModelHeader.CATMldGeneratingHolesHeaderHdr.Title="Generate Final Holes";
+CATMoldModelHeader.CATMldGeneratingHolesHeaderHdr.Help="Generate Final Holes";
+CATMoldModelHeader.CATMldGeneratingHolesHeaderHdr.LongHelp="Mold\nGenerate Final Holes.";
+CATMoldModelHeader.CATMldGeneratingHolesHeaderHdr.ShortHelp="Generate Final Holes";
+CATMoldModelHeader.CATMldGeneratingPadHeaderHdr.Title="Generate Final Pads";
+CATMoldModelHeader.CATMldGeneratingPadHeaderHdr.Help="Generate Final Pads";
+CATMoldModelHeader.CATMldGeneratingPadHeaderHdr.LongHelp="Mold\nGenerate Final Pads.";
+CATMoldModelHeader.CATMldGeneratingPadHeaderHdr.ShortHelp="Generate Final Pads";
+
+CATMoldModelHeader.CATMldGenerateFinalHolesPadHeaderHdr.Title="Generate Final Holes & Pads";
+CATMoldModelHeader.CATMldGenerateFinalHolesPadHeaderHdr.Help="Generate the Final Holes and Pads";
+CATMoldModelHeader.CATMldGenerateFinalHolesPadHeaderHdr.LongHelp="Generate the Final Holes and Pads on the selected component";
+CATMoldModelHeader.CATMldGenerateFinalHolesPadHeaderHdr.ShortHelp="Generate Final Holes & Pads";
+
+// == Delete == 
+CATMoldModelHeader.MoldDeleteHeader.Title="Delete component";
+CATMoldModelHeader.MoldDeleteHeader.Help="Deletes a component";
+CATMoldModelHeader.MoldDeleteHeader.LongHelp="Mold\nDeletes an existing Mold Component.";
+CATMoldModelHeader.MoldDeleteHeader.ShortHelp="Delete component";
+
+// == Isolate Component == 
+// CATMoldModelHeader.MoldIsolateRefHeader.Title="Isolate component";
+// CATMoldModelHeader.MoldIsolateRefHeader.Help="Isolates the reference of  a component instance";
+// CATMoldModelHeader.MoldIsolateRefHeader.LongHelp="Mold\nIsolate a component instance by creation of its distinct new reference.";
+// CATMoldModelHeader.MoldIsolateRefHeader.ShortHelp="Isolates the reference of  a component instance";
+
+// == Activate/Deactivate Tooling Component == 
+CATMoldModelHeader.CATMldInactivateCmpHeaderHdr.Title="Activate/Deactivate Tooling Component";
+CATMoldModelHeader.CATMldInactivateCmpHeaderHdr.Help="Activates or deactivates a Tooling Component";
+CATMoldModelHeader.CATMldInactivateCmpHeaderHdr.LongHelp="Mold\nActivates or deactivates an existing Tooling Component.";
+CATMoldModelHeader.CATMldInactivateCmpHeaderHdr.ShortHelp="Activate/Deactivate Tooling Component";
+
+// == Split Component == 
+CATMoldModelHeader.SplitComponentHeader.Title="Split component...";
+CATMoldModelHeader.SplitComponentHeader.Help="Splits a component";
+CATMoldModelHeader.SplitComponentHeader.LongHelp="Mold\nSplits an existing Mold Component by a surface.";
+CATMoldModelHeader.SplitComponentHeader.ShortHelp="Split component";
+
+// == Split CavityPlate == 
+CATMoldModelHeader.SplitCavityPlateHeader.Title="Split CavityPlate...";
+CATMoldModelHeader.SplitCavityPlateHeader.Help="Splits a CavityPlate";
+CATMoldModelHeader.SplitCavityPlateHeader.LongHelp="Mold\nSplits CavityPlate by a surface.";
+CATMoldModelHeader.SplitCavityPlateHeader.ShortHelp="Split CavityPlate";
+
+// == Split CorePlate == 
+CATMoldModelHeader.SplitCorePlateHeader.Title="Split CorePlate...";
+CATMoldModelHeader.SplitCorePlateHeader.Help="Splits a CorePlate";
+CATMoldModelHeader.SplitCorePlateHeader.LongHelp="Mold\nSplits CorePlate by a surface.";
+CATMoldModelHeader.SplitCorePlateHeader.ShortHelp="Split CorePlate";
+
+// == DirectManipulation Command ==
+CATMoldModelHeader.MoldManipulationHeader.Title="Manipulate...";
+CATMoldModelHeader.MoldManipulationHeader.Help="Move a component by freehand translation or rotation";
+CATMoldModelHeader.MoldManipulationHeader.ShortHelp="Manipulation";
+CATMoldModelHeader.MoldManipulationHeader.LongHelp="Manipulation\nMove a component by freehand translation or rotation with\nthe mouse.";
+
+// == Snap Command ==
+CATMoldModelHeader.MoldSnapHeader.Title="Snap";
+CATMoldModelHeader.MoldSnapHeader.Help="Move a component by snapping";
+CATMoldModelHeader.MoldSnapHeader.ShortHelp="Snap";
+CATMoldModelHeader.MoldSnapHeader.LongHelp="Snap\nMove a component onto an other component by snapping.";
+
+// == AsmMeasure Command ==
+// Les ressources "Measure Between" et "Measure Edge" sont copiees depuis
+// "Navigator4DUI/CNext/resources/msgcatalog/CATNavigation4DHeader.CATNls"
+CATMoldModelHeader.MoldSpaceMeasureBetweenHeader.Title="Measure Between";
+CATMoldModelHeader.MoldSpaceMeasureBetweenHeader.Help="Measures the distance and angle between two items";
+CATMoldModelHeader.MoldSpaceMeasureBetweenHeader.ShortHelp="Measure Between";
+CATMoldModelHeader.MoldSpaceMeasureBetweenHeader.LongHelp="Measures the distance and angle between two items";
+
+CATMoldModelHeader.MoldSpaceMeasureEdgeHeader.Title="Measure Item";
+CATMoldModelHeader.MoldSpaceMeasureEdgeHeader.Help="Measures properties associated to a selected item";
+CATMoldModelHeader.MoldSpaceMeasureEdgeHeader.ShortHelp="Measure Item";
+CATMoldModelHeader.MoldSpaceMeasureEdgeHeader.LongHelp="Measures properties associated to a selected item";
+
+// == Drill Component Command ==
+CATMoldModelHeader.CATMldDrillCmpHeaderHdr.Title="Drill Component...";
+CATMoldModelHeader.CATMldDrillCmpHeaderHdr.Help="Drills a list of components by another list of components";
+CATMoldModelHeader.CATMldDrillCmpHeaderHdr.LongHelp="Mold\nDrills a list of components by another list of components.";
+CATMoldModelHeader.CATMldDrillCmpHeaderHdr.ShortHelp="Drills a list of components by another list of components";
+
+//BMWAddRemove
+// == Distributed Drill Component Command ==
+CATMoldModelHeader.CATMldDistribDrillCmpHeaderHdr.Title="Distributed Drill Component...";
+CATMoldModelHeader.CATMldDistribDrillCmpHeaderHdr.Help="Create distributed drill from a component based on the setting";
+CATMoldModelHeader.CATMldDistribDrillCmpHeaderHdr.LongHelp="Mold\nCreate distributed drill from a component based on the setting.";
+CATMoldModelHeader.CATMldDistribDrillCmpHeaderHdr.ShortHelp="Create distributed drill from a component based on the setting";
+
+// == Explode Holes Command ==
+CATMoldModelHeader.CATMldExplodeHolesHeaderHdr.Title="Explode Holes...";
+CATMoldModelHeader.CATMldExplodeHolesHeaderHdr.Help="Creates holes in plates and components";
+CATMoldModelHeader.CATMldExplodeHolesHeaderHdr.LongHelp="Mold\nCreates holes in plates and components.";
+CATMoldModelHeader.CATMldExplodeHolesHeaderHdr.ShortHelp="Creates holes in plates and components";
+
+// == Synchronize split Command ==
+CATMoldModelHeader.CATMldSynchronizeSplitHeaderHdr.Title="Split Synchronization...";
+CATMoldModelHeader.CATMldSynchronizeSplitHeaderHdr.Help="Split Synchronization";
+CATMoldModelHeader.CATMldSynchronizeSplitHeaderHdr.LongHelp="Mold\nSplit Synchronization.";
+CATMoldModelHeader.CATMldSynchronizeSplitHeaderHdr.ShortHelp="Split Synchronization";
+
+// == Wizard split Command ==
+CATMoldModelHeader.CATMldWizardSplitHeaderHdr.Title="Wizard Tooling Split...";
+CATMoldModelHeader.CATMldWizardSplitHeaderHdr.Help="Wizard Tooling Split";
+CATMoldModelHeader.CATMldWizardSplitHeaderHdr.LongHelp="Mold\nWizard Tooling Split.";
+CATMoldModelHeader.CATMldWizardSplitHeaderHdr.ShortHelp="Wizard Tooling Split";
+
+// == Analyse ==
+CATMoldModelHeader.CstAnalysis.Title="Constraints...";
+CATMoldModelHeader.CstAnalysis.Help="Displays a constraint status";
+CATMoldModelHeader.CstAnalysis.ShortHelp="Constraint status";
+
+// == Concurrent Engineering Analysis Command ==
+CATMoldModelHeader.CATMldAnalyzeConcurrentHeaderHdr.Title="Tooling structure analysis...";
+CATMoldModelHeader.CATMldAnalyzeConcurrentHeaderHdr.Help="Analyses the tooling structure for concurrent engineering";
+CATMoldModelHeader.CATMldAnalyzeConcurrentHeaderHdr.LongHelp="Analyses the tooling structure for concurrent engineering";
+CATMoldModelHeader.CATMldAnalyzeConcurrentHeaderHdr.ShortHelp="Analyses the tooling structure for concurrent engineering";
+
+// == (New) Display Technological Results Command ==
+CATMoldModelHeader.CATMldUITechResHeaderHdr.Title="Display Technological Results...";
+CATMoldModelHeader.CATMldUITechResHeaderHdr.Help="Displays and outputs in a file the technological results.";
+CATMoldModelHeader.CATMldUITechResHeaderHdr.LongHelp="Displays and outputs in a file the technological results.";
+CATMoldModelHeader.CATMldUITechResHeaderHdr.ShortHelp="Displays and outputs in a file the technological results.";
+
+// == (Old) Display Technological Results Command ==
+CATMoldModelHeader.CATAnalyzeTechResHeaderHdr.Title="Display Technological Results (old command)...";
+CATMoldModelHeader.CATAnalyzeTechResHeaderHdr.Help="Displays and outputs in a file the Technological Results (old command).";
+CATMoldModelHeader.CATAnalyzeTechResHeaderHdr.LongHelp="Displays and outputs in a file the Technological Results (old command).";
+CATMoldModelHeader.CATAnalyzeTechResHeaderHdr.ShortHelp="Displays and outputs in a file the Technological Results (old command).";
+
+// == Replace Plate == 
+CATMoldModelHeader.ReplacePlateHeaderHdr.Title="Replace Plate...";
+CATMoldModelHeader.ReplacePlateHeaderHdr.Help="Replaces a Mold plate";
+CATMoldModelHeader.ReplacePlateHeaderHdr.LongHelp="Mold\nReplaces an existing Mold plate by a new plate.";
+CATMoldModelHeader.ReplacePlateHeaderHdr.ShortHelp="Replaces a Mold plate by a new one";
+
+// == Quick Delete Command ==
+CATMoldModelHeader.CATMldQuickDeleteHeaderHdr.Title="Quick Delete Component...";
+CATMoldModelHeader.CATMldQuickDeleteHeaderHdr.Help="In Cache Mode, deletes a list of components with management of impacted elements";
+CATMoldModelHeader.CATMldQuickDeleteHeaderHdr.LongHelp="In Cache Mode, deletes a list of components with management of impacted elements.";
+CATMoldModelHeader.CATMldQuickDeleteHeaderHdr.ShortHelp="In Cache Mode, deletes a list of components with management of impacted elements";
+
+// == PreInitCompSketch Command ==
+CATMoldModelHeader.CATMldPreInitCompSketchHeaderHdr.Title="CAA: DiePreInitdata on sketch...";
+CATMoldModelHeader.CATMldPreInitCompSketchHeaderHdr.Help="CAA: Adds a DiePreInitdata on sketch";
+CATMoldModelHeader.CATMldPreInitCompSketchHeaderHdr.LongHelp="Mold\nAdds a new DiePreInitdata on sketch.";
+CATMoldModelHeader.CATMldPreInitCompSketchHeaderHdr.ShortHelp="CAA Add DiePreInitdata on sketch";
+
+// == QuickView Command ==
+CATMoldModelHeader.CATMldToolViewerHeaderHdr.Title="Tool Viewer ...";
+CATMoldModelHeader.CATMldToolViewerHeaderHdr.Help="Displays selected elements";
+CATMoldModelHeader.CATMldToolViewerHeaderHdr.LongHelp="Mold\nDisplays selected elements.";
+CATMoldModelHeader.CATMldToolViewerHeaderHdr.ShortHelp="Displays Selected Elements.";
+
+// == Bill Of Material Command ==
+CATMoldModelHeader.CATMldBOMHeaderHdr.Title="Tooling Bill of Material...";
+CATMoldModelHeader.CATMldBOMHeaderHdr.Help="Generates Bill of Material on selected product";
+CATMoldModelHeader.CATMldBOMHeaderHdr.LongHelp="Mold\nGenerates Bill of Material on selected product.";
+CATMoldModelHeader.CATMldBOMHeaderHdr.ShortHelp="Generates Bill of Material on selected product";
+
+// == Split Untrimmed ejectors Command ==
+CATMoldModelHeader.CATMldSplitUntrimHeaderHdr.Title="Split Untrimmed Ejectors...";
+CATMoldModelHeader.CATMldSplitUntrimHeaderHdr.Help="Splits untrimmed ejectors";
+CATMoldModelHeader.CATMldSplitUntrimHeaderHdr.LongHelp="Mold\nSplits untrimmed ejectors.";
+CATMoldModelHeader.CATMldSplitUntrimHeaderHdr.ShortHelp="Splits untrimmed ejectors";

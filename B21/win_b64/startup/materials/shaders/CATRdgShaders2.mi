@@ -1,0 +1,369 @@
+#
+# Catia shaders
+#
+
+declare shader 
+  vector "cat_texture_coord" (
+    integer   "type"             default 3,
+    scalar    "offset_u"         default 0.0,
+    scalar    "offset_v"         default 0.0,
+    scalar    "scale_u"          default 1.0,
+    scalar    "scale_v"          default 1.0,
+    scalar    "angle"            default 0.0,
+    boolean   "repeat_u"         default on,
+    boolean   "repeat_v"         default on,
+    boolean   "flip_u"           default off,
+    boolean   "flip_v"           default off,
+    transform	"matrix"
+  )
+  version 1
+  apply texture
+end declare
+
+
+declare shader
+	struct {
+		vector		"u",
+		vector		"v"
+	} "cat_bump_basis" (
+    integer   "type"             default 3,
+    scalar    "offset_u"         default 0.0,
+    scalar    "offset_v"         default 0.0,
+    scalar    "scale_u"          default 1.0,
+    scalar    "scale_v"          default 1.0,
+    scalar    "angle"            default 0.0,
+    boolean   "repeat_u"         default on,
+    boolean   "repeat_v"         default on,
+    boolean   "flip_u"           default off,
+    boolean   "flip_v"           default off,
+    transform	"matrix"
+	)
+	version 1
+	apply texture
+end declare
+
+
+$ifdef "old_bump"
+declare shader
+  vector "cat_bump_map" (
+    scalar    "bump",
+    scalar    "step",
+    color     "color",
+    boolean   "alpha",
+    transform	"matrix"
+  )
+  version 1
+  apply texture
+end declare
+$else
+declare shader
+  vector "cat_bump_map" (
+    scalar        "bump",
+    vector	      "coord",
+		vector		    "u",
+		vector	      "v",
+    color texture "tex",
+    boolean       "alpha"
+  )
+  version 1
+  apply texture
+end declare
+$endif
+
+declare shader
+  scalar "cat_noise" (    
+    color 	"color1"			       default 0.55 0.55 0.55,	
+    color 	"color2"			       default 0.45 0.45 0.45, 	
+    scalar	"global_scale"       default 0.2,
+    scalar 	"flatness"		       default 0.9,	
+    boolean	"use_coord"		       default on,
+    vector 	"coord"			         default 0.0 0.0 0.0		
+  )
+  version 1
+  apply texture
+end declare 
+
+
+declare shader "cat_matte_shadow" (
+    boolean "catch_shadows"      default on,            
+    color   "shadows"            default 0 0 0 1,
+    color   "ambient"            default 0.2 0.2 0.2,
+    boolean "no_self_shadow"     default on,
+    boolean "use_dot_nl"         default on,
+
+    boolean "catch_indirect"     default on,
+    color   "indirect"           default 1 1 1,
+
+    boolean "catch_reflections"  default on,
+    color   "refl_color"         default 0 0 0 1,
+    integer "refl_samples"       default 1,
+    scalar  "refl_glossiness"    default 0,
+    scalar  "refl_max_dist"      default 0,
+    scalar  "refl_falloff"       default 2.0,
+
+    color   "transparency"       default 1 1 1 1,
+
+    integer     "mode"           default 3,
+    array light "lights"    
+  )
+  version 1
+  apply material
+end declare
+
+declare phenomenon
+  "cat_phen_texture" (
+
+    color texture	"tex",
+    integer "type"               default 3,
+    scalar "offset_u"            default 0.0,
+    scalar "offset_v"            default 0.0,
+    scalar "scale_u"             default 1.0,
+    scalar "scale_v"             default 1.0,
+    scalar "angle"               default 0.0,
+    boolean "repeat_u"           default on,
+    boolean "repeat_v"           default on,
+    boolean "flip_u"             default off,
+    boolean "flip_v"             default off,
+    transform	"matrix"
+  )
+  version 1
+
+  shader "texture_coord" "cat_texture_coord" (  
+    "type"                    = interface "type",
+    "offset_u"                = interface "offset_u",
+    "offset_v"                = interface "offset_v",
+    "scale_u"                 = interface "scale_u",
+    "scale_v"                 = interface "scale_v",
+    "angle"                   = interface "angle",
+    "repeat_u"                = interface "repeat_u",
+    "repeat_v"                = interface "repeat_v",
+    "flip_u"                  = interface "flip_u",
+    "flip_v"                  = interface "flip_v",
+    "matrix"                  = interface "matrix"
+  )
+
+  shader "main_shader" "mib_texture_lookup" (
+  
+    "tex"                     = interface "tex",
+    "coord"			              = "texture_coord"
+  )
+
+  root = "main_shader"
+  apply texture    
+  
+end declare
+
+
+$ifdef "old_bump"
+declare phenomenon
+  vector "cat_phen_bump" (
+
+    scalar "bump"                default 10.,
+    scalar "step"                default 0.01,
+    boolean "alpha"              default off,
+    color texture	"tex",
+    integer "type"               default 3,
+    scalar "offset_u"            default 0.0,
+    scalar "offset_v"            default 0.0,
+    scalar "scale_u"             default 1.0,
+    scalar "scale_v"             default 1.0,
+    scalar "angle"               default 0.0,
+    boolean "repeat_u"           default on,
+    boolean "repeat_v"           default on,
+    boolean "flip_u"             default off,
+    boolean "flip_v"             default off,
+    transform	"matrix"
+  )
+  version 1
+
+  shader "phen_texture" "cat_phen_texture" (
+  
+    "tex"                     = interface "tex",
+    "type"                    = interface "type",
+    "offset_u"                = interface "offset_u",
+    "offset_v"                = interface "offset_v",
+    "scale_u"                 = interface "scale_u",
+    "scale_v"                 = interface "scale_v",
+    "angle"                   = interface "angle",
+    "repeat_u"                = interface "repeat_u",
+    "repeat_v"                = interface "repeat_v",
+    "flip_u"                  = interface "flip_u",
+    "flip_v"                  = interface "flip_v",
+    "matrix"                  = interface "matrix"
+  )
+  
+  shader "main_shader" "cat_bump_map" (
+  
+    "bump"                    = interface "bump",
+    "step"                    = interface "step",
+    "color"                   = "phen_texture",
+    "alpha"                   = interface "alpha",
+    "matrix"			            = interface "matrix"
+  )
+  
+  root = "main_shader"
+  apply texture    
+  
+end declare
+$else
+declare phenomenon
+  vector "cat_phen_bump" (
+
+    scalar "bump"                default 10.,
+    color texture	"tex",
+    boolean "alpha"              default off,
+    integer "type"               default 3,
+    scalar "offset_u"            default 0.0,
+    scalar "offset_v"            default 0.0,
+    scalar "scale_u"             default 1.0,
+    scalar "scale_v"             default 1.0,
+    scalar "angle"               default 0.0,
+    boolean "repeat_u"           default on,
+    boolean "repeat_v"           default on,
+    boolean "flip_u"             default off,
+    boolean "flip_v"             default off,
+    transform	"matrix"
+  )
+  version 1
+
+  shader "texture_coord" "cat_texture_coord" (  
+    "type"                    = interface "type",
+    "offset_u"                = interface "offset_u",
+    "offset_v"                = interface "offset_v",
+    "scale_u"                 = interface "scale_u",
+    "scale_v"                 = interface "scale_v",
+    "angle"                   = interface "angle",
+    "repeat_u"                = interface "repeat_u",
+    "repeat_v"                = interface "repeat_v",
+    "flip_u"                  = interface "flip_u",
+    "flip_v"                  = interface "flip_v",
+    "matrix"                  = interface "matrix"
+  )
+
+  shader "main_shader" "mib_texture_lookup" (
+  
+    "tex"                     = interface "tex",
+    "coord"			              = "texture_coord"
+  )
+
+  shader "bump_basis" "cat_bump_basis" (  
+    "type"                    = interface "type",
+    "offset_u"                = interface "offset_u",
+    "offset_v"                = interface "offset_v",
+    "scale_u"                 = interface "scale_u",
+    "scale_v"                 = interface "scale_v",
+    "angle"                   = interface "angle",
+    "repeat_u"                = interface "repeat_u",
+    "repeat_v"                = interface "repeat_v",
+    "flip_u"                  = interface "flip_u",
+    "flip_v"                  = interface "flip_v",
+    "matrix"                  = interface "matrix"
+  )
+
+  
+  shader "main_shader" "cat_bump_map" (
+  
+    "bump"                    = interface "bump",
+    "u"                       = "bump_basis.u",
+    "v"                       = "bump_basis.v",
+    "coord"                   = "texture_coord",
+    "tex"                     = interface "tex",
+    "alpha"                   = interface "alpha"
+  )
+  
+  root = "main_shader"
+  apply texture    
+  
+end declare
+$endif
+
+declare shader
+  vector "cat_passthrough_vector" (
+    shader    "bump"
+  )
+  version 1
+  apply texture
+end declare
+
+
+declare shader
+  color "cat_passthrough_color" (
+    shader    "bump"
+  )
+  version 1
+  apply texture
+end declare
+
+
+declare shader
+	scalar "cat_color_intensity" (
+    color   "input",
+    scalar  "min",
+    scalar  "max",
+    boolean "invert"
+	)
+	version 1
+  apply texture
+end declare
+
+
+declare phenomenon
+  scalar "cat_phen_scalar" (
+
+		scalar "min"                 default 0.0,
+		scalar "max"                 default 1.0,
+		boolean "invert"             default off,
+    color texture	"tex",
+    integer "type"               default 3,
+    scalar "offset_u"            default 0.0,
+    scalar "offset_v"            default 0.0,
+    scalar "scale_u"             default 1.0,
+    scalar "scale_v"             default 1.0,
+    scalar "angle"               default 0.0,
+    boolean "repeat_u"           default on,
+    boolean "repeat_v"           default on,
+    boolean "flip_u"             default off,
+    boolean "flip_v"             default off,
+    transform	"matrix"
+  )
+  version 1
+
+  shader "phen_texture" "cat_phen_texture" (
+  
+    "tex"                     = interface "tex",
+    "type"                    = interface "type",
+    "offset_u"                = interface "offset_u",
+    "offset_v"                = interface "offset_v",
+    "scale_u"                 = interface "scale_u",
+    "scale_v"                 = interface "scale_v",
+    "angle"                   = interface "angle",
+    "repeat_u"                = interface "repeat_u",
+    "repeat_v"                = interface "repeat_v",
+    "flip_u"                  = interface "flip_u",
+    "flip_v"                  = interface "flip_v",
+    "matrix"                  = interface "matrix"
+  )
+  
+  shader "main_shader" "cat_color_intensity" (
+  
+    "input"                   = "phen_texture",
+    "min"                     = interface "min",
+    "max"                     = interface "max",
+    "invert"                  = interface "invert"
+  )
+  
+  root = "main_shader"
+  apply texture    
+  
+end declare
+
+
+declare shader
+  color "cat_fresnel_reflection" (
+    color     "input",
+		color		  "refl_color",
+		scalar		"reflectivity",
+		scalar		"ior"
+  )
+  version 1
+end declare

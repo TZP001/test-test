@@ -1,0 +1,164 @@
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="IXF_Schema.xsd" xmlns:tns="IXF_Schema.xsd" xmlns:ixf="http://www.ixfstd.org/std/ns/core/1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:SOAP_ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:NS1="CATIA/V5/Electrical/1.0" xmlns:NS2="http://www.ixfstd.org/std/ns/core/classBehaviors/links/1.0" xmlns:NS3="CATIA/V5/ElecFunctionalBehavior/1.0">
+  <import namespace="http://www.ixfstd.org/std/ns/core/1.0" schemaLocation="http://www.ixfstd.org/std/schema/core/1.0/core.xsd" />
+  <import namespace="http://schemas.xmlsoap.org/soap/envelope/" schemaLocation="http://schemas.xmlsoap.org/soap/envelope/" />
+  <import namespace="CATIA/V5/Electrical/1.0" schemaLocation="IXF_CB_NS1.xsd" />
+  <import namespace="http://www.ixfstd.org/std/ns/core/classBehaviors/links/1.0" schemaLocation="IXF_CB_NS2.xsd" />
+  <import namespace="CATIA/V5/ElecFunctionalBehavior/1.0" schemaLocation="IXF_CB_NS3.xsd" />
+  <complexType name="Object" abstract="true" ixf:dataModelRole="ixf:class">
+    <complexContent>
+      <extension base="ixf:root">
+        <sequence>
+          <element name="Name" type="string" ixf:dataModelRole="ixf:attribute"></element>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <complexType name="Harness" ixf:dataModelRole="ixf:class">
+    <complexContent>
+      <extension base="tns:Object">
+        <sequence>
+          <element ref="NS1:Harness" />
+          <element ref="NS1:Product" />
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <complexType name="Wire" ixf:dataModelRole="ixf:class">
+    <complexContent>
+      <extension base="tns:Object">
+        <sequence>
+          <element ref="NS1:Wire" />
+          <element ref="NS1:Product" />
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <complexType name="Equipotential" ixf:dataModelRole="ixf:class">
+    <complexContent>
+      <extension base="tns:Object">
+        <sequence>
+          <element ref="NS3:Equipotential" />
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <complexType name="WireGroup" ixf:dataModelRole="ixf:class">
+    <complexContent>
+      <extension base="tns:Object">
+        <sequence>
+          <element ref="NS1:WireGroup" />
+          <element ref="NS1:Product" />
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <complexType name="Equipment" ixf:dataModelRole="ixf:class">
+    <complexContent>
+      <extension base="tns:Object">
+        <sequence>
+          <element ref="NS1:Equipment" />
+          <element ref="NS1:Product" />
+          <element ref="NS3:Function" />
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <complexType name="ConnectorShell" ixf:dataModelRole="ixf:class">
+    <complexContent>
+      <extension base="tns:Object">
+        <sequence>
+          <element ref="NS1:ConnectorShell" />
+          <element ref="NS1:Product" />
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <complexType name="Connector" ixf:dataModelRole="ixf:class">
+    <complexContent>
+      <extension base="tns:Object">
+        <sequence>
+          <element ref="NS1:Connector" />
+          <element ref="NS1:Product" />
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <complexType name="Splice" ixf:dataModelRole="ixf:class">
+    <complexContent>
+      <extension base="tns:Object">
+        <sequence>
+          <element ref="NS1:Splice" />
+          <element ref="NS1:Product" />
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <complexType name="Pin" ixf:dataModelRole="ixf:class">
+    <complexContent>
+      <extension base="tns:Object">
+        <sequence>
+          <element ref="NS1:Pin" />
+          <element ref="NS1:Product" />
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <complexType name="Cavity" ixf:dataModelRole="ixf:class">
+    <complexContent>
+      <extension base="tns:Object">
+        <sequence>
+          <element ref="NS1:Cavity" />
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <complexType name="WireLink" ixf:dataModelRole="ixf:class">
+    <complexContent>
+      <extension base="ixf:root">
+        <sequence>
+          <element ref="NS2:link" />
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <complexType name="EquipotentialLink" ixf:dataModelRole="ixf:class">
+    <complexContent>
+      <extension base="ixf:root">
+        <sequence>
+          <element ref="NS2:link" />
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <complexType name="DeviceLink" ixf:dataModelRole="ixf:class">
+    <complexContent>
+      <extension base="ixf:root">
+        <sequence>
+          <element ref="NS2:link" />
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <complexType name="HarnessLink" ixf:dataModelRole="ixf:class">
+    <complexContent>
+      <extension base="ixf:root">
+        <sequence>
+          <element ref="NS2:link" />
+          <element ref="NS2:directedLink" />
+          <element ref="NS2:treeLink" />
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <complexType name="WireGroupLink" ixf:dataModelRole="ixf:class">
+    <complexContent>
+      <extension base="ixf:root">
+        <sequence>
+          <element ref="NS2:link" />
+          <element ref="NS2:directedLink" />
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <element name="Envelope" type="SOAP_ENV:Envelope" />
+</schema>

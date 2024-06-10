@@ -1,0 +1,556 @@
+// COPYRIGHT DASSAULT SYSTEMES 2004-2010
+
+// --- Resources for ENOVIA Reconciliator model infrastructure
+// ---  *  Name of supported environment
+
+Environment.VPM1    = "ENOVIA VPM V4"     ;
+Environment.File    = "File environment"  ;
+Environment.ENOVIA5 = "ENOVIA V5 VPM"     ;
+Environment.TeamPDM = "SmarTeam"    	   ;
+Environment.NoVPDM  = "No VPDM Connected" ;
+Environment.TestPDM = "TestPDM"           ;
+
+// ---  *  To manage NLS name for and storage name
+
+Storage.Publication    = "Publication Exposed"  ;
+Storage.Structure      = "Structure Exposed"    ;
+Storage.Unknown        = "Not defined"          ;
+
+Rule.Delegate          = "Delegate"             ;
+Rule.Overwrite         = "Overwrite"            ;
+Rule.New               = "New"                  ;
+Rule.NewFrom           = "New from"             ;
+Rule.Reload            = "Reload"               ;
+Rule.KeepAsExternal    = "Keep As External"     ;
+Rule.NewVersion        = "New version"          ;
+Rule.NewRevision       = "New revision"         ;
+Rule.OverwriteByDelta  = "Overwrite by delta"   ;
+Rule.NewVersionByDelta = "New version by delta" ;
+Rule.Unknown           = " "                    ;
+
+// ---  *  Manage comparison status
+
+InstanceUnknown         = " Not Compared " ;
+InstanceNew             = " New"           ;
+InstanceIdentical       = " Identical"     ;
+InstanceMoved           = " Moved"         ;
+InstanceToBeDeleted     = " To be deleted" ;
+DocumentDelegate        = " Delegate"      ;
+DocumentReload          = " Reload"        ;
+DocumentOverwrite       = " Overwrite"     ;
+DocumentNew             = " SaveAsNew"     ;
+DocumentMapped          = " Mapped"        ;
+DocumentUnknown         = " Unknown"       ;
+PartDelegate            = " Delegate"      ;
+PartReload              = " Reload"        ;
+PartOverwrite           = " Overwrite"     ;
+PartOverwriteByDelta    = " Overwrite by delta" ;
+PartNew                 = " SaveAsNew"     ;
+PartMapped              = " Mapped"        ;
+PartUnknown             = " Unknown"       ;
+DocumentAsNewRevision   = " New revision"  ;
+DocumentKeepExt         = " File document" ;
+PartAsNewVersion        = " New version"   ;
+PartAsNewVersionByDelta = " New version by delta"   ;
+VPDMObject			      = " Object coming from database" ;
+FilterVPDMObject		   = " Filtered product structure"  ;
+
+InstanceToBeReplaced		     = " Replaced"            ;
+InstanceToBeMovedReplaced	  = " Replaced with move"  ;
+InstanceToBeVersionned		  = " Versioned"           ;
+InstanceToBeMovedVersionned  = " Versioned with move" ;
+InstanceToBeRevised          = " Representation modified"           ;
+InstanceToBeMovedRevised     = " Representation modified with move" ;
+
+MovedInhibited               = " Moved will be ignored"               ;
+NewInhibited                 = " New will be ignored"                 ;
+DeletedInhibited             = " To be deleted will be ignored"       ;
+InhibitedToBeReplaced        = " Replaced will be ignored"            ;
+InhibitedToBeMovedReplaced   = " Replaced with move will be ignored"  ;
+InhibitedToBeVersionned      = " Versioned will be ignored"           ;
+InhibitedToBeMovedVersionned = " Versioned with move will be ignored" ;
+InhibitedToBeRevised         = " Representation modified will be ignored"            ;
+InhibitedToBeMovedRevised    = " Representation modified with move will be ignored" ;
+
+// ---  *  Cover Session management
+
+WRN_RecEmptyRecObjList            = "Empty Reconciliation Object List.\nProblem generating Reconciliation Objects." ;
+WRN_RecEmptyRecObjList.Generic    = "Empty Reconciliation Object List.\nProblem generating Reconciliation Objects." ;
+
+WRN_RecExeNotAuthorised           = "Execution is not authorized as one or more of the reconciliation documents have incomplete data." ;
+WRN_RecExeNotAuthorised.Generic   = "Execution is not authorized as one or more of the reconciliation documents have incomplete data." ;
+
+WRN_RecMemoryAllocation           = "Memory Allocation failed." ;
+WRN_RecMemoryAllocation.Generic   = "Memory Allocation failed." ;
+
+WRN_RecObjNoEnv                   = "Environment for one of the objects has not been set properly.";
+WRN_RecObjNoEnv.Generic           = "Environment for one of the objects has not been set properly.";
+WRN_RecObjNoEnv.Suggestion        = "Please retry setting the Environment.";
+
+WRN_DocLinkResolution             = " Unable to force link resolution on document to be saved."  ;
+WRN_DocLinkResolution.Generic     = " Unable to force link resolution on document to be saved."  ;
+
+WRN_RecInvalidDoc                 = "Unable to retrieve CATIA document information during Reconciliation operation.";
+WRN_RecInvalidDoc.Generic         = "Unable to retrieve CATIA document information during Reconciliation operation.";
+
+WRN_RecInvalidDocEnv              = "Unable to retrieve CATIDocEnvironment interface while Execution.";
+WRN_RecInvalidDocEnv.Generic      = "Unable to retrieve CATIDocEnvironment interface while Execution.";
+
+WRN_RecFetchPDMReconcileIntfPb         = "Unable to retrieve CATIPDMReconcileScm Interface from the /p1 Doc Environment.";
+WRN_RecFetchPDMReconcileIntfPb.Generic = "Unable to retrieve CATIPDMReconcileScm Interface from the Current Doc Environment.";
+WRN_RecFetchPDMReconcileIntfPb.Detail  = "DocEnv : /p1";
+
+WRN_SynchroWpDocumentLoadFailed         = "Not able to load all documents required for PVR synchronization.";
+WRN_SynchroWpDocumentLoadFailed.Generic = "Not able to load all documents required for PVR synchronization.";
+
+WRN_RecReconcileNotAuthorized            = "Reconciliation function is not authorized...";
+WRN_RecReconcileNotAuthorized.Generic    = "Reconciliation function is not authorized.";
+WRN_RecReconcileNotAuthorized.Suggestion = "Check your licensing settings.";
+
+WRN_RecDesignModePb               = "Warning: Some information have been opened in visu mode.\n Reconciliator will complete load to be in design mode.";
+WRN_RecDesignModePb.Generic       = "Warning: Some information have been opened in visu mode.\n Reconciliator will complete load to be in design mode.";
+
+WRN_RecRootDocPointedBy           = "Warning: Root document for reconciliation is pointed in CATIA session by /p1.";
+WRN_RecRootDocPointedBy.Generic   = "Warning: Root document for reconciliation is pointed in CATIA session by another document.";
+WRN_RecRootDocPointedBy.Detail    = "pointed by /p1";
+WRN_RecRootDocPointedBy.Suggestion = "You should wonder about starting reconcilation from this other document.";
+
+WRN_RecNoPartFound                = "Not able to find a Product or a Part in /p1 document\n" ;
+WRN_RecNoPartFound.Generic        = "Not able to find a Product or a Part in specified document\n" ;
+WRN_RecNoPartFound.Detail         = "/p1";
+
+WRN_PartNameConflict              = "WARNING: Product View Synchronization will partially failed, because several Parts have the same part number /p1 (Probably several versions of same part).\n" ;
+WRN_PartNameConflict.Generic      = "WARNING: Product View Synchronization will partially failed, because several Parts have the same part number (Probably several versions of same part):\n" ;
+WRN_PartNameConflict.Detail       = "/p1";
+
+WRN_MappingAlreadyUsed            = "Cannot achieve mapping on /p1, because this PDM mapping is already used for object /p2.\n" ;
+WRN_MappingAlreadyUsed.Generic    = "Cannot achieve mapping because same PDM mapping is proposed for another object:\n" ;
+WRN_MappingAlreadyUsed.Detail     = "Mapping on /p1 refused due to /p2";
+
+WRN_MultipleAssembly              = "Reconciliator can not manage multiple assembly in the same session\n We have at least 2 assembly structures: /p1 and /p2\n 
+                                     It could happen in the following two cases:\n
+									   1- Inserting a contextual part in a product structure that was not its original context.\n
+									   2- Decativating a unique instance of a product from a product structure.\n" ;
+WRN_MultipleAssembly.Generic      = "Reconciliator can not manage multiple assembly in the same session\n We have at least 2 assembly structures.\n 
+                                     It could happen in the following two cases:\n
+									   1- Inserting a contextual part in a product structure that was not its original context.\n
+									   2- Decativating a unique instance of a product from a product structure.\n" ;	
+WRN_MultipleAssembly.Detail       = " Assembly structures in session: /p1 and /p2";
+									   								   
+WRN_EmptyAssembly                 = "Not able to manage an empty assembly structure.\n" ;
+WRN_EmptyAssembly.Generic         = "Not able to manage an empty assembly structure.\n" ;
+
+WRN_RecInvalidAccessToPart          = "Invalid access to CATIA information for Part /p1\n" ;
+WRN_RecInvalidAccessToPart.Generic  = "Invalid access to CATIA information for specified Part\n" ;
+WRN_RecInvalidAccessToPart.Detail   = "/p1";
+
+WRN_RecObjectNotFound             = "Not able to find in assembly structure Part /p1.\n" ;
+WRN_RecObjectNotFound.Generic     = "Not able to find in assembly structure.\n";
+WRN_RecObjectNotFound.Detail      = "/p1";
+
+WRN_ProxyButDocHere             = "Document /p1 is out of Reconciliation scope and will stay out of save scope because of some forced RELOAD rules.\n" ;
+WRN_ProxyButDocHere.Generic     = "Document is out of Reconciliation scope and will stay out of save scope because of some forced RELOAD rules.\n";
+WRN_ProxyButDocHere.Detail      = "/p1";
+WRN_ProxyButDocHere.Suggestion  = " You don't need to manage Reconciliation rule for this document";
+
+WRN_ContextProxyButDocHere             = "Document /p1 is the context of a contextual Part. It will be kept out of Reconciliation scope.\n" ;
+WRN_ContextProxyButDocHere.Generic     = "Document is the context of a contextual Part. It will be kept out of Reconciliation scope.\n";
+WRN_ContextProxyButDocHere.Detail      = "/p1 is the context of /p2";
+WRN_ContextProxyButDocHere.Suggestion  = " For reconciliating Contextual Part out of its context, only Reload rule is allowed";
+
+
+WRN_RecEnvNotFound                = "Unable to access to Environment /p1.";
+WRN_RecEnvNotFound.Generic        = "Unable to access to Environment";
+WRN_RecEnvNotFound.Detail         = "/p1";
+
+WRN_RecForbidDocumentMapping         = "Document mapping forbid due to incompatible document type\n (/p1 incompatible with /p2)\n" ;
+WRN_RecForbidDocumentMapping.Generic = "Document mapping forbid due to incompatible document type\n" ;
+WRN_RecForbidDocumentMapping.Detail  = "/p1 incompatible with /p2";
+
+// ---  *  Generic messages used by VPDM adapters
+
+WRN_RecNoRootAsmDefined           = "Root assembly not completely defined\nInternal error\n" ;
+WRN_RecNoRootAsmDefined.Generic   = "Root assembly not completely defined\nInternal error\n" ;
+
+WRN_RecPDMObjectAccess            = "Not able to find VPDM information for reconciliation of /p1 in a /p2 document\n" ;
+WRN_RecPDMObjectAccess.Generic    = "Not able to find VPDM information for reconciliation of object in a specified document\n" ;
+WRN_RecPDMObjectAccess.Detail     = "Object Name:/p1 Document Name:/p2";
+
+WRN_RecVPDMCompareFailed          = "Assembly comparison between CATIA view and VPDM view failed for /p1\n" ;
+WRN_RecVPDMCompareFailed.Generic  = "Assembly comparison between CATIA view and VPDM view failed for the given object\n" ;
+WRN_RecVPDMCompareFailed.Detail   = "Object Name:/p1";
+
+WRN_RecErrorVPMExpand             = "Not able to access product structure definition in VPDM repository:\n   /p1" ;
+WRN_RecErrorVPMExpand.Generic     = "Not able to access product structure definition in VPDM repository:\n" ;
+WRN_RecErrorVPMExpand.Detail      = "/p1";
+
+WRN_RecRelationNotFound           = "Inconsistent VPDM assembly structure view for part /p1\n" ;
+WRN_RecRelationNotFound.Generic   = "Inconsistent VPDM assembly structure view for the specified part. \n" ;
+WRN_RecRelationNotFound.Detail    = "/p1";
+
+WRN_RecInvalidPDMDefinition         = "Not able to find VPDM information on /p1.\n" ;
+WRN_RecInvalidPDMDefinition.Generic = "Not able to find VPDM information on specified object.\n" ;
+WRN_RecInvalidPDMDefinition.Detail  = "/p1";
+
+WRN_RecVpmNoConnection            = "No connection to /p1 system.\nPlease, connect manually to /p1 prior to rerun this operation.";
+WRN_RecVpmNoConnection.Generic    = "No connection to the specified system.";
+WRN_RecVpmNoConnection.Detail     = "/p1";
+WRN_RecVpmNoConnection.Suggestion = "Please, connect manually to the system prior to rerun this operation.";
+
+WRN_RecVpmNoRootClassForNewPRC            = "Impossible to create a new PRC in ENOVIA V5 VPM without a product class name.\nPlease, Valuate it using the R/T variable CV5_REC_EV5_ProductClassName" ;
+WRN_RecVpmNoRootClassForNewPRC.Generic    = "Impossible to create a new PRC in ENOVIA V5 VPM without a product class name." ;
+WRN_RecVpmNoRootClassForNewPRC.Suggestion = " Please, Valuate it using the R/T variable CV5_REC_EV5_ProductClassName" ;
+
+WRN_RecCurFullPubModeNotSupported          = "The activated filtering you currently use is not supported by your VPDM system or the release level of this VPDM system is insufficient for it\n" ; 
+WRN_RecCurFullPubModeNotSupported.Generic  = "The activated filtering you currently use is not supported by your VPDM system or the release level of this VPDM system is insufficient for it\n" ; 
+
+WRN_VPDMComparisonFailed = "Impossible to access to Product structure information." ;
+
+WRN_RecLockAccess = "Warning: Not able to access to lock information." ;
+
+WRN_RecVPDMInconsistentInExpand          = "No able to access to VPDM assembly structure, one /p2 inconsistency has been detect on /p1.\n" ;
+WRN_RecVPDMInconsistentInExpand.Generic  = "No able to access to VPDM assembly structure, some inconsistencies have been detected:\n" ;
+WRN_RecVPDMInconsistentInExpand.Detail   = "/p2 inconsistency on /p1";
+
+// ---  *  To manage NLS definition of VPDM expand inconsistencies:
+
+II_Part       = "Part not found on instance"                 ;
+Doc_FatherII  = "Father part not found on document"          ;
+II_FatherII   = "Father part not found on instance"          ;
+II_AR         = "Assembly Relation not found for instance"   ;
+AR_FatherPart = "Father part not found on Assembly Relation" ;
+AR_Part       = "Part not found on Assembly Relation"        ;
+
+// ---    Coming from V5R10
+
+WRN_RecInvalidCriteriaInput                = "Criteria list found invalid.\nPlease retry launching Reconciliation.";
+WRN_RecInvalidCriteriaInput.Generic        = "Criteria list found invalid.";
+WRN_RecInvalidCriteriaInput.Suggestion     = "Please retry launching Reconciliation.";
+
+WRN_RecInvalidCharacteristicInput = "Characteristic list found invalid.\nPlease retry launching Reconciliation.";
+WRN_RecInvalidCharacteristicInput.Generic  = "Characteristic list found invalid.";
+WRN_RecInvalidCharacteristicInput.Suggestion = "Please retry launching Reconciliation.";
+
+WRN_RecObjIncomplete              = "One or more of the Reconciliation Documents are incomplete.";
+WRN_RecObjIncomplete.Generic      = "One or more of the Reconciliation Documents are incomplete.";
+
+WRN_RecNewEnvListPb               = "Unable to create a new Environment list.\nThe new allocation failed.";
+WRN_RecNewEnvListPb.Generic       = "Unable to create a new Environment list.\nThe new allocation failed.";
+
+WRN_RecResetPDMDocPb              = "Problem resetting PDM Documents during reconcile execution.";
+WRN_RecResetPDMDocPb.Generic      = "Problem resetting PDM Documents during reconcile execution.";
+
+WRN_RecNoDocumentAccess           = "Not able to access to /p1 document information\n" ;
+WRN_RecNoDocumentAccess.Generic   = "Not able to access to the specified document information\n" ;
+WRN_RecNoDocumentAccess.Detail    = "/p1";
+
+WRN_RecInvalidRule                = "A non authorized rule has been selected for /p1 document named /p2\n" ;
+WRN_RecInvalidRule.Generic        = "A non authorized rule has been selected for document\n" ;
+WRN_RecInvalidRule.Detail         = "/p1";
+
+// ---> Coming from CATRecVPM1Msg in CDMA Interoperability
+
+WRN_RecVpmInvalidRule             = "Invalid rule for this object. \nThe reconciliation rule /p1 chosen for the object is not compatible with its type /p2";
+WRN_RecVpmInvalidRule.Generic     = "Invalid rule for this object. \nThe reconciliation rule chosen for the object is not compatible with its type ";
+WRN_RecVpmInvalidRule.Detail      = "Reconciliation rule:/p1 Object type: /p2";
+
+WRN_RecVpmCharacDBAccessKO                = "Database access to characteristics failed. \nNo comparison of characteristics available.";
+WRN_RecVpmCharacDBAccessKO.Generic        = "Database access to characteristics failed. \nNo comparison of characteristics available.";
+
+WRN_RecVpmCharacCV5AccessKO               = "In session access to characteristics failed. \nNo comparison of characteristics available.";
+WRN_RecVpmCharacCV5AccessKO.Generic       = "In session access to characteristics failed. \nNo comparison of characteristics available.";
+
+WRN_RecVpmReloadDiffUuids                = "Reload of a different document not allowed.\nThe reload operation is only authorized if the document in session \nis replaced by a PDM document of same origin (identical internal UUIDs).";
+WRN_RecVpmReloadDiffUuids.Generic        = "Reload of a different document not allowed.\nThe reload operation is only authorized if the document in session \nis replaced by a PDM document of same origin (identical internal UUIDs).";
+
+WRN_RecVpmReloadForceDiffUuids            = "The by-pass option forcing the ability to do a reload with inconsistent documents (different internal uuids) is activated in your Catia job. \nCurrently, the document /p1 \nwith a different internal UUID than the old one in session has beeing loaded from the PDM. \nAS A CONSEQUENCE, SOME LINKS WHICH IMPLIED THE RELOADED DOCUMENT HAVE PROBABLY BEEING LOST ! \nRecreate them and review in detail your session content before saving any data in the PDM. ";     
+WRN_RecVpmReloadForceDiffUuids.Generic    = "The by-pass option forcing the ability to do a reload with inconsistent documents (different internal uuids) is activated in your Catia job. \nCurrently, the specified document \nwith a different internal UUID than the old one in session has beeing loaded from the PDM. \nAS A CONSEQUENCE, SOME LINKS WHICH IMPLIED THE RELOADED DOCUMENT HAVE PROBABLY BEEING LOST ! \nRecreate them and review in detail your session content before saving any data in the PDM. ";
+WRN_RecVpmReloadForceDiffUuids.Detail     = "/p1";
+WRN_RecVpmReloadForceDiffUuids.Suggestion = "Please recreate the links and review in detail your session content before saving any data in the PDM.";
+
+WRN_RecVpmReloadDocEditorToClose            = "Reload(s) could not remove from session replaced document(s). \nThese document(s) with prefix RecPrepareReloadDocToClose_ in File-Desk are held by editors and must be closed manually. \nThis is to be done prior to save your session in ENOVIA VPM. "; 
+WRN_RecVpmReloadDocEditorToClose.Generic    = "Reload(s) could not remove from session replaced document(s). \nThese document(s) with prefix RecPrepareReloadDocToClose_ in File-Desk are held by editors and must be closed manually. \nThis is to be done prior to save your session in ENOVIA VPM. "; 
+WRN_RecVpmReloadDocEditorToClose.Suggestion = "Please close the document(s) with prefix RecPrepareReloadDocToClose_ in File-Desk manually before saving your session in ENOVIA VPM";
+
+WRN_RecVpmInternalError           = "Internal error.\n"; 
+WRN_RecVpmInternalError.Generic   = "Internal error.\n"; 
+
+WRN_RecVpmSimpleQueryInvalid              = "These criteria could not be executed on this type of entity."; 
+WRN_RecVpmSimpleQueryInvalid.Generic      = "These criteria could not be executed on this type of entity."; 
+
+WRN_RecVpmNotDocumentSupported            = "You have selected a document which is not supported by reconciliation (/p1)	."; 
+WRN_RecVpmNotDocumentSupported.Generic    = "You have selected a document which is not supported by reconciliation 	."; 
+WRN_RecVpmNotDocumentSupported.Detail     = "/p1";
+
+WRN_RecVpmCriteriaNotEnoughArg            = "Selected criterion request /p1 arguments." ;
+WRN_RecVpmCriteriaNotEnoughArg.Generic    = "Selected criterion request specific number of arguments." ;
+WRN_RecVpmCriteriaNotEnoughArg.Detail     = "Number of Arguments:/p1";
+
+WRN_RecVpmCommandAborted                  = "Access to ENOVIA VPM failed (/p1 command aborted).\nPlease, check that your VPM application or VPM server is still running."; 
+WRN_RecVpmCommandAborted.Generic          = "Access to ENOVIA VPM failed (Given command aborted).\nPlease, check that your VPM application or VPM server is still running."; 
+WRN_RecVpmCommandAborted.Detail           = "command: /p1";
+WRN_RecVpmCommandAborted.Suggestion       = "Please, check that your VPM application or VPM server is still running.";
+
+WRN_RecVpmDecodeXML               = "Internal error.\nNot able to decode XML stream for VPM request /p1." ;
+WRN_RecVpmDecodeXML.Generic       = "Internal error.\nNot able to decode XML stream for VPM request." ;
+WRN_RecVpmDecodeXML.Detail        = "/p1";   
+
+// ---  *  Support of Product structure filtering
+
+WRN_RecAttributeFilter            = "Not able to set filter on attribute \p1 on object type \p2\n" ;
+WRN_RecAttributeFilter.Generic    = "Not able to set filter on a specific attribute on a specified object type \n" ;
+WRN_RecAttributeFilter.Detail     = "Attribute name:\p1 ,Object type:\p2";
+
+WRN_RecInvalidAccessToHistoId     = "Access to ENOVIA V5 VPM server to check history information failed.\nPlease, check that your server is still running."; 
+WRN_RecInvalidAccessToHistoId.Generic     = "Access to ENOVIA V5 VPM server to check history information failed."; 
+WRN_RecInvalidAccessToHistoId.Suggestion = "Please, check that your server is still running.";
+
+// ---  *  Support of Publication reconciliation
+
+WRN_RecInvalidAccessToPublication = "Access to ENOVIA V5 VPM server to access to Publication information failed.\nPlease, check that your server is still running."; 
+WRN_RecInvalidAccessToPublication.Generic = "Access to ENOVIA V5 VPM server to access to Publication information failed."; 
+WRN_RecInvalidAccessToPublication.Suggestion = "Please, check that your server is still running.";
+
+// ---  *  Protection against Product Specification (Product instance are not supported)
+
+WRN_RecProductSpecNotSupported            = "ENOVIA V5 VPML product structure with Product Instances are not supported in Reconciliator\n Assembly node \p2 is mapped on a Product Specificiation."; 
+WRN_RecProductSpecNotSupported.Generic    = "ENOVIA V5 VPML product structure with Product Instances are not supported in Reconciliator:"; 
+WRN_RecProductSpecNotSupported.Detail     = "  . Assembly node \p2 is mapped on a Product Specificiation.";
+WRN_RecProductSpecNotSupported.Suggestion = "Please, delete the branch in CATIA and use product structure filtering to reconcile.";
+
+// ---  *  Workpackage synchronization 
+
+WRN_SyncInvalidServer = "ENOVIA V5 VPM server does support Workpackage Synchronization (older that V5R17SP4).\nPlease, update the server code to an upper level."; 
+WRN_SyncInvalidServer.Generic = "ENOVIA V5 VPM server does support Workpackage Synchronization (older that V5R17SP4)."; 
+WRN_SyncInvalidServer.Suggestion = "Please, update the server code to an upper level."; 
+
+// ---  *  Messages dedicated to customization through XML
+
+WRN_ConvertXMLFailed              = "Not able to run XML convertion with program /p1 required for customization\n" ;
+WRN_ConvertXMLFailed.Generic      = "Not able to run XML convertion with the specified program required for customization\n" ;
+WRN_ConvertXMLFailed.Detail       = "Program Name:/p1";
+
+WRN_InvalidCustomerCriterion         = "Customer criterion /p1 not correctly defined\n  (Mode: /p2 and Parameter: /p3)\n" ;
+WRN_InvalidCustomerCriterion.Generic = "Customer criterion not correctly defined" ;
+WRN_InvalidCustomerCriterion.Detail  = "Criterion value:/p1, Mode: /p2 and Parameter: /p3";
+
+// ---  *  Messages dedicated to Workpackage synchronization
+
+WRN_SyncPublicationExposedEnv         = "Not able to force /p1 to be saved as a workpackage in VPDM system.\n" ;
+WRN_SyncPublicationExposedEnv.Generic = "Not able to force a given object to be saved as a workpackage in VPDM system.\n" ;
+WRN_SyncPublicationExposedEnv.Detail  = "/p1";
+
+WRN_SyncNoCapturePvsUuid          = "Not able to memorized Filter Capture information on product /p1.\n" ;
+WRN_SyncNoCapturePvsUuid.Generic  = "Not able to memorized Filter Capture information on specified product.\n" ;
+WRN_SyncNoCapturePvsUuid.Detail   = "Product Name:/p1";
+
+WRN_SyncNoCapturePrcUuid          = "Not able to memorized Product Root Class information on product /p1.\n" ;
+WRN_SyncNoCapturePrcUuid.Generic  = "Not able to memorized Product Root Class information on specified product:\n" ;
+WRN_SyncNoCapturePrcUuid.Detail   = "Product Name:/p1";
+
+WRN_SyncNoCapturePartUuid         = "Not able to memorized Part version or instance information on product /p1.\n" ;
+WRN_SyncNoCapturePartUuid.Generic = "Not able to memorized Part version or instance information on specified product.\n" ;
+WRN_SyncNoCapturePartUuid.Detail  = "Product Name:/p1";
+
+WRN_SyncPVRCreationFailed         = "Product View Result creation command failed.\n" ;
+WRN_SyncPVRCreationFailed.Generic = "Product View Result creation command failed.\n" ;
+
+WRN_SyncSynchronizationFailed         = "Product View Result Synchronization failed.\n" ;
+WRN_SyncSynchronizationFailed.Generic = "Product View Result Synchronization failed.\n" ;
+
+WRN_SyncNotAbleToAttachRep         = "Not able to associate document /p1 as default 3D representation.\n" ;
+WRN_SyncNotAbleToAttachRep.Generic = "Not able to associate the specified document as default 3D representation.\n" ;
+WRN_SyncNotAbleToAttachRep.Detail  = "Document Name:/p1";
+
+WRN_SyncNotAuthorized             = "Product View Result synchronization not authorized in this environment.\n" ;
+WRN_SyncNotAuthorized.Generic     = "Product View Result synchronization not authorized in this environment.\n" ;
+WRN_SyncNotAuthorized.Suggestion  = "Try to set appropriate environment.\n" ;
+
+WRN_SyncComparisonFailed          = "Product View Result synchronization comparison failed.\n" ;
+WRN_SyncComparisonFailed.Generic  = "Product View Result synchronization comparison failed.\n" ;
+
+WRN_SyncNotNeeded                 = "Workpackage is up to date, Synchronization apply is not needed.\n" ;
+WRN_SyncNotNeeded.Generic         = "Workpackage is up to date, Synchronization apply is not needed.\n" ;
+
+ERR_SyncFailedInLockCheck            = "Product View Result synchronization failed in Lock check on /p1.\n" ;
+ERR_SyncFailedInLockCheck.Generic    = "Product View Result synchronization failed in Lock check.\n" ;
+ERR_SyncFailedInLockCheck.Detail     = "/p1 " ;
+ERR_SyncFailedInLockCheck.Suggestion = "Confirm if synchonization of Nested Product View Result is intended. Lock the unlocked products for nested Product View Result and re-try synchonization." ;
+
+ERR_SyncFailedInInstanceCreation            = "Synchronization failed in creation of instance" ;
+ERR_SyncFailedInInstanceCreation.Generic    = "Synchronization failed in creation of instance.\n" ;
+ERR_SyncFailedInInstanceCreation.Detail     = "Synchronization failed in creation of instance /p1 failed under /p2.\n" ;
+ERR_SyncFailedInInstanceCreation.Suggestion = "Confirm if new instance with same name is not already present in Assembly.\n " ; 
+
+ERR_NoPVROnMaturityStatus            = "Product View Result synchronization failed in Maturity check on /p1.\n" ;
+ERR_NoPVROnMaturityStatus.Generic    = "Product View Result synchronization failed in Maturity check.\n" ;
+ERR_NoPVROnMaturityStatus.Detail     = "/p1 " ;
+ERR_NoPVROnMaturityStatus.Suggestion = "Confirm if synchonization of Nested Product View Result is intended. Confirm the maturity of products for nested Product View Result and re-try synchonization." ;
+
+WRN_OneFlexibleInstanceFound            = "At least on instance of /p1 is declared as a Flexible instance.\nThe move operation will not be visible on this instance." ;
+WRN_OneFlexibleInstanceFound.Generic    = "Some instances are declared as a Flexible instances.\nThe move operation will not be visible for those instances." ;
+WRN_OneFlexibleInstanceFound.Detail     = "* Instance /p1 child of instance /p2.";
+WRN_OneFlexibleInstanceFound.Suggestion = "To get the exact positioning, you need to switch father instance from flexible to rigid.\n" ;
+
+WRN_SyncPVRInvalidName         = "Invalid Product View Result name, will be automatically renamed.\n" ;
+WRN_SyncPVRInvalidName.Generic = "Invalid Product View Result name, will be automatically renamed:\n" ;
+WRN_SyncPVRInvalidName.Detail  = "Renamed in /p1";
+
+WRN_PVSNameEmpty			 = "No name defined for Product View Specification name.\nProduct View Specification creation failed.";
+WRN_PVSNameEmpty.Generic = "No name defined for Product View Specification name.\nProduct View Specification creation failed.";
+
+WRN_PVRNameTooLong         = "Too long name /p1 for Product View Specification name. It should not exceed 40 characters \nProduct View Result creation failed. ";
+WRN_PVRNameTooLong.Generic = "Too long name for Product View Specification name. It should not exceed Max Number characters \nProduct View Result creation failed. ";
+WRN_PVRNameTooLong.Detail  = "/p1.";
+WRN_PVRNameTooLong.Suggestion="Get your Product View Specification name shorter !";
+
+ERR_SyncComparaisonFailedOnFilteredRoot            = "Product View Result root part /p1 is not found in assembly /p2 using Filter capture /p3.\n" ;
+ERR_SyncComparaisonFailedOnFilteredRoot.Suggestion = "Root Part of the Product View Result is probably no more in assembly scope due to versionning or to filtering." ;
+
+ERR_SyncComparaisonFailedOnRoot                    = "Product View Result root part /p1 is not found in assembly /p2.\n" ;
+ERR_SyncComparaisonFailedOnRoot.Suggestion         = "Root Part of the Product View Result is probably no more in assembly scope due to versionning." ;
+
+// --- * Message for Product view result load failed in case of PVR creation from existing one
+
+WRN_SyncPVRCreationPreparationError         = "Product View Result document creation preparation failed.\n";
+WRN_SyncPVRCreationPreparationError.Generic = "Product View Result document creation preparation failed.\n";
+
+WRN_SyncPVRLoadError         = "Loading existing Product View Result document failed.\n" ;
+WRN_SyncPVRLoadError.Generic = "Loading existing Product View Result document failed.\n" ;
+
+// --- * Messages for Product view result creation preparation and synchronization operation
+
+WRN_SyncPVRSynchronizationError         = "Product View Result synchronization after creation failed.\n" ;
+WRN_SyncPVRSynchronizationError.Generic = "Product View Result synchronization after creation failed.\n" ;
+
+// --- * Message for Product view result save of new PVR failed at PVR creation
+
+WRN_SyncPVRSaveError         = "Product View Result /p1 could not be saved.\n" ;
+WRN_SyncPVRSaveError.Generic = "Product View Result /p1 could not be saved.\n" ;
+
+// --- * Message to manage inconstency with Nested PVR during synchronization 
+
+ERR_SyncNestedPVRWithDiffPvs                 = "PVR /p1 (part /p2) use an Filter Capture different to the one of the Root PVR."     ;
+ERR_SyncNestedPVRWithDiffPvs.Generic         = "At least one nested PVR use a different Filter Capture than the one of the root PVR:" ;
+ERR_SyncNestedPVRWithDiffPvs.Detail          = "Nested PVR /p1 (Part /p2)" ;
+ERR_SyncNestedPVRWithDiffPvs.Suggestion      = "Cut instance of this nested PVR and run again synchronization." ;
+
+ERR_SyncNestedPVRWithPvsOnlyOnPvr            = "PVR /p1 (part /p2) use an Filter Capture, but the Root PVR is not filtered."      ;
+ERR_SyncNestedPVRWithPvsOnlyOnPvr.Generic    = "At least one nested PVR use an Filter Capture, but the Root PVR is not filtered:" ;
+ERR_SyncNestedPVRWithPvsOnlyOnPvr.Detail     = "Nested PVR /p1 (Part /p2)" ;
+ERR_SyncNestedPVRWithPvsOnlyOnPvr.Suggestion = "Cut instance of this nested PVR and run again synchronization." ;
+
+ERR_SyncNestedPVRWithoutPvs                  = "The root PVR use an Filter Capture and PVR /p1 (part /p2) does not."      ;
+ERR_SyncNestedPVRWithoutPvs.Generic          = "The root PVR use an Filter Capture and at least one nested PVR does not:" ;
+ERR_SyncNestedPVRWithoutPvs.Detail           = "Nested PVR /p1 (Part /p2)" ;
+ERR_SyncNestedPVRWithoutPvs.Suggestion       = "If you select Apply, we will link those nested PVRs to the current Filter Capture of this root PVR." ;
+
+WRN_SyncNestedPVRWithDiffPvs                 = "PVR /p1 (part /p2) use an Filter Capture different to the one of the Root PVR."     ;
+WRN_SyncNestedPVRWithDiffPvs.Generic         = "At least one nested PVR use a different Filter Capture than the one of the root PVR:" ;
+WRN_SyncNestedPVRWithDiffPvs.Detail          = "Nested PVR /p1 (Part /p2)" ;
+WRN_SyncNestedPVRWithDiffPvs.Suggestion      = "If you select Apply, we will link those nested PVRs to the current Filter Capture of this root PVR." ;
+
+WRN_SyncNestedPVRWithPvsOnlyOnPvr            = "PVR /p1 (part /p2) use an Filter Capture, but the Root PVR is not filtered."      ;
+WRN_SyncNestedPVRWithPvsOnlyOnPvr.Generic    = "At least one nested PVR use an Filter Capture, but the Root PVR is not filtered:" ;
+WRN_SyncNestedPVRWithPvsOnlyOnPvr.Detail     = "Nested PVR /p1 (Part /p2)" ;
+WRN_SyncNestedPVRWithPvsOnlyOnPvr.Suggestion = "If you select Apply, we will link those nested PVRs to the current Filter Capture of this root PVR." ;
+
+WRN_SyncNestedPVRWithoutPvs                  = "The root PVR use an Filter Capture and PVR /p1 (part /p2) does not."      ;
+WRN_SyncNestedPVRWithoutPvs.Generic          = "The root PVR use an Filter Capture and at least one nested PVR does not:" ;
+WRN_SyncNestedPVRWithoutPvs.Detail           = "Nested PVR /p1 (Part /p2)" ;
+WRN_SyncNestedPVRWithoutPvs.Suggestion       = "If you select Apply, we will link those nested PVRs to the current Filter Capture of this root PVR." ;
+
+// ---  *  Messages dedicated to print comparison results
+
+Msg_PrintRootInstance         = "         Instance: /p1\n"                ;
+Msg_PrintInstanceNotIdentical = "> ERROR on Instance: /p1 Compare: /p2\n" ;
+Msg_PrintIntermediateInstance = "> Instance: /p1 Compare: /p2\n"          ;
+
+Msg_NoPvrSynchronizationRequiredMsg   = "Workpackage assembly structure is up to date, Synchronization apply is not needed\n" ;
+Msg_PvrSynchronizationOnNewVersionMsg = "Product View Result will be synchronized on another Part.\n" ;
+Msg_PvrAttachToMultiplePVMsg          = "Product View Result is linked to several Parts.\n (You probably need to revise your Product View result document to be able to synchronize on last version.)\n" ;
+Msg_PvrNotAttachToItsPV               = "Product View Result not links to any Part." ;
+Msg_PvrReconciliationNotAuhorized     = "/p1 is a Product View Result that could not be reconciled on this level." ;
+
+// ---  *  Operator for Product structure filtering
+
+FilteringOperator.LIKE    = "Like"     ;
+FilteringOperator.EQ      = "="        ;
+FilteringOperator.NOTLIKE = "Not Like" ;
+FilteringOperator.NOTEQ   = "!="       ;
+FilteringOperator.GT      = ">"        ;
+FilteringOperator.GTEQ    = ">="       ;
+FilteringOperator.LT      = "<"        ;
+FilteringOperator.LTEQ    = "<="       ;
+
+// --- Error message for XML Reporting generation
+
+WarningOutputDirPathUnknown.Message = "Output directory path is not correct" ;
+WarningInputXSLPathUnknown.Message  = "Input XSL path is not correct"        ;
+WarningNoXLSFile.Message            = "Input XSL file not found"             ;
+ErrorGeneratingReport.Message       = "Error during XML report generation"   ;
+
+// --- Warning message: Enable to advice end-user that rule is not compatible with VPDM object status.
+
+WRN_OverwriteWithNoAutomaticLock            = "/p2 rule has been selected for /p1 which is not locked (automatic lock acquisition is inhibited)." ;
+WRN_OverwriteWithNoAutomaticLock.Generic    = "Selected rule implies an update in ENOVIA for an object which is not locked (automatic lock acquisition is inhibited)." ;
+WRN_OverwriteWithNoAutomaticLock.Detail     = "/p2 for object /p1.";
+WRN_OverwriteWithNoAutomaticLock.Suggestion = "Change rule or lock object before save." ;
+
+WRN_OverwriteWithLockByOther            = "/p2 rule has been selected for /p1 which is locked by /p3." ;
+WRN_OverwriteWithLockByOther.Generic    = "Selected rule implies an update in ENOVIA for an object which is locked by another user." ;
+WRN_OverwriteWithLockByOther.Detail     = "/p2 for object /p1 locked by /p3.";
+WRN_OverwriteWithLockByOther.Suggestion = "Change rule." ;
+
+WRN_NoLockInformation                   = "Lock information is not available." ;
+WRN_NoLockInformation.Generic           = "No Lock information is available for /p1." ;
+WRN_NoLockInformation.Detail            = "No Lock information is available for /p1.";
+WRN_NoLockInformation.Suggestion        = "Query again." ;
+
+WRN_OverwriteWithFrozenStatus            = "/p2 rule has been selected for /p1 which is frozen." ;
+WRN_OverwriteWithFrozenStatus.Generic    = "Selected rule implies an update in ENOVIA for an object which is frozen." ;
+WRN_OverwriteWithFrozenStatus.Detail     = "/p2 for object /p1.";
+WRN_OverwriteWithFrozenStatus.Suggestion = "Change rule." ;
+
+WRN_NoMaturityInformation                   = "Maturity status information is not available." ;
+WRN_NoMaturityInformation.Generic           = "No Maturity status information is available for /p1." ;
+WRN_NoMaturityInformation.Detail            = "No Maturity status information is available for /p1.";
+WRN_NoMaturityInformation.Suggestion        = "Query again." ;
+
+ERR_OverwriteWithRemoteSiteObject            = "/p2 rule has been selected for /p1 which is not owned by current site /p3." ;
+ERR_OverwriteWithRemoteSiteObject.Generic    = "Selected rule implies an update in ENOVIA for an object which is not owned by current site." ;
+ERR_OverwriteWithRemoteSiteObject.Detail     = "/p2 for object /p1 not owned by site /p3.";
+ERR_OverwriteWithRemoteSiteObject.Suggestion = "Change rule." ;
+
+WRN_NoOwnershipInformation                   = "Site Ownership information is not available." ;
+WRN_NoOwnershipInformation.Generic           = "No Site Ownership information is available for /p1." ;
+WRN_NoOwnershipInformation.Detail            = "No Site Ownership information is available for /p1.";
+WRN_NoOwnershipInformation.Suggestion        = "Query again." ;
+
+ERR_NoPartVersionAssociatedToDoc            = "No Part Version is associated to the Document Revision /p1." ;
+ERR_NoPartVersionAssociatedToDoc.Generic    = "No Part Version is associated to the Document Revision." ;
+ERR_NoPartVersionAssociatedToDoc.Detail     = "No Part Version is associated to the Document Revision /p1." ;
+ERR_NoPartVersionAssociatedToDoc.Suggestion = "No Part Version is associated to the Document Revision." ;
+
+ERR_SharedRepresentation            = "The shape document /p1 is shared by 2 different parts /p2 and /P3." ;
+ERR_SharedRepresentation.Generic    = "A shape document is is shared by 2 different parts." ;
+ERR_SharedRepresentation.Detail     = "/p1 shared by /p2 and /p3" ;
+ERR_SharedRepresentation.Suggestion = "Such assembly cannot be reconciliated. Please duplicate shape doc to avoid shape sharing" ;
+
+
+WRN_RecMappingPersistMismatch            = "CATIA reference /p1 is declared as Structure Exposed, but mapped in PDM on /p2, which is publication exposed ??." ;
+WRN_RecMappingPersistMismatch.Generic    = "Persistency mismatch in the mapping." ;
+WRN_RecMappingPersistMismatch.Detail     = "/p1 (Structure Exposed) mapped on /p2 (Publication Exposed)." ;
+WRN_RecMappingPersistMismatch.Suggestion = "Check the mapping of this entity. Note Such mapping will prevent the 'Reload' reconcilation Rule on this node." ;
+
+
+ERR_NotAbleToReadPVS            = "Filtered Capture associated to current PVR cannot be not found in ENOVIA.";
+ERR_NotAbleToReadPVS.Generic    = "Filtered Capture associated to current PVR cannot be not found in ENOVIA.";
+ERR_NotAbleToReadPVS.Detail     = "";
+ERR_NotAbleToReadPVS.Suggestion = "It seems the Filter Capture associated to PVR has been deleted.";
+
+
+INF_RecRefreshARWithoutPDMId            = "Instance /p1 under reference /p2 exists in CATIA but doesn't exist in PDM, so it cannot be reloaded and it is kept as New.";
+INF_RecRefreshARWithoutPDMId.Generic    = "One instance exists in CATIA but doesn't exist in PDM, so it cannot be reloaded and it is kept as New.";
+INF_RecRefreshARWithoutPDMId.Detail     = "First level instance /p1 under reference /p2.";
+INF_RecRefreshARWithoutPDMId.Suggestion = "Parent Reference may be considered as modified, even reloaded.";

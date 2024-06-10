@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT Report (Report_Body, Report_Support*)>
+<!ELEMENT Report_Body (Report_Title?, Report_StyleSheet?, Report_Attribute+)>
+<!ELEMENT Report_Support (Report_Query*, Report_Package*, Report_Attribute_Program_Library*, Report_V5_Environment*)>
+<!--====================================================================  -->
+<!-- Report_Title                        ==============================================  -->
+<!--====================================================================  -->
+<!-- it could be integes for (column,row) specification as in EXCEL application                   -->
+<!ELEMENT Report_Title EMPTY>
+<!ATTLIST Report_Title
+	Title CDATA #REQUIRED
+>
+<!--====================================================================  -->
+<!-- Report_StyleSheet    ==============================================  -->
+<!--====================================================================  -->
+<!--                                                                      -->
+<!ELEMENT Report_StyleSheet EMPTY>
+<!ATTLIST Report_StyleSheet
+	Path CDATA #REQUIRED
+>
+<!--====================================================================  -->
+<!-- Report_Attribute                 ==============================================  -->
+<!--====================================================================  -->
+<!-- The attribute columns is ordered according to the order of the attribute entries in         -->
+<!-- the XML                                                                                                                            -->
+<!ELEMENT Report_Attribute EMPTY>
+<!ATTLIST Report_Attribute
+	Field_Name CDATA #REQUIRED
+	Field_Type (attribute | program | system | expr_str | expr_int | expr_dbl) #REQUIRED
+	Field_Label CDATA #REQUIRED
+	Field_Operation (group_by | sum | both | none) #IMPLIED
+	Field_Sort (yes | no) #IMPLIED
+>
+<!--====================================================================  -->
+<!-- Report_Query    ======================================================  -->
+<!--====================================================================  -->
+<!ELEMENT Report_Query EMPTY>
+<!ATTLIST Report_Query
+	Query_Name CDATA #IMPLIED
+	Query_Text CDATA #IMPLIED
+>
+<!--====================================================================  -->
+<!-- Report_Packages  - user program packages  ===============================  -->
+<!--====================================================================  -->
+<!ELEMENT Report_Package EMPTY>
+<!ATTLIST Report_Package
+	Package_Name CDATA #IMPLIED
+>
+<!--====================================================================  -->
+<!-- Report_Program_Library ===============================================  -->
+<!--====================================================================  -->
+<!ELEMENT Report_Attribute_Program_Library EMPTY>
+<!ATTLIST Report_Attribute_Program_Library
+	Library_Name CDATA #REQUIRED
+>
+<!--====================================================================  -->
+<!-- Report_V5_Environment  ===============================================  -->
+<!--====================================================================  -->
+<!-- Object_Type is the type associated with the above attributes                                       -->
+<!ELEMENT Report_V5_Environment EMPTY>
+<!ATTLIST Report_V5_Environment
+	Object_Type CDATA #REQUIRED
+>

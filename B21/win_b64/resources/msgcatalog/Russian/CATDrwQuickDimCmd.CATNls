@@ -1,0 +1,179 @@
+//=====================================================================================
+//                                     CNEXT - CXRn
+//                          COPYRIGHT DASSAULT SYSTEMES 1998 
+//-------------------------------------------------------------------------------------
+// FILENAME    :    CATDrwQuickDimCmd
+// LOCATION    :    DraftingIntCommands
+// AUTHOR      :    jmt
+// BUT         :    Commande de creation de cote
+// DATE        :    ??.10.1998
+//-------------------------------------------------------------------------------------
+// DESCRIPTION :    
+//-------------------------------------------------------------------------------------
+// COMMENTS    :    
+//-------------------------------------------------------------------------------------
+// MODIFICATIONS     user  date        purpose
+//    HISTORY        ----  ----        -------
+//      01           fgx   04.10.2000  Rearchitecturation CXR6
+//=====================================================================================
+
+//******************************************************************************
+// Command
+//******************************************************************************
+CATDrwQuickDimCmd.UndoTitle="Создание размера (размеров)";
+
+//******************************************************************************
+// Agents
+//******************************************************************************
+CATDrwQuickDimCmd._agentSet.UndoTitle = "Выбор";
+
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+// Interactive Dimension Cmd : SwitchAgent related to Orientation purpose ...
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+CATDrwQuickDimCmd.OrientBarRessource.Bar.Title="Ориентация";
+
+//******************************************************************************
+// Reference Element Button - V5R3 Only
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource.RefElem.Title = "Опорный элемент";
+CATDrwQuickDimCmd.OrientBarRessource.RefElem.ShortHelp="Опорный элемент";
+CATDrwQuickDimCmd.OrientBarRessource.RefElem.Help=
+"Ориентация размерной линии зависит от выбранного элемента";
+CATDrwQuickDimCmd.OrientBarRessource.RefElem.LongHelp=
+"Опорный элемент
+Ориентация размерной линии зависит от выбранного элемента";
+
+//******************************************************************************
+// Reference View Button - V5R3 Only
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource.RefVue.Title = "Отображение опорных элементов";
+CATDrwQuickDimCmd.OrientBarRessource.RefVue.ShortHelp="Отображение опорных элементов";
+CATDrwQuickDimCmd.OrientBarRessource.RefVue.Help=
+"Ориентация размерной линии связана с направлением вида";
+CATDrwQuickDimCmd.OrientBarRessource.RefVue.LongHelp=
+"Отображение опорных элементов
+Ориентация размерной линии связана с направлением вида";
+
+//******************************************************************************
+// Projected dimension Button
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource._RefElem.Title = "Спроецированный размер";
+CATDrwQuickDimCmd.OrientBarRessource._RefElem.ShortHelp="Спроецированный размер";
+CATDrwQuickDimCmd.OrientBarRessource._RefElem.Help=
+"Ориентация размерной линии зависит от положения курсора мыши";
+CATDrwQuickDimCmd.OrientBarRessource._RefElem.LongHelp=
+"Спроецированный размер
+Ориентация размерной линии зависит от положения курсора мыши.";
+
+//******************************************************************************
+// Force dimension on element Button
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource._RefAuto.Title = "Принудительный размер по элементу";
+CATDrwQuickDimCmd.OrientBarRessource._RefAuto.ShortHelp="Принудительный размер по элементу";
+CATDrwQuickDimCmd.OrientBarRessource._RefAuto.Help=
+"Принудительное расположение размерной линии параллельно элементу, размер которого проставляется";
+CATDrwQuickDimCmd.OrientBarRessource._RefAuto.LongHelp=
+"Принудительный размер по элементу
+Принудительное расположение размерной линии параллельно элементу, размер которого проставляется. ";
+
+//******************************************************************************
+// Force horizontal dimension Button
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource._RefHoriz.Title = "Принудительный горизонтальный размер на виде";
+CATDrwQuickDimCmd.OrientBarRessource._RefHoriz.ShortHelp="Принудительный горизонтальный размер на виде";
+CATDrwQuickDimCmd.OrientBarRessource._RefHoriz.Help=
+"Принудительное горизонтальное расположение размерной линии на виде";
+CATDrwQuickDimCmd.OrientBarRessource._RefHoriz.LongHelp=
+"Принудительный горизонтальный размер на виде
+Принудительное горизонтальное расположение размерной линии на виде.";
+
+//******************************************************************************
+// Force vertical dimension Button
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource._RefVert.Title = "Принудительный вертикальный размер на виде";
+CATDrwQuickDimCmd.OrientBarRessource._RefVert.ShortHelp="Принудительный вертикальный размер на виде";
+CATDrwQuickDimCmd.OrientBarRessource._RefVert.Help=
+"Принудительное вертикальное расположение размерной линии на виде";
+CATDrwQuickDimCmd.OrientBarRessource._RefVert.LongHelp=
+"Принудительный вертикальный размер на виде
+Принудительное вертикальное расположение размерной линии на виде.";
+
+//******************************************************************************
+// Force user defined dimension Button
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource._RefUser.Title = "Принудительный размер вдоль направления";
+CATDrwQuickDimCmd.OrientBarRessource._RefUser.ShortHelp="Принудительный размер вдоль направления";
+CATDrwQuickDimCmd.OrientBarRessource._RefUser.Help=
+"Принудительное задание направления размерной линии";
+CATDrwQuickDimCmd.OrientBarRessource._RefUser.LongHelp=
+"Принудительный размер вдоль направления
+Принудительное задание направления размерной линии.";
+
+//******************************************************************************
+// True length dimension Button
+//******************************************************************************
+CATDrwQuickDimCmd.OrientBarRessource.VraiGrandeur.Title = "Размер в истинную длину";
+CATDrwQuickDimCmd.OrientBarRessource.VraiGrandeur.ShortHelp="Размер в истинную длину";
+CATDrwQuickDimCmd.OrientBarRessource.VraiGrandeur.Help=
+"Создание размера в режиме истинной длины";
+CATDrwQuickDimCmd.OrientBarRessource.VraiGrandeur.LongHelp=
+"Размер в истинную длину
+Создание размера в режиме истинной длины.";
+
+//******************************************************************************
+// Force dimension along direction Button
+//******************************************************************************
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionParallel.Title = "Размер по направлению";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionParallel.ShortHelp="Размер по направлению";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionParallel.Help=
+"Установка размерной линии по направлению";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionParallel.LongHelp=
+"Размер по направлению
+Установка размерной линии по направлению.";
+
+//******************************************************************************
+// Force dimension perpendicular to direction Button
+//******************************************************************************
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionPerpendicular.Title = "Размер, перпендикулярный направлению";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionPerpendicular.ShortHelp="Размер, перпендикулярный направлению";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionPerpendicular.Help=
+"Установка размерной линии перпендикулярно направлению";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionPerpendicular.LongHelp=
+"Размер, перпендикулярный направлению
+Установка размерной линии перпендикулярно направлению.";
+
+//******************************************************************************
+// Force dimension along a fixed angle in view Button
+//******************************************************************************
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionAngle.Title = "Размер с постоянным углом на виде";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionAngle.ShortHelp="Размер с постоянным углом на виде";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionAngle.Help=
+"Установка размерной линии с постоянным углом на виде";
+CATDrwQuickDimCmd.AlongDirBarRessource.DirectionAngle.LongHelp=
+"Размер с постоянным углом на виде
+Установка размерной линии с постоянным углом на виде.";
+
+//******************************************************************************
+// Intersection detection switch
+//******************************************************************************
+CATDrwQuickDimCmd.IntersectionAgentResource.Check.Title="Обнаружение точек пересечения";
+CATDrwQuickDimCmd.IntersectionAgentResource.Check.ShortHelp="Обнаружение точек пересечения";
+CATDrwQuickDimCmd.IntersectionAgentResource.Check.Help=
+"Обнаружение точек пересечения при простановке размеров";
+CATDrwQuickDimCmd.IntersectionAgentResource.Check.LongHelp=
+"Обнаружение точек пересечения
+Обнаружение точек пересечения при простановке размеров.";
+
+//******************************************************************************
+// Angle
+//******************************************************************************
+CATDrwQuickDimCmd.Angle.Dimension.EnglobingFrame.IntermediateFrame.Label.Title = "Угол: ";
+CATDrwQuickDimCmd.Angle.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp = "Ввод угла относительно направления";
+
+//******************************************************************************
+// Driving Dim Value
+//******************************************************************************
+CATDrwQuickDimCmd.Value.Dimension.EnglobingFrame.IntermediateFrame.Label.Title = "Значение: ";
+CATDrwQuickDimCmd.Value.Dimension.EnglobingFrame.IntermediateFrame.Label.ShortHelp = "Ввод значения ведущего размера";
+

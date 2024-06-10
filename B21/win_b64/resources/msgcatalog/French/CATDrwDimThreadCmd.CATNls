@@ -1,0 +1,74 @@
+//=====================================================================================
+//                                     CNEXT - CXRn
+//                          COPYRIGHT DASSAULT SYSTEMES 2001 
+//-------------------------------------------------------------------------------------
+// FILENAME    :    CATDrwDimThreadCmd
+// LOCATION    :    DraftingIntCommands
+// AUTHOR      :    fgx
+// BUT         :    Commande de creation de cotes sur threads (top and/or side views)
+// DATE        :    07.03.2001
+//-------------------------------------------------------------------------------------
+// DESCRIPTION :    
+//-------------------------------------------------------------------------------------
+// COMMENTS    :    
+//-------------------------------------------------------------------------------------
+// MODIFICATIONS     user  date        purpose
+//    HISTORY        ----  ----        -------
+//=====================================================================================
+
+//******************************************************************************
+// Command
+//******************************************************************************
+CATDrwDimThreadCmd.Title = "Cote de taraudage";
+CATDrwDimThreadCmd.UndoTitle = "Création de cote de taraudage";
+
+//******************************************************************************
+// States
+//******************************************************************************
+CATDrwDimThreadCmd.waitForSelState.Message = "Sélectionner la représentation du taraudage à coter";
+CATDrwDimThreadCmd.waitFor2sdLineState.Message = "Sélectionner une deuxième ligne 2D, parallèle à la première";
+
+//******************************************************************************
+// Agents
+//******************************************************************************
+CATDrwDimThreadCmd._agentSet._elemAgent.UndoTitle = "Sélection d'une représentation de taraudage";
+CATDrwDimThreadCmd._agentSet._lineAgent1.UndoTitle = "Sélection d'une deuxième ligne 2D";
+CATDrwDimThreadCmd._agentSet.2DPointIndication.UndoTitle = "Sélection";
+
+CATDrwDimThreadCmd.OrientBarRessource.Bar.Title="Orientation";
+
+//******************************************************************************
+// Force dimension on element Button
+//******************************************************************************
+CATDrwDimThreadCmd.OrientBarRessource._refElem.Title = "Forcer une cote sur l'élément";
+CATDrwDimThreadCmd.OrientBarRessource._refElem.ShortHelp="Forcer une cote sur l'élément";
+CATDrwDimThreadCmd.OrientBarRessource._refElem.Help=
+"Force la ligne de cote à être parallèle a l'élément coté";
+CATDrwDimThreadCmd.OrientBarRessource._refElem.LongHelp=
+"Forcer une cote sur l'élément
+Force la ligne de cote à être parallèle a l'élément coté.";
+
+//******************************************************************************
+// Force horizontal dimension Button
+//******************************************************************************
+CATDrwDimThreadCmd.OrientBarRessource._refHori.Title = "Forcer une cote horizontale";
+CATDrwDimThreadCmd.OrientBarRessource._refHori.ShortHelp="Forcer une cote horizontale";
+CATDrwDimThreadCmd.OrientBarRessource._refHori.Help=
+"Force la ligne de cote à être horizontale";
+CATDrwDimThreadCmd.OrientBarRessource._refHori.LongHelp=
+"Forcer une cote horizontale
+Force la ligne de cote à être horizontale.";
+
+//******************************************************************************
+// Force vertical dimension Button
+//******************************************************************************
+CATDrwDimThreadCmd.OrientBarRessource._refVert.Title = "Forcer une cote verticale";
+CATDrwDimThreadCmd.OrientBarRessource._refVert.ShortHelp="Forcer une cote verticale";
+CATDrwDimThreadCmd.OrientBarRessource._refVert.Help=
+"Force la ligne de cote à être verticale";
+CATDrwDimThreadCmd.OrientBarRessource._refVert.LongHelp=
+"Forcer une cote verticale
+Force la ligne de cote à être verticale.";
+
+FakeThreadDim="Cote de taraudage non-associative créée.";
+

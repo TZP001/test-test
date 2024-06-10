@@ -1,0 +1,46 @@
+# COPYRIGHT DASSAULT SYSTEMES 2007
+
+#--------------------------------------------------------------------------
+# General Workshop Addin
+#--------------------------------------------------------------------------
+
+MXCATIAGeneralWksAddin  CATIWorkbenchAddin      libmxcatiav5integration 
+MXCATIAGeneralWksAddin  CATIAfrGeneralWksAddin  libmxcatiav5integration mxcatiav5precond@libmxcatiav5precond
+
+
+#--------------------------------------------------------------------------
+# Interfaces for CT5 property page in Tools->Options
+#--------------------------------------------------------------------------
+
+CATUserSettingsManager  CATICT5PPEdtFactory     libCATCT5PropertyPage
+CATCT5SettingCtrl       CATIIniSettingManagment libCATCT5Settings
+CATCT5SettingCtrl       CATICT5SettingAtt       libCATCT5Settings
+CATCT5PPEdt             CATIUserSettings        libCATCT5PropertyPage
+
+
+#--------------------------------------------------------------------------
+# VB APIs
+#--------------------------------------------------------------------------
+
+CT5Engine                 CATICreateInstance        libmxcatiav5integration
+CT5Engine                 CATIVBExtension           libmxcatiav5integration
+CT5Engine                 CATIACT5Engine            libmxcatiav5integration
+
+# ETH : V6R2010 : Special Icon for Broken Links due to Partial Checkout : START
+#--------------------------------------------------------------------------
+# Interfaces for CT5 Icon Provider
+#--------------------------------------------------------------------------
+
+CT5IconProvider				CATIIconProvider			libmxcatiav5integration		mxct5activatedprecond@libmxct5activatedprecond
+CT5IconProviderForDrafting	CATIDftSmarTeamProvider		libmxcatiav5integration		mxct5activatedprecond@libmxct5activatedprecond
+CT5DeskItemManager			CATIDeskItemMngr			libmxcatiav5integration		mxct5activatedprecond@libmxct5activatedprecond
+CT5FileExitHook			    LifeCycleObject			    libmxcatiav5integration		mxct5activatedprecond@libmxct5activatedprecond
+
+# ETH : V6R2010 : Special Icon for Broken Links due to Partial Checkout : END
+
+# ETH : V6R2011 : Bulk Loader
+#--------------------------------------------------------------------------
+# Interface for CT5 Bulk Loader
+#--------------------------------------------------------------------------
+CATDCIBulkLoad				CATIBatchAppl				libCATDCIBulkLoaderUI
+# ETH : V6R2011 : Bulk Loader

@@ -1,0 +1,543 @@
+' COPYRIGHT DASSAULT SYSTEMES 2009
+'
+' ***********************************************************************
+'   Purpose:		Scan current product to retrieve its leaves products
+'				and detect a mirroring problem
+'
+'   Version:		1.0
+'   Author:			LCH
+'   Languages:		CATScript 
+'   Locales:		English 
+'   CATIA Level:	V5R18
+' ***********************************************************************
+'
+'  This interactive VB macro scan the product tree to loook at all the leaves
+'  products. The result of the scan is created in an output text file.
+'  Look at the .txt sample delivered to see the text output format.
+'  A product should be opened in a CATIA session before starting the macro.
+'  To modify:
+'  + the output file full path, it is necessary to change the variable sTmpPath 
+'  + the name of the output file, it is necessary to change the variable sResultFile 
+'
+Language="VBSCRIPT"
+
+Public oReport As TextStream 
+Public arrayOfVisitedNode() As Integer
+Public MaxLevel As Integer 
+Public sFilOu As String
+Const sTmpPath = "E:\tmp"                    		' Output file full path
+Const sResultFile = "ScanMirroredProducts.txt"     	' Result file name
+
+'*********************************************************************************
+'                       Main Program
+'*********************************************************************************
+Sub CATMain()
+    
+  On Error Resume Next
+    
+  '+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  '                           Initialize environment
+  '+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  ' Deactivate file alert (to avoid interactive message during read/write of files if any)
+  Dim FileAlertSave
+  FileAlertSave = CATIA.DisplayFileAlerts
+  CATIA.DisplayFileAlerts = False
+ 
+  CATinit
+  '+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  ' 					Read the Current Main document
+  '+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  ' 
+  ' ----------------------------------- Read product file
+  ' 
+  Dim oProductDocument As Document
+  Set oProductDocument = CATIA.ActiveDocument
+  On Error Resume Next
+  
+  If  (oProductDocument Is Nothing ) Then
+    MsgBox "No CATIA document has been loaded ! Please load a CATIA document.", vbExclamation
+    Exit Sub
+  End If  
+  Err.Clear
+  '
+  ' ----------------------------------- Retrieve the Root Product 
+  '
+  Dim oRootProduct As Product
+  Set oRootProduct = oProductDocument.Product
+  '
+  ' 
+  ' --------------------------------- Retrieve the products contained in the root product 
+  ' 
+  Redim arrayOfVisitedNode(1)
+  ' 
+  Dim IndiceLevel As Integer  
+  Dim sName As String
+  Dim oChildren As Product
+  Dim oFather As Product
+  Dim oBrotherProduct As Product
+  '
+  Dim oCurentProduct As Product
+  set oCurentProduct = oRootProduct
+
+  IndiceLevel = 0
+  MaxLevel = IndiceLevel 
+  Dim sFilter (0), sStatus
+  sFilter(0) = "Product"
+  Dim Selection As Selection
+  Set Selection = CATIA.ActiveDocument.Selection
+  sStatus = Selection.SelectElement2(sFilter, "Select a Product", false)
+' sStatus = Selection.SelectElement2(sFilter, "Select a Product", true)
+  If (sStatus = "cancel") Then
+	Exit Sub
+  End If
+  set oCurentProduct = Selection.Item(1).Value
+
+  Call PrintHeader (oProductDocument, oCurentProduct )
+  ' 
+  ' +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  '                            Scan Product
+  ' +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  
+  Do 
+       
+    If LExistChildren(oCurentProduct) Then
+    
+      ' Retrieve the first child
+      Call GetFirstChild(oCurentProduct, oChildren, IndiceLevel)
+      Set oCurentProduct = oChildren 
+      IndiceLevel = IndiceLevel + 1  
+      If (MaxLevel < IndiceLevel) Then
+        Redim Preserve arrayOfVisitedNode(UBound(arrayOfVisitedNode)+1) 
+        MaxLevel = MaxLevel + 1
+      End If                 
+
+    Else
+
+      Call PrintInfo( oCurentProduct) 
+      ' 
+      ' oCurentProduct is a leaf. Go up to first non-visited child 
+      ' 
+      Do while ((Not(oCurentProduct Is oRootProduct)) AND (Not(lExistBrother(oCurentProduct,IndiceLevel))))
+        ' 
+        ' Get the father
+        '         
+        IndiceLevel = IndiceLevel - 1
+        Call GetFather(oCurentProduct, OFather)
+        Set oCurentProduct = OFather
+      Loop
+
+      If lExistBrother(oCurentProduct,IndiceLevel) Then
+        Call NextBrother(oCurentProduct, oBrotherProduct, IndiceLevel)
+        Set oCurentProduct = oBrotherProduct   
+      End If        
+      
+    End If  
+         '              
+  Loop Until ( oCurentProduct Is oRootProduct )
+  '
+  ' +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  '                         End Scan 
+  ' +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  PrintFoot ()
+  MsgBox " SCAN ENDED. Consult the result in the file : " & sFilOu 
+
+  ' 
+  ' Close the documents
+  ' 
+  ' oProductDocument.Close
+  Set oRootProduct = Nothing
+  '  
+  Set oProductDocument = Nothing 
+  '
+  ' Finalize the report file
+  '
+  oReport.Close
+  Set oReport = Nothing
+   
+  '  
+  ' Reactivate file alert
+  '
+  CATIA.DisplayFileAlerts = FileAlertSave
+
+End Sub
+'*********************************************************************************
+'  End of Main Program
+'********************************************************************************* 
+
+
+'*********************************************************************************
+'  Subroutines
+'********************************************************************************* 
+'
+' ----------------------------------------------------------------------------------
+' CATinit
+' ----------------------------------------------------------------------------------
+Sub CATinit ()
+
+  ' Initialize the report file
+  ' 
+  ' Delete possibly existing input and output files
+  '   
+  sFilOu = CATIA.FileSystem.ConcatenatePaths(sTmpPath,sResultFile)
+
+  If (CATIA.FileSystem.FileExists(sFilou)) Then 
+    CATIA.FileSystem.DeleteFile sFilOu
+  End If
+   
+  Dim iOverwrite As Boolean
+  iOverwrite = True
+   
+  Set oReport = CATIA.FileSystem.CreateFile(sFilOu,iOverwrite).OpenAsTextStream("ForWriting") 
+
+End Sub
+
+' -----------------------------------------------------------------------------------
+' ScanNode
+' -----------------------------------------------------------------------------------
+Sub ScanNode(oMyProduct As Product, cProductChildren As Products, nb_children As Integer)
+
+  Set cProductChildren = oMyProduct.Products
+  Dim nb_products As Integer
+  nb_products = cProductChildren.Count
+  nb_children = nb_products
+
+End Sub
+' --------------------------------------------------------------------------------------
+' LExistChildren
+' ---------------------------------------------------------------------------------------
+
+Function LExistChildren( oMyProduct As Product) As Boolean
+
+  Dim cProductChildren As Products
+  Dim nb_children As Integer
+  Dim Lexist As Boolean
+  
+  Lexist = False
+   
+  Call ScanNode(oMyProduct, cProductChildren, nb_children) 
+  
+  If (nb_children > 0) Then
+    Lexist = True
+  End If 
+  
+  LExistChildren = Lexist  
+
+End Function
+
+' -----------------------------------------------------------------------------------------
+' GetFirstChild
+' -----------------------------------------------------------------------------------------
+Sub GetFirstChild(oMyProduct As Product,oMyChild As Product,Currentlevel As Integer)
+
+  Dim cProductChildren As Products
+  Dim nbChildren As Integer 
+
+  Dim IndiceFF As Integer 
+  IndiceFF = 1
+    
+  Call ScanNode(oMyProduct, cProductChildren, nbChildren)
+  If (NbChildren > 0) Then
+    Set oMyChild = cProductChildren.Item(IndiceFF)
+  Else
+    Set oMyChild = Nothing
+  End If
+
+  arrayOfVisitedNode(Currentlevel) = 1
+    
+End Sub
+' -------------------------------------------------------------------------------------
+' LexistBrother
+' -------------------------------------------------------------------------------------
+Function lExistBrother(oMyProduct As Product,Currentlevel As Integer) As Boolean
+ 
+   Dim iPrevious  As Integer
+   Dim NBChildren As Integer
+   Dim iOther     As Integer
+   Dim oFatherProduct As Product
+   Dim cChildren As Products
+   Dim LOtherBrother As Boolean
+   Dim NbFilsAVisiter As Integer
+   
+   iOther = 0 
+   LOtherBrother = False
+   '
+   '  Get Father
+   '
+   Call GetFather(oMyProduct,oFatherProduct)
+   
+   If  oMyProduct is oFatherProduct then 
+       set oBrotherProduct = Nothing
+       LOtherBrother = False   
+   Else
+       iPrevious = Currentlevel - 1
+       call ScanNode(oFatherProduct, cChildren, NBChildren)
+        
+       if (NBChildren > 0) Then
+         NbFilsAVisiter = arrayOfVisitedNode(iPrevious)
+         NbFilsAVisiter = NbFilsAVisiter + 1
+         If (NbFilsAVisiter <= NBChildren) Then
+           LOtherBrother = True 
+           iOther = 1 
+         Else
+           LOtherBrother = False 
+         End If 
+      Else
+         LOtherBrother = False    
+      End If
+
+  End If  
+  
+  lExistBrother = LOtherBrother
+
+End Function
+' ----------------------------------------------------------------------------------------------
+' NextBrother 
+' ----------------------------------------------------------------------------------------------
+Sub NextBrother(oMyProduct As Product, oBrotherProduct As Product,ilevel As Integer) 
+
+  Dim NBChildren As Integer
+  Dim iPrevious As Integer 
+  Dim oFatherProduct As Product
+  Dim NbFilsVisites As Integer 
+  Dim cChildren As Products
+  '
+  ' Get Father
+  '
+  Call GetFather(oMyProduct,oFatherProduct)
+  '
+  If  oMyProduct is oFatherProduct then 
+    Set oBrotherProduct = Nothing
+  Else
+    iPrevious = ilevel - 1
+    Call ScanNode(oFatherProduct, cChildren, NBChildren)
+       
+    If (NBChildren > 0) Then
+      NbFilsVisites = arrayOfVisitedNode(iPrevious)
+      NbFilsVisites = NbFilsVisites + 1
+      If NbFilsVisites <= NBChildren Then
+        Set oBrotherProduct = cChildren.Item(NbFilsVisites)
+        arrayOfVisitedNode(iPrevious) = NbFilsVisites
+      Else
+        Set oBrotherProduct=Nothing
+      End If 
+    Else
+      Set oBrotherProduct=Nothing   
+    End If
+
+  End If
+  
+End Sub 
+' ----------------------------------------------------------------------------------------------
+' GetFather 
+' ----------------------------------------------------------------------------------------------
+Sub GetFather(oMyProduct As Product,OFather As Product)
+
+    Dim GreatFather As Product 
+    Dim ParentObject As AnyObject
+    Set ParentObject = oMyProduct.Parent
+    Set GreatFather = ParentObject.Parent
+    Dim sType As String 
+
+    sType = ParentObject.Name  
+        
+    If (sType = "Products") Then
+      Set GreatFather = ParentObject.Parent                
+      Set OFather = GreatFather 
+    Else
+      Set OFather = oMyProduct
+    End If
+    
+End Sub
+
+' ----------------------------------------------------------------------------------------------
+' PrintInfo
+' ----------------------------------------------------------------------------------------------
+Sub PrintInfo(oMyProduct As Product)
+
+  Dim sLF As String
+  sLF = Chr(10) 
+
+  If (Not (oMyProduct Is Nothing)) Then
+	
+	ReDim AxisCmpArray (11)
+	For I = 0 to 11
+		AxisCmpArray (I) = 0.000000
+	Next
+	AxisCmpArray (0) = 1.000000
+	AxisCmpArray (4) = 1.000000	
+	AxisCmpArray (8) = 1.000000	
+
+	Set Myposition = oMyProduct.position
+	ReDim AxisCmpArray (11)
+	MyPosition.GetComponents AxisCmpArray
+	
+	Dim SubProductPosition As Position
+	Dim oProductDocument As Document
+	Set oProductDocument = CATIA.ActiveDocument
+	Dim oRootProduct As Product
+	Set oRootProduct = oProductDocument.Product
+	Dim oFather As Product
+	Dim oCurentProduct As Product
+	set oCurentProduct = oMyProduct
+	ReDim SPTab(11)
+	ReDim Tab(11)
+      Do while ((Not(oCurentProduct Is oRootProduct)))
+		Call GetFather(oCurentProduct, oFather)
+		Set oCurentProduct = oFather
+		Set SubProductPosition = oFather.Position
+		SubProductPosition.GetComponents SPTab
+' --------- Combination of the positionning matrix
+		For II = 0 to 2
+			Tab(II)   = SPTab(II)*AxisCmpArray(0) + SPTab(II+3)*AxisCmpArray(1) + SPTab(II+6)*AxisCmpArray(2)
+			Tab(II+3) = SPTab(II)*AxisCmpArray(3) + SPTab(II+3)*AxisCmpArray(4) + SPTab(II+6)*AxisCmpArray(5)
+			Tab(II+6) = SPTab(II)*AxisCmpArray(6) + SPTab(II+3)*AxisCmpArray(7) + SPTab(II+6)*AxisCmpArray(8)
+			Tab(II+9) = SPTab(II+9) + SPTab(II)*AxisCmpArray(9) + SPTab(II+3)*AxisCmpArray(10) + SPTab(II+6)*AxisCmpArray(11)
+		Next
+		For jj = 0 to 11
+			AxisCmpArray(jj) = Tab(jj)
+		Next
+      Loop
+
+	Dim V1Norm,V2Norm,V3Norm As Double
+	V1Norm = Sqr(AxisCmpArray(0)*AxisCmpArray(0) + AxisCmpArray(1)*AxisCmpArray(1) + AxisCmpArray(2)*AxisCmpArray(2))
+	V2Norm = Sqr(AxisCmpArray(3)*AxisCmpArray(3) + AxisCmpArray(4)*AxisCmpArray(4) + AxisCmpArray(5)*AxisCmpArray(5))
+	V3Norm = Sqr(AxisCmpArray(6)*AxisCmpArray(6) + AxisCmpArray(7)*AxisCmpArray(7) + AxisCmpArray(8)*AxisCmpArray(8))
+
+	Dim Deter As Double
+ 	Deter = AxisCmpArray(0)*AxisCmpArray(4)*AxisCmpArray(8)
+	Deter = Deter + AxisCmpArray(3)*AxisCmpArray(7)*AxisCmpArray(2)
+	Deter = Deter + AxisCmpArray(6)*AxisCmpArray(1)*AxisCmpArray(5)
+	Deter = Deter - AxisCmpArray(6)*AxisCmpArray(4)*AxisCmpArray(2)
+	Deter = Deter - AxisCmpArray(0)*AxisCmpArray(7)*AxisCmpArray(5)
+	Deter = Deter - AxisCmpArray(3)*AxisCmpArray(1)*AxisCmpArray(8)
+
+	typMat = 0
+	If (Abs(V1Norm-1.0) < 0.001 AND Abs(V2Norm-1.0) < 0.001 AND Abs(V3Norm-1.0) < 0.001) Then
+		If (Deter > 0.0) Then
+			typMat = 1
+		Else
+			typMat = -1
+		End If
+	End If
+
+	Dim Trace As Double
+	Trace = AxisCmpArray(0) + AxisCmpArray(4) + AxisCmpArray(8)
+
+	Dim Norme,Norme2 As Double
+	Norme = Abs(AxisCmpArray(0))
+	Norme2 = Abs(AxisCmpArray(3))
+	If (Norme2 > Norme) Then Norme = Norme2
+	Norme2 = Abs(AxisCmpArray(6))
+	If (Norme2 > Norme) Then Norme = Norme2
+	Norme2 = Abs(AxisCmpArray(1))
+	If (Norme2 > Norme) Then Norme = Norme2
+	Norme2 = Abs(AxisCmpArray(4))
+	If (Norme2 > Norme) Then Norme = Norme2
+	Norme2 = Abs(AxisCmpArray(7))
+	If (Norme2 > Norme) Then Norme = Norme2
+	Norme2 = Abs(AxisCmpArray(2))
+	If (Norme2 > Norme) Then Norme = Norme2
+	Norme2 = Abs(AxisCmpArray(5))
+	If (Norme2 > Norme) Then Norme = Norme2
+	Norme2 = Abs(AxisCmpArray(8))
+	If (Norme2 > Norme) Then Norme = Norme2
+
+	nbEigen = 0
+	Dim VEigen(2) As Double
+	Dim Dinv As Double
+	Dinv = -1.0 / Norme
+	If ( typMat = 1 ) Then
+		If ( Abs(Trace-3.0) < 0.001 ) Then
+			nbEigen = 3
+			VEigen(0) = 1.0
+			VEigen(1) = 1.0
+			VEigen(2) = 1.0
+		Else
+			If (Abs(Trace+1.0) < 0.001) Then
+				nbEigen = 3
+				VEigen(0) = -Dinv
+				VEigen(1) = -Dinv
+				VEigen(2) = Dinv
+			Else
+				nbEigen = 1
+			End If
+		End If
+	Else
+		If ( typMat = -1 ) Then
+			If ( Abs(Trace+3.0) < 0.001 ) Then
+				nbEigen = 3
+				VEigen(0) = Dinv
+				VEigen(1) = Dinv
+				VEigen(2) = Dinv
+			Else
+				If (Abs(Trace-1.0) < 0.001) Then
+					nbEigen = 3
+					VEigen(0) = Dinv
+					VEigen(1) = -Dinv
+					VEigen(2) = -Dinv
+				Else
+					nbEigen = 1
+				End If
+			End If
+		End If
+	End If
+
+	test = 1
+	If (nbEigen = 3) Then
+		If (Abs(VEigen(0)+ 1.0) > 0.000001) Then test=0
+		If (Abs(VEigen(1)- 1.0) > 0.000001) Then test=0
+		If (Abs(VEigen(2)- 1.0) > 0.000001) Then test=0
+	Else
+		test = 0
+	End If
+
+	If (test = 1) Then
+		oReport.Write   sLF &oMyProduct.PartNumber
+    		oReport.Write   "(" &oMyProduct.Name &")" &sLF
+		oReport.Write   "--->WARNING: Mirroring problem detected" &sLF &sLF
+	Else
+		If (typMat < 0) Then
+			oReport.Write   sLF &oMyProduct.PartNumber
+    			oReport.Write   "(" &oMyProduct.Name &")" &sLF
+			oReport.Write   "--->WARNING: Mirroring problem detected" &sLF &sLF
+		End If
+'		oReport.Write   oMyProduct.PartNumber
+'   		oReport.Write   "(" &oMyProduct.Name &")" &sLF
+	End If
+
+  End If
+
+End Sub
+
+' ----------------------------------------------------------------------------------------------
+' PrintHeader
+' ----------------------------------------------------------------------------------------------
+Sub PrintHeader(oMyDoc As Document, oCurentProduct As Product)
+
+  Dim sLF As String
+  sLF = Chr(10) 
+  Dim MyDate As Variant
+  MyDate = Now
+
+  If Not (oMyDoc Is Nothing ) Then
+    oReport.Write "# Date : " & MyDate                      & sLF
+    oReport.Write "# SCAN RESULT "                          & sLF
+    oReport.Write "# Input Document  :       "              & sLF
+    oReport.Write "# " &   oMyDoc.FullName                  & sLF
+    oReport.Write "# Product scanned :       "              & sLF
+    oReport.Write "# " &oCurentProduct.PartNumber &"(" &oCurentProduct.Name &")"             & sLF
+    oReport.Write "# "                                      & sLF
+  End If
+
+End Sub
+
+' ----------------------------------------------------------------------------------------------
+' PrintFoot
+' ----------------------------------------------------------------------------------------------
+Sub PrintFoot ()
+
+  Dim sLF As String
+  sLF = Chr(10) 
+  oReport.Write "#  "                                 &  sLF 
+  oReport.Write "########  Report file end  ########" &  sLF
+  
+End Sub

@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  elementFormDefault="qualified"
+  targetNamespace="http://dassaultsystemes.com/dnbganttchart"
+  xmlns:gt="http://dassaultsystemes.com/dnbganttchart"
+  version="1.0">
+  
+  <xs:element name="Gantt">
+    <xs:annotation>
+      <xs:documentation>Exports a V5 GanttChart Window to XML</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="gt:TimeStamp"/>
+        <xs:element ref="gt:WindowTitle"/>
+        <xs:element ref="gt:MaxCycleTime" minOccurs="0"/>
+        <xs:element ref="gt:Stacked"/>
+        <xs:element ref="gt:IsHubProject"/>
+        <xs:element ref="gt:Table"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="TimeStamp" type="xs:dateTime">
+    <xs:annotation>
+      <xs:documentation>The Date and Time when this XML was exported</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:element name="WindowTitle">
+    <xs:annotation>
+      <xs:documentation>This reflects the title of the GanttChart Window frame</xs:documentation>
+    </xs:annotation>
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:minLength value="1"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+  
+  <xs:element name="MaxCycleTime" type="xs:double">
+    <xs:annotation>
+      <xs:documentation>
+        This represents the Max Cycle Time (The dark green bar in theg raphic frame).
+        This tag is only available in case Tools->Options->DPManufacturing->Gantt->Display cycle time bars
+        is switched on and only in case of "Resource Centric", "Resource Centric Process", "System"
+        or "Utilization" Gantts
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:element name="Stacked" type="xs:boolean">
+    <xs:annotation>
+      <xs:documentation>
+        This represents the state of Tools->Options->DPManufacturing->Gantt->Stacked display in resource Gantt
+        In case of true there will be only one row available
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:element name="IsHubProject" type="xs:boolean">
+    <xs:annotation>
+      <xs:documentation>Determines if the Project is loaded from a hub (E5 project) or if it is a V5 flat file</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:element name="Table">
+    <xs:annotation>
+      <xs:documentation>The Gantt Table consisting of several rows</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="gt:Row"/>
+      </xs:sequence>
+      <xs:attribute name="Type" use="required">
+        <xs:annotation>
+          <xs:documentation>The type of Gantt. A GanttChart could have been created from several different commands </xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="Process"/>
+            <xs:enumeration value="Resource Centric"/>
+            <xs:enumeration value="Resource Centric Process"/>
+            <xs:enumeration value="System"/>
+            <xs:enumeration value="Utilization"/>
+            <xs:enumeration value="Line Balancing"/>
+            <xs:enumeration value="Other"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+    <xs:key name="Key">
+      <xs:selector xpath="gt:Row"/>
+      <xs:field xpath="gt:RowNumber"/>
+    </xs:key>
+  </xs:element>
+  
+  <xs:element name="Row">
+    <xs:annotation>
+      <xs:documentation>A row of the GanttChart representing an Object (Activity/Resource)</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="gt:RowNumber"/>
+        <xs:element ref="gt:HierarchyLevel"/>
+        <xs:element ref="gt:ObjectType"/>
+        <xs:element ref="gt:IsParent"/>
+        <xs:element ref="gt:Label"/>
+        <xs:element ref="gt:Times"/>
+        <xs:choice minOccurs="0">
+          <xs:element ref="gt:Utilization"/>
+          <xs:element ref="gt:UtilizationClash"/>
+        </xs:choice>
+        <xs:sequence minOccurs="0">
+          <xs:element ref="gt:NumberFastener"/>
+          <xs:element ref="gt:LengthFastener"/>
+        </xs:sequence>
+        <xs:sequence minOccurs="0">
+          <xs:element ref="gt:Resource" minOccurs="0"/>
+          <xs:element ref="gt:Description" minOccurs="0"/>
+        </xs:sequence>
+        <xs:element ref="gt:ResourceState" minOccurs="0"/>
+        <xs:element ref="gt:Icon" minOccurs="0"/>
+        <xs:element minOccurs="0" ref="gt:ControlFlowFrom"/>
+        <xs:element minOccurs="0" ref="gt:ControlFlowTo"/>
+        <xs:element minOccurs="0" ref="gt:PrecedenceFrom"/>
+        <xs:element minOccurs="0" ref="gt:PrecedenceTo"/>
+        <xs:element minOccurs="0" ref="gt:PrevCycleFrom"/>
+        <xs:element minOccurs="0" ref="gt:PrevCycleTo"/>
+        <xs:element minOccurs="0" ref="gt:StartStartLink"/>
+        <xs:element minOccurs="0" ref="gt:EndEndLink"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="Times">
+    <xs:annotation>
+      <xs:documentation>The several times (begin, end, duration,..) of a row object</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="gt:Duration"/>
+        <xs:element ref="gt:BeginTime"/>
+        <xs:element ref="gt:EndTime"/>
+        <xs:element ref="gt:FirstTimeSliceBeginTime" minOccurs="0"/>
+        <xs:element ref="gt:FirstTimeSliceEndTime" minOccurs="0"/>
+        <xs:element ref="gt:ReferenceEndTime" minOccurs="0"/>
+      </xs:sequence>
+      <xs:attributeGroup ref="gt:TimesAttributes"/>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:attributeGroup name="TimesAttributes">
+    <xs:annotation>
+      <xs:documentation>The attributes of an Object Time</xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="Unit" use="required">
+      <xs:annotation>
+        <xs:documentation>Specifies the unit of the object times</xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Millisecond"/>
+          <xs:enumeration value="Second"/>
+          <xs:enumeration value="Minute"/>
+          <xs:enumeration value="Hour"/>
+          <xs:enumeration value="Day"/>
+          <xs:enumeration value="year"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="DisplaySequence" type="gt:GanttTimeReference" use="required">
+      <xs:annotation>
+        <xs:documentation>This represents the state of Tools->Options->DPManufacturing->Gantt->Display Gantt Sequence based on:</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:attributeGroup>
+  
+  <xs:simpleType name="GanttTimeReference">
+    <xs:annotation>
+      <xs:documentation>Determines if the related time is a specified or calculated one</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Specified"/>
+      <xs:enumeration value="Calculated"/>
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:element name="RowNumber" type="xs:positiveInteger">
+    <xs:annotation>
+      <xs:documentation>
+        This identifies the row number in the Gantt Chart
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:element name="HierarchyLevel" type="xs:nonNegativeInteger">
+    <xs:annotation>
+      <xs:documentation>
+        This specifies the depth of the descendant hierarchy related to the root object.
+        A root object starts at hierarchy level 0.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:element name="ObjectType" type="xs:string">
+    <xs:annotation>
+      <xs:documentation>
+        Specifies the type of the Object
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:element name="IsParent" type="xs:boolean">
+    <xs:annotation>
+      <xs:documentation>Specifies if the related row object has children or not</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:element name="Label">
+    <xs:annotation>
+      <xs:documentation>
+        The name of the Activity/Resource
+      </xs:documentation>
+    </xs:annotation>
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:minLength value="1"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+  
+  <xs:element name="Duration" type="gt:TimeType">
+    <xs:annotation>
+      <xs:documentation>The duration of the row object</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:element name="BeginTime" type="gt:TimeType">
+    <xs:annotation>
+      <xs:documentation>The start time of the row object</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:element name="EndTime" type="gt:TimeType">
+    <xs:annotation>
+      <xs:documentation>The end time of the object. Is always BeginTime + Duration</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:element name="FirstTimeSliceBeginTime" type="gt:TimeType">
+    <xs:annotation>
+      <xs:documentation>
+        The start time inside the first time slice. This tag is only present in case tag MaxCycleTime is present,
+        and if the BeginTime is greater than the MaxCycleTime. It holds then the value BeginTime Mod MaxCycleTime
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:element name="FirstTimeSliceEndTime" type="gt:TimeType">
+    <xs:annotation>
+      <xs:documentation>
+        The end time inside the first time slice. This tag is only present in case tag MaxCycleTime is present,
+        and if the EndTime is greater than the MaxCycleTime. It holds then the value EndTime Mod MaxCycleTime
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:element name="ReferenceEndTime">
+    <xs:annotation>
+      <xs:documentation>
+        Another End Time as a reference to the EndTime.
+        Only available if switched on by Tools->Options->DPManufacturing->Gantt->Compare roll up time of parent with:
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="gt:TimeType">
+          <xs:attribute name="Reference" type="gt:GanttTimeReference" use="required"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:simpleType name="TimeType">
+    <xs:annotation>
+      <xs:documentation>The Type for the several Gantt Times</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:double">
+      <xs:minInclusive value="0"/>
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:element name="Utilization">
+    <xs:annotation>
+      <xs:documentation>
+        The Utilization value in percent. Only available for Resources
+      </xs:documentation>
+    </xs:annotation>
+    <xs:simpleType>
+      <xs:restriction base="xs:double">
+        <xs:minInclusive value="0"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+  
+  <xs:element name="UtilizationClash" type="xs:boolean" fixed="true">
+    <xs:annotation>
+      <xs:documentation>
+        Determines if an activity runs in the first time slice parallel to another activity of the same hierarchy level
+        Only available for activities as child rows of a resource.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:element name="NumberFastener" type="xs:string">
+    <xs:annotation>
+      <xs:documentation>A row object application defined value</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:element name="LengthFastener" type="xs:string">
+    <xs:annotation>
+      <xs:documentation>A row object application defined value</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:element name="Resource" type="xs:string">
+    <xs:annotation>
+      <xs:documentation>The first associated Resource of an activity, only available for activitites</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:element name="Description" type="xs:string">
+    <xs:annotation>
+      <xs:documentation>A description of the activiry, only available for activitites</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:element name="ResourceState" type="xs:string">
+    <xs:annotation>
+      <xs:documentation>A row object application defined value</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:element name="Icon" type="xs:string">
+    <xs:annotation>
+      <xs:documentation>The name of the icon representing the row object</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:element name="ControlFlowFrom" type="gt:FlowIndexList">
+    <xs:annotation>
+      <xs:documentation>
+        A list of Control Flows that ends at this row objects.
+        One list entry represents the RowNumber where the link starts.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:element name="ControlFlowTo" type="gt:FlowIndexList">
+    <xs:annotation>
+      <xs:documentation>
+        A list of Control Flows that starts at this row objects.
+        One list entry represents the RowNumber where the link ends.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:element name="PrecedenceFrom" type="gt:FlowIndexList">
+    <xs:annotation>
+      <xs:documentation>
+        A list of Precedence Constraints that ends at this row objects.
+        One list entry represents the RowNumber where the link starts.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:element name="PrecedenceTo" type="gt:FlowIndexList">
+    <xs:annotation>
+      <xs:documentation>
+        A list of Precedence Constraints that starts at this row objects.
+        One list entry represents the RowNumber where the link ends.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:element name="PrevCycleFrom" type="gt:FlowIndexList">
+    <xs:annotation>
+      <xs:documentation>
+        A list of Previous Cycle flows that ends at this row objects.
+        One list entry represents the RowNumber where the link starts.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:element name="PrevCycleTo" type="gt:FlowIndexList">
+    <xs:annotation>
+      <xs:documentation>
+        A list of Previous Cycle flows that starts at this row objects.
+        One list entry represents the RowNumber where the link ends.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:element name="StartStartLink" type="gt:FlowIndexList">
+    <xs:annotation>
+      <xs:documentation>
+        A list of Start/Start Activity Synchronisation links.
+        One list entry represents the RowNumber where the link starts and ends.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:element name="EndEndLink" type="gt:FlowIndexList">
+    <xs:annotation>
+      <xs:documentation>
+        A list of End/End Activity Synchronisation links.
+        One list entry represents the RowNumber where the link starts and ends.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  
+  <xs:simpleType name="FlowIndexList">
+    <xs:annotation>
+      <xs:documentation>A list type holding flow indices to rows</xs:documentation>
+    </xs:annotation>
+    <xs:list itemType="xs:positiveInteger"/>
+  </xs:simpleType>
+  
+</xs:schema>

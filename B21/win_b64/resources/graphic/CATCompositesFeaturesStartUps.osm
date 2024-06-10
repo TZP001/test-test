@@ -1,0 +1,395 @@
+document `CATCompositesFeaturesStartUps.feat` {
+	history("ehr","","2011-02-23 08:33",4., 0u6819f9ee-0000-1878-4d64c66d0000002f)
+	history("xyv","","2010-10-27 05:42",3., 0u09164121-0000-0bfc-4cc7bbc800000025)
+	check_revision(0u6819f9ee-0000-1878-4d64c66d0000002f)
+	
+	container `CATFeatCont` #root #uuid(0uf1a3b5f3-0000-0898-415bd6b100000005) {
+		catalog_manager `Literals.feat`
+		catalog_manager `MechMod.feat`
+		catalog_manager `CATHybridShape.feat`
+		catalog_manager `ObjectSpecsModeler.feat`
+		feature `CATCoStackingGroupSuperTypeName`#2 `GSMTool`#77@`MechMod.feat` #startup #isa(`CATCompStackingGroup`) {
+			#uuid= 0uf1a3b5f3-0000-0898-415bd6b10000045a
+			int `Mirror`
+			specobject `CAAAdditionalData`
+			specobject `ChildrenList` #list
+			`_FtrList`#in = true
+		}
+		feature `CATCoStackingFeatName`#3 `CATCompStackingGroup`#2 #startup #isa(`CATCompStacking`) {
+			#mlc::version=4.
+			#uuid= 0uf1a3b5f3-0000-0898-415bd6b10000045b
+			external `ExternalLinkWithEnggDoc` #in #external_link_meta_data(_ExternalLinkWithEnggDoc)
+			component `3DMultiSpliceGroup`
+			external `EngineeringReference` #in #external_link_meta_data(_EngineeringReference)
+			component `CoreSampleGroup`
+			specobject `MirroringPlane`
+			int `CPDContext`
+			external `ExtCoreSampleInfosDocLink` #external_link_meta_data(_CoreSampleInfosDocLink)
+			external `ExtStackUpInfosDocLink` #external_link_meta_data(_StackUpInfosDocLink)
+			external `ExtStackingDataFromPliesDocLink` #external_link_meta_data(_StackingDataFromPliesDocLink)
+			external `ExtStackingDataFromZonesDocLink` #external_link_meta_data(_StackingDataFromZonesDocLink)
+			external `ExtStaggeringDataDocLink` #external_link_meta_data(_StaggeringDataDocLink)
+		}
+		feature `CATCoPliesGroupFeatName`#4 `CATCompStackingGroup`#2 #startup #isa(`CATCompPliesGroup`) {
+			#mlc::version=1.
+			#uuid= 0uf1a3b5f3-0000-0898-415bd6b10000045c
+			specobject `RosetteFeature` #in
+			specobject `FlattenPlane`
+			int `RosetteTransferType`
+			boolean `LayUpDirection` #in
+			boolean `LockPlyDrapingDir`
+			specobject `UnderlyingSurface` #in
+			specobject `NeutralFiberCurve` #in
+			int `ProcessMode`
+			string `AdvRosetteTransferType`
+			double `MinTapeOrFiberLength` #sharp_type(`LENGTH`) #in
+			`AdvRosetteTransferType`="none"
+			`MinTapeOrFiberLength`=50.
+			`ProcessMode`=1
+		}
+		feature `CATCoSequenceFeatName`#5 `CATCompStackingGroup`#2 #startup #isa(`CATCompSequence`) {
+			#uuid= 0uf1a3b5f3-0000-0898-415bd6b10000045d
+			component `SequenceUpdate`
+		}
+		feature `CATCoCutPieceGroupFeatName`#6 `CATCompStackingGroup`#2 #startup #isa(`CATCompCutPieceGroup`) {
+			#uuid= 0uf1a3b5f3-0000-0898-415bd6b10000045e
+		}
+		feature `CATCoTapeGroupFeatName`#7 `CATCompStackingGroup`#2 #startup #isa(`CATCompTapeGroup`) {
+			#uuid= 0uf1a3b5f3-0000-0898-415bd6b10000045f
+			component `CompStrategy` #in
+		}
+		feature `CATCoBasePlySuperTypeName`#8 `GSMTool`#77@`MechMod.feat` #startup #isa(`CATCompBasePly`) {
+			#uuid= 0uf1a3b5f3-0000-0898-415bd6b100000460
+			specobject `FlattenBody`
+			specobject `ExplodedSurface`
+			specobject `CAAAdditionalData`
+			specobject `Rosette` #in
+			component `PlyUpdate`
+			specobject `Direction` #in
+			specobject `CompositesGeometry` #in
+			component `NumAnalysis`
+			specobject `CompMaterialSpec`
+		}
+		feature `CATCoPlyFeatName`#9 `CATCompBasePly`#8 #startup #isa(`CATCompPly`) {
+			#mlc::version=2.
+			#uuid= 0uf1a3b5f3-0000-0898-415bd6b100000461
+			component `Producibility` #in
+			specobject `ZonesGroup`
+			boolean `NCFHand`
+			boolean `LayUpDirection`
+			specobject `CurrentProd`
+			component `ProducibilityList` #list #in
+			`NumAnalysis`#in = true
+		}
+		feature `CATCoCoreFeatName`#10 `CATCompBasePly`#8 #startup #isa(`CATCompCore`) {
+			#uuid= 0uf1a3b5f3-0000-0898-415bd6b100000462
+			boolean `NCFHand`
+		}
+		feature `CATCoTapeFeatName`#11 `CATCompBasePly`#8 #startup #isa(`CATCompTape`) {
+			#uuid= 0uf1a3b5f3-0000-0898-415bd6b100000463
+			component `Analysis`
+			string `sMode`
+			component `CompTapeAttribute` #in
+		}
+		feature `CATCoCutPieceFeatName`#12 `CATCompBasePly`#8 #startup #isa(`CATCompCutPiece`) {
+			#mlc::version=2.
+			#uuid= 0uf1a3b5f3-0000-0898-415bd6b100000464
+			component `Producibility`
+			specobject `CurrentProd`
+			component `ProducibilityList` #list #in
+		}
+		feature `CATCoFlattenBodyFeatName`#13 `GSMTool`#77@`MechMod.feat` #startup #isa(`CATCompFlattenBody`) {
+			#uuid= 0uf1a3b5f3-0000-0898-415bd6b100000465
+		}
+		feature `CATCoFlattenFeatureFeatName`#14 `GSMTool`#77@`MechMod.feat` #startup #isa(`CATCompFlattening`) {
+			#mlc::version=3.
+			#uuid= 0uf1a3b5f3-0000-0898-415bd6b100000466
+			boolean `MaterialWidthOK`
+			specobject `LocationPoint` #in
+			specobject `Producibility` #in
+			double `FiberDirections` #list
+			specobject `FlattenPlane` #in
+			boolean `Rotate`
+			component `FlattenRosette`
+			component `FlattenContours` #list
+			int `RollWidthCheckType` #in
+			boolean `FlattenAsSketch`
+		}
+		feature `CATCoFlattenContourFeatName`#15 `GSMMonoDim`#4@`CATHybridShape.feat` #startup #isa(`CATCompFlattenContour`) {
+			#uuid= 0uf1a3b5f3-0000-0898-415bd6b100000467
+			specobject `PlyContour` #in
+		}
+		feature `CATCoPlyUpdateFeatName`#16 #startup #isa(`CATCompPlyUpdate`) {
+			#uuid= 0uf1a3b5f3-0000-0898-415bd6b100000468
+			specobject `Sequence` #in
+			specobject `Rosette` #in
+			specobject `Direction` #in
+			specobject `CompositesGeometry` #in
+			specobject `PositionedMaterial` #in
+		}
+		feature `CATCoStrategyFeatName`#17 #startup #isa(`CATCompStrategy`) {
+			#uuid= 0uf1a3b5f3-0000-0898-415bd6b100000469
+			string `Type`
+			int `StrategyType`
+			component `Angle` #in
+			specobject `StrategyPoint`
+			double `LayingDirX`
+			double `LayingDirY`
+			double `LayingDirZ`
+			double `NominalWidth`
+			component `MaxGap` #in
+			component `MinGap` #in
+			component `NominalGap` #in
+			`Angle`=`Angle`#21
+			`MaxGap`=`MaxGap`#19
+			`MinGap`=`MinGap`#26
+			`NominalGap`=`NominalGap`#18
+		}
+		feature `NominalGap`#18 `LENGTH`#56@`Literals.feat` #valuated(0.) #rights(3) #literal(alias) {
+			#uuid= 0uf1a3b5f3-0000-0898-415bd6b10000046a
+		}
+		feature `MaxGap`#19 `LENGTH`#56@`Literals.feat` #valuated(0.) #rights(3) #literal(alias) {
+			#uuid= 0uf1a3b5f3-0000-0898-415bd6b10000046b
+		}
+		feature `Angle`#21 `LENGTH`#56@`Literals.feat` #valuated(0.) #rights(3) #literal(alias) {
+			#uuid= 0uf1a3b5f3-0000-0898-415bd6b10000046d
+		}
+		feature `CATCoTapeAttributeFeatName`#22 #startup #isa(`CATCompTapeAttrbute`) {
+			#uuid= 0uf1a3b5f3-0000-0898-415bd6b10000046e
+			boolean `Mode`
+			specobject `Side1`
+			specobject `Side2`
+			double `Width`
+			string `sMode`
+			specobject `CenterLine`
+		}
+		feature `MinGap`#26 `LENGTH`#56@`Literals.feat` #valuated(0.) #rights(3) #literal(alias) {
+			#uuid= 0uf1a3b5f3-0000-0978-417f5fbd0000046f
+		}
+		feature `CATCoSequenceUpdateFeatName`#27 #startup #isa(`CATCompSequenceUpdate`) {
+			#uuid= 0uf1a3b5f3-0000-0978-417f5fbd00000470
+			specobject `PlyUpdates` #list #in
+		}
+		feature `CATCoBaseSpliceZonesName`#28 `GSMTool`#77@`MechMod.feat` #startup #isa(`CATCompBaseSpliceZonesGroup`) {
+			#uuid= 0u5bb95fcd-0000-0138-4354aec5000004ee
+		}
+		feature `CATCoButtSpliceZonesName`#29 `CATCompBaseSpliceZonesGroup`#28 #startup #isa(`CATCompButtSpliceZonesGroup`) {
+			#uuid= 0u5bb95fcd-0000-0138-4354aec5000004ef
+		}
+		feature `CATCoNoSpliceZonesName`#30 `CATCompBaseSpliceZonesGroup`#28 #startup #isa(`CATCompNoSpliceZonesGroup`) {
+			#uuid= 0u5bb95fcd-0000-0138-4354aec5000004f0
+		}
+		feature `CATCoBaseSpliceZoneName`#31 `GSMTool`#77@`MechMod.feat` #startup #isa(`CATCompBaseSpliceZone`) {
+			#uuid= 0u5bb95fcd-0000-0138-4354aec5000004f1
+			specobject `EntityList` #list #in
+			specobject `UnderlyingSurface` #in
+			specobject `CompositesGeometry` #in
+		}
+		feature `CATCoButtSpliceZoneName`#32 `CATCompBaseSpliceZone`#31 #startup #isa(`CATCompButtSpliceZone`) {
+			#uuid= 0u5bb95fcd-0000-0138-4354aec5000004f2
+			component `Gap` #in
+			int `ParallelMode`
+			`Gap`=`Gap`#35
+		}
+		feature `CATCoNoSpliceZoneName`#33 `CATCompBaseSpliceZone`#31 #startup #isa(`CATCompNoSpliceZone`) {
+			#uuid= 0u5bb95fcd-0000-0138-4354aec5000004f3
+		}
+		feature `CATCoButtParallelName`#34 `GSMMonoDim`#4@`CATHybridShape.feat` #startup #isa(`CATCompButtParallel`) {
+			#uuid= 0u5bb95fcd-0000-0138-4354aec5000004f4
+			specobject `ButtSpliceZones` #in
+			specobject `OverlapCurve` #in
+			specobject `SpliceCurve` #in
+		}
+		feature `Gap`#35 `LENGTH`#56@`Literals.feat` #valuated(0.) #rights(3) #literal(alias) {
+			#uuid= 0u5bb95fcd-0000-0138-4354aec5000004f5
+		}
+		feature `CATCoSectionGroupFeatName`#36 `GSMTool`#77@`MechMod.feat` #startup #isa(`CATCompSectionGroup`) {
+			#uuid= 0u3f7a8f62-0000-0a68-456c35fe000004d7
+			specobject `SelectedEntities` #list
+			component `Scale` #in
+			int `DisplayType` #in
+			specobject `SectionPlane` #in
+			component `ListofPlySections` #list
+			int `CornerType` #in
+			component `RampLength` #in
+			`RampLength`=`Scale`#38
+			`Scale`=`Scale`#37
+		}
+		feature `Scale`#37 `Integer`#4@`Literals.feat` #valuated(0) #rights(3) #literal(int) {
+			#uuid= 0u3f7a8f62-0000-0a68-456c35fe000004d8
+		}
+		feature `Scale`#38 `LENGTH`#56@`Literals.feat` #valuated(0.) #rights(3) #literal(alias) {
+			#uuid= 0u3f7a8f62-0000-0a68-456c35fe000004d9
+		}
+		feature `CATCoPlySectionFeatName`#39 `GSMGeom`#2@`CATHybridShape.feat` #startup #isa(`CATCompPlySection`) {
+			#uuid= 0u3f7a8f62-0000-0a68-456c35fe000004da
+			specobject `Ply`
+		}
+		feature `CompMaterialFeatName`#40 `GSMTool`#77@`MechMod.feat` #startup #isa(`CompMaterialFeatType`) {
+			#mlc::version=4.
+			#uuid= 0uf1a3b677-0000-0114-458685d4000004e5
+			specobject `MaterialName`
+			specobject `MaterialType`
+			specobject `MaterialRollWidth`
+			specobject `MaterialUncuredThickness`
+			specobject `MaterialCuredThickness`
+			specobject `MaterialWarnAngle`
+			specobject `MaterialLimitAngle`
+			specobject `MaterialWeightperSurfunit`
+			external `MaterialExternalLink` #in #external_link_meta_data(_MaterialExternalLink)
+			specobject `MaterialDensity`
+			specobject `MaterialAngleWarpWeft`
+			specobject `MaterialRatioWarpWeft`
+			double `AngleWarpWeft` #sharp_type(`ANGLE`) #in
+			double `RatioWarpWeft` #sharp_type(`Real`) #in
+			`_FtrList`#in = true
+			`AngleWarpWeft`=90.
+			`RatioWarpWeft`=1.
+			`_FtrList`=[`MaterialName`#41,`MaterialID`#42,`MaterialType`#44,`MaterialCuredThickness`#45,`MaterialUncuredThickness`#46,`MaterialRollWidth`#47,`MaterialWarnAngle`#48,`MaterialLimitAngle`#49,
+				`MaterialWeightperSurfunit`#50,`MaterialDensity`#58,`MaterialAngleWarpWeft`#56,`MaterialRatioWarpWeft`#57]
+		}
+		feature `MaterialName`#41 `String`#5@`Literals.feat` #valuated("") #rights(3) #literal(string) {
+			#uuid= 0uf1a3b677-0000-0114-458685d4000004e6
+		}
+		feature `MaterialID`#42 `String`#5@`Literals.feat` #valuated("") #rights(3) #literal(string) {
+			#uuid= 0uf1a3b677-0000-0114-458685d4000004e7
+		}
+		feature `CompMaterialType`#43 `Enumere`#6@`Literals.feat` #startup #valuated(0) #rights(3) #literal(enum) {
+			#uuid= 0uf1a3b677-0000-0114-458685d4000004e8
+			`values`=["Notdefined","Uni-directional","Bi-directional","NCF","Non Structural"]
+		}
+		feature `MaterialType`#44 `CompMaterialType`#43 #valuated(4) #modified #rights(3) #literal(enum) {
+			#uuid= 0uf1a3b677-0000-0114-458685d4000004e9
+			`KWEExternalLink`#in = true
+		}
+		feature `MaterialCuredThickness`#45 `LENGTH`#56@`Literals.feat` #valuated(1.) #modified #rights(3) #literal(alias) {
+			#uuid= 0uf1a3b677-0000-0114-458685d4000004ea
+			`KWEExternalLink`#in = true
+		}
+		feature `MaterialUncuredThickness`#46 `LENGTH`#56@`Literals.feat` #valuated(2.) #modified #rights(3) #literal(alias) {
+			#uuid= 0uf1a3b677-0000-0114-458685d4000004eb
+			`KWEExternalLink`#in = true
+		}
+		feature `MaterialRollWidth`#47 `LENGTH`#56@`Literals.feat` #valuated(1200.) #modified #rights(3) #literal(alias) {
+			#uuid= 0uf1a3b677-0000-0114-458685d4000004ec
+			`KWEExternalLink`#in = true
+		}
+		feature `MaterialWarnAngle`#48 `ANGLE`#60@`Literals.feat` #valuated(14.999999999978) #modified #rights(3) #literal(alias) {
+			#uuid= 0uf1a3b677-0000-0114-458685d4000004ed
+			`KWEExternalLink`#in = true
+		}
+		feature `MaterialLimitAngle`#49 `ANGLE`#60@`Literals.feat` #valuated(29.999999999957) #modified #rights(3) #literal(alias) {
+			#uuid= 0uf1a3b677-0000-0114-458685d4000004ee
+			`KWEExternalLink`#in = true
+		}
+		feature `MaterialWeightperSurfunit`#50 `SURFACICMASS`#192@`Literals.feat` #valuated(0.285) #modified #rights(3) #literal(alias) {
+			#uuid= 0uf1a3b677-0000-0114-458685d4000004ef
+			`KWEExternalLink`#in = true
+		}
+		feature `CATCompMultiLimitContourName`#51 #startup #isa(`CATCompMultiLimitContour`) {
+			#uuid= 0u11a2add2-0000-1520-465e5652000009ed
+			specobject `PliesList` #list #in
+			specobject `CurvesList` #list #in
+			specobject `OutputLimitContours` #list
+		}
+		feature `CATCoLimitContourGroupFeatName`#52 `GSMTool`#77@`MechMod.feat` #startup #isa(`CompLimitContourGroupFeature`) {
+			#uuid= 0u11a2add2-0000-b8d0-4704e9cb00000a70
+			specobject `EntityList` #list
+			specobject `LimitContourList` #list
+			specobject `CurvesList` #list
+			specobject `StagValList` #list
+			specobject `StagStepList` #list
+			int `StagDirList` #list
+			int `JoinType`
+			int `LimitationSide`
+			int `ParallelMode`
+		}
+		feature `CATCoLimitContourGroupsFeatName`#53 `GSMTool`#77@`MechMod.feat` #startup #isa(`CompLimitContourGroupsFeature`) {
+			#uuid= 0u11a2add2-0000-b8d0-4704e9cb00000a73
+		}
+		feature `CATCoUnfoldedFeatureFeatName`#54 `GSMTool`#77@`MechMod.feat` #startup #isa(`CATCompUnfolded`) {
+			#mlc::version=1.
+			#uuid= 0u3f7d9bc9-0000-3154-478745f900000a6f
+			specobject `UnfoldedSurface` #in
+			component `FlattenRosette`
+			component `FlattenContours` #list #in
+			component `PlyWires` #list
+			specobject `CompositesGeometry` #in
+		}
+		feature `CATCoUnfoldedContourFeatName`#55 `GSMTransferedMonoDim`#169@`CATHybridShape.feat` #startup #isa(`CATCompUnfoldedContour`) {
+			#uuid= 0u3f7d9bc9-0000-3154-478745f900000a70
+			specobject `PlyContour` #in
+		}
+		feature `MaterialAngleWarpWeft`#56 `ANGLE`#60@`Literals.feat` #valuated(90.) #rights(3) #literal(alias) {
+			#uuid= 0u0934efc2-0000-0d9c-49f55ebd0000063a
+			`KWEExternalLink`#in = true
+		}
+		feature `MaterialRatioWarpWeft`#57 `Real`#3@`Literals.feat` #valuated(1.) #rights(3) #literal(double) {
+			#uuid= 0u0934efc2-0000-0d9c-49f55ebd0000063b
+			`KWEExternalLink`#in = true
+		}
+		feature `MaterialDensity`#58 `DENSITY`#83@`Literals.feat` #valuated(0.2) #rights(3) #literal(alias) {
+			#uuid= 0u0934efc2-0000-0d9c-49f55ebd0000063c
+			`KWEExternalLink`#in = true
+		}
+		feature `CompCoreSolidFormGeometryName`#59 `MechanicalFormFeature`#65@`MechMod.feat` #startup #isa(`CompCoreSolidFormGeometry`) {
+			specobject `Curves` #list #in
+			int `MaterialSide`
+			specobject `ReferenceSurface`
+			component `VariableOffsets` #list #in
+			component `VariableSlopes` #list #in
+			`VariableOffsets`=[`VariableOffsets`#60]
+			`VariableSlopes`=[`VariableSlopes`#61]
+		}
+		feature `VariableOffsets`#60 `LENGTH`#56@`Literals.feat` #valuated(0.) #rights(3) #literal(alias) {
+			#uuid= 0u378c3acd-0000-1778-4d75c3300000002f
+		}
+		feature `VariableSlopes`#61 `ANGLE`#60@`Literals.feat` #valuated(0.) #rights(3) #literal(alias) {
+			#uuid= 0u378c3acd-0000-1778-4d75c33000000030
+		}
+
+		
+// insert here your startups
+
+	}
+	meta_data_definition {
+		external_link_meta_data `_StackUpInfosDocLink` {
+			meta_data_relation->role = "CPD_MSExcelReference"
+			meta_data_relation->category = "Reference4"
+		}
+		external_link_meta_data `_CoreSampleInfosDocLink` {
+			meta_data_relation->role = "CPD_MSExcelReference"
+			meta_data_relation->category = "Reference4"
+		}
+		external_link_meta_data `_EngineeringReference` {
+			meta_data_relation->role = "CPD_ManufacturingPreparationOf"
+			meta_data_relation->category = "Reference4"
+			meta_data_link->sync_button = true
+			meta_data_link->deactivation_button = true
+		}
+		external_link_meta_data `_StaggeringDataDocLink` {
+			meta_data_relation->role = "CPD_MSExcelReference"
+			meta_data_relation->category = "Reference4"
+		}
+		external_link_meta_data `_StackingDataFromZonesDocLink` {
+			meta_data_relation->role = "CPD_MSExcelReference"
+			meta_data_relation->category = "Reference4"
+		}
+		external_link_meta_data `_ExternalLinkWithEnggDoc` {
+			meta_data_relation->role = "CPD_ManufacturingPreparationOf"
+			meta_data_relation->category = "Reference4"
+			meta_data_link->sync_button = true
+			meta_data_link->deactivation_button = true
+		}
+		external_link_meta_data `_MaterialExternalLink` {
+			meta_data_relation->role = "Default"
+			meta_data_relation->category = "Reference"
+			meta_data_link->sync_button = true
+			meta_data_link->deactivation_button = true
+		}
+		external_link_meta_data `_StackingDataFromPliesDocLink` {
+			meta_data_relation->role = "CPD_MSExcelReference"
+			meta_data_relation->category = "Reference4"
+		}
+	}
+}

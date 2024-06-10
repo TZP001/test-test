@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<DSxDevCodeGen><Content ModuleName = "ENODC5Commands"><ExportData Name = "ENODC5AttributeFrame" Version = "1.0" Inheritable = "false" LightSimulationOnly = "false">
+      <Behavior Model = "FullyDesigned"/>
+      <Toolbox Category = "V5 Component" DisplayName = "ENODC5AttributeFrame"/>
+      <MetaModel>
+        <Properties/>
+        <Callbacks/>
+      </MetaModel>
+      <Production>
+        <Instantiation>
+          <Code><![CDATA[
+$InstanceName=new ENODC5AttributeFrame($ParentName,(const char*)${string:Name});
+
+]]></Code>
+        </Instantiation>
+        <Build>
+          <Code><![CDATA[
+
+$InstanceName->Build();
+
+
+<@if $GridLayoutConstraint!="" {@>
+{
+int gridAnchor=0;
+<@if ${GridLayoutConstraint/Anchor/AttachedToLeft}=="true" {@>gridAnchor|=CATGRID_LEFT;
+<@}@>
+<@if ${GridLayoutConstraint/Anchor/AttachedToRight}=="true" {@>gridAnchor|=CATGRID_RIGHT;
+<@}@>
+<@if ${GridLayoutConstraint/Anchor/AttachedToTop}=="true" {@>gridAnchor|=CATGRID_TOP;
+<@}@>
+<@if ${GridLayoutConstraint/Anchor/AttachedToBottom}=="true" {@>gridAnchor|=CATGRID_BOTTOM;
+<@}@>
+<@if ${GridLayoutConstraint/Anchor/ConstantWidth}=="true" {@>gridAnchor|=CATGRID_CST_WIDTH;
+<@}@>
+<@if ${GridLayoutConstraint/Anchor/ConstantHeight}=="true" {@>gridAnchor|=CATGRID_CST_HEIGHT;
+<@}@>
+$InstanceName->SetGridConstraints(${int:GridLayoutConstraint/Row},${int:GridLayoutConstraint/Col},${int:GridLayoutConstraint/Width},${int:GridLayoutConstraint/Height},gridAnchor);
+}
+<@}@>
+
+]]></Code>
+        </Build>
+        <Declarations>
+          <Code><![CDATA[
+class ENODC5AttributeFrame;
+
+]]></Code>
+        </Declarations>
+        <Includes>
+          <Code><![CDATA[
+#include "ENODC5AttributeFrame.h"
+#include "CATDlgGridConstraints.h"
+#include "ENODC5Attribute.h"
+]]></Code>
+        </Includes>
+      </Production>
+    </ExportData><DesignModel>
+      <RootWidget ID = "cd26946b-e554-44ae-817e-390fd8dc7bb4" Name = "ENODC5AttributeFrame" Type = "CATDlgFrame" Title = "ENODC5AttributeFrame" Version = "1.0" HideFrame = "true" HideTitle = "true">
+        <Children Type = "List"/>
+        <GridResizableData>
+          <ResizableRows Type = "List"/>
+          <ResizableColumns Type = "ScalarList" Value = "5"/>
+        </GridResizableData>
+      </RootWidget>
+    </DesignModel></Content></DSxDevCodeGen>

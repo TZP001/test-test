@@ -1,0 +1,626 @@
+' COPYRIGHT DASSAULT SYSTEMES 2004
+'
+' ***********************************************************************
+'   Purpose:        Apply materials as link on Parts, according to an 
+'                   input text file containing the part names, the material
+'                   family and the material name
+'
+'   Version:		1.0
+'   Author:			AST
+'   Languages:		CATScript 
+'   Locales:		English 
+'   CATIA Level:	V5R14 
+' ***********************************************************************
+'
+'  This interactive VB macro applies materials as link on parts, according to an 
+'  input text file containing the part names, the material family name and the 
+'  material name.
+'  The report of the automatic mapping is created in an output text file. 
+'  Look at the .txt sample delivered to see the text input format.
+'  No document need to be opened in the CATIA session before starting the macro.
+
+Public arrayOfVisitedNode() As Integer
+Public MaxLevel As Integer 
+
+' Main 
+Sub CATMain()
+
+  '*********************************************************************************
+  ' Initialization of customer parameters
+  '*********************************************************************************
+  '  Product directory and name
+  Dim ProductFile As String
+  ProductFile = "E:\tmp\Wheel_withoutMaterials.CATProduct" 
+
+  ' Material catalog directory and name
+  Dim MaterialFile As String
+  MaterialFile = "E:\tmp\Wheel_materials.CATMaterial"
+
+  '  Report File directory and name
+  Dim ReportFile As String
+  ReportFile = "E:\tmp\ApplyReportFile.txt"
+
+  '*********************************************************************************
+  ' Initialization of internal parameters
+  '*********************************************************************************
+  ' Get the file system object
+  Dim oFileSys as FileSystem
+  Set oFileSys = CATIA.FileSystem
+
+  ' Deactivate file alert (to avoid interactive message during read/write of files if any)
+  Dim FileAlertSave
+  FileAlertSave = CATIA.DisplayFileAlerts
+  CATIA.DisplayFileAlerts = False
+
+  ' Initialize the report file
+  Dim oReport As CATIATextStream
+  Dim iOverwrite As Boolean
+  Dim MyDate As Variant
+  MyDate = Now
+  iOverwrite = True
+  Set oReport = CATIA.FileSystem.CreateFile(ReportFile, iOverwrite).OpenAsTextStream("ForWriting")
+  oReport.Write " ########  Report file  ########" &  Chr(10)
+  oReport.Write " # Date : " & MyDate & Chr(10)
+  
+  '*********************************************************************************
+  ' Open material catalog
+  '*********************************************************************************
+  Dim cDocuments_list As Documents
+  Set cDocuments_list = CATIA.Documents
+  Dim oMaterial_document As MaterialDocument
+  Set oMaterial_document = cDocuments_list.Open(MaterialFile)
+  oReport.Write "Material Document opened successfully" & Chr(10)
+  oReport.Write "Document opened : " & oMaterial_document.Name &  Chr(10)
+  oReport.Write "---------------------------------------------------"  &  Chr(10)
+
+  ' Retrieve the family collection
+  Dim cFamilies_list As MaterialFamilies
+  Set cFamilies_list = oMaterial_document.Families
+
+  Dim iNb_families As Integer
+  iNb_families = cFamilies_list.Count
+
+  '*********************************************************************************
+  ' Open product file
+  '*********************************************************************************
+  Dim oProductDocument As Document
+  Set oProductDocument = cDocuments_list.Open(ProductFile)
+ 
+  oReport.Write "---------------------------------------------------"  &  Chr(10)
+  oReport.Write "Product Document opened successfully" & Chr(10)
+  oReport.Write "Document opened : " & oProductDocument.Name &  Chr(10)
+  oReport.Write "---------------------------------------------------"  &  Chr(10) 
+  
+  '*********************************************************************************
+  ' Open text file (with dialog)
+  '*********************************************************************************  
+  '  Get name of the material library text file
+  Dim sAnswer As String
+  sAnswer = CATIA.FileSelectionBox("Select a input text file", "*.txt", CatFileSelectionModeOpen)
+
+  If (""<>sAnswer) Then 
+
+   '*********************************************************************************
+   ' Open the material library text file
+   '*********************************************************************************
+	Dim oFileIn As File    
+	Set oFileIn = oFileSys.GetFile(sAnswer)
+	Dim oStream As TextStream
+	Set oStream = oFileIn.OpenAsTextStream("ForReading")
+    oReport.Write "Text File opened successfully" & Chr(10)
+    oReport.Write "File opened : " & sAnswer &  Chr(10)
+    oReport.Write "---------------------------------------------------" & Chr(10)
+
+   '*********************************************************************************
+   ' Retrieve the Root Product 
+   '*********************************************************************************
+    Dim oRootProduct As Product
+    Set oRootProduct = oProductDocument.Product
+    oReport.Write "Root Product retrieved..." & Chr(10)
+  
+   '*********************************************************************************
+   ' Retrieve the material manager for root product
+   '*********************************************************************************
+    Dim oManager As MaterialManager
+    ' Retrieve the extension object associated to Y under the key "MyCATIVBExtensionImpl"
+    Set oManager = oRootProduct.GetItem("CATMatManagerVBExt")
+    oReport.Write "Material Manager on product document retrieved..." & Chr(10)
+    
+    '*********************************************************************************
+    ' Declarations and initializations
+    '*********************************************************************************
+	Dim sLine As String
+    Dim sProduct As String
+	Dim sFamily As String
+	Dim sMaterial As String
+	Dim sBuffer As String
+    
+    Dim oCurrentProduct As Product
+    Dim oProduct As Product
+    Dim oChild As Product
+    Dim oBrotherProduct As Product
+    Dim cProductChildren As Products
+    Dim oFather As Product
+
+    Dim oFamily As MaterialFamily
+    Dim cMaterials_list As Materials
+    Dim oMaterial As Material
+    
+    Dim result As Integer
+    Dim lineNumber As Integer
+    Dim nbChildren As Integer
+    Dim indexLevel As Integer
+    Dim nbFamilies As Integer
+    Dim noFamily As Integer
+    Dim nbMaterials As Integer
+    Dim noMaterial As Integer
+    Dim linkMode As Integer
+
+    Dim applyDone As Boolean
+                   
+    lineNumber = 0
+    linkMode = 1
+
+    '*********************************************************************************
+    ' Read the input file line by line
+    '*********************************************************************************
+	Do Until oStream.AtEndOfStream
+
+	  ' Read the current line
+	  sLine = oStream.ReadLine
+      lineNumber = lineNumber + 1
+
+	  sBuffer = Left(sLine, 1)
+
+	  ' Test if the line is empty or a comment
+	  If (0<>StrComp(sBuffer, "#") And 0<Len(sBuffer) And 0<>FindFirstChar(sLine)) Then
+				
+	    ' Parse the line, determine product name, material family and material name
+        result = ParseLine(sLine, sProduct, sFamily, sMaterial) 
+        If (result = 0) Then 
+
+	      SYNTAX_ERROR lineNumber
+		  Exit Sub
+
+		Else
+            
+          '*********************************************************************************
+          ' Line has been sucessfully parsed
+          '*********************************************************************************
+          oReport.Write "---------------------------------------------------"  &  Chr(10)
+          oReport.Write "Line " & lineNumber & " parsed successfully" & Chr(10)
+          oReport.Write "Product name is: " & sProduct & Chr(10)
+          oReport.Write "Family name is: " & sFamily & Chr(10)
+          oReport.Write "Material name is: " & sMaterial & Chr(10)
+
+          '*********************************************************************************
+          ' Look for the Product to apply Material 
+          ' Scan the product tree and compare names
+          '*********************************************************************************
+          Redim arrayOfVisitedNode(1)
+          Set oCurrentProduct = oRootProduct
+          indexLevel = 0
+          MaxLevel = 0 
+
+          Do 
+            applyDone = FALSE
+       
+            '*********************************************************************************
+            ' oCurrentProduct is not a leaf Product
+            '*********************************************************************************
+            If (LExistChildren(oCurrentProduct)) Then
+
+              GetFirstChild oCurrentProduct, oChild, indexLevel
+              Set oCurrentProduct = oChild 
+              indexLevel = indexLevel + 1  
+              If (MaxLevel < indexLevel) Then
+                Redim Preserve arrayOfVisitedNode(UBound(arrayOfVisitedNode)+1) 
+                MaxLevel = MaxLevel + 1
+              End If                 
+
+            '*********************************************************************************
+            ' oCurrentProduct is a leaf Product
+            '*********************************************************************************
+            Else
+
+              '*********************************************************************************                         
+              ' Product to apply material found
+              '*********************************************************************************
+              If (strComp(oCurrentProduct.Name, sProduct) = 0) Then
+                
+                oReport.Write "--> Product to apply material has been located" & Chr(10)
+                             
+                '*********************************************************************************                         
+                ' Look for the family containing the material
+                '*********************************************************************************
+                nbFamilies = cFamilies_list.Count
+
+                For noFamily = 1 To nbFamilies
+
+                  Set oFamily = cFamilies_list.Item(noFamily)
+
+                  '********************************************************************************* 
+                  '  Family found
+                  '********************************************************************************* 
+                  If (strComp(oFamily.Name, sFamily) = 0) Then
+
+                    oReport.Write "--> Family of material has been located"  & Chr(10)
+
+                    '*********************************************************************************                         
+                    ' Look for the material to apply
+                    '*********************************************************************************
+                    Set cMaterials_list = oFamily.Materials
+                    nbMaterials = cMaterials_list.Count
+
+                    For noMaterial = 1 To nbMaterials
+                      Set oMaterial = cMaterials_list.Item(noMaterial)
+
+                      '********************************************************************************* 
+                      '  Material found
+                      '*********************************************************************************
+                      If (strComp(oMaterial.Name, sMaterial) = 0) Then
+
+                        oReport.Write "--> Material has been located"  & Chr(10)
+
+                        '*********************************************************************************
+                        ' Apply the material as link
+                        '*********************************************************************************
+                        oManager.ApplyMaterialOnProduct oCurrentProduct,oMaterial,linkMode 
+                        oReport.Write "====> Material applied as a link successfully on Product" & Chr(10)
+                        applyDone = TRUE
+                        Exit For
+                            
+                      End If
+                    Next
+
+                    If (applyDone = FALSE) Then
+                      ' Material not found
+                      oReport.Write "====> Material " & sMaterial & " NOT FOUND IN FAMILY " & oFamily.Name & Chr(10)
+                      oReport.Write "====> NO MATERIAL APPLIED ON PRODUCT " & sProduct & Chr(10)
+                      Exit Do
+                    End If
+
+                    Exit For
+
+                  End If
+                Next
+                
+                If (applyDone = FALSE) Then
+                  ' Family not found
+                  oReport.Write "====> Family " & sFamily & " NOT FOUND IN CATALOG" & Chr(10)
+                  oReport.Write "====> NO MATERIAL APPLIED ON PRODUCT " & sProduct & Chr(10)
+                  Exit Do
+                End If
+
+              End If
+
+              '*********************************************************************************
+              ' Go up to the first non visited child 
+              '********************************************************************************* 
+              Do while ( (Not(oCurrentProduct Is oRootProduct)) AND (Not(LExistBrother(oCurrentProduct,indexLevel))))
+                indexLevel = indexLevel - 1
+                ' Get the father
+                GetFather oCurrentProduct, oFather
+                Set oCurrentProduct = oFather
+              Loop
+
+              If (LExistBrother(oCurrentProduct,indexLevel)) Then
+                NextBrother oCurrentProduct, oBrotherProduct, indexLevel
+                Set oCurrentProduct = oBrotherProduct   
+              End If        
+   
+            End If  
+                         
+          Loop Until ( oCurrentProduct Is oRootProduct )
+
+        End If
+      End If
+    Loop
+  End If
+
+  ' *********************************************************************************
+  '  End Macro 
+  ' *********************************************************************************  
+  MsgBox " Macro ended" 
+    
+  ' Close the catalog
+  oMaterial_document.Close
+  ' 
+  Set oMaterial_document = Nothing
+  Set oRootProduct = Nothing
+  Set oProductDocument = Nothing 
+  Set oCurrentProduct  = Nothing 
+  Set oProduct = Nothing
+  Set oChild = Nothing
+  Set oBrotherProduct = Nothing
+  Set cProductChildren = Nothing
+  Set oFather = Nothing
+  Set cFamilies_list = Nothing
+  Set oFamily = Nothing
+  Set cMaterials_list = Nothing
+  Set oMaterial = Nothing
+  Set oManager = Nothing
+  '
+  ' Finalize the report file
+  '
+  oReport.Close
+  Set oReport = Nothing
+   
+  ' Reactivate file alert
+  CATIA.DisplayFileAlerts = FileAlertSave
+
+End Sub
+
+'************************************************************************************
+'	Subs and Functions code
+'************************************************************************************
+
+'------------------------------------------------------------------------------------
+'	ParseLine
+'	Parse a line with the format "Product ; Family ; Material" and return the names of
+'   Product, of Material Family and of Material
+'	Return 0 if there is a syntax error on the line 
+'   Return 1 either
+'------------------------------------------------------------------------------------
+Public Function ParseLine(ByVal sLine As String, sPart, sFamily, sMaterial) As Int
+
+    Dim FirstSeparator As Integer
+    Dim SecondSeparator As Integer
+    Dim sRest As String
+
+    FirstSeparator = InStr(sLine, ";")
+
+	' Test the line format (with 2 ;)
+	If (FirstSeparator = 0) Then
+      ParseLine = 0
+	  Exit Function
+	Else
+
+      SecondSeparator = InStr(FirstSeparator+1, sLine, ";")
+      If (SecondSeparator = 0) Then
+        ParseLine = 0
+	    Exit Function
+      Else
+
+        sPart = Mid(sLine, FindFirstChar(sLine), FirstSeparator-FindFirstChar(sLine))
+        ' Suppression of tab and blank character at the end
+        sPart = Mid(sPart, 1, FindLastChar(sPart))
+        If (Len(sPart) = 0) Then
+          ParseLine = 0
+          Exit Function
+        End If
+        
+        sRest = Mid(sLine, FirstSeparator + 1, Len(sLine))
+        sFamily = Trim(Mid(sRest, FindFirstChar(sRest), InStr(sRest, ";")-FindFirstChar(sRest)))
+
+        If (Len(sLine) = SecondSeparator) Then
+          sMaterial = ""
+          ParseLine = 1
+          Exit Function
+        End If
+
+        sRest = Mid(sLine, SecondSeparator + 1, Len(sLine))
+
+        If (FindFirstChar(sRest) = 0) Then
+          sMaterial = ""
+          ParseLine = 1
+          Exit Function 
+        End If
+
+        sMaterial = Trim(Mid(sRest, FindFirstChar(sRest), Len(sRest)))
+		ParseLine = 1
+
+  	  End If
+	End If
+End Function
+
+'------------------------------------------------------------------------------------
+'	FindFirstChar
+'	Return the position of the first character which is not a space or a tab in a string
+'	Return 0 either
+'------------------------------------------------------------------------------------
+Public Function FindFirstChar(ByVal sLine As String) As Int
+
+	Dim iCount As Integer
+	FindFirstChar = 0
+
+	For iCount = 1 To Len(sLine) 
+
+	  ' Avoid the space and tab characters
+	  If (StrComp(Mid(sLine, iCount, 1), Chr(9)) <> 0 And StrComp(Mid(sLine, iCount, 1), " ") <> 0) Then
+	 	FindFirstChar = iCount
+		Exit For
+	  End If
+	Next
+End Function
+
+'------------------------------------------------------------------------------------
+'	FindLastChar
+'	Return the position of the last character which is not a space or a tab in a string
+'	Return 0 either
+'------------------------------------------------------------------------------------
+Public Function FindLastChar(ByVal sLine As String) As Int
+
+	Dim iCount As Integer
+	FindLastChar = Len(sLine)
+
+	For iCount = Len(sLine) To 1 Step -1
+
+	  ' Avoid the space and tab characters
+	  If (StrComp(Mid(sLine, iCount, 1), Chr(9)) <> 0 And StrComp(Mid(sLine, iCount, 1), " ") <> 0) Then
+
+	 	FindLastChar = iCount
+		Exit For
+
+	  End If
+	Next
+End Function
+
+'------------------------------------------------------------------------------------
+'	SYNTAX_ERROR
+'	Stop the program and indicate the line error
+'------------------------------------------------------------------------------------
+Public Sub SYNTAX_ERROR(ByVal iInc As Int)
+	msgbox "SYNTAX ERROR : on line " & iInc, vbOKOnly, "Apply Material macro"
+End Sub
+
+' -------------------------------------------------------------------------------------
+'    ScanNode
+' -------------------------------------------------------------------------------------
+Sub ScanNode( oMyProduct As Product, cProductChildren As Products, nb_children As Integer)
+
+    Set cProductChildren = oMyProduct.Products
+   
+    Dim nb_products As Integer
+    nb_products = cProductChildren.Count
+    nb_children = nb_products
+
+End Sub
+
+' --------------------------------------------------------------------------------------
+'    LExistChildren
+' ---------------------------------------------------------------------------------------
+Function LExistChildren( oMyProduct As Product) As Boolean
+
+    Dim cProductChildren As Products
+    Dim nb_children As Integer
+    Dim Lexist As Boolean
+    Lexist = False
+      
+    ScanNode oMyProduct, cProductChildren, nb_children 
+  
+    If (nb_children > 0) Then
+      Lexist = True
+    End If 
+  
+    LExistChildren = Lexist  
+
+End Function
+
+' -------------------------------------------------------------------------------------------
+'    GetFirstChild
+' -------------------------------------------------------------------------------------------
+Sub GetFirstChild(oMyProduct As Product,oMyChild As Product,Currentlevel As Integer)
+
+    Dim cProductChildren As Products
+    Dim nbChildren As Integer 
+
+    ScanNode oMyProduct, cProductChildren, nbChildren
+
+    If (NbChildren > 0) Then
+      Set oMyChild = cProductChildren.Item(1)
+    Else
+      Set oMyChild = Nothing
+    End If
+
+    arrayOfVisitedNode(Currentlevel) = 1
+
+End Sub
+
+' -------------------------------------------------------------------------------------
+'    LExistBrother
+' -------------------------------------------------------------------------------------
+Function LExistBrother(oMyProduct As Product,Currentlevel As Integer) As Boolean
+ 
+     Dim iPrevious  As Integer
+     Dim nbChildren As Integer
+     Dim iOther     As Integer
+     Dim oFatherProduct As Product
+     Dim cChildren As Products
+     Dim LOtherBrother As Boolean
+     Dim nbSonToVisit As Integer
+        
+     iOther = 0 
+     LOtherBrother = False
+     ' Get Father
+     GetFather oMyProduct, oFatherProduct
+     '
+     If (oMyProduct is oFatherProduct) Then 
+       LOtherBrother = False   
+     Else
+       iPrevious = Currentlevel - 1
+  
+     ScanNode oFatherProduct, cChildren, nbChildren
+      
+     If (nbChildren > 0) Then
+       ' The next child is returned
+       nbSonToVisit = arrayOfVisitedNode(iPrevious)
+       nbSonToVisit = nbSonToVisit + 1
+       If (nbSonToVisit <= nbChildren) Then
+         LOtherBrother = True 
+         iOther = 1 
+       Else
+         LOtherBrother = False 
+       End If 
+     Else
+       LOtherBrother = False    
+     End If
+
+    End If  
+    
+    LExistBrother = LOtherBrother
+
+End Function
+
+' ----------------------------------------------------------------------------------------------
+'    NextBrother 
+' ----------------------------------------------------------------------------------------------
+Sub NextBrother(oMyProduct As Product, oBrotherProduct As Product,ilevel As Integer) 
+
+    Dim nbChildren As Integer
+    Dim iPrevious As Integer 
+    Dim oFatherProduct As Product
+    Dim nbSonToVisit As Integer 
+    Dim cChildren As Products
+     
+    ' Get Father
+    GetFather oMyProduct, oFatherProduct
+  
+    If (oMyProduct is oFatherProduct) Then 
+      Set oBrotherProduct = Nothing
+    Else
+
+      iPrevious = ilevel - 1
+      ' Look for the number of children 
+      ScanNode oFatherProduct, cChildren, nbChildren
+       
+      If (nbChildren > 0) Then
+       ' The next child is returned
+        nbSonToVisit = arrayOfVisitedNode(iPrevious)
+        nbSonToVisit = NbSonToVisit + 1
+        If (nbSonToVisit <= nbChildren) Then
+          Set oBrotherProduct = cChildren.Item(nbSonToVisit)
+          arrayOfVisitedNode(iPrevious) = nbSonToVisit
+        Else
+          Set oBrotherProduct = Nothing
+        End If 
+      Else
+        Set oBrotherProduct = Nothing   
+      End If
+
+    End If
+  
+End Sub 
+
+' ----------------------------------------------------------------------------------------------
+'  GetFather 
+' ----------------------------------------------------------------------------------------------
+Sub GetFather(oMyProduct As Product,OFather As Product)
+
+    Dim GrandFather As Product 
+    Dim ParentObject As AnyObject
+    Set ParentObject = oMyProduct.Parent
+    Set GrandFather = ParentObject.Parent
+    '
+    Dim sType As String 
+    sType = ParentObject.Name  
+            
+    If (sType = "Products") Then
+      Set GrandFather = ParentObject.Parent                
+      Set OFather = GrandFather 
+    Else
+      Set OFather = oMyProduct
+    End If
+    
+End Sub
+

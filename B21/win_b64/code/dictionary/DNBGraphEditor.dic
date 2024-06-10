@@ -1,0 +1,181 @@
+# Steve TRINH, December 1998
+
+# ===== Container =====
+GEContainer			CATIGEContainer			libGE0MAIN
+GEContainer			CATInit				libGE0MAIN
+
+# ===== LEVEL 1 =====
+GEElement			CATIGEElement			libGE0MAIN
+
+# ===== LEVEL 2 =====
+GEGraphicObj			CATIGEGraphicProperties		libGE0MAIN
+#GEGraphicObj			CATIModelEvents			libGE0MAIN
+# GENonGraphicObj		CATIGENonGraphicProperties	libGE0MAIN
+
+# ===== LEVEL 3 =====
+GEConnectableObj		CATIGEConnectableProps		libGE0MAIN
+#GEConnectableObj		CATIGEConnectableConnectivity	libGE0MAIN
+#GEConnectionObj			CATIGEConnectionProps		libGE0MAIN
+#GEConnectableObj		CATIGEConnectionConnectivity	libGE0MAIN
+#GERootObj			CATIModelEvents			libGE0MAIN
+#GERootObj			CATIGERoot			libGE0MAIN
+#GERootObj			CATIGERootProps			libGE0MAIN
+#GERootObj			CATI2DGeoVisu			libGE0MAIN
+
+# ===== LEVEL 4 =====
+#GENodeObj			CATIGENodeConnectivity		libGE0MAIN
+GENodeObj			CATISpecObject			libGE0MAIN
+#GEConnectorObj			CATIGEConnectorConnectivity	libGE0MAIN
+#GEConnectorObj			CATISpecObject			libGE0MAIN
+#GEConnectionObj			CATISpecObject                  libGE0MAIN
+
+# ===== LEVEL 5 =====
+#GERectangleNode			CATIGEElementLayout		libGE0MAIN
+#GERectangleNode			CATI2DGeoVisu			libGE0MAIN
+#GERectangleConnector		CATIGEElementLayout		libGE0MAIN
+#GERectangleConnector		CATI2DGeoVisu			libGE0MAIN
+#GETriangleNode			CATIGEElementLayout		libGE0MAIN
+#GETriangleNode			CATI2DGeoVisu			libGE0MAIN
+#GETriangleCoinnector		CATIGEElementLayout		libGE0MAIN
+#GETriangleConnector		CATI2DGeoVisu			libGE0MAIN
+#GECircleNode			CATIGEElementLayout		libGE0MAIN
+#GECircleNode			CATI2DGeoVisu			libGE0MAIN
+#GECircleConnector		CATIGEElementLayout		libGE0MAIN
+#GECircleConnector		CATI2DGeoVisu			libGE0MAIN
+#GEDirectArc			CATIGEElementLayout		libGE0MAIN
+#GEDirectArc			CATI2DGeoVisu			libGE0MAIN
+
+# ===== Settings =====
+CATSession			DNBIGE0Config			libGE0MAIN
+CATGESession			CATIGEConfiguration 		libGE0MAIN
+
+# ======================
+# WORKSHOP ET WORKBENCH 
+# ======================
+#GEPROC                  CATIWorkshop                  	libGE0MAIN
+#CATApplicationFrame     CATIFILTERWorkshopFactory         libProcessModelerVisu
+#GECfg                 	CATIWSGEConfiguration    	libGE0MAIN
+#CATApplicationFrame         CATIGECfgFactory          	libGE0MAIN
+
+
+# ===========================================
+# =   Modify By Per Dassault specifications =
+# =   Dan Rhein   (7/6/00)                  =
+# ===========================================
+#CATGEArcLayoutImpl          CATIGEElementLayout             libGE0MAIN   
+#CATGEConnectorLayoutImpl    CATIGEElementLayout             libGE0MAIN   
+#CATGENodeLayoutImpl         CATIGEElementLayout             libGE0MAIN   
+#CATGEVisuArc                CATI2DGeoVisu                   libGE0MAIN   
+#CATGEVisuConnectable        CATI2DGeoVisu                   libGE0MAIN   
+#GEConnectionObj             CATIGEConnectionConnectivity    libGE0MAIN   
+#GEOrthogonalArc             CATI2DGeoVisu                   libGE0MAIN   
+#GEOrthogonalArc             CATIGEElementLayout             libGE0MAIN   
+#GETriangleConnector         CATIGEElementLayout             libGE0MAIN 
+
+# ====================================
+# =  PERT Chart Options  = 
+# ====================================
+
+# Commented out and replaced by CATUserSettingsManager 02/07/2002 - YMS
+# CATEditorManager2			DNBIGE0GenericFactory			libGE0MAIN
+CATUserSettingsManager		DNBIGE0GenericFactory			libGE0MAIN
+DNBGE0Settings          CATIUserSettings					libGE0MAIN 
+
+
+
+# ===================================================================================================
+# =  PERT Automation Options  = Aditya, Feb 2002  
+# ===================================================================================================
+
+PertNode		            CATIPcsTechnoObjProvider					libPertAutomationImpl
+DNBDpmPertNode        		CATIABase									libPertAutomationImpl
+DNBDpmPertNode        		DNBIAPertNode								libPertAutomationImpl							
+
+#======================================================================
+#mkCheckarchi fixes
+#======================================================================
+GEConnectableObj		CATIGEGraphicProperties				libGE0MAIN
+#GEConnectionObj			CATIGEGraphicProperties				libGE0MAIN
+GERootObj				CATIGEGraphicProperties				libGE0MAIN
+#GENodeObj				CATIGEConnectableConnectivity		libGE0MAIN
+#GEConnectorObj			CATIGEConnectableConnectivity		libGE0MAIN
+
+#GEConnectorObj			CATIProperty						libGE0MAIN
+#GEConnectorObj			CATINavigateObject					libGE0MAIN
+#GEConnectorObj			CATIAlias							libGE0MAIN
+#GEConnectorObj			CATIUuid							libGE0MAIN
+
+#GEConnectionObj			CATIProperty						libGE0MAIN
+#GEConnectionObj			CATINavigateObject					libGE0MAIN
+#GEConnectionObj			CATIAlias							libGE0MAIN
+#GEConnectionObj			CATIUuid							libGE0MAIN
+
+#GENodeObj				CATIProperty						libGE0MAIN
+#GENodeObj				CATINavigateObject					libGE0MAIN
+#GENodeObj				CATIAlias							libGE0MAIN
+#GENodeObj				CATIUuid							libGE0MAIN
+
+#======================================================================
+#### Precedence Viewer related latetypes.
+#======================================================================
+# Creation			aka 		Jan 2001
+#
+#======================================================================
+
+# ===== Container =====
+CATPVContainer			CATIPVContainer	   		libPV0MAIN
+CATPVContainer			CATInit					libPV0MAIN
+
+CATPVElement			CATIPVElementProps 		libPV0MAIN
+
+CATPVConnection         CATIPVConnectionProps	libPV0MAIN
+CATPVConnection         CATIModelEvents        	libPV0MAIN
+CATPVConnection         CATI2DGeoVisu          	libPV0MAIN
+CATPVConnection         CATISpecObject         	libPV0MAIN
+CATPVConnection         LifeCycleObject        	libPV0MAIN
+CATPVConnection         CATIEditMove2D         	libPV0MAIN
+CATPVConnection         CATIPVElementLayout    	libPV0MAIN
+
+CATPVNode               CATIPVNodeProps        	libPV0MAIN
+CATPVNode               CATIModelEvents        	libPV0MAIN
+CATPVNode               CATI2DGeoVisu          	libPV0MAIN
+CATPVNode               CATISpecObject         	libPV0MAIN
+CATPVNode               LifeCycleObject        	libPV0MAIN
+CATPVNode               CATIEditMove2D         	libPV0MAIN
+CATPVNode               CATIPVElementLayout    	libPV0MAIN
+CATPVNode               CATIGraphicProperties  	libPV0MAIN
+
+#======================================================================
+#mkCheckarchi fixes
+#======================================================================
+#CATPVConnection			CATIProperty			libPV0MAIN
+#CATPVConnection			CATINavigateObject		libPV0MAIN
+#CATPVConnection			CATIAlias				libPV0MAIN
+#CATPVConnection			CATIUuid				libPV0MAIN
+
+#CATPVNode				CATIProperty			libPV0MAIN
+#CATPVNode				CATINavigateObject		libPV0MAIN
+#CATPVNode				CATIAlias				libPV0MAIN
+#CATPVNode				CATIUuid				libPV0MAIN
+
+#======================================================================
+#DNBGraphEditor Interfaces with New Archtiecture
+#======================================================================
+DNBDpmPertNode					DNBIPertNodeExt			libDNBGraphEditor
+DNBDpmAppContPert				CATInit					libDNBGraphEditor
+
+DNBDpmPertNode					DNBIPertNode			libDNBGraphEditor
+DNBDpmPertNode              DNBIPertAdditionalVisu		libDNBGraphEditor
+DNBDpmPertChartWindow       DNBIPertWindow				libDNBGraphEditor
+
+
+# THE CAA2 WIZARDS HAS INSERTED CODE AT THE BOTTOM OF THIS FILE
+# YOU MAY HAVE TO RELOCATE THIS SOURCE IF COMPILATION FAILS
+# DO NOT EDIT :: THE CAA2 WIZARDS WILL ADD CODE HERE
+#Activity	DNBIPrecedenceNodeVisu	libDNBDpmPertVisu
+#DNBDpmGEPrecedenceConstraint	DNBIGEPrecedence	libDNBDpmPertVisu
+#DNBDpmGEPrecedenceConstraint	DNBIPertVisu	libDNBDpmPertVisu
+Activity	DNBIPrecedenceNodeVisu	libDNBGraphEditor
+DNBDpmGEPrecedenceConstraint	DNBIGEPrecedence	libDNBGraphEditor
+DNBDpmGEPrecedenceConstraint	DNBIPertVisu	libDNBGraphEditor
+
